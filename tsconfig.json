@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+      "outDir": "./dist/",        // path to output directory
+      "sourceMap": true,          // allow sourcemap support
+      "strictNullChecks": true,   // enable strict null checks as a best practice
+      "module": "es6",            // specify module code generation
+      "target": "es6",            // specify ECMAScript target version
+  },
+  "include": [
+      "./src/"
+  ]
+}
