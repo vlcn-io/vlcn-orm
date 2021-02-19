@@ -1,6 +1,6 @@
-import Field from '../Field';
-import Edge from '../Edge';
-import Schema from '../Schema';
+import Field from '../../schema/Field';
+import Edge from '../../schema/Edge';
+import Schema from '../../schema/Schema';
 import SlideSchema from './SlideSchema';
 
 export default class DeckSchema extends Schema {
