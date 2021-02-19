@@ -1,4 +1,3 @@
-import stringify from 'json-stringify-safe';
 import { parse } from 'ts-command-line-args';
 
 const commandDefinition = [
