@@ -1,9 +1,12 @@
 import Schema from '../schema/Schema';
-import { Edge } from '../schema/Edge';
-import upcaseAt from '../utils/upcaseAt';
+import { Edge } from '../schema/Edge.js';
+import upcaseAt from '../utils/upcaseAt.js';
+import CodegenStep from './CodegenStep.js';
 
-export default class GenTypescriptModel {
-  constructor(private schema: Schema) {}
+export default class GenTypescriptModel extends CodegenStep {
+  constructor(private schema: Schema) {
+    super();
+  }
 
   gen(): string {
     return `

@@ -1,7 +1,7 @@
-import Field from '../../schema/Field';
-import Edge from '../../schema/Edge';
-import Schema from '../../schema/Schema';
-import SlideSchema from './SlideSchema';
+import Field from '../../schema/Field.js';
+import Edge from '../../schema/Edge.js';
+import Schema from '../../schema/Schema.js';
+import SlideSchema from './SlideSchema.js';
 
 export default class DeckSchema extends Schema {
   fields() {

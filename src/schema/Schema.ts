@@ -1,5 +1,5 @@
-import { Field, FieldType } from './Field';
-import { Edge, EdgeType } from './Edge';
+import { Field, FieldType } from './Field.js';
+import { Edge, EdgeType } from './Edge.js';
 
 export default abstract class Schema {
   protected abstract fields(): {[key:string]: Field<FieldType>};

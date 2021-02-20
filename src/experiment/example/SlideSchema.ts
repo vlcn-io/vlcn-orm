@@ -1,7 +1,7 @@
-import Schema from '../../schema/Schema';
-import Edge from '../../schema/Edge';
-import ComponentSchema from './ComponentSchema';
-import Field from '../../schema/Field';
+import Schema from '../../schema/Schema.js';
+import Edge from '../../schema/Edge.js';
+import ComponentSchema from './ComponentSchema.js';
+import Field from '../../schema/Field.js';
 
 export default class SlideSchema extends Schema {
   edges() {

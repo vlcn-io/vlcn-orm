@@ -1,5 +1,5 @@
-import Field from '../../schema/Field';
-import Schema from '../../schema/Schema';
+import Field from '../../schema/Field.js';
+import Schema from '../../schema/Schema.js';
 
 export default class ComponentSchema extends Schema {
   fields() {

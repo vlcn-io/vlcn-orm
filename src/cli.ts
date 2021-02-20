@@ -2,8 +2,9 @@
 
 import commandLineArgs from 'command-line-args';
 import commandLineUsage from 'command-line-usage';
+import CodegenPipleine from './codegen/CodegenPipeline.js';
 
-function run() {
+async function run() {
   const mainDefinitions = [
     { name: 'gen', defaultOption: true }
   ]
@@ -21,6 +22,14 @@ function run() {
       print_gen_help();
       return;
     }
+
+    const schemas = await Promise.all(genOptions.src.map(s => import(s)));
+    console.log(schemas);
+    const pipeline = new CodegenPipleine();
+    // pipeline.gen(
+    //   schemas,
+
+    // );
 
     return;
   }
@@ -82,13 +91,13 @@ function print_gen_help() {
         },
       ],
     },
-  ])
+  ]);
 
   console.log(usage)
 }
 
 try {
-  run();
+  await run();
 } catch (e) {
   console.log(e);
 }
