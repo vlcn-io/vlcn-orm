@@ -6,7 +6,7 @@ import Field from '../../schema/Field';
 export default class SlideSchema extends Schema {
   edges() {
     return {
-      components: Edge.oneToMany(ComponentSchema),
+      components: Edge.foreignKey('one_to_many', ComponentSchema),
     };
   }
 

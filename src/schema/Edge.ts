@@ -1,17 +1,16 @@
 import Schema from './Schema';
 import nullthrows from '../utils/nullthrows';
-import assertUnreachable from '../utils/assertUnreachable';
-import { Field } from './Field';
 
 export type EdgeType = 'one_to_many' | 'one_to_one' | 'many_to_many' | 'many_to_one';
+export type QueriesWith = 'id' | 'foreign_id';
 
 export abstract class Edge extends FieldAndEdgeBase {
   private src?: Schema;
   private uniq: boolean = false;
 
   constructor(
-    private type: EdgeType,
-    private dest: Schema,
+    private readonly type: EdgeType,
+    private readonly dest: Schema,
   ) {
     super();
   }
@@ -20,7 +19,11 @@ export abstract class Edge extends FieldAndEdgeBase {
     this.src = source;
   }
 
-  source(): Schema {
+  getDest(): Schema {
+    return this.dest;
+  }
+
+  getSource(): Schema {
     return nullthrows(this.src);
   }
 
@@ -31,7 +34,7 @@ export abstract class Edge extends FieldAndEdgeBase {
     return this.dest.getQueryTypeName();
   }
 
-  abstract getQueryWithName(): string;
+  abstract queriesWith(): QueriesWith;
 }
 
 class FieldEdge extends Edge {
@@ -42,8 +45,8 @@ class FieldEdge extends Edge {
     super(type, dest);
   }
 
-  getQueryWithName(): string {
-    return 'withDestID';
+  queriesWith(): QueriesWith {
+    return 'id';
   }
 }
 
@@ -55,8 +58,14 @@ class JunctionEdge extends Edge {
     super(type, dest);
   }
 
-  getQueryWithName(): string {
-    return 'withSourceID';
+  queriesWith(): QueriesWith {
+    return 'id';
+  }
+
+  getQueryTypeName(): string {
+    return this.getSource().getModelTypeName()
+      + this.getDest().getModelTypeName()
+      + 'JunctionEdgeQuery';
   }
 }
 
@@ -70,8 +79,8 @@ class ForeignKeyEdge extends Edge {
 
   // TODO: should this go into codegen code instead?
   // but nice to have colocated with the field.
-  getQueryWithName() {
-    return 'withSourceID';
+  queriesWith(): QueriesWith {
+    return 'foreign_id';
   }
 }
 

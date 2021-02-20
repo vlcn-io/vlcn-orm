@@ -3,13 +3,13 @@ import { Edge, EdgeType } from './Edge';
 
 export default abstract class Schema {
   protected abstract fields(): {[key:string]: Field<FieldType>};
-  protected abstract edges(): {[key:string]: Edge<EdgeType>};
+  protected abstract edges(): {[key:string]: Edge};
 
   getFields(): {[key:string]: Field<FieldType>} {
     return this.fields();
   }
 
-  getEdges(): {[key:string]: Edge<EdgeType>} {
+  getEdges(): {[key:string]: Edge} {
     return this.edges();
   }
 

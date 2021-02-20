@@ -52,8 +52,8 @@ export default {
     return new Field('guid');
   },
 
-  bool(): Field<'bool'> {
-    return new Field('bool');
+  bool(): Field<'boolean'> {
+    return new Field('boolean');
   },
 
   stringOf(type: string): StringOfField {

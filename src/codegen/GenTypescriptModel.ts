@@ -1,4 +1,5 @@
 import Schema from '../schema/Schema';
+import { Edge } from '../schema/Edge';
 import upcaseAt from '../utils/upcaseAt';
 
 export default class GenTypescriptModel {
@@ -22,6 +23,8 @@ class ${this.schema.getModelTypeName()} {
   }
 `
       }).join("\n");
+
+    // TODO: add field edge fields too!
   }
 
   // TODO: this will differ based on the backend being targeted.
@@ -31,22 +34,29 @@ class ${this.schema.getModelTypeName()} {
       .map(([key, edge]) => {
 `
   get${upcaseAt(key, 0)}(): ${edge.getQueryTypeName()} {
-    return ${edge.getQueryTypeName()}.${edge.getQueryWithName()}(
-
+    return ${edge.getQueryTypeName()}.${this.getFromMethodName(edge)}(
+      ${this.getIdGetter(key, edge)}
     );
 }
 `
       }).join("\n");
   }
+
+  private getFromMethodName(edge: Edge): string {
+    switch (edge.queriesWith()) {
+      case 'foreign_id':
+        return 'fromForeignId';
+      case 'id':
+        return 'fromId';
+    }
+  }
+
+  private getIdGetter(key, edge: Edge): string {
+    switch (edge.queriesWith()) {
+      case 'foreign_id':
+        return `{ from_id: this.getId(), from_type: ${this.schema.getModelTypeName()} }`;
+      case 'id':
+        return `{ to_id: this.get${upcaseAt(key, 0)}Id(), from_type: ${this.schema.getModelTypeName()} }`;
+    }
+  }
 }
-
-/*
-class Type {
-  // getters or raw fields for each field
-  readonly id: guid;
-
-  // queries for each edge
-
-  // decratiors
-}
-*/
