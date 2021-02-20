@@ -1,13 +1,16 @@
 import Schema from './Schema';
 import nullthrows from '../utils/nullthrows';
+import assertUnreachable from '../utils/assertUnreachable';
+import { Field } from './Field';
 
 export type EdgeType = 'one_to_many' | 'one_to_one' | 'many_to_many' | 'many_to_one';
 
-export class Edge<T extends EdgeType> extends FieldAndEdgeBase {
+export abstract class Edge extends FieldAndEdgeBase {
   private src?: Schema;
+  private uniq: boolean = false;
 
   constructor(
-    private type: T,
+    private type: EdgeType,
     private dest: Schema,
   ) {
     super();
@@ -20,22 +23,74 @@ export class Edge<T extends EdgeType> extends FieldAndEdgeBase {
   source(): Schema {
     return nullthrows(this.src);
   }
+
+  getQueryTypeName(): string {
+    // TODO: this won't always be the case.
+    // Some query types will vary based on source schema as well or
+    // presesnce of edge data.
+    return this.dest.getQueryTypeName();
+  }
+
+  abstract getQueryWithName(): string;
+}
+
+class FieldEdge extends Edge {
+  constructor(
+    type: 'one_to_one' | 'many_to_one',
+    dest: Schema
+  ) {
+    super(type, dest);
+  }
+
+  getQueryWithName(): string {
+    return 'withDestID';
+  }
+}
+
+class JunctionEdge extends Edge {
+  constructor(
+    type: EdgeType,
+    dest: Schema
+  ) {
+    super(type, dest);
+  }
+
+  getQueryWithName(): string {
+    return 'withSourceID';
+  }
+}
+
+class ForeignKeyEdge extends Edge {
+  constructor(
+    type: 'one_to_many' | 'one_to_one',
+    dest: Schema
+  ) {
+    super(type, dest);
+  }
+
+  // TODO: should this go into codegen code instead?
+  // but nice to have colocated with the field.
+  getQueryWithName() {
+    return 'withSourceID';
+  }
 }
 
 export default {
-  oneToMany<T extends Schema>(otherSchema: { new(): T ;}): Edge<'one_to_many'> {
-    return new Edge('one_to_many', new otherSchema());
+  field<T extends Schema>(
+    type: 'one_to_one' | 'many_to_one',
+    otherSchema: { new(): T ;},
+  ): Edge {
+    return new FieldEdge(type, new otherSchema());
   },
 
-  oneToOne<T extends Schema>(otherSchema: { new(): T ;}): Edge<'one_to_one'> {
-    return new Edge('one_to_one', new otherSchema());
+  foreignKey<T extends Schema>(
+    type: 'one_to_many' | 'one_to_one',
+    otherSchema: { new(): T ;},
+  ): ForeignKeyEdge {
+    return new ForeignKeyEdge(type, new otherSchema());
   },
 
-  manyToMany<T extends Schema>(otherSchema: { new(): T ;}): Edge<'many_to_many'> {
-    return new Edge('many_to_many', new otherSchema());
+  junction<T extends Schema>(type: EdgeType, otherSchema: { new(): T ;}): JunctionEdge {
+    return new JunctionEdge(type, new otherSchema());
   },
-
-  manyToOne<T extends Schema>(otherSchema: { new(): T ;}): Edge<'many_to_one'> {
-    return new Edge('many_to_one', new otherSchema());
-  }
 }

@@ -13,7 +13,15 @@ export default abstract class Schema {
     return this.edges();
   }
 
-  getTypeName() {
+  getModelTypeName() {
     return this.constructor.name;
+  }
+
+  getMutatorTypeName() {
+    return this.getModelTypeName() + 'Mutator';
+  }
+
+  getQueryTypeName() {
+    return this.getModelTypeName() + 'Query';
   }
 }

@@ -1,4 +1,4 @@
-export type FieldType = 'guid' | 'bool' | 'string' | 'map' | 'int';
+export type FieldType = 'guid' | 'boolean' | 'string' | 'map' | 'int';
 
 export class Field<T extends FieldType> extends FieldAndEdgeBase {
   isRequired: boolean = true;
@@ -14,6 +14,19 @@ export class Field<T extends FieldType> extends FieldAndEdgeBase {
 
   optional(v: boolean = true): this {
     return this.required(!v);
+  }
+
+  // TODO: what if we want someone to add language support without modifying Field?
+  // Can register language plugins with `field` type...
+  getTSReturnType(): string {
+    switch (this.type) {
+      case 'int':
+        return 'number';
+      case 'map':
+        return 'Map';
+    }
+
+    return this.type;
   }
 }
 
