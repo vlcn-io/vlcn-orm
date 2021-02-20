@@ -14,6 +14,6 @@ export default class CodegenPipleine {
     schemas: Array<Schema>,
     dest: string,
   ) {
-
+    console.log(schemas);
   }
 }

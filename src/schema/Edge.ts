@@ -1,5 +1,6 @@
 import Schema from './Schema.js';
 import nullthrows from '../utils/nullthrows.js';
+import FieldAndEdgeBase from './FieldAndEdgeBase.js';
 
 export type EdgeType = 'one_to_many' | 'one_to_one' | 'many_to_many' | 'many_to_one';
 export type QueriesWith = 'id' | 'foreign_id';

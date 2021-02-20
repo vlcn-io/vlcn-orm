@@ -1,4 +1,4 @@
-class FieldAndEdgeBase {
+export default class FieldAndEdgeBase {
   decorators: Array<string> = [];
 
   decorator(...v: string[]): this {

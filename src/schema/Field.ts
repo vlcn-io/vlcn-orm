@@ -1,3 +1,5 @@
+import FieldAndEdgeBase from './FieldAndEdgeBase.js';
+
 export type FieldType = 'guid' | 'boolean' | 'string' | 'map' | 'int';
 
 export class Field<T extends FieldType> extends FieldAndEdgeBase {
