@@ -6,7 +6,9 @@
       "module": "esnext",            // specify module code generation
       "target": "esnext",            // specify ECMAScript target version
       "skipLibCheck": true,
-      "moduleResolution": "Node"
+      "moduleResolution": "Node",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true
   },
   "include": [
       "./src/"

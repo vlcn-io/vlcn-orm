@@ -1,10 +1,13 @@
 import { Field, FieldType } from './Field.js';
 import { Edge, FieldEdge } from './Edge.js';
 import stripSuffix from '../utils/stripSuffix.js';
+import ModuleConfig from './FileConfig.js';
 
 export default abstract class Schema {
   protected abstract fields(): {[key:string]: Field<FieldType>};
   protected abstract edges(): {[key:string]: Edge};
+
+  protected file(config: ModuleConfig): void {}
 
   getFields(): {[key:string]: Field<FieldType>} {
     return this.fields();

@@ -3,6 +3,7 @@ import Edge from '../../schema/Edge.js';
 import ComponentSchema from './ComponentSchema.js';
 import Field from '../../schema/Field.js';
 import DeckSchema from './DeckSchema.js';
+import ModuleConfig, { tsImport } from '../../schema/ModuleConfig.js';
 
 export default class SlideSchema extends Schema {
   edges() {
