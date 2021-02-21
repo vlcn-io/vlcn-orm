@@ -2,11 +2,13 @@ import Schema from '../../schema/Schema.js';
 import Edge from '../../schema/Edge.js';
 import ComponentSchema from './ComponentSchema.js';
 import Field from '../../schema/Field.js';
+import DeckSchema from './DeckSchema.js';
 
 export default class SlideSchema extends Schema {
   edges() {
     return {
-      components: Edge.foreignKey(ComponentSchema),
+      components: Edge.foreignKey(ComponentSchema, "slide"),
+      deck: Edge.field(DeckSchema),
     };
   }
 

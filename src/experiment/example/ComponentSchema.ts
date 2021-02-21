@@ -1,5 +1,7 @@
+import Edge from '../../schema/Edge.js';
 import Field from '../../schema/Field.js';
 import Schema from '../../schema/Schema.js';
+import SlideSchema from './SlideSchema.js';
 
 export default class ComponentSchema extends Schema {
   fields() {
@@ -15,6 +17,8 @@ export default class ComponentSchema extends Schema {
   }
 
   edges() {
-    return {};
+    return {
+      slide: Edge.field(SlideSchema),
+    };
   }
 }

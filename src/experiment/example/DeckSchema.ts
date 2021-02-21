@@ -13,7 +13,7 @@ export default class DeckSchema extends Schema {
 
   edges() {
     return {
-      slides: Edge.foreignKey(SlideSchema),
+      slides: Edge.foreignKey(SlideSchema, "deck"),
     };
   }
 }

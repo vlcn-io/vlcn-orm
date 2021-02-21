@@ -78,6 +78,7 @@ export default {
 
   foreignKey<T extends Schema>(
     otherSchema: { new(): T ;},
+    inverseEdgeName: string,
   ): ForeignKeyEdge {
     return new ForeignKeyEdge(new otherSchema());
   },
