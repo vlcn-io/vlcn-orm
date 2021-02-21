@@ -6,7 +6,7 @@ export type FieldType = 'id' | 'boolean' | 'string' | 'map' | 'int';
 export class Field<T extends FieldType> extends FieldAndEdgeBase {
   isRequired: boolean = true;
 
-  constructor(private type: T) {
+  constructor(public readonly type: T) {
     super();
   }
 
@@ -18,19 +18,6 @@ export class Field<T extends FieldType> extends FieldAndEdgeBase {
   optional(v: boolean = true): this {
     return this.required(!v);
   }
-
-  // TODO: what if we want someone to add language support without modifying Field?
-  // Can register language plugins with `field` type...
-  getTSReturnType(): string {
-    switch (this.type) {
-      case 'int':
-        return 'number';
-      case 'map':
-        return 'Map';
-    }
-
-    return this.type;
-  }
 }
 
 class StringOfField extends Field<'string'> {
@@ -39,12 +26,12 @@ class StringOfField extends Field<'string'> {
   }
 }
 
-class MapField<K extends Field<'string'>, V extends Field<FieldType>>
+export class MapField<K extends Field<'string'>, V extends Field<FieldType>>
   extends Field<'map'> {
 
   constructor(
-    private keyType: K,
-    private valueType: V,
+    public readonly keyType: K,
+    public readonly valueType: V,
   ) {
     super('map');
   }
