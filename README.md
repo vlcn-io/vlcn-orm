@@ -12,13 +12,13 @@
 
 # Vision
 
-Today's `ORMs` and `Schemas` suffer.
+Today's `ORMs` and `Schemas` suffer. They suffer from being tied to a single language, being tied to the relational model, expressing storage (rather than semantic) types, and not enabling us to colocate security and privacy concerns with the data being stored.
 
 ## Beyond Language
 
 Today's ORMs are tied to a language. Write an ORM Schema in `JS`, re-write it for another ORM in `Java` and another in `Go` and another in `Rust`.
 
-We live in a world where are applications are polyglots. Schema definitions must be language agnostic. Agnostic in that they can generate object models in any target language you desire.
+We live in a world where are applications are written in many languages. Schema definitions must be language agnostic. Agnostic in that they can generate object models in any target language you desire.
 
 Write your Schema once, generate the object models in `Rust`, `JS`, `Java`, `Go`, etc.
 
@@ -26,7 +26,7 @@ Write your Schema once, generate the object models in `Rust`, `JS`, `Java`, `Go`
 
 `SQL` isn't the only backend. `ORM`s must go beyond the "R" (relational) in ORM.
 
-In addition to a polyglot of languages, we have a polyglot of storage mediums. Blob stores, Document Stores, Graph stores, custom binary formats to legacy storage backends and services, etc.
+Our applications, in addition to being a collection of languages, are a collection of storage mediums. Blob stores, Document Stores, Graph stores, custom binary formats to legacy storage backends and services, etc.
 
 Not all of these mediums are relational nor do they all speak `SQL`.
 
@@ -54,3 +54,7 @@ You need to protect the data. The permission model should sit with the data. Som
 
 potential logo:
 https://www.dreamstime.com/aphrodite-flat-vector-illustration-ancient-greek-deity-goddess-love-beauty-eternal-youth-mythology-divine-mythological-image188188288
+
+
+notes:
+https://abe-winter.github.io/2019/09/03/orms-backwards.html
