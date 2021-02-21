@@ -1,5 +1,5 @@
 import Schema from '../schema/Schema';
-import { Edge } from '../schema/Edge.js';
+import { Edge, ForeignKeyEdge } from '../schema/Edge.js';
 import upcaseAt from '../utils/upcaseAt.js';
 import CodegenStep from './CodegenStep.js';
 
@@ -55,11 +55,10 @@ class ${this.schema.getModelTypeName()} {
   }
 
   private getIdGetter(key, edge: Edge): string {
-    switch (edge.queriesWith()) {
-      case 'foreign_id':
-        return `this.getId(), ${edge.getDest().getFieldEdgeTo(this.schema)}`;
-      case 'id':
-        return `id: this.get${upcaseAt(key, 0)}Id()`;
+    if (edge instanceof ForeignKeyEdge) {
+      return `this.getId(), ${edge.getField().getName()}`;
+    } else {
+      return `id: this.get${upcaseAt(key, 0)}Id()`;
     }
   }
 }

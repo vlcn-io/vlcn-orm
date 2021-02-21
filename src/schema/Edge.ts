@@ -1,6 +1,7 @@
 import Schema from './Schema.js';
 import nullthrows from '../utils/nullthrows.js';
 import FieldAndEdgeBase from './FieldAndEdgeBase.js';
+import { Field } from './Field.js';
 
 export type EdgeType = 'one_to_many' | 'one_to_one' | 'many_to_many' | 'many_to_one';
 export type QueriesWith = 'id' | 'foreign_id';
@@ -34,33 +35,23 @@ export abstract class Edge extends FieldAndEdgeBase {
     // presesnce of edge data.
     return this.dest.getQueryTypeName();
   }
-
-  abstract queriesWith(): QueriesWith;
 }
 
-class FieldEdge extends Edge {
+export class FieldEdge extends Edge {
   constructor(
     type: 'one_to_one' | 'many_to_one',
     dest: Schema
   ) {
     super(type, dest);
   }
-
-  queriesWith(): QueriesWith {
-    return 'id';
-  }
 }
 
-class JunctionEdge extends Edge {
+export class JunctionEdge extends Edge {
   constructor(
     type: EdgeType,
     dest: Schema
   ) {
     super(type, dest);
-  }
-
-  queriesWith(): QueriesWith {
-    return 'id';
   }
 
   getQueryTypeName(): string {
@@ -70,7 +61,7 @@ class JunctionEdge extends Edge {
   }
 }
 
-class ForeignKeyEdge extends Edge {
+export class ForeignKeyEdge extends Edge {
   constructor(
     type: 'one_to_many' | 'one_to_one',
     dest: Schema
@@ -78,10 +69,8 @@ class ForeignKeyEdge extends Edge {
     super(type, dest);
   }
 
-  // TODO: should this go into codegen code instead?
-  // but nice to have colocated with the field.
-  queriesWith(): QueriesWith {
-    return 'foreign_id';
+  getField(): Field<'id'> {
+    throw new Error('unimplemented');
   }
 }
 

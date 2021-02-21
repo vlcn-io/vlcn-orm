@@ -1,6 +1,7 @@
 import { Field, FieldType } from './Field.js';
-import { Edge, EdgeType } from './Edge.js';
+import { Edge, FieldEdge } from './Edge.js';
 import stripSuffix from '../utils/stripSuffix.js';
+import only from '../utils/only.js';
 
 export default abstract class Schema {
   protected abstract fields(): {[key:string]: Field<FieldType>};
@@ -12,10 +13,6 @@ export default abstract class Schema {
 
   getEdges(): {[key:string]: Edge} {
     return this.edges();
-  }
-
-  getFieldEdgeTo(other: Schema): FieldEdge {
-
   }
 
   getModelTypeName() {

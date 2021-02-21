@@ -1,9 +1,11 @@
+import nullthrows from '../utils/nullthrows.js';
 import FieldAndEdgeBase from './FieldAndEdgeBase.js';
 
-export type FieldType = 'guid' | 'boolean' | 'string' | 'map' | 'int';
+export type FieldType = 'id' | 'boolean' | 'string' | 'map' | 'int';
 
 export class Field<T extends FieldType> extends FieldAndEdgeBase {
   isRequired: boolean = true;
+  private name?: string;
 
   constructor(private type: T) {
     super();
@@ -30,6 +32,10 @@ export class Field<T extends FieldType> extends FieldAndEdgeBase {
 
     return this.type;
   }
+
+  getName() {
+    return nullthrows(this.name);
+  }
 }
 
 class StringOfField extends Field<'string'> {
@@ -50,8 +56,8 @@ class MapField<K extends Field<'string'>, V extends Field<FieldType>>
 }
 
 export default {
-  guid(): Field<'guid'> {
-    return new Field('guid');
+  guid(): Field<'id'> {
+    return new Field('id');
   },
 
   bool(): Field<'boolean'> {
