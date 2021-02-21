@@ -12,7 +12,12 @@ export default abstract class Schema {
   }
 
   getEdges(): {[key:string]: Edge} {
-    return this.edges();
+    const edges = this.edges();
+    Object.entries(edges).forEach(
+      ([key, edge]) => edge.name = key,
+    );
+
+    return edges;
   }
 
   getModelTypeName() {

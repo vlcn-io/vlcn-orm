@@ -36,7 +36,7 @@ class ${this.schema.getModelTypeName()} {
     return Object.entries(this.schema.getEdges())
       .map(([key, edge]) =>
 `
-  get${upcaseAt(key, 0)}(): ${edge.getQueryTypeName()} {
+  query${upcaseAt(key, 0)}(): ${edge.getQueryTypeName()} {
     return ${edge.getQueryTypeName()}.${this.getFromMethodName(edge)}(
       ${this.getIdGetter(key, edge)}
     );
@@ -55,9 +55,9 @@ class ${this.schema.getModelTypeName()} {
 
   private getIdGetter(key, edge: Edge): string {
     if (edge instanceof ForeignKeyEdge) {
-      return `this.getId(), ${edge.getField().getName()}`;
+      return `this.getId(), '${edge.inverse.name}'`;
     } else {
-      return `id: this.get${upcaseAt(key, 0)}Id()`;
+      return `this.get${upcaseAt(key, 0)}Id()`;
     }
   }
 }

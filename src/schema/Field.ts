@@ -5,7 +5,6 @@ export type FieldType = 'id' | 'boolean' | 'string' | 'map' | 'int';
 
 export class Field<T extends FieldType> extends FieldAndEdgeBase {
   isRequired: boolean = true;
-  private name?: string;
 
   constructor(private type: T) {
     super();
@@ -31,10 +30,6 @@ export class Field<T extends FieldType> extends FieldAndEdgeBase {
     }
 
     return this.type;
-  }
-
-  getName() {
-    return nullthrows(this.name);
   }
 }
 

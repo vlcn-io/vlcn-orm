@@ -59,13 +59,10 @@ export class JunctionEdge extends Edge {
 
 export class ForeignKeyEdge extends Edge {
   constructor(
-    dest: Schema
+    dest: Schema,
+    public inverse: FieldEdge,
   ) {
     super(dest);
-  }
-
-  getField(): Field<'id'> {
-    throw new Error('unimplemented');
   }
 }
 
@@ -80,7 +77,8 @@ export default {
     otherSchema: { new(): T ;},
     inverseEdgeName: string,
   ): ForeignKeyEdge {
-    return new ForeignKeyEdge(new otherSchema());
+    const s = new otherSchema();
+    return new ForeignKeyEdge(s, s.getEdges()[inverseEdgeName]);
   },
 
   junction<T extends Schema>(otherSchema: { new(): T ;}): JunctionEdge {

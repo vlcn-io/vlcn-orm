@@ -1,6 +1,9 @@
+import nullthrows from "../utils/nullthrows";
+
 export default class FieldAndEdgeBase {
   decorators: Array<string> = [];
   isUnique: boolean;
+  name: string;
 
   decorator(...v: string[]): this {
     this.decorators = this.decorators.concat(v);
