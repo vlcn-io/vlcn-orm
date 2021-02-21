@@ -40,12 +40,8 @@ class ${this.schema.getModelTypeName()}
   }
 `
       ).join("\n");
-
-    // TODO: add field edge fields too!
   }
 
-  // TODO: this will differ based on the backend being targeted.
-  // Or will it always be the same but the query will have different backends?
   private getEdgeCode(): string {
     return Object.entries(this.schema.getEdges())
       .map(([key, edge]) =>
