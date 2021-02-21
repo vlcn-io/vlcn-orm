@@ -14,6 +14,10 @@ export default abstract class Schema {
     return this.edges();
   }
 
+  getFieldEdgeTo(other: Schema): FieldEdge {
+
+  }
+
   getModelTypeName() {
     return stripSuffix(
       this.constructor.name,

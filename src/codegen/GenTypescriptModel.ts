@@ -57,9 +57,9 @@ class ${this.schema.getModelTypeName()} {
   private getIdGetter(key, edge: Edge): string {
     switch (edge.queriesWith()) {
       case 'foreign_id':
-        return `{ from_id: this.getId(), from_type: ${this.schema.getModelTypeName()} }`;
+        return `this.getId(), ${edge.getDest().getFieldEdgeTo(this.schema)}`;
       case 'id':
-        return `{ to_id: this.get${upcaseAt(key, 0)}Id(), from_type: ${this.schema.getModelTypeName()} }`;
+        return `id: this.get${upcaseAt(key, 0)}Id()`;
     }
   }
 }
