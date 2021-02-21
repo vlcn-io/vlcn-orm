@@ -19,13 +19,13 @@ class ${this.schema.getModelTypeName()} {
 
   private getFieldCode(): string {
     return Object.entries(this.schema.getFields())
-      .map(([key, field]) => {
+      .map(([key, field]) =>
 `
   get${upcaseAt(key, 0)}(): ${field.getTSReturnType()} {
-    return this.data[key];
+    return this.data['${key}'];
   }
 `
-      }).join("\n");
+      ).join("\n");
 
     // TODO: add field edge fields too!
   }
@@ -34,7 +34,7 @@ class ${this.schema.getModelTypeName()} {
   // Or will it always be the same but the query will have different backends?
   private getEdgeCode(): string {
     return Object.entries(this.schema.getEdges())
-      .map(([key, edge]) => {
+      .map(([key, edge]) =>
 `
   get${upcaseAt(key, 0)}(): ${edge.getQueryTypeName()} {
     return ${edge.getQueryTypeName()}.${this.getFromMethodName(edge)}(
@@ -42,7 +42,7 @@ class ${this.schema.getModelTypeName()} {
     );
 }
 `
-      }).join("\n");
+      ).join("\n");
   }
 
   private getFromMethodName(edge: Edge): string {

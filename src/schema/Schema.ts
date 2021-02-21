@@ -1,5 +1,6 @@
 import { Field, FieldType } from './Field.js';
 import { Edge, EdgeType } from './Edge.js';
+import stripSuffix from '../utils/stripSuffix.js';
 
 export default abstract class Schema {
   protected abstract fields(): {[key:string]: Field<FieldType>};
@@ -14,7 +15,10 @@ export default abstract class Schema {
   }
 
   getModelTypeName() {
-    return this.constructor.name;
+    return stripSuffix(
+      this.constructor.name,
+      'Schema',
+    ).expect('Schema names must end in "Schema"');
   }
 
   getMutatorTypeName() {
