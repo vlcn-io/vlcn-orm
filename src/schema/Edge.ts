@@ -3,7 +3,6 @@ import nullthrows from '../utils/nullthrows.js';
 import FieldAndEdgeBase from './FieldAndEdgeBase.js';
 import { Field } from './Field.js';
 
-export type EdgeType = 'one_to_many' | 'one_to_one' | 'many_to_many' | 'many_to_one';
 export type QueriesWith = 'id' | 'foreign_id';
 
 export abstract class Edge extends FieldAndEdgeBase {
@@ -11,7 +10,6 @@ export abstract class Edge extends FieldAndEdgeBase {
   private uniq: boolean = false;
 
   constructor(
-    private readonly type: EdgeType,
     private readonly dest: Schema,
   ) {
     super();
@@ -39,19 +37,17 @@ export abstract class Edge extends FieldAndEdgeBase {
 
 export class FieldEdge extends Edge {
   constructor(
-    type: 'one_to_one' | 'many_to_one',
     dest: Schema
   ) {
-    super(type, dest);
+    super(dest);
   }
 }
 
 export class JunctionEdge extends Edge {
   constructor(
-    type: EdgeType,
     dest: Schema
   ) {
-    super(type, dest);
+    super(dest);
   }
 
   getQueryTypeName(): string {
@@ -63,10 +59,9 @@ export class JunctionEdge extends Edge {
 
 export class ForeignKeyEdge extends Edge {
   constructor(
-    type: 'one_to_many' | 'one_to_one',
     dest: Schema
   ) {
-    super(type, dest);
+    super(dest);
   }
 
   getField(): Field<'id'> {
@@ -76,20 +71,18 @@ export class ForeignKeyEdge extends Edge {
 
 export default {
   field<T extends Schema>(
-    type: 'one_to_one' | 'many_to_one',
     otherSchema: { new(): T ;},
   ): Edge {
-    return new FieldEdge(type, new otherSchema());
+    return new FieldEdge(new otherSchema());
   },
 
   foreignKey<T extends Schema>(
-    type: 'one_to_many' | 'one_to_one',
     otherSchema: { new(): T ;},
   ): ForeignKeyEdge {
-    return new ForeignKeyEdge(type, new otherSchema());
+    return new ForeignKeyEdge(new otherSchema());
   },
 
-  junction<T extends Schema>(type: EdgeType, otherSchema: { new(): T ;}): JunctionEdge {
-    return new JunctionEdge(type, new otherSchema());
+  junction<T extends Schema>(otherSchema: { new(): T ;}): JunctionEdge {
+    return new JunctionEdge(new otherSchema());
   },
 }

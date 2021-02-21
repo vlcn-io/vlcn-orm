@@ -46,12 +46,11 @@ class ${this.schema.getModelTypeName()} {
   }
 
   private getFromMethodName(edge: Edge): string {
-    switch (edge.queriesWith()) {
-      case 'foreign_id':
-        return 'fromForeignId';
-      case 'id':
-        return 'fromId';
+    if (edge instanceof ForeignKeyEdge) {
+      return 'fromForeignId';
     }
+    // Junction edges could be foreign id depending on what side of the junction we are
+    return 'fromId';
   }
 
   private getIdGetter(key, edge: Edge): string {
