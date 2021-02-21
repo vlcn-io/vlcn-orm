@@ -1,3 +1,5 @@
-export default class CodegenStep {
+export default abstract class CodegenStep {
+  constructor() {}
 
+  abstract gen(): string;
 }
