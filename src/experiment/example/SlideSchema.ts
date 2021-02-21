@@ -3,7 +3,7 @@ import Edge from '../../schema/Edge.js';
 import ComponentSchema from './ComponentSchema.js';
 import Field from '../../schema/Field.js';
 import DeckSchema from './DeckSchema.js';
-import ModuleConfig, { tsImport } from '../../schema/ModuleConfig.js';
+import TypeGraphQL from '../../integrations/TypeGraphQL.js';
 
 export default class SlideSchema extends Schema {
   edges() {
@@ -24,5 +24,17 @@ export default class SlideSchema extends Schema {
         Field.stringOf('CssValue'),
       ),
     };
+  }
+
+  integrations() {
+    return [
+      TypeGraphQL()
+        .expose([
+          'id',
+          'selected',
+          'focused',
+          'classes',
+        ]),
+    ];
   }
 }
