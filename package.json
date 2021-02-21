@@ -12,6 +12,7 @@
     "jest": "^26.6.3"
   },
   "dependencies": {
-    "ts-command-line-args": "^1.7.1"
+    "command-line-args": "^5.1.1",
+    "command-line-usage": "^6.1.1"
   }
 }
