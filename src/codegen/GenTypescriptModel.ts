@@ -2,6 +2,7 @@ import Schema from '../schema/Schema';
 import { Edge, ForeignKeyEdge } from '../schema/Edge.js';
 import upcaseAt from '../utils/upcaseAt.js';
 import CodegenStep from './CodegenStep.js';
+import isValidPropertyAccessor from '../utils/isValidPropertyAccessor.js';
 
 export default class GenTypescriptModel extends CodegenStep {
   constructor(private schema: Schema) {
@@ -22,7 +23,7 @@ class ${this.schema.getModelTypeName()} {
       .map(([key, field]) =>
 `
   get${upcaseAt(key, 0)}(): ${field.getTSReturnType()} {
-    return this.data['${key}'];
+    return this.data${isValidPropertyAccessor(key) ? `.${key}` : `['${key}']`};
   }
 `
       ).join("\n");
