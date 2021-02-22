@@ -4,8 +4,13 @@ import ComponentSchema from './ComponentSchema.js';
 import Field from '../../schema/Field.js';
 import DeckSchema from './DeckSchema.js';
 import TypeGraphQL from '../../integrations/TypeGraphQL.js';
+import SchemaConfig from '../../schema/SchemaConfig.js';
 
 export default class SlideSchema extends Schema {
+  config(config: SchemaConfig) {
+    config.description('Represents a single slide within a deck');
+  }
+
   edges() {
     return {
       components: Edge.foreignKey(ComponentSchema, "slide"),

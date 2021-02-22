@@ -1,7 +1,6 @@
 import { Field, FieldType } from "../schema/Field.js";
 import { tsImport } from "../schema/ModuleConfig.js";
 import Schema from "../schema/Schema.js";
-import falsish from "../utils/falsish.js";
 import select from "../utils/select.js";
 import AphroditeIntegration from "./AphroditeIntegration.js";
 
@@ -27,10 +26,15 @@ class TypeGraphQL implements AphroditeIntegration {
       );
 
     schema
-      .getModuleConfig()
+      .getConfig()
+      .module
       .import(
         tsImport('{ Field, ObjectType, Int, Float }', null, 'type-graphql'),
       );
+
+    schema.getConfig()
+      .class
+      .decorator(`@ObjectType({description: "${schema.getConfig().getDescription()}"})`)
   }
 
   private createFieldDecorator(schema: Schema, field: Field<FieldType>) {

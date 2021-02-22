@@ -12,6 +12,7 @@ export default class GenTypescriptModel extends CodegenStep {
 
   gen(): string {
     return `
+${this.schema.getConfig().class.decorators.join("\n")}
 class ${this.schema.getModelTypeName()}
   extends Model<${this.getDataShape()}> {
   ${this.getFieldCode()}

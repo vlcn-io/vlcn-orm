@@ -1,19 +1,19 @@
 import { Field, FieldType } from './Field.js';
 import { Edge, FieldEdge } from './Edge.js';
 import stripSuffix from '../utils/stripSuffix.js';
-import ModuleConfig from './ModuleConfig.js';
 import AphroditeIntegration from '../integrations/AphroditeIntegration.js';
+import SchemaConfig from './SchemaConfig.js';
 
 export default abstract class Schema {
-  private _fields: {[key:string]: Field<FieldType>};
-  private _edges: {[key:string]: Edge};
+  private _fields: { [key: string]: Field<FieldType> };
+  private _edges: { [key: string]: Edge };
   private integrated = false;
-  private moduleConfig = new ModuleConfig();
+  private _config = new SchemaConfig(this.constructor.name);
 
-  protected abstract fields(): {[key:string]: Field<FieldType>};
-  protected abstract edges(): {[key:string]: Edge};
+  protected abstract fields(): { [key: string]: Field<FieldType> };
+  protected abstract edges(): { [key: string]: Edge };
+  protected abstract config(config: SchemaConfig): void;
 
-  protected module(config: ModuleConfig): void {}
   protected integrations(): AphroditeIntegration[] {
     return [];
   }
@@ -24,8 +24,7 @@ export default abstract class Schema {
     }
     this.integrated = true;
 
-    this.module(this.moduleConfig);
-
+    this.config(this._config);
     this._fields = this.fields();
     this._edges = this.edges();
     Object.entries(this._edges).forEach(
@@ -37,19 +36,19 @@ export default abstract class Schema {
     });
   }
 
-  getFields(): {[key:string]: Field<FieldType>} {
+  getFields(): { [key: string]: Field<FieldType> } {
     this.integrate();
     return this._fields;
   }
 
-  getEdges(): {[key:string]: Edge} {
+  getEdges(): { [key: string]: Edge } {
     this.integrate();
     return this._edges;
   }
 
-  getModuleConfig(): ModuleConfig {
+  getConfig(): SchemaConfig {
     this.integrate();
-    return this.moduleConfig;
+    return this._config;
   }
 
   getModelTypeName() {

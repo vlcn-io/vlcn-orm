@@ -2,8 +2,13 @@ import Field from '../../schema/Field.js';
 import Edge from '../../schema/Edge.js';
 import Schema from '../../schema/Schema.js';
 import SlideSchema from './SlideSchema.js';
+import SchemaConfig from '../../schema/SchemaConfig.js';
 
 export default class DeckSchema extends Schema {
+  config(config: SchemaConfig) {
+    config.description('Represents a deck of slides');
+  }
+
   fields() {
     return {
       id: Field.guid(),

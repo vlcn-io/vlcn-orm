@@ -1,7 +1,7 @@
 import nullthrows from "../utils/nullthrows";
 
 export default class FieldAndEdgeBase {
-  decorators: Array<string> = [];
+  decorators: Readonly<string[]> = [];
   isUnique: boolean;
   name: string;
   description: string;
@@ -11,7 +11,7 @@ export default class FieldAndEdgeBase {
     return this;
   }
 
-  unique(value: boolean = true): this{
+  unique(value: boolean = true): this {
     this.isUnique = true;
     return this;
   }
