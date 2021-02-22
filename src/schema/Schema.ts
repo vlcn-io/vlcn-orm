@@ -4,6 +4,16 @@ import stripSuffix from '../utils/stripSuffix.js';
 import AphroditeIntegration from '../integrations/AphroditeIntegration.js';
 import SchemaConfig from './SchemaConfig.js';
 
+/*
+* TODO: Schema seems to be handling three concerns:
+* 1. Allowing subclasses to configure details (via protected methods)
+* 2. Representing configuration to our build system (via getters)
+* 3. Applying integrations to update the existing schema
+*
+* Can we tease these apart?
+* 1. Schema is a thing for users to extend and provide schema information
+* 2. "IntegratedSchema" (some better name) represents the final schema, for use by build system, after integrations are applied
+*/
 export default abstract class Schema {
   private _fields: { [key: string]: Field<FieldType> };
   private _edges: { [key: string]: Edge };
