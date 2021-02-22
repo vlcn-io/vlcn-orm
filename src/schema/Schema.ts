@@ -8,11 +8,12 @@ export default abstract class Schema {
   private _fields: {[key:string]: Field<FieldType>};
   private _edges: {[key:string]: Edge};
   private integrated = false;
+  private moduleConfig = new ModuleConfig();
 
   protected abstract fields(): {[key:string]: Field<FieldType>};
   protected abstract edges(): {[key:string]: Edge};
 
-  protected file(config: ModuleConfig): void {}
+  protected module(config: ModuleConfig): void {}
   protected integrations(): AphroditeIntegration[] {
     return [];
   }
@@ -22,6 +23,8 @@ export default abstract class Schema {
       return;
     }
     this.integrated = true;
+
+    this.module(this.moduleConfig);
 
     this._fields = this.fields();
     this._edges = this.edges();
@@ -42,6 +45,11 @@ export default abstract class Schema {
   getEdges(): {[key:string]: Edge} {
     this.integrate();
     return this._edges;
+  }
+
+  getModuleConfig(): ModuleConfig {
+    this.integrate();
+    return this.moduleConfig;
   }
 
   getModelTypeName() {

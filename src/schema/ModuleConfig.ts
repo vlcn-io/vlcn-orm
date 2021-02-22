@@ -1,19 +1,32 @@
 type Import = {
-  name?: string,
-  as?: string,
+  name?: string | null,
+  as?: string | null,
   from: string,
 };
 
 export default class ModuleConfig {
-  imports: Import[];
+  imports: Map<string, Import> = new Map();
 
   import(...imports: Import[]): this {
-    this.imports = this.imports.concat(imports);
+    // Using a map so we don't get duplicative imports
+    for (const i of imports) {
+      this.imports.set(
+        // Map key is just the structure in json
+        JSON.stringify({
+          // ensure consistent ordering
+          name: i.name,
+          as: i.as,
+          from: i.from,
+        }),
+        i,
+      );
+    }
+
     return this;
   }
 }
 
-export function tsImport(name: string, as: string, from: string): Import {
+export function tsImport(name: string | null, as: string | null, from: string): Import {
   return {
     name,
     as,
