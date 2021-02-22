@@ -5,11 +5,9 @@ import ModuleConfig from './ModuleConfig.js';
 import AphroditeIntegration from '../integrations/AphroditeIntegration.js';
 
 export default abstract class Schema {
-  constructor() {
-    this.integrations().forEach(i => {
-      i.applyTo(this);
-    });
-  }
+  private _fields: {[key:string]: Field<FieldType>};
+  private _edges: {[key:string]: Edge};
+  private integrated = false;
 
   protected abstract fields(): {[key:string]: Field<FieldType>};
   protected abstract edges(): {[key:string]: Edge};
@@ -19,17 +17,31 @@ export default abstract class Schema {
     return [];
   }
 
-  getFields(): {[key:string]: Field<FieldType>} {
-    return this.fields();
-  }
+  private integrate() {
+    if (this.integrated === true) {
+      return;
+    }
+    this.integrated = true;
 
-  getEdges(): {[key:string]: Edge} {
-    const edges = this.edges();
-    Object.entries(edges).forEach(
+    this._fields = this.fields();
+    this._edges = this.edges();
+    Object.entries(this._edges).forEach(
       ([key, edge]) => edge.name = key,
     );
 
-    return edges;
+    this.integrations().forEach(i => {
+      i.applyTo(this);
+    });
+  }
+
+  getFields(): {[key:string]: Field<FieldType>} {
+    this.integrate();
+    return this._fields;
+  }
+
+  getEdges(): {[key:string]: Edge} {
+    this.integrate();
+    return this._edges;
   }
 
   getModelTypeName() {

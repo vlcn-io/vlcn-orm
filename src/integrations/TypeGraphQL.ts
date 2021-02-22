@@ -1,8 +1,8 @@
-import { Field, FieldType } from "../schema/Field";
-import Schema from "../schema/Schema";
-import assertUnreachable from "../utils/assertUnreachable";
-import falsish from "../utils/falsish";
-import AphroditeIntegration from "./AphroditeIntegration";
+import { Field, FieldType } from "../schema/Field.js";
+import Schema from "../schema/Schema.js";
+import falsish from "../utils/falsish.js";
+import select from "../utils/select.js";
+import AphroditeIntegration from "./AphroditeIntegration.js";
 
 interface TypeGraphQLOptions {
   nullable: boolean,
@@ -10,15 +10,18 @@ interface TypeGraphQLOptions {
 }
 
 class TypeGraphQL implements AphroditeIntegration {
+  private fieldsOrEdges: string[] = [];
+
   expose(fieldsOrEdges: string[]) {
+    this.fieldsOrEdges = fieldsOrEdges;
     return this;
   }
 
   applyTo(schema: Schema): void {
-    Object.entries(schema.getFields())
+    select(this.fieldsOrEdges, schema.getFields())
       .forEach(
-        ([key, field]) => {
-          field.decorator(this.createFieldDecorator(schema, field));
+        (field) => {
+          field?.decorator(this.createFieldDecorator(schema, field));
         },
       );
   }
@@ -30,7 +33,7 @@ class TypeGraphQL implements AphroditeIntegration {
     options.description = field.description;
 
     let optionsString = '';
-    if (Object.values(options).filter(falsish).length > 0) {
+    if (Object.values(options).filter(x => !!x).length > 0) {
       optionsString =
         `, {${options.nullable
             ? 'nullable: true,'

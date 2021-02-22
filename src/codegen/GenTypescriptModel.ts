@@ -35,6 +35,7 @@ class ${this.schema.getModelTypeName()}
     return Object.entries(this.schema.getFields())
       .map(([key, field]) =>
 `
+  ${field.decorators.join("\n  ")}
   get${upcaseAt(key, 0)}(): ${fieldToTsType(field)} {
     return this.data${isValidPropertyAccessor(key) ? `.${key}` : `['${key}']`};
   }
