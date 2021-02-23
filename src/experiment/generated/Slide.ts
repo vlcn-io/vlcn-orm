@@ -1,15 +1,16 @@
-import { Field, ObjectType, Int, Float } from 'type-graphql'
-@ObjectType({description: "Represents a single slide within a deck"})
+import Model from '@aphrodite-runtime/Model.js';
+import { Field, ObjectType, Int, Float, ID } from 'type-graphql'
+@ObjectType({ description: "Represents a single slide within a deck" })
 export default class Slide
   extends Model<{
-  id: id,
-  selected: boolean,
-  focused: boolean,
-  classes: string,
-  style: Map<string, string>
-}> {
-    @Field(type => ID)
-  getId(): id {
+    id: string,
+    selected: boolean,
+    focused: boolean,
+    classes: string,
+    style: Map<string, string>
+  }> {
+  @Field(type => ID)
+  getId(): string {
     return this.data.id;
   }
 
@@ -28,12 +29,12 @@ export default class Slide
     return this.data.classes;
   }
 
-  
+
   getStyle(): Map<string, string> {
     return this.data.style;
   }
 
-    queryComponents(): ComponentQuery {
+  queryComponents(): ComponentQuery {
     return ComponentQuery.fromForeignId(
       this.getId(), 'slide'
     );

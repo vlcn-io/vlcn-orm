@@ -29,7 +29,8 @@ class TypeGraphQL implements AphroditeIntegration {
       .getConfig()
       .module
       .import(
-        tsImport('{ Field, ObjectType, Int, Float }', null, 'type-graphql'),
+        // TODO: clean up to be smart imports based on usage
+        tsImport('{ Field, ObjectType, Int, Float, ID }', null, 'type-graphql'),
       );
 
     schema.getConfig()
