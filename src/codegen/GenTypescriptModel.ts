@@ -4,21 +4,25 @@ import upcaseAt from '../utils/upcaseAt.js';
 import CodegenStep from './CodegenStep.js';
 import isValidPropertyAccessor from '../utils/isValidPropertyAccessor.js';
 import { fieldToTsType } from './tsUtils.js';
+import { CodegenFile } from './CodegenFile';
 
 export default class GenTypescriptModel extends CodegenStep {
   constructor(private schema: Schema) {
     super();
   }
 
-  gen(): string {
-    return `${this.getImportCode()}
+  gen(): CodegenFile {
+    return {
+      name: this.schema.getModelTypeName() + '.ts',
+      contents: `${this.getImportCode()}
 ${this.schema.getConfig().class.decorators.join("\n")}
 export default class ${this.schema.getModelTypeName()}
   extends Model<${this.getDataShape()}> {
   ${this.getFieldCode()}
   ${this.getEdgeCode()}
 }
-`;
+`,
+    };
   }
 
   private getDataShape(): string {

@@ -1,11 +1,10 @@
-import GenTypeGraphQL from '../integrations/type_graphql/GenTypeGraphQL.js';
 import Schema from '../schema/Schema';
 import CodegenStep from './CodegenStep.js';
 import GenTypescriptModel from './GenTypescriptModel.js';
+import * as fs from 'fs';
 
 const defaultSteps: Array<{ new(Schema): CodegenStep; }> = [
   GenTypescriptModel,
-  GenTypeGraphQL,
 ];
 
 export default class CodegenPipleine {
@@ -18,9 +17,11 @@ export default class CodegenPipleine {
     schemas: Array<Schema>,
     dest: string,
   ) {
-    console.log(schemas.map(
+    const code = schemas.map(
       schema =>
         this.steps.map(step => new step(schema).gen()),
-    ));
+    );
+
+    // Promise.all(code.map(async c => await fs.promises.writeFile(dest, c)));
   }
 }

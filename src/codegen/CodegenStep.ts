@@ -1,5 +1,7 @@
-export default abstract class CodegenStep {
-  constructor() {}
+import { CodegenFile } from "./CodegenFile.js";
 
-  abstract gen(): string;
+export default abstract class CodegenStep {
+  constructor() { }
+
+  abstract gen(): CodegenFile;
 }
