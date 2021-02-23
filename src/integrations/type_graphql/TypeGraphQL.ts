@@ -1,8 +1,8 @@
-import { Field, FieldType } from "../schema/Field.js";
-import { tsImport } from "../schema/ModuleConfig.js";
-import Schema from "../schema/Schema.js";
-import select from "../utils/select.js";
-import AphroditeIntegration from "./AphroditeIntegration.js";
+import { Field, FieldType } from "../../schema/Field.js";
+import { tsImport } from "../../schema/ModuleConfig.js";
+import Schema from "../../schema/Schema.js";
+import select from "../../utils/select.js";
+import AphroditeIntegration from "../AphroditeIntegration.js";
 
 interface TypeGraphQLOptions {
   nullable: boolean,

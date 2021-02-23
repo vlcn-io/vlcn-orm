@@ -11,9 +11,9 @@ export default class GenTypescriptModel extends CodegenStep {
   }
 
   gen(): string {
-    return `
+    return `${this.getImportCode()}
 ${this.schema.getConfig().class.decorators.join("\n")}
-class ${this.schema.getModelTypeName()}
+export default class ${this.schema.getModelTypeName()}
   extends Model<${this.getDataShape()}> {
   ${this.getFieldCode()}
   ${this.getEdgeCode()}
@@ -32,11 +32,20 @@ class ${this.schema.getModelTypeName()}
 }`;
   }
 
+  private getImportCode(): string {
+    const ret: string[] = [];
+    for (const val of this.schema.getConfig().module.imports.values()) {
+      const name = val.name != null ? val.name + ' ' : '';
+      const as = val.as != null ? 'as ' + val.as + ' ' : '';
+      ret.push(`import ${name}${as}from '${val.from}'`);
+    }
+    return ret.join("\n");
+  }
+
   private getFieldCode(): string {
     return Object.entries(this.schema.getFields())
       .map(([key, field]) =>
-        `
-  ${field.decorators.join("\n  ")}
+        `  ${field.decorators.join("\n  ")}
   get${upcaseAt(key, 0)}(): ${fieldToTsType(field)} {
     return this.data${isValidPropertyAccessor(key) ? `.${key}` : `['${key}']`};
   }
@@ -47,8 +56,7 @@ class ${this.schema.getModelTypeName()}
   private getEdgeCode(): string {
     return Object.entries(this.schema.getEdges())
       .map(([key, edge]) =>
-        `
-  query${upcaseAt(key, 0)}(): ${edge.getQueryTypeName()} {
+        `  query${upcaseAt(key, 0)}(): ${edge.getQueryTypeName()} {
     return ${edge.getQueryTypeName()}.${this.getFromMethodName(edge)}(
       ${this.getIdGetter(key, edge)}
     );

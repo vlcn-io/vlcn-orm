@@ -3,7 +3,7 @@ import Edge from '../../schema/Edge.js';
 import ComponentSchema from './ComponentSchema.js';
 import Field from '../../schema/Field.js';
 import DeckSchema from './DeckSchema.js';
-import TypeGraphQL from '../../integrations/TypeGraphQL.js';
+import TypeGraphQL from '../../integrations/type_graphql/TypeGraphQL.js';
 import SchemaConfig from '../../schema/SchemaConfig.js';
 
 export default class SlideSchema extends Schema {
