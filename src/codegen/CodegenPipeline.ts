@@ -13,15 +13,21 @@ export default class CodegenPipleine {
     private readonly steps: Array<{ new(Schema): CodegenStep; }> = defaultSteps,
   ) { }
 
-  gen(
+  async gen(
     schemas: Array<Schema>,
     dest: string,
   ) {
-    const code = schemas.map(
+    const schemaResults = schemas.map(
       schema =>
         this.steps.map(step => new step(schema).gen()),
     );
 
-    // Promise.all(code.map(async c => await fs.promises.writeFile(dest, c)));
+    await Promise.all(
+      schemaResults.map(
+        async r => await Promise.all(
+          r.map(async f => await fs.promises.writeFile(dest + '/' + f.name, f.contents))
+        )
+      )
+    );
   }
 }

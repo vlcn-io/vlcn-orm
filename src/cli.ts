@@ -4,8 +4,9 @@ import commandLineArgs from 'command-line-args';
 import commandLineUsage from 'command-line-usage';
 import CodegenPipleine from './codegen/CodegenPipeline.js';
 import Schema from './schema/Schema.js';
+import * as Path from 'path';
 
-type SchemaModule = {default: { new(): Schema ;}};
+type SchemaModule = { default: { new(): Schema; } };
 
 async function run() {
   const mainDefinitions = [
@@ -29,7 +30,7 @@ async function run() {
     const schemaModules = await Promise.all(genOptions.src.map(s => import(s)));
     const schemas = schemaModules.map(s => new (<SchemaModule>s).default());
     const pipeline = new CodegenPipleine();
-    pipeline.gen(
+    await pipeline.gen(
       schemas,
       genOptions.dest,
     );
