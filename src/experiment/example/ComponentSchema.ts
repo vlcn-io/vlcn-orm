@@ -12,7 +12,7 @@ export default class ComponentSchema extends Schema {
 
   fields() {
     return {
-      id: Field.guid(),
+      id: Field.id.guid(),
       selected: Field.bool(),
       classes: Field.stringOf('CassClass'),
       style: Field.map(

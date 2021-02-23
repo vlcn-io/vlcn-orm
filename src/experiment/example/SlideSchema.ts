@@ -20,7 +20,7 @@ export default class SlideSchema extends Schema {
 
   fields() {
     return {
-      id: Field.guid(),
+      id: Field.id.guid(),
       selected: Field.bool(),
       focused: Field.bool(),
       classes: Field.stringOf('CssClass'),
@@ -28,7 +28,7 @@ export default class SlideSchema extends Schema {
         Field.stringOf('CssAttribute'),
         Field.stringOf('CssValue'),
       ),
-      deckId: Field.guid(),
+      deckId: Field.id.int(),
     };
   }
 

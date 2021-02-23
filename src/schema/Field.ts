@@ -38,8 +38,14 @@ export class MapField<K extends Field<'string'>, V extends Field<FieldType>>
 }
 
 export default {
-  guid(): Field<'id'> {
-    return new Field('id');
+  id: {
+    guid(): Field<'id'> {
+      return new Field('id');
+    },
+
+    int(): Field<'id'> {
+      return new Field('id');
+    }
   },
 
   bool(): Field<'boolean'> {
