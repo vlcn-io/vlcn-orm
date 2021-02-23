@@ -11,7 +11,7 @@
     "experimentalDecorators": true,
     "baseUrl": "./src",
     "paths": {
-      "@aphrodite-runtime/*": [
+      "@aphrodite/runtime/*": [
         "runtime/*"
       ]
     }

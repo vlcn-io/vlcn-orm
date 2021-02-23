@@ -14,7 +14,7 @@ export default class GenTypescriptModel extends CodegenStep {
   gen(): CodegenFile {
     return {
       name: this.schema.getModelTypeName() + '.ts',
-      contents: `import Model from '@aphrodite-runtime/Model.js';
+      contents: `import Model from '@aphrodite/runtime/Model.js';
 ${this.getImportCode()}
 ${this.schema.getConfig().class.decorators.join("\n")}
 export default class ${this.schema.getModelTypeName()}
