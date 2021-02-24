@@ -1,4 +1,3 @@
-import ClassConfig from '../../schema/ClassConfig.js';
 import Edge from '../../schema/Edge.js';
 import Field from '../../schema/Field.js';
 import Schema from '../../schema/Schema.js';

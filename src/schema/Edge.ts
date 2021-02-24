@@ -68,20 +68,20 @@ export class ForeignKeyEdge extends Edge {
 
 export default {
   field<T extends Schema>(
-    otherSchema: { new(): T ;},
+    otherSchema: typeof Schema,
   ): Edge {
-    return new FieldEdge(new otherSchema());
+    return new FieldEdge(otherSchema.get());
   },
 
-  foreignKey<T extends Schema>(
-    otherSchema: { new(): T ;},
+  foreignKey(
+    otherSchema: typeof Schema,
     inverseEdgeName: string,
   ): ForeignKeyEdge {
-    const s = new otherSchema();
+    const s = otherSchema.get();
     return new ForeignKeyEdge(s, s.getEdges()[inverseEdgeName]);
   },
 
-  junction<T extends Schema>(otherSchema: { new(): T ;}): JunctionEdge {
-    return new JunctionEdge(new otherSchema());
+  junction<T extends Schema>(otherSchema: typeof Schema): JunctionEdge {
+    return new JunctionEdge(otherSchema.get());
   },
 }

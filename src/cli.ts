@@ -6,7 +6,7 @@ import CodegenPipleine from './codegen/CodegenPipeline.js';
 import Schema from './schema/Schema.js';
 import * as Path from 'path';
 
-type SchemaModule = { default: { new(): Schema; } };
+type SchemaModule = { default: { get(): Schema; } };
 
 async function run() {
   const mainDefinitions = [
@@ -28,7 +28,7 @@ async function run() {
     }
 
     const schemaModules = await Promise.all(genOptions.src.map(s => import(s)));
-    const schemas = schemaModules.map(s => new (<SchemaModule>s).default());
+    const schemas = schemaModules.map(s => (<SchemaModule>s).default.get());
     const pipeline = new CodegenPipleine();
     await pipeline.gen(
       schemas,
