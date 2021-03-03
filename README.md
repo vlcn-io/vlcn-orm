@@ -58,3 +58,12 @@ https://www.dreamstime.com/aphrodite-flat-vector-illustration-ancient-greek-deit
 
 notes:
 https://abe-winter.github.io/2019/09/03/orms-backwards.html
+
+
+Would make sense to make this Dexie first:
+https://medium.com/dexie-js/awesome-react-integration-coming-f212c2273d05
+
+1. generate fully typed queries from the schema
+2. have models and field post-processing
+3. have connections
+4. ...
