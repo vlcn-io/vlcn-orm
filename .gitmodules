@@ -1,0 +1,3 @@
+[submodule "mono"]
+	path = mono
+	url = git@github.com:tantaman/mono.git

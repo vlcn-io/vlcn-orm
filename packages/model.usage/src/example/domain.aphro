@@ -1,0 +1,42 @@
+engine: postgres
+db: example
+
+User as Node {
+  id: ID<User>
+  name: NaturalLanguage
+  created: Timestamp
+  modified: Timestamp
+} & OutboundEdges {
+  decks: Edge<Deck.ownerId>
+}
+
+Deck as Node {
+  id: ID<Deck>
+  name: NaturalLanguage
+  created: Timestamp
+  modified: Timestamp
+  ownerId: ID<User>
+  selectedSlide: ID<Slide>
+} & OutboundEdges {
+  owner: Edge<Deck.ownerId>
+  slides: Edge<Slide.deckId>
+}
+
+Slide as Node {
+  id: ID<Slid>
+  deckId: ID<Deck>
+  order: float32
+} & OutboundEdges {
+  components: Edge<Component.slideId>
+}
+
+Component as NodeTrait {
+  slideId: ID<Slide>
+}
+
+TextComponent as Node {
+  id: ID<TextComponent>
+  content: string
+} & Traits {
+  Component
+}
