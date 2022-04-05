@@ -1,3 +1,7 @@
+# Model
+
+Runtime library for models generated from schemas.
+
 TODO:
 1. Validation step...
    1. To ensure foreign key edges have an appropriate inverse field edge
