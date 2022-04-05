@@ -1,32 +1,50 @@
 {
-	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"name": "Aphrodite",
-	"patterns": [
-		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#strings"
-		}
-	],
-	"repository": {
-		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.aphrodite",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
-		},
-		"strings": {
-			"name": "string.quoted.double.aphrodite",
-			"begin": "\"",
-			"end": "\"",
-			"patterns": [
-				{
-					"name": "constant.character.escape.aphrodite",
-					"match": "\\\\."
-				}
-			]
-		}
-	},
-	"scopeName": "source.aphro"
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Aphrodite",
+  "patterns": [
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#entities"
+    },
+    {
+      "include": "#variables"
+    }
+  ],
+  "repository": {
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.aphrodite",
+          "match": "\\b(Node|NodeTrait|Traits|Edge|ReadPrivacy|Index|InboundEdges|OutboundEdges|Invert)\\b"
+        },
+        {
+          "name": "keyword.operator.aphrodite",
+          "match": "\\b(as|\\|)\\b"
+        },
+        {
+          "name": "constant.language.aphrodite",
+          "match": "\\b(ID|Map|Array|Timestamp|Currency|bool|int32|int64|float32|float64|uint32|uint64|string|Enumeration|NaturalLanguage|Bitmask)\\b"
+        }
+      ]
+    },
+    "entities": {
+      "patterns": [
+        {
+          "name": "entity.name.type.aphrodite",
+          "match": "\\b([A-Za-z][0-9A-Za-z_]*) as\\b"
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "name": "variable.parameter.aphrodite",
+          "match": "(<.*>)"
+        }
+      ]
+    }
+  },
+  "scopeName": "source.aphro"
 }

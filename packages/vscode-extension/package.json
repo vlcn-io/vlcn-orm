@@ -1,25 +1,34 @@
 {
-    "name": "aphrodite",
-    "displayName": "aphrodite",
-    "description": "support for aphrodite schemas",
-    "version": "0.0.1",
-    "engines": {
-        "vscode": "^1.65.0"
-    },
-    "categories": [
-        "Programming Languages"
+  "name": "aphrodite",
+  "displayName": "aphrodite",
+  "description": "Support for Aphrodite schemas",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.65.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "aphrodite",
+        "aliases": [
+          "Aphrodite",
+          "aphrodite"
+        ],
+        "extensions": [
+          ".aphro"
+        ],
+        "configuration": "./language-configuration.json"
+      }
     ],
-    "contributes": {
-        "languages": [{
-            "id": "aphrodite",
-            "aliases": ["Aphrodite", "aphrodite"],
-            "extensions": [".aphro"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "aphrodite",
-            "scopeName": "source.aphro",
-            "path": "./syntaxes/aphrodite.tmLanguage.json"
-        }]
-    }
+    "grammars": [
+      {
+        "language": "aphrodite",
+        "scopeName": "source.aphro",
+        "path": "./syntaxes/aphrodite.tmLanguage.json"
+      }
+    ]
+  }
 }
