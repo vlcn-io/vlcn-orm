@@ -1,4 +1,4 @@
-import { ID, Import, Node } from "../parser/SchemaType.js";
+import { ID, Import, Node } from './parser/SchemaType.js';
 
 const inboundEdges = {
   isForeignKeyEdge() {},
@@ -20,23 +20,19 @@ const fields = {};
 
 export default {
   allEdges(node: Node) {
-    const inboundEdges = Object.values(
-      node.extensions.inboundEdges?.edges || {}
-    );
-    const outboundEdges = Object.values(
-      node.extensions.outboundEdges?.edges || {}
-    );
+    const inboundEdges = Object.values(node.extensions.inboundEdges?.edges || {});
+    const outboundEdges = Object.values(node.extensions.outboundEdges?.edges || {});
 
     return [...inboundEdges, ...outboundEdges];
   },
 
   queryTypeName(nodeName: string): string {
-    return nodeName + "Query";
+    return nodeName + 'Query';
   },
 
   addModuleImport(node: Node, imp: Import) {
     const module = (node.extensions.module = node.extensions.module || {
-      name: "moduleConfig",
+      name: 'moduleConfig',
       imports: new Map(),
     });
 
@@ -45,7 +41,7 @@ export default {
 
   decorateType(node: Node, decoration: string) {
     const typeConfig = node.extensions.type || {
-      name: "typeConfig",
+      name: 'typeConfig',
       decorators: [],
     };
 

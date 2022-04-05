@@ -2,4 +2,5 @@ packages:
   - 'packages/vscode-extension'
   - 'packages/model'
   - 'packages/model.usage'
+  - 'packages/schema'
   - 'mono/typescript/packages/*'

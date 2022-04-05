@@ -120,6 +120,47 @@ importers:
       ts-jest: 27.1.4_889311557937cce69cc11e4cc7168165
       typescript: 4.6.3
 
+  packages/schema:
+    specifiers:
+      '@babel/core': ^7.17.8
+      '@babel/preset-env': ^7.16.11
+      '@strut/counter': workspace:*
+      '@strut/events': workspace:*
+      '@strut/sid': workspace:*
+      '@strut/utils': workspace:*
+      '@types/jest': ^27.4.1
+      '@types/prettier': ^2.4.4
+      '@typescript-eslint/typescript-estree': ^5.14.0
+      chalk: ^5.0.1
+      command-line-args: ^5.2.1
+      command-line-usage: ^6.1.1
+      jest: ^28.0.0-alpha.3
+      md5: ^2.3.0
+      ohm-js: ^16.3.2
+      prettier: ^2.5.1
+      sql-formatter: ^4.0.2
+      typescript: ^4.6.2
+    dependencies:
+      '@strut/counter': link:../../mono/typescript/packages/counter
+      '@strut/events': link:../../mono/typescript/packages/events
+      '@strut/sid': link:../../mono/typescript/packages/sid
+      '@strut/utils': link:../../mono/typescript/packages/utils
+    devDependencies:
+      '@babel/core': 7.17.8
+      '@babel/preset-env': 7.16.11_@babel+core@7.17.8
+      '@types/jest': 27.4.1
+      '@types/prettier': 2.4.4
+      '@typescript-eslint/typescript-estree': 5.18.0_typescript@4.6.3
+      chalk: 5.0.1
+      command-line-args: 5.2.1
+      command-line-usage: 6.1.1
+      jest: 28.0.0-alpha.8
+      md5: 2.3.0
+      ohm-js: 16.3.2
+      prettier: 2.6.2
+      sql-formatter: 4.0.2
+      typescript: 4.6.3
+
   packages/vscode-extension:
     specifiers: {}
 

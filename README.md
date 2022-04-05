@@ -12,7 +12,7 @@
 
 # Vision
 
-Today's `ORMs` and `Schemas` suffer. They suffer from being tied to a single language, being tied to the relational model, expressing storage (rather than semantic) types, and not enabling us to colocate security and privacy concerns with the data being stored.
+Today's `ORMs` and `Schemas` suffer. They suffer from being tied to a single language, being tied to the relational model, expressing storage (rather than semantic) types, not enabling us to colocate security and privacy concerns with the data being stored, not being extensable to express all future concerns that center around data. E.g., indexing concerns, caching, reactivity / subscriptions, sharding and so on.
 
 ## Beyond Language
 
@@ -67,3 +67,13 @@ https://medium.com/dexie-js/awesome-react-integration-coming-f212c2273d05
 2. have models and field post-processing
 3. have connections
 4. ...
+
+
+# TODO
+write:
+- Arrays don't express edges (these are not types pt2)
+- Against controller privacy
+- For out of DB indexing
+- Expressing reactivity in the schema
+- Streamlining SQL* -> Model -> GraphQL
+- Your "rails" / "redwood" like stack is doing it wrong
