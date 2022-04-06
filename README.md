@@ -10,13 +10,14 @@
   * [Purpose Limitation](https://gist.github.com/tantaman/bd928ef93619e73365b07899da282996#policies--purpose-use)
   * Security
   * Reactivity
+  * Trust & Safety (e.g., abuse protection)
   * [Semantic type information](https://tantaman.com/2020-05-19-These-Are-Not-Types/)
   * [Link traversal, fetching, mutations](https://blockprotocol.org/)
   * [Goal based integrations of systems](https://www.youtube.com/watch?v=8pTEmbeENF4&t=687s)
 
 # Vision
 
-Today's `ORMs` and `Schemas` suffer. They suffer from being tied to a single language, being tied to the relational model, expressing storage (rather than semantic) types, not enabling us to colocate security and privacy concerns with the data being stored, not being extensable to express all future concerns that center around data. E.g., indexing concerns, caching, reactivity / subscriptions, sharding and so on.
+Today's `ORMs` and `Schemas` suffer. They suffer from being tied to a single language, being tied to the relational model, expressing storage (rather than semantic) types, not enabling us to colocate security and privacy concerns with the data being stored, not being extensable to express all future concerns that center around data. E.g., indexing concerns, caching, reactivity / subscriptions, sharding, abuse protection and so on.
 
 ## Beyond Language
 
