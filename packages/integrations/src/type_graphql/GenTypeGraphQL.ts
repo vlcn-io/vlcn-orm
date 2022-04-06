@@ -1,5 +1,4 @@
-import { CodegenFile } from '../../../model/src/codegen/CodegenFile.js';
-import CodegenStep from '../../../model/src/codegen/CodegenStep.js';
+import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
 
 export default class GenTypeGraphQL extends CodegenStep {
   gen(): CodegenFile {

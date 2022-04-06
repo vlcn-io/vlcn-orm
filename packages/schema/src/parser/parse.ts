@@ -1,14 +1,14 @@
-import grammar from "./ohm/grammar.js";
-import * as fs from "fs";
-import { SchemaFileAst } from "./SchemaType.js";
+import grammar from './ohm/grammar.js';
+import * as fs from 'fs';
+import { SchemaFileAst } from '../SchemaType.js';
 
 const list = (l, r) => l.toAst().concat(r.toAst());
-const listInit = (_) => [];
+const listInit = _ => [];
 const listWithSeparator = (l, _, r) => list(l, r);
 
 // https://nextjournal.com/dubroy/ohm-parsing-made-easy
 const semantics = grammar.createSemantics();
-semantics.addOperation("toAst", {
+semantics.addOperation('toAst', {
   Main(preamble, entities) {
     return {
       preamble: preamble.toAst().reduce((l, r) => {
@@ -37,26 +37,15 @@ semantics.addOperation("toAst", {
   Entities_empty: listInit,
   Node(name, _as, _node, fields, functions) {
     return {
-      type: "node",
+      type: 'node',
       name: name.toAst(),
       fields: fields.toAst(),
       extensions: functions.toAst(),
     };
   },
-  Edge(
-    name,
-    _as,
-    _edge,
-    _lAngle,
-    src,
-    _comma,
-    dest,
-    _rAngle,
-    fields,
-    extensions
-  ) {
+  Edge(name, _as, _edge, _lAngle, src, _comma, dest, _rAngle, fields, extensions) {
     return {
-      type: "edge",
+      type: 'edge',
       src: {
         type: src.toAst(),
       },
@@ -73,7 +62,7 @@ semantics.addOperation("toAst", {
   },
   NodeTrait(name, _as, _nodeTrait, nodeFields, extensions) {
     return {
-      type: "nodeTrait",
+      type: 'nodeTrait',
       name: name.toAst(),
       fields: nodeFields.toAst() || [],
       extensions: extensions.toAst() || [],
@@ -98,18 +87,18 @@ semantics.addOperation("toAst", {
   },
   IdField(_id, _langle, of, _rangle) {
     return {
-      type: "id",
+      type: 'id',
       of: of.toAst(),
     };
   },
   NaturalLanguageField(_) {
     return {
-      type: "naturalLanguage",
+      type: 'naturalLanguage',
     };
   },
   EnumField(_, _lAngle, keys, _rAngle) {
     return {
-      type: "enumeration",
+      type: 'enumeration',
       keys: keys.toAst(),
     };
   },
@@ -119,36 +108,36 @@ semantics.addOperation("toAst", {
   },
   BitmaskField(_, _lAngle, keys, _rAngle) {
     return {
-      type: "bitmask",
+      type: 'bitmask',
       keys: keys.toAst(),
     };
   },
   TimeField(_) {
     return {
-      type: "timestamp",
+      type: 'timestamp',
     };
   },
   CurrencyField(_, _lAngle, denomination, _rAngle) {
     return {
-      type: "currency",
+      type: 'currency',
       denomination: denomination.toAst(),
     };
   },
   PrimitiveField(subtype) {
     return {
-      type: "primitive",
+      type: 'primitive',
       subtype: subtype.sourceString,
     };
   },
   ArrayField(_, _lAngle, values, _rAngle) {
     return {
-      type: "array",
+      type: 'array',
       values: values.toAst(),
     };
   },
   MapField(_, _lAngle, keys, _comma, values, _rAngle) {
     return {
-      type: "map",
+      type: 'map',
       keys: keys.toAst(),
       values: values.toAst(),
     };
@@ -165,37 +154,37 @@ semantics.addOperation("toAst", {
   },
   OutboundEdgesFn(_, _lSquig, declarations, _rSquig) {
     return {
-      name: "outboundEdges",
+      name: 'outboundEdges',
       declarations: declarations.toAst(),
     };
   },
   InboundEdgesFn(_, _lSquig, declarations, _rSquig) {
     return {
-      name: "inboundEdges",
+      name: 'inboundEdges',
       declarations: declarations.toAst(),
     };
   },
   IndexFn(_, _lSquig, declarations, _rSquig) {
     return {
-      name: "index",
+      name: 'index',
       declarations: declarations.toAst(),
     };
   },
   InvertFn(_, _as, name) {
     return {
-      name: "invert",
+      name: 'invert',
       as: name.toAst(),
     };
   },
   ReadPrivacyFn(_, _lSquig, _rSquig) {
     return {
-      name: "readPrivacy",
+      name: 'readPrivacy',
       declarations: [],
     };
   },
   TraitsFn(_, _lSquig, traits, _rSquig) {
     return {
-      type: "traits",
+      type: 'traits',
       declarations: traits.toAst(),
     };
   },
@@ -210,13 +199,13 @@ semantics.addOperation("toAst", {
   EdgeDeclaration_reference(key, name) {
     return {
       name: key.toAst(),
-      type: "edgeReference",
+      type: 'edgeReference',
       reference: name.toAst(),
     };
   },
   InlineEdgeDefinition(_, _lAngle, throughOrTo, _rAngle) {
     return {
-      type: "edge",
+      type: 'edge',
       throughOrTo: throughOrTo.toAst(),
     };
   },
@@ -242,19 +231,19 @@ semantics.addOperation("toAst", {
   IndexDeclaration_shortDef(name) {
     return {
       name: name.toAst(),
-      type: "nonUnique",
+      type: 'nonUnique',
       columns: [name.toAst()],
     };
   },
   UniqueIndex(_, _lParen, columns, _rParen) {
     return {
-      type: "unique",
+      type: 'unique',
       columns: columns.toAst(),
     };
   },
   NonUniqueIndex(columns) {
     return {
-      type: "nonUnique",
+      type: 'nonUnique',
       columns: columns.toAst(),
     };
   },
@@ -270,8 +259,8 @@ semantics.addOperation("toAst", {
 
 export default function parse(filePath: string): SchemaFileAst {
   const schemaFileContents = fs.readFileSync(filePath, {
-    encoding: "utf8",
-    flag: "r",
+    encoding: 'utf8',
+    flag: 'r',
   });
 
   return parseString(schemaFileContents);

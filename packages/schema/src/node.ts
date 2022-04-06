@@ -1,4 +1,4 @@
-import { ID, Import, Node } from './parser/SchemaType.js';
+import { ID, Import, Node } from './SchemaType.js';
 
 const inboundEdges = {
   isForeignKeyEdge() {},

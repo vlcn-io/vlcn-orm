@@ -1,4 +1,4 @@
-import { SchemaFile } from './parser/SchemaType.js';
+import { SchemaFile } from './SchemaType.js';
 
 export type ValidationError = {
   message: string;

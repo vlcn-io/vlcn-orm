@@ -1,6 +1,6 @@
-import GenTypescriptModel from "../GenTypescriptModel.js";
-import { Node } from "../../../schema/parser/SchemaType.js";
-import { compileFromString } from "../../../schema/v2/compile.js";
+import GenTypescriptModel from '../GenTypescriptModel.js';
+import { Node } from '@aphro/schema';
+import { compileFromString } from '@aphro/schema';
 
 const IDOnlySchema = `
 engine: postgres
@@ -47,10 +47,8 @@ Bar as Node {
 }
 `;
 
-test("Generating an ID only model", () => {
-  const contents = genIt(
-    compileFromString(IDOnlySchema)[1].nodes.IDOnly
-  ).contents;
+test('Generating an ID only model', () => {
+  const contents = genIt(compileFromString(IDOnlySchema)[1].nodes.IDOnly).contents;
   expect(contents).toEqual(
     `// SIGNED-SOURCE: <af8ef89465f19699d3ac1e3cf8a14efb>
 import Model, { Spec } from "@strut/model/Model.js";
@@ -78,13 +76,13 @@ export const spec: Spec<Data> = {
     tablish: "idonly",
   },
 };
-`
+`,
   );
 });
 
-test("Generating all primitive fields", () => {
+test('Generating all primitive fields', () => {
   const contents = genIt(
-    compileFromString(PrimitiveFieldsSchema)[1].nodes.PrimitiveFields
+    compileFromString(PrimitiveFieldsSchema)[1].nodes.PrimitiveFields,
   ).contents;
   expect(contents).toEqual(`// SIGNED-SOURCE: <938a3bbdaa7018a4f08e45ebf39dbe59>
 import Model, { Spec } from "@strut/model/Model.js";
@@ -145,10 +143,8 @@ export const spec: Spec<Data> = {
 `);
 });
 
-test("Outbound field edge", () => {
-  const contents = genIt(
-    compileFromString(OutboundFieldEdgeSchema)[1].nodes.Foo
-  ).contents;
+test('Outbound field edge', () => {
+  const contents = genIt(compileFromString(OutboundFieldEdgeSchema)[1].nodes.Foo).contents;
 
   expect(contents).toEqual(`// SIGNED-SOURCE: <086958ea3a098479094bc9e4d2242319>
 import Model, { Spec } from "@strut/model/Model.js";
@@ -184,10 +180,8 @@ export const spec: Spec<Data> = {
 `);
 });
 
-test("Outbound foreign key edge", () => {
-  const contents = genIt(
-    compileFromString(OutboundForeignKeyEdgeSchema)[1].nodes.Bar
-  ).contents;
+test('Outbound foreign key edge', () => {
+  const contents = genIt(compileFromString(OutboundForeignKeyEdgeSchema)[1].nodes.Bar).contents;
 
   expect(contents).toEqual(`// SIGNED-SOURCE: <428597b80667f77591dc68d944abb364>
 import Model, { Spec } from "@strut/model/Model.js";

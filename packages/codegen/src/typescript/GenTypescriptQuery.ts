@@ -1,16 +1,9 @@
-import { nullthrows, upcaseAt } from "@strut/utils";
-import { CodegenFile } from "../CodegenFile.js";
-import CodegenStep from "../CodegenStep.js";
-import TypescriptFile from "./TypescriptFile.js";
-import {
-  Field,
-  Node,
-  EdgeDeclaration,
-  EdgeReferenceDeclaration,
-  ID,
-} from "../../schema/parser/SchemaType.js";
-import nodeFn from "../../schema/v2/node.js";
-import edgeFn from "../../schema/v2/edge.js";
+import { nullthrows, upcaseAt } from '@strut/utils';
+import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
+import TypescriptFile from './TypescriptFile.js';
+import { Field, Node, EdgeDeclaration, EdgeReferenceDeclaration, ID } from '@aphro/schema';
+import { nodeFn } from '@aphro/schema';
+import { edgeFn } from '@aphro/schema';
 
 export default class GenTypescriptQuery extends CodegenStep {
   // This can technicall take a node _or_ an edge.
@@ -30,7 +23,7 @@ export default class GenTypescriptQuery extends CodegenStep {
   // TODO: de-duplicate imports by storing imports in an intermediate structure.
   gen(): CodegenFile {
     return new TypescriptFile(
-      nodeFn.queryTypeName(this.schema.name) + ".ts",
+      nodeFn.queryTypeName(this.schema.name) + '.ts',
       `import {DerivedQuery} from '@strut/model/query/Query.js';
 import QueryFactory from '@strut/model/query/QueryFactory.js';
 import {modelLoad, filter} from '@strut/model/query/Expression.js';
@@ -41,9 +34,9 @@ import ${this.schema.name}, { Data, spec } from './${this.schema.name}.js';
 ${this.getIdFieldImports()}
 ${this.getEdgeImports()}
 
-export default class ${nodeFn.queryTypeName(
+export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQuery<${
         this.schema.name
-      )} extends DerivedQuery<${this.schema.name}> {
+      }> {
   static create() {
     return new ${nodeFn.queryTypeName(this.schema.name)}(
       QueryFactory.createSourceQueryFor(spec),
@@ -56,7 +49,7 @@ export default class ${nodeFn.queryTypeName(
   ${this.getFilterMethodsCode()}
   ${this.getHopMethodsCode()}
 }
-`
+`,
     );
   }
 
@@ -69,16 +62,14 @@ export default class ${nodeFn.queryTypeName(
         ${this.getFilterMethodBody(field)}
       }`);
     }
-    return ret.join("\n");
+    return ret.join('\n');
   }
 
   private getFilterMethodBody(field: Field): string {
     return `return new ${nodeFn.queryTypeName(this.schema.name)}(
       this,
       filter(
-        new ModelFieldGetter<"${field.name}", Data, ${this.schema.name}>("${
-      field.name
-    }"),
+        new ModelFieldGetter<"${field.name}", Data, ${this.schema.name}>("${field.name}"),
         p,
       ), 
     )`;
@@ -96,22 +87,22 @@ static fromId(id: SID_of<${this.schema.name}>) {
     // this would be inbound edges, right?
     // inbound edges to me based on one of my fields.
     const inbound: EdgeDeclaration[] = Object.values(
-      this.schema.extensions.inboundEdges?.edges || {}
+      this.schema.extensions.inboundEdges?.edges || {},
     )
-      .filter((edge) => edge.type === "edge")
+      .filter(edge => edge.type === 'edge')
       .filter((edge: EdgeDeclaration) =>
-        edgeFn.isThroughNode(this.schema, edge)
+        edgeFn.isThroughNode(this.schema, edge),
       ) as EdgeDeclaration[];
 
-    return inbound.map(this.getFromInboundFieldEdgeMethodCode).join("\n");
+    return inbound.map(this.getFromInboundFieldEdgeMethodCode).join('\n');
   }
 
   private getFromInboundFieldEdgeMethodCode(edge: EdgeDeclaration): string {
     const column = nullthrows(edge.throughOrTo.column);
     const field = this.schema.fields[column];
 
-    if (field.type !== "id") {
-      throw new Error("fields edges must refer to id fields");
+    if (field.type !== 'id') {
+      throw new Error('fields edges must refer to id fields');
     }
 
     return `
@@ -122,98 +113,84 @@ static from${upcaseAt(column, 0)}(id: SID_of<${field.of}>) {
   }
 
   private getEdgeImports(): string {
-    const inbound = Object.values(
-      this.schema.extensions.inboundEdges?.edges || {}
-    ).filter((e) => e.type === "edge") as EdgeDeclaration[];
+    const inbound = Object.values(this.schema.extensions.inboundEdges?.edges || {}).filter(
+      e => e.type === 'edge',
+    ) as EdgeDeclaration[];
 
-    const outbound = Object.values(
-      this.schema.extensions.outboundEdges?.edges || {}
-    ).filter((e) => e.type === "edge") as EdgeDeclaration[];
+    const outbound = Object.values(this.schema.extensions.outboundEdges?.edges || {}).filter(
+      e => e.type === 'edge',
+    ) as EdgeDeclaration[];
 
     return [...inbound, ...outbound]
       .filter(
-        (edge) =>
-          edgeFn.queryTypeName(this.schema, edge) !==
-          nodeFn.queryTypeName(this.schema.name)
+        edge => edgeFn.queryTypeName(this.schema, edge) !== nodeFn.queryTypeName(this.schema.name),
       )
-      .map((edge) => {
+      .map(edge => {
         return `import {spec as ${edgeFn.destModelTypeName(
           this.schema,
-          edge
+          edge,
         )}Spec} from "./${edgeFn.destModelTypeName(this.schema, edge)}"
-        import ${edgeFn.queryTypeName(
+        import ${edgeFn.queryTypeName(this.schema, edge)} from "./${edgeFn.queryTypeName(
           this.schema,
-          edge
-        )} from "./${edgeFn.queryTypeName(this.schema, edge)}"`;
+          edge,
+        )}"`;
       })
-      .join("\n");
+      .join('\n');
 
     // import edge reference queries too
   }
 
   private getIdFieldImports(): string {
     // TODO: fix all these cases on filter(s)
-    const idFields = Object.values(this.schema.fields).filter(
-      (f) => f.type === "id"
-    ) as ID[];
+    const idFields = Object.values(this.schema.fields).filter(f => f.type === 'id') as ID[];
 
-    return idFields.map((f) => `import ${f.of} from "./${f.of}.js"`).join("\n");
+    return idFields.map(f => `import ${f.of} from "./${f.of}.js"`).join('\n');
   }
 
   private getHopMethodsCode(): string {
     // hop methods are edges
     // e.g., Deck.querySlides().queryComponents()
-    const outbound = Object.values(
-      this.schema.extensions.outboundEdges?.edges || {}
-    );
-    return outbound.map((e) => this.getHopMethod(e)).join("\n");
+    const outbound = Object.values(this.schema.extensions.outboundEdges?.edges || {});
+    return outbound.map(e => this.getHopMethod(e)).join('\n');
   }
 
-  private getHopMethod(
-    edge: EdgeDeclaration | EdgeReferenceDeclaration
-  ): string {
-    if (edge.type === "edgeReference") {
-      throw new Error("Edge references not yet supported...");
+  private getHopMethod(edge: EdgeDeclaration | EdgeReferenceDeclaration): string {
+    if (edge.type === 'edgeReference') {
+      throw new Error('Edge references not yet supported...');
     }
 
-    let body = "";
+    let body = '';
     if (edgeFn.isTo(edge)) {
       body = this.getHopMethodForJunctionLikeEdge(edge);
     } else {
       body = this.getHopMethodForFieldLikeEdge(edge);
     }
 
-    return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(
-      this.schema,
-      edge
-    )} {
+    return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(this.schema, edge)} {
       ${body}
     }`;
   }
 
   private getHopMethodForJunctionLikeEdge(edge: EdgeDeclaration): string {
-    return "";
+    return '';
   }
 
   private getHopMethodForFieldLikeEdge(edge: EdgeDeclaration): string {
-    let hopOperation = "";
+    let hopOperation = '';
     // are we through a field on our own type?
     if (edgeFn.isThroughNode(this.schema, edge)) {
       hopOperation = `whereId(P.equals(this.${edge.throughOrTo.column}))`;
     } else {
       // we are through a field on the dest node.
-      hopOperation = `where${upcaseAt(
-        nullthrows(edge.throughOrTo.column),
-        0
-      )}(P.equals(this.id))`;
+      hopOperation = `where${upcaseAt(nullthrows(edge.throughOrTo.column), 0)}(P.equals(this.id))`;
     }
 
     return `return new ${edgeFn.queryTypeName(
       this.schema,
-      edge
+      edge,
     )}(QueryFactory.createHopQueryFor(this, spec, ${edgeFn.destModelTypeName(
       this.schema,
-      edge
+      edge,
     )}Spec),
       modelLoad(${edgeFn.destModelTypeName(this.schema, edge)}Spec.createFrom),
       ).${hopOperation};`;

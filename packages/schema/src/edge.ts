@@ -1,5 +1,5 @@
 import { nullthrows } from '@strut/utils';
-import { EdgeDeclaration, EdgeReferenceDeclaration, ID, Node } from './parser/SchemaType.js';
+import { EdgeDeclaration, EdgeReferenceDeclaration, ID, Node } from './SchemaType.js';
 import nodeFn from './node.js';
 
 export default {

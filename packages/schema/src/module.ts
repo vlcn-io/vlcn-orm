@@ -1,4 +1,4 @@
-import { Import } from './parser/SchemaType';
+import { Import } from './SchemaType';
 
 export function tsImport(name: string | null, as: string | null, from: string): Import {
   return {

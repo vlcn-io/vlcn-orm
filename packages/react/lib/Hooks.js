@@ -1,0 +1,24 @@
+// TODO: this should be in a separate package from the core model code.
+import { useEffect, useReducer } from 'react';
+import counter from '@strut/counter';
+// TODO: use the new react18 external state hook thinger.
+const count = counter('model-infra/Hooks');
+export function useSubscription(m) {
+    const [tick, forceUpdate] = useReducer(x => x + 1, 0);
+    useEffect(() => {
+        count.bump('useSubscription.' + m.constructor.name);
+        // subscribe returns a function which will dispose of the subscription
+        return m.subscribe(() => forceUpdate());
+    }, [m]);
+    return m;
+}
+export function useQuery(keys, m) {
+    const [tick, forceUpdate] = useReducer(x => x + 1, 0);
+    count.bump('useQuery.' + m.constructor.name);
+    useEffect(() => {
+        count.bump('keyed.subscription.' + m.constructor.name);
+        // subscribe returns a function which will dispose of the subscription
+        return m.subscribeTo(keys, () => forceUpdate());
+    }, [m]);
+}
+//# sourceMappingURL=Hooks.js.map

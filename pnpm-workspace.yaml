@@ -1,8 +1,10 @@
 packages:
   - 'packages/codegen'
+  - 'packages/codegen-api'
   - 'packages/integrations'
-  - 'packages/model'
-  - 'packages/query'
+  - 'packages/model-runtime-ts'
+  - 'packages/query-runtime-ts'
+  - 'packages/react'
   - 'packages/schema'
   - 'packages/vscode'
   - 'examples/model.usage'

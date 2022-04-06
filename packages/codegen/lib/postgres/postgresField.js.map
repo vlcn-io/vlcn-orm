@@ -1,0 +1,1 @@
+{"version":3,"file":"postgresField.js","sourceRoot":"","sources":["../../src/postgres/postgresField.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,gBAAgB,EAAE,MAAM,wBAAwB,CAAC;AAE1D,MAAM,UAAU,mBAAmB,CAAC,KAAY;IAC9C,OAAO,gBAAgB,CAAC,KAAK,CAAC,CAAC;AACjC,CAAC"}

@@ -4,6 +4,8 @@
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
+    "@aphro/codegen-api": "workspace:*",
+    "@aphro/schema": "workspace:*",
     "@strut/counter": "workspace:*",
     "@strut/events": "workspace:*",
     "@strut/sid": "workspace:*",

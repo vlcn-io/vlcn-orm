@@ -1,15 +1,10 @@
-import { asPropertyAccessor, upcaseAt } from "@strut/utils";
-import CodegenStep from "../CodegenStep.js";
-import { fieldToTsType } from "./tsUtils.js";
-import { CodegenFile } from "../CodegenFile.js";
-import TypescriptFile from "./TypescriptFile.js";
-import {
-  EdgeDeclaration,
-  EdgeReferenceDeclaration,
-  Node,
-} from "../../schema/parser/SchemaType.js";
-import nodeFn from "../../schema/v2/node.js";
-import edgeFn from "../../schema/v2/edge.js";
+import { asPropertyAccessor, upcaseAt } from '@strut/utils';
+import { fieldToTsType } from './tsUtils.js';
+import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
+import TypescriptFile from './TypescriptFile.js';
+import { EdgeDeclaration, EdgeReferenceDeclaration, Node } from '@aphro/schema';
+import { nodeFn } from '@aphro/schema';
+import { edgeFn } from '@aphro/schema';
 
 export default class GenTypescriptModel extends CodegenStep {
   static accepts(_schema: Node): boolean {
@@ -22,14 +17,14 @@ export default class GenTypescriptModel extends CodegenStep {
 
   gen(): CodegenFile {
     return new TypescriptFile(
-      this.schema.name + ".ts",
+      this.schema.name + '.ts',
       `import Model, {Spec} from '@strut/model/Model.js';
 import {SID_of} from '@strut/sid';
 ${this.getImportCode()}
 
 export type Data = ${this.getDataShapeCode()};
 
-${this.schema.extensions.type?.decorators?.join("\n") || ""}
+${this.schema.extensions.type?.decorators?.join('\n') || ''}
 export default class ${this.schema.name}
   extends Model<Data> {
   ${this.getFieldCode()}
@@ -37,25 +32,25 @@ export default class ${this.schema.name}
 }
 
 ${this.getSpecCode()}
-`
+`,
     );
   }
 
   private getDataShapeCode(): string {
     const fieldProps = Object.values(this.schema.fields).map(
-      (field) => `${asPropertyAccessor(field.name)}: ${fieldToTsType(field)}`
+      field => `${asPropertyAccessor(field.name)}: ${fieldToTsType(field)}`,
     );
     return `{
-  ${fieldProps.join(",\n  ")}
+  ${fieldProps.join(',\n  ')}
 }`;
   }
 
   private getImportCode(): string {
     const ret: string[] = [];
     for (const val of this.schema.extensions.module?.imports.values() || []) {
-      const name = val.name != null ? val.name + " " : "";
-      const as = val.as != null ? "as " + val.as + " " : "";
-      if (name === "") {
+      const name = val.name != null ? val.name + ' ' : '';
+      const as = val.as != null ? 'as ' + val.as + ' ' : '';
+      if (name === '') {
         ret.push(`import "${val.from}";`);
       } else {
         ret.push(`import ${name}${as}from '${val.from}';`);
@@ -63,33 +58,31 @@ ${this.getSpecCode()}
     }
     for (const edge of nodeFn.allEdges(this.schema)) {
       ret.push(
-        `import ${edgeFn.queryTypeName(
+        `import ${edgeFn.queryTypeName(this.schema, edge)} from "./${edgeFn.queryTypeName(
           this.schema,
-          edge
-        )} from "./${edgeFn.queryTypeName(this.schema, edge)}.js"`
+          edge,
+        )}.js"`,
       );
-      if (edge.type === "edge") {
+      if (edge.type === 'edge') {
         if (edge.throughOrTo.type !== this.schema.name) {
-          ret.push(
-            `import ${edge.throughOrTo.type} from "./${edge.throughOrTo.type}.js"`
-          );
+          ret.push(`import ${edge.throughOrTo.type} from "./${edge.throughOrTo.type}.js"`);
         }
       }
     }
-    return ret.join("\n");
+    return ret.join('\n');
   }
 
   private getFieldCode(): string {
     return Object.values(this.schema.fields)
       .map(
-        (field) =>
-          `${field.decorators?.join("\n") || ""}
+        field =>
+          `${field.decorators?.join('\n') || ''}
       get ${field.name}(): ${fieldToTsType(field)} {
         return this.data.${field.name};
       }
-    `
+    `,
       )
-      .join("\n");
+      .join('\n');
   }
 
   private getEdgeCode(): string {
@@ -117,17 +110,14 @@ ${this.getSpecCode()}
 
     return Object.values(this.schema.extensions.outboundEdges?.edges || {})
       .map(
-        (edge) => `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(
-          this.schema,
-          edge
-        )} {
-          return ${edgeFn.queryTypeName(
-            this.schema,
-            edge
-          )}.${this.getFromMethodInvocation("outbound", edge)};
-        }`
+        edge => `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(this.schema, edge)} {
+          return ${edgeFn.queryTypeName(this.schema, edge)}.${this.getFromMethodInvocation(
+          'outbound',
+          edge,
+        )};
+        }`,
       )
-      .join("\n");
+      .join('\n');
 
     // TODO: static inbound edge defs
   }
@@ -151,11 +141,11 @@ ${this.getSpecCode()}
 
   // inbound edges would be static methods
   private getFromMethodInvocation(
-    type: "inbound" | "outbound",
-    edge: EdgeDeclaration | EdgeReferenceDeclaration
+    type: 'inbound' | 'outbound',
+    edge: EdgeDeclaration | EdgeReferenceDeclaration,
   ): string {
-    if (type === "inbound") {
-      throw new Error("inbound edge generation on models not yet supported");
+    if (type === 'inbound') {
+      throw new Error('inbound edge generation on models not yet supported');
     }
 
     // outbound edge through a field would be:
@@ -163,12 +153,12 @@ ${this.getSpecCode()}
     // outbound field edge would be: BarQuery.fromId(this.barId); // Foo | OB { Edge<Foo.barId> }
 
     switch (edge.type) {
-      case "edge":
+      case 'edge':
         const column = edge.throughOrTo.column;
         if (column == null) {
           // this error should already have been thrown earlier.
           throw new Error(
-            "Locally declared edge that is not _through_ something is currently unsupported"
+            'Locally declared edge that is not _through_ something is currently unsupported',
           );
         }
 
@@ -181,11 +171,11 @@ ${this.getSpecCode()}
         // through a field on some other type is a foreign key edge
         // we're thus qurying that type based on some column rather than its id
         return `from${upcaseAt(column, 0)}(this.id)`;
-      case "edgeReference":
+      case 'edgeReference':
         // if (edge.inverted) {
         //   return "fromDst";
         // }
-        return "fromSrc(this.id)";
+        return 'fromSrc(this.id)';
     }
   }
 }

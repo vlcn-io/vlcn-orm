@@ -1,4 +1,4 @@
-import { Field } from './parser/SchemaType.js';
+import { Field } from './SchemaType.js';
 
 export default {
   decorate(f: Field, decoration: string) {

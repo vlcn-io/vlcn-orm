@@ -1,7 +1,6 @@
-import GenTypescriptModel from "../GenTypescriptModel.js";
-import { Node } from "../../../schema/parser/SchemaType.js";
-import { compileFromString } from "../../../schema/v2/compile.js";
-import GenTypescriptQuery from "../GenTypescriptQuery";
+import { Node } from '@aphro/schema';
+import { compileFromString } from '@aphro/schema';
+import GenTypescriptQuery from '../GenTypescriptQuery';
 
 const NoEdgesSchema = `
 engine: postgres
@@ -86,10 +85,8 @@ BarToFooEdge as InverseEdge<FooToBarEdge> {}
 
 const InboundThroughLocalFieldSchema = ``;
 
-test("NoEdgesSchema", () => {
-  const contents = genIt(
-    compileFromString(NoEdgesSchema)[1].nodes.Foo
-  ).contents;
+test('NoEdgesSchema', () => {
+  const contents = genIt(compileFromString(NoEdgesSchema)[1].nodes.Foo).contents;
 
   // TODO: remove unneeded imports
   // Validation should require that a primary key field exists
@@ -117,10 +114,8 @@ export default class FooQuery extends DerivedQuery<Foo> {
 `);
 });
 
-test("OutboundEdgeViaFieldSchema", () => {
-  const contents = genIt(
-    compileFromString(OutboundEdgeViaFieldSchema)[1].nodes.Foo
-  ).contents;
+test('OutboundEdgeViaFieldSchema', () => {
+  const contents = genIt(compileFromString(OutboundEdgeViaFieldSchema)[1].nodes.Foo).contents;
 
   // TODO: queryBar is wrong as it needs a `where` statement applied
   // to understand _how_ we're hopping.
@@ -165,9 +160,9 @@ export default class FooQuery extends DerivedQuery<Foo> {
 `);
 });
 
-test("OutboundThroughForeignFieldSchema", () => {
+test('OutboundThroughForeignFieldSchema', () => {
   const contents = genIt(
-    compileFromString(OutboundThroughForeignFieldSchema)[1].nodes.Foo
+    compileFromString(OutboundThroughForeignFieldSchema)[1].nodes.Foo,
   ).contents;
 
   expect(contents).toEqual(`// SIGNED-SOURCE: <36a1dcef7580bd1dd135c23ca050b6ef>

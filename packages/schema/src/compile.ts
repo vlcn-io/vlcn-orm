@@ -1,7 +1,7 @@
 import condense from './parser/condense.js';
 import validate, { ValidationError } from './validate.js';
 import parse, { parseString } from './parser/parse.js';
-import { SchemaFile, SchemaFileAst } from './parser/SchemaType.js';
+import { SchemaFile, SchemaFileAst } from './SchemaType.js';
 
 export default function compile(path: string): [ValidationError[], SchemaFile] {
   return compileFromAst(parse(path));

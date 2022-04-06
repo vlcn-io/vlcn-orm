@@ -1,5 +1,6 @@
-import { CodegenFile, SQL_TEMPLATE, sign } from "./CodegenFile.js";
-import { format } from "sql-formatter";
+import { sign } from './CodegenFile.js';
+import { CodegenFile, SQL_TEMPLATE } from '@aphro/codegen-api';
+import { format } from 'sql-formatter';
 
 export default class SqlFile implements CodegenFile {
   #contents: string;
