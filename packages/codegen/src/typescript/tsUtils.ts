@@ -1,4 +1,5 @@
-import { Field, RemoveNameField } from '@aphro/schema';
+import { Field, Import, RemoveNameField } from '@aphro/schema';
+import uniqueImports from '../uniqueImports.js';
 
 function fieldToTsType(field: RemoveNameField<Field>): string {
   switch (field.type) {
@@ -34,6 +35,28 @@ function fieldToTsType(field: RemoveNameField<Field>): string {
   throw new Error(
     `Cannot convert from ${field.type} of ${JSON.stringify(field)} to a typescript type`,
   );
+}
+
+export function importToString(val: Import): string {
+  const name = val.name != null ? val.name + ' ' : '';
+  const as = val.as != null ? 'as ' + val.as + ' ' : '';
+  if (name === '') {
+    return `import "${val.from}";`;
+  } else if (name[0] === '{' && val.as != null) {
+    return `import ${name.substring(0, name.length - 2)} ${as}} from '${val.from}';`;
+  } else {
+    return `import ${name}${as}from '${val.from}';`;
+  }
+}
+
+// Uniques and collapses imports.
+export function importsToString(imports: readonly Import[]): string {
+  return collapseImports(uniqueImports(imports)).map(importToString).join('\n');
+}
+
+export function collapseImports(imports: readonly Import[]): readonly Import[] {
+  // not yet implemented
+  return imports;
 }
 
 export { fieldToTsType };

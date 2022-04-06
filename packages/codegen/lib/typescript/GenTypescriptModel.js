@@ -1,5 +1,5 @@
 import { asPropertyAccessor, upcaseAt } from '@strut/utils';
-import { fieldToTsType } from './tsUtils.js';
+import { fieldToTsType, importToString } from './tsUtils.js';
 import { CodegenStep } from '@aphro/codegen-api';
 import TypescriptFile from './TypescriptFile.js';
 import { nodeFn } from '@aphro/schema';
@@ -39,14 +39,7 @@ ${this.getSpecCode()}
     getImportCode() {
         const ret = [];
         for (const val of this.schema.extensions.module?.imports.values() || []) {
-            const name = val.name != null ? val.name + ' ' : '';
-            const as = val.as != null ? 'as ' + val.as + ' ' : '';
-            if (name === '') {
-                ret.push(`import "${val.from}";`);
-            }
-            else {
-                ret.push(`import ${name}${as}from '${val.from}';`);
-            }
+            ret.push(importToString(val));
         }
         for (const edge of nodeFn.allEdges(this.schema)) {
             ret.push(`import ${edgeFn.queryTypeName(this.schema, edge)} from "./${edgeFn.queryTypeName(this.schema, edge)}.js"`);

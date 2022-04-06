@@ -1,16 +1,15 @@
-// SIGNED-SOURCE: <d280feb85a680fb5dc33411a18967ed4>
-import {
-  DerivedQuery,
-  QueryFactory,
-  modelLoad,
-  filter,
-  Predicate,
-  P,
-  ModelFieldGetter,
-} from "@aphro/query-runtime-ts";
+// SIGNED-SOURCE: <e0988ea6ebf5dd6c289f3b053fea55ca>
+import { DerivedQuery } from "@aphro/query-runtime-ts";
+import { QueryFactory } from "@aphro/query-runtime-ts";
+import { modelLoad } from "@aphro/query-runtime-ts";
+import { filter } from "@aphro/query-runtime-ts";
+import { Predicate } from "@aphro/query-runtime-ts";
+import { P } from "@aphro/query-runtime-ts";
+import { ModelFieldGetter } from "@aphro/query-runtime-ts";
 import { SID_of } from "@strut/sid";
-import TextComponent, { Data, spec } from "./TextComponent.js";
 import TextComponent from "./TextComponent.js";
+import { Data } from "./TextComponent.js";
+import { spec } from "./TextComponent.js";
 
 export default class TextComponentQuery extends DerivedQuery<TextComponent> {
   static create() {

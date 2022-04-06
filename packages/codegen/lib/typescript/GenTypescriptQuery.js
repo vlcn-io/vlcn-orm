@@ -1,8 +1,10 @@
 import { nullthrows, upcaseAt } from '@strut/utils';
 import { CodegenStep } from '@aphro/codegen-api';
 import TypescriptFile from './TypescriptFile.js';
+import { tsImport, } from '@aphro/schema';
 import { nodeFn } from '@aphro/schema';
 import { edgeFn } from '@aphro/schema';
+import { importsToString } from './tsUtils.js';
 export default class GenTypescriptQuery extends CodegenStep {
     schema;
     // This can technicall take a node _or_ an edge.
@@ -20,11 +22,8 @@ export default class GenTypescriptQuery extends CodegenStep {
     // b/c structure on the edges...
     // TODO: de-duplicate imports by storing imports in an intermediate structure.
     gen() {
-        return new TypescriptFile(nodeFn.queryTypeName(this.schema.name) + '.ts', `import {DerivedQuery, QueryFactory, modelLoad, filter, Predicate, P, ModelFieldGetter} from '@aphro/query-runtime-ts';
-import { SID_of } from '@strut/sid';
-import ${this.schema.name}, { Data, spec } from './${this.schema.name}.js';
-${this.getIdFieldImports()}
-${this.getEdgeImports()}
+        const imports = this.collectImports();
+        return new TypescriptFile(nodeFn.queryTypeName(this.schema.name) + '.ts', `${importsToString(imports)}
 
 export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQuery<${this.schema.name}> {
   static create() {
@@ -40,6 +39,25 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
   ${this.getHopMethodsCode()}
 }
 `);
+    }
+    collectImports() {
+        return [
+            ...[
+                'DerivedQuery',
+                'QueryFactory',
+                'modelLoad',
+                'filter',
+                'Predicate',
+                'P',
+                'ModelFieldGetter',
+            ].map(i => tsImport(`{${i}}`, null, '@aphro/query-runtime-ts')),
+            tsImport('{SID_of}', null, '@strut/sid'),
+            tsImport(this.schema.name, null, `./${this.schema.name}.js`),
+            tsImport('{Data}', null, `./${this.schema.name}.js`),
+            tsImport('{spec}', null, `./${this.schema.name}.js`),
+            ...this.getIdFieldImports(),
+            ...this.getEdgeImports(),
+        ];
     }
     getFilterMethodsCode() {
         const ret = [];
@@ -93,17 +111,16 @@ static from${upcaseAt(column, 0)}(id: SID_of<${field.of}>) {
         const outbound = Object.values(this.schema.extensions.outboundEdges?.edges || {}).filter(e => e.type === 'edge');
         return [...inbound, ...outbound]
             .filter(edge => edgeFn.queryTypeName(this.schema, edge) !== nodeFn.queryTypeName(this.schema.name))
-            .map(edge => {
-            return `import {spec as ${edgeFn.destModelTypeName(this.schema, edge)}Spec} from "./${edgeFn.destModelTypeName(this.schema, edge)}"
-        import ${edgeFn.queryTypeName(this.schema, edge)} from "./${edgeFn.queryTypeName(this.schema, edge)}"`;
-        })
-            .join('\n');
+            .flatMap(edge => [
+            tsImport('{spec}', `${edgeFn.destModelTypeName(this.schema, edge)}Spec`, `./${edgeFn.destModelTypeName(this.schema, edge)}`),
+            tsImport(edgeFn.queryTypeName(this.schema, edge), null, `./${edgeFn.queryTypeName(this.schema, edge)}`),
+        ]);
         // import edge reference queries too
     }
     getIdFieldImports() {
         // TODO: fix all these cases on filter(s)
         const idFields = Object.values(this.schema.fields).filter(f => f.type === 'id');
-        return idFields.map(f => `import ${f.of} from "./${f.of}.js"`).join('\n');
+        return idFields.map(f => tsImport(f.of, null, './' + f.of + '.js'));
     }
     getHopMethodsCode() {
         // hop methods are edges

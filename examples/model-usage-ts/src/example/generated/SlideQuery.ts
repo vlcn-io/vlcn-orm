@@ -1,15 +1,15 @@
-// SIGNED-SOURCE: <ce2659133a466b6b536094f2ff87b632>
-import {
-  DerivedQuery,
-  QueryFactory,
-  modelLoad,
-  filter,
-  Predicate,
-  P,
-  ModelFieldGetter,
-} from "@aphro/query-runtime-ts";
+// SIGNED-SOURCE: <a72d0bf342f08c60c2ee77e85f6a1da0>
+import { DerivedQuery } from "@aphro/query-runtime-ts";
+import { QueryFactory } from "@aphro/query-runtime-ts";
+import { modelLoad } from "@aphro/query-runtime-ts";
+import { filter } from "@aphro/query-runtime-ts";
+import { Predicate } from "@aphro/query-runtime-ts";
+import { P } from "@aphro/query-runtime-ts";
+import { ModelFieldGetter } from "@aphro/query-runtime-ts";
 import { SID_of } from "@strut/sid";
-import Slide, { Data, spec } from "./Slide.js";
+import Slide from "./Slide.js";
+import { Data } from "./Slide.js";
+import { spec } from "./Slide.js";
 import Slid from "./Slid.js";
 import Deck from "./Deck.js";
 import { spec as ComponentSpec } from "./Component";

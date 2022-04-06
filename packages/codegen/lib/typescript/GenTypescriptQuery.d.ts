@@ -5,6 +5,7 @@ export default class GenTypescriptQuery extends CodegenStep {
     static accepts(_schema: Node): boolean;
     constructor(schema: Node);
     gen(): CodegenFile;
+    private collectImports;
     private getFilterMethodsCode;
     private getFilterMethodBody;
     private getFromIdMethodCode;

@@ -7,6 +7,7 @@ export {
   EdgeReferenceDeclaration,
   RemoveNameField,
   ID,
+  Import,
 } from './SchemaType.js';
 export { default as compile, compileFromString } from './compile.js';
 export { ValidationError, stopsCodegen } from './validate.js';
