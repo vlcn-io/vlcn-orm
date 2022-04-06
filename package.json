@@ -11,6 +11,7 @@
     "turbo": "^1.1.1"
   },
   "scripts": {
-    "build": "turbo run build"
+    "build": "turbo run build",
+    "watch": "turbo run watch"
   }
 }
