@@ -1,4 +1,6 @@
-import * as ohm from "ohm-js";
+import * as ohmSynth from 'ohm-js';
+
+const ohm: typeof ohmSynth = (ohmSynth as any).default;
 
 const grammarDefinition = String.raw`
 Aphro {
