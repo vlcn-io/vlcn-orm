@@ -53,32 +53,3 @@ Today's schemas don't provide enough information. `varchar`, `bool`, `bigint`, t
 Why do we still try to enforce security at the controller level? This is plain crazy.
 
 You need to protect the data. The permission model should sit with the data. Someone wants to load a private message? That private message should know who its sender and recipients are and whether or not the viewer is one of those. This should be expressed in the schema that describes the data, not in one of the dozes or hundreds of random controllers that load the data.
-
-
----
-
-potential logo:
-https://www.dreamstime.com/aphrodite-flat-vector-illustration-ancient-greek-deity-goddess-love-beauty-eternal-youth-mythology-divine-mythological-image188188288
-
-
-notes:
-https://abe-winter.github.io/2019/09/03/orms-backwards.html
-
-
-Would make sense to make this Dexie first:
-https://medium.com/dexie-js/awesome-react-integration-coming-f212c2273d05
-
-1. generate fully typed queries from the schema
-2. have models and field post-processing
-3. have connections
-4. ...
-
-
-# TODO
-write:
-- Arrays don't express edges (these are not types pt2)
-- Against controller privacy
-- For out of DB indexing
-- Expressing reactivity in the schema
-- Streamlining SQL* -> Model -> GraphQL
-- Your "rails" / "redwood" like stack is doing it wrong
