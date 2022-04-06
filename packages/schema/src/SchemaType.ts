@@ -30,6 +30,7 @@ export type Node = {
     storage?: Storage;
     type?: TypeConfig;
     module?: ModuleConfig;
+    traits?: Traits;
   };
   storage: StorageConfig;
 };
@@ -52,7 +53,7 @@ export type Import = {
 export type StorageConfig = {
   type: 'sql';
   db: string;
-  table: string;
+  tablish: string;
   engine: StorageEngine;
 }; // | { type: "opencypher" } ...;
 
@@ -82,7 +83,7 @@ type NonComplexField = ID | NaturalLanguage | Enum | Currency | Time | Primitive
 type ComplexField = MapField | ArrayField;
 
 export type Field = NonComplexField | ComplexField;
-export type NodeAstExtension = OutboundEdgesAst | InboundEdgesAst | Index | Storage;
+export type NodeAstExtension = OutboundEdgesAst | InboundEdgesAst | Index | Storage | Traits;
 export type NodeExtension = Node['extensions'][keyof Node['extensions']];
 
 export type NodeAst = {
@@ -222,6 +223,11 @@ export type InboundEdges = {
 type Index = {
   name: 'index';
   declarations: (Unique | NonUnique)[];
+};
+
+type Traits = {
+  name: 'traits';
+  declarations: string[];
 };
 
 type Storage = {

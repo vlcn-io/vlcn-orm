@@ -184,7 +184,7 @@ semantics.addOperation('toAst', {
   },
   TraitsFn(_, _lSquig, traits, _rSquig) {
     return {
-      type: 'traits',
+      name: 'traits',
       declarations: traits.toAst(),
     };
   },

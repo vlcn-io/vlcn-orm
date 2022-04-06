@@ -22,7 +22,7 @@ export type Spec<T extends Object> = {
 export type StorageConfig = {
   type: 'sql';
   db: string;
-  table: string;
+  tablish: string;
   engine: StorageEngine;
 };
 type StorageEngine = 'postgres' | 'mysql'; // | maria | neo4j | redis ...

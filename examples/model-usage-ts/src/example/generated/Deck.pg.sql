@@ -1,0 +1,9 @@
+-- SIGNED-SOURCE: <ab6563f9d5125ff73ad015f3c5351a35>
+CREATE TABLE Deck (
+  id BIGINT UNSIGNED,
+  name TEXT,
+  created DATETIME,
+  modified DATETIME,
+  ownerId BIGINT UNSIGNED,
+  selectedSlide BIGINT UNSIGNED
+);

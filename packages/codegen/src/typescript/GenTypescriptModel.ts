@@ -18,7 +18,7 @@ export default class GenTypescriptModel extends CodegenStep {
   gen(): CodegenFile {
     return new TypescriptFile(
       this.schema.name + '.ts',
-      `import Model, {Spec} from '@strut/model/Model.js';
+      `import {Model, Spec} from '@aphro/model-runtime-ts';
 import {SID_of} from '@strut/sid';
 ${this.getImportCode()}
 
@@ -133,7 +133,7 @@ ${this.getSpecCode()}
         engine: "${this.schema.storage.engine}",
         db: "${this.schema.storage.db}",
         type: "${this.schema.storage.type}",
-        tablish: "${this.schema.storage.table}",
+        tablish: "${this.schema.storage.tablish}",
       },
     }
     `;

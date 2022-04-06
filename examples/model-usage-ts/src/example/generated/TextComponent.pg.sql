@@ -1,0 +1,2 @@
+-- SIGNED-SOURCE: <d410bd8a68fab9dca49ddec02b2c5c12>
+CREATE TABLE TextComponent (id BIGINT UNSIGNED, content TEXT);

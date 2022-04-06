@@ -142,7 +142,7 @@ function condenseNode(
         type: engineToType(preamble.engine),
         engine: preamble.engine,
         db: preamble.db,
-        table: (extensions.storage as any)?.table || node.name.toLocaleLowerCase(),
+        tablish: (extensions.storage as any)?.tablish || node.name.toLocaleLowerCase(),
       },
     },
   ];
@@ -168,7 +168,7 @@ function condenseEdge(
         engine: preamble.engine,
         db: preamble.db,
         // maybe we can figure out how to preseve the discrimnated type
-        table: (extensions.storage as any)?.table || edge.name.toLocaleLowerCase(),
+        tablish: (extensions.storage as any)?.tablish || edge.name.toLocaleLowerCase(),
       },
     },
   ];
@@ -218,6 +218,7 @@ function engineToType(engine: StorageEngine): StorageType {
 function nodeExtensionCondensor(extension: NodeAstExtension): [ValidationError[], NodeExtension] {
   switch (extension.name) {
     case 'index':
+    case 'traits':
       return [[], extension];
     case 'inboundEdges':
     case 'outboundEdges':
