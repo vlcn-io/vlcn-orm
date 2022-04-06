@@ -1,5 +1,5 @@
 {
-  "name": "@strut/model.usage",
+  "name": "@aphro/model.usage",
   "version": "0.0.1",
   "type": "module",
   "dependencies": {

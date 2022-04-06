@@ -1,5 +1,5 @@
 {
-  "name": "@aphro/schema",
+  "name": "@aphro/react",
   "version": "0.0.1",
   "main": "lib/index.js",
   "type": "module",
@@ -7,22 +7,16 @@
     "@strut/counter": "workspace:*",
     "@strut/events": "workspace:*",
     "@strut/sid": "workspace:*",
-    "@strut/utils": "workspace:*"
+    "@strut/utils": "workspace:*",
+    "react": "^17.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
     "@babel/preset-env": "^7.16.11",
     "@types/jest": "^27.4.1",
-    "@types/prettier": "^2.4.4",
     "@typescript-eslint/typescript-estree": "^5.14.0",
-    "chalk": "^5.0.1",
-    "command-line-args": "^5.2.1",
-    "command-line-usage": "^6.1.1",
     "jest": "^28.0.0-alpha.3",
-    "md5": "^2.3.0",
-    "ohm-js": "^16.3.2",
-    "prettier": "^2.5.1",
-    "sql-formatter": "^4.0.2",
+    "ts-jest": "^27.1.3",
     "typescript": "^4.6.2"
   },
   "scripts": {

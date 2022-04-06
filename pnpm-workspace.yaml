@@ -1,6 +1,9 @@
 packages:
-  - 'packages/vscode-extension'
+  - 'packages/codegen'
+  - 'packages/integrations'
   - 'packages/model'
-  - 'packages/model.usage'
+  - 'packages/query'
   - 'packages/schema'
+  - 'packages/vscode'
+  - 'examples/model.usage'
   - 'mono/typescript/packages/*'
