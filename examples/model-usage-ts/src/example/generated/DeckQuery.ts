@@ -1,9 +1,13 @@
-// SIGNED-SOURCE: <fe774b5133ddea4cc0799d53a104bf14>
-import { DerivedQuery } from "@strut/model/query/Query.js";
-import QueryFactory from "@strut/model/query/QueryFactory.js";
-import { modelLoad, filter } from "@strut/model/query/Expression.js";
-import { Predicate, default as P } from "@strut/model/query/Predicate.js";
-import { ModelFieldGetter } from "@strut/model/query/Field.js";
+// SIGNED-SOURCE: <ef448b6bbeb9eedc796ddc73a353c2bb>
+import {
+  DerivedQuery,
+  QueryFactory,
+  modelLoad,
+  filter,
+  Predicate,
+  P,
+  ModelFieldGetter,
+} from "@aphro/query-runtime-ts";
 import { SID_of } from "@strut/sid";
 import Deck, { Data, spec } from "./Deck.js";
 import Deck from "./Deck.js";

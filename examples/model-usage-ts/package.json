@@ -4,6 +4,7 @@
   "type": "module",
   "dependencies": {
     "@aphro/model-runtime-ts": "workspace:*",
+    "@aphro/query-runtime-ts": "workspace:*",
     "@strut/sid": "workspace:*",
     "class-validator": "^0.13.2",
     "graphql": "^16.3.0",

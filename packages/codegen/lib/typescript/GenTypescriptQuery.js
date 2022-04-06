@@ -20,11 +20,7 @@ export default class GenTypescriptQuery extends CodegenStep {
     // b/c structure on the edges...
     // TODO: de-duplicate imports by storing imports in an intermediate structure.
     gen() {
-        return new TypescriptFile(nodeFn.queryTypeName(this.schema.name) + '.ts', `import {DerivedQuery} from '@strut/model/query/Query.js';
-import QueryFactory from '@strut/model/query/QueryFactory.js';
-import {modelLoad, filter} from '@strut/model/query/Expression.js';
-import {Predicate, default as P} from '@strut/model/query/Predicate.js';
-import {ModelFieldGetter} from '@strut/model/query/Field.js';
+        return new TypescriptFile(nodeFn.queryTypeName(this.schema.name) + '.ts', `import {DerivedQuery, QueryFactory, modelLoad, filter, Predicate, P, ModelFieldGetter} from '@aphro/query-runtime-ts';
 import { SID_of } from '@strut/sid';
 import ${this.schema.name}, { Data, spec } from './${this.schema.name}.js';
 ${this.getIdFieldImports()}

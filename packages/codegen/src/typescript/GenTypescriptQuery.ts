@@ -24,11 +24,7 @@ export default class GenTypescriptQuery extends CodegenStep {
   gen(): CodegenFile {
     return new TypescriptFile(
       nodeFn.queryTypeName(this.schema.name) + '.ts',
-      `import {DerivedQuery} from '@strut/model/query/Query.js';
-import QueryFactory from '@strut/model/query/QueryFactory.js';
-import {modelLoad, filter} from '@strut/model/query/Expression.js';
-import {Predicate, default as P} from '@strut/model/query/Predicate.js';
-import {ModelFieldGetter} from '@strut/model/query/Field.js';
+      `import {DerivedQuery, QueryFactory, modelLoad, filter, Predicate, P, ModelFieldGetter} from '@aphro/query-runtime-ts';
 import { SID_of } from '@strut/sid';
 import ${this.schema.name}, { Data, spec } from './${this.schema.name}.js';
 ${this.getIdFieldImports()}
