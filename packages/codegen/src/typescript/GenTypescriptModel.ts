@@ -1,9 +1,9 @@
 import { asPropertyAccessor, upcaseAt } from '@strut/utils';
-import { fieldToTsType, importToString } from './tsUtils.js';
+import { fieldToTsType, importsToString } from './tsUtils.js';
 import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
 import TypescriptFile from './TypescriptFile.js';
-import { EdgeDeclaration, EdgeReferenceDeclaration, Node } from '@aphro/schema-api';
-import { nodeFn, edgeFn } from '@aphro/schema';
+import { EdgeDeclaration, EdgeReferenceDeclaration, ID, Import, Node } from '@aphro/schema-api';
+import { nodeFn, edgeFn, tsImport } from '@aphro/schema';
 
 export default class GenTypescriptModel extends CodegenStep {
   static accepts(_schema: Node): boolean {
@@ -17,9 +17,7 @@ export default class GenTypescriptModel extends CodegenStep {
   gen(): CodegenFile {
     return new TypescriptFile(
       this.schema.name + '.ts',
-      `import {Model} from '@aphro/model-runtime-ts';
-import {SID_of} from '@strut/sid';
-${this.getImportCode()}
+      `${importsToString(this.collectImports())}
 
 export type Data = ${this.getDataShapeCode()};
 
@@ -42,25 +40,41 @@ export default class ${this.schema.name}
 }`;
   }
 
-  private getImportCode(): string {
-    const ret: string[] = [];
-    for (const val of this.schema.extensions.module?.imports.values() || []) {
-      ret.push(importToString(val));
-    }
+  private collectImports(): Import[] {
+    return [
+      tsImport('{P}', null, '@aphro/query-runtime-ts'),
+      tsImport('{Model}', null, '@aphro/model-runtime-ts'),
+      tsImport('{SID_of}', null, '@strut/sid'),
+      ...(this.schema.extensions.module?.imports.values() || []),
+      ...this.getEdgeImports(),
+      ...this.getIdFieldImports(),
+    ].filter(i => i.name !== this.schema.name);
+  }
+
+  private getIdFieldImports(): Import[] {
+    const idFields = Object.values(this.schema.fields).filter(f => f.type === 'id') as ID[];
+
+    return idFields.map(f => tsImport(f.of, null, './' + f.of + '.js'));
+  }
+
+  private getEdgeImports(): Import[] {
+    const ret: Import[] = [];
     for (const edge of nodeFn.allEdges(this.schema)) {
       ret.push(
-        `import ${edgeFn.queryTypeName(this.schema, edge)} from "./${edgeFn.queryTypeName(
-          this.schema,
-          edge,
-        )}.js"`,
+        tsImport(
+          edgeFn.queryTypeName(this.schema, edge),
+          null,
+          './' + edgeFn.queryTypeName(this.schema, edge) + '.js',
+        ),
       );
       if (edge.type === 'edge') {
         if (edge.throughOrTo.type !== this.schema.name) {
-          ret.push(`import ${edge.throughOrTo.type} from "./${edge.throughOrTo.type}.js"`);
+          ret.push(tsImport(edge.throughOrTo.type, null, './' + edge.throughOrTo.type + '.js'));
         }
       }
     }
-    return ret.join('\n');
+
+    return ret;
   }
 
   private getFieldCode(): string {
@@ -144,7 +158,7 @@ export default class ${this.schema.name}
 
         // through a field on some other type is a foreign key edge
         // we're thus qurying that type based on some column rather than its id
-        return `from${upcaseAt(column, 0)}(this.id)`;
+        return `create().where${upcaseAt(column, 0)}(P.equals(this.id))`;
       case 'edgeReference':
         // if (edge.inverted) {
         //   return "fromDst";

@@ -1,4 +1,6 @@
-- Allow imports in schemas
+- Fluent API for codegen and better handling of tsimport (e.g., .js , ./ concatenation)
+- Strike unused imports
+- Allow imports in schema files
 - Pass around loaded schema list so we can validate edges point to real things
 - re-visit EdgeFn and NodeFn functions
 - Implement junction edge support

@@ -1,9 +1,11 @@
-// SIGNED-SOURCE: <68f9bb0003871f0dc2db6efa22633a78>
+// SIGNED-SOURCE: <45de480af7276bfa5223f7b03c00dee6>
+import { P } from "@aphro/query-runtime-ts";
 import { Model } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
 import UserQuery from "./UserQuery.js";
 import SlideQuery from "./SlideQuery.js";
 import Slide from "./Slide.js";
+import User from "./User.js";
 
 export type Data = {
   id: SID_of<Deck>;
@@ -43,6 +45,6 @@ export default class Deck extends Model<Data> {
     return UserQuery.fromId(this.ownerId);
   }
   querySlides(): SlideQuery {
-    return SlideQuery.fromDeckId(this.id);
+    return SlideQuery.create().whereDeckId(P.equals(this.id));
   }
 }

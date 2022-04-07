@@ -1,4 +1,5 @@
-// SIGNED-SOURCE: <63fcbe1c10196fcd1d16ed12f5bf868a>
+// SIGNED-SOURCE: <5ed0e6d9b72d88fec85408711ec3d641>
+import { P } from "@aphro/query-runtime-ts";
 import { Model } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
 import DeckQuery from "./DeckQuery.js";
@@ -29,6 +30,6 @@ export default class User extends Model<Data> {
   }
 
   queryDecks(): DeckQuery {
-    return DeckQuery.fromOwnerId(this.id);
+    return DeckQuery.create().whereOwnerId(P.equals(this.id));
   }
 }

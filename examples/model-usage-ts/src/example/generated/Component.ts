@@ -1,6 +1,8 @@
-// SIGNED-SOURCE: <5c6c30c8de7b625deb1f5441fd1c9662>
+// SIGNED-SOURCE: <4d9d69047a042d993d44805f72c3a95e>
+import { P } from "@aphro/query-runtime-ts";
 import { Model } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
+import Slide from "./Slide.js";
 
 export type Data = {
   id: SID_of<Component>;

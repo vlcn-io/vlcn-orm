@@ -6,7 +6,9 @@ export default class GenTypescriptModel extends CodegenStep {
     constructor(schema: Node);
     gen(): CodegenFile;
     private getDataShapeCode;
-    private getImportCode;
+    private collectImports;
+    private getIdFieldImports;
+    private getEdgeImports;
     private getFieldCode;
     private getEdgeCode;
     private getFromMethodInvocation;
