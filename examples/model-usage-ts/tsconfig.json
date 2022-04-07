@@ -10,10 +10,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "baseUrl": "./src/",
-    "declaration": true,
-    "paths": {
-      "@strut/model/*": ["../../model/lib/*"]
-    }
+    "declaration": true
   },
   "include": ["./src/"]
 }

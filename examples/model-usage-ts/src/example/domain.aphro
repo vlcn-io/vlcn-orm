@@ -30,13 +30,9 @@ Slide as Node {
   components: Edge<Component.slideId>
 }
 
-Component as NodeTrait {
+Component as Node {
+  id: ID<Component>
+  subtype: Enumeration<Text | Embed>
   slideId: ID<Slide>
-}
-
-TextComponent as Node {
-  id: ID<TextComponent>
   content: string
-} & Traits {
-  Component
 }
