@@ -1,7 +1,10 @@
-// SIGNED-SOURCE: <04957a0777ba0c89d729b62fcf3863d1>
+// SIGNED-SOURCE: <2236fed9134b9bbfb85cfd803153aa98>
 import { ModelSpec } from "@aphro/model-runtime-ts";
 import { default as UserSpec } from "./UserSpec.js";
 import { default as SlideSpec } from "./SlideSpec.js";
+import Deck from "./Deck.js";
+import { Data } from "./Deck.js";
+import { default as DeckSpec } from "./DeckSpec.js";
 
 const spec: ModelSpec<Data> = {
   createFrom(data: Data) {
@@ -16,8 +19,20 @@ const spec: ModelSpec<Data> = {
   },
 
   outboundEdges: {
-    owner: "",
-    slides: "",
+    owner: {
+      type: "field",
+      sourceField: "ownerId",
+      destField: "id",
+      source: DeckSpec,
+      dest: UserSpec,
+    },
+    slides: {
+      type: "foreignKey",
+      sourceField: "id",
+      destField: "deckId",
+      source: DeckSpec,
+      dest: SlideSpec,
+    },
   },
 };
 

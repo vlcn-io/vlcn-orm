@@ -1,4 +1,4 @@
-import { ID, Import, Node } from '@aphro/schema-api';
+import { Field, ID, Import, Node } from '@aphro/schema-api';
 
 const inboundEdges = {
   isForeignKeyEdge() {},
@@ -46,5 +46,14 @@ export default {
     };
 
     typeConfig.decorators?.push(decoration);
+  },
+
+  primaryKey(node: Node): Field {
+    // TODO: support different primary key fields at some point
+    return node.fields.id;
+  },
+
+  specName(nodeName: string): string {
+    return nodeName + 'Spec';
   },
 };

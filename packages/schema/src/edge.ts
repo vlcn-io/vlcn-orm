@@ -1,8 +1,15 @@
 import { nullthrows } from '@strut/utils';
-import { EdgeDeclaration, EdgeReferenceDeclaration, ID, Node } from '@aphro/schema-api';
+import {
+  EdgeDeclaration,
+  EdgeReferenceDeclaration,
+  ID,
+  Node,
+  EdgeType,
+  Field,
+} from '@aphro/schema-api';
 import nodeFn from './node.js';
 
-export default {
+const funcs = {
   queryTypeName(node: Node, edge: EdgeDeclaration | EdgeReferenceDeclaration): string {
     switch (edge.type) {
       case 'edge':
@@ -63,7 +70,7 @@ export default {
   },
 
   destModelSpecName(src: Node, edge: EdgeDeclaration | EdgeReferenceDeclaration): string {
-    return this.destModelTypeName(src, edge) + 'Spec';
+    return nodeFn.specName(funcs.destModelTypeName(src, edge));
   },
 
   isThrough(edge: EdgeDeclaration): boolean {
@@ -84,6 +91,73 @@ export default {
     return edge.throughOrTo.type !== node.name && edge.throughOrTo.column != null;
   },
 
+  outboundEdgeType(node: Node, edge: EdgeDeclaration): EdgeType {
+    // What if we're a foreign key to ourselves?
+    // Foo.fooId as field edge is to one foo.
+    // Foo.fooId as foreign key is Foo tot many foos
+    // We'd need more info to know if foreign key to self or not.
+    //
+    // other options:
+    // Type is self.
+    // column exists and is not primary key.
+    // -> Field edge.
+    //
+    // Type is self.
+    // column does not exist or is priamry key.
+    // -> Junction edge
+    //
+    // Type is not self.
+    // column exists and is not primary key.
+    // -> foreign key
+    //
+    // Type is not self.
+    // column does not exist or is primary key
+    // -> Junction edge
+
+    const column = edge.throughOrTo.column;
+
+    if (edge.throughOrTo.type === node.name) {
+      if (column != null) {
+        return 'field';
+      }
+
+      return 'junction';
+    }
+
+    if (column != null) {
+      return 'foreignKey';
+    }
+
+    return 'junction';
+  },
+
+  outboundEdgeSourceField(src: Node, edge: EdgeDeclaration): Field {
+    const type = funcs.outboundEdgeType(src, edge);
+    switch (type) {
+      case 'field':
+        return src.fields[nullthrows(edge.throughOrTo.column)];
+      case 'junction':
+        return nodeFn.primaryKey(src);
+      case 'foreignKey':
+        return nodeFn.primaryKey(src);
+    }
+  },
+
+  outboundEdgeDestFieldName(src: Node, edge: EdgeDeclaration): string {
+    const type = funcs.outboundEdgeType(src, edge);
+    // TODO: we need access to the destination definitions if we're
+    // to look up primary keys.
+    // Or the user must explicitly provide this info in their schem definition
+    switch (type) {
+      case 'field':
+        return 'id';
+      case 'junction':
+        return 'id';
+      case 'foreignKey':
+        return nullthrows(edge.throughOrTo.column);
+    }
+  },
+
   idField(node: Node, edge: EdgeDeclaration): ID {
     const field = node.fields[nullthrows(edge.throughOrTo.column)];
     if (field.type === 'id') {
@@ -95,3 +169,5 @@ export default {
     );
   },
 };
+
+export default funcs;

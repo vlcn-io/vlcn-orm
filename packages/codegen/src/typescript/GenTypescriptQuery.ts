@@ -67,7 +67,7 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
       tsImport('{SID_of}', null, '@strut/sid'),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
       tsImport('{Data}', null, `./${this.schema.name}.js`),
-      tsImport('{spec}', null, `./${this.schema.name}.js`),
+      tsImport('{default}', 'spec', `./${nodeFn.specName(this.schema.name)}.js`),
       ...this.getIdFieldImports(),
       ...this.getEdgeImports(),
     ];

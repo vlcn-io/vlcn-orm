@@ -61,6 +61,8 @@ export type EdgeSpec =
       destField: string;
     } & EdgeSpecBase);
 
+export type EdgeType = EdgeSpec['type'];
+
 type TypeConfig = {
   name: 'typeConfig';
 } & MaybeDecoratored;

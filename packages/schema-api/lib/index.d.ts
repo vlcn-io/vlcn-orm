@@ -53,6 +53,7 @@ export declare type EdgeSpec = ({
     sourceField: string;
     destField: string;
 } & EdgeSpecBase);
+export declare type EdgeType = EdgeSpec['type'];
 declare type TypeConfig = {
     name: 'typeConfig';
 } & MaybeDecoratored;

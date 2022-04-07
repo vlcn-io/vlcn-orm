@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <2b722aab1843e39e6d63bce469d9e272>
+// SIGNED-SOURCE: <816e6d1e4f5ce047aea145dd0253d716>
 import { DerivedQuery } from "@aphro/query-runtime-ts";
 import { QueryFactory } from "@aphro/query-runtime-ts";
 import { modelLoad } from "@aphro/query-runtime-ts";
@@ -9,7 +9,7 @@ import { ModelFieldGetter } from "@aphro/query-runtime-ts";
 import { SID_of } from "@strut/sid";
 import Slide from "./Slide.js";
 import { Data } from "./Slide.js";
-import { spec } from "./Slide.js";
+import { default as spec } from "./SlideSpec.js";
 import Deck from "./Deck.js";
 import { default as ComponentSpec } from "./ComponentSpec.js";
 import ComponentQuery from "./ComponentQuery";

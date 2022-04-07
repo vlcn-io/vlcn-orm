@@ -1,5 +1,5 @@
 import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
-import { edgeFn, tsImport } from '@aphro/schema';
+import { edgeFn, nodeFn, tsImport } from '@aphro/schema';
 import { EdgeDeclaration, EdgeReferenceDeclaration, Import, Node } from '@aphro/schema-api';
 import { importsToString } from './tsUtils.js';
 import TypescriptFile from './TypescriptFile.js';
@@ -14,10 +14,10 @@ export default class GenTypescriptSpec extends CodegenStep {
   }
 
   gen(): CodegenFile {
+    const imports = this.collectImports();
     return new TypescriptFile(
       this.schema.name + 'Spec.ts',
-      `import {ModelSpec} from '@aphro/model-runtime-ts';
-${importsToString(this.getEdgeImports())}
+      `${importsToString(imports)}
 
 ${this.getSpecCode()}
 `,
@@ -46,6 +46,20 @@ export default spec;
 `;
   }
 
+  private collectImports(): Import[] {
+    return [
+      tsImport('{ModelSpec}', null, '@aphro/model-runtime-ts'),
+      ...this.getEdgeImports(),
+      tsImport(this.schema.name, null, `./${this.schema.name}.js`),
+      tsImport('{Data}', null, `./${this.schema.name}.js`),
+      tsImport(
+        '{default}',
+        nodeFn.specName(this.schema.name),
+        `./${nodeFn.specName(this.schema.name)}.js`,
+      ),
+    ];
+  }
+
   private getOutboundEdgeSpecCode(): string {
     return Object.values(this.schema.extensions.outboundEdges?.edges || [])
       .map(edge => edge.name + ': ' + this.getSpecForEdge(edge))
@@ -53,7 +67,44 @@ export default spec;
   }
 
   private getSpecForEdge(edge: EdgeDeclaration | EdgeReferenceDeclaration): string {
-    return '""';
+    // reference declaration would just reference the generated junction spec
+    // and otherwise we declare an inline spec
+    if (edge.type === 'edgeReference') {
+      throw new Error('Edge references not yet supported');
+    }
+    const edgeType = edgeFn.outboundEdgeType(this.schema, edge);
+    const sourceField = edgeFn.outboundEdgeSourceField(this.schema, edge).name;
+    const destField = edgeFn.outboundEdgeDestFieldName(this.schema, edge);
+    const sourceType = nodeFn.specName(this.schema.name);
+    const destType = edgeFn.destModelSpecName(this.schema, edge);
+
+    switch (edgeType) {
+      case 'field':
+        return `{
+          type: '${edgeType}',
+          sourceField: '${sourceField}',
+          destField: '${destField}',
+          source: ${sourceType},
+          dest: ${destType},
+        }`;
+      case 'junction':
+        return `{
+          type: '${edgeType}',
+          storage: {},
+          sourceField: '${sourceField}',
+          destField: '${destField}',
+          source: ${sourceType},
+          dest: ${destType},
+        }`;
+      case 'foreignKey':
+        return `{
+          type: '${edgeType}',
+          sourceField: '${sourceField}',
+          destField: '${destField}',
+          source: ${sourceType},
+          dest: ${destType}
+        }`;
+    }
   }
 
   private getEdgeImports(): Import[] {

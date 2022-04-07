@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <e0988ea6ebf5dd6c289f3b053fea55ca>
+// SIGNED-SOURCE: <ae39baafcd5b06394e070276ada00e67>
 import { DerivedQuery } from "@aphro/query-runtime-ts";
 import { QueryFactory } from "@aphro/query-runtime-ts";
 import { modelLoad } from "@aphro/query-runtime-ts";
@@ -9,7 +9,7 @@ import { ModelFieldGetter } from "@aphro/query-runtime-ts";
 import { SID_of } from "@strut/sid";
 import TextComponent from "./TextComponent.js";
 import { Data } from "./TextComponent.js";
-import { spec } from "./TextComponent.js";
+import { default as spec } from "./TextComponentSpec.js";
 
 export default class TextComponentQuery extends DerivedQuery<TextComponent> {
   static create() {

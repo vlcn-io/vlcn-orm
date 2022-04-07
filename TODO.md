@@ -1,0 +1,3 @@
+- Allow imports in schemas
+- Pass around loaded schema list so we can validate edges point to real things
+- re-visit EdgeFn and NodeFn functions

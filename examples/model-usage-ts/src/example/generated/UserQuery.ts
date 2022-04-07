@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a56cb91be9f38222963f78c081bda31a>
+// SIGNED-SOURCE: <29c2c97944687887543f7f2f72d14707>
 import { DerivedQuery } from "@aphro/query-runtime-ts";
 import { QueryFactory } from "@aphro/query-runtime-ts";
 import { modelLoad } from "@aphro/query-runtime-ts";
@@ -9,7 +9,7 @@ import { ModelFieldGetter } from "@aphro/query-runtime-ts";
 import { SID_of } from "@strut/sid";
 import User from "./User.js";
 import { Data } from "./User.js";
-import { spec } from "./User.js";
+import { default as spec } from "./UserSpec.js";
 import { default as DeckSpec } from "./DeckSpec.js";
 import DeckQuery from "./DeckQuery";
 
