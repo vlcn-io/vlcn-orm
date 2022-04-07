@@ -11,10 +11,11 @@ const factory = {
                 throw new Error(spec.storage.type + ' is not yet supported');
         }
     },
-    createHopQueryFor(priorQuery, sourceSpec, destSpec) {
+    // TODO: get types into the edge specs so our hop and have types?
+    createHopQueryFor(priorQuery, edge) {
         // SQLHopQuery and so on
-        if (destSpec.storage.type === 'sql') {
-            return SQLHopQuery.create(priorQuery, sourceSpec, destSpec);
+        if (edge.dest.storage.type === 'sql') {
+            return SQLHopQuery.create(priorQuery, edge);
         }
         throw new Error('Unimplemented hop');
     },

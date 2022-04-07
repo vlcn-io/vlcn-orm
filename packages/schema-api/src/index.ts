@@ -41,17 +41,22 @@ export type NodeSpec = {
 };
 
 type EdgeSpecBase = {
-  sourceType: NodeSpec;
-  destType: NodeSpec;
+  source: NodeSpec;
+  dest: NodeSpec;
 };
 
-type EdgeSpec =
+export type EdgeSpec =
   | ({
       type: 'junction';
       storage: StorageConfig;
     } & EdgeSpecBase)
   | ({
       type: 'field';
+      sourceField: string;
+      destField: string;
+    } & EdgeSpecBase)
+  | ({
+      type: 'foreignKey';
       sourceField: string;
       destField: string;
     } & EdgeSpecBase);

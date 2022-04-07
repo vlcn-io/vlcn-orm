@@ -197,24 +197,12 @@ static from${upcaseAt(column, 0)}(id: SID_of<${field.of}>) {
   }
 
   private getHopMethodForFieldLikeEdge(edge: EdgeDeclaration): string {
-    let hopOperation = '';
-    // are we through a field on our own type?
-    if (edgeFn.isThroughNode(this.schema, edge)) {
-      hopOperation = `whereId(P.equals(this.${edge.throughOrTo.column}))`;
-    } else {
-      // we are through a field on the dest node.
-      hopOperation = `where${upcaseAt(nullthrows(edge.throughOrTo.column), 0)}(P.equals(this.id))`;
-    }
-
     return `return new ${edgeFn.queryTypeName(
       this.schema,
       edge,
-    )}(QueryFactory.createHopQueryFor(this, spec, ${edgeFn.destModelTypeName(
-      this.schema,
-      edge,
-    )}Spec),
+    )}(QueryFactory.createHopQueryFor(this, spec.outboundEdges.${edge.name}),
       modelLoad(${edgeFn.destModelTypeName(this.schema, edge)}Spec.createFrom),
-      ).${hopOperation};`;
+    );`;
   }
 
   /*

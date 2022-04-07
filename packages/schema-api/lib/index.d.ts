@@ -38,10 +38,10 @@ export declare type NodeSpec = {
     };
 };
 declare type EdgeSpecBase = {
-    sourceType: NodeSpec;
-    destType: NodeSpec;
+    source: NodeSpec;
+    dest: NodeSpec;
 };
-declare type EdgeSpec = ({
+export declare type EdgeSpec = ({
     type: 'junction';
     storage: StorageConfig;
 } & EdgeSpecBase) | ({

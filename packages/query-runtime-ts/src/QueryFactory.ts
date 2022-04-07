@@ -1,4 +1,5 @@
 import { ModelSpec } from '@aphro/model-runtime-ts';
+import { EdgeSpec } from '@aphro/schema-api';
 import { DerivedQuery, HopQuery, Query } from './Query.js';
 import SQLHopQuery from './sql/SqlHopQuery.js';
 import SQLSourceQuery from './sql/SqlSourceQuery.js';
@@ -15,14 +16,11 @@ const factory = {
     }
   },
 
-  createHopQueryFor<TDest>(
-    priorQuery: DerivedQuery<any>,
-    sourceSpec: ModelSpec<any>,
-    destSpec: ModelSpec<TDest>,
-  ): HopQuery<any, TDest> {
+  // TODO: get types into the edge specs so our hop and have types?
+  createHopQueryFor<TDest>(priorQuery: DerivedQuery<any>, edge: EdgeSpec): HopQuery<any, any> {
     // SQLHopQuery and so on
-    if (destSpec.storage.type === 'sql') {
-      return SQLHopQuery.create(priorQuery, sourceSpec, destSpec);
+    if (edge.dest.storage.type === 'sql') {
+      return SQLHopQuery.create(priorQuery, edge);
     }
 
     throw new Error('Unimplemented hop');

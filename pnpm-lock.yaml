@@ -199,6 +199,7 @@ importers:
   packages/query-runtime-ts:
     specifiers:
       '@aphro/model-runtime-ts': workspace:*
+      '@aphro/schema-api': workspace:*
       '@babel/core': ^7.17.8
       '@babel/preset-env': ^7.16.11
       '@strut/counter': workspace:*
@@ -212,6 +213,7 @@ importers:
       typescript: ^4.6.2
     dependencies:
       '@aphro/model-runtime-ts': link:../model-runtime-ts
+      '@aphro/schema-api': link:../schema-api
       '@strut/counter': link:../../mono/typescript/packages/counter
       '@strut/events': link:../../mono/typescript/packages/events
       '@strut/sid': link:../../mono/typescript/packages/sid

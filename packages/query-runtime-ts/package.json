@@ -5,6 +5,7 @@
   "type": "module",
   "dependencies": {
     "@aphro/model-runtime-ts": "workspace:*",
+    "@aphro/schema-api": "workspace:*",
     "@strut/counter": "workspace:*",
     "@strut/events": "workspace:*",
     "@strut/sid": "workspace:*",
