@@ -4,9 +4,11 @@ import * as fs from 'fs';
 import GenTypescriptQuery from './typescript/GenTypescriptQuery.js';
 import GenMySqlTableSchema from './mysql/GenMySQLTableSchema.js';
 import GenPostgresTableSchema from './postgres/GenPostgresTableSchema.js';
+import GenTypescriptSpec from './typescript/GenTypescriptSpec.js';
 const defaultSteps = [
     GenTypescriptModel,
     GenTypescriptQuery,
+    GenTypescriptSpec,
     GenMySqlTableSchema,
     GenPostgresTableSchema,
 ];

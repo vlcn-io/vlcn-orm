@@ -48,6 +48,10 @@ export declare type EdgeSpec = ({
     type: 'field';
     sourceField: string;
     destField: string;
+} & EdgeSpecBase) | ({
+    type: 'foreignKey';
+    sourceField: string;
+    destField: string;
 } & EdgeSpecBase);
 declare type TypeConfig = {
     name: 'typeConfig';

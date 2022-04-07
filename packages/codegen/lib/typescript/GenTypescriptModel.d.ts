@@ -9,6 +9,5 @@ export default class GenTypescriptModel extends CodegenStep {
     private getImportCode;
     private getFieldCode;
     private getEdgeCode;
-    private getSpecCode;
     private getFromMethodInvocation;
 }

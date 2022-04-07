@@ -17,7 +17,7 @@ export default class GenTypescriptModel extends CodegenStep {
   gen(): CodegenFile {
     return new TypescriptFile(
       this.schema.name + '.ts',
-      `import {Model, ModelSpec} from '@aphro/model-runtime-ts';
+      `import {Model} from '@aphro/model-runtime-ts';
 import {SID_of} from '@strut/sid';
 ${this.getImportCode()}
 
@@ -29,8 +29,6 @@ export default class ${this.schema.name}
   ${this.getFieldCode()}
   ${this.getEdgeCode()}
 }
-
-${this.getSpecCode()}
 `,
     );
   }
@@ -114,29 +112,6 @@ ${this.getSpecCode()}
 
     // TODO: static inbound edge defs
   }
-
-  private getSpecCode(): string {
-    return `
-    export const spec: ModelSpec<Data> = {
-      createFrom(data: Data) {
-        return new ${this.schema.name}(data);
-      },
-
-      storage: {
-        engine: "${this.schema.storage.engine}",
-        db: "${this.schema.storage.db}",
-        type: "${this.schema.storage.type}",
-        tablish: "${this.schema.storage.tablish}",
-      }
-    }
-    `;
-  }
-
-  // private getOutboundEdgeSpecCode(): string {
-  //   return Object.values(this.schema.extensions.outboundEdges?.edges || [])
-  //     .map(edge => edge.name + ': ' + JSON.stringify(edgeFn.asSpec(this.schema, edge)))
-  //     .join('\n');
-  // }
 
   // inbound edges would be static methods
   private getFromMethodInvocation(

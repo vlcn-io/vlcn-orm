@@ -147,9 +147,9 @@ static from${upcaseAt(column, 0)}(id: SID_of<${field.of}>) {
       )
       .flatMap(edge => [
         tsImport(
-          '{spec}',
-          `${edgeFn.destModelTypeName(this.schema, edge)}Spec`,
-          `./${edgeFn.destModelTypeName(this.schema, edge)}`,
+          '{default}',
+          `${edgeFn.destModelSpecName(this.schema, edge)}`,
+          `./${edgeFn.destModelSpecName(this.schema, edge)}.js`,
         ),
         tsImport(
           edgeFn.queryTypeName(this.schema, edge),

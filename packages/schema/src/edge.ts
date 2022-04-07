@@ -62,6 +62,10 @@ export default {
     return field.of;
   },
 
+  destModelSpecName(src: Node, edge: EdgeDeclaration | EdgeReferenceDeclaration): string {
+    return this.destModelTypeName(src, edge) + 'Spec';
+  },
+
   isThrough(edge: EdgeDeclaration): boolean {
     return edge.throughOrTo.column != null;
   },

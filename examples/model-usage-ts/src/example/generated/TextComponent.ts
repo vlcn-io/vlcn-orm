@@ -1,5 +1,5 @@
-// SIGNED-SOURCE: <67b88121f0596351cf6e979c93923843>
-import { Model, Spec } from "@aphro/model-runtime-ts";
+// SIGNED-SOURCE: <6dc8d22e5042469b48f989373c6fcae6>
+import { Model } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
 
 export type Data = {
@@ -16,16 +16,3 @@ export default class TextComponent extends Model<Data> {
     return this.data.content;
   }
 }
-
-export const spec: Spec<Data> = {
-  createFrom(data: Data) {
-    return new TextComponent(data);
-  },
-
-  storageDescriptor: {
-    engine: "postgres",
-    db: "example",
-    type: "sql",
-    tablish: "textcomponent",
-  },
-};

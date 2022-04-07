@@ -6,6 +6,7 @@ import GenTypescriptQuery from './typescript/GenTypescriptQuery.js';
 import GenMySqlTableSchema from './mysql/GenMySQLTableSchema.js';
 import GenPostgresTableSchema from './postgres/GenPostgresTableSchema.js';
 import { Node, Edge } from '@aphro/schema-api';
+import GenTypescriptSpec from './typescript/GenTypescriptSpec.js';
 
 type Step = {
   new (x: Node | Edge): CodegenStep;
@@ -15,6 +16,7 @@ type Step = {
 const defaultSteps: readonly Step[] = [
   GenTypescriptModel,
   GenTypescriptQuery,
+  GenTypescriptSpec,
   GenMySqlTableSchema,
   GenPostgresTableSchema,
 ];

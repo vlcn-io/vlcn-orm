@@ -1,5 +1,5 @@
-// SIGNED-SOURCE: <67286ba7eb0fe202c014144a6ef87aff>
-import { Model, Spec } from "@aphro/model-runtime-ts";
+// SIGNED-SOURCE: <214996253c19e30e112826d80eb2e576>
+import { Model } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
 import UserQuery from "./UserQuery.js";
 import SlideQuery from "./SlideQuery.js";
@@ -46,16 +46,3 @@ export default class Deck extends Model<Data> {
     return SlideQuery.fromDeckId(this.id);
   }
 }
-
-export const spec: Spec<Data> = {
-  createFrom(data: Data) {
-    return new Deck(data);
-  },
-
-  storageDescriptor: {
-    engine: "postgres",
-    db: "example",
-    type: "sql",
-    tablish: "deck",
-  },
-};

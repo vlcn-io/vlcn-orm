@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a8147677cbf621ac967534c94c569a5e>
+// SIGNED-SOURCE: <a56cb91be9f38222963f78c081bda31a>
 import { DerivedQuery } from "@aphro/query-runtime-ts";
 import { QueryFactory } from "@aphro/query-runtime-ts";
 import { modelLoad } from "@aphro/query-runtime-ts";
@@ -10,7 +10,7 @@ import { SID_of } from "@strut/sid";
 import User from "./User.js";
 import { Data } from "./User.js";
 import { spec } from "./User.js";
-import { spec as DeckSpec } from "./Deck";
+import { default as DeckSpec } from "./DeckSpec.js";
 import DeckQuery from "./DeckQuery";
 
 export default class UserQuery extends DerivedQuery<User> {
@@ -54,8 +54,8 @@ export default class UserQuery extends DerivedQuery<User> {
   }
   queryDecks(): DeckQuery {
     return new DeckQuery(
-      QueryFactory.createHopQueryFor(this, spec, DeckSpec),
+      QueryFactory.createHopQueryFor(this, spec.outboundEdges.decks),
       modelLoad(DeckSpec.createFrom)
-    ).whereOwnerId(P.equals(this.id));
+    );
   }
 }
