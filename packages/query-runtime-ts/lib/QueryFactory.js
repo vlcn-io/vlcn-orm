@@ -4,16 +4,16 @@ import SQLSourceQuery from './sql/SqlSourceQuery.js';
 // the native platform.
 const factory = {
     createSourceQueryFor(spec) {
-        switch (spec.storageDescriptor.type) {
+        switch (spec.storage.type) {
             case 'sql':
                 return new SQLSourceQuery(spec);
             default:
-                throw new Error(spec.storageDescriptor.type + ' is not yet supported');
+                throw new Error(spec.storage.type + ' is not yet supported');
         }
     },
     createHopQueryFor(priorQuery, sourceSpec, destSpec) {
         // SQLHopQuery and so on
-        if (destSpec.storageDescriptor.type === 'sql') {
+        if (destSpec.storage.type === 'sql') {
             return SQLHopQuery.create(priorQuery, sourceSpec, destSpec);
         }
         throw new Error('Unimplemented hop');

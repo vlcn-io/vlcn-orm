@@ -31,6 +31,24 @@ export declare type Node = {
     };
     storage: StorageConfig;
 };
+export declare type NodeSpec = {
+    readonly storage: StorageConfig;
+    readonly outboundEdges: {
+        [key: string]: EdgeSpec;
+    };
+};
+declare type EdgeSpecBase = {
+    sourceType: NodeSpec;
+    destType: NodeSpec;
+};
+declare type EdgeSpec = ({
+    type: 'junction';
+    storage: StorageConfig;
+} & EdgeSpecBase) | ({
+    type: 'field';
+    sourceField: string;
+    destField: string;
+} & EdgeSpecBase);
 declare type TypeConfig = {
     name: 'typeConfig';
 } & MaybeDecoratored;

@@ -12,14 +12,14 @@ export default class SQLHopQuery extends HopQuery {
     }
 }
 function createExpression(sourceSpec, destSpec) {
-    if (sourceSpec.storageDescriptor.type === 'sql') {
-        invariant(destSpec.storageDescriptor.type === 'sql', 'SQLHopQuery created for non-sql destination');
+    if (sourceSpec.storage.type === 'sql') {
+        invariant(destSpec.storage.type === 'sql', 'SQLHopQuery created for non-sql destination');
         // If we're the same storage on the same DB, we can use a join expression
-        if (sourceSpec.storageDescriptor.db === destSpec.storageDescriptor.db) {
-            return createJoinExpression(sourceSpec.storageDescriptor, destSpec.storageDescriptor);
+        if (sourceSpec.storage.db === destSpec.storage.db) {
+            return createJoinExpression(sourceSpec.storage, destSpec.storage);
         }
     }
-    return createChainedHopExpression(sourceSpec.storageDescriptor, destSpec.storageDescriptor);
+    return createChainedHopExpression(sourceSpec.storage, destSpec.storage);
 }
 function createJoinExpression(sourceDescriptor, destDescriptor) {
     throw new Error('Join not yet supported');

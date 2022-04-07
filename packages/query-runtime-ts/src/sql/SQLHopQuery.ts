@@ -1,7 +1,7 @@
 import { invariant } from '@strut/utils';
 import { HopExpression } from '../Expression.js';
 import { HopQuery, Query } from '../Query.js';
-import { Spec, StorageConfig } from '@aphro/model-runtime-ts';
+import { ModelSpec, StorageConfig } from '@aphro/model-runtime-ts';
 
 export default class SQLHopQuery<TIn, TOut> extends HopQuery<TIn, TOut> {
   /*
@@ -9,29 +9,30 @@ export default class SQLHopQuery<TIn, TOut> extends HopQuery<TIn, TOut> {
   We'll take source and see what the source is to determine what HOP
   expression to construct?
   */
-  static create<TIn, TOut>(sourceQuery: Query<TIn>, sourceSpec: Spec<TIn>, destSpec: Spec<TOut>) {
+  static create<TIn, TOut>(
+    sourceQuery: Query<TIn>,
+    sourceSpec: ModelSpec<TIn>,
+    destSpec: ModelSpec<TOut>,
+  ) {
     // based on source and dest spec, determine the appropriate hop expression
     return new SQLHopQuery(sourceQuery, createExpression(sourceSpec, destSpec));
   }
 }
 
 function createExpression<TIn, TOut>(
-  sourceSpec: Spec<TIn>,
-  destSpec: Spec<TOut>,
+  sourceSpec: ModelSpec<TIn>,
+  destSpec: ModelSpec<TOut>,
 ): HopExpression<TIn, TOut> {
-  if (sourceSpec.storageDescriptor.type === 'sql') {
-    invariant(
-      destSpec.storageDescriptor.type === 'sql',
-      'SQLHopQuery created for non-sql destination',
-    );
+  if (sourceSpec.storage.type === 'sql') {
+    invariant(destSpec.storage.type === 'sql', 'SQLHopQuery created for non-sql destination');
 
     // If we're the same storage on the same DB, we can use a join expression
-    if (sourceSpec.storageDescriptor.db === destSpec.storageDescriptor.db) {
-      return createJoinExpression(sourceSpec.storageDescriptor, destSpec.storageDescriptor);
+    if (sourceSpec.storage.db === destSpec.storage.db) {
+      return createJoinExpression(sourceSpec.storage, destSpec.storage);
     }
   }
 
-  return createChainedHopExpression(sourceSpec.storageDescriptor, destSpec.storageDescriptor);
+  return createChainedHopExpression(sourceSpec.storage, destSpec.storage);
 }
 
 function createJoinExpression<TIn, TOut>(

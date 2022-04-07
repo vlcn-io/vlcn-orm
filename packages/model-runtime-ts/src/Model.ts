@@ -2,6 +2,7 @@ type Disposer = () => void;
 import { SID_of } from '@strut/sid';
 import { typedKeys } from '@strut/utils';
 import { Changeset } from './Changeset.js';
+import { NodeSpec } from '@aphro/schema-api';
 
 export interface IModel<T extends Object> {
   change(newData: Partial<T>): Changeset<this, T> | null;
@@ -14,18 +15,9 @@ export interface IModel<T extends Object> {
   _get<K extends keyof T>(key: K): T[K];
 }
 
-export type Spec<T extends Object> = {
+export type ModelSpec<T extends Object> = {
   createFrom(data: T): IModel<T>;
-  readonly storageDescriptor: StorageConfig;
-};
-
-export type StorageConfig = {
-  type: 'sql';
-  db: string;
-  tablish: string;
-  engine: StorageEngine;
-};
-type StorageEngine = 'postgres' | 'mysql'; // | maria | neo4j | redis ...
+} & NodeSpec;
 
 export interface HasId {
   readonly id: SID_of<this>;

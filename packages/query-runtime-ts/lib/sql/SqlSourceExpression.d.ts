@@ -11,14 +11,14 @@ export declare type HoistedOperations = {
     hop?: ReturnType<typeof hop>;
     what: 'model' | 'ids' | 'edges' | 'count';
 };
-import { Spec } from '@aphro/model-runtime-ts';
+import { ModelSpec } from '@aphro/model-runtime-ts';
 export interface SQLResult {
 }
 export default class SQLSourceExpression<T> implements SourceExpression<T> {
     #private;
     private spec;
     private hoistedOperations;
-    constructor(spec: Spec<T>, hoistedOperations: HoistedOperations);
+    constructor(spec: ModelSpec<T>, hoistedOperations: HoistedOperations);
     get iterable(): ChunkIterable<T>;
     optimize(plan: Plan, nextHop?: HopPlan): Plan;
 }

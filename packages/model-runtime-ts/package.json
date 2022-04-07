@@ -4,6 +4,7 @@
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
+    "@aphro/schema-api": "workspace:*",
     "@strut/counter": "workspace:*",
     "@strut/events": "workspace:*",
     "@strut/sid": "workspace:*",
