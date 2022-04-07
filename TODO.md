@@ -1,3 +1,4 @@
+- db resolution from name
 - Fluent API for codegen and better handling of tsimport (e.g., .js , ./ concatenation)
 - Strike unused imports
 - Allow imports in schema files

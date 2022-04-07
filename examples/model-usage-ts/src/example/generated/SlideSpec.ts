@@ -1,9 +1,8 @@
-// SIGNED-SOURCE: <4332da427d3e50e331e8b23721a59caa>
+// SIGNED-SOURCE: <19b70dfea6be35576f055895f6b4f152>
 import { ModelSpec } from "@aphro/model-runtime-ts";
 import { default as ComponentSpec } from "./ComponentSpec.js";
 import Slide from "./Slide.js";
 import { Data } from "./Slide.js";
-import { default as SlideSpec } from "./SlideSpec.js";
 
 const spec: ModelSpec<Data> = {
   createFrom(data: Data) {
@@ -22,7 +21,9 @@ const spec: ModelSpec<Data> = {
       type: "foreignKey",
       sourceField: "id",
       destField: "slideId",
-      source: SlideSpec,
+      get source() {
+        return spec;
+      },
       dest: ComponentSpec,
     },
   },

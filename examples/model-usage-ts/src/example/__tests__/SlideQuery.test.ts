@@ -9,4 +9,5 @@ import SlideQuery from '../generated/SlideQuery.js';
 test('Query from id', () => {
   const plan = SlideQuery.fromId(sid('foo')).plan();
   console.log(plan);
+  console.log(plan.optimize());
 });

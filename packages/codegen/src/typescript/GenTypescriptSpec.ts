@@ -57,7 +57,7 @@ export default spec;
         nodeFn.specName(this.schema.name),
         `./${nodeFn.specName(this.schema.name)}.js`,
       ),
-    ];
+    ].filter(i => i.as !== nodeFn.specName(this.schema.name));
   }
 
   private getOutboundEdgeSpecCode(): string {
@@ -75,7 +75,7 @@ export default spec;
     const edgeType = edgeFn.outboundEdgeType(this.schema, edge);
     const sourceField = edgeFn.outboundEdgeSourceField(this.schema, edge).name;
     const destField = edgeFn.outboundEdgeDestFieldName(this.schema, edge);
-    const sourceType = nodeFn.specName(this.schema.name);
+    const sourceFn = 'get source() { return spec; }';
     const destType = edgeFn.destModelSpecName(this.schema, edge);
 
     switch (edgeType) {
@@ -84,7 +84,7 @@ export default spec;
           type: '${edgeType}',
           sourceField: '${sourceField}',
           destField: '${destField}',
-          source: ${sourceType},
+          ${sourceFn},
           dest: ${destType},
         }`;
       case 'junction':
@@ -93,7 +93,7 @@ export default spec;
           storage: {},
           sourceField: '${sourceField}',
           destField: '${destField}',
-          source: ${sourceType},
+          ${sourceFn},
           dest: ${destType},
         }`;
       case 'foreignKey':
@@ -101,7 +101,7 @@ export default spec;
           type: '${edgeType}',
           sourceField: '${sourceField}',
           destField: '${destField}',
-          source: ${sourceType},
+          ${sourceFn},
           dest: ${destType}
         }`;
     }
