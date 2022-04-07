@@ -1,4 +1,4 @@
-import { Field } from './SchemaType.js';
+import { Field } from '@aphro/schema-api';
 
 export default {
   decorate(f: Field, decoration: string) {

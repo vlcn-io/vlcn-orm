@@ -5,7 +5,8 @@ import commandLineUsage from 'command-line-usage';
 import CodegenPipleine from './CodegenPipeline.js';
 import * as process from 'process';
 import * as path from 'path';
-import { compile, SchemaFile, stopsCodegen, ValidationError } from '@aphro/schema';
+import { compile, stopsCodegen, ValidationError } from '@aphro/schema';
+import { SchemaFile } from '@aphro/schema-api';
 import chalk from 'chalk';
 
 async function run() {

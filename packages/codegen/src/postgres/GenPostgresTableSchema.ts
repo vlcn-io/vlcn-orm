@@ -1,7 +1,7 @@
 import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
-import SqlFile from '..//SqlFile.js';
+import SqlFile from '../SqlFile.js';
 import { fieldToPostgresType } from './postgresField.js';
-import { Node } from '@aphro/schema';
+import { Node } from '@aphro/schema-api';
 
 export default class GenPostgresTableSchema extends CodegenStep {
   static accepts(schema: Node): boolean {

@@ -1,5 +1,5 @@
 import { ValidationError } from '../validate.js';
-import { NodeReference, SchemaFileAst } from '../SchemaType.js';
+import { NodeReference, SchemaFileAst } from '@aphro/schema-api';
 
 export default function condenseEntities<Tc, Ta>(
   entities: {

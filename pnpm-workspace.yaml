@@ -6,6 +6,7 @@ packages:
   - 'packages/query-runtime-ts'
   - 'packages/react'
   - 'packages/schema'
+  - 'packages/schema-api'
   - 'packages/vscode'
   - 'examples/model.usage'
   - 'mono/typescript/packages/*'

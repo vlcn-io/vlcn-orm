@@ -1,6 +1,7 @@
 import { select } from '@strut/utils';
 import AphroditeIntegration from '../AphroditeIntegration.js';
-import { Node, Field, nodeFn, fieldFn, tsImport } from '@aphro/schema';
+import { nodeFn, fieldFn, tsImport } from '@aphro/schema';
+import { Node, Field } from '@aphro/schema-api';
 
 interface TypeGraphQLOptions {
   nullable: boolean;

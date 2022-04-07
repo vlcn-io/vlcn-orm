@@ -14,7 +14,7 @@ import {
   NodeExtension,
   NodeTraitAst,
   NodeAstCommon,
-} from '../SchemaType.js';
+} from '@aphro/schema-api';
 import { ValidationError } from '../validate.js';
 import { assertUnreahable } from '@strut/utils';
 

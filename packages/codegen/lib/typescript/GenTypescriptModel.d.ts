@@ -1,5 +1,5 @@
 import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
-import { Node } from '@aphro/schema';
+import { Node } from '@aphro/schema-api';
 export default class GenTypescriptModel extends CodegenStep {
     private schema;
     static accepts(_schema: Node): boolean;

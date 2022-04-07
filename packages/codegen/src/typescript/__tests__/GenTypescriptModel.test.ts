@@ -1,5 +1,5 @@
 import GenTypescriptModel from '../GenTypescriptModel.js';
-import { Node } from '@aphro/schema';
+import { Node } from '@aphro/schema-api';
 import { compileFromString } from '@aphro/schema';
 
 const IDOnlySchema = `

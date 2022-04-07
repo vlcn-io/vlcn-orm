@@ -8,11 +8,8 @@ import {
   EdgeReferenceDeclaration,
   ID,
   Import,
-  tsImport,
-} from '@aphro/schema';
-import { nodeFn } from '@aphro/schema';
-import { edgeFn } from '@aphro/schema';
-import uniqueImports from 'uniqueImports.js';
+} from '@aphro/schema-api';
+import { nodeFn, edgeFn, tsImport } from '@aphro/schema';
 import { importsToString } from './tsUtils.js';
 
 export default class GenTypescriptQuery extends CodegenStep {
@@ -219,6 +216,20 @@ static from${upcaseAt(column, 0)}(id: SID_of<${field.of}>) {
       modelLoad(${edgeFn.destModelTypeName(this.schema, edge)}Spec.createFrom),
       ).${hopOperation};`;
   }
+
+  /*
+  return new ComponentQuery(
+    QueryFactory.createHopQueryFor(this, spec, ComponentSpec, edgeDef??),
+    modelLoad(ComponentSpec.createFrom),
+  ) // --> rm this as edge def does it: .whereSlideId(P.equals(this.id));
+
+  createHopQuery should take in:
+  - source spec & field for join
+  - dest spec & field for join
+
+  Now if it is neo... we'll figure something out.
+  Maybe it is just src, dest, edge name?
+  */
 }
 
 /*

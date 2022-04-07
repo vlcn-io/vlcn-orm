@@ -1,4 +1,4 @@
-import { InboundEdgesAst, SchemaFile, SchemaFileAst } from '../../SchemaType.js';
+import { InboundEdgesAst, SchemaFile, SchemaFileAst } from '@aphro/schema-api';
 
 export const contents = `
 engine: postgres

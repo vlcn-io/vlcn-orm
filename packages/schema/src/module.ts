@@ -1,4 +1,4 @@
-import { Import } from './SchemaType';
+import { Import } from '@aphro/schema-api';
 
 export function tsImport(name: string | null, as: string | null, from: string): Import {
   return {

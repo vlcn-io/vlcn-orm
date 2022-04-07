@@ -1,4 +1,4 @@
-import { SchemaFile } from './SchemaType.js';
+import { SchemaFile } from '@aphro/schema-api';
 
 export type ValidationError = {
   message: string;

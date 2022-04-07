@@ -1,4 +1,4 @@
-import { Node } from '@aphro/schema';
+import { Node } from '@aphro/schema-api';
 import { compileFromString } from '@aphro/schema';
 import GenTypescriptQuery from '../GenTypescriptQuery';
 

@@ -2,8 +2,7 @@ import { asPropertyAccessor, upcaseAt } from '@strut/utils';
 import { fieldToTsType, importToString } from './tsUtils.js';
 import { CodegenStep } from '@aphro/codegen-api';
 import TypescriptFile from './TypescriptFile.js';
-import { nodeFn } from '@aphro/schema';
-import { edgeFn } from '@aphro/schema';
+import { nodeFn, edgeFn } from '@aphro/schema';
 export default class GenTypescriptModel extends CodegenStep {
     schema;
     static accepts(_schema) {

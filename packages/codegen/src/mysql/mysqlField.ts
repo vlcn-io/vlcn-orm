@@ -1,4 +1,4 @@
-import { Field } from '@aphro/schema';
+import { Field } from '@aphro/schema-api';
 
 export function fieldToMySqlType(field: Field): string {
   const type = field.type;

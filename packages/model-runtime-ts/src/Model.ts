@@ -14,11 +14,11 @@ export interface IModel<T extends Object> {
   _get<K extends keyof T>(key: K): T[K];
 }
 
-// TODO: move this into `schema.runtime.ts` ?
 export type Spec<T extends Object> = {
   createFrom(data: T): IModel<T>;
-  readonly storageDescriptor: StorageConfig; // | { type: "opencypher" } ...;
+  readonly storageDescriptor: StorageConfig;
 };
+
 export type StorageConfig = {
   type: 'sql';
   db: string;

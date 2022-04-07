@@ -1,5 +1,5 @@
 import { CodegenStep } from '@aphro/codegen-api';
-import SqlFile from '..//SqlFile.js';
+import SqlFile from '../SqlFile.js';
 import { fieldToPostgresType } from './postgresField.js';
 export default class GenPostgresTableSchema extends CodegenStep {
     schema;

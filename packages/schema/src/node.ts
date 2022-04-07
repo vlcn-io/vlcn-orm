@@ -1,4 +1,4 @@
-import { ID, Import, Node } from './SchemaType.js';
+import { ID, Import, Node } from '@aphro/schema-api';
 
 const inboundEdges = {
   isForeignKeyEdge() {},

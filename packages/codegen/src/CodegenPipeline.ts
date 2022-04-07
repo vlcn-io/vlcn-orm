@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import GenTypescriptQuery from './typescript/GenTypescriptQuery.js';
 import GenMySqlTableSchema from './mysql/GenMySQLTableSchema.js';
 import GenPostgresTableSchema from './postgres/GenPostgresTableSchema.js';
-import { Node, Edge } from '@aphro/schema';
+import { Node, Edge } from '@aphro/schema-api';
 
 type Step = {
   new (x: Node | Edge): CodegenStep;

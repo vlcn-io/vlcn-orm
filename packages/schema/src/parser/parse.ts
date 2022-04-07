@@ -1,6 +1,6 @@
 import grammar from './ohm/grammar.js';
 import * as fs from 'fs';
-import { SchemaFileAst } from '../SchemaType.js';
+import { SchemaFileAst } from '@aphro/schema-api';
 
 const list = (l, r) => l.toAst().concat(r.toAst());
 const listInit = _ => [];

@@ -2,9 +2,8 @@ import { asPropertyAccessor, upcaseAt } from '@strut/utils';
 import { fieldToTsType, importToString } from './tsUtils.js';
 import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
 import TypescriptFile from './TypescriptFile.js';
-import { EdgeDeclaration, EdgeReferenceDeclaration, Node } from '@aphro/schema';
-import { nodeFn } from '@aphro/schema';
-import { edgeFn } from '@aphro/schema';
+import { EdgeDeclaration, EdgeReferenceDeclaration, Node } from '@aphro/schema-api';
+import { nodeFn, edgeFn } from '@aphro/schema';
 
 export default class GenTypescriptModel extends CodegenStep {
   static accepts(_schema: Node): boolean {

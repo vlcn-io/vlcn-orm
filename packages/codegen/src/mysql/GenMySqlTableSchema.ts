@@ -1,7 +1,7 @@
 import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
 import { fieldToMySqlType } from './mysqlField.js';
 import SqlFile from '../SqlFile.js';
-import { Node } from '@aphro/schema';
+import { Node } from '@aphro/schema-api';
 
 export default class GenMySqlTableSchema extends CodegenStep {
   static accepts(schema: Node): boolean {

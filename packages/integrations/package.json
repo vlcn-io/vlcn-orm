@@ -6,6 +6,7 @@
   "dependencies": {
     "@aphro/codegen-api": "workspace:*",
     "@aphro/schema": "workspace:*",
+    "@aphro/schema-api": "workspace:*",
     "@strut/counter": "workspace:*",
     "@strut/events": "workspace:*",
     "@strut/sid": "workspace:*",

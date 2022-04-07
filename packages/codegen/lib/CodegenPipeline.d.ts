@@ -1,5 +1,5 @@
 import { CodegenStep } from '@aphro/codegen-api';
-import { Node, Edge } from '@aphro/schema';
+import { Node, Edge } from '@aphro/schema-api';
 declare type Step = {
     new (x: Node | Edge): CodegenStep;
     accepts: (x: Node | Edge) => boolean;

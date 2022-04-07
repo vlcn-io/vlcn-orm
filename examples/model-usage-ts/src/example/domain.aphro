@@ -23,7 +23,7 @@ Deck as Node {
 }
 
 Slide as Node {
-  id: ID<Slid>
+  id: ID<Slide>
   deckId: ID<Deck>
   order: float32
 } & OutboundEdges {

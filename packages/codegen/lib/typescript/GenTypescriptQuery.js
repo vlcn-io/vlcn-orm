@@ -1,9 +1,7 @@
 import { nullthrows, upcaseAt } from '@strut/utils';
 import { CodegenStep } from '@aphro/codegen-api';
 import TypescriptFile from './TypescriptFile.js';
-import { tsImport, } from '@aphro/schema';
-import { nodeFn } from '@aphro/schema';
-import { edgeFn } from '@aphro/schema';
+import { nodeFn, edgeFn, tsImport } from '@aphro/schema';
 import { importsToString } from './tsUtils.js';
 export default class GenTypescriptQuery extends CodegenStep {
     schema;
