@@ -38,7 +38,7 @@ export default class ${this.schema.name}
       field => `${asPropertyAccessor(field.name)}: ${fieldToTsType(field)}`,
     );
     return `{
-  ${fieldProps.join(',\n  ')}
+  ${fieldProps.join(',\n')}
 }`;
   }
 

@@ -2,12 +2,11 @@ import uniqueImports from '../uniqueImports.js';
 function fieldToTsType(field) {
     switch (field.type) {
         case 'id':
-            // TODO: pull in the correct id type.
-            return 'SID_of<any>';
+            return `SID_of<${field.of}>`;
         case 'naturalLanguage':
             return 'string';
         case 'enumeration':
-            return field.keys.join('|');
+            return field.keys.map(k => `'${k}'`).join('|');
         case 'currency':
         case 'timestamp':
             return 'number';

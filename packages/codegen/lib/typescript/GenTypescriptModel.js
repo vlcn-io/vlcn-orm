@@ -30,7 +30,7 @@ export default class ${this.schema.name}
     getDataShapeCode() {
         const fieldProps = Object.values(this.schema.fields).map(field => `${asPropertyAccessor(field.name)}: ${fieldToTsType(field)}`);
         return `{
-  ${fieldProps.join(',\n  ')}
+  ${fieldProps.join(',\n')}
 }`;
     }
     getImportCode() {
