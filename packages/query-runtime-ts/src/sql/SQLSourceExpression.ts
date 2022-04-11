@@ -106,7 +106,7 @@ export default class SQLSourceExpression<T> implements SourceExpression<T> {
 
     return new Plan(
       new SQLSourceExpression(this.spec, {
-        filters,
+        filters: writableFilters,
         orderBy,
         limit,
         hop,

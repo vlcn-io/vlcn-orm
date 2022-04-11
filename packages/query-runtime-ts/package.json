@@ -9,7 +9,8 @@
     "@strut/counter": "workspace:*",
     "@strut/events": "workspace:*",
     "@strut/sid": "workspace:*",
-    "@strut/utils": "workspace:*"
+    "@strut/utils": "workspace:*",
+    "knex": "^1.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
