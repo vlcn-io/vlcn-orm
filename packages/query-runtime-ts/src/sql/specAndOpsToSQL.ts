@@ -3,6 +3,7 @@ import { HoistedOperations } from './SqlSourceExpression.js';
 import knex, { Knex } from 'knex';
 import { after, before, filter, orderBy, take } from '../Expression.js';
 import SQLHopExpression from './SQLHopExpression.js';
+import { ModelFieldGetter } from 'Field.js';
 
 // given a model spec and hoisted operations, return the SQL query
 export default function specAndOpsToSQL(spec: ModelSpec<any>, ops: HoistedOperations): string {
@@ -26,7 +27,7 @@ export default function specAndOpsToSQL(spec: ModelSpec<any>, ops: HoistedOperat
   }
 
   table = applyFilters(table, ops.filters);
-  table = applyBeforeAfter(table, ops.before, ops.after);
+  table = applyBeforeAndAfter(table, ops.before, ops.after);
   table = applyOrderBy(table, ops.orderBy);
   table = applyLimit(table, ops.limit);
   table = applyHops(table, ops.hop);
@@ -50,24 +51,56 @@ function getLastSpecAndProjection(
 function applyFilters<T extends Knex.QueryBuilder>(
   table: T,
   filters?: readonly ReturnType<typeof filter>[],
-): T {
+): Knex.QueryBuilder {
   if (!filters) {
     return table;
   }
   return filters.reduce((table, filter) => {
-    return table;
+    return applyFilter(table, filter);
   }, table);
 }
 
-function applyFilter<T extends Knex.QueryBuilder>(table: T, f: ReturnType<typeof filter>): T {
-  return table;
+function applyFilter<T extends Knex.QueryBuilder>(
+  table: T,
+  f: ReturnType<typeof filter>,
+): Knex.QueryBuilder {
+  const getter = f.getter as ModelFieldGetter<any, any, any>;
+  let op: string | null = null;
+  const predicate = f.predicate;
+  switch (predicate.type) {
+    case 'equal':
+      op = '=';
+      break;
+    case 'notEqual':
+      op = '<>';
+      break;
+    case 'lessThan':
+      op = '<';
+      break;
+    case 'greaterThan':
+      op = '>';
+      break;
+    case 'lessThanOrEqual':
+      op = '<=';
+      break;
+    case 'greaterThanOrEqual':
+      op = '>=';
+      break;
+    case 'in':
+      return table.whereIn(getter.fieldName, predicate.value as any);
+    case 'notIn':
+      return table.whereNotIn(getter.fieldName, predicate.value as any);
+  }
+
+  return table.where(getter.fieldName, op, f.predicate.value as any);
 }
 
-function applyBeforeAfter<T extends Knex.QueryBuilder>(
+function applyBeforeAndAfter<T extends Knex.QueryBuilder>(
   table: T,
   b?: ReturnType<typeof before>,
   a?: ReturnType<typeof after>,
 ): T {
+  // befre and after is a between
   return table;
 }
 
