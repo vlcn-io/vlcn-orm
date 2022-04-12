@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <2d867edc2bf46a5354e9d4a1695fcb37>
+// SIGNED-SOURCE: <dd191c50688b6bb2068a2302ae8b53eb>
 import { ModelSpec } from "@aphro/model-runtime-ts";
 import { default as UserSpec } from "./UserSpec.js";
 import { default as SlideSpec } from "./SlideSpec.js";
@@ -9,6 +9,8 @@ const spec: ModelSpec<Data> = {
   createFrom(data: Data) {
     return new Deck(data);
   },
+
+  primaryKey: "id",
 
   storage: {
     engine: "postgres",

@@ -6,7 +6,10 @@ import SQLHopExpression from './SQLHopExpression.js';
 import { ModelFieldGetter } from 'Field.js';
 
 // given a model spec and hoisted operations, return the SQL query
-export default function specAndOpsToSQL(spec: ModelSpec<any>, ops: HoistedOperations): string {
+export default function specAndOpsToSQL(
+  spec: ModelSpec<any>,
+  ops: HoistedOperations,
+): Knex.QueryBuilder {
   const builder = getKnex(spec);
   let table = builder(spec.storage.tablish);
 
@@ -32,8 +35,7 @@ export default function specAndOpsToSQL(spec: ModelSpec<any>, ops: HoistedOperat
   table = applyLimit(table, ops.limit);
   table = applyHops(table, ops.hop);
 
-  return '';
-  // return sql('');
+  return table;
 }
 
 function getLastSpecAndProjection(
@@ -55,14 +57,18 @@ function applyFilters<T extends Knex.QueryBuilder>(
   if (!filters) {
     return table;
   }
+  let first = true;
   return filters.reduce((table, filter) => {
-    return applyFilter(table, filter);
+    let type: 'none' | 'and' = first ? 'none' : 'and';
+    first = false;
+    return applyFilter(table, filter, type);
   }, table);
 }
 
 function applyFilter<T extends Knex.QueryBuilder>(
   table: T,
   f: ReturnType<typeof filter>,
+  type: 'none' | 'and' | 'or',
 ): Knex.QueryBuilder {
   const getter = f.getter as ModelFieldGetter<any, any, any>;
   let op: string | null = null;
@@ -100,7 +106,9 @@ function applyBeforeAndAfter<T extends Knex.QueryBuilder>(
   b?: ReturnType<typeof before>,
   a?: ReturnType<typeof after>,
 ): T {
-  // befre and after is a between
+  // TODO: we should figure this one out... e.g., unrolling the cursors and such.
+  // should that concern be here tho?
+  // or should we just be at > or < at this level?
   return table;
 }
 

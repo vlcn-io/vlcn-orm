@@ -30,7 +30,7 @@ ${this.getSpecCode()}
     return new ${this.schema.name}(data);
   },
 
-  primaryKey: ${this.schema.primaryKey}
+  primaryKey: '${this.schema.primaryKey}',
 
   storage: {
     engine: "${this.schema.storage.engine}",

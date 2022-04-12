@@ -6,8 +6,8 @@ import SlideQuery from '../generated/SlideQuery.js';
  * lets try creating some queries and inspecting their plans.
  */
 
-test('Query from id', () => {
+test('Query from id', async () => {
   const plan = SlideQuery.fromId(sid('foo')).plan();
-  console.log(plan);
-  console.log(plan.optimize());
+  const result = await plan.iterable.gen();
+  console.log(result);
 });
