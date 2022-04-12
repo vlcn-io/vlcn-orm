@@ -17,6 +17,7 @@ export declare type SchemaFile = {
 };
 export declare type Node = {
     name: NodeAst['name'];
+    primaryKey: string;
     fields: {
         [key: UnqalifiedFieldReference]: Field;
     };
@@ -32,6 +33,7 @@ export declare type Node = {
     storage: StorageConfig;
 };
 export declare type NodeSpec = {
+    readonly primaryKey: string;
     readonly storage: StorageConfig;
     readonly outboundEdges: {
         [key: string]: EdgeSpec;

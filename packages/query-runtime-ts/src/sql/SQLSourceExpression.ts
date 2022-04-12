@@ -3,8 +3,6 @@ import {
   before,
   Expression,
   filter,
-  hop,
-  HopExpression,
   orderBy,
   SourceExpression,
   take,
@@ -21,7 +19,7 @@ export type HoistedOperations = {
   after?: ReturnType<typeof after>;
   // Points to the fully optimized hop expression
   // which can be hoisted
-  hop?: ReturnType<typeof hop>;
+  hop?: SQLHopExpression<any>;
   // What we're actually selecting.
   // Could be IDs if we can't hoist the next hop and need to load them into the server for
   // the next hop. Could be based on what the caller asked for (count / ids / edges / models).
@@ -29,6 +27,7 @@ export type HoistedOperations = {
 };
 import { ModelFieldGetter } from '../Field.js';
 import { ModelSpec } from '@aphro/model-runtime-ts';
+import SQLHopExpression from './SQLHopExpression.js';
 
 export interface SQLResult {}
 
@@ -144,9 +143,9 @@ export default class SQLSourceExpression<T> implements SourceExpression<T> {
   #optimizeHop(
     hop: HopPlan,
     thisHasRemainingExpressions: boolean,
-  ): [HopExpression<any, any> | undefined, readonly Expression[]] {
+  ): [SQLHopExpression<any> | undefined, readonly Expression[]] {
     if (this.#canHoistHop(hop, thisHasRemainingExpressions)) {
-      return [hop.hop, hop.derivations];
+      return [hop.hop as SQLHopExpression<any>, hop.derivations];
     }
 
     // can't hoist it. Just return everything as derived expressions.

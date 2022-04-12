@@ -54,6 +54,7 @@ importers:
       command-line-args: ^5.2.1
       command-line-usage: ^6.1.1
       jest: ^28.0.0-alpha.3
+      knex: ^1.0.5
       md5: ^2.3.0
       prettier: ^2.5.1
       sql-formatter: ^4.0.2
@@ -70,6 +71,7 @@ importers:
       chalk: 5.0.1
       command-line-args: 5.2.1
       command-line-usage: 6.1.1
+      knex: 1.0.5
       md5: 2.3.0
       prettier: 2.6.2
       sql-formatter: 4.0.2

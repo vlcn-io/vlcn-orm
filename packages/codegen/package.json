@@ -4,19 +4,20 @@
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
+    "@aphro/codegen-api": "workspace:*",
     "@aphro/schema": "workspace:*",
     "@aphro/schema-api": "workspace:*",
-    "@aphro/codegen-api": "workspace:*",
     "@strut/counter": "workspace:*",
     "@strut/events": "workspace:*",
     "@strut/sid": "workspace:*",
     "@strut/utils": "workspace:*",
-    "md5": "^2.3.0",
-    "prettier": "^2.5.1",
-    "sql-formatter": "^4.0.2",
     "chalk": "^5.0.1",
     "command-line-args": "^5.2.1",
-    "command-line-usage": "^6.1.1"
+    "command-line-usage": "^6.1.1",
+    "knex": "^1.0.5",
+    "md5": "^2.3.0",
+    "prettier": "^2.5.1",
+    "sql-formatter": "^4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",

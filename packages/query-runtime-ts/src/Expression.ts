@@ -6,7 +6,7 @@ import { Predicate } from './Predicate.js';
 import { FieldGetter } from './Field.js';
 import HopPlan from './HopPlan.js';
 import ModelLoadExpression from './ModelLoadExpression.js';
-import { IModel } from '@aphro/model-runtime-ts';
+import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
 
 export type ExpressionType =
   | 'take'

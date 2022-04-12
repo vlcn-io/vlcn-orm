@@ -136,6 +136,7 @@ function condenseNode(
     [...fieldErrors, ...extensionErrors],
     {
       name: node.name,
+      primaryKey: 'id',
       fields,
       extensions: extensions as Node['extensions'],
       storage: {
