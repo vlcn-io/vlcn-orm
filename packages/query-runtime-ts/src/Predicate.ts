@@ -29,7 +29,7 @@ export type Predicate<Tv> =
 
 export class Equal<Tv> {
   constructor(public readonly value: Tv) {}
-  type: 'equal';
+  readonly type = 'equal';
 
   call(what: Tv): boolean {
     return what === this.value;
@@ -42,7 +42,7 @@ export class Equal<Tv> {
 
 export class NotEqual<Tv> {
   constructor(public readonly value: Tv) {}
-  type: 'notEqual';
+  readonly type = 'notEqual';
 
   call(what: Tv): boolean {
     return what !== this.value;
@@ -55,7 +55,7 @@ export class NotEqual<Tv> {
 
 export class LessThan<Tv> {
   constructor(public readonly value: Tv) {}
-  type: 'lessThan';
+  readonly type = 'lessThan';
 
   call(what: Tv): boolean {
     return what < this.value;
@@ -68,7 +68,7 @@ export class LessThan<Tv> {
 
 export class GreaterThan<Tv> {
   constructor(public readonly value: Tv) {}
-  type: 'greaterThan';
+  readonly type = 'greaterThan';
 
   call(what: Tv): boolean {
     return what > this.value;
@@ -81,7 +81,7 @@ export class GreaterThan<Tv> {
 
 export class LessThanOrEqual<Tv> {
   constructor(public readonly value: Tv) {}
-  type: 'lessThanOrEqual';
+  readonly type = 'lessThanOrEqual';
 
   call(what: Tv): boolean {
     return what <= this.value;
@@ -94,7 +94,7 @@ export class LessThanOrEqual<Tv> {
 
 export class GreaterThanOrEqual<Tv> {
   constructor(public readonly value: Tv) {}
-  type: 'greaterThanOrEqual';
+  readonly type = 'greaterThanOrEqual';
 
   call(what: Tv): boolean {
     return what >= this.value;
@@ -107,7 +107,7 @@ export class GreaterThanOrEqual<Tv> {
 
 export class In<Tv> {
   constructor(public readonly value: Set<Tv>) {}
-  type: 'in';
+  readonly type = 'in';
 
   call(what: Tv): boolean {
     return this.value.has(what);
@@ -120,7 +120,7 @@ export class In<Tv> {
 
 export class NotIn<Tv> {
   constructor(public readonly value: Set<Tv>) {}
-  type: 'notIn';
+  readonly type = 'notIn';
 
   call(what: Tv): boolean {
     return !this.value.has(what);

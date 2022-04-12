@@ -7,7 +7,11 @@ import SlideQuery from '../generated/SlideQuery.js';
  */
 
 test('Query from id', async () => {
-  const plan = SlideQuery.fromId(sid('foo')).plan();
-  const result = await plan.iterable.gen();
-  console.log(result);
+  const plan = SlideQuery.fromId(sid('foo')).plan().optimize();
+  const iterable = plan.iterable;
+
+  // console.log(iterable);
+  // // @ts-ignore - bypass for testing.
+  // const sql = iterable.source.__getSQL();
+  // console.log(sql);
 });
