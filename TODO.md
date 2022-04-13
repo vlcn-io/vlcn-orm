@@ -38,6 +38,8 @@ TextComponent as Node {
 
 & Immutable & Computed { onCreate(now()) }
 & Computed { onModify(now()) }
+
+allow typeof operators? typeof Component.subtype
 ```
 
 # Fixup Postgres table generation
