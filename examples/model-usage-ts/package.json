@@ -27,7 +27,8 @@
   "scripts": {
     "build": "rm -rf ./lib && tsc",
     "watch": "tsc -w",
-    "test": "node ./node_modules/jest/bin/jest.js"
+    "test": "node ./node_modules/jest/bin/jest.js",
+    "knex-test": "node ./node_modules/knex/bin/cli.js --env test"
   },
   "jest": {
     "testMatch": [
