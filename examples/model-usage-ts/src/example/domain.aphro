@@ -8,7 +8,7 @@ User as Node {
   modified: Timestamp
 } & OutboundEdges {
   decks: Edge<Deck.ownerId>
-} & Actions {
+} & Mutations {
   create {
     name
   }
@@ -27,7 +27,7 @@ Deck as Node {
   owner: Edge<Deck.ownerId>
   slides: Edge<Slide.deckId>
   selectedSlide: Edge<Deck.selectedSlideId>
-} & Actions {
+} & Mutations {
   create {
     name: NaturalLanguage
     owner: User
@@ -51,7 +51,7 @@ Slide as Node {
   order: float32
 } & OutboundEdges {
   components: Edge<Component.slideId>
-} & Actions {
+} & Mutations {
   create {
     deck: Deck
     order # if a param matches a field or edge name we infer the type
@@ -69,7 +69,7 @@ Component as Node {
   subtype: Enumeration<Text | Embed>
   slideId: ID<Slide>
   content: string
-} & Actions {
+} & Mutations {
   create {
     subtype
     slide: Slide

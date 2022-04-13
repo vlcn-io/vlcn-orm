@@ -117,6 +117,7 @@ Aphro {
     | IndexFn
     | ReadPrivacyFn
     | TraitsFn
+    | MutationsFn
   
   OutboundEdgesFn
   	= "OutboundEdges" "{" EdgeDeclarations "}"
@@ -135,6 +136,24 @@ Aphro {
   
   TraitsFn
   	= "Traits" "{" NameList "}"
+  
+  MutationsFn
+    = "Mutations" "{" MutationDeclarations "}"
+  
+  MutationDeclarations
+    = MutationDeclarations MutationDeclaration -- list
+    | "" -- empty
+  
+  MutationDeclaration
+    = name "{" MutationArgDeclarations "}"
+  
+  MutationArgDeclarations
+    = MutationArgDeclarations MutationArgDeclaration -- list
+    | "" -- empty
+  
+  MutationArgDeclaration
+    = propertyKey TypeExpression -- full
+    | name -- quick
   
   EdgeDeclarations
   	= EdgeDeclarations EdgeDeclaration -- list
@@ -176,6 +195,11 @@ Aphro {
   NameList
   	= NameList name -- list
     | name -- name
+  
+  TypeExpression
+  	= TypeExpression "|" name -- union
+    | TypeExpression "&" name -- intersection
+    | name
 }
 `;
 
