@@ -12,6 +12,9 @@
     "start": {
       "dependsOn": ["^start"],
       "outputs": []
+    },
+    "test": {
+      "dependsOn": ["build", "^test"]
     }
   }
 }

@@ -28,8 +28,7 @@
   },
   "scripts": {
     "build": "rm -rf ./lib && tsc",
-    "watch": "tsc -w",
-    "test": "node ./node_modules/jest/bin/jest.js"
+    "watch": "tsc -w"
   },
   "jest": {
     "testMatch": [

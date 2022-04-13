@@ -12,6 +12,7 @@
   },
   "scripts": {
     "build": "turbo run build",
-    "watch": "turbo run watch"
+    "watch": "turbo run watch",
+    "test": "turbo run test"
   }
 }

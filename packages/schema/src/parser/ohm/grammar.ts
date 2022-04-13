@@ -199,7 +199,7 @@ Aphro {
   TypeExpression
   	= TypeExpression "|" name -- union
     | TypeExpression "&" name -- intersection
-    | name
+    | name -- single
 }
 `;
 
