@@ -5,12 +5,6 @@ export default {
     client: 'sqlite3',
     connection: ':memory:',
     useNullAsDefault: true,
-    migrations: {
-      directory: './src/test-db/migrations',
-    },
-    seeds: {
-      directory: './src/test-db/seeds',
-    },
   },
 };
 
