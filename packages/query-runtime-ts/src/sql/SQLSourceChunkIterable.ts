@@ -40,5 +40,8 @@ export default class SQLSourceChunkIterable<T> extends BaseChunkIterable<T> {
 }
 
 function compile(spec: ModelSpec<any>, hoistedOperations: HoistedOperations) {
+  // TODO Nit: -- slight problem in that the sql generated here is knex format not native format
+  // so it'd require the users to use knex.
+  // we should get it to native...
   return specAndOpsToSQL(spec, hoistedOperations).toSQL();
 }
