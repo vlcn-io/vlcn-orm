@@ -2,6 +2,8 @@ import sid from '@strut/sid';
 import createTestTables from '../../createTestTables.js';
 import SlideQuery from '../generated/SlideQuery.js';
 import { create as createDb } from '../../db.js';
+import { create as createKnexResolver } from '../../knexResolver.js';
+import { configure } from '@aphro/query-runtime-ts';
 
 /**
  * Now that everything generates correctly...
@@ -11,6 +13,8 @@ import { create as createDb } from '../../db.js';
 let db: ReturnType<typeof createDb>;
 beforeAll(async () => {
   db = createDb();
+  configure({ resolver: createKnexResolver(db) });
+
   await createTestTables(db);
 });
 
@@ -22,10 +26,8 @@ test('Query from id', async () => {
   const plan = SlideQuery.fromId(sid('foo')).plan().optimize();
   const iterable = plan.iterable;
 
-  // console.log(iterable);
-  // // @ts-ignore - bypass for testing.
-  // const sql = iterable.source.__getSQL();
-  // console.log(sql);
+  const result = await iterable.gen();
+  console.log(result);
 });
 
 // todo: https://dev.to/rukykf/integration-testing-with-nodejs-jest-knex-and-sqlite-in-memory-databases-2ila
