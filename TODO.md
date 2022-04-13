@@ -1,3 +1,22 @@
+- pluggable grammar
+
+e.g.,
+interface Extension {
+  grammar(): string {
+
+  }
+
+  actions(): SemanticActions {
+
+  }
+
+  condensor(): Condesnor {
+
+  }
+}
+
+and re-write Mutations, OutboundEdges, InboundEdges, Index, etc. in this format.
+
 - computed props
   - triggers
   - declarative computations

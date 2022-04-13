@@ -218,7 +218,7 @@ export declare type MutationsAst = {
     name: 'mutations';
     declarations: MutationAst[];
 };
-declare type Mutations = {
+export declare type Mutations = {
     name: 'mutations';
     mutations: {
         [key: string]: Mutation;
