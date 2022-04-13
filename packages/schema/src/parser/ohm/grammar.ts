@@ -197,9 +197,13 @@ Aphro {
     | name -- name
   
   TypeExpression
-  	= TypeExpression "|" name -- union
-    | TypeExpression "&" name -- intersection
-    | name -- single
+  	= TypeExpression "|" TypeName -- union
+    | TypeExpression "&" TypeName -- intersection
+    | TypeName -- single
+  
+  TypeName
+    = FieldType
+    | name
 }
 `;
 

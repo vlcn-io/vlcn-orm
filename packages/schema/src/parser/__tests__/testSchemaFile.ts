@@ -1,4 +1,4 @@
-import { InboundEdgesAst, SchemaFile, SchemaFileAst } from '@aphro/schema-api';
+import { InboundEdgesAst, SchemaFile, SchemaFileAst, MutationsAst } from '@aphro/schema-api';
 
 export const contents = `
 engine: postgres
@@ -33,6 +33,14 @@ Wallet as Node {
   balance: Currency<usd>
   status: Enumeration<Active | Locked>
   alias: NaturalLanguage
+} & Mutations {
+  debit {
+    amount: Currency<usd>
+  }
+
+  lock {}
+
+  unlock {}
 }
 
 Transaction as Node {
@@ -199,7 +207,39 @@ export const ast: SchemaFileAst = {
           type: 'naturalLanguage',
         },
       ],
-      extensions: [],
+      extensions: [
+        {
+          name: 'mutations',
+          declarations: [
+            {
+              name: 'debit',
+              args: [
+                {
+                  name: 'amount',
+                  type: 'full',
+                  typeDef: [
+                    {
+                      type: 'type',
+                      name: {
+                        type: 'currency',
+                        denomination: 'usd',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              name: 'lock',
+              args: [],
+            },
+            {
+              name: 'unlock',
+              args: [],
+            },
+          ],
+        },
+      ],
     },
     {
       type: 'node',

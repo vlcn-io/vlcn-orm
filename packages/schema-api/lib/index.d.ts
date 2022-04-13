@@ -96,7 +96,7 @@ export declare type EdgeReference = string;
 declare type NonComplexField = ID | NaturalLanguage | Enum | Currency | Time | Primitive;
 declare type ComplexField = MapField | ArrayField;
 export declare type Field = NonComplexField | ComplexField;
-export declare type NodeAstExtension = OutboundEdgesAst | InboundEdgesAst | Index | Storage | Traits | Mutations;
+export declare type NodeAstExtension = OutboundEdgesAst | InboundEdgesAst | Index | Storage | Traits | MutationsAst;
 export declare type NodeExtension = Node['extensions'][keyof Node['extensions']];
 export declare type NodeAst = {
     type: 'node';
@@ -214,11 +214,19 @@ declare type Traits = {
     name: 'traits';
     declarations: string[];
 };
+export declare type MutationsAst = {
+    name: 'mutations';
+    declarations: MutationAst[];
+};
 declare type Mutations = {
     name: 'mutations';
     mutations: {
         [key: string]: Mutation;
     };
+};
+declare type MutationAst = {
+    name: string;
+    args: MutationArgDef[];
 };
 declare type Mutation = {
     name: string;
@@ -236,7 +244,7 @@ declare type MutationArgDef = {
 };
 declare type TypeAtom = {
     type: 'type';
-    name: string;
+    name: RemoveNameField<Field> | string;
 } | {
     type: 'intersection';
 } | {

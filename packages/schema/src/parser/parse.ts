@@ -326,6 +326,8 @@ export default function parse(filePath: string): SchemaFileAst {
 }
 
 export function parseString(schemaFileContents: string): SchemaFileAst {
+  schemaFileContents = stripComments(schemaFileContents);
+
   const matchResult = grammar.match(schemaFileContents);
   const adapter = semantics(matchResult);
   const ast = adapter.toAst();
@@ -335,4 +337,8 @@ export function parseString(schemaFileContents: string): SchemaFileAst {
   }
 
   return ast as SchemaFileAst;
+}
+
+function stripComments(s: string): string {
+  return s.replaceAll(/#[^\n]*/g, '');
 }

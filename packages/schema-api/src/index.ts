@@ -120,7 +120,7 @@ export type NodeAstExtension =
   | Index
   | Storage
   | Traits
-  | Mutations;
+  | MutationsAst;
 export type NodeExtension = Node['extensions'][keyof Node['extensions']];
 
 export type NodeAst = {
@@ -267,7 +267,7 @@ type Traits = {
   declarations: string[];
 };
 
-type MutationsAst = {
+export type MutationsAst = {
   name: 'mutations';
   declarations: MutationAst[];
 };
@@ -305,7 +305,7 @@ type MutationArgDef =
 type TypeAtom =
   | {
       type: 'type';
-      name: string;
+      name: RemoveNameField<Field> | string;
     }
   | {
       type: 'intersection';
