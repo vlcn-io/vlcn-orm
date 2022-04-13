@@ -32,6 +32,7 @@ export type Node = {
     type?: TypeConfig;
     module?: ModuleConfig;
     traits?: Traits;
+    mutations?: Mutations;
   };
   storage: StorageConfig;
 };
@@ -113,7 +114,13 @@ type NonComplexField = ID | NaturalLanguage | Enum | Currency | Time | Primitive
 type ComplexField = MapField | ArrayField;
 
 export type Field = NonComplexField | ComplexField;
-export type NodeAstExtension = OutboundEdgesAst | InboundEdgesAst | Index | Storage | Traits;
+export type NodeAstExtension =
+  | OutboundEdgesAst
+  | InboundEdgesAst
+  | Index
+  | Storage
+  | Traits
+  | Mutations;
 export type NodeExtension = Node['extensions'][keyof Node['extensions']];
 
 export type NodeAst = {
@@ -259,6 +266,51 @@ type Traits = {
   name: 'traits';
   declarations: string[];
 };
+
+type MutationsAst = {
+  name: 'mutations';
+  declarations: MutationAst[];
+};
+
+type Mutations = {
+  name: 'mutations';
+  mutations: {
+    [key: string]: Mutation;
+  };
+};
+
+type MutationAst = {
+  name: string;
+  args: MutationArgDef[];
+};
+
+type Mutation = {
+  name: string;
+  args: {
+    [key: string]: MutationArgDef;
+  };
+};
+
+type MutationArgDef =
+  | {
+      type: 'full';
+      name: string;
+      typeDef: TypeAtom[];
+    }
+  | {
+      type: 'quick';
+      name: string;
+    };
+
+type TypeAtom =
+  | {
+      type: 'type';
+      name: string;
+    }
+  | {
+      type: 'intersection';
+    }
+  | { type: 'union' };
 
 type Storage = {
   name: 'storage';

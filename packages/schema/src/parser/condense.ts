@@ -241,6 +241,8 @@ function nodeExtensionCondensor(extension: NodeAstExtension): [ValidationError[]
       ];
     case 'storage':
       return [[], extension];
+    case 'mutations':
+      return [[], extension];
   }
 }
 

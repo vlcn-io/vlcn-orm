@@ -50,32 +50,20 @@ Bar as Node {
 test('Generating an ID only model', () => {
   const contents = genIt(compileFromString(IDOnlySchema)[1].nodes.IDOnly).contents;
   expect(contents).toEqual(
-    `// SIGNED-SOURCE: <af8ef89465f19699d3ac1e3cf8a14efb>
-import Model, { Spec } from "@strut/model/Model.js";
+    `// SIGNED-SOURCE: <a92063a419b3fdeaba407c8fd67efbf8>
+import { P } from "@aphro/query-runtime-ts";
+import { Model } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
 
 export type Data = {
-  id: SID_of<any>;
+  id: SID_of<IDOnly>;
 };
 
 export default class IDOnly extends Model<Data> {
-  get id(): SID_of<any> {
+  get id(): SID_of<IDOnly> {
     return this.data.id;
   }
 }
-
-export const spec: Spec<Data> = {
-  createFrom(data: Data) {
-    return new IDOnly(data);
-  },
-
-  storageDescriptor: {
-    engine: "postgres",
-    db: "test",
-    type: "sql",
-    tablish: "idonly",
-  },
-};
 `,
   );
 });
@@ -84,12 +72,13 @@ test('Generating all primitive fields', () => {
   const contents = genIt(
     compileFromString(PrimitiveFieldsSchema)[1].nodes.PrimitiveFields,
   ).contents;
-  expect(contents).toEqual(`// SIGNED-SOURCE: <938a3bbdaa7018a4f08e45ebf39dbe59>
-import Model, { Spec } from "@strut/model/Model.js";
+  expect(contents).toEqual(`// SIGNED-SOURCE: <e88852c6860b87cb7a313e1d54871e66>
+import { P } from "@aphro/query-runtime-ts";
+import { Model } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
 
 export type Data = {
-  id: SID_of<any>;
+  id: SID_of<PrimitiveFields>;
   mrBool: boolean;
   mrInt32: number;
   mrInt64: string;
@@ -99,7 +88,7 @@ export type Data = {
 };
 
 export default class PrimitiveFields extends Model<Data> {
-  get id(): SID_of<any> {
+  get id(): SID_of<PrimitiveFields> {
     return this.data.id;
   }
 
@@ -127,36 +116,23 @@ export default class PrimitiveFields extends Model<Data> {
     return this.data.mrString;
   }
 }
-
-export const spec: Spec<Data> = {
-  createFrom(data: Data) {
-    return new PrimitiveFields(data);
-  },
-
-  storageDescriptor: {
-    engine: "postgres",
-    db: "test",
-    type: "sql",
-    tablish: "primitivefields",
-  },
-};
 `);
 });
 
 test('Outbound field edge', () => {
   const contents = genIt(compileFromString(OutboundFieldEdgeSchema)[1].nodes.Foo).contents;
-
-  expect(contents).toEqual(`// SIGNED-SOURCE: <086958ea3a098479094bc9e4d2242319>
-import Model, { Spec } from "@strut/model/Model.js";
+  expect(contents).toEqual(`// SIGNED-SOURCE: <c7e9a1b500db49dc134745c01da4495d>
+import { P } from "@aphro/query-runtime-ts";
+import { Model } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
 import FooQuery from "./FooQuery.js";
 
 export type Data = {
-  fooId: SID_of<any>;
+  fooId: SID_of<Foo>;
 };
 
 export default class Foo extends Model<Data> {
-  get fooId(): SID_of<any> {
+  get fooId(): SID_of<Foo> {
     return this.data.fooId;
   }
 
@@ -164,27 +140,14 @@ export default class Foo extends Model<Data> {
     return FooQuery.fromId(this.fooId);
   }
 }
-
-export const spec: Spec<Data> = {
-  createFrom(data: Data) {
-    return new Foo(data);
-  },
-
-  storageDescriptor: {
-    engine: "postgres",
-    db: "test",
-    type: "sql",
-    tablish: "foo",
-  },
-};
 `);
 });
 
 test('Outbound foreign key edge', () => {
   const contents = genIt(compileFromString(OutboundForeignKeyEdgeSchema)[1].nodes.Bar).contents;
-
-  expect(contents).toEqual(`// SIGNED-SOURCE: <428597b80667f77591dc68d944abb364>
-import Model, { Spec } from "@strut/model/Model.js";
+  expect(contents).toEqual(`// SIGNED-SOURCE: <aae232d98ea740396d0665e7e3536165>
+import { P } from "@aphro/query-runtime-ts";
+import { Model } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
 import FooQuery from "./FooQuery.js";
 import Foo from "./Foo.js";
@@ -193,22 +156,9 @@ export type Data = {};
 
 export default class Bar extends Model<Data> {
   queryFoos(): FooQuery {
-    return FooQuery.fromBarId(this.id);
+    return FooQuery.create().whereBarId(P.equals(this.id));
   }
 }
-
-export const spec: Spec<Data> = {
-  createFrom(data: Data) {
-    return new Bar(data);
-  },
-
-  storageDescriptor: {
-    engine: "postgres",
-    db: "test",
-    type: "sql",
-    tablish: "bar",
-  },
-};
 `);
 });
 

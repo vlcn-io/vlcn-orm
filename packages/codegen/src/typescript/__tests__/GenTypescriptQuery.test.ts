@@ -90,14 +90,18 @@ test('NoEdgesSchema', () => {
 
   // TODO: remove unneeded imports
   // Validation should require that a primary key field exists
-  expect(contents).toEqual(`// SIGNED-SOURCE: <d4539509b5128a4c8a9f2eef3dbd3ef8>
-import { DerivedQuery } from "@strut/model/query/Query.js";
-import QueryFactory from "@strut/model/query/QueryFactory.js";
-import { modelLoad, filter } from "@strut/model/query/Expression.js";
-import { Predicate, default as P } from "@strut/model/query/Predicate.js";
-import { ModelFieldGetter } from "@strut/model/query/Field.js";
+  expect(contents).toEqual(`// SIGNED-SOURCE: <2df261839ac9ac4c6ffd5245ecf0fd7a>
+import { DerivedQuery } from "@aphro/query-runtime-ts";
+import { QueryFactory } from "@aphro/query-runtime-ts";
+import { modelLoad } from "@aphro/query-runtime-ts";
+import { filter } from "@aphro/query-runtime-ts";
+import { Predicate } from "@aphro/query-runtime-ts";
+import { P } from "@aphro/query-runtime-ts";
+import { ModelFieldGetter } from "@aphro/query-runtime-ts";
 import { SID_of } from "@strut/sid";
-import Foo, { Data, spec } from "./Foo.js";
+import Foo from "./Foo.js";
+import { Data } from "./Foo.js";
+import { default as spec } from "./FooSpec.js";
 
 export default class FooQuery extends DerivedQuery<Foo> {
   static create() {
@@ -120,16 +124,20 @@ test('OutboundEdgeViaFieldSchema', () => {
   // TODO: queryBar is wrong as it needs a `where` statement applied
   // to understand _how_ we're hopping.
   // queryBar().whereId(P.equals(this.barId));
-  expect(contents).toEqual(`// SIGNED-SOURCE: <b4891c29f54c49e88415cc6e1ffbf41f>
-import { DerivedQuery } from "@strut/model/query/Query.js";
-import QueryFactory from "@strut/model/query/QueryFactory.js";
-import { modelLoad, filter } from "@strut/model/query/Expression.js";
-import { Predicate, default as P } from "@strut/model/query/Predicate.js";
-import { ModelFieldGetter } from "@strut/model/query/Field.js";
+  expect(contents).toEqual(`// SIGNED-SOURCE: <352854ea6276f8f2e87be050c5ea70d4>
+import { DerivedQuery } from "@aphro/query-runtime-ts";
+import { QueryFactory } from "@aphro/query-runtime-ts";
+import { modelLoad } from "@aphro/query-runtime-ts";
+import { filter } from "@aphro/query-runtime-ts";
+import { Predicate } from "@aphro/query-runtime-ts";
+import { P } from "@aphro/query-runtime-ts";
+import { ModelFieldGetter } from "@aphro/query-runtime-ts";
 import { SID_of } from "@strut/sid";
-import Foo, { Data, spec } from "./Foo.js";
+import Foo from "./Foo.js";
+import { Data } from "./Foo.js";
+import { default as spec } from "./FooSpec.js";
 import Bar from "./Bar.js";
-import { spec as BarSpec } from "./Bar";
+import { default as BarSpec } from "./BarSpec.js";
 import BarQuery from "./BarQuery";
 
 export default class FooQuery extends DerivedQuery<Foo> {
@@ -152,9 +160,9 @@ export default class FooQuery extends DerivedQuery<Foo> {
   }
   queryBar(): BarQuery {
     return new BarQuery(
-      QueryFactory.createHopQueryFor(this, spec, BarSpec),
+      QueryFactory.createHopQueryFor(this, spec.outboundEdges.bar),
       modelLoad(BarSpec.createFrom)
-    ).whereId(P.equals(this.barId));
+    );
   }
 }
 `);
@@ -165,16 +173,19 @@ test('OutboundThroughForeignFieldSchema', () => {
     compileFromString(OutboundThroughForeignFieldSchema)[1].nodes.Foo,
   ).contents;
 
-  expect(contents).toEqual(`// SIGNED-SOURCE: <36a1dcef7580bd1dd135c23ca050b6ef>
-import { DerivedQuery } from "@strut/model/query/Query.js";
-import QueryFactory from "@strut/model/query/QueryFactory.js";
-import { modelLoad, filter } from "@strut/model/query/Expression.js";
-import { Predicate, default as P } from "@strut/model/query/Predicate.js";
-import { ModelFieldGetter } from "@strut/model/query/Field.js";
+  expect(contents).toEqual(`// SIGNED-SOURCE: <56d05175d9549f70182c344f3305038d>
+import { DerivedQuery } from "@aphro/query-runtime-ts";
+import { QueryFactory } from "@aphro/query-runtime-ts";
+import { modelLoad } from "@aphro/query-runtime-ts";
+import { filter } from "@aphro/query-runtime-ts";
+import { Predicate } from "@aphro/query-runtime-ts";
+import { P } from "@aphro/query-runtime-ts";
+import { ModelFieldGetter } from "@aphro/query-runtime-ts";
 import { SID_of } from "@strut/sid";
-import Foo, { Data, spec } from "./Foo.js";
-
-import { spec as BarSpec } from "./Bar";
+import Foo from "./Foo.js";
+import { Data } from "./Foo.js";
+import { default as spec } from "./FooSpec.js";
+import { default as BarSpec } from "./BarSpec.js";
 import BarQuery from "./BarQuery";
 
 export default class FooQuery extends DerivedQuery<Foo> {
@@ -191,9 +202,9 @@ export default class FooQuery extends DerivedQuery<Foo> {
 
   queryBars(): BarQuery {
     return new BarQuery(
-      QueryFactory.createHopQueryFor(this, spec, BarSpec),
+      QueryFactory.createHopQueryFor(this, spec.outboundEdges.bars),
       modelLoad(BarSpec.createFrom)
-    ).whereFooId(P.equals(this.id));
+    );
   }
 }
 `);
