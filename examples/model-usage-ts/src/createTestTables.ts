@@ -10,6 +10,5 @@ export default async function createTestTables(db: ReturnType<typeof createDb>) 
   const schemas = await Promise.all(
     schemaPaths.map(s => fs.promises.readFile(path.join(generatedDir, s), { encoding: 'utf8' })),
   );
-  console.log(schemas);
   await Promise.all(schemas.map(s => db.raw(s)));
 }

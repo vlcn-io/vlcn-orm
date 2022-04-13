@@ -1,7 +1,7 @@
--- SIGNED-SOURCE: <b54bef1ed6fb5d1104127ac520c0c203>
+-- SIGNED-SOURCE: <33a5e229c5142696ef79166eec3850ad>
 CREATE TABLE Component (
-  id BIGINT UNSIGNED,
-  subtype VARCHAR(255),
-  slideId BIGINT UNSIGNED,
-  content TEXT
+  'id' BIGINT UNSIGNED,
+  'subtype' VARCHAR(255),
+  'slideId' BIGINT UNSIGNED,
+  'content' TEXT
 );

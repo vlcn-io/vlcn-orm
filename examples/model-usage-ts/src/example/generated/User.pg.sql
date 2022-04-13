@@ -1,7 +1,7 @@
--- SIGNED-SOURCE: <5d922bd48c16cfb51b474ad71ee2c4e6>
+-- SIGNED-SOURCE: <5c28e6d9265789a422f42a4c4ca99eb5>
 CREATE TABLE User (
-  id BIGINT UNSIGNED,
-  name TEXT,
-  created DATETIME,
-  modified DATETIME
+  'id' BIGINT UNSIGNED,
+  'name' TEXT,
+  'created' DATETIME,
+  'modified' DATETIME
 );
