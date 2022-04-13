@@ -1,5 +1,3 @@
-import * as path from 'path';
-
 export default {
   test: {
     client: 'sqlite3',
