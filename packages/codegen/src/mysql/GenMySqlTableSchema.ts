@@ -26,7 +26,7 @@ export default class GenMySqlTableSchema extends CodegenStep {
   private getColumnDefinitionsCode(): string {
     const fields = Object.values(this.schema.fields);
 
-    return fields.map(f => `${f.name} ${fieldToMySqlType(f)}`).join(',\n');
+    return fields.map(f => `'${f.name}' ${fieldToMySqlType(f)}`).join(',\n');
   }
 
   private getPrimaryKeyCode(): string {

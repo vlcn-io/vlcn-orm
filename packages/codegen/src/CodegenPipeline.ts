@@ -7,6 +7,7 @@ import GenMySqlTableSchema from './mysql/GenMySQLTableSchema.js';
 import GenPostgresTableSchema from './postgres/GenPostgresTableSchema.js';
 import { Node, Edge } from '@aphro/schema-api';
 import GenTypescriptSpec from './typescript/GenTypescriptSpec.js';
+import GenSqliteTableSchema from './sqlite/GenSqliteTableSchema.js';
 
 type Step = {
   new (x: Node | Edge): CodegenStep;
@@ -19,6 +20,7 @@ const defaultSteps: readonly Step[] = [
   GenTypescriptSpec,
   GenMySqlTableSchema,
   GenPostgresTableSchema,
+  GenSqliteTableSchema,
 ];
 
 export default class CodegenPipleine {

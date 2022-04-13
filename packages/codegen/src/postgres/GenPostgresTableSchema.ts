@@ -26,7 +26,7 @@ export default class GenPostgresTableSchema extends CodegenStep {
   private getColumnDefinitionsCode(): string {
     const fields = Object.values(this.schema.fields);
 
-    return fields.map(f => `${f.name} ${fieldToPostgresType(f)}`).join(',\n');
+    return fields.map(f => `'${f.name}' ${fieldToPostgresType(f)}`).join(',\n');
   }
 
   private getPrimaryKeyCode(): string {

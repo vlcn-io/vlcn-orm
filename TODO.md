@@ -1,3 +1,4 @@
+- prescriptive types for ids and id fields and fk fields
 - db resolution from name
 - Fluent API for codegen and better handling of tsimport (e.g., .js , ./ concatenation)
 - Strike unused imports

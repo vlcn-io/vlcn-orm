@@ -20,6 +20,8 @@ export function fieldToMySqlType(field: Field): string {
           return 'BIGINT';
         case 'uint64':
           return 'BIGINT UNSIGNED';
+        case 'uint32':
+          return 'INT UNSIGNED';
         case 'string':
           return 'TEXT';
         case 'bool':

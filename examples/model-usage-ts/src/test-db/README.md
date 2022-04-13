@@ -1,1 +1,0 @@
-Assets for our in-memory database we use for tests.
