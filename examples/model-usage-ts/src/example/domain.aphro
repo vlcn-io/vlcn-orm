@@ -16,10 +16,25 @@ Deck as Node {
   created: Timestamp
   modified: Timestamp
   ownerId: ID<User>
-  selectedSlide: ID<Slide>
+  selectedSlideId: ID<Slide>
 } & OutboundEdges {
   owner: Edge<Deck.ownerId>
   slides: Edge<Slide.deckId>
+  selectedSlide: Edge<Deck.selectedSlideId>
+} & Actions {
+  create: {
+    name: NaturalLanguage
+    owner: User
+    selectedSlide: Slide | null
+  }
+
+  selectSlide: {
+    selectedSlide: Slide
+  }
+
+  rename: {
+    name: NaturalLanguage
+  }
 }
 
 Slide as Node {

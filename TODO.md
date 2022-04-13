@@ -35,6 +35,9 @@ TextComponent as Node {
 } & Traits {
   Component
 }
+
+& Immutable & Computed { onCreate(now()) }
+& Computed { onModify(now()) }
 ```
 
 # Fixup Postgres table generation
