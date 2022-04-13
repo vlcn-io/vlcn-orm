@@ -1,4 +1,6 @@
 packages:
+  - 'examples/model-usage-ts'
+  - 'mono/typescript/packages/*'
   - 'packages/codegen'
   - 'packages/codegen-api'
   - 'packages/integrations'
@@ -8,5 +10,3 @@ packages:
   - 'packages/schema'
   - 'packages/schema-api'
   - 'packages/vscode'
-  - 'examples/model.usage'
-  - 'mono/typescript/packages/*'

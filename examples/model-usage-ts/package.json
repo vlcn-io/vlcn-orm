@@ -6,8 +6,10 @@
     "@aphro/model-runtime-ts": "workspace:*",
     "@aphro/query-runtime-ts": "workspace:*",
     "@strut/sid": "workspace:*",
+    "@vscode/sqlite3": "^5.0.8",
     "class-validator": "^0.13.2",
     "graphql": "^16.3.0",
+    "knex": "^1.0.5",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^1.1.1"
   },

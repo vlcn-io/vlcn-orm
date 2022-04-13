@@ -15,3 +15,5 @@ test('Query from id', async () => {
   // const sql = iterable.source.__getSQL();
   // console.log(sql);
 });
+
+// todo: https://dev.to/rukykf/integration-testing-with-nodejs-jest-knex-and-sqlite-in-memory-databases-2ila
