@@ -23,5 +23,5 @@ export interface SQLDB {
   // TODO: can we get better types here?
   // From ModelSpec<T> and the projection of the query?
   // if the projection is known and the spec is known we know what the query returns.
-  exec(queryString: string, bindings: any[]): Promise<any>;
+  exec(queryString: string, bindings: readonly any[]): Promise<any>;
 }

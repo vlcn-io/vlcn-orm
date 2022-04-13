@@ -22,8 +22,8 @@ export function create(db: ReturnType<typeof createDb>): DBResolver {
   };
 
   const knexDb = {
-    async exec(query: string, bindings: any[]): Promise<any> {
-      return await db.raw(query, ...bindings);
+    async exec(query: string, bindings: readonly any[]): Promise<any> {
+      return await db.raw(query, bindings);
     },
   };
 

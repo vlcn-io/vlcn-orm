@@ -8,12 +8,9 @@ export * from './Expression.js';
 export * from './Field.js';
 export * from './resolver/DBResolver.js';
 
-// configure the runtime by injecting it with a db resolver.
-let dbResolver: DBResolver;
-export function configure({ resolver }: { resolver: DBResolver }) {
-  dbResolver = resolver;
-}
+import runtimeConfig from './runtimeConfig.js';
 
-export function getResolver() {
-  return nullthrows(dbResolver);
+// configure the runtime by injecting it with a db resolver.
+export function configure({ resolver }: { resolver: DBResolver }) {
+  runtimeConfig.resolver = resolver;
 }
