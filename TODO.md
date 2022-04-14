@@ -1,3 +1,4 @@
+- TRPC.io? as our transport rather than anything GraphQL like?
 - pluggable grammar
 
 e.g.,

@@ -59,6 +59,9 @@ importers:
 
   extensions/mutation-codegen:
     specifiers:
+      '@aphro/codegen': workspace:*
+      '@aphro/codegen-api': workspace:*
+      '@aphro/mutation-grammar': workspace:*
       '@aphro/schema': workspace:*
       '@aphro/schema-api': workspace:*
       '@babel/core': ^7.17.8
@@ -68,6 +71,9 @@ importers:
       ts-jest: ^27.1.3
       typescript: ^4.6.2
     dependencies:
+      '@aphro/codegen': link:../../packages/codegen
+      '@aphro/codegen-api': link:../../packages/codegen-api
+      '@aphro/mutation-grammar': link:../mutation-grammar
       '@aphro/schema': link:../../packages/schema
       '@aphro/schema-api': link:../../packages/schema-api
     devDependencies:
