@@ -188,35 +188,6 @@ semantics.addOperation('toAst', {
       declarations: traits.toAst(),
     };
   },
-  MutationsFn(_, __, declarations, ___) {
-    return {
-      name: 'mutations',
-      declarations: declarations.toAst(),
-    };
-  },
-  MutationDeclarations_list: list,
-  MutationDeclarations_empty: listInit,
-  MutationDeclaration(name, _, args, __) {
-    return {
-      name: name.toAst(),
-      args: args.toAst(),
-    };
-  },
-  MutationArgDeclarations_list: list,
-  MutationArgDeclarations_empty: listInit,
-  MutationArgDeclaration_full(name, type) {
-    return {
-      type: 'full',
-      name: name.toAst(),
-      typeDef: type.toAst(),
-    };
-  },
-  MutationArgDeclaration_quick(name) {
-    return {
-      type: 'quick',
-      name: name.toAst(),
-    };
-  },
   EdgeDeclarations_list: list,
   EdgeDeclarations_empty: listInit,
   EdgeDeclaration_inline(key, definition) {

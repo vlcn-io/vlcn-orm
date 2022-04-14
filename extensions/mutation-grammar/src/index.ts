@@ -47,15 +47,70 @@ type MutationAst = {
 };
 
 const extension: GrammarExtension<MutationsAst, Mutations> = {
+  extends: {
+    NodeFunction: 'MutationsFn',
+  },
+
   grammar(): string {
-    return ``;
+    return String.raw`
+MutationsFn
+    = "Mutations" "{" MutationDeclarations "}"
+  
+MutationDeclarations
+  = MutationDeclarations MutationDeclaration -- list
+  | "" -- empty
+
+MutationDeclaration
+  = name "{" MutationArgDeclarations "}"
+
+MutationArgDeclarations
+  = MutationArgDeclarations MutationArgDeclaration -- list
+  | "" -- empty
+
+MutationArgDeclaration
+  = propertyKey TypeExpression -- full
+  | name -- quick
+`;
   },
 
   actions() {
-    return {};
+    return {
+      MutationsFn(_, __, declarations, ___) {
+        return {
+          name: 'mutations',
+          declarations: declarations.toAst(),
+        };
+      },
+      MutationDeclarations_list: list,
+      MutationDeclarations_empty: listInit,
+      MutationDeclaration(name, _, args, __) {
+        return {
+          name: name.toAst(),
+          args: args.toAst(),
+        };
+      },
+      MutationArgDeclarations_list: list,
+      MutationArgDeclarations_empty: listInit,
+      MutationArgDeclaration_full(name, type) {
+        return {
+          type: 'full',
+          name: name.toAst(),
+          typeDef: type.toAst(),
+        };
+      },
+      MutationArgDeclaration_quick(name) {
+        return {
+          type: 'quick',
+          name: name.toAst(),
+        };
+      },
+    };
   },
 
   condensor(ast: MutationsAst): [ValidationError[], Mutations] {
     throw new Error();
   },
 };
+
+const list = (l, r) => l.toAst().concat(r.toAst());
+const listInit = _ => [];

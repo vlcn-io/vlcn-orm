@@ -4,7 +4,9 @@
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "typescript": "^4.6.2"
+  },
   "scripts": {
     "build": "rm -rf ./lib && tsc",
     "watch": "tsc -w"

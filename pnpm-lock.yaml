@@ -81,7 +81,10 @@ importers:
       '@strut/counter': link:../counter
 
   mono/typescript/packages/events:
-    specifiers: {}
+    specifiers:
+      typescript: ^4.6.2
+    devDependencies:
+      typescript: 4.6.3
 
   mono/typescript/packages/sid:
     specifiers:
@@ -92,7 +95,10 @@ importers:
       '@strut/utils': link:../utils
 
   mono/typescript/packages/utils:
-    specifiers: {}
+    specifiers:
+      typescript: ^4.6.2
+    devDependencies:
+      typescript: 4.6.3
 
   packages/codegen:
     specifiers:
@@ -294,6 +300,7 @@ importers:
 
   packages/schema:
     specifiers:
+      '@aphro/grammar-extension-api': workspace:*
       '@aphro/schema-api': workspace:*
       '@babel/core': ^7.17.8
       '@babel/preset-env': ^7.16.11
@@ -314,6 +321,7 @@ importers:
       sql-formatter: ^4.0.2
       typescript: ^4.6.2
     dependencies:
+      '@aphro/grammar-extension-api': link:../grammar-extension-api
       '@aphro/schema-api': link:../schema-api
       '@strut/counter': link:../../mono/typescript/packages/counter
       '@strut/events': link:../../mono/typescript/packages/events
@@ -336,7 +344,10 @@ importers:
       typescript: 4.6.3
 
   packages/schema-api:
-    specifiers: {}
+    specifiers:
+      typescript: ^4.6.2
+    devDependencies:
+      typescript: 4.6.3
 
   packages/vscode:
     specifiers: {}
