@@ -1,5 +1,7 @@
 packages:
   - 'examples/model-usage-ts'
+  - 'extensions/auth-grammar'
+  - 'extensions/mutation-grammar'
   - 'mono/typescript/packages/*'
   - 'packages/codegen'
   - 'packages/codegen-api'

@@ -1,5 +1,5 @@
 {
-  "name": "@aphro/mutation-grammar",
+  "name": "@aphro/auth-grammar",
   "version": "0.0.1",
   "main": "lib/index.js",
   "type": "module",
