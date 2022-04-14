@@ -10,10 +10,12 @@ interface Extension {
 
   }
 
-  condensor(): Condesnor {
+  condensor(): Condensor {
 
   }
 }
+
+- custom storage, custom loaders, in-memory only models, thrift models, block protocol extension?
 
 and re-write Mutations, OutboundEdges, InboundEdges, Index, etc. in this format.
 
