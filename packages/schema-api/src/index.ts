@@ -31,7 +31,7 @@ export type SchemaFile = {
   };
 };
 
-interface NodeExtensions {
+export interface NodeExtensions {
   outboundEdges?: OutboundEdges;
   inboundEdges?: InboundEdges;
   index?: Index;
@@ -41,7 +41,7 @@ interface NodeExtensions {
   traits?: Traits;
 }
 
-interface NodeAstExtensions {
+export interface NodeAstExtensions {
   outboundEdges: OutboundEdgesAst;
   inboundEdges: InboundEdgesAst;
   index: Index;

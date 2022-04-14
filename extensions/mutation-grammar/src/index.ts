@@ -120,5 +120,7 @@ MutationArgDeclaration
   },
 };
 
+export default extension;
+
 const list = (l, r) => l.toAst().concat(r.toAst());
 const listInit = _ => [];

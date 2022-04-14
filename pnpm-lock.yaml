@@ -60,10 +60,12 @@ importers:
   extensions/mutation-grammar:
     specifiers:
       '@aphro/grammar-extension-api': workspace:*
+      '@aphro/schema': workspace:*
       '@aphro/schema-api': workspace:*
       typescript: ^4.6.2
     dependencies:
       '@aphro/grammar-extension-api': link:../../packages/grammar-extension-api
+      '@aphro/schema': link:../../packages/schema
       '@aphro/schema-api': link:../../packages/schema-api
     devDependencies:
       typescript: 4.6.3

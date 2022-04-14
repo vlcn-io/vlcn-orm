@@ -41,3 +41,7 @@
   ],
 },
 */
+
+export const contents = ``;
+export const ast = {};
+export const compiled = {};

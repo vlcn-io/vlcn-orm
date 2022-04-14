@@ -5,7 +5,8 @@ export { default as edgeFn } from './edge.js';
 export { default as fieldFn } from './field.js';
 export * from './module.js';
 import { GrammarExtension } from '@aphro/grammar-extension-api';
+import config from './runtimeConfig.js';
 
-export function congiure({ extensions }: { extensions: GrammarExtension<any, any>[] }) {
-  // Augment our parser with the provided grammar extensions
+export function configure({ extensions }: { extensions: GrammarExtension<any, any>[] }) {
+  config.extensions = extensions;
 }
