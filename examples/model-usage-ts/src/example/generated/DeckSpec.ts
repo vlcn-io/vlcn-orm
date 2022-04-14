@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <dd191c50688b6bb2068a2302ae8b53eb>
+// SIGNED-SOURCE: <b81a0d97457880587deebdedfa46ecb7>
 import { ModelSpec } from "@aphro/model-runtime-ts";
 import { default as UserSpec } from "./UserSpec.js";
 import { default as SlideSpec } from "./SlideSpec.js";
@@ -33,6 +33,15 @@ const spec: ModelSpec<Data> = {
       type: "foreignKey",
       sourceField: "id",
       destField: "deckId",
+      get source() {
+        return spec;
+      },
+      dest: SlideSpec,
+    },
+    selectedSlide: {
+      type: "field",
+      sourceField: "selectedSlideId",
+      destField: "id",
       get source() {
         return spec;
       },

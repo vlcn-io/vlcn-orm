@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <45de480af7276bfa5223f7b03c00dee6>
+// SIGNED-SOURCE: <ea3fa37e04675301ad924e22493cba7e>
 import { P } from "@aphro/query-runtime-ts";
 import { Model } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
@@ -13,7 +13,7 @@ export type Data = {
   created: number;
   modified: number;
   ownerId: SID_of<User>;
-  selectedSlide: SID_of<Slide>;
+  selectedSlideId: SID_of<Slide>;
 };
 
 export default class Deck extends Model<Data> {
@@ -37,8 +37,8 @@ export default class Deck extends Model<Data> {
     return this.data.ownerId;
   }
 
-  get selectedSlide(): SID_of<Slide> {
-    return this.data.selectedSlide;
+  get selectedSlideId(): SID_of<Slide> {
+    return this.data.selectedSlideId;
   }
 
   queryOwner(): UserQuery {
@@ -46,5 +46,8 @@ export default class Deck extends Model<Data> {
   }
   querySlides(): SlideQuery {
     return SlideQuery.create().whereDeckId(P.equals(this.id));
+  }
+  querySelectedSlide(): SlideQuery {
+    return SlideQuery.fromId(this.selectedSlideId);
   }
 }

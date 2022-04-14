@@ -20,7 +20,7 @@ declare module '@aphro/grammar-extension-api' {
 }
 
 export type Mutations = {
-  name: 'mutations';
+  name: typeof name;
   mutations: {
     [key: string]: Mutation;
   };
@@ -118,7 +118,22 @@ MutationArgDeclaration
   },
 
   condensor(ast: MutationsAst): [ValidationError[], Mutations] {
-    throw new Error('Condense not yet available for mutations');
+    return [
+      [],
+      {
+        name,
+        mutations: ast.declarations.reduce((l, r) => {
+          l[r.name] = {
+            name: r.name,
+            args: r.args.reduce((l, r) => {
+              l[r.name] = r;
+              return l;
+            }, {}),
+          };
+          return l;
+        }, {}),
+      },
+    ];
   },
 };
 

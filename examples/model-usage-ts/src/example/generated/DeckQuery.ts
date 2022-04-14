@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <460943c31da3afb8aa4620a6c0339bc0>
+// SIGNED-SOURCE: <e8cd9cbcf31a62bd713b59f3eb0087a9>
 import { DerivedQuery } from "@aphro/query-runtime-ts";
 import { QueryFactory } from "@aphro/query-runtime-ts";
 import { modelLoad } from "@aphro/query-runtime-ts";
@@ -64,11 +64,11 @@ export default class DeckQuery extends DerivedQuery<Deck> {
     );
   }
 
-  whereSelectedSlide(p: Predicate<Data["selectedSlide"]>) {
+  whereSelectedSlideId(p: Predicate<Data["selectedSlideId"]>) {
     return new DeckQuery(
       this,
       filter(
-        new ModelFieldGetter<"selectedSlide", Data, Deck>("selectedSlide"),
+        new ModelFieldGetter<"selectedSlideId", Data, Deck>("selectedSlideId"),
         p
       )
     );
@@ -82,6 +82,12 @@ export default class DeckQuery extends DerivedQuery<Deck> {
   querySlides(): SlideQuery {
     return new SlideQuery(
       QueryFactory.createHopQueryFor(this, spec.outboundEdges.slides),
+      modelLoad(SlideSpec.createFrom)
+    );
+  }
+  querySelectedSlide(): SlideQuery {
+    return new SlideQuery(
+      QueryFactory.createHopQueryFor(this, spec.outboundEdges.selectedSlide),
       modelLoad(SlideSpec.createFrom)
     );
   }
