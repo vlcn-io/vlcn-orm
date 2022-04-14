@@ -1,9 +1,5 @@
 import { GrammarExtension } from '@aphro/grammar-extension-api';
 
-const config: {
-  extensions: GrammarExtension<any, any>[];
-} = {
-  extensions: [],
+export type Config = {
+  extensions?: GrammarExtension<any, any>[];
 };
-
-export default config;

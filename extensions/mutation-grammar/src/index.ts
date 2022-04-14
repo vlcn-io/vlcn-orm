@@ -116,7 +116,7 @@ MutationArgDeclaration
   },
 
   condensor(ast: MutationsAst): [ValidationError[], Mutations] {
-    throw new Error();
+    throw new Error('Condense not yet available for mutations');
   },
 };
 

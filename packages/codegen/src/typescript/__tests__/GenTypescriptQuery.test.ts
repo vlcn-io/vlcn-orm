@@ -1,6 +1,8 @@
 import { Node } from '@aphro/schema-api';
-import { compileFromString } from '@aphro/schema';
+import { createCompiler } from '@aphro/schema';
 import GenTypescriptQuery from '../GenTypescriptQuery';
+
+const { compileFromString } = createCompiler();
 
 const NoEdgesSchema = `
 engine: postgres

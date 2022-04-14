@@ -5,7 +5,7 @@ import commandLineUsage from 'command-line-usage';
 import CodegenPipleine from './CodegenPipeline.js';
 import * as process from 'process';
 import * as path from 'path';
-import { compile, stopsCodegen } from '@aphro/schema';
+import { createCompiler, stopsCodegen } from '@aphro/schema';
 import { SchemaFile, ValidationError } from '@aphro/schema-api';
 import chalk from 'chalk';
 
@@ -28,6 +28,8 @@ async function run() {
       return;
     }
 
+    // TODO: pull in extensions provided on command line
+    const { compile } = createCompiler();
     const errorsAndFiles: [ValidationError[], SchemaFile, string][] = genOptions.src.map(
       (s: string) => [...compile(path.join(process.cwd(), s)), s],
     );

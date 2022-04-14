@@ -1,21 +1,31 @@
 import condense from './parser/condense.js';
 import validate from './validate.js';
-import parse, { parseString } from './parser/parse.js';
+import { createParser } from './parser/parse.js';
 import { SchemaFile, SchemaFileAst, ValidationError } from '@aphro/schema-api';
+import { Config } from './runtimeConfig.js';
 
-export default function compile(path: string): [ValidationError[], SchemaFile] {
-  return compileFromAst(parse(path));
-}
+export function createCompiler(config: Config = {}) {
+  const parser = createParser(config);
+  function compile(path: string): [ValidationError[], SchemaFile] {
+    return compileFromAst(parser.parse(path));
+  }
 
-export function compileFromString(contents: string): [ValidationError[], SchemaFile] {
-  const ast = parseString(contents);
-  return compileFromAst(ast);
-}
+  function compileFromString(contents: string): [ValidationError[], SchemaFile] {
+    const ast = parser.parseString(contents);
+    return compileFromAst(ast);
+  }
 
-export function compileFromAst(ast: SchemaFileAst): [ValidationError[], SchemaFile] {
-  const [condenseErrors, schemaFile] = condense(ast);
+  function compileFromAst(ast: SchemaFileAst): [ValidationError[], SchemaFile] {
+    const [condenseErrors, schemaFile] = condense(ast);
 
-  const validationErrors = validate(schemaFile);
+    const validationErrors = validate(schemaFile);
 
-  return [[...condenseErrors, ...validationErrors], schemaFile];
+    return [[...condenseErrors, ...validationErrors], schemaFile];
+  }
+
+  return {
+    compile,
+    compileFromString,
+    compileFromAst,
+  };
 }

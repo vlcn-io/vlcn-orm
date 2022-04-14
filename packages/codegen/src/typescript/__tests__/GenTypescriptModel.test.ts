@@ -1,6 +1,8 @@
 import GenTypescriptModel from '../GenTypescriptModel.js';
 import { Node } from '@aphro/schema-api';
-import { compileFromString } from '@aphro/schema';
+import { createCompiler } from '@aphro/schema';
+
+const { compileFromString } = createCompiler();
 
 const IDOnlySchema = `
 engine: postgres

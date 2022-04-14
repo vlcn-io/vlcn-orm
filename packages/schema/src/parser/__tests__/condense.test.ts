@@ -1,6 +1,8 @@
 import { ast, schemaFile } from './testSchemaFile.js';
 import condense from '../condense.js';
-import { parseString } from '../parse.js';
+import { createParser } from '../parse.js';
+
+const { parseString } = createParser();
 
 test('Condensing the AST to proper schema types', () => {
   const [_errors, condensed] = condense(ast);

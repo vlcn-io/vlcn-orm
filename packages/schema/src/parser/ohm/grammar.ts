@@ -1,4 +1,5 @@
 import * as ohmSynth from 'ohm-js';
+import { Config } from '../../runtimeConfig.js';
 
 const ohm: typeof ohmSynth = (ohmSynth as any).default;
 
@@ -189,6 +190,7 @@ Aphro {
 }
 `;
 
-const grammar = ohm.grammar(grammarDefinition);
-
-export default grammar;
+export function compileGrammar(config: Config = {}) {
+  const grammar = ohm.grammar(grammarDefinition);
+  return grammar;
+}
