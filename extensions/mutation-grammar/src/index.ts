@@ -54,7 +54,7 @@ type MutationAst = {
   args: MutationArgDef[];
 };
 
-const name = Symbol('mutations');
+export const name = Symbol('mutations');
 const extension: GrammarExtension<MutationsAst, Mutations> = {
   name,
   extends: {

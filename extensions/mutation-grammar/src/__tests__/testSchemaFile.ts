@@ -1,47 +1,40 @@
-/*
- & Mutations {
-  debit {
-    amount: Currency<usd>
+import { name } from '../index.js';
+
+export const contents = `
+db: test
+engine: postgres
+
+User as Node {
+  id: ID<User>
+  name: NaturalLanguage
+} & Mutations {
+  create {
+    name
   }
-
-  lock {}
-
-  unlock {}
+  delete {}
 }
+`;
 
-{
-  name: 'mutations',
-  declarations: [
-    {
-      name: 'debit',
-      args: [
-        {
-          name: 'amount',
-          type: 'full',
-          typeDef: [
-            {
-              type: 'type',
-              name: {
-                type: 'currency',
-                denomination: 'usd',
-              },
-            },
-          ],
+export const compiled = {
+  edges: {},
+  nodes: {
+    User: {
+      extensions: {
+        [name]: {
+          name,
+          mutations: {
+            create: { args: { name: { name: 'name', type: 'quick' } }, name: 'create' },
+            delete: { args: {}, name: 'delete' },
+          },
         },
-      ],
+      },
+      fields: {
+        id: { name: 'id', of: 'User', type: 'id' },
+        name: { name: 'name', type: 'naturalLanguage' },
+      },
+      name: 'User',
+      primaryKey: 'id',
+      storage: { db: 'test', engine: 'postgres', tablish: 'user', type: 'sql' },
     },
-    {
-      name: 'lock',
-      args: [],
-    },
-    {
-      name: 'unlock',
-      args: [],
-    },
-  ],
-},
-*/
-
-export const contents = ``;
-export const ast = {};
-export const compiled = {};
+  },
+};
