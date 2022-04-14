@@ -51,8 +51,72 @@ import { assertUnreahable } from '@strut/utils';
  */
 export default function condense(
   schemaFile: SchemaFileAst,
-  condensors: Map<string | Symbol, (any) => any> = new Map(),
+  condensors: Map<string | Symbol, (any) => [ValidationError[], NodeExtension]> = new Map(),
 ): [ValidationError[], SchemaFile] {
+  function nodeExtensionCondensor(extension: NodeAstExtension): [ValidationError[], NodeExtension] {
+    switch (extension.name) {
+      case 'index':
+      case 'traits':
+        return [[], extension];
+      case 'inboundEdges':
+      case 'outboundEdges':
+        const [errors, edges] = arrayToMap(
+          extension.declarations,
+          e => e.name,
+          e => ({
+            message: `Duplicate ${extension.name} found for edge ${e.name}`,
+            severity: 'error',
+            type: extension.name === 'inboundEdges' ? 'duplicate-ib-edges' : 'duplicate-ob-edges',
+          }),
+        );
+        return [
+          errors,
+          {
+            name: extension.name,
+            edges,
+          },
+        ];
+      case 'storage':
+        return [[], extension];
+      default:
+        // @ts-ignore -- TODO: how do we make typescript aware of client extensions to types?
+        const condensor = condensors.get(extension.name);
+        if (!condensor) {
+          // @ts-ignore
+          throw new Error(`Unable to find condensor for ${extension.name}`);
+        }
+        return condensor(extension);
+    }
+  }
+
+  function condenseNode(
+    node: NodeAstCommon,
+    preamble: SchemaFileAst['preamble'],
+  ): [ValidationError[], Node] {
+    const [fieldErrors, fields] = condenseFieldsFor('Node', node);
+    const [extensionErrors, extensions] = condenseExtensionsFor(
+      'Node',
+      node,
+      nodeExtensionCondensor,
+    );
+
+    return [
+      [...fieldErrors, ...extensionErrors],
+      {
+        name: node.name,
+        primaryKey: 'id',
+        fields,
+        extensions: extensions as Node['extensions'],
+        storage: {
+          type: engineToType(preamble.engine),
+          engine: preamble.engine,
+          db: preamble.db,
+          tablish: (extensions.storage as any)?.tablish || node.name.toLocaleLowerCase(),
+        },
+      },
+    ];
+  }
+
   const [nodes, edges, traits] = schemaFile.entities.reduce(
     (left: [NodeAst[], EdgeAst[], NodeTraitAst[]], nodeOrEdge) => {
       switch (nodeOrEdge.type) {
@@ -128,30 +192,6 @@ export default function condense(
   ];
 }
 
-function condenseNode(
-  node: NodeAstCommon,
-  preamble: SchemaFileAst['preamble'],
-): [ValidationError[], Node] {
-  const [fieldErrors, fields] = condenseFieldsFor('Node', node);
-  const [extensionErrors, extensions] = condenseExtensionsFor('Node', node, nodeExtensionCondensor);
-
-  return [
-    [...fieldErrors, ...extensionErrors],
-    {
-      name: node.name,
-      primaryKey: 'id',
-      fields,
-      extensions: extensions as Node['extensions'],
-      storage: {
-        type: engineToType(preamble.engine),
-        engine: preamble.engine,
-        db: preamble.db,
-        tablish: (extensions.storage as any)?.tablish || node.name.toLocaleLowerCase(),
-      },
-    },
-  ];
-}
-
 function condenseEdge(
   edge: EdgeAst,
   preamble: SchemaFileAst['preamble'],
@@ -216,38 +256,6 @@ function engineToType(engine: StorageEngine): StorageType {
     case 'postgres':
     case 'mysql':
       return 'sql';
-  }
-}
-
-function nodeExtensionCondensor(extension: NodeAstExtension): [ValidationError[], NodeExtension] {
-  switch (extension.name) {
-    case 'index':
-    case 'traits':
-      return [[], extension];
-    case 'inboundEdges':
-    case 'outboundEdges':
-      const [errors, edges] = arrayToMap(
-        extension.declarations,
-        e => e.name,
-        e => ({
-          message: `Duplicate ${extension.name} found for edge ${e.name}`,
-          severity: 'error',
-          type: extension.name === 'inboundEdges' ? 'duplicate-ib-edges' : 'duplicate-ob-edges',
-        }),
-      );
-      return [
-        errors,
-        {
-          name: extension.name,
-          edges,
-        },
-      ];
-    case 'storage':
-      return [[], extension];
-    // TODO: look up in registered extensions / condensors...
-    // case 'mutations':
-    //   return condenseMutations(extension);
-    // return [[], extension];
   }
 }
 
