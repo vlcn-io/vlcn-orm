@@ -3,6 +3,7 @@ packages:
   - 'extensions/auth-grammar'
   - 'extensions/mutation-grammar'
   - 'mono/typescript/packages/*'
+  - 'packages/grammar-extension-api'
   - 'packages/codegen'
   - 'packages/codegen-api'
   - 'packages/integrations'

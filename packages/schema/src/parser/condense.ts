@@ -14,10 +14,8 @@ import {
   NodeExtension,
   NodeTraitAst,
   NodeAstCommon,
-  MutationsAst,
-  Mutations,
+  ValidationError,
 } from '@aphro/schema-api';
-import { ValidationError } from '../validate.js';
 import { assertUnreahable } from '@strut/utils';
 
 /**
@@ -243,14 +241,11 @@ function nodeExtensionCondensor(extension: NodeAstExtension): [ValidationError[]
       ];
     case 'storage':
       return [[], extension];
-    case 'mutations':
-      return condenseMutations(extension);
+    // TODO: look up in registered extensions / condensors...
+    // case 'mutations':
+    //   return condenseMutations(extension);
     // return [[], extension];
   }
-}
-
-function condenseMutations(mutations: MutationsAst): [ValidationError[], Mutations] {
-  throw new Error();
 }
 
 function edgeExtensionCondensor(extension: EdgeExtension): [ValidationError[], EdgeExtension] {

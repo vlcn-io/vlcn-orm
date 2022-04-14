@@ -1,11 +1,10 @@
 {
-  "name": "@aphro/mutation-grammar",
+  "name": "@aphro/grammar-extension-api",
   "version": "0.0.1",
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@aphro/schema-api": "workspace:*",
-    "@aphro/grammar-extension-api": "workspace:*"
+    "@aphro/schema-api": "workapsace*"
   },
   "devDependencies": {
     "typescript": "^4.6.2"

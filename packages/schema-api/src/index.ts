@@ -1,3 +1,16 @@
+export type ValidationError = {
+  message: string;
+  severity: 'warning' | 'advice' | 'error';
+  type:
+    | 'duplicate-nodes'
+    | 'duplicate-edges'
+    | 'duplicate-fields'
+    | 'duplicate-ob-edges'
+    | 'duplicate-ib-edges'
+    | 'duplicate-extensions'
+    | 'duplicate-traits';
+};
+
 export type StorageEngine = 'postgres' | 'mysql'; // | maria | neo4j | redis ...
 export type StorageType = 'sql'; // opencypher
 
@@ -18,22 +31,31 @@ export type SchemaFile = {
   };
 };
 
+interface NodeExtensions {
+  outboundEdges?: OutboundEdges;
+  inboundEdges?: InboundEdges;
+  index?: Index;
+  storage?: Storage;
+  type?: TypeConfig;
+  module?: ModuleConfig;
+  traits?: Traits;
+}
+
+interface NodeAstExtensions {
+  outboundEdges: OutboundEdgesAst;
+  inboundEdges: InboundEdgesAst;
+  index: Index;
+  storage: Storage;
+  traits: Traits;
+}
+
 export type Node = {
   name: NodeAst['name'];
   primaryKey: string;
   fields: {
     [key: UnqalifiedFieldReference]: Field;
   };
-  extensions: {
-    outboundEdges?: OutboundEdges;
-    inboundEdges?: InboundEdges;
-    index?: Index;
-    storage?: Storage;
-    type?: TypeConfig;
-    module?: ModuleConfig;
-    traits?: Traits;
-    mutations?: Mutations;
-  };
+  extensions: NodeExtensions;
   storage: StorageConfig;
 };
 
@@ -114,13 +136,7 @@ type NonComplexField = ID | NaturalLanguage | Enum | Currency | Time | Primitive
 type ComplexField = MapField | ArrayField;
 
 export type Field = NonComplexField | ComplexField;
-export type NodeAstExtension =
-  | OutboundEdgesAst
-  | InboundEdgesAst
-  | Index
-  | Storage
-  | Traits
-  | MutationsAst;
+export type NodeAstExtension = NodeAstExtensions[keyof NodeAstExtensions];
 export type NodeExtension = Node['extensions'][keyof Node['extensions']];
 
 export type NodeAst = {
@@ -267,42 +283,7 @@ type Traits = {
   declarations: string[];
 };
 
-export type MutationsAst = {
-  name: 'mutations';
-  declarations: MutationAst[];
-};
-
-export type Mutations = {
-  name: 'mutations';
-  mutations: {
-    [key: string]: Mutation;
-  };
-};
-
-type MutationAst = {
-  name: string;
-  args: MutationArgDef[];
-};
-
-type Mutation = {
-  name: string;
-  args: {
-    [key: string]: MutationArgDef;
-  };
-};
-
-type MutationArgDef =
-  | {
-      type: 'full';
-      name: string;
-      typeDef: TypeAtom[];
-    }
-  | {
-      type: 'quick';
-      name: string;
-    };
-
-type TypeAtom =
+export type TypeAtom =
   | {
       type: 'type';
       name: RemoveNameField<Field> | string;
