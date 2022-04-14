@@ -1,6 +1,7 @@
 import { TypeAtom, ValidationError } from '@aphro/schema-api';
 import { GrammarExtension } from '@aphro/grammar-extension-api';
 
+// add our type to the node extensions
 declare module '@aphro/schema-api' {
   interface NodeExtensions {
     mutations?: Mutations;
@@ -8,6 +9,13 @@ declare module '@aphro/schema-api' {
 
   interface NodeAstExtensions {
     mutations: MutationsAst;
+  }
+}
+
+// enable later extensions to also extend mutations
+declare module '@aphro/grammar-extension-api' {
+  interface ExtensionPoints {
+    MutationExtension: string;
   }
 }
 

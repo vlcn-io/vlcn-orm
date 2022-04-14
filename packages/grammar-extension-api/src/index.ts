@@ -1,7 +1,7 @@
 import { ValidationError } from '@aphro/schema-api';
 
 type RuleName = string;
-type ExtensionPoints = {
+interface ExtensionPoints {
   NodeFunction?: RuleName;
   EdgeFunction?: RuleName;
   // eventually fields too
@@ -18,7 +18,7 @@ type ExtensionPoints = {
   // extension point when they add their extension...
   //
   // declare module, interface extension trick...
-};
+}
 
 export interface GrammarExtension<TAst, TCondensed> {
   readonly extends: ExtensionPoints;
