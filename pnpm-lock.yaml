@@ -51,7 +51,7 @@ importers:
       ts-jest: 27.1.4_889311557937cce69cc11e4cc7168165
       typescript: 4.6.3
 
-  extensions/auth-grammar:
+  extensions/authorization-grammar:
     specifiers:
       typescript: ^4.6.2
     devDependencies:
@@ -105,6 +105,7 @@ importers:
   packages/codegen:
     specifiers:
       '@aphro/codegen-api': workspace:*
+      '@aphro/mutation-grammar': workspace:*
       '@aphro/schema': workspace:*
       '@aphro/schema-api': workspace:*
       '@babel/core': ^7.17.8
@@ -128,6 +129,7 @@ importers:
       typescript: ^4.6.2
     dependencies:
       '@aphro/codegen-api': link:../codegen-api
+      '@aphro/mutation-grammar': link:../../extensions/mutation-grammar
       '@aphro/schema': link:../schema
       '@aphro/schema-api': link:../schema-api
       '@strut/counter': link:../../mono/typescript/packages/counter

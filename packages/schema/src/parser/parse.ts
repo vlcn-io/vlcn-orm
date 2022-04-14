@@ -306,12 +306,12 @@ export function createParser(config: Config = {}) {
     schemaFileContents = stripComments(schemaFileContents);
 
     const matchResult = grammar.match(schemaFileContents);
-    const adapter = semantics(matchResult);
-    const ast = adapter.toAst();
-
     if (matchResult.failed()) {
       throw new Error(matchResult.message);
     }
+
+    const adapter = semantics(matchResult);
+    const ast = adapter.toAst();
 
     return ast as SchemaFileAst;
   }

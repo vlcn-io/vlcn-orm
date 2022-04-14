@@ -7,6 +7,7 @@
     "@aphro/codegen-api": "workspace:*",
     "@aphro/schema": "workspace:*",
     "@aphro/schema-api": "workspace:*",
+    "@aphro/mutation-grammar": "workspace:*",
     "@strut/counter": "workspace:*",
     "@strut/events": "workspace:*",
     "@strut/sid": "workspace:*",

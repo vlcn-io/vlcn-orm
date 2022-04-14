@@ -9,6 +9,10 @@ import { createCompiler, stopsCodegen } from '@aphro/schema';
 import { SchemaFile, ValidationError } from '@aphro/schema-api';
 import chalk from 'chalk';
 
+import mutationExtension from '@aphro/mutation-grammar';
+
+const grammarExtensions = [mutationExtension];
+
 async function run() {
   const mainDefinitions = [{ name: 'gen', defaultOption: true }];
   const mainOptions = commandLineArgs(mainDefinitions, {
@@ -28,7 +32,6 @@ async function run() {
       return;
     }
 
-    // TODO: pull in extensions provided on command line
     const { compile } = createCompiler();
     const errorsAndFiles: [ValidationError[], SchemaFile, string][] = genOptions.src.map(
       (s: string) => [...compile(path.join(process.cwd(), s)), s],

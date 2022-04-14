@@ -17,7 +17,7 @@ User as Node {
   id: ID<User>
   name: NaturalLanguage
   password: PBKDF2 & Auth { red: [AllowIf((viewer, node) => node.id === viewer.id)] } # field level privacy
-} & Auth { # object level privacy
+} & Authorization { # object level privacy
   read: [
     AlwaysAllow # everyone can see everyone
   ]
