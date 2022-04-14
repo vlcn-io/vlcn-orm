@@ -2,6 +2,7 @@ packages:
   - 'examples/model-usage-ts'
   - 'extensions/authorization-grammar'
   - 'extensions/mutation-grammar'
+  - 'extensions/mutation-codegen'
   - 'mono/typescript/packages/*'
   - 'packages/grammar-extension-api'
   - 'packages/codegen'
