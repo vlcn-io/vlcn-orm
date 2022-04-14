@@ -1,4 +1,5 @@
 import { ValidationError } from '@aphro/schema-api';
+import { ActionDict } from 'ohm-js';
 
 type RuleName = string;
 interface ExtensionPoints {
@@ -21,9 +22,10 @@ interface ExtensionPoints {
 }
 
 export interface GrammarExtension<TAst, TCondensed> {
+  readonly name: Symbol;
   readonly extends: ExtensionPoints;
 
   grammar(): string;
-  actions(): { [key: string]: Function };
+  actions(): ActionDict<any>;
   condensor(ast: TAst): [ValidationError[], TCondensed];
 }

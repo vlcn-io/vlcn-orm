@@ -6,6 +6,15 @@ import { Config } from './runtimeConfig.js';
 
 export function createCompiler(config: Config = {}) {
   const parser = createParser(config);
+
+  const condensors: Map<string | Symbol, (any) => any> = new Map();
+  config.extensions?.forEach(e => {
+    if (condensors.has(e.name)) {
+      throw new Error('Condensor already exists for a plugin with the name/symbol ' + e.name);
+    }
+    condensors.set(e.name, e.condensor);
+  });
+
   function compile(path: string): [ValidationError[], SchemaFile] {
     return compileFromAst(parser.parse(path));
   }
@@ -16,7 +25,7 @@ export function createCompiler(config: Config = {}) {
   }
 
   function compileFromAst(ast: SchemaFileAst): [ValidationError[], SchemaFile] {
-    const [condenseErrors, schemaFile] = condense(ast);
+    const [condenseErrors, schemaFile] = condense(ast, condensors);
 
     const validationErrors = validate(schemaFile);
 

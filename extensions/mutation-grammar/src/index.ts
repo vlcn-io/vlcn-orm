@@ -54,7 +54,9 @@ type MutationAst = {
   args: MutationArgDef[];
 };
 
+const name = Symbol('mutations');
 const extension: GrammarExtension<MutationsAst, Mutations> = {
+  name,
   extends: {
     NodeFunction: 'MutationsFn',
   },
@@ -85,7 +87,7 @@ MutationArgDeclaration
     return {
       MutationsFn(_, __, declarations, ___) {
         return {
-          name: 'mutations',
+          name,
           declarations: declarations.toAst(),
         };
       },

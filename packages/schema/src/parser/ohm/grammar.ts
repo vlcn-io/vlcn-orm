@@ -118,7 +118,7 @@ Aphro {
     | IndexFn
     | ReadPrivacyFn
     | TraitsFn
-    // NodeFunction-ExtensionPoint
+    // ExtensionPoint:NodeFunction
   
   OutboundEdgesFn
   	= "OutboundEdges" "{" EdgeDeclarations "}"
@@ -191,6 +191,17 @@ Aphro {
 `;
 
 export function compileGrammar(config: Config = {}) {
-  const grammar = ohm.grammar(grammarDefinition);
+  let extendedGrammar = grammarDefinition;
+  config.extensions?.forEach(e => {
+    Object.entries(e.extends).forEach(([what, with_]) => {
+      // ExtensionPoint:NodeFunction
+      const marker = `// ExtensionPoint:${what}`;
+      extendedGrammar = extendedGrammar.replaceAll(new RegExp(marker), `| ${with_}\n${marker}`);
+    });
+
+    extendedGrammar = extendedGrammar + '\n' + e.grammar();
+  });
+
+  const grammar = ohm.grammar(extendedGrammar);
   return grammar;
 }

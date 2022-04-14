@@ -32,7 +32,7 @@ async function run() {
       return;
     }
 
-    const { compile } = createCompiler();
+    const { compile } = createCompiler({ extensions: grammarExtensions });
     const errorsAndFiles: [ValidationError[], SchemaFile, string][] = genOptions.src.map(
       (s: string) => [...compile(path.join(process.cwd(), s)), s],
     );

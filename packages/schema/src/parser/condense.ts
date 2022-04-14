@@ -49,7 +49,10 @@ import { assertUnreahable } from '@strut/utils';
  * We collect as many as we can, rather than bailing early, so the user
  * can fix all errors before having to re-run compilation.
  */
-export default function condense(schemaFile: SchemaFileAst): [ValidationError[], SchemaFile] {
+export default function condense(
+  schemaFile: SchemaFileAst,
+  condensors: Map<string | Symbol, (any) => any> = new Map(),
+): [ValidationError[], SchemaFile] {
   const [nodes, edges, traits] = schemaFile.entities.reduce(
     (left: [NodeAst[], EdgeAst[], NodeTraitAst[]], nodeOrEdge) => {
       switch (nodeOrEdge.type) {

@@ -2,6 +2,7 @@ import { compileGrammar } from './ohm/grammar.js';
 import * as fs from 'fs';
 import { SchemaFileAst } from '@aphro/schema-api';
 import { Config } from '../runtimeConfig.js';
+import { ActionDict } from 'ohm-js';
 
 const list = (l, r) => l.toAst().concat(r.toAst());
 const listInit = _ => [];
@@ -291,6 +292,7 @@ export function createParser(config: Config = {}) {
         },
       ];
     },
+    ...extendedSemantics(config),
   });
 
   function parse(filePath: string): SchemaFileAst {
@@ -320,4 +322,23 @@ export function createParser(config: Config = {}) {
     parse,
     parseString,
   };
+}
+
+function extendedSemantics<T>(config: Config): ActionDict<T> {
+  const ret: ActionDict<T> = {};
+  const extensions = config.extensions;
+  if (extensions == null) {
+    return {};
+  }
+
+  extensions.forEach(e => {
+    Object.entries(e.actions()).forEach(([key, value]) => {
+      if (ret[key]) {
+        throw new Error(`Semantic action ${key} is being overriden by extension ${e.name}`);
+      }
+      // @ts-ignore -- TODO
+      ret[key] = value;
+    });
+  });
+  return ret;
 }

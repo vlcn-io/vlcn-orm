@@ -4,7 +4,8 @@
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@aphro/schema-api": "workapsace*"
+    "@aphro/schema-api": "workapsace*",
+    "ohm-js": "^16.3.2"
   },
   "devDependencies": {
     "typescript": "^4.6.2"
