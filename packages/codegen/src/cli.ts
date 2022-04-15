@@ -9,6 +9,7 @@ import { createCompiler, stopsCodegen } from '@aphro/schema';
 import { SchemaFile, ValidationError } from '@aphro/schema-api';
 import chalk from 'chalk';
 
+// TODO: core codegen should not depend on plugins!
 import mutationExtension from '@aphro/mutation-grammar';
 import { GenTypescriptMutations } from '@aphro/mutation-codegen';
 

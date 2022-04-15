@@ -6,7 +6,6 @@
 
 import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
 import { Node } from '@aphro/schema-api';
-import { TypescriptFile } from '@aphro/codegen';
 import { Mutation, MutationArgDef, mutationFn } from '@aphro/mutation-grammar';
 
 export class GenTypescriptMutations extends CodegenStep {
@@ -19,7 +18,8 @@ export class GenTypescriptMutations extends CodegenStep {
   }
 
   gen(): CodegenFile {
-    return new TypescriptFile(this.schema.name + 'Mutations.ts', this.getCode());
+    throw new Error('TypescriptFile needs to be moved out of codegen.');
+    // return new TypescriptFile(this.schema.name + 'Mutations.ts', this.getCode());
   }
 
   private getCode(): string {

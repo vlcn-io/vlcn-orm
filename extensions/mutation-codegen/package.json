@@ -7,7 +7,6 @@
     "@aphro/schema-api": "workspace:*",
     "@aphro/codegen-api": "workspace:*",
     "@aphro/schema": "workspace:*",
-    "@aphro/codegen": "workspace:*",
     "@aphro/mutation-grammar": "workspace:*"
   },
   "devDependencies": {
