@@ -12,7 +12,6 @@
   },
   "scripts": {
     "build": "turbo run build",
-    "watch": "turbo run watch",
     "test": "turbo run test",
     "todos": "leasot '**/*.ts' --ignore '**/node_modules'",
     "preinstall": "npx only-allow pnpm"

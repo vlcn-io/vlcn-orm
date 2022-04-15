@@ -17,8 +17,9 @@
     "@babel/preset-env": "^7.16.11"
   },
   "scripts": {
-    "build": "rm -rf ./lib && tsc",
-    "watch": "tsc -w",
+    "clean": "tsc --clean --build",
+    "build": "tsc --build",
+    "watch": "tsc --build -w",
     "test": "node ./node_modules/jest/bin/jest.js"
   },
   "jest": {

@@ -10,7 +10,16 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "baseUrl": "./src/",
-    "declaration": true
+    "declaration": true,
+    "composite": true,
+    "declarationMap": true,
+    "incremental": true,
+    "rootDir": "./src"
   },
-  "include": ["./src/", "knexfile.js"]
+  "include": ["./src/", "knexfile.js"],
+  "references": [
+    { "path": "../../packages/model-runtime-ts" },
+    { "path": "../../packages/query-runtime-ts" },
+    { "path": "../../packages/config-runtime-ts" }
+  ]
 }

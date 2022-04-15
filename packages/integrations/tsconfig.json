@@ -11,7 +11,8 @@
     "experimentalDecorators": true,
     "baseUrl": "./src/",
     "declaration": true,
-    "allowJs": true
+    "allowJs": true,
+    "rootDir": "./src"
   },
   "include": ["./src/"]
 }

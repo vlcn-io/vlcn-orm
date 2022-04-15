@@ -8,8 +8,9 @@
     "typescript": "^4.6.2"
   },
   "scripts": {
-    "build": "rm -rf ./lib && tsc",
-    "watch": "tsc -w"
+    "clean": "tsc --clean --build",
+    "build": "tsc --build",
+    "watch": "tsc --build -w"
   },
   "jest": {
     "testMatch": [

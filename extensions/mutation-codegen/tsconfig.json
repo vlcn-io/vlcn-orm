@@ -11,7 +11,18 @@
     "experimentalDecorators": true,
     "baseUrl": "./src/",
     "declaration": true,
-    "allowJs": true
+    "allowJs": true,
+    "composite": true,
+    "declarationMap": true,
+    "incremental": true,
+    "rootDir": "./src"
   },
-  "include": ["./src/"]
+  "include": ["./src/"],
+  "references": [
+    { "path": "../../packages/schema-api" },
+    { "path": "../../packages/codegen-api" },
+    { "path": "../../packages/schema" },
+    { "path": "../../packages/codegen" },
+    { "path": "../mutation-grammar" }
+  ]
 }
