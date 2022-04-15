@@ -1,5 +1,5 @@
 import { nullthrows } from '@strut/utils';
-import { DBResolver } from './resolver/DBResolver.js';
+import { DBResolver } from './DBResolver.js';
 
 let resolver: DBResolver;
 const config = {

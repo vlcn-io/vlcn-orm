@@ -1,0 +1,22 @@
+{
+  "name": "@aphro/config-runtime-ts",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "type": "module",
+  "dependencies": {
+    "@aphro/schema-api": "workspace:*",
+    "@strut/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.2"
+  },
+  "scripts": {
+    "build": "rm -rf ./lib && tsc",
+    "watch": "tsc -w"
+  },
+  "jest": {
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ]
+  }
+}

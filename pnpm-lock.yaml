@@ -13,6 +13,7 @@ importers:
   examples/model-usage-ts:
     specifiers:
       '@aphro/codegen': workspace:*
+      '@aphro/config-runtime-ts': workspace:*
       '@aphro/model-runtime-ts': workspace:*
       '@aphro/query-runtime-ts': workspace:*
       '@babel/core': ^7.17.8
@@ -31,6 +32,7 @@ importers:
       type-graphql: ^1.1.1
       typescript: ^4.6.2
     dependencies:
+      '@aphro/config-runtime-ts': link:../../packages/config-runtime-ts
       '@aphro/model-runtime-ts': link:../../packages/model-runtime-ts
       '@aphro/query-runtime-ts': link:../../packages/query-runtime-ts
       '@strut/sid': link:../../mono/typescript/packages/sid
@@ -196,6 +198,17 @@ importers:
     devDependencies:
       typescript: 4.6.3
 
+  packages/config-runtime-ts:
+    specifiers:
+      '@aphro/schema-api': workspace:*
+      '@strut/utils': workspace:*
+      typescript: ^4.6.2
+    dependencies:
+      '@aphro/schema-api': link:../schema-api
+      '@strut/utils': link:../../mono/typescript/packages/utils
+    devDependencies:
+      typescript: 4.6.3
+
   packages/grammar-extension-api:
     specifiers:
       '@aphro/schema-api': workapsace*
@@ -279,6 +292,7 @@ importers:
 
   packages/query-runtime-ts:
     specifiers:
+      '@aphro/config-runtime-ts': workspace:*
       '@aphro/model-runtime-ts': workspace:*
       '@aphro/schema-api': workspace:*
       '@babel/core': ^7.17.8
@@ -294,6 +308,7 @@ importers:
       ts-jest: ^27.1.3
       typescript: ^4.6.2
     dependencies:
+      '@aphro/config-runtime-ts': link:../config-runtime-ts
       '@aphro/model-runtime-ts': link:../model-runtime-ts
       '@aphro/schema-api': link:../schema-api
       '@strut/counter': link:../../mono/typescript/packages/counter

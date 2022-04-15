@@ -2,8 +2,8 @@ import { ModelSpec } from '@aphro/model-runtime-ts';
 import { BaseChunkIterable } from '../ChunkIterable.js';
 import specAndOpsToSQL from './specAndOpsToSQL.js';
 import { HoistedOperations } from './SqlSourceExpression.js';
-import runtimeConfig from '../runtimeConfig.js';
 import { invariant } from '@strut/utils';
+import { __internalConfig } from '@aphro/config-runtime-ts';
 
 export default class SQLSourceChunkIterable<T> extends BaseChunkIterable<T> {
   private cachedCompilation: ReturnType<typeof compile> | null;
@@ -18,7 +18,7 @@ export default class SQLSourceChunkIterable<T> extends BaseChunkIterable<T> {
     // TODO: stronger types one day
     // e.g., exec should by parametrized and checked against T somehow.
     // Should probably allow a namespace too?
-    return await runtimeConfig.resolver
+    return await __internalConfig.resolver
       .type(this.spec.storage.type)
       .engine(this.spec.storage.engine)
       .tablish(this.spec.storage.tablish)

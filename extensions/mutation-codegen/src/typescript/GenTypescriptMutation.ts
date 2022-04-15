@@ -22,7 +22,7 @@ export default class GenTypescriptMutator extends CodegenStep {
   }
 
   private getCode(): string {
-    return '';
+    return ``;
   }
 }
 
@@ -30,4 +30,8 @@ export default class GenTypescriptMutator extends CodegenStep {
  * Whats it look like?
  *
  * Do we allow mutators or only actions?
+ *
+ * Do we create a mutator?
+ * Wouldn't actions use the mutators to commit changes?
+ * And the mutator would create the query, invoke the db resolver and such.
  */
