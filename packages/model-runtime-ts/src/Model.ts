@@ -11,8 +11,10 @@ export interface IModel<T extends Object> {
   subscribe(c: () => void): Disposer;
   subscribeTo(keys: (keyof T)[], c: () => void): Disposer;
 
+  // Internal only APIs. Exposed since TS doesn't understand package friends.
   _merge(newData: Partial<T> | undefined): [Partial<T>, Set<() => void>] | null;
   _get<K extends keyof T>(key: K): T[K];
+  _d(): T;
 }
 
 export type ModelSpec<T extends Object> = {
@@ -112,6 +114,10 @@ export default class Model<T extends Object, E extends Object = {}> implements I
 
   _get<K extends keyof T>(key: K): T[K] {
     return this.data[key];
+  }
+
+  _d(): T {
+    return this.data;
   }
 
   isNoop(newData: Partial<T>): boolean {

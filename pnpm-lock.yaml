@@ -290,6 +290,21 @@ importers:
       ts-jest: 27.1.4_889311557937cce69cc11e4cc7168165
       typescript: 4.6.3
 
+  packages/mutator-runtime-ts:
+    specifiers:
+      '@aphro/config-runtime-ts': workspace:*
+      '@aphro/model-runtime-ts': workspace:*
+      '@aphro/schema-api': workspace:*
+      '@strut/utils': workspace:*
+      typescript: ^4.6.2
+    dependencies:
+      '@aphro/config-runtime-ts': link:../config-runtime-ts
+      '@aphro/model-runtime-ts': link:../model-runtime-ts
+      '@aphro/schema-api': link:../schema-api
+      '@strut/utils': link:../../mono/typescript/packages/utils
+    devDependencies:
+      typescript: 4.6.3
+
   packages/query-runtime-ts:
     specifiers:
       '@aphro/config-runtime-ts': workspace:*

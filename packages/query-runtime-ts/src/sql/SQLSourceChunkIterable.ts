@@ -18,6 +18,9 @@ export default class SQLSourceChunkIterable<T> extends BaseChunkIterable<T> {
     // TODO: stronger types one day
     // e.g., exec should by parametrized and checked against T somehow.
     // Should probably allow a namespace too?
+    // also... this is pretty generic and would apply to non-sql data sources too.
+    // given the actual query execution happens in the resolver.
+    // also -- should we chunk it at all?
     return await __internalConfig.resolver
       .type(this.spec.storage.type)
       .engine(this.spec.storage.engine)
@@ -39,6 +42,8 @@ export default class SQLSourceChunkIterable<T> extends BaseChunkIterable<T> {
   }
 }
 
+// This is the only SQL specific bit.
+// well.. the hoisted ops would differ by backend too.
 function compile(spec: ModelSpec<any>, hoistedOperations: HoistedOperations) {
   // TODO Nit: -- slight problem in that the sql generated here is knex format not native format
   // so it'd require the users to use knex.

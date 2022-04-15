@@ -1,8 +1,8 @@
-import { notEmpty } from "@strut/utils";
-import Model, { IModel } from "./Model.js";
-import ModelMap from "./ModelMap.js";
-import type { Task } from "./NotifyQueue.js";
-import TransactionLog from "./TransactionLog.js";
+import { notEmpty } from '@strut/utils';
+import Model, { IModel } from './Model.js';
+import ModelMap from './ModelMap.js';
+import type { Task } from './NotifyQueue.js';
+import TransactionLog from './TransactionLog.js';
 
 export type Changeset<M extends IModel<T>, T> =
   | CreateChangeset<M, T>
@@ -10,29 +10,26 @@ export type Changeset<M extends IModel<T>, T> =
   | DeleteChangeset<M, T>;
 
 export type CreateChangeset<M extends IModel<T>, T> = {
-  type: "create";
+  type: 'create';
   model: M;
   updates: Partial<T>;
 };
 
-type UpdateChangeset<M extends IModel<T>, T> = {
-  type: "update";
+export type UpdateChangeset<M extends IModel<T>, T> = {
+  type: 'update';
   model: M;
   updates: Partial<T>;
 };
 
 export type DeleteChangeset<M extends IModel<T>, T> = {
-  type: "delete";
+  type: 'delete';
   model: M;
   updates: undefined;
 };
 
-export function changeset<M extends IModel<T>, T>(
-  model: M,
-  updates: T
-): Changeset<M, T> {
+export function changeset<M extends IModel<T>, T>(model: M, updates: T): Changeset<M, T> {
   return {
-    type: "update",
+    type: 'update',
     model,
     updates,
   };
@@ -40,10 +37,10 @@ export function changeset<M extends IModel<T>, T>(
 
 export function createChangeset<M extends IModel<T>, T>(
   model: M,
-  updates: T
+  updates: T,
 ): CreateChangeset<M, T> {
   return {
-    type: "create",
+    type: 'create',
     model,
     updates,
   };
@@ -60,16 +57,13 @@ export type Transaction = {
 // Those methods will return changesets.
 // Clients will then commit changesets when ready.
 class ChangesetExecutor {
-  constructor(
-    private changesets: Changeset<Model<any>, any>[],
-    private logs: TransactionLog[]
-  ) {}
+  constructor(private changesets: Changeset<Model<any>, any>[], private logs: TransactionLog[]) {}
 
   execute() {
     const merged = this.mergeChangesets();
     this.removeNoops(merged);
     const [transaction, notifications] = this.apply(merged);
-    this.logs.forEach((l) => l.push(transaction));
+    this.logs.forEach(l => l.push(transaction));
 
     // TODO: place transaction onto transaction log
 
@@ -158,23 +152,15 @@ class ChangesetExecutor {
 // Do we commite changesets for completely new objects?
 // There's nothing to commit there, right?
 export function commit(
-  changeset:
-    | Changeset<Model<any, any>, any>
-    | (Changeset<Model<any, any>, any> | null)[]
-    | null,
-  log: TransactionLog | TransactionLog[]
+  changeset: Changeset<Model<any, any>, any> | (Changeset<Model<any, any>, any> | null)[] | null,
+  log: TransactionLog | TransactionLog[],
 ) {
   if (changeset == null) {
     return;
   }
-  const changesetArray = Array.isArray(changeset)
-    ? changeset.filter(notEmpty)
-    : [changeset];
+  const changesetArray = Array.isArray(changeset) ? changeset.filter(notEmpty) : [changeset];
   if (changesetArray.length === 0) {
     return;
   }
-  new ChangesetExecutor(
-    changesetArray,
-    !Array.isArray(log) ? [log] : log
-  ).execute();
+  new ChangesetExecutor(changesetArray, !Array.isArray(log) ? [log] : log).execute();
 }

@@ -10,6 +10,7 @@ packages:
   - 'packages/config-runtime-ts'
   - 'packages/integrations'
   - 'packages/model-runtime-ts'
+  - 'packages/mutator-runtime-ts'
   - 'packages/query-runtime-ts'
   - 'packages/react'
   - 'packages/schema'
