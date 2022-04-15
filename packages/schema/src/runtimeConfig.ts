@@ -1,5 +1,7 @@
 import { GrammarExtension } from '@aphro/grammar-extension-api';
+import { Step } from '@aphro/codegen-api';
 
 export type Config = {
-  extensions?: GrammarExtension<any, any>[];
+  grammarExtensions?: GrammarExtension<any, any>[];
+  codegenExtensions?: Step[];
 };

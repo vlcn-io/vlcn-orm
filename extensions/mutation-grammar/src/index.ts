@@ -1,5 +1,6 @@
 import { TypeAtom, ValidationError } from '@aphro/schema-api';
 import { GrammarExtension } from '@aphro/grammar-extension-api';
+export * from './mutation.js';
 
 // add our type to the node extensions
 declare module '@aphro/schema-api' {
@@ -26,23 +27,25 @@ export type Mutations = {
   };
 };
 
-type Mutation = {
+export type Mutation = {
   name: string;
   args: {
     [key: string]: MutationArgDef;
   };
 };
 
-type MutationArgDef =
-  | {
-      type: 'full';
-      name: string;
-      typeDef: TypeAtom[];
-    }
-  | {
-      type: 'quick';
-      name: string;
-    };
+export type MutationArgDef = FullArgDef | QuickArgDef;
+
+export type FullArgDef = {
+  type: 'full';
+  name: string;
+  typeDef: TypeAtom[];
+};
+
+export type QuickArgDef = {
+  type: 'quick';
+  name: string;
+};
 
 export type MutationsAst = {
   name: 'mutations';

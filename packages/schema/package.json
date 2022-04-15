@@ -5,6 +5,7 @@
   "type": "module",
   "dependencies": {
     "@aphro/schema-api": "workspace:*",
+    "@aphro/codegen-api": "workspace:*",
     "@strut/counter": "workspace:*",
     "@strut/events": "workspace:*",
     "@strut/sid": "workspace:*",

@@ -8,7 +8,7 @@ export function createCompiler(config: Config = {}) {
   const parser = createParser(config);
 
   const condensors: Map<string | Symbol, (any) => any> = new Map();
-  config.extensions?.forEach(e => {
+  config.grammarExtensions?.forEach(e => {
     if (condensors.has(e.name)) {
       throw new Error('Condensor already exists for a plugin with the name/symbol ' + e.name);
     }

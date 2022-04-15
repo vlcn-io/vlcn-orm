@@ -18,5 +18,9 @@
     "rootDir": "./src"
   },
   "include": ["./src/"],
-  "references": [{ "path": "../schema-api" }, { "path": "../grammar-extension-api" }]
+  "references": [
+    { "path": "../schema-api" },
+    { "path": "../grammar-extension-api" },
+    { "path": "../codegen-api" }
+  ]
 }

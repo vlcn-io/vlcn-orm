@@ -10,8 +10,10 @@ import { SchemaFile, ValidationError } from '@aphro/schema-api';
 import chalk from 'chalk';
 
 import mutationExtension from '@aphro/mutation-grammar';
+import { GenTypescriptMutations } from '@aphro/mutation-codegen';
 
 const grammarExtensions = [mutationExtension];
+const codegenExtensions = [];
 
 async function run() {
   const mainDefinitions = [{ name: 'gen', defaultOption: true }];

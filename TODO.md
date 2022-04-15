@@ -118,3 +118,5 @@ CREATE TABLE public."Slide"
     PRIMARY KEY (id)
 );
 ```
+
+https://codetabs.com/count-loc/count-loc-online.html

@@ -18,5 +18,5 @@
     "rootDir": "./src"
   },
   "include": ["./src/"],
-  "references": []
+  "references": [{ "path": "../schema-api" }]
 }

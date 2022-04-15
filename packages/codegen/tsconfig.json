@@ -22,6 +22,7 @@
     { "path": "../codegen-api" },
     { "path": "../schema" },
     { "path": "../schema-api" },
-    { "path": "../../extensions/mutation-grammar" }
+    { "path": "../../extensions/mutation-grammar" },
+    { "path": "../../extensions/mutation-codegen" }
   ]
 }

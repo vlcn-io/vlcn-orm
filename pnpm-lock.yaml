@@ -144,6 +144,7 @@ importers:
   packages/codegen:
     specifiers:
       '@aphro/codegen-api': workspace:*
+      '@aphro/mutation-codegen': workspace:*
       '@aphro/mutation-grammar': workspace:*
       '@aphro/schema': workspace:*
       '@aphro/schema-api': workspace:*
@@ -168,6 +169,7 @@ importers:
       typescript: ^4.6.2
     dependencies:
       '@aphro/codegen-api': link:../codegen-api
+      '@aphro/mutation-codegen': link:../../extensions/mutation-codegen
       '@aphro/mutation-grammar': link:../../extensions/mutation-grammar
       '@aphro/schema': link:../schema
       '@aphro/schema-api': link:../schema-api
@@ -194,7 +196,10 @@ importers:
 
   packages/codegen-api:
     specifiers:
+      '@aphro/schema-api': workspace:*
       typescript: ^4.6.2
+    dependencies:
+      '@aphro/schema-api': link:../schema-api
     devDependencies:
       typescript: 4.6.3
 
@@ -373,6 +378,7 @@ importers:
 
   packages/schema:
     specifiers:
+      '@aphro/codegen-api': workspace:*
       '@aphro/grammar-extension-api': workspace:*
       '@aphro/schema-api': workspace:*
       '@babel/core': ^7.17.8
@@ -394,6 +400,7 @@ importers:
       sql-formatter: ^4.0.2
       typescript: ^4.6.2
     dependencies:
+      '@aphro/codegen-api': link:../codegen-api
       '@aphro/grammar-extension-api': link:../grammar-extension-api
       '@aphro/schema-api': link:../schema-api
       '@strut/counter': link:../../mono/typescript/packages/counter

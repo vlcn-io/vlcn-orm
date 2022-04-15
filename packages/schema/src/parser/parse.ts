@@ -326,7 +326,7 @@ export function createParser(config: Config = {}) {
 
 function extendedSemantics<T>(config: Config): ActionDict<T> {
   const ret: ActionDict<T> = {};
-  const extensions = config.extensions;
+  const extensions = config.grammarExtensions;
   if (extensions == null) {
     return {};
   }

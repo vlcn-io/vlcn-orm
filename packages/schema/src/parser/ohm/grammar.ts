@@ -190,7 +190,7 @@ const grammarDefinition = String.raw`
 
 export function compileGrammar(config: Config = {}) {
   let extendedGrammar = grammarDefinition;
-  config.extensions?.forEach(e => {
+  config.grammarExtensions?.forEach(e => {
     Object.entries(e.extends).forEach(([what, with_]) => {
       // ExtensionPoint:NodeFunction
       const marker = `// ExtensionPoint:${what}`;

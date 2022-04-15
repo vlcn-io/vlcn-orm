@@ -1,5 +1,4 @@
 import { maybeMap } from '@strut/utils';
-import { CodegenStep } from '@aphro/codegen-api';
 import GenTypescriptModel from './typescript/GenTypescriptModel.js';
 import * as fs from 'fs';
 import GenTypescriptQuery from './typescript/GenTypescriptQuery.js';
@@ -8,11 +7,7 @@ import GenPostgresTableSchema from './postgres/GenPostgresTableSchema.js';
 import { Node, Edge } from '@aphro/schema-api';
 import GenTypescriptSpec from './typescript/GenTypescriptSpec.js';
 import GenSqliteTableSchema from './sqlite/GenSqliteTableSchema.js';
-
-type Step = {
-  new (x: Node | Edge): CodegenStep;
-  accepts: (x: Node | Edge) => boolean;
-};
+import { Step } from '@aphro/codegen-api';
 
 const defaultSteps: readonly Step[] = [
   GenTypescriptModel,

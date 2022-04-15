@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "main": "lib/index.js",
   "type": "module",
-  "dependencies": {},
+  "dependencies": {
+    "@aphro/schema-api": "workspace:*"
+  },
   "devDependencies": {
     "typescript": "^4.6.2"
   },
