@@ -13,6 +13,11 @@ export interface IMutationBuilder<T extends Object, M extends IModel<T>> {
   getChangeset(): Changeset<M, T>;
 }
 
+export interface ICreateOrUpdateBuilder<T extends Object, M extends IModel<T>>
+  extends IMutationBuilder<T, M> {
+  set(newData: Partial<T>): this;
+}
+
 // TODO: and if we want to enable transactions...
 abstract class MutationBuilder<T extends Object, M extends IModel<T>>
   implements IMutationBuilder<T, M>
@@ -21,10 +26,24 @@ abstract class MutationBuilder<T extends Object, M extends IModel<T>>
   abstract getChangeset(): Changeset<M, T>;
 }
 
+abstract class CreateOrUpdateBuilder<T extends Object, M extends IModel<T>> extends MutationBuilder<
+  T,
+  M
+> {
+  set(newData: Partial<T>): this {
+    this.data = {
+      ...this.data,
+      ...newData,
+    };
+
+    return this;
+  }
+}
+
 export abstract class CreationMutationBuilder<
   T extends Object,
   M extends IModel<T>,
-> extends MutationBuilder<T, M> {
+> extends CreateOrUpdateBuilder<T, M> {
   constructor(spec: ModelSpec<T>) {
     super(spec, {});
   }
@@ -42,7 +61,7 @@ export abstract class CreationMutationBuilder<
 export abstract class UpdateMutationBuilder<
   T extends Object,
   M extends IModel<T>,
-> extends MutationBuilder<T, M> {
+> extends CreateOrUpdateBuilder<T, M> {
   constructor(spec: ModelSpec<T>, private model: M) {
     super(spec, {});
   }

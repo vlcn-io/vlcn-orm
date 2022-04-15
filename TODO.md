@@ -1,3 +1,9 @@
+Write authz checked at persist time.
+Read authz checks at load time.
+
+Persist in mutator.
+Load in model `createFromData`
+
 - TRPC.io? as our transport rather than anything GraphQL like?
 - pluggable grammar
 

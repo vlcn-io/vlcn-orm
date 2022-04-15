@@ -7,7 +7,16 @@ class MutationBuilder {
         this.data = data;
     }
 }
-export class CreationMutationBuilder extends MutationBuilder {
+class CreateOrUpdateBuilder extends MutationBuilder {
+    set(newData) {
+        this.data = {
+            ...this.data,
+            ...newData,
+        };
+        return this;
+    }
+}
+export class CreationMutationBuilder extends CreateOrUpdateBuilder {
     constructor(spec) {
         super(spec, {});
     }
@@ -20,7 +29,7 @@ export class CreationMutationBuilder extends MutationBuilder {
         };
     }
 }
-export class UpdateMutationBuilder extends MutationBuilder {
+export class UpdateMutationBuilder extends CreateOrUpdateBuilder {
     model;
     constructor(spec, model) {
         super(spec, {});
