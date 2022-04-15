@@ -1,3 +1,10 @@
+# Client / Server model split --
+Writes are easy. All point writes allowed. Can send a batch of validated point writes from the client.
+Server should always check authz policies. Optionally re-do validation.
+
+Reads are harder. We don't want to build and send raw SQL but rather just query plans.
+We also want to build an allow-list of query plans to accept. E.g., persisted queries.
+
 Write authz checked at persist time.
 Read authz checks at load time.
 
