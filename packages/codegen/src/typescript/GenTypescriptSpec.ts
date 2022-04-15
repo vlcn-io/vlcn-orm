@@ -25,7 +25,7 @@ ${this.getSpecCode()}
   }
 
   private getSpecCode(): string {
-    return `const spec: ModelSpec<Data> = {
+    return `const spec: ModelSpec<Data, ${this.schema.name}> = {
   createFrom(data: Data) {
     return new ${this.schema.name}(data);
   },

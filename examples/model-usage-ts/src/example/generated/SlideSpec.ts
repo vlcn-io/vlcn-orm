@@ -1,10 +1,10 @@
-// SIGNED-SOURCE: <a3b2e51557289d8b756c251a394d8842>
+// SIGNED-SOURCE: <f384e609c49a5c408dad667d05bc7fe4>
 import { ModelSpec } from "@aphro/model-runtime-ts";
 import { default as ComponentSpec } from "./ComponentSpec.js";
 import Slide from "./Slide.js";
 import { Data } from "./Slide.js";
 
-const spec: ModelSpec<Data> = {
+const spec: ModelSpec<Data, Slide> = {
   createFrom(data: Data) {
     return new Slide(data);
   },

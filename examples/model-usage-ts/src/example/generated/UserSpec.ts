@@ -1,10 +1,10 @@
-// SIGNED-SOURCE: <b04da6af1b29ee81fbd9ddf3442d853f>
+// SIGNED-SOURCE: <32057f6eddb5635975326269895cb06d>
 import { ModelSpec } from "@aphro/model-runtime-ts";
 import { default as DeckSpec } from "./DeckSpec.js";
 import User from "./User.js";
 import { Data } from "./User.js";
 
-const spec: ModelSpec<Data> = {
+const spec: ModelSpec<Data, User> = {
   createFrom(data: Data) {
     return new User(data);
   },
