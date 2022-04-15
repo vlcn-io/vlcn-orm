@@ -7,7 +7,7 @@ import SQLSourceQuery from './sql/SqlSourceQuery.js';
 // Runtime factory so we can swap to `Wire` when running on a client vs
 // the native platform.
 const factory = {
-  createSourceQueryFor<T>(spec: ModelSpec<T>): Query<T> {
+  createSourceQueryFor<T>(spec: ModelSpec<T, any>): Query<T> {
     switch (spec.storage.type) {
       case 'sql':
         return new SQLSourceQuery(spec);

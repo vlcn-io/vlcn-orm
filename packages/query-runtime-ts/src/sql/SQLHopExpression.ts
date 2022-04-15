@@ -6,7 +6,7 @@ import HopPlan from '../HopPlan.js';
 import { HoistedOperations } from './SqlSourceExpression.js';
 
 export default class SQLHopExpression<T> implements HopExpression<SID_of<any>, T> {
-  readonly spec: ModelSpec<any>;
+  readonly spec: ModelSpec<any, any>;
   readonly ops: HoistedOperations;
 
   chainAfter(iterable: ChunkIterable<SID_of<any>>): ChunkIterable<T> {

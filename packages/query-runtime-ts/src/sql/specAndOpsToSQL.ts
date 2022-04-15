@@ -7,7 +7,7 @@ import { ModelFieldGetter } from 'Field.js';
 
 // given a model spec and hoisted operations, return the SQL query
 export default function specAndOpsToSQL(
-  spec: ModelSpec<any>,
+  spec: ModelSpec<any, any>,
   ops: HoistedOperations,
 ): Knex.QueryBuilder {
   const builder = getKnex(spec);
@@ -39,9 +39,9 @@ export default function specAndOpsToSQL(
 }
 
 function getLastSpecAndProjection(
-  spec: ModelSpec<any>,
+  spec: ModelSpec<any, any>,
   ops: HoistedOperations,
-): [ModelSpec<any>, HoistedOperations['what']] {
+): [ModelSpec<any, any>, HoistedOperations['what']] {
   const hop = ops.hop;
   if (hop == null) {
     return [spec, ops.what];
@@ -124,7 +124,7 @@ function applyHops<T extends Knex.QueryBuilder>(table: T, hop?: SQLHopExpression
   return table;
 }
 
-function getKnex(spec: ModelSpec<any>) {
+function getKnex(spec: ModelSpec<any, any>) {
   switch (spec.storage.engine) {
     case 'mysql':
       return knex({ client: 'mysql' });

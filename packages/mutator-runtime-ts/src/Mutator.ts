@@ -10,7 +10,7 @@ import {
 import { __internalConfig } from '@aphro/config-runtime-ts';
 
 export interface IMutationBuilder<T extends Object, M extends IModel<T>> {
-  getChangeset(): Changeset<M, T>;
+  toChangeset(): Changeset<M, T>;
 }
 
 export interface ICreateOrUpdateBuilder<T extends Object, M extends IModel<T>>
@@ -22,8 +22,8 @@ export interface ICreateOrUpdateBuilder<T extends Object, M extends IModel<T>>
 abstract class MutationBuilder<T extends Object, M extends IModel<T>>
   implements IMutationBuilder<T, M>
 {
-  constructor(protected spec: ModelSpec<T>, protected data: Partial<T>) {}
-  abstract getChangeset(): Changeset<M, T>;
+  constructor(protected spec: ModelSpec<T, M>, protected data: Partial<T>) {}
+  abstract toChangeset(): Changeset<M, T>;
 }
 
 abstract class CreateOrUpdateBuilder<T extends Object, M extends IModel<T>> extends MutationBuilder<
@@ -44,15 +44,14 @@ export abstract class CreationMutationBuilder<
   T extends Object,
   M extends IModel<T>,
 > extends CreateOrUpdateBuilder<T, M> {
-  constructor(spec: ModelSpec<T>) {
+  constructor(spec: ModelSpec<T, M>) {
     super(spec, {});
   }
 
-  getChangeset(): CreateChangeset<M, T> {
-    // TODO -- refactor to remove `model` from `CreateChangeset`
-    // @ts-ignore
+  toChangeset(): CreateChangeset<M, T> {
     return {
       type: 'create',
+      model: this.spec.createFrom(this.data as T),
       updates: this.data,
     };
   }
@@ -62,11 +61,11 @@ export abstract class UpdateMutationBuilder<
   T extends Object,
   M extends IModel<T>,
 > extends CreateOrUpdateBuilder<T, M> {
-  constructor(spec: ModelSpec<T>, private model: M) {
+  constructor(spec: ModelSpec<T, M>, private model: M) {
     super(spec, {});
   }
 
-  getChangeset(): UpdateChangeset<M, T> {
+  toChangeset(): UpdateChangeset<M, T> {
     return {
       type: 'update',
       model: this.model,
@@ -79,11 +78,11 @@ export class DeleteMutationBuilder<T extends Object, M extends IModel<T>> extend
   T,
   M
 > {
-  constructor(spec: ModelSpec<T>, private model: M) {
+  constructor(spec: ModelSpec<T, M>, private model: M) {
     super(spec, {});
   }
 
-  getChangeset(): DeleteChangeset<M, T> {
+  toChangeset(): DeleteChangeset<M, T> {
     return {
       type: 'delete',
       model: this.model,

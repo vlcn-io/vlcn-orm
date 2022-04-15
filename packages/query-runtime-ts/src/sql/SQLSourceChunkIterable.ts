@@ -7,7 +7,7 @@ import { __internalConfig } from '@aphro/config-runtime-ts';
 
 export default class SQLSourceChunkIterable<T> extends BaseChunkIterable<T> {
   private cachedCompilation: ReturnType<typeof compile> | null;
-  constructor(private spec: ModelSpec<T>, private hoistedOperations: HoistedOperations) {
+  constructor(private spec: ModelSpec<T, any>, private hoistedOperations: HoistedOperations) {
     super();
     invariant(this.spec.storage.type === 'sql', 'SQL source used for non-SQL model!');
   }
@@ -44,7 +44,7 @@ export default class SQLSourceChunkIterable<T> extends BaseChunkIterable<T> {
 
 // This is the only SQL specific bit.
 // well.. the hoisted ops would differ by backend too.
-function compile(spec: ModelSpec<any>, hoistedOperations: HoistedOperations) {
+function compile(spec: ModelSpec<any, any>, hoistedOperations: HoistedOperations) {
   // TODO Nit: -- slight problem in that the sql generated here is knex format not native format
   // so it'd require the users to use knex.
   // we should get it to native...

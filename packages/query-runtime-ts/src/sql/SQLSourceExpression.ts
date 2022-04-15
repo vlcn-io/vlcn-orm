@@ -35,7 +35,7 @@ export default class SQLSourceExpression<T> implements SourceExpression<T> {
   constructor(
     // we should take a schema instead of db
     // we'd need the schema to know if we can hoist certain fields or not
-    private spec: ModelSpec<T>,
+    private spec: ModelSpec<T, any>,
     private hoistedOperations: HoistedOperations,
   ) {}
 
