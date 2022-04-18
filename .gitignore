@@ -3,3 +3,4 @@ dist/
 .DS_STORE
 .turbo/
 tsconfig.tsbuildinfo
+.pnpm-debug.log
