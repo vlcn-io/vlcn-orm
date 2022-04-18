@@ -3,6 +3,8 @@ import { GrammarExtension } from '@aphro/grammar-extension-api';
 export * from './mutation.js';
 
 // add our type to the node extensions
+// export const name: unique symbol = Symbol('mutations');
+export const name = 'mutations'; // symbol fails the type checker when used by client code 🤷‍♂️
 declare module '@aphro/schema-api' {
   interface NodeExtensions {
     mutations?: Mutations;
@@ -21,7 +23,7 @@ declare module '@aphro/grammar-extension-api' {
 }
 
 export type Mutations = {
-  name: typeof name;
+  name: 'mutations';
   mutations: {
     [key: string]: Mutation;
   };
@@ -57,9 +59,8 @@ type MutationAst = {
   args: MutationArgDef[];
 };
 
-export const name = Symbol('mutations');
 const extension: GrammarExtension<MutationsAst, Mutations> = {
-  name,
+  name: 'mutations',
   extends: {
     NodeFunction: 'MutationsFn',
   },

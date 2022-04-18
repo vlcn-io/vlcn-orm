@@ -22,7 +22,7 @@
     { "path": "../../packages/schema-api" },
     { "path": "../../packages/codegen-api" },
     { "path": "../../packages/schema" },
-    { "path": "../../packages/codegen" },
+    { "path": "../../packages/codegen-ts" },
     { "path": "../mutation-grammar" }
   ]
 }

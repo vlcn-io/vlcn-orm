@@ -6,8 +6,10 @@
   "dependencies": {
     "@aphro/schema-api": "workspace:*",
     "@aphro/codegen-api": "workspace:*",
+    "@aphro/codegen-ts": "workspace:*",
     "@aphro/schema": "workspace:*",
-    "@aphro/mutation-grammar": "workspace:*"
+    "@aphro/mutation-grammar": "workspace:*",
+    "@aphro/codegen-ts": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^4.6.2",

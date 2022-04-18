@@ -1,7 +1,7 @@
-import { Field, Import, RemoveNameField } from '@aphro/schema-api';
+import { Field, Import, RemoveNameField, TypeAtom } from '@aphro/schema-api';
 import { uniqueImports } from '@aphro/codegen';
 
-function fieldToTsType(field: RemoveNameField<Field>): string {
+export function fieldToTsType(field: RemoveNameField<Field>): string {
   switch (field.type) {
     case 'id':
       return `SID_of<${field.of}>`;
@@ -36,6 +36,20 @@ function fieldToTsType(field: RemoveNameField<Field>): string {
   );
 }
 
+export function typeDefToTsType(def: TypeAtom[]): string {
+  return def
+    .map(a =>
+      a.type === 'union'
+        ? '|'
+        : a.type === 'intersection'
+        ? '&'
+        : typeof a.name === 'string'
+        ? a.name
+        : fieldToTsType(a.name),
+    )
+    .join(' ');
+}
+
 export function importToString(val: Import): string {
   const name = val.name != null ? val.name + ' ' : '';
   const as = val.as != null ? 'as ' + val.as + ' ' : '';
@@ -57,5 +71,3 @@ export function collapseImports(imports: readonly Import[]): readonly Import[] {
   // not yet implemented
   return imports;
 }
-
-export { fieldToTsType };

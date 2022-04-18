@@ -7,10 +7,11 @@
 import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
 import { Node } from '@aphro/schema-api';
 import { Mutation, MutationArgDef, mutationFn } from '@aphro/mutation-grammar';
+import { typeDefToTsType, TypescriptFile } from '@aphro/codegen-ts';
 
 export class GenTypescriptMutations extends CodegenStep {
-  static accepts(_schema: Node): boolean {
-    return true;
+  static accepts(schema: Node): boolean {
+    return Object.values(schema.extensions.mutations?.mutations || []).length > 0;
   }
 
   constructor(private schema: Node) {
@@ -18,8 +19,7 @@ export class GenTypescriptMutations extends CodegenStep {
   }
 
   gen(): CodegenFile {
-    throw new Error('TypescriptFile needs to be moved out of codegen.');
-    // return new TypescriptFile(this.schema.name + 'Mutations.ts', this.getCode());
+    return new TypescriptFile(this.schema.name + 'Mutations.ts', this.getCode());
   }
 
   private getCode(): string {
@@ -42,7 +42,7 @@ export class GenTypescriptMutations extends CodegenStep {
   private getMutationMethodsCode(): string {
     return Object.values(this.schema.extensions.mutations?.mutations || {})
       .map(m => this.getMutationMethodCode(m))
-      .join('\n');
+      .join('\n\n');
   }
 
   private getMutationMethodCode(m: Mutation): string {
@@ -57,7 +57,7 @@ export class GenTypescriptMutations extends CodegenStep {
     const fullArgsDefs = Object.values(args).map(a =>
       mutationFn.transformMaybeQuickToFull(this.schema, a),
     );
-    return '';
+    return fullArgsDefs.map(a => a.name + ': ' + typeDefToTsType(a.typeDef)).join(',');
   }
 }
 

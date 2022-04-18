@@ -12,7 +12,7 @@ importers:
 
   examples/model-usage-ts:
     specifiers:
-      '@aphro/codegen': workspace:*
+      '@aphro/codegen-cli': workspace:*
       '@aphro/config-runtime-ts': workspace:*
       '@aphro/model-runtime-ts': workspace:*
       '@aphro/query-runtime-ts': workspace:*
@@ -43,7 +43,7 @@ importers:
       reflect-metadata: 0.1.13
       type-graphql: 1.1.1_9be1ff75d882fe7642637dd5bd1e76d7
     devDependencies:
-      '@aphro/codegen': link:../../packages/codegen
+      '@aphro/codegen-cli': link:../../packages/codegen-cli
       '@babel/core': 7.17.8
       '@babel/preset-env': 7.16.11_@babel+core@7.17.8
       '@types/jest': 27.4.1
@@ -62,6 +62,7 @@ importers:
   extensions/mutation-codegen:
     specifiers:
       '@aphro/codegen-api': workspace:*
+      '@aphro/codegen-ts': workspace:*
       '@aphro/mutation-grammar': workspace:*
       '@aphro/schema': workspace:*
       '@aphro/schema-api': workspace:*
@@ -73,6 +74,7 @@ importers:
       typescript: ^4.6.2
     dependencies:
       '@aphro/codegen-api': link:../../packages/codegen-api
+      '@aphro/codegen-ts': link:../../packages/codegen-ts
       '@aphro/mutation-grammar': link:../mutation-grammar
       '@aphro/schema': link:../../packages/schema
       '@aphro/schema-api': link:../../packages/schema-api

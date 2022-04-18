@@ -22,7 +22,7 @@ interface ExtensionPoints {
 }
 
 export interface GrammarExtension<TAst, TCondensed> {
-  readonly name: Symbol;
+  readonly name: string; //Symbol;
   readonly extends: ExtensionPoints;
 
   grammar(): string;

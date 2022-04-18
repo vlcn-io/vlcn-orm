@@ -15,7 +15,7 @@
     "type-graphql": "^1.1.1"
   },
   "devDependencies": {
-    "@aphro/codegen": "workspace:*",
+    "@aphro/codegen-cli": "workspace:*",
     "@babel/core": "^7.17.8",
     "@babel/preset-env": "^7.16.11",
     "@types/jest": "^27.4.1",
