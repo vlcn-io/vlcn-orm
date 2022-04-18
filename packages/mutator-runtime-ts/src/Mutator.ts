@@ -40,7 +40,7 @@ abstract class CreateOrUpdateBuilder<T extends Object, M extends IModel<T>> exte
   }
 }
 
-export class CreationMutationBuilder<
+export class CreateMutationBuilder<
   T extends Object,
   M extends IModel<T>,
 > extends CreateOrUpdateBuilder<T, M> {

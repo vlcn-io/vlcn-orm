@@ -28,10 +28,6 @@ export default class SQLSourceChunkIterable<T> extends BaseChunkIterable<T> {
       .exec(query.sql, query.bindings);
   }
 
-  __getSQL() {
-    return this.compileQuery();
-  }
-
   private compileQuery() {
     if (this.cachedCompilation != null) {
       return this.cachedCompilation;

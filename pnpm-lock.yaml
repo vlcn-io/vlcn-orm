@@ -15,6 +15,7 @@ importers:
       '@aphro/codegen-cli': workspace:*
       '@aphro/config-runtime-ts': workspace:*
       '@aphro/model-runtime-ts': workspace:*
+      '@aphro/mutator-runtime-ts': workspace:*
       '@aphro/query-runtime-ts': workspace:*
       '@babel/core': ^7.17.8
       '@babel/preset-env': ^7.16.11
@@ -34,6 +35,7 @@ importers:
     dependencies:
       '@aphro/config-runtime-ts': link:../../packages/config-runtime-ts
       '@aphro/model-runtime-ts': link:../../packages/model-runtime-ts
+      '@aphro/mutator-runtime-ts': link:../../packages/mutator-runtime-ts
       '@aphro/query-runtime-ts': link:../../packages/query-runtime-ts
       '@strut/sid': link:../../mono/typescript/packages/sid
       '@vscode/sqlite3': 5.0.8

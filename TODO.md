@@ -1,3 +1,10 @@
+# Spec & Persist
+
+Persist, Data<D>...
+`Spec` should include `toStorage` and `fromStorage`
+D doesn't need to match the on disk format.
+
+
 # Client / Server model split --
 Writes are easy. All point writes allowed. Can send a batch of validated point writes from the client.
 Server should always check authz policies. Optionally re-do validation.

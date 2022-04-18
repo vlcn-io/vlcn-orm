@@ -7,7 +7,11 @@
 import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
 import { Node } from '@aphro/schema-api';
 import { Mutation, MutationArgDef, mutationFn } from '@aphro/mutation-grammar';
-import { typeDefToTsType, TypescriptFile } from '@aphro/codegen-ts';
+import { typeDefToTsType, TypescriptFile, importsToString } from '@aphro/codegen-ts';
+// TODO: tsImport should probably go into `codegen-ts`
+import { tsImport, nodeFn } from '@aphro/schema';
+// TODO: Import should probably go into `codegen-api`?
+import { Import } from '@aphro/schema-api';
 
 export class GenTypescriptMutations extends CodegenStep {
   static accepts(schema: Node): boolean {
@@ -19,24 +23,43 @@ export class GenTypescriptMutations extends CodegenStep {
   }
 
   gen(): CodegenFile {
-    return new TypescriptFile(this.schema.name + 'Mutations.ts', this.getCode());
+    return new TypescriptFile(
+      this.schema.name + 'Mutations.ts',
+      `${importsToString(this.collectImports())}
+
+${this.getCode()}
+`,
+    );
   }
 
   private getCode(): string {
-    return `class ${this.schema.name}Mutations {
+    return `export default class ${this.schema.name}Mutations {
       constructor(
         private mutator: ICreateOrUpdateBuilder<Data, ${this.schema.name}>
       ) {}
 
       static for(model?: ${this.schema.name}) {
         if (model) {
-          return new ${this.schema.name}Mutations(new UpdateMutationBuilder(model))
+          return new ${this.schema.name}Mutations(new UpdateMutationBuilder(spec, model))
         }
-        return new ${this.schema.name}Mutations(new CreateMutationBuilder());
+        return new ${this.schema.name}Mutations(new CreateMutationBuilder(spec));
       }
 
       ${this.getMutationMethodsCode()}
     }`;
+  }
+
+  private collectImports(): Import[] {
+    return [
+      tsImport('{ICreateOrUpdateBuilder}', null, '@aphro/mutator-runtime-ts'),
+      tsImport(this.schema.name, null, `./${this.schema.name}.js`),
+      tsImport(this.schema.name, null, `./${this.schema.name}.js`),
+      tsImport('{default}', 'spec', `./${nodeFn.specName(this.schema.name)}.js`),
+      tsImport('{Data}', null, `./${this.schema.name}.js`),
+      tsImport('{UpdateMutationBuilder}', null, '@aphro/mutator-runtime-ts'),
+      tsImport('{CreateMutationBuilder}', null, '@aphro/mutator-runtime-ts'),
+      ...this.collectImportsForMutations(),
+    ];
   }
 
   private getMutationMethodsCode(): string {
@@ -58,6 +81,30 @@ export class GenTypescriptMutations extends CodegenStep {
       mutationFn.transformMaybeQuickToFull(this.schema, a),
     );
     return fullArgsDefs.map(a => a.name + ': ' + typeDefToTsType(a.typeDef)).join(',');
+  }
+
+  private collectImportsForMutations(): Import[] {
+    return Object.values(this.schema.extensions.mutations?.mutations || {}).flatMap(m =>
+      this.collectImportsForArgs(m.args),
+    );
+  }
+
+  private collectImportsForArgs(args: { [key: string]: MutationArgDef }): Import[] {
+    const fullArgsDefs = Object.values(args).map(a =>
+      mutationFn.transformMaybeQuickToFull(this.schema, a),
+    );
+    return fullArgsDefs.flatMap(
+      a =>
+        a.typeDef
+          .map(td =>
+            td.type === 'type'
+              ? typeof td.name === 'string' && td.name !== 'null'
+                ? tsImport(td.name, null, `./${td.name}.js`)
+                : null
+              : null,
+          )
+          .filter(td => td != null) as Import[],
+    );
   }
 }
 
