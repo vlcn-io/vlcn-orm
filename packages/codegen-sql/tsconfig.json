@@ -18,5 +18,10 @@
     "rootDir": "./src"
   },
   "include": ["./src/"],
-  "references": [{ "path": "../codegen-api" }, { "path": "../schema" }, { "path": "../schema-api" }]
+  "references": [
+    { "path": "../codegen-api" },
+    { "path": "../schema" },
+    { "path": "../schema-api" },
+    { "path": "../codegen" }
+  ]
 }

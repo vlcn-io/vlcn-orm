@@ -8,6 +8,8 @@ packages:
   - 'packages/codegen'
   - 'packages/codegen-api'
   - 'packages/codegen-cli'
+  - 'packages/codegen-sql'
+  - 'packages/codegen-ts'
   - 'packages/config-runtime-ts'
   - 'packages/integrations'
   - 'packages/model-runtime-ts'

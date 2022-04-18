@@ -7,16 +7,11 @@
     "@aphro/codegen-api": "workspace:*",
     "@aphro/schema": "workspace:*",
     "@aphro/schema-api": "workspace:*",
-    "@aphro/mutation-grammar": "workspace:*",
-    "@aphro/mutation-codegen": "workspace:*",
     "@strut/counter": "workspace:*",
     "@strut/events": "workspace:*",
     "@strut/sid": "workspace:*",
     "@strut/utils": "workspace:*",
-    "knex": "^1.0.5",
-    "md5": "^2.3.0",
-    "prettier": "^2.5.1",
-    "sql-formatter": "^4.0.2"
+    "md5": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",

@@ -1,4 +1,4 @@
-import { sign } from './CodegenFile.js';
+import { sign } from '@aphro/codegen';
 import { CodegenFile, SQL_TEMPLATE } from '@aphro/codegen-api';
 import { format } from 'sql-formatter';
 

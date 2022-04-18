@@ -1,4 +1,4 @@
-import { sign } from '../CodegenFile.js';
+import { sign } from '@aphro/codegen';
 import { CodegenFile, ALGOL_TEMPLATE } from '@aphro/codegen-api';
 // @ts-ignore
 import prettier from 'prettier';

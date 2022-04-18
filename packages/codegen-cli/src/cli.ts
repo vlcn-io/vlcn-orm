@@ -12,9 +12,26 @@ import chalk from 'chalk';
 // TODO: core codegen should not depend on plugins!
 import mutationExtension from '@aphro/mutation-grammar';
 import { GenTypescriptMutations } from '@aphro/mutation-codegen';
+import { Step } from '@aphro/codegen-api';
+
+import { GenTypescriptModel, GenTypescriptQuery, GenTypescriptSpec } from '@aphro/codegen-ts';
+import {
+  GenMySqlTableSchema,
+  GenPostgresTableSchema,
+  GenSqliteTableSchema,
+} from '@aphro/codegen-sql';
 
 const grammarExtensions = [mutationExtension];
-const codegenExtensions = [];
+
+const steps: readonly Step[] = [
+  GenTypescriptModel,
+  GenTypescriptQuery,
+  GenTypescriptSpec,
+  GenTypescriptMutations,
+  GenMySqlTableSchema,
+  GenPostgresTableSchema,
+  GenSqliteTableSchema,
+];
 
 async function run() {
   const mainDefinitions = [{ name: 'gen', defaultOption: true }];
@@ -59,7 +76,7 @@ async function run() {
     // and.. map of all the things that were imported and referenced.
 
     // const schemas = schemaModules.map((s) => (<SchemaModule>s).default.get());
-    const pipeline = new CodegenPipeline();
+    const pipeline = new CodegenPipeline(steps);
     await pipeline.gen(nodeSchemas, genOptions.dest);
 
     return;

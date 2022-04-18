@@ -23,6 +23,8 @@
     { "path": "../schema" },
     { "path": "../schema-api" },
     { "path": "../codegen" },
+    { "path": "../codegen-ts" },
+    { "path": "../codegen-sql" },
     { "path": "../../extensions/mutation-grammar" },
     { "path": "../../extensions/mutation-codegen" }
   ]

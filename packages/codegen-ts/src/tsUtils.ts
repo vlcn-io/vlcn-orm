@@ -1,5 +1,5 @@
 import { Field, Import, RemoveNameField } from '@aphro/schema-api';
-import uniqueImports from '../uniqueImports.js';
+import { uniqueImports } from '@aphro/codegen';
 
 function fieldToTsType(field: RemoveNameField<Field>): string {
   switch (field.type) {
