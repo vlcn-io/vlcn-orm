@@ -1,3 +1,7 @@
+# Model
+
+Re-work it. The current model serves a rich client use case not server use case.
+
 # Spec & Persist
 
 Persist, Data<D>...
