@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./lib/", // path to output directory
+    "outDir": "./bin/", // path to output directory
     "sourceMap": true, // allow sourcemap support
     "strictNullChecks": true, // enable strict null checks as a best practice
     "module": "esnext", // specify module code generation
@@ -22,6 +22,8 @@
     { "path": "../codegen-api" },
     { "path": "../schema" },
     { "path": "../schema-api" },
-    { "path": "../../extensions/mutation-grammar" }
+    { "path": "../codegen" },
+    { "path": "../../extensions/mutation-grammar" },
+    { "path": "../../extensions/mutation-codegen" }
   ]
 }

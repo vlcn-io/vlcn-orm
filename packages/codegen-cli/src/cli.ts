@@ -2,7 +2,7 @@
 
 import commandLineArgs from 'command-line-args';
 import commandLineUsage from 'command-line-usage';
-import CodegenPipleine from './CodegenPipeline.js';
+import { CodegenPipeline } from '@aphro/codegen';
 import * as process from 'process';
 import * as path from 'path';
 import { createCompiler, stopsCodegen } from '@aphro/schema';
@@ -35,7 +35,7 @@ async function run() {
       return;
     }
 
-    const { compile } = createCompiler({ extensions: grammarExtensions });
+    const { compile } = createCompiler({ grammarExtensions });
     const errorsAndFiles: [ValidationError[], SchemaFile, string][] = genOptions.src.map(
       (s: string) => [...compile(path.join(process.cwd(), s)), s],
     );
@@ -59,7 +59,7 @@ async function run() {
     // and.. map of all the things that were imported and referenced.
 
     // const schemas = schemaModules.map((s) => (<SchemaModule>s).default.get());
-    const pipeline = new CodegenPipleine();
+    const pipeline = new CodegenPipeline();
     await pipeline.gen(nodeSchemas, genOptions.dest);
 
     return;

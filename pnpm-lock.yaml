@@ -61,7 +61,6 @@ importers:
 
   extensions/mutation-codegen:
     specifiers:
-      '@aphro/codegen': workspace:*
       '@aphro/codegen-api': workspace:*
       '@aphro/mutation-grammar': workspace:*
       '@aphro/schema': workspace:*
@@ -73,7 +72,6 @@ importers:
       ts-jest: ^27.1.3
       typescript: ^4.6.2
     dependencies:
-      '@aphro/codegen': link:../../packages/codegen
       '@aphro/codegen-api': link:../../packages/codegen-api
       '@aphro/mutation-grammar': link:../mutation-grammar
       '@aphro/schema': link:../../packages/schema
@@ -157,6 +155,63 @@ importers:
       '@types/jest': ^27.4.1
       '@types/prettier': ^2.4.4
       '@typescript-eslint/typescript-estree': ^5.14.0
+      jest: ^28.0.0-alpha.3
+      knex: ^1.0.5
+      md5: ^2.3.0
+      prettier: ^2.5.1
+      sql-formatter: ^4.0.2
+      ts-jest: ^27.1.3
+      typescript: ^4.6.2
+    dependencies:
+      '@aphro/codegen-api': link:../codegen-api
+      '@aphro/mutation-codegen': link:../../extensions/mutation-codegen
+      '@aphro/mutation-grammar': link:../../extensions/mutation-grammar
+      '@aphro/schema': link:../schema
+      '@aphro/schema-api': link:../schema-api
+      '@strut/counter': link:../../mono/typescript/packages/counter
+      '@strut/events': link:../../mono/typescript/packages/events
+      '@strut/sid': link:../../mono/typescript/packages/sid
+      '@strut/utils': link:../../mono/typescript/packages/utils
+      knex: 1.0.5
+      md5: 2.3.0
+      prettier: 2.6.2
+      sql-formatter: 4.0.2
+    devDependencies:
+      '@babel/core': 7.17.8
+      '@babel/preset-env': 7.16.11_@babel+core@7.17.8
+      '@types/jest': 27.4.1
+      '@types/prettier': 2.4.4
+      '@typescript-eslint/typescript-estree': 5.18.0_typescript@4.6.3
+      jest: 28.0.0-alpha.8
+      ts-jest: 27.1.4_889311557937cce69cc11e4cc7168165
+      typescript: 4.6.3
+
+  packages/codegen-api:
+    specifiers:
+      '@aphro/schema-api': workspace:*
+      typescript: ^4.6.2
+    dependencies:
+      '@aphro/schema-api': link:../schema-api
+    devDependencies:
+      typescript: 4.6.3
+
+  packages/codegen-cli:
+    specifiers:
+      '@aphro/codegen': workspace:*
+      '@aphro/codegen-api': workspace:*
+      '@aphro/mutation-codegen': workspace:*
+      '@aphro/mutation-grammar': workspace:*
+      '@aphro/schema': workspace:*
+      '@aphro/schema-api': workspace:*
+      '@babel/core': ^7.17.8
+      '@babel/preset-env': ^7.16.11
+      '@strut/counter': workspace:*
+      '@strut/events': workspace:*
+      '@strut/sid': workspace:*
+      '@strut/utils': workspace:*
+      '@types/jest': ^27.4.1
+      '@types/prettier': ^2.4.4
+      '@typescript-eslint/typescript-estree': ^5.14.0
       chalk: ^5.0.1
       command-line-args: ^5.2.1
       command-line-usage: ^6.1.1
@@ -168,6 +223,7 @@ importers:
       ts-jest: ^27.1.3
       typescript: ^4.6.2
     dependencies:
+      '@aphro/codegen': link:../codegen
       '@aphro/codegen-api': link:../codegen-api
       '@aphro/mutation-codegen': link:../../extensions/mutation-codegen
       '@aphro/mutation-grammar': link:../../extensions/mutation-grammar
@@ -192,15 +248,6 @@ importers:
       '@typescript-eslint/typescript-estree': 5.18.0_typescript@4.6.3
       jest: 28.0.0-alpha.8
       ts-jest: 27.1.4_889311557937cce69cc11e4cc7168165
-      typescript: 4.6.3
-
-  packages/codegen-api:
-    specifiers:
-      '@aphro/schema-api': workspace:*
-      typescript: ^4.6.2
-    dependencies:
-      '@aphro/schema-api': link:../schema-api
-    devDependencies:
       typescript: 4.6.3
 
   packages/config-runtime-ts:
