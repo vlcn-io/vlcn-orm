@@ -1,5 +1,7 @@
 # Integrations
 
+TODO: deprecate this package in favor of the revised `extensions` model.
+
 Integration contribute to the grammar to enable describing and generating code for new items in a schema.
 
 Things that can be contributed by an integration:
