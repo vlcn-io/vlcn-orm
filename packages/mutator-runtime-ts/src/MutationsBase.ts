@@ -1,47 +1,24 @@
-import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
+import { IModel } from '@aphro/model-runtime-ts';
 import { ICreateOrUpdateBuilder } from './Mutator.js';
-import { __internalConfig } from '@aphro/config-runtime-ts';
-import changesetToSQL from './sql/changesetToSQL.js';
-import { Changeset } from './Changeset.js';
-
-type Query = {
-  queryString: string;
-  bindings: any[];
-};
+import { Changeset, ChangesetOptions } from './Changeset.js';
+import changesetExecutor from 'ChangesetExecutor.js';
 
 export default abstract class MutationsBase<M extends IModel<D>, D extends Object> {
-  constructor(private spec: ModelSpec<M, D>, protected mutator: ICreateOrUpdateBuilder<M, D>) {}
+  constructor(protected mutator: ICreateOrUpdateBuilder<M, D>) {}
 
   async save(): Promise<void> {
-    const cs = this.mutator.toChangeset();
-    let query: Query;
-    switch (this.spec.storage.type) {
-      case 'sql':
-        query = changesetToSQL(this.spec, cs);
-    }
-    await __internalConfig.resolver
-      .type(this.spec.storage.type)
-      .engine(this.spec.storage.engine)
-      .tablish(this.spec.storage.tablish)
-      .exec(query.queryString, query.bindings);
+    await changesetExecutor([this.mutator.toChangeset()]).exec();
   }
 
   async saveAndReturn(): Promise<M> {
     const cs = this.mutator.toChangeset({
       returning: true,
     });
-    const query = this.getQuery(cs);
-    throw new Error('todo');
+    const results = await changesetExecutor([cs]).exec();
+    return results[0] as M;
   }
 
-  private getQuery(cs: Changeset<M, D>): Query {
-    switch (this.spec.storage.type) {
-      case 'sql':
-        return changesetToSQL(this.spec, cs);
-    }
-  }
-
-  toChangeset(): Changeset<M, D> {
-    return this.mutator.toChangeset();
+  toChangeset(options?: ChangesetOptions): Changeset<M, D> {
+    return this.mutator.toChangeset(options);
   }
 }
