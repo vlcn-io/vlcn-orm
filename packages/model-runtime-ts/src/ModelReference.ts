@@ -1,5 +1,4 @@
-import { SID_of } from "@strut/sid";
-import PersistedModel from "./PersistedModel.js";
+import { SID_of } from '@strut/sid';
 
 /**
  * Represents a yet to be resolved reference to a model.
@@ -9,18 +8,18 @@ import PersistedModel from "./PersistedModel.js";
  *
  * Likely should create sub-types for each case.
  */
-export default class ModelReference<T> extends PersistedModel<{
-  id: SID_of<T>;
-}> {
-  constructor(id: SID_of<T>, private aSchemaName: string) {
-    super({ id });
-  }
+// export default class ModelReference<T> extends PersistedModel<{
+//   id: SID_of<T>;
+// }> {
+//   constructor(id: SID_of<T>, private aSchemaName: string) {
+//     super({ id });
+//   }
 
-  get schemaName() {
-    return this.aSchemaName;
-  }
+//   get schemaName() {
+//     return this.aSchemaName;
+//   }
 
-  toStorage(): Object {
-    throw new Error("Cannot persist a reference");
-  }
-}
+//   toStorage(): Object {
+//     throw new Error('Cannot persist a reference');
+//   }
+// }
