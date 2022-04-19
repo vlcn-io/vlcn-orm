@@ -1,4 +1,5 @@
-import { Changeset, IModel, ModelSpec } from '@aphro/model-runtime-ts';
+import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
+import { Changeset } from '../Changeset.js';
 
 export default function changesetToSQL<D, M extends IModel<D>>(
   spec: ModelSpec<D, M>,

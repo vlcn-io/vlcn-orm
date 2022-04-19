@@ -1,13 +1,6 @@
-import {
-  Changeset,
-  CreateChangeset,
-  DeleteChangeset,
-  UpdateChangeset,
-  IModel,
-  Model,
-  ModelSpec,
-} from '@aphro/model-runtime-ts';
+import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
 import { __internalConfig } from '@aphro/config-runtime-ts';
+import { Changeset, CreateChangeset, UpdateChangeset, DeleteChangeset } from './Changeset.js';
 
 export interface IMutationBuilder<T extends Object, M extends IModel<T>> {
   toChangeset(): Changeset<M, T>;

@@ -1,7 +1,8 @@
-import { Changeset, IModel, ModelSpec } from '@aphro/model-runtime-ts';
-import { ICreateOrUpdateBuilder } from 'Mutator';
+import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
+import { ICreateOrUpdateBuilder } from './Mutator.js';
 import { __internalConfig } from '@aphro/config-runtime-ts';
-import changesetToSQL from 'sql/changesetToSQL';
+import changesetToSQL from './sql/changesetToSQL.js';
+import { Changeset } from './Changeset.js';
 
 type Query = {
   queryString: string;
