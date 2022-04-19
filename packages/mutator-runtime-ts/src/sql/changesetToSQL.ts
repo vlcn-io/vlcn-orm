@@ -4,7 +4,6 @@ import { Changeset } from '../Changeset.js';
 export default function changesetToSQL<M extends IModel<D>, D extends Object>(
   spec: ModelSpec<M, D>,
   changeset: Changeset<M, D>,
-  returning: boolean = false,
 ): { queryString: string; bindings: any[] } {
   return {
     queryString: '',

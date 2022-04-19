@@ -27,15 +27,17 @@ export default abstract class MutationsBase<M extends IModel<D>, D extends Objec
   }
 
   async saveAndReturn(): Promise<M> {
-    const cs = this.mutator.toChangeset();
-    const query = this.getQuery(this.mutator.toChangeset(), true);
+    const cs = this.mutator.toChangeset({
+      returning: true,
+    });
+    const query = this.getQuery(cs);
     throw new Error('todo');
   }
 
-  private getQuery(cs: Changeset<M, D>, returning: boolean): Query {
+  private getQuery(cs: Changeset<M, D>): Query {
     switch (this.spec.storage.type) {
       case 'sql':
-        return changesetToSQL(this.spec, cs, returning);
+        return changesetToSQL(this.spec, cs);
     }
   }
 

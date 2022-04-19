@@ -1,9 +1,15 @@
 import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
 import { __internalConfig } from '@aphro/config-runtime-ts';
-import { Changeset, CreateChangeset, UpdateChangeset, DeleteChangeset } from './Changeset.js';
+import {
+  Changeset,
+  CreateChangeset,
+  UpdateChangeset,
+  DeleteChangeset,
+  ChangesetOptions,
+} from './Changeset.js';
 
 export interface IMutationBuilder<M extends IModel<D>, D extends Object> {
-  toChangeset(): Changeset<M, D>;
+  toChangeset(options?: ChangesetOptions): Changeset<M, D>;
 }
 
 export interface ICreateOrUpdateBuilder<M extends IModel<D>, D extends Object>
@@ -61,7 +67,6 @@ export class UpdateMutationBuilder<
   toChangeset(): UpdateChangeset<M, D> {
     return {
       type: 'update',
-      model: this.model,
       updates: this.data,
       spec: this.spec,
     };
