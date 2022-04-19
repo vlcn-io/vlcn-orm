@@ -2,28 +2,28 @@ import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
 import { __internalConfig } from '@aphro/config-runtime-ts';
 import { Changeset, CreateChangeset, UpdateChangeset, DeleteChangeset } from './Changeset.js';
 
-export interface IMutationBuilder<T extends Object, M extends IModel<T>> {
-  toChangeset(): Changeset<M, T>;
+export interface IMutationBuilder<M extends IModel<D>, D extends Object> {
+  toChangeset(): Changeset<M, D>;
 }
 
-export interface ICreateOrUpdateBuilder<T extends Object, M extends IModel<T>>
-  extends IMutationBuilder<T, M> {
-  set(newData: Partial<T>): this;
+export interface ICreateOrUpdateBuilder<M extends IModel<D>, D extends Object>
+  extends IMutationBuilder<M, D> {
+  set(newData: Partial<D>): this;
 }
 
 // TODO: and if we want to enable transactions...
-abstract class MutationBuilder<T extends Object, M extends IModel<T>>
-  implements IMutationBuilder<T, M>
+abstract class MutationBuilder<M extends IModel<D>, D extends Object>
+  implements IMutationBuilder<M, D>
 {
-  constructor(protected spec: ModelSpec<T, M>, protected data: Partial<T>) {}
-  abstract toChangeset(): Changeset<M, T>;
+  constructor(protected spec: ModelSpec<M, D>, protected data: Partial<D>) {}
+  abstract toChangeset(): Changeset<M, D>;
 }
 
-abstract class CreateOrUpdateBuilder<T extends Object, M extends IModel<T>> extends MutationBuilder<
-  T,
-  M
+abstract class CreateOrUpdateBuilder<M extends IModel<D>, D extends Object> extends MutationBuilder<
+  M,
+  D
 > {
-  set(newData: Partial<T>): this {
+  set(newData: Partial<D>): this {
     this.data = {
       ...this.data,
       ...newData,
@@ -34,52 +34,53 @@ abstract class CreateOrUpdateBuilder<T extends Object, M extends IModel<T>> exte
 }
 
 export class CreateMutationBuilder<
-  T extends Object,
-  M extends IModel<T>,
-> extends CreateOrUpdateBuilder<T, M> {
-  constructor(spec: ModelSpec<T, M>) {
+  M extends IModel<D>,
+  D extends Object,
+> extends CreateOrUpdateBuilder<M, D> {
+  constructor(spec: ModelSpec<M, D>) {
     super(spec, {});
   }
 
-  toChangeset(): CreateChangeset<M, T> {
+  toChangeset(): CreateChangeset<M, D> {
     return {
       type: 'create',
-      model: this.spec.createFrom(this.data as T),
       updates: this.data,
+      spec: this.spec,
     };
   }
 }
 
 export class UpdateMutationBuilder<
-  T extends Object,
-  M extends IModel<T>,
-> extends CreateOrUpdateBuilder<T, M> {
-  constructor(spec: ModelSpec<T, M>, private model: M) {
+  M extends IModel<D>,
+  D extends Object,
+> extends CreateOrUpdateBuilder<M, D> {
+  constructor(spec: ModelSpec<M, D>, private model: M) {
     super(spec, {});
   }
 
-  toChangeset(): UpdateChangeset<M, T> {
+  toChangeset(): UpdateChangeset<M, D> {
     return {
       type: 'update',
       model: this.model,
       updates: this.data,
+      spec: this.spec,
     };
   }
 }
 
-export class DeleteMutationBuilder<T extends Object, M extends IModel<T>> extends MutationBuilder<
-  T,
-  M
+export class DeleteMutationBuilder<M extends IModel<D>, D extends Object> extends MutationBuilder<
+  M,
+  D
 > {
-  constructor(spec: ModelSpec<T, M>, private model: M) {
+  constructor(spec: ModelSpec<M, D>, private model: M) {
     super(spec, {});
   }
 
-  toChangeset(): DeleteChangeset<M, T> {
+  toChangeset(): DeleteChangeset<M, D> {
     return {
       type: 'delete',
       model: this.model,
-      updates: undefined,
+      spec: this.spec,
     };
   }
 }

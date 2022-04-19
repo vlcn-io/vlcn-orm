@@ -1,43 +1,60 @@
-import { IModel } from '@aphro/model-runtime-ts';
+import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
 
-export type Changeset<M extends IModel<T>, T> =
-  | CreateChangeset<M, T>
-  | UpdateChangeset<M, T>
-  | DeleteChangeset<M, T>;
+export type Changeset<M extends IModel<D>, D> =
+  | CreateChangeset<M, D>
+  | UpdateChangeset<M, D>
+  | DeleteChangeset<M, D>;
 
-export type CreateChangeset<M extends IModel<T>, T> = {
+export type CreateChangeset<M extends IModel<D>, D> = {
   type: 'create';
-  model: M;
-  updates: Partial<T>;
+  updates: Partial<D>;
+  spec: ModelSpec<M, D>;
 };
 
-export type UpdateChangeset<M extends IModel<T>, T> = {
+export type UpdateChangeset<M extends IModel<D>, D> = {
   type: 'update';
   model: M;
-  updates: Partial<T>;
+  updates: Partial<D>;
+  spec: ModelSpec<M, D>;
 };
 
-export type DeleteChangeset<M extends IModel<T>, T> = {
+export type DeleteChangeset<M extends IModel<D>, D> = {
   type: 'delete';
   model: M;
-  updates: undefined;
+  spec: ModelSpec<M, D>;
 };
 
-export function changeset<M extends IModel<T>, T>(model: M, updates: T): Changeset<M, T> {
+export function updateChangeset<M extends IModel<D>, D>(
+  spec: ModelSpec<M, D>,
+  model: M,
+  updates: D,
+): Changeset<M, D> {
   return {
     type: 'update',
     model,
     updates,
+    spec,
   };
 }
 
-export function createChangeset<M extends IModel<T>, T>(
-  model: M,
-  updates: T,
-): CreateChangeset<M, T> {
+export function createChangeset<M extends IModel<D>, D>(
+  spec: ModelSpec<M, D>,
+  updates: D,
+): CreateChangeset<M, D> {
   return {
     type: 'create',
-    model,
     updates,
+    spec,
+  };
+}
+
+export function deleteChangeset<M extends IModel<D>, D>(
+  spec: ModelSpec<M, D>,
+  model: M,
+): DeleteChangeset<M, D> {
+  return {
+    type: 'delete',
+    model,
+    spec,
   };
 }

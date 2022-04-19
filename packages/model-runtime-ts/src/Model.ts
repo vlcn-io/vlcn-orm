@@ -7,8 +7,8 @@ export interface IModel<T extends Object> {
   _d(): T;
 }
 
-export type ModelSpec<T extends Object, M extends IModel<T>> = {
-  createFrom(data: T): M;
+export type ModelSpec<M extends IModel<D>, D extends Object> = {
+  createFrom(data: D): M;
 } & NodeSpec;
 
 export interface HasId {

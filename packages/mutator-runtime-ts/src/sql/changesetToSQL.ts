@@ -1,8 +1,8 @@
 import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
 import { Changeset } from '../Changeset.js';
 
-export default function changesetToSQL<D, M extends IModel<D>>(
-  spec: ModelSpec<D, M>,
+export default function changesetToSQL<M extends IModel<D>, D extends Object>(
+  spec: ModelSpec<M, D>,
   changeset: Changeset<M, D>,
   returning: boolean = false,
 ): { queryString: string; bindings: any[] } {

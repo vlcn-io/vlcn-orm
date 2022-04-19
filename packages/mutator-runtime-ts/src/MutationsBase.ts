@@ -9,8 +9,8 @@ type Query = {
   bindings: any[];
 };
 
-export default abstract class MutationsBase<D, M extends IModel<D>> {
-  constructor(private spec: ModelSpec<D, M>, protected mutator: ICreateOrUpdateBuilder<D, M>) {}
+export default abstract class MutationsBase<M extends IModel<D>, D extends Object> {
+  constructor(private spec: ModelSpec<M, D>, protected mutator: ICreateOrUpdateBuilder<M, D>) {}
 
   async save(): Promise<void> {
     const cs = this.mutator.toChangeset();
