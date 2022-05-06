@@ -1,5 +1,5 @@
 import { Node } from '@aphro/schema-api';
-import { FullArgDef, MutationArgDef } from 'index';
+import { FullArgDef, MutationArgDef } from './index.js';
 
 function transformQuickToFull(node: Node, arg: MutationArgDef): FullArgDef {
   const field = node.fields[arg.name];

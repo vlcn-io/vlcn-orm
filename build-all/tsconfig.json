@@ -19,6 +19,8 @@
     { "path": "../packages/query-runtime-ts" },
     { "path": "../packages/react" },
     { "path": "../packages/schema" },
-    { "path": "../packages/schema-api" }
+    { "path": "../packages/schema-api" },
+    { "path": "../extensions/mutation-codegen" },
+    { "path": "../extensions/mutation-grammar" }
   ]
 }
