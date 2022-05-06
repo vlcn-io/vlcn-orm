@@ -120,14 +120,20 @@ importers:
   mono/typescript/packages/counter:
     specifiers:
       '@strut/utils': 0.0.1
+      typescript: ^4.6.4
     dependencies:
       '@strut/utils': link:../utils
+    devDependencies:
+      typescript: 4.6.4
 
   mono/typescript/packages/counter.ui.launcher:
     specifiers:
       '@strut/counter': workspace:*
+      typescript: ^4.6.4
     dependencies:
       '@strut/counter': link:../counter
+    devDependencies:
+      typescript: 4.6.4
 
   mono/typescript/packages/events:
     specifiers:
@@ -139,9 +145,12 @@ importers:
     specifiers:
       '@fingerprintjs/fingerprintjs': ^3.3.2
       '@strut/utils': workspace:*
+      typescript: ^4.6.4
     dependencies:
       '@fingerprintjs/fingerprintjs': 3.3.3
       '@strut/utils': link:../utils
+    devDependencies:
+      typescript: 4.6.4
 
   mono/typescript/packages/utils:
     specifiers:

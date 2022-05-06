@@ -2,8 +2,10 @@
 - codegen sql tests
 - strut packages as packages
 - re-work create tables? Use Knex? Or Use files?
-- rm integrations package?
 - fix react hooks `// TODO: uncomment once we fix the models back up`
+- codegen hash respect
+  - commit hook (husky)
+  - re-gen / warn / merge
 
 - context thread thru and everywhere?
 - changesetExecutor fixup
@@ -13,6 +15,9 @@
   - viewer in context... / thread context thru
 - sid cast operation and sid create operation
 
+
+Integrations removed in commit:
+https://github.com/tantaman/aphrodite/commit/e36b61764de86aff0c7eddcdbd9ba6919819ccaa
 
 # Spec & Persist
 

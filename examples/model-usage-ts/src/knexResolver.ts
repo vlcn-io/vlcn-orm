@@ -16,14 +16,8 @@ export function create(db: ReturnType<typeof createDb>): DBResolver {
   };
 
   const specificResolver = {
-    tablish(tablish: string) {
-      return knexDb;
-    },
-  };
-
-  const knexDb = {
-    async exec(query: string, bindings: readonly any[]): Promise<any> {
-      return await db.raw(query, bindings);
+    db(dbName: string) {
+      return db;
     },
   };
 
