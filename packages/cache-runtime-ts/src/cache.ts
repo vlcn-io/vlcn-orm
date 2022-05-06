@@ -13,65 +13,87 @@ import { SID_of } from '@strut/sid';
 
 import { IModel } from '@aphro/model-runtime-ts';
 
-const cache = new Map<SID_of<IModel<Object>>, WeakRef<IModel<Object>>>();
+/**
+ * Cache as a class that people can construct, rather than a single global, so
+ * processes can make it only alive per-request if that is their desire.
+ *
+ * Rich clients would keep their cache alive for the duration of the client session. I.e., from application
+ * open to application close.
+ */
+export default class Cache {
+  readonly #cache = new Map<SID_of<IModel<Object>>, WeakRef<IModel<Object>>>();
+  #intervalHandle: number;
 
-function get<T extends IModel<Object>>(id: SID_of<T>): T | null {
-  const ref = cache.get(id);
-  if (ref == null) {
-    return null;
+  constructor() {
+    // TODO: we can be smarter here if/when the cache becomes massive.
+    // E.g., spread the GC over many ticks via chunking.
+    this.#intervalHandle = setInterval(() => {
+      for (let [key, ref] of this.#cache.entries()) {
+        if (ref.deref == null) {
+          this.#cache.delete(key);
+        }
+      }
+    }, 1000);
   }
 
-  const thing = ref.deref();
-  if (thing == null) {
-    return null;
-  }
-
-  return thing as T;
-}
-
-function set<T extends IModel<Object>>(id: SID_of<T>, node: T): void {
-  const existing = get(id);
-  invariant(existing == null, 'Trying to set something in the cache which is already in the cache');
-
-  const ref = new WeakRef(node);
-  cache.set(id, ref);
-}
-
-function remove<T extends IModel<Object>>(id: SID_of<T>): T | null {
-  const ref = cache.get(id);
-  if (ref == null) {
-    return null;
-  }
-
-  cache.delete(id);
-
-  const thing = ref.deref();
-  if (thing == null) {
-    return null;
-  }
-
-  return thing as T;
-}
-
-// TODO: we can be smarter here if/when the cache becomes massive.
-// E.g., spread the GC over many ticks via chunking.
-const intervalHandle = setInterval(() => {
-  for (let [key, ref] of cache.entries()) {
-    if (ref.deref == null) {
-      cache.delete(key);
+  get<T extends IModel<Object>>(id: SID_of<T>): T | null {
+    const ref = this.#cache.get(id);
+    if (ref == null) {
+      return null;
     }
-  }
-}, 1000);
 
-export default {
-  get,
-  set,
-  remove,
-  clear() {
-    cache.clear();
-  },
-  destroy() {
-    cache.clear();
-    clearInterval(intervalHandle);
-  },
-};
+    const thing = ref.deref();
+    if (thing == null) {
+      return null;
+    }
+
+    return thing as T;
+  }
+
+  set<T extends IModel<Object>>(id: SID_of<T>, node: T): void {
+    const existing = this.get(id);
+    // This is important given only one instance of an object with a given id should ever exist
+    // If someone has created a new instance then they're invalidating references that exist elsewhere.
+    invariant(
+      existing == null,
+      'Trying to set something in the cache which is already in the cache',
+    );
+
+    const ref = new WeakRef(node);
+    this.#cache.set(id, ref);
+  }
+
+  remove<T extends IModel<Object>>(id: SID_of<T>): T | null {
+    const ref = this.#cache.get(id);
+    if (ref == null) {
+      return null;
+    }
+
+    this.#cache.delete(id);
+
+    const thing = ref.deref();
+    if (thing == null) {
+      return null;
+    }
+
+    return thing as T;
+  }
+
+  destruct() {
+    this.#cache.clear();
+    clearInterval(this.#intervalHandle);
+  }
+}
+
+// export default {
+//   get,
+//   set,
+//   remove,
+//   clear() {
+//     cache.clear();
+//   },
+//   destroy() {
+//     cache.clear();
+//     clearInterval(intervalHandle);
+//   },
+// };
