@@ -52,12 +52,13 @@ export default class Cache {
 
   set<T extends IModel<Object>>(id: SID_of<T>, node: T): void {
     const existing = this.get(id);
+    if (existing === node) {
+      return;
+    }
     // This is important given only one instance of an object with a given id should ever exist
+    // (well based on privacy constraints -- but cache privacy should be managed up a layer via different cache instances per viewer)
     // If someone has created a new instance then they're invalidating references that exist elsewhere.
-    invariant(
-      existing == null,
-      'Trying to set something in the cache which is already in the cache',
-    );
+    invariant(existing == null, 'Trying to reset something in the cache to a different instance');
 
     const ref = new WeakRef(node);
     this.#cache.set(id, ref);
