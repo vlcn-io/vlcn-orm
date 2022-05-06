@@ -8,7 +8,6 @@
     "@aphro/model-runtime-ts": "workspace:*",
     "@aphro/schema-api": "workspace:*",
     "@strut/counter": "workspace:*",
-    "@strut/events": "workspace:*",
     "@strut/sid": "workspace:*",
     "@strut/utils": "workspace:*",
     "knex": "^2.0.0"

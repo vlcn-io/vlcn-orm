@@ -5,5 +5,11 @@
     "rootDir": "./src"
   },
   "include": ["./src/"],
-  "references": [{ "path": "../schema-api" }]
+  "references": [
+    { "path": "../schema-api" },
+    { "path": "../../mono/typescript/packages/counter" },
+    { "path": "../../mono/typescript/packages/events" },
+    { "path": "../../mono/typescript/packages/sid" },
+    { "path": "../../mono/typescript/packages/utils" }
+  ]
 }

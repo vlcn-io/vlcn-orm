@@ -193,7 +193,6 @@ importers:
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
       '@strut/counter': workspace:*
-      '@strut/events': workspace:*
       '@strut/sid': workspace:*
       '@strut/utils': workspace:*
       '@types/jest': ^27.4.1
@@ -210,7 +209,6 @@ importers:
       '@aphro/schema': link:../schema
       '@aphro/schema-api': link:../schema-api
       '@strut/counter': link:../../mono/typescript/packages/counter
-      '@strut/events': link:../../mono/typescript/packages/events
       '@strut/sid': link:../../mono/typescript/packages/sid
       '@strut/utils': link:../../mono/typescript/packages/utils
       md5: 2.3.0
@@ -248,8 +246,6 @@ importers:
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
       '@strut/counter': workspace:*
-      '@strut/events': workspace:*
-      '@strut/sid': workspace:*
       '@strut/utils': workspace:*
       '@types/jest': ^27.4.1
       '@types/node': ^17.0.31
@@ -275,8 +271,6 @@ importers:
       '@aphro/schema': link:../schema
       '@aphro/schema-api': link:../schema-api
       '@strut/counter': link:../../mono/typescript/packages/counter
-      '@strut/events': link:../../mono/typescript/packages/events
-      '@strut/sid': link:../../mono/typescript/packages/sid
       '@strut/utils': link:../../mono/typescript/packages/utils
       chalk: 5.0.1
       command-line-args: 5.2.1
@@ -342,8 +336,6 @@ importers:
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
       '@strut/counter': workspace:*
-      '@strut/events': workspace:*
-      '@strut/sid': workspace:*
       '@strut/utils': workspace:*
       '@types/jest': ^27.4.1
       '@types/prettier': ^2.6.0
@@ -360,8 +352,6 @@ importers:
       '@aphro/schema': link:../schema
       '@aphro/schema-api': link:../schema-api
       '@strut/counter': link:../../mono/typescript/packages/counter
-      '@strut/events': link:../../mono/typescript/packages/events
-      '@strut/sid': link:../../mono/typescript/packages/sid
       '@strut/utils': link:../../mono/typescript/packages/utils
       knex: 2.0.0
       md5: 2.3.0
@@ -460,7 +450,6 @@ importers:
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
       '@strut/counter': workspace:*
-      '@strut/events': workspace:*
       '@strut/sid': workspace:*
       '@strut/utils': workspace:*
       '@types/jest': ^27.4.1
@@ -474,7 +463,6 @@ importers:
       '@aphro/model-runtime-ts': link:../model-runtime-ts
       '@aphro/schema-api': link:../schema-api
       '@strut/counter': link:../../mono/typescript/packages/counter
-      '@strut/events': link:../../mono/typescript/packages/events
       '@strut/sid': link:../../mono/typescript/packages/sid
       '@strut/utils': link:../../mono/typescript/packages/utils
       knex: 2.0.0
@@ -526,7 +514,6 @@ importers:
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
       '@strut/counter': workspace:*
-      '@strut/events': workspace:*
       '@strut/sid': workspace:*
       '@strut/utils': workspace:*
       '@types/jest': ^27.4.1
@@ -547,7 +534,6 @@ importers:
       '@aphro/grammar-extension-api': link:../grammar-extension-api
       '@aphro/schema-api': link:../schema-api
       '@strut/counter': link:../../mono/typescript/packages/counter
-      '@strut/events': link:../../mono/typescript/packages/events
       '@strut/sid': link:../../mono/typescript/packages/sid
       '@strut/utils': link:../../mono/typescript/packages/utils
     devDependencies:

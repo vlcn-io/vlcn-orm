@@ -5,5 +5,12 @@
     "rootDir": "./src"
   },
   "include": ["./src/"],
-  "references": [{ "path": "../codegen-api" }, { "path": "../schema" }, { "path": "../schema-api" }]
+  "references": [
+    { "path": "../codegen-api" },
+    { "path": "../schema" },
+    { "path": "../schema-api" },
+    { "path": "../../mono/typescript/packages/sid" },
+    { "path": "../../mono/typescript/packages/counter" },
+    { "path": "../../mono/typescript/packages/utils" }
+  ]
 }

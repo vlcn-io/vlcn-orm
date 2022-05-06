@@ -8,7 +8,6 @@
     "@aphro/grammar-extension-api": "workspace:*",
     "@aphro/schema-api": "workspace:*",
     "@strut/counter": "workspace:*",
-    "@strut/events": "workspace:*",
     "@strut/sid": "workspace:*",
     "@strut/utils": "workspace:*"
   },

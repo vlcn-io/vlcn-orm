@@ -13,6 +13,8 @@
     { "path": "../codegen-ts" },
     { "path": "../codegen-sql" },
     { "path": "../../extensions/mutation-grammar" },
-    { "path": "../../extensions/mutation-codegen" }
+    { "path": "../../extensions/mutation-codegen" },
+    { "path": "../../mono/typescript/packages/utils" },
+    { "path": "../../mono/typescript/packages/counter" }
   ]
 }
