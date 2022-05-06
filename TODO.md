@@ -5,6 +5,7 @@
 - cache in context? e.g., request context
   - viewer in context... / thread context thru
 - sid cast operation and sid create operation
+- fixup clean command
 
 
 # Spec & Persist
