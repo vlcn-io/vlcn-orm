@@ -391,39 +391,6 @@ importers:
     devDependencies:
       typescript: 4.6.4
 
-  packages/integrations:
-    specifiers:
-      '@aphro/codegen-api': workspace:*
-      '@aphro/schema': workspace:*
-      '@aphro/schema-api': workspace:*
-      '@babel/core': ^7.17.10
-      '@babel/preset-env': ^7.17.10
-      '@strut/counter': workspace:*
-      '@strut/events': workspace:*
-      '@strut/sid': workspace:*
-      '@strut/utils': workspace:*
-      '@types/jest': ^27.4.1
-      '@typescript-eslint/typescript-estree': ^5.22.0
-      jest: ^28.1.0
-      ts-jest: ^28.0.1
-      typescript: ^4.6.4
-    dependencies:
-      '@aphro/codegen-api': link:../codegen-api
-      '@aphro/schema': link:../schema
-      '@aphro/schema-api': link:../schema-api
-      '@strut/counter': link:../../mono/typescript/packages/counter
-      '@strut/events': link:../../mono/typescript/packages/events
-      '@strut/sid': link:../../mono/typescript/packages/sid
-      '@strut/utils': link:../../mono/typescript/packages/utils
-    devDependencies:
-      '@babel/core': 7.17.10
-      '@babel/preset-env': 7.17.10_@babel+core@7.17.10
-      '@types/jest': 27.5.0
-      '@typescript-eslint/typescript-estree': 5.22.0_typescript@4.6.4
-      jest: 28.1.0
-      ts-jest: 28.0.1_idho52n4uf7ux6ste52nmmk7t4
-      typescript: 4.6.4
-
   packages/model-runtime-ts:
     specifiers:
       '@aphro/schema-api': workspace:*

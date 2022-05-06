@@ -10,7 +10,8 @@ export function useSubscription<T extends IModel<any>>(m: T): T {
   useEffect(() => {
     count.bump('useSubscription.' + m.constructor.name);
     // subscribe returns a function which will dispose of the subscription
-    return m.subscribe(() => forceUpdate());
+    // TODO: uncomment once we fix the models back up
+    // return m.subscribe(() => forceUpdate());
   }, [m]);
 
   return m;
@@ -22,6 +23,7 @@ export function useQuery<T>(keys: (keyof T)[], m: IModel<T>): void {
   useEffect(() => {
     count.bump('keyed.subscription.' + m.constructor.name);
     // subscribe returns a function which will dispose of the subscription
-    return m.subscribeTo(keys, () => forceUpdate());
+    // TODO: uncomment once we fix the models back up
+    // return m.subscribeTo(keys, () => forceUpdate());
   }, [m]);
 }

@@ -3,7 +3,7 @@
 - strut packages as packages
 - re-work create tables? Use Knex? Or Use files?
 - rm integrations package?
-- fix react hooks
+- fix react hooks `// TODO: uncomment once we fix the models back up`
 
 - context thread thru and everywhere?
 - changesetExecutor fixup

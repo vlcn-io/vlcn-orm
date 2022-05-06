@@ -13,7 +13,6 @@ packages:
   - 'packages/codegen-sql'
   - 'packages/codegen-ts'
   - 'packages/config-runtime-ts'
-  - 'packages/integrations'
   - 'packages/model-runtime-ts'
   - 'packages/mutator-runtime-ts'
   - 'packages/query-runtime-ts'
