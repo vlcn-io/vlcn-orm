@@ -1,11 +1,10 @@
 # 5/6
 - context thread thru and everywhere?
 - changesetExecutor fixup
-- writer from p2p
+- use writer from p2p
 - cache in context? e.g., request context
   - viewer in context... / thread context thru
 - sid cast operation and sid create operation
-- fixup clean command
 
 
 # Spec & Persist

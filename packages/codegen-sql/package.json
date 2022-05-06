@@ -10,6 +10,7 @@
     "@aphro/schema-api": "workspace:*",
     "@strut/counter": "workspace:*",
     "@strut/utils": "workspace:*",
+    "knex": "^2.0.0",
     "sql-formatter": "^4.0.2"
   },
   "devDependencies": {
