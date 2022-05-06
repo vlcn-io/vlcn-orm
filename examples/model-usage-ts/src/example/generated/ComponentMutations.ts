@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <434b8f2a0560c092869532bed0c9138e>
+// SIGNED-SOURCE: <e982446922c03897e3f9dfa074b543e5>
 import { ICreateOrUpdateBuilder } from "@aphro/mutator-runtime-ts";
 import Component from "./Component.js";
 import { default as spec } from "./ComponentSpec.js";
@@ -8,7 +8,7 @@ import { CreateMutationBuilder } from "@aphro/mutator-runtime-ts";
 import Slide from "./Slide.js";
 
 export default class ComponentMutations {
-  constructor(private mutator: ICreateOrUpdateBuilder<Data, Component>) {}
+  constructor(private mutator: ICreateOrUpdateBuilder<Component, Data>) {}
 
   static for(model?: Component) {
     if (model) {

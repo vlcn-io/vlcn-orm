@@ -23,6 +23,7 @@ export default function changesetExecutor(changesets: Changeset<any, any>[]) {
       const results = await Promise.all(
         queries.map(query =>
           __internalConfig.resolver
+            // TODO: rm type, add db!
             .type(this.spec.storage.type)
             .engine(this.spec.storage.engine)
             .tablish(this.spec.storage.tablish)

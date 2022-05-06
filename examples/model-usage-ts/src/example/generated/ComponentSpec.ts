@@ -1,9 +1,9 @@
-// SIGNED-SOURCE: <cd44915cd99608b2967d1b313670c81c>
+// SIGNED-SOURCE: <3a60644a48e2975bbaf578c9bc49b39a>
 import { ModelSpec } from "@aphro/model-runtime-ts";
 import Component from "./Component.js";
 import { Data } from "./Component.js";
 
-const spec: ModelSpec<Data, Component> = {
+const spec: ModelSpec<Component, Data> = {
   createFrom(data: Data) {
     return new Component(data);
   },

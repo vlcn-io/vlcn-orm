@@ -3,7 +3,7 @@ import { HoistedOperations } from './SqlSourceExpression.js';
 import knex, { Knex } from 'knex';
 import { after, before, filter, orderBy, take } from '../Expression.js';
 import SQLHopExpression from './SQLHopExpression.js';
-import { ModelFieldGetter } from 'Field.js';
+import { ModelFieldGetter } from '../Field.js';
 
 // given a model spec and hoisted operations, return the SQL query
 export default function specAndOpsToSQL(

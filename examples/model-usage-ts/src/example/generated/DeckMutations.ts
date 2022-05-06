@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <fe54df2d6194fed44ddce25ea478c8d5>
+// SIGNED-SOURCE: <55f3bde1cccb173b79f70aa8420420d4>
 import { ICreateOrUpdateBuilder } from "@aphro/mutator-runtime-ts";
 import Deck from "./Deck.js";
 import { default as spec } from "./DeckSpec.js";
@@ -9,7 +9,7 @@ import User from "./User.js";
 import Slide from "./Slide.js";
 
 export default class DeckMutations {
-  constructor(private mutator: ICreateOrUpdateBuilder<Data, Deck>) {}
+  constructor(private mutator: ICreateOrUpdateBuilder<Deck, Data>) {}
 
   static for(model?: Deck) {
     if (model) {

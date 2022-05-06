@@ -35,7 +35,7 @@ ${this.getCode()}
   private getCode(): string {
     return `export default class ${this.schema.name}Mutations {
       constructor(
-        private mutator: ICreateOrUpdateBuilder<Data, ${this.schema.name}>
+        private mutator: ICreateOrUpdateBuilder<${this.schema.name}, Data>
       ) {}
 
       static for(model?: ${this.schema.name}) {

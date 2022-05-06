@@ -1,6 +1,0 @@
--- SIGNED-SOURCE: <c9d89c02f6a2a5a84bb067f477717f2b>
-CREATE TABLE Slide (
-  'id' BIGINT UNSIGNED,
-  'deckId' BIGINT UNSIGNED,
-  'order' FLOAT
-);

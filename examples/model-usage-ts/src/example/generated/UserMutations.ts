@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4aa131ad9d2269ab34941c0ede6439ca>
+// SIGNED-SOURCE: <b99750e12dbb708a7a622941d023b786>
 import { ICreateOrUpdateBuilder } from "@aphro/mutator-runtime-ts";
 import User from "./User.js";
 import { default as spec } from "./UserSpec.js";
@@ -7,7 +7,7 @@ import { UpdateMutationBuilder } from "@aphro/mutator-runtime-ts";
 import { CreateMutationBuilder } from "@aphro/mutator-runtime-ts";
 
 export default class UserMutations {
-  constructor(private mutator: ICreateOrUpdateBuilder<Data, User>) {}
+  constructor(private mutator: ICreateOrUpdateBuilder<User, Data>) {}
 
   static for(model?: User) {
     if (model) {

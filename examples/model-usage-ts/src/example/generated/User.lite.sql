@@ -1,7 +1,0 @@
--- SIGNED-SOURCE: <2b41bc6a69993b6df336986123e2570f>
-CREATE TABLE User (
-  'id' UNSIGNED BIG INT PRIMARY KEY,
-  'name' TEXT,
-  'created' DATETIME,
-  'modified' DATETIME
-);
