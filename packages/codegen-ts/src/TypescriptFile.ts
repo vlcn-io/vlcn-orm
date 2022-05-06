@@ -5,6 +5,7 @@ import prettier from 'prettier';
 
 export default class TypescriptFile implements CodegenFile {
   #contents: string;
+  readonly signatureTemplate: string = ALGOL_TEMPLATE;
 
   constructor(public readonly name: string, contents: string) {
     this.#contents = contents;

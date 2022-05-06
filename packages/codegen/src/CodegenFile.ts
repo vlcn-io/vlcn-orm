@@ -24,5 +24,9 @@ export function removeSignature(content: string, template: string): string {
 export function checkSignature(content: string, template: string): void {
   const sig = readSignature(content, template);
   const baseContent = removeSignature(content, template);
-  invariant(sig === md5(baseContent), 'Signature from file did not match contents of file');
+  if (sig !== md5(baseContent)) {
+    throw {
+      code: 'bad-signature',
+    };
+  }
 }

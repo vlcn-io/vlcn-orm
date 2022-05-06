@@ -4,6 +4,7 @@ import { format } from 'sql-formatter';
 
 export default class SqlFile implements CodegenFile {
   #contents: string;
+  readonly signatureTemplate: string = SQL_TEMPLATE;
 
   constructor(public readonly name: string, contents: string) {
     this.#contents = contents;
