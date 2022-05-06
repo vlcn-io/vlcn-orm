@@ -4,7 +4,7 @@
 - writer from p2p
 - cache in context? e.g., request context
   - viewer in context... / thread context thru
-- jest to 28.0.1
+
 
 # Spec & Persist
 

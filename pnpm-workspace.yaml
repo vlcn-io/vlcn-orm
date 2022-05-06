@@ -5,6 +5,7 @@ packages:
   - 'extensions/mutation-codegen'
   - 'mono/typescript/packages/*'
   - 'packages/grammar-extension-api'
+  - 'packages/cache-runtime-ts'
   - 'packages/codegen'
   - 'packages/codegen-api'
   - 'packages/codegen-cli'

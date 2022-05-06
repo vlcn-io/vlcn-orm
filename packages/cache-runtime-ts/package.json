@@ -3,7 +3,11 @@
   "version": "0.0.1",
   "main": "lib/index.js",
   "type": "module",
-  "dependencies": {},
+  "dependencies": {
+    "@strut/sid": "workspace:*",
+    "@strut/utils": "workspace:*",
+    "@aphro/model-runtime-ts": "workspace:*"
+  },
   "devDependencies": {
     "typescript": "^4.6.2",
     "jest": "^28.0.1",
