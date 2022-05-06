@@ -16,7 +16,7 @@ import {
   NodeAstCommon,
   ValidationError,
 } from '@aphro/schema-api';
-import { assertUnreahable } from '@strut/utils';
+import { assertUnreachable } from '@strut/utils';
 
 /**
  * The AST returned by the parser gives us lists of items.
@@ -130,7 +130,7 @@ export default function condense(
           left[2].push(nodeOrEdge);
           break;
         default:
-          assertUnreahable(nodeOrEdge);
+          assertUnreachable(nodeOrEdge);
       }
       return left;
     },

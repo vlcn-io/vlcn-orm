@@ -1,4 +1,10 @@
 # 5/6
+- codegen sql tests
+- strut packages as packages
+- ts lib include
+- "build all" project
+- re-work create tables? Use Knex? Or Use files?
+
 - context thread thru and everywhere?
 - changesetExecutor fixup
 - use writer from p2p

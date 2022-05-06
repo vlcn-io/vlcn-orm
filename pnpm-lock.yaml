@@ -2,6 +2,14 @@ lockfileVersion: 5.4
 
 importers:
 
+  mono/typescript/packages/utils:
+    specifiers:
+      '@types/node': ^17.0.31
+      typescript: ^4.6.4
+    devDependencies:
+      '@types/node': 17.0.31
+      typescript: 4.6.4
+
   packages/codegen-api:
     specifiers:
       '@aphro/schema-api': workspace:*

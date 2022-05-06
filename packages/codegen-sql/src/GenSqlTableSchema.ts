@@ -1,8 +1,8 @@
 import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
 import { Node, StorageEngine } from '@aphro/schema-api';
-import assertUnreachable from '@strut/utils/lib/assertUnreachable';
+import { assertUnreachable } from '@strut/utils';
 import knex from 'knex';
-import SqlFile from 'SqlFile';
+import SqlFile from './SqlFile.js';
 
 // use knex to generate create table
 export default class GenSqlTableSchema extends CodegenStep {
@@ -15,10 +15,8 @@ export default class GenSqlTableSchema extends CodegenStep {
   }
 
   gen(): CodegenFile {
-    return new SqlFile(
-      `${this.schema.name}.${this.schema.storage.engine}.sql`,
-      this.getSqlString(),
-    );
+    const str = this.getSqlString();
+    return new SqlFile(`${this.schema.name}.${this.schema.storage.engine}.sql`, str);
   }
 
   private getSqlString(): string {
@@ -56,7 +54,8 @@ export default class GenSqlTableSchema extends CodegenStep {
                   table.double(field.name);
                   break;
                 case 'string':
-                  table.string(field.name);
+                  // TODO: ask user to define len params so we know the type here
+                  table.text(field.name);
                   break;
                 case 'bool':
                   table.boolean(field.name);
@@ -85,8 +84,7 @@ export default class GenSqlTableSchema extends CodegenStep {
           }
         });
       })
-      .toSQL()
-      .toNative().sql;
+      .toString();
   }
 }
 

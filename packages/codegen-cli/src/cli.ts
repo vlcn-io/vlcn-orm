@@ -15,11 +15,7 @@ import { GenTypescriptMutations } from '@aphro/mutation-codegen';
 import { Step } from '@aphro/codegen-api';
 
 import { GenTypescriptModel, GenTypescriptQuery, GenTypescriptSpec } from '@aphro/codegen-ts';
-import {
-  GenMySqlTableSchema,
-  GenPostgresTableSchema,
-  GenSqliteTableSchema,
-} from '@aphro/codegen-sql';
+import { GenSqlTableSchema } from '@aphro/codegen-sql';
 
 const grammarExtensions = [mutationExtension];
 
@@ -28,9 +24,7 @@ const steps: readonly Step[] = [
   GenTypescriptQuery,
   GenTypescriptSpec,
   GenTypescriptMutations,
-  GenMySqlTableSchema,
-  GenPostgresTableSchema,
-  GenSqliteTableSchema,
+  GenSqlTableSchema,
 ];
 
 async function run() {
