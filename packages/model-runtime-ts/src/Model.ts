@@ -23,7 +23,7 @@ export default class Model<T extends {}> implements IModel<T> {
   protected readonly data: T;
 
   constructor(data: T) {
-    this.data = Object.seal(data);
+    this.data = Object.freeze(data);
   }
 
   _get<K extends keyof T>(key: K): T[K] {
