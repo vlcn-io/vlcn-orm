@@ -1,5 +1,5 @@
-import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
-import { Changeset } from 'Changeset';
+import { IModel } from '@aphro/model-runtime-ts';
+import { Changeset } from './Changeset';
 import changesetToSQL from './sql/changesetToSQL.js';
 import { __internalConfig } from '@aphro/config-runtime-ts';
 

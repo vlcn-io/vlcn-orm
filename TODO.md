@@ -1,7 +1,6 @@
 # 5/6
 - codegen sql tests
 - strut packages as packages
-- ts lib include
 - re-work create tables? Use Knex? Or Use files?
 - rm integrations package?
 - fix react hooks

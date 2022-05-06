@@ -1,7 +1,7 @@
 import { IModel } from '@aphro/model-runtime-ts';
 import { ICreateOrUpdateBuilder } from './Mutator.js';
 import { Changeset, ChangesetOptions } from './Changeset.js';
-import changesetExecutor from 'ChangesetExecutor.js';
+import changesetExecutor from './ChangesetExecutor.js';
 
 export default abstract class MutationsBase<M extends IModel<D>, D extends Object> {
   constructor(protected mutator: ICreateOrUpdateBuilder<M, D>) {}
