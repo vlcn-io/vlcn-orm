@@ -7,7 +7,7 @@
     "@aphro/schema-api": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^4.6.2"
+    "typescript": "^4.6.4"
   },
   "scripts": {
     "clean": "tsc --clean --build",

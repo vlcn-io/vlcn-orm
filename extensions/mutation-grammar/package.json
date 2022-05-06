@@ -4,17 +4,17 @@
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@aphro/schema-api": "workspace:*",
     "@aphro/grammar-extension-api": "workspace:*",
-    "@aphro/schema": "workspace:*"
+    "@aphro/schema": "workspace:*",
+    "@aphro/schema-api": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^4.6.2",
-    "jest": "^28.0.0-alpha.3",
-    "ts-jest": "^27.1.3",
-    "@babel/core": "^7.17.8",
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
     "@types/jest": "^27.4.1",
-    "@babel/preset-env": "^7.16.11"
+    "jest": "^28.1.0",
+    "ts-jest": "^28.0.1",
+    "typescript": "^4.6.4"
   },
   "scripts": {
     "clean": "tsc --clean --build",
