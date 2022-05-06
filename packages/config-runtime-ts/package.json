@@ -5,7 +5,8 @@
   "type": "module",
   "dependencies": {
     "@aphro/schema-api": "workspace:*",
-    "@strut/utils": "workspace:*"
+    "@strut/utils": "workspace:*",
+    "knex": "^1.0.5"
   },
   "devDependencies": {
     "typescript": "^4.6.2"

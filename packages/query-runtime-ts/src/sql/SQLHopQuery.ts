@@ -1,7 +1,6 @@
 import { invariant } from '@strut/utils';
 import { HopExpression } from '../Expression.js';
 import { HopQuery, Query } from '../Query.js';
-import { ModelSpec, StorageConfig } from '@aphro/model-runtime-ts';
 import { EdgeSpec } from '@aphro/schema-api';
 
 export default class SQLHopQuery<TIn, TOut> extends HopQuery<TIn, TOut> {

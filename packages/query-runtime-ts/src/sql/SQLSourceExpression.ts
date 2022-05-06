@@ -26,16 +26,16 @@ export type HoistedOperations = {
   what: 'model' | 'ids' | 'edges' | 'count';
 };
 import { ModelFieldGetter } from '../Field.js';
-import { ModelSpec } from '@aphro/model-runtime-ts';
+import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
 import SQLHopExpression from './SQLHopExpression.js';
 
 export interface SQLResult {}
 
-export default class SQLSourceExpression<T> implements SourceExpression<T> {
+export default class SQLSourceExpression<T extends IModel<Object>> implements SourceExpression<T> {
   constructor(
     // we should take a schema instead of db
     // we'd need the schema to know if we can hoist certain fields or not
-    private spec: ModelSpec<T, any>,
+    private spec: ModelSpec<T, Object>,
     private hoistedOperations: HoistedOperations,
   ) {}
 

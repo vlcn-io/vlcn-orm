@@ -6,12 +6,12 @@ import SQLHopExpression from './SQLHopExpression.js';
 import { ModelFieldGetter } from '../Field.js';
 
 // given a model spec and hoisted operations, return the SQL query
-export default function specAndOpsToSQL(
+export default function specAndOpsToQuery(
   spec: ModelSpec<any, any>,
   ops: HoistedOperations,
+  db: Knex,
 ): Knex.QueryBuilder {
-  const builder = getKnex(spec);
-  let table = builder(spec.storage.tablish);
+  let table = db(spec.storage.tablish);
 
   const [lastSpec, lastWhat] = getLastSpecAndProjection(spec, ops);
   switch (lastWhat) {
@@ -122,13 +122,4 @@ function applyLimit<T extends Knex.QueryBuilder>(table: T, l?: ReturnType<typeof
 
 function applyHops<T extends Knex.QueryBuilder>(table: T, hop?: SQLHopExpression<any>): T {
   return table;
-}
-
-function getKnex(spec: ModelSpec<any, any>) {
-  switch (spec.storage.engine) {
-    case 'mysql':
-      return knex({ client: 'mysql' });
-    case 'postgres':
-      return knex({ client: 'pg' });
-  }
 }

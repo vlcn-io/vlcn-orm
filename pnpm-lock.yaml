@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 importers:
 
@@ -43,7 +43,7 @@ importers:
       graphql: 16.3.0
       knex: 1.0.5_@vscode+sqlite3@5.0.8
       reflect-metadata: 0.1.13
-      type-graphql: 1.1.1_9be1ff75d882fe7642637dd5bd1e76d7
+      type-graphql: 1.1.1_tpq765oyql7hmqtdpxk32htw24
     devDependencies:
       '@aphro/codegen-cli': link:../../packages/codegen-cli
       '@babel/core': 7.17.8
@@ -52,7 +52,7 @@ importers:
       command-line-args: 5.2.1
       command-line-usage: 6.1.1
       jest: 28.0.0-alpha.8
-      ts-jest: 27.1.4_889311557937cce69cc11e4cc7168165
+      ts-jest: 27.1.4_rcjrcvlzg7gonhgbdzgmofubmu
       typescript: 4.6.3
 
   extensions/authorization-grammar:
@@ -85,7 +85,7 @@ importers:
       '@babel/preset-env': 7.16.11_@babel+core@7.17.8
       '@types/jest': 27.4.1
       jest: 28.0.0-alpha.8
-      ts-jest: 27.1.4_889311557937cce69cc11e4cc7168165
+      ts-jest: 27.1.4_rcjrcvlzg7gonhgbdzgmofubmu
       typescript: 4.6.3
 
   extensions/mutation-grammar:
@@ -108,7 +108,7 @@ importers:
       '@babel/preset-env': 7.16.11_@babel+core@7.17.8
       '@types/jest': 27.4.1
       jest: 28.0.0-alpha.8
-      ts-jest: 27.1.4_889311557937cce69cc11e4cc7168165
+      ts-jest: 27.1.4_rcjrcvlzg7gonhgbdzgmofubmu
       typescript: 4.6.3
 
   mono/typescript/packages/counter:
@@ -177,7 +177,7 @@ importers:
       '@types/prettier': 2.4.4
       '@typescript-eslint/typescript-estree': 5.18.0_typescript@4.6.3
       jest: 28.0.0-alpha.8
-      ts-jest: 27.1.4_889311557937cce69cc11e4cc7168165
+      ts-jest: 27.1.4_rcjrcvlzg7gonhgbdzgmofubmu
       typescript: 4.6.3
 
   packages/codegen-api:
@@ -245,7 +245,7 @@ importers:
       '@types/prettier': 2.4.4
       '@typescript-eslint/typescript-estree': 5.18.0_typescript@4.6.3
       jest: 28.0.0-alpha.8
-      ts-jest: 27.1.4_889311557937cce69cc11e4cc7168165
+      ts-jest: 27.1.4_rcjrcvlzg7gonhgbdzgmofubmu
       typescript: 4.6.3
 
   packages/codegen-sql:
@@ -280,7 +280,7 @@ importers:
       '@types/prettier': 2.4.4
       '@typescript-eslint/typescript-estree': 5.18.0_typescript@4.6.3
       jest: 28.0.0-alpha.8
-      ts-jest: 27.1.4_889311557937cce69cc11e4cc7168165
+      ts-jest: 27.1.4_rcjrcvlzg7gonhgbdzgmofubmu
       typescript: 4.6.3
 
   packages/codegen-ts:
@@ -323,17 +323,19 @@ importers:
       '@types/prettier': 2.4.4
       '@typescript-eslint/typescript-estree': 5.18.0_typescript@4.6.3
       jest: 28.0.0-alpha.8
-      ts-jest: 27.1.4_889311557937cce69cc11e4cc7168165
+      ts-jest: 27.1.4_rcjrcvlzg7gonhgbdzgmofubmu
       typescript: 4.6.3
 
   packages/config-runtime-ts:
     specifiers:
       '@aphro/schema-api': workspace:*
       '@strut/utils': workspace:*
+      knex: ^1.0.5
       typescript: ^4.6.2
     dependencies:
       '@aphro/schema-api': link:../schema-api
       '@strut/utils': link:../../mono/typescript/packages/utils
+      knex: 1.0.5
     devDependencies:
       typescript: 4.6.3
 
@@ -378,7 +380,7 @@ importers:
       '@types/jest': 27.4.1
       '@typescript-eslint/typescript-estree': 5.18.0_typescript@4.6.3
       jest: 28.0.0-alpha.8
-      ts-jest: 27.1.4_889311557937cce69cc11e4cc7168165
+      ts-jest: 27.1.4_rcjrcvlzg7gonhgbdzgmofubmu
       typescript: 4.6.3
 
   packages/model-runtime-ts:
@@ -415,7 +417,7 @@ importers:
       md5: 2.3.0
       prettier: 2.6.2
       sql-formatter: 4.0.2
-      ts-jest: 27.1.4_889311557937cce69cc11e4cc7168165
+      ts-jest: 27.1.4_rcjrcvlzg7gonhgbdzgmofubmu
       typescript: 4.6.3
 
   packages/mutator-runtime-ts:
@@ -465,7 +467,7 @@ importers:
       '@types/jest': 27.4.1
       '@typescript-eslint/typescript-estree': 5.18.0_typescript@4.6.3
       jest: 28.0.0-alpha.8
-      ts-jest: 27.1.4_889311557937cce69cc11e4cc7168165
+      ts-jest: 27.1.4_rcjrcvlzg7gonhgbdzgmofubmu
       typescript: 4.6.3
 
   packages/react:
@@ -496,7 +498,7 @@ importers:
       '@types/jest': 27.4.1
       '@typescript-eslint/typescript-estree': 5.18.0_typescript@4.6.3
       jest: 28.0.0-alpha.8
-      ts-jest: 27.1.4_889311557937cce69cc11e4cc7168165
+      ts-jest: 27.1.4_rcjrcvlzg7gonhgbdzgmofubmu
       typescript: 4.6.3
 
   packages/schema:
@@ -3268,7 +3270,7 @@ packages:
       '@types/node': 17.0.23
     dev: true
 
-  /jest-pnp-resolver/1.2.2_jest-resolve@28.0.0-alpha.8:
+  /jest-pnp-resolver/1.2.2_3ztjfq6qe32ngbxntuzgfmfnjy:
     resolution: {integrity: sha512-olV41bKSMm8BdnuMsewT4jqlZ8+3TCARAXjZGT9jcoSnrfUnRCqnMoF9XEeoWjbzObpqF9dRhHQj0Xb9QdF6/w==}
     engines: {node: '>=6'}
     peerDependencies:
@@ -3302,7 +3304,7 @@ packages:
       chalk: 4.1.2
       graceful-fs: 4.2.9
       jest-haste-map: 28.0.0-alpha.8
-      jest-pnp-resolver: 1.2.2_jest-resolve@28.0.0-alpha.8
+      jest-pnp-resolver: 1.2.2_3ztjfq6qe32ngbxntuzgfmfnjy
       jest-util: 28.0.0-alpha.8
       jest-validate: 28.0.0-alpha.8
       resolve: 1.22.0
@@ -4218,7 +4220,7 @@ packages:
       is-number: 7.0.0
     dev: true
 
-  /ts-jest/27.1.4_889311557937cce69cc11e4cc7168165:
+  /ts-jest/27.1.4_rcjrcvlzg7gonhgbdzgmofubmu:
     resolution: {integrity: sha512-qjkZlVPWVctAezwsOD1OPzbZ+k7zA5z3oxII4dGdZo5ggX/PL7kvwTM0pXTr10fAtbiVpJaL3bWd502zAhpgSQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
@@ -4396,7 +4398,7 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /type-graphql/1.1.1_9be1ff75d882fe7642637dd5bd1e76d7:
+  /type-graphql/1.1.1_tpq765oyql7hmqtdpxk32htw24:
     resolution: {integrity: sha512-iOOWVn0ehCYMukmnXStbkRwFE9dcjt7/oDcBS1JyQZo9CbhlIll4lHHps54HMEk4A4c8bUPd+DjK8w1/ZrxB4A==}
     engines: {node: '>= 10.3'}
     requiresBuild: true
