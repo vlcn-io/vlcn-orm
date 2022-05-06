@@ -1,4 +1,5 @@
 packages:
+  - 'build-all'
   - 'examples/model-usage-ts'
   - 'extensions/authorization-grammar'
   - 'extensions/mutation-grammar'

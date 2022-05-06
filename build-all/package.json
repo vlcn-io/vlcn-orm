@@ -1,0 +1,20 @@
+{
+  "name": "@aphro/build-all",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "type": "module",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.6.4"
+  },
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "build": "tsc --build",
+    "watch": "tsc --build -w"
+  },
+  "jest": {
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ]
+  }
+}

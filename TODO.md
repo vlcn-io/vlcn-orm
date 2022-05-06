@@ -2,11 +2,13 @@
 - codegen sql tests
 - strut packages as packages
 - ts lib include
-- "build all" project
 - re-work create tables? Use Knex? Or Use files?
+- rm integrations package?
+- fix react hooks
 
 - context thread thru and everywhere?
 - changesetExecutor fixup
+- mutator import
 - use writer from p2p
 - cache in context? e.g., request context
   - viewer in context... / thread context thru
