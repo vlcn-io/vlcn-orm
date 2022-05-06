@@ -26,7 +26,7 @@ export default function changesetExecutor(changesets: Changeset<any, any>[]) {
             // TODO: rm type, add db!
             .type(this.spec.storage.type)
             .engine(this.spec.storage.engine)
-            .tablish(this.spec.storage.tablish)
+            .db(this.spec.storage.db)
             .exec(query.queryString, query.bindings),
         ),
       );

@@ -1,6 +1,10 @@
-# Model
-
-Re-work it. The current model serves a rich client use case not server use case.
+# 5/6
+- changesetExecutor fixup
+- cache package
+- writer from p2p
+- cache in context? e.g., request context
+  - viewer in context... / thread context thru
+- jest to 28.0.1
 
 # Spec & Persist
 
