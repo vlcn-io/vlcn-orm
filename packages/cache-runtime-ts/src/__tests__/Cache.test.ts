@@ -2,12 +2,18 @@ import Cache from '../Cache.js';
 import { Model } from '@aphro/model-runtime-ts';
 import { asId, SID_of } from '@strut/sid';
 import fc from 'fast-check';
+import { debugContext } from '../../../context-runtime-ts/lib/context.js';
+import { viewer } from '../../../context-runtime-ts/lib/viewer.js';
 
+// TODO: cache will need to be per viewer......
+// Why would we have many viewers in local first P2P app? For privacy respecting replications to other peers.
+// To do that, we try to "load" the model as the other peer. If success, we allow the replication.
+const context = debugContext(viewer(asId('1')));
 class TestModel extends Model<{}> {
   readonly id;
 
   constructor(id: SID_of<TestModel>) {
-    super({});
+    super(context, {});
     this.id = id;
   }
 }
