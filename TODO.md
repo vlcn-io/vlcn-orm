@@ -1,9 +1,6 @@
 # 5/6
 - re-work create tables? Use Knex? Or Use files? def. re-work for testing -- test infra should not require sql files
 - fix react hooks `// TODO: uncomment once we fix the models back up`
-- codegen hash respect
-  - commit hook (husky)
-  - re-gen / warn / merge
 
 - context thread thru and everywhere?
 - changesetExecutor fixup

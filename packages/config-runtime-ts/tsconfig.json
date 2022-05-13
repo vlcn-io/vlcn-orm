@@ -5,5 +5,9 @@
     "rootDir": "./src"
   },
   "include": ["./src/"],
-  "references": [{ "path": "../schema-api" }, { "path": "../../mono/typescript/packages/utils" }]
+  "references": [
+    { "path": "../schema-api" },
+    { "path": "../../mono/typescript/packages/utils" },
+    { "path": "../../mono/typescript/packages/sid" }
+  ]
 }

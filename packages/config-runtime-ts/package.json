@@ -6,6 +6,7 @@
   "dependencies": {
     "@aphro/schema-api": "workspace:*",
     "@strut/utils": "workspace:*",
+    "@strut/sid": "workspace:*",
     "knex": "^2.0.0"
   },
   "devDependencies": {
