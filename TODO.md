@@ -1,3 +1,7 @@
+# 5/13
+
+Make `_` methods in `Model.ts` local to packages that need them via type extensions from foreign packages.
+
 # 5/6
 - re-work create tables? Use Knex? Or Use files? def. re-work for testing -- test infra should not require sql files
 - fix react hooks `// TODO: uncomment once we fix the models back up`

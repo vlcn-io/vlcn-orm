@@ -2,6 +2,7 @@ import { SID_of } from '@strut/sid';
 import { Disposer } from '@strut/events';
 import { NodeSpec } from '@aphro/schema-api';
 import { Context } from '@aphro/context-runtime-ts';
+import { typedKeys } from '@strut/utils';
 
 export interface IModel<T extends {}> {
   readonly id: SID_of<this>;
@@ -10,11 +11,15 @@ export interface IModel<T extends {}> {
   subscribe(c: () => void): Disposer;
   subscribeTo(keys: (keyof T)[], c: () => void): Disposer;
 
+  destroy();
+
   // Internal only APIs. Exposed since TS doesn't understand package friends.
+  // TODO: Or does it? I can extend a type that exists in a package from another package...
+  // So why not do that to make these methods local to the package(s) that need them?
   _get<K extends keyof T>(key: K): T[K];
   _d(): T;
-
-  destroy();
+  _merge(newData: Partial<T>): [Partial<T>, Set<() => void>];
+  _isNoop(updates: Partial<T>): boolean;
 }
 
 export type ModelSpec<M extends IModel<D>, D extends {}> = {
@@ -33,7 +38,7 @@ export default abstract class Model<T extends {}> implements IModel<T> {
   readonly context: Context;
   abstract readonly id: SID_of<this>;
 
-  protected readonly data: T;
+  protected data: T;
 
   private subscriptions: Set<() => void> = new Set();
   private keyedSubscriptions: Map<keyof T, Set<() => void>> = new Map();
@@ -41,13 +46,6 @@ export default abstract class Model<T extends {}> implements IModel<T> {
   constructor(context: Context, data: T) {
     this.context = context;
     this.data = Object.freeze(data);
-  }
-
-  _get<K extends keyof T>(key: K): T[K] {
-    return this.data[key];
-  }
-  _d(): T {
-    return this.data;
   }
 
   subscribe(c: () => void): Disposer {
@@ -72,5 +70,66 @@ export default abstract class Model<T extends {}> implements IModel<T> {
   destroy() {
     this.subscriptions = new Set();
     this.keyedSubscriptions = new Map();
+  }
+
+  _get<K extends keyof T>(key: K): T[K] {
+    return this.data[key];
+  }
+
+  _d(): T {
+    return this.data;
+  }
+
+  _merge(newData: Partial<T>): [Partial<T>, Set<() => void>] {
+    const lastData = this.data;
+    this.data = {
+      ...this.data,
+      ...newData,
+    };
+
+    let unchangedKeys = new Set();
+    if (newData != null) {
+      Object.entries(newData).forEach(entry => {
+        if (lastData[entry[0]] === entry[1]) {
+          unchangedKeys.add(entry[0]);
+        }
+      });
+    }
+
+    const notifications = this.gatherNotifications(
+      newData !== undefined
+        ? unchangedKeys.size === 0
+          ? typedKeys(newData)
+          : typedKeys(newData).filter(k => !unchangedKeys.has(k))
+        : undefined,
+    );
+    return [lastData, notifications];
+  }
+
+  _isNoop(updates: Partial<T>) {
+    return Object.entries(updates).every(entry => this.data[entry[0]] === entry[1]);
+  }
+
+  private gatherNotifications(changedKeys?: (keyof T)[]): Set<() => void> {
+    const notifications = new Set(this.gatherIndiscriminateNotifications());
+    if (changedKeys && this.keyedSubscriptions.size > 0) {
+      this.gatherKeyedNotifications(changedKeys, notifications);
+    }
+    return notifications;
+  }
+
+  private gatherIndiscriminateNotifications() {
+    return this.subscriptions;
+  }
+
+  private gatherKeyedNotifications(changedKeys: (keyof T)[], notifications: Set<() => void>) {
+    for (const key of changedKeys) {
+      const subs = this.keyedSubscriptions.get(key);
+      if (subs) {
+        for (const c of subs) {
+          notifications.add(c);
+        }
+      }
+    }
   }
 }
