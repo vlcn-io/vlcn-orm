@@ -12,7 +12,7 @@ packages:
   - 'packages/codegen-cli'
   - 'packages/codegen-sql'
   - 'packages/codegen-ts'
-  - 'packages/config-runtime-ts'
+  - 'packages/context-runtime-ts'
   - 'packages/model-runtime-ts'
   - 'packages/mutator-runtime-ts'
   - 'packages/query-runtime-ts'

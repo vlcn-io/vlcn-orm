@@ -8,7 +8,7 @@
   "references": [
     { "path": "../schema-api" },
     { "path": "../model-runtime-ts" },
-    { "path": "../config-runtime-ts" },
+    { "path": "../context-runtime-ts" },
     { "path": "../../mono/typescript/packages/utils" }
   ]
 }

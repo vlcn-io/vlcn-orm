@@ -1,5 +1,5 @@
 {
-  "name": "@aphro/config-runtime-ts",
+  "name": "@aphro/context-runtime-ts",
   "version": "0.0.1",
   "main": "lib/index.js",
   "type": "module",

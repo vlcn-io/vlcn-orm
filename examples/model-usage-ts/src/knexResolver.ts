@@ -1,4 +1,4 @@
-import { DBResolver } from '@aphro/config-runtime-ts';
+import { DBResolver } from '@aphro/context-runtime-ts';
 import { create as createDb } from './db.js';
 
 export function create(db: ReturnType<typeof createDb>): DBResolver {

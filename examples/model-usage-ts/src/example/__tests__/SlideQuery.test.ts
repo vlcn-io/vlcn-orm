@@ -3,7 +3,7 @@ import createTestTables from '../../createTestTables.js';
 import SlideQuery from '../generated/SlideQuery.js';
 import { create as createDb } from '../../db.js';
 import { create as createKnexResolver } from '../../knexResolver.js';
-import { configure } from '@aphro/config-runtime-ts';
+import { configure } from '@aphro/context-runtime-ts';
 
 /**
  * Now that everything generates correctly...

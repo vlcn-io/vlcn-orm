@@ -12,7 +12,7 @@
     { "path": "../packages/codegen-cli" },
     { "path": "../packages/codegen-sql" },
     { "path": "../packages/codegen-ts" },
-    { "path": "../packages/config-runtime-ts" },
+    { "path": "../packages/context-runtime-ts" },
     { "path": "../packages/grammar-extension-api" },
     { "path": "../packages/model-runtime-ts" },
     { "path": "../packages/mutator-runtime-ts" },

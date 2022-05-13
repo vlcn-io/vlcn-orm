@@ -19,7 +19,7 @@ importers:
   examples/model-usage-ts:
     specifiers:
       '@aphro/codegen-cli': workspace:*
-      '@aphro/config-runtime-ts': workspace:*
+      '@aphro/context-runtime-ts': workspace:*
       '@aphro/model-runtime-ts': workspace:*
       '@aphro/mutator-runtime-ts': workspace:*
       '@aphro/query-runtime-ts': workspace:*
@@ -39,7 +39,7 @@ importers:
       type-graphql: ^1.1.1
       typescript: ^4.6.4
     dependencies:
-      '@aphro/config-runtime-ts': link:../../packages/config-runtime-ts
+      '@aphro/context-runtime-ts': link:../../packages/context-runtime-ts
       '@aphro/model-runtime-ts': link:../../packages/model-runtime-ts
       '@aphro/mutator-runtime-ts': link:../../packages/mutator-runtime-ts
       '@aphro/query-runtime-ts': link:../../packages/query-runtime-ts
@@ -366,7 +366,7 @@ importers:
       ts-jest: 28.0.1_idho52n4uf7ux6ste52nmmk7t4
       typescript: 4.6.4
 
-  packages/config-runtime-ts:
+  packages/context-runtime-ts:
     specifiers:
       '@aphro/schema-api': workspace:*
       '@strut/sid': workspace:*
@@ -431,13 +431,13 @@ importers:
 
   packages/mutator-runtime-ts:
     specifiers:
-      '@aphro/config-runtime-ts': workspace:*
+      '@aphro/context-runtime-ts': workspace:*
       '@aphro/model-runtime-ts': workspace:*
       '@aphro/schema-api': workspace:*
       '@strut/utils': workspace:*
       typescript: ^4.6.4
     dependencies:
-      '@aphro/config-runtime-ts': link:../config-runtime-ts
+      '@aphro/context-runtime-ts': link:../context-runtime-ts
       '@aphro/model-runtime-ts': link:../model-runtime-ts
       '@aphro/schema-api': link:../schema-api
       '@strut/utils': link:../../mono/typescript/packages/utils
@@ -446,7 +446,7 @@ importers:
 
   packages/query-runtime-ts:
     specifiers:
-      '@aphro/config-runtime-ts': workspace:*
+      '@aphro/context-runtime-ts': workspace:*
       '@aphro/model-runtime-ts': workspace:*
       '@aphro/schema-api': workspace:*
       '@babel/core': ^7.17.10
@@ -461,7 +461,7 @@ importers:
       ts-jest: ^28.0.1
       typescript: ^4.6.4
     dependencies:
-      '@aphro/config-runtime-ts': link:../config-runtime-ts
+      '@aphro/context-runtime-ts': link:../context-runtime-ts
       '@aphro/model-runtime-ts': link:../model-runtime-ts
       '@aphro/schema-api': link:../schema-api
       '@strut/counter': link:../../mono/typescript/packages/counter

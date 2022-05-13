@@ -3,7 +3,7 @@ import { BaseChunkIterable } from '../ChunkIterable.js';
 import specAndOpsToQuery from './specAndOpsToQuery.js';
 import { HoistedOperations } from './SqlSourceExpression.js';
 import { invariant } from '@strut/utils';
-import { __internalConfig } from '@aphro/config-runtime-ts';
+import { __internalConfig } from '@aphro/context-runtime-ts';
 
 export default class SQLSourceChunkIterable<T extends IModel<Object>> extends BaseChunkIterable<T> {
   constructor(private spec: ModelSpec<T, Object>, private hoistedOperations: HoistedOperations) {
