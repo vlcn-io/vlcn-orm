@@ -2,6 +2,7 @@ import { SID_of } from '@strut/sid';
 import { NodeSpec } from '@aphro/schema-api';
 
 export interface IModel<T extends {}> {
+  readonly id: SID_of<this>;
   // Internal only APIs. Exposed since TS doesn't understand package friends.
   _get<K extends keyof T>(key: K): T[K];
   _d(): T;
@@ -19,8 +20,10 @@ export function isHasId(object: any): object is HasId {
   return 'id' in object && typeof object.id === 'string';
 }
 
-export default class Model<T extends {}> implements IModel<T> {
+export default abstract class Model<T extends {}> implements IModel<T> {
   protected readonly data: T;
+
+  abstract readonly id: SID_of<this>;
 
   constructor(data: T) {
     this.data = Object.freeze(data);
