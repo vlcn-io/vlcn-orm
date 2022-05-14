@@ -7,6 +7,7 @@ import { FieldGetter } from './Field.js';
 import HopPlan from './HopPlan.js';
 import ModelLoadExpression from './ModelLoadExpression.js';
 import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
+import { Context } from '@aphro/context-runtime-ts';
 
 export type ExpressionType =
   | 'take'
@@ -111,9 +112,10 @@ export function hop<TIn, TOut>(): HopExpression<TIn, TOut> {
 }
 
 export function modelLoad<TData, TModel extends IModel<TData>>(
-  factory: (TData) => TModel,
+  ctx: Context,
+  factory: (ctx: Context, data: TData) => TModel,
 ): ModelLoadExpression<TData, TModel> {
-  return new ModelLoadExpression(factory);
+  return new ModelLoadExpression(ctx, factory);
 }
 
 /*

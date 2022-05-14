@@ -164,7 +164,7 @@ export default class ${this.schema.name}
 
         // through a field on some other type is a foreign key edge
         // we're thus qurying that type based on some column rather than its id
-        return `create().where${upcaseAt(column, 0)}(P.equals(this.id))`;
+        return `create(this.ctx).where${upcaseAt(column, 0)}(P.equals(this.id))`;
       case 'edgeReference':
         // if (edge.inverted) {
         //   return "fromDst";

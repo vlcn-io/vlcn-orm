@@ -5,7 +5,7 @@ import { typedKeys } from '@strut/utils';
 
 export interface IModel<T extends {}> {
   readonly id: SID_of<this>;
-  readonly context: Context;
+  readonly ctx: Context;
 
   subscribe(c: () => void): Disposer;
   subscribeTo(keys: (keyof T)[], c: () => void): Disposer;
@@ -30,7 +30,7 @@ export function isHasId(object: any): object is HasId {
 }
 
 export default abstract class Model<T extends {}> implements IModel<T> {
-  readonly context: Context;
+  readonly ctx: Context;
   abstract readonly id: SID_of<this>;
 
   protected data: T;
@@ -38,8 +38,8 @@ export default abstract class Model<T extends {}> implements IModel<T> {
   private subscriptions: Set<() => void> = new Set();
   private keyedSubscriptions: Map<keyof T, Set<() => void>> = new Map();
 
-  constructor(context: Context, data: T) {
-    this.context = context;
+  constructor(ctx: Context, data: T) {
+    this.ctx = ctx;
     this.data = Object.freeze(data);
   }
 

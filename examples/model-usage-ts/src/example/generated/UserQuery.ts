@@ -1,4 +1,5 @@
-// SIGNED-SOURCE: <29c2c97944687887543f7f2f72d14707>
+// SIGNED-SOURCE: <b356548ef23d602c8e0220a18a6497a8>
+import { Context } from "@aphro/context-runtime-ts";
 import { DerivedQuery } from "@aphro/query-runtime-ts";
 import { QueryFactory } from "@aphro/query-runtime-ts";
 import { modelLoad } from "@aphro/query-runtime-ts";
@@ -14,19 +15,21 @@ import { default as DeckSpec } from "./DeckSpec.js";
 import DeckQuery from "./DeckQuery";
 
 export default class UserQuery extends DerivedQuery<User> {
-  static create() {
+  static create(ctx: Context) {
     return new UserQuery(
-      QueryFactory.createSourceQueryFor(spec),
-      modelLoad(spec.createFrom)
+      ctx,
+      QueryFactory.createSourceQueryFor(ctx, spec),
+      modelLoad(ctx, spec.createFrom)
     );
   }
 
-  static fromId(id: SID_of<User>) {
-    return this.create().whereId(P.equals(id));
+  static fromId(ctx: Context, id: SID_of<User>) {
+    return this.create(ctx).whereId(P.equals(id));
   }
 
   whereId(p: Predicate<Data["id"]>) {
     return new UserQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"id", Data, User>("id"), p)
     );
@@ -34,6 +37,7 @@ export default class UserQuery extends DerivedQuery<User> {
 
   whereName(p: Predicate<Data["name"]>) {
     return new UserQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"name", Data, User>("name"), p)
     );
@@ -41,6 +45,7 @@ export default class UserQuery extends DerivedQuery<User> {
 
   whereCreated(p: Predicate<Data["created"]>) {
     return new UserQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"created", Data, User>("created"), p)
     );
@@ -48,6 +53,7 @@ export default class UserQuery extends DerivedQuery<User> {
 
   whereModified(p: Predicate<Data["modified"]>) {
     return new UserQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"modified", Data, User>("modified"), p)
     );

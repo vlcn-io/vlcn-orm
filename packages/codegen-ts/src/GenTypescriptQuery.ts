@@ -37,10 +37,11 @@ export default class GenTypescriptQuery extends CodegenStep {
 export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQuery<${
         this.schema.name
       }> {
-  static create() {
+  static create(ctx: Context) {
     return new ${nodeFn.queryTypeName(this.schema.name)}(
-      QueryFactory.createSourceQueryFor(spec),
-      modelLoad(spec.createFrom),
+      ctx,
+      QueryFactory.createSourceQueryFor(ctx, spec),
+      modelLoad(ctx, spec.createFrom),
     );
   }
   ${this.getFromIdMethodCode()}
@@ -55,6 +56,7 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
 
   private collectImports(): Import[] {
     return [
+      tsImport('{Context}', null, '@aphro/context-runtime-ts'),
       ...[
         'DerivedQuery',
         'QueryFactory',
@@ -87,6 +89,7 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
 
   private getFilterMethodBody(field: Field): string {
     return `return new ${nodeFn.queryTypeName(this.schema.name)}(
+      this.ctx,
       this,
       filter(
         new ModelFieldGetter<"${field.name}", Data, ${this.schema.name}>("${field.name}"),
@@ -97,8 +100,8 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
 
   private getFromIdMethodCode(): string {
     return `
-static fromId(id: SID_of<${this.schema.name}>) {
-  return this.create().whereId(P.equals(id));
+static fromId(ctx: Context, id: SID_of<${this.schema.name}>) {
+  return this.create(ctx).whereId(P.equals(id));
 }
 `;
   }
@@ -126,8 +129,8 @@ static fromId(id: SID_of<${this.schema.name}>) {
     }
 
     return `
-static from${upcaseAt(column, 0)}(id: SID_of<${field.of}>) {
-  return this.create().where${upcaseAt(field.name, 0)}(P.equals(id));
+static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${field.of}>) {
+  return this.create(ctx).where${upcaseAt(field.name, 0)}(P.equals(id));
 }
 `;
   }

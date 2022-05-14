@@ -1,4 +1,5 @@
-// SIGNED-SOURCE: <0fb4440bd2297dcebf5c6558d64b5846>
+// SIGNED-SOURCE: <8de1f2ae168431000c46f866e90d4bb5>
+import { Context } from "@aphro/context-runtime-ts";
 import { DerivedQuery } from "@aphro/query-runtime-ts";
 import { QueryFactory } from "@aphro/query-runtime-ts";
 import { modelLoad } from "@aphro/query-runtime-ts";
@@ -13,19 +14,21 @@ import { default as spec } from "./ComponentSpec.js";
 import Slide from "./Slide.js";
 
 export default class ComponentQuery extends DerivedQuery<Component> {
-  static create() {
+  static create(ctx: Context) {
     return new ComponentQuery(
-      QueryFactory.createSourceQueryFor(spec),
-      modelLoad(spec.createFrom)
+      ctx,
+      QueryFactory.createSourceQueryFor(ctx, spec),
+      modelLoad(ctx, spec.createFrom)
     );
   }
 
-  static fromId(id: SID_of<Component>) {
-    return this.create().whereId(P.equals(id));
+  static fromId(ctx: Context, id: SID_of<Component>) {
+    return this.create(ctx).whereId(P.equals(id));
   }
 
   whereId(p: Predicate<Data["id"]>) {
     return new ComponentQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"id", Data, Component>("id"), p)
     );
@@ -33,6 +36,7 @@ export default class ComponentQuery extends DerivedQuery<Component> {
 
   whereSubtype(p: Predicate<Data["subtype"]>) {
     return new ComponentQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"subtype", Data, Component>("subtype"), p)
     );
@@ -40,6 +44,7 @@ export default class ComponentQuery extends DerivedQuery<Component> {
 
   whereSlideId(p: Predicate<Data["slideId"]>) {
     return new ComponentQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"slideId", Data, Component>("slideId"), p)
     );
@@ -47,6 +52,7 @@ export default class ComponentQuery extends DerivedQuery<Component> {
 
   whereContent(p: Predicate<Data["content"]>) {
     return new ComponentQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"content", Data, Component>("content"), p)
     );

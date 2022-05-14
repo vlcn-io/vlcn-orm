@@ -2,6 +2,7 @@ import { invariant } from '@strut/utils';
 import { HopExpression } from '../Expression.js';
 import { HopQuery, Query } from '../Query.js';
 import { EdgeSpec } from '@aphro/schema-api';
+import { Context } from '@aphro/context-runtime-ts';
 
 export default class SQLHopQuery<TIn, TOut> extends HopQuery<TIn, TOut> {
   /*
@@ -9,9 +10,9 @@ export default class SQLHopQuery<TIn, TOut> extends HopQuery<TIn, TOut> {
   We'll take source and see what the source is to determine what HOP
   expression to construct?
   */
-  static create<TIn, TOut>(sourceQuery: Query<TIn>, edge: EdgeSpec) {
+  static create<TIn, TOut>(ctx: Context, sourceQuery: Query<TIn>, edge: EdgeSpec) {
     // based on source and dest spec, determine the appropriate hop expression
-    return new SQLHopQuery(sourceQuery, createExpression(edge));
+    return new SQLHopQuery(ctx, sourceQuery, createExpression(edge));
   }
 }
 

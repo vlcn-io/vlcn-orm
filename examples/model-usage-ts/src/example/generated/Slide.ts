@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <c9e26237a46374039e8f10e4342486c6>
+// SIGNED-SOURCE: <50aab4769fe1aaf2aed9f1a90b9022d3>
 import { P } from "@aphro/query-runtime-ts";
 import { Model } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
@@ -26,6 +26,6 @@ export default class Slide extends Model<Data> {
   }
 
   queryComponents(): ComponentQuery {
-    return ComponentQuery.create().whereSlideId(P.equals(this.id));
+    return ComponentQuery.create(this.ctx).whereSlideId(P.equals(this.id));
   }
 }

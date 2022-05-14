@@ -1,4 +1,5 @@
-// SIGNED-SOURCE: <816e6d1e4f5ce047aea145dd0253d716>
+// SIGNED-SOURCE: <b3850cdd50fae4d698ca9b4ab0d62702>
+import { Context } from "@aphro/context-runtime-ts";
 import { DerivedQuery } from "@aphro/query-runtime-ts";
 import { QueryFactory } from "@aphro/query-runtime-ts";
 import { modelLoad } from "@aphro/query-runtime-ts";
@@ -15,19 +16,21 @@ import { default as ComponentSpec } from "./ComponentSpec.js";
 import ComponentQuery from "./ComponentQuery";
 
 export default class SlideQuery extends DerivedQuery<Slide> {
-  static create() {
+  static create(ctx: Context) {
     return new SlideQuery(
-      QueryFactory.createSourceQueryFor(spec),
-      modelLoad(spec.createFrom)
+      ctx,
+      QueryFactory.createSourceQueryFor(ctx, spec),
+      modelLoad(ctx, spec.createFrom)
     );
   }
 
-  static fromId(id: SID_of<Slide>) {
-    return this.create().whereId(P.equals(id));
+  static fromId(ctx: Context, id: SID_of<Slide>) {
+    return this.create(ctx).whereId(P.equals(id));
   }
 
   whereId(p: Predicate<Data["id"]>) {
     return new SlideQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"id", Data, Slide>("id"), p)
     );
@@ -35,6 +38,7 @@ export default class SlideQuery extends DerivedQuery<Slide> {
 
   whereDeckId(p: Predicate<Data["deckId"]>) {
     return new SlideQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"deckId", Data, Slide>("deckId"), p)
     );
@@ -42,6 +46,7 @@ export default class SlideQuery extends DerivedQuery<Slide> {
 
   whereOrder(p: Predicate<Data["order"]>) {
     return new SlideQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"order", Data, Slide>("order"), p)
     );

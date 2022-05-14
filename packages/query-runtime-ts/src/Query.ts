@@ -1,11 +1,7 @@
-import {
-  DerivedExpression,
-  Expression,
-  HopExpression,
-  SourceExpression,
-} from "./Expression.js";
-import HopPlan from "./HopPlan.js";
-import Plan, { IPlan } from "./Plan.js";
+import { Context } from '@aphro/context-runtime-ts';
+import { DerivedExpression, Expression, HopExpression, SourceExpression } from './Expression.js';
+import HopPlan from './HopPlan.js';
+import Plan, { IPlan } from './Plan.js';
 
 export interface Query<T> {
   plan(): IPlan;
@@ -13,6 +9,11 @@ export interface Query<T> {
 }
 
 abstract class BaseQuery<T> implements Query<T> {
+  protected readonly ctx: Context;
+  constructor(ctx: Context) {
+    this.ctx = ctx;
+  }
+
   async gen(): Promise<T[]> {
     const plan = this.plan().optimize();
 
@@ -33,8 +34,8 @@ export abstract class SourceQuery<T> extends BaseQuery<T> {
   // make a recursive data structure of queries and expressions.
   // then convert to plan which will collapse expression as needed.
   // How do expressions convert themselves to SQL or whatever?
-  constructor(public readonly expression: SourceExpression<T>) {
-    super();
+  constructor(ctx: Context, public readonly expression: SourceExpression<T>) {
+    super(ctx);
   }
 
   // Expression could be null if we're hopping an edge?
@@ -53,10 +54,11 @@ export abstract class HopQuery<TIn, TOut> extends BaseQuery<TOut> {
   #priorQuery: Query<TIn>;
 
   constructor(
+    ctx: Context,
     priorQuery: Query<TIn>,
-    public readonly expression: HopExpression<TIn, TOut>
+    public readonly expression: HopExpression<TIn, TOut>,
   ) {
-    super();
+    super(ctx);
     this.#priorQuery = priorQuery;
   }
 
@@ -69,8 +71,8 @@ export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
   #priorQuery: Query<TOut>;
   #expression?: Expression;
 
-  constructor(priorQuery: Query<any>, expression?: Expression) {
-    super();
+  constructor(ctx: Context, priorQuery: Query<any>, expression?: Expression) {
+    super(ctx);
     this.#priorQuery = priorQuery;
     this.#expression = expression;
   }

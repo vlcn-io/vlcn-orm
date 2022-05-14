@@ -1,4 +1,5 @@
-// SIGNED-SOURCE: <e8cd9cbcf31a62bd713b59f3eb0087a9>
+// SIGNED-SOURCE: <a653c2dc6ba3deda23899968b4deedda>
+import { Context } from "@aphro/context-runtime-ts";
 import { DerivedQuery } from "@aphro/query-runtime-ts";
 import { QueryFactory } from "@aphro/query-runtime-ts";
 import { modelLoad } from "@aphro/query-runtime-ts";
@@ -18,19 +19,21 @@ import { default as SlideSpec } from "./SlideSpec.js";
 import SlideQuery from "./SlideQuery";
 
 export default class DeckQuery extends DerivedQuery<Deck> {
-  static create() {
+  static create(ctx: Context) {
     return new DeckQuery(
-      QueryFactory.createSourceQueryFor(spec),
-      modelLoad(spec.createFrom)
+      ctx,
+      QueryFactory.createSourceQueryFor(ctx, spec),
+      modelLoad(ctx, spec.createFrom)
     );
   }
 
-  static fromId(id: SID_of<Deck>) {
-    return this.create().whereId(P.equals(id));
+  static fromId(ctx: Context, id: SID_of<Deck>) {
+    return this.create(ctx).whereId(P.equals(id));
   }
 
   whereId(p: Predicate<Data["id"]>) {
     return new DeckQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"id", Data, Deck>("id"), p)
     );
@@ -38,6 +41,7 @@ export default class DeckQuery extends DerivedQuery<Deck> {
 
   whereName(p: Predicate<Data["name"]>) {
     return new DeckQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"name", Data, Deck>("name"), p)
     );
@@ -45,6 +49,7 @@ export default class DeckQuery extends DerivedQuery<Deck> {
 
   whereCreated(p: Predicate<Data["created"]>) {
     return new DeckQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"created", Data, Deck>("created"), p)
     );
@@ -52,6 +57,7 @@ export default class DeckQuery extends DerivedQuery<Deck> {
 
   whereModified(p: Predicate<Data["modified"]>) {
     return new DeckQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"modified", Data, Deck>("modified"), p)
     );
@@ -59,6 +65,7 @@ export default class DeckQuery extends DerivedQuery<Deck> {
 
   whereOwnerId(p: Predicate<Data["ownerId"]>) {
     return new DeckQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"ownerId", Data, Deck>("ownerId"), p)
     );
@@ -66,6 +73,7 @@ export default class DeckQuery extends DerivedQuery<Deck> {
 
   whereSelectedSlideId(p: Predicate<Data["selectedSlideId"]>) {
     return new DeckQuery(
+      this.ctx,
       this,
       filter(
         new ModelFieldGetter<"selectedSlideId", Data, Deck>("selectedSlideId"),
