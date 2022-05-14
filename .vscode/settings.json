@@ -1,4 +1,5 @@
 {
   "editor.formatOnSave": true,
-  "rpc.enabled": true
+  "rpc.enabled": true,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
