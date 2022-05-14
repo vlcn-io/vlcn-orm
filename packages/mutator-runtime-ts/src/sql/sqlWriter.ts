@@ -1,6 +1,6 @@
 import { Context } from '@aphro/context-runtime-ts';
 import { IModel } from '@aphro/model-runtime-ts';
-import { DeleteChangeset } from '../Changeset';
+import { DeleteChangeset } from '../Changeset.js';
 
 export default {
   // Precondition: already grouped by db & table
