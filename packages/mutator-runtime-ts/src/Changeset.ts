@@ -4,7 +4,7 @@ export type ChangesetOptions = {
   returning: boolean;
 };
 
-export type Changeset<M extends IModel<D>, D> =
+export type Changeset<M extends IModel<D>, D = Object> =
   | CreateChangeset<M, D>
   | UpdateChangeset<M, D>
   | DeleteChangeset<M, D>;

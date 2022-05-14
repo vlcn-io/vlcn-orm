@@ -4,7 +4,7 @@ import { Context } from '@aphro/context-runtime-ts';
 import { typedKeys } from '@strut/utils';
 import { ModelSpec } from './ModelSpec.js';
 
-export interface IModel<T extends {}> {
+export interface IModel<T extends {} = Object> {
   readonly id: SID_of<this>;
   readonly ctx: Context;
   readonly spec: ModelSpec<this, T>;

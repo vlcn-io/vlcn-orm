@@ -1,6 +1,8 @@
 # 5/13
 
-Make `_` methods in `Model.ts` local to packages that need them via type extensions from foreign packages.
+- CS executor... keep commit log reference?
+  - Well... we need direct persistor reference...
+- Make `_` methods in `Model.ts` local to packages that need them via type extensions from foreign packages.
 
 # 5/6
 - re-work create tables? Use Knex? Or Use files? def. re-work for testing -- test infra should not require sql files
