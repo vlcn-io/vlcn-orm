@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <c77c49553198061ea6e2b6d4bd85856b>
+// SIGNED-SOURCE: <88cc635240c224e3b596eae27b50b399>
 import { P } from "@aphro/query-runtime-ts";
 import { Model } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
@@ -42,12 +42,12 @@ export default class Deck extends Model<Data> {
   }
 
   queryOwner(): UserQuery {
-    return UserQuery.fromId(this.ownerId);
+    return UserQuery.fromId(this.ctx, this.ownerId);
   }
   querySlides(): SlideQuery {
     return SlideQuery.create(this.ctx).whereDeckId(P.equals(this.id));
   }
   querySelectedSlide(): SlideQuery {
-    return SlideQuery.fromId(this.selectedSlideId);
+    return SlideQuery.fromId(this.ctx, this.selectedSlideId);
   }
 }

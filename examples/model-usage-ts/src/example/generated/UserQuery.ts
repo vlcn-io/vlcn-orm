@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b356548ef23d602c8e0220a18a6497a8>
+// SIGNED-SOURCE: <5e65f49efdc72716e5563bffdb6b7235>
 import { Context } from "@aphro/context-runtime-ts";
 import { DerivedQuery } from "@aphro/query-runtime-ts";
 import { QueryFactory } from "@aphro/query-runtime-ts";
@@ -60,8 +60,9 @@ export default class UserQuery extends DerivedQuery<User> {
   }
   queryDecks(): DeckQuery {
     return new DeckQuery(
-      QueryFactory.createHopQueryFor(this, spec.outboundEdges.decks),
-      modelLoad(DeckSpec.createFrom)
+      this.ctx,
+      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.decks),
+      modelLoad(this.ctx, DeckSpec.createFrom)
     );
   }
 }

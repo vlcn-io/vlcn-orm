@@ -1,9 +1,10 @@
-import sid from '@strut/sid';
+import sid, { asId } from '@strut/sid';
 import createTestTables from '../../createTestTables.js';
 import SlideQuery from '../generated/SlideQuery.js';
 import { create as createDb } from '../../db.js';
 import { create as createKnexResolver } from '../../knexResolver.js';
-import { configure } from '@aphro/context-runtime-ts';
+import { configure, debugContext } from '@aphro/context-runtime-ts';
+import { viewer } from '@aphro/context-runtime-ts/src/viewer';
 
 /**
  * Now that everything generates correctly...
@@ -11,6 +12,7 @@ import { configure } from '@aphro/context-runtime-ts';
  */
 
 let db: ReturnType<typeof createDb>;
+const ctx = debugContext(viewer(asId('me')));
 beforeAll(async () => {
   db = createDb();
   configure({ resolver: createKnexResolver(db) });
@@ -23,7 +25,7 @@ afterAll(() => {
 });
 
 test('Query from id', async () => {
-  const plan = SlideQuery.fromId(sid('foo')).plan().optimize();
+  const plan = SlideQuery.fromId(ctx, sid('foo')).plan().optimize();
   const iterable = plan.iterable;
 
   const result = await iterable.gen();

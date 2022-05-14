@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a653c2dc6ba3deda23899968b4deedda>
+// SIGNED-SOURCE: <1172a4a18cab39b5d734a0127613d51b>
 import { Context } from "@aphro/context-runtime-ts";
 import { DerivedQuery } from "@aphro/query-runtime-ts";
 import { QueryFactory } from "@aphro/query-runtime-ts";
@@ -83,20 +83,27 @@ export default class DeckQuery extends DerivedQuery<Deck> {
   }
   queryOwner(): UserQuery {
     return new UserQuery(
-      QueryFactory.createHopQueryFor(this, spec.outboundEdges.owner),
-      modelLoad(UserSpec.createFrom)
+      this.ctx,
+      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.owner),
+      modelLoad(this.ctx, UserSpec.createFrom)
     );
   }
   querySlides(): SlideQuery {
     return new SlideQuery(
-      QueryFactory.createHopQueryFor(this, spec.outboundEdges.slides),
-      modelLoad(SlideSpec.createFrom)
+      this.ctx,
+      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.slides),
+      modelLoad(this.ctx, SlideSpec.createFrom)
     );
   }
   querySelectedSlide(): SlideQuery {
     return new SlideQuery(
-      QueryFactory.createHopQueryFor(this, spec.outboundEdges.selectedSlide),
-      modelLoad(SlideSpec.createFrom)
+      this.ctx,
+      QueryFactory.createHopQueryFor(
+        this.ctx,
+        this,
+        spec.outboundEdges.selectedSlide
+      ),
+      modelLoad(this.ctx, SlideSpec.createFrom)
     );
   }
 }

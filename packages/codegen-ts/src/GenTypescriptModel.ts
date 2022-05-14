@@ -159,7 +159,7 @@ export default class ${this.schema.name}
         // through a field on self is a field edge
         // a field edge refers to the id of the destination type.
         if (edge.throughOrTo.type === this.schema.name) {
-          return `fromId(this.${column})`;
+          return `fromId(this.ctx, this.${column})`;
         }
 
         // through a field on some other type is a foreign key edge
@@ -169,7 +169,7 @@ export default class ${this.schema.name}
         // if (edge.inverted) {
         //   return "fromDst";
         // }
-        return 'fromSrc(this.id)';
+        return 'fromSrc(this.ctx, this.id)';
     }
   }
 }

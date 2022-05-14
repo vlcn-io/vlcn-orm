@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b3850cdd50fae4d698ca9b4ab0d62702>
+// SIGNED-SOURCE: <4688f5b2d6df6462f9b513a10e675e01>
 import { Context } from "@aphro/context-runtime-ts";
 import { DerivedQuery } from "@aphro/query-runtime-ts";
 import { QueryFactory } from "@aphro/query-runtime-ts";
@@ -53,8 +53,13 @@ export default class SlideQuery extends DerivedQuery<Slide> {
   }
   queryComponents(): ComponentQuery {
     return new ComponentQuery(
-      QueryFactory.createHopQueryFor(this, spec.outboundEdges.components),
-      modelLoad(ComponentSpec.createFrom)
+      this.ctx,
+      QueryFactory.createHopQueryFor(
+        this.ctx,
+        this,
+        spec.outboundEdges.components
+      ),
+      modelLoad(this.ctx, ComponentSpec.createFrom)
     );
   }
 }

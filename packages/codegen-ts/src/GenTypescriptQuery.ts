@@ -203,8 +203,8 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${field.of}>) {
     return `return new ${edgeFn.queryTypeName(
       this.schema,
       edge,
-    )}(QueryFactory.createHopQueryFor(this, spec.outboundEdges.${edge.name}),
-      modelLoad(${edgeFn.destModelTypeName(this.schema, edge)}Spec.createFrom),
+    )}(this.ctx, QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.${edge.name}),
+      modelLoad(this.ctx, ${edgeFn.destModelTypeName(this.schema, edge)}Spec.createFrom),
     );`;
   }
 
