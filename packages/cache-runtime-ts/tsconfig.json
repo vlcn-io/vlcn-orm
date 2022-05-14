@@ -6,7 +6,6 @@
   },
   "include": ["./src/"],
   "references": [
-    { "path": "../model-runtime-ts" },
     { "path": "../../mono/typescript/packages/utils" },
     { "path": "../../mono/typescript/packages/sid" }
   ]

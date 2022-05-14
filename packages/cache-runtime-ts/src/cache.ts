@@ -11,8 +11,6 @@
 import { invariant } from '@strut/utils';
 import { SID_of } from '@strut/sid';
 
-import { IModel } from '@aphro/model-runtime-ts';
-
 /**
  * Cache as a class that people can construct, rather than a single global, so
  * processes can make it only alive per-request if that is their desire.
@@ -21,7 +19,7 @@ import { IModel } from '@aphro/model-runtime-ts';
  * open to application close.
  */
 export default class Cache {
-  readonly #cache = new Map<SID_of<IModel<Object>>, WeakRef<IModel<Object>>>();
+  readonly #cache = new Map<SID_of<Object>, WeakRef<Object>>();
   #intervalHandle: number;
 
   constructor() {
@@ -36,7 +34,7 @@ export default class Cache {
     }, 1000);
   }
 
-  get<T extends IModel<Object>>(id: SID_of<T>): T | null {
+  get<T extends Object>(id: SID_of<T>): T | null {
     const ref = this.#cache.get(id);
     if (ref == null) {
       return null;
@@ -50,7 +48,7 @@ export default class Cache {
     return thing as T;
   }
 
-  set<T extends IModel<Object>>(id: SID_of<T>, node: T): void {
+  set<T extends Object>(id: SID_of<T>, node: T): void {
     const existing = this.get(id);
     if (existing === node) {
       return;
@@ -64,7 +62,7 @@ export default class Cache {
     this.#cache.set(id, ref);
   }
 
-  remove<T extends IModel<Object>>(id: SID_of<T>): T | null {
+  remove<T extends Object>(id: SID_of<T>): T | null {
     const ref = this.#cache.get(id);
     if (ref == null) {
       return null;

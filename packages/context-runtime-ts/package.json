@@ -5,6 +5,7 @@
   "type": "module",
   "dependencies": {
     "@aphro/schema-api": "workspace:*",
+    "@aphro/cache-runtime-ts": "workspace:*",
     "@strut/utils": "workspace:*",
     "@strut/sid": "workspace:*",
     "knex": "^2.0.0"

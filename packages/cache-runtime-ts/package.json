@@ -4,7 +4,6 @@
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@aphro/model-runtime-ts": "workspace:*",
     "@strut/sid": "workspace:*",
     "@strut/utils": "workspace:*"
   },
