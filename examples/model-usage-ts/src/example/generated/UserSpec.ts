@@ -1,12 +1,13 @@
-// SIGNED-SOURCE: <82dffbf5fa1cddf9e9a0ec3a58f308b3>
+// SIGNED-SOURCE: <2e27f94662b46a59e1d0a0927f869d7f>
+import { Context } from "@aphro/context-runtime-ts";
 import { ModelSpec } from "@aphro/model-runtime-ts";
 import { default as DeckSpec } from "./DeckSpec.js";
 import User from "./User.js";
 import { Data } from "./User.js";
 
 const spec: ModelSpec<User, Data> = {
-  createFrom(data: Data) {
-    return new User(data);
+  createFrom(ctx: Context, data: Data) {
+    return new User(ctx, data);
   },
 
   primaryKey: "id",

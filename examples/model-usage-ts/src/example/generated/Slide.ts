@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <f2ab9e4d5073da84df4f802bfcab61e5>
+// SIGNED-SOURCE: <c9e26237a46374039e8f10e4342486c6>
 import { P } from "@aphro/query-runtime-ts";
 import { Model } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
@@ -13,8 +13,8 @@ export type Data = {
 };
 
 export default class Slide extends Model<Data> {
-  get id(): SID_of<Slide> {
-    return this.data.id;
+  get id(): SID_of<this> {
+    return this.data.id as SID_of<this>;
   }
 
   get deckId(): SID_of<Deck> {

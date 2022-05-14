@@ -1,12 +1,13 @@
-// SIGNED-SOURCE: <f9e6a1f5ec440be845f279894633794a>
+// SIGNED-SOURCE: <adb0b850549911a30a324c5a7ce5acb7>
+import { Context } from "@aphro/context-runtime-ts";
 import { ModelSpec } from "@aphro/model-runtime-ts";
 import { default as ComponentSpec } from "./ComponentSpec.js";
 import Slide from "./Slide.js";
 import { Data } from "./Slide.js";
 
 const spec: ModelSpec<Slide, Data> = {
-  createFrom(data: Data) {
-    return new Slide(data);
+  createFrom(ctx: Context, data: Data) {
+    return new Slide(ctx, data);
   },
 
   primaryKey: "id",

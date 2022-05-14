@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4d9d69047a042d993d44805f72c3a95e>
+// SIGNED-SOURCE: <27a88a25a7270b2428dba3399f75f716>
 import { P } from "@aphro/query-runtime-ts";
 import { Model } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
@@ -12,8 +12,8 @@ export type Data = {
 };
 
 export default class Component extends Model<Data> {
-  get id(): SID_of<Component> {
-    return this.data.id;
+  get id(): SID_of<this> {
+    return this.data.id as SID_of<this>;
   }
 
   get subtype(): "Text" | "Embed" {

@@ -1,4 +1,5 @@
-// SIGNED-SOURCE: <89fc1e7c5bf023815e3b2b1b45f8f743>
+// SIGNED-SOURCE: <d04d58a90d45c18435435cb46c236b42>
+import { Context } from "@aphro/context-runtime-ts";
 import { ModelSpec } from "@aphro/model-runtime-ts";
 import { default as UserSpec } from "./UserSpec.js";
 import { default as SlideSpec } from "./SlideSpec.js";
@@ -6,8 +7,8 @@ import Deck from "./Deck.js";
 import { Data } from "./Deck.js";
 
 const spec: ModelSpec<Deck, Data> = {
-  createFrom(data: Data) {
-    return new Deck(data);
+  createFrom(ctx: Context, data: Data) {
+    return new Deck(ctx, data);
   },
 
   primaryKey: "id",

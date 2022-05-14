@@ -79,14 +79,20 @@ export default class ${this.schema.name}
 
   private getFieldCode(): string {
     return Object.values(this.schema.fields)
-      .map(
-        field =>
-          `${field.decorators?.join('\n') || ''}
-      get ${field.name}(): ${fieldToTsType(field)} {
-        return this.data.${field.name};
-      }
-    `,
-      )
+      .map(field => {
+        if (field.name === 'id') {
+          return `${field.decorators?.join('\n') || ''}
+            get ${field.name}(): SID_of<this> {
+              return this.data.${field.name} as SID_of<this>;
+            }
+          `;
+        }
+        return `${field.decorators?.join('\n') || ''}
+          get ${field.name}(): ${fieldToTsType(field)} {
+            return this.data.${field.name};
+          }
+        `;
+      })
       .join('\n');
   }
 

@@ -1,6 +1,5 @@
 import { SID_of } from '@strut/sid';
 import { Disposer } from '@strut/events';
-import { NodeSpec } from '@aphro/schema-api';
 import { Context } from '@aphro/context-runtime-ts';
 import { typedKeys } from '@strut/utils';
 
@@ -21,10 +20,6 @@ export interface IModel<T extends {}> {
   _merge(newData: Partial<T>): [Partial<T>, Set<() => void>];
   _isNoop(updates: Partial<T>): boolean;
 }
-
-export type ModelSpec<M extends IModel<D>, D extends {}> = {
-  createFrom(data: D): M;
-} & NodeSpec;
 
 export interface HasId {
   readonly id: SID_of<this>;

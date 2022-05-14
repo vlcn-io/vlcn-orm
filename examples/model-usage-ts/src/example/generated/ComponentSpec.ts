@@ -1,11 +1,12 @@
-// SIGNED-SOURCE: <3a60644a48e2975bbaf578c9bc49b39a>
+// SIGNED-SOURCE: <6b8d7416eaa245e6a9cb59ad94298f73>
+import { Context } from "@aphro/context-runtime-ts";
 import { ModelSpec } from "@aphro/model-runtime-ts";
 import Component from "./Component.js";
 import { Data } from "./Component.js";
 
 const spec: ModelSpec<Component, Data> = {
-  createFrom(data: Data) {
-    return new Component(data);
+  createFrom(ctx: Context, data: Data) {
+    return new Component(ctx, data);
   },
 
   primaryKey: "id",

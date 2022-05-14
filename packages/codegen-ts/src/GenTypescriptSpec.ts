@@ -26,8 +26,8 @@ ${this.getSpecCode()}
 
   private getSpecCode(): string {
     return `const spec: ModelSpec<${this.schema.name}, Data> = {
-  createFrom(data: Data) {
-    return new ${this.schema.name}(data);
+  createFrom(ctx: Context, data: Data) {
+    return new ${this.schema.name}(ctx, data);
   },
 
   primaryKey: '${this.schema.primaryKey}',
@@ -50,6 +50,7 @@ export default spec;
 
   private collectImports(): Import[] {
     return [
+      tsImport('{Context}', null, '@aphro/context-runtime-ts'),
       tsImport('{ModelSpec}', null, '@aphro/model-runtime-ts'),
       ...this.getEdgeImports(),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
