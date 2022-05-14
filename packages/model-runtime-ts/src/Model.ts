@@ -2,10 +2,12 @@ import { SID_of } from '@strut/sid';
 import { Disposer } from '@strut/events';
 import { Context } from '@aphro/context-runtime-ts';
 import { typedKeys } from '@strut/utils';
+import { ModelSpec } from './ModelSpec.js';
 
 export interface IModel<T extends {}> {
   readonly id: SID_of<this>;
   readonly ctx: Context;
+  readonly spec: ModelSpec<this, T>;
 
   subscribe(c: () => void): Disposer;
   subscribeTo(keys: (keyof T)[], c: () => void): Disposer;
@@ -32,6 +34,7 @@ export function isHasId(object: any): object is HasId {
 export default abstract class Model<T extends {}> implements IModel<T> {
   readonly ctx: Context;
   abstract readonly id: SID_of<this>;
+  abstract readonly spec: ModelSpec<this, T>;
 
   protected data: T;
 

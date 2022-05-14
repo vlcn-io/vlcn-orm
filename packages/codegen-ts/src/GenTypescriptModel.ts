@@ -24,6 +24,8 @@ export type Data = ${this.getDataShapeCode()};
 ${this.schema.extensions.type?.decorators?.join('\n') || ''}
 export default class ${this.schema.name}
   extends Model<Data> {
+  readonly spec = s as ModelSpec<this, Data>;
+
   ${this.getFieldCode()}
   ${this.getEdgeCode()}
 }
@@ -42,8 +44,10 @@ export default class ${this.schema.name}
 
   private collectImports(): Import[] {
     return [
+      tsImport('{default}', 's', './' + nodeFn.specName(this.schema.name) + '.js'),
       tsImport('{P}', null, '@aphro/query-runtime-ts'),
       tsImport('{Model}', null, '@aphro/model-runtime-ts'),
+      tsImport('{ModelSpec}', null, '@aphro/model-runtime-ts'),
       tsImport('{SID_of}', null, '@strut/sid'),
       ...(this.schema.extensions.module?.imports.values() || []),
       ...this.getEdgeImports(),

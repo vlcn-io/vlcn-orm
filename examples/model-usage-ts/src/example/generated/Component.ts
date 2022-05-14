@@ -1,6 +1,8 @@
-// SIGNED-SOURCE: <27a88a25a7270b2428dba3399f75f716>
+// SIGNED-SOURCE: <da1eb71575386b14178d5fb92a990409>
+import { default as s } from "./ComponentSpec.js";
 import { P } from "@aphro/query-runtime-ts";
 import { Model } from "@aphro/model-runtime-ts";
+import { ModelSpec } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
 import Slide from "./Slide.js";
 
@@ -12,6 +14,8 @@ export type Data = {
 };
 
 export default class Component extends Model<Data> {
+  readonly spec = s as ModelSpec<this, Data>;
+
   get id(): SID_of<this> {
     return this.data.id as SID_of<this>;
   }

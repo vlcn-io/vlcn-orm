@@ -6,6 +6,7 @@ import Model from '../Model.js';
 
 class TestModel extends Model<{ thing: number; foo: number }> {
   readonly id = asId<this>('foo');
+  readonly spec = {} as any;
 }
 
 const context = debugContext(viewer(asId('1')));

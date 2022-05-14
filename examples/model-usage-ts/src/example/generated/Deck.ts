@@ -1,6 +1,8 @@
-// SIGNED-SOURCE: <88cc635240c224e3b596eae27b50b399>
+// SIGNED-SOURCE: <53292a3217eb22caf529c0a5ce868a43>
+import { default as s } from "./DeckSpec.js";
 import { P } from "@aphro/query-runtime-ts";
 import { Model } from "@aphro/model-runtime-ts";
+import { ModelSpec } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
 import UserQuery from "./UserQuery.js";
 import SlideQuery from "./SlideQuery.js";
@@ -17,6 +19,8 @@ export type Data = {
 };
 
 export default class Deck extends Model<Data> {
+  readonly spec = s as ModelSpec<this, Data>;
+
   get id(): SID_of<this> {
     return this.data.id as SID_of<this>;
   }
