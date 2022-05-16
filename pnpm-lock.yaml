@@ -438,6 +438,15 @@ importers:
     devDependencies:
       typescript: 4.6.4
 
+  packages/integration-tests-ts:
+    specifiers:
+      '@aphro/codegen-cli': workspace:*
+      '@aphro/runtime-ts': workspace:*
+    dependencies:
+      '@aphro/runtime-ts': link:../../packages-aggregate/runtime-ts
+    devDependencies:
+      '@aphro/codegen-cli': link:../codegen-cli
+
   packages/model-runtime-ts:
     specifiers:
       '@aphro/context-runtime-ts': workspace:*

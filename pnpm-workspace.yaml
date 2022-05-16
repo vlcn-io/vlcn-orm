@@ -14,6 +14,7 @@ packages:
   - 'packages/codegen-ts'
   - 'packages/context-runtime-ts'
   - 'packages/grammar-extension-api'
+  - 'packages/integration-tests-ts'
   - 'packages/model-runtime-ts'
   - 'packages/mutator-runtime-ts'
   - 'packages/query-runtime-ts'

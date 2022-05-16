@@ -3,8 +3,12 @@
   "version": "0.0.1",
   "main": "lib/index.js",
   "type": "module",
-  "dependencies": {},
-  "devDependencies": {},
+  "dependencies": {
+    "@aphro/runtime-ts": "workspace:*"
+  },
+  "devDependencies": {
+    "@aphro/codegen-cli": "workspace:*"
+  },
   "scripts": {
     "clean": "tsc --build --clean",
     "build": "tsc --build",
