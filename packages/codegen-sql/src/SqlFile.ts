@@ -6,11 +6,11 @@ export default class SqlFile implements CodegenFile {
   #contents: string;
   readonly signatureTemplate: string = SQL_TEMPLATE;
 
-  constructor(public readonly name: string, contents: string) {
+  constructor(public readonly name: string, contents: string, private dialect: string) {
     this.#contents = contents;
   }
 
   get contents(): string {
-    return sign(format(this.#contents), SQL_TEMPLATE);
+    return sign(format(this.#contents, { language: this.dialect as any }), SQL_TEMPLATE);
   }
 }

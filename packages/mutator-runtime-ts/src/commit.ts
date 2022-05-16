@@ -5,7 +5,10 @@ import { IModel } from '@aphro/model-runtime-ts';
 import Persistor from './Persistor.js';
 
 // TODO: commit should return a mapping from ids back to created things...
-export function commit(ctx: Context, changesets: Changeset<IModel>[]): Promise<any> {
+export function commit<M extends IModel<D>, D>(
+  ctx: Context,
+  changesets: Changeset<M>[],
+): Promise<any> {
   const transaciton = new ChangesetExecutor(ctx, changesets).execute();
   const persistor = new Persistor(ctx);
   return persistor.persist(transaciton);

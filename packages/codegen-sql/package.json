@@ -11,7 +11,7 @@
     "@strut/counter": "workspace:*",
     "@strut/utils": "workspace:*",
     "knex": "^2.0.0",
-    "sql-formatter": "^4.0.2"
+    "sql-formatter": "6.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",

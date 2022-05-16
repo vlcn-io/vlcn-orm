@@ -1,8 +1,9 @@
--- SIGNED-SOURCE: <cc1e50c7aac987cd31b1814c839f9cd6>
-create table ` user ` (
-  ` id ` bigint,
-  ` name ` varchar(255),
-  ` created ` bigint,
-  ` modified ` bigint,
-  primary key (` id `)
-)
+-- SIGNED-SOURCE: <6296d347a5a832be323d893b9f138320>
+create table
+  `user` (
+    `id` bigint,
+    `name` varchar(255),
+    `created` bigint,
+    `modified` bigint,
+    primary key (`id`)
+  )

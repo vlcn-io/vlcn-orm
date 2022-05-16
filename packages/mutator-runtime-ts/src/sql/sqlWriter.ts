@@ -14,7 +14,7 @@ export default {
     const db = ctx.dbResolver.type(persist.type).engine(persist.engine).db(persist.db);
 
     await db(persist.tablish)
-      .insert(nodes.map(n => (n as any)._data))
+      .insert(nodes.map(n => n._d()))
       .onConflict(spec.primaryKey)
       .merge();
   },

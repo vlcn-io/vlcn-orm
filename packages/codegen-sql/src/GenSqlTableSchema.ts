@@ -16,7 +16,11 @@ export default class GenSqlTableSchema extends CodegenStep {
 
   gen(): CodegenFile {
     const str = this.getSqlString();
-    return new SqlFile(`${this.schema.name}.${this.schema.storage.engine}.sql`, str);
+    return new SqlFile(
+      `${this.schema.name}.${this.schema.storage.engine}.sql`,
+      str,
+      this.schema.storage.engine,
+    );
   }
 
   private getSqlString(): string {
