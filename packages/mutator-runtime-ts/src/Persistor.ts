@@ -1,62 +1,37 @@
-/**
- * Will listen for log change events.
- * Based on the received changeset, pull its spec
- * From the spec, find the persistence engine
- * Then persist.
- *
- * Now... will model always exist in changeset? Should it?
- *
- * Cut changeset stuff out of Model.
- *
- * DeckMutator.forObject(deck) instead.
- *
- * Actually...
- *
- * DeckMutations.forObject(deck)
- *
- * Which internally uses mutators.
- *
- * Actions can be chained by passing results of prior mutations?
- */
+import writer from './writer';
+import { nullthrows } from '@strut/utils';
+import { DeleteChangeset } from './Changeset.js';
+import { IModel } from '@aphro/model-runtime-ts';
+import { SID_of } from '@strut/sid';
+import { Context } from '@aphro/context-runtime-ts';
+import { Transaction } from './ChangesetExecutor.js';
 
-/**
- * 
-export class Persistor {
-  constructor(private storage: Storage, private log: TransactionLog) {
-    this.log.observe(this._onLogChange);
+export default class Persistor {
+  constructor(private context: Context) {}
+
+  private write(
+    collectedDeletes: DeleteChangeset<IModel, Object>[],
+    collectedCreatesOrUpdates: Map<SID_of<IModel>, IModel>,
+  ) {
+    return Promise.all([
+      writer.deleteBatch(this.context, collectedDeletes),
+      writer.upsertBatch(this.context, collectedCreatesOrUpdates.values()),
+    ]);
   }
 
-  _onLogChange = (changes: MergedChangesets) => {
-    const ops: any[] = [];
-    for (let [model, diff] of changes) {
-      if (!(model instanceof PersistedModel)) {
-        continue;
+  // TODO: all of this batching is likely premature optmization
+  persist(tx: Transaction) {
+    const collectedDeletes: DeleteChangeset<IModel, Object>[] = [];
+    const collectedCreatesOrUpdates: Map<SID_of<IModel>, IModel> = new Map();
+    tx.changes.forEach((value, key) => {
+      if (value.type === 'delete') {
+        collectedDeletes.push(value);
+        return;
       }
 
-      const table = model.schemaName + "s";
-      if (diff === undefined) {
-        ops.push(this.storage[table].delete(model.id));
-      } else {
-        ops.push(this.storage[table].put(model.toStorage()));
-      }
-    }
-    if (ops.length === 0) {
-      return;
-    }
-    Promise.all(ops).then(
-      (value) => {}, //console.log(value),
-      (err) => console.error(err)
-    );
-  };
+      collectedCreatesOrUpdates.set(key, nullthrows(tx.nodes.get(key)));
+    });
+
+    return this.write(collectedDeletes, collectedCreatesOrUpdates);
+  }
 }
-
-const def = {
-  registerType(registry: TypeRegistry) {
-    registry.persistor = (storage: Storage, log: TransactionLog) =>
-      new Persistor(storage, log);
-  },
-};
-
-export default def;
-
- */

@@ -1,3 +1,11 @@
+# 5/16
+
+- Return some ids so we can gain access to persisted models.. if so desired..
+  - Mainly useful for create
+  - Update is technically immediately reflected
+- Tighten up package interfaces?
+  - Don't export ChangesetExecutor or Persistor? Only commit?
+
 # 5/13
 
 - CS executor... keep commit log reference?
