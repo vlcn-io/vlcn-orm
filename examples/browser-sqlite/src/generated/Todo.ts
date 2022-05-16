@@ -1,14 +1,13 @@
-// SIGNED-SOURCE: <a2a078edd75fb74fcb1906a8d66fd4cb>
+// SIGNED-SOURCE: <6d3c8d5d25cc96d719ffdb213076b971>
 import { default as s } from "./TodoSpec.js";
 import { P } from "@aphro/query-runtime-ts";
 import { Model } from "@aphro/model-runtime-ts";
 import { ModelSpec } from "@aphro/model-runtime-ts";
 import { SID_of } from "@strut/sid";
-import Node from "./Node.js";
 import User from "./User.js";
 
 export type Data = {
-  id: SID_of<Node>;
+  id: SID_of<Todo>;
   text: string;
   created: number;
   modified: number;

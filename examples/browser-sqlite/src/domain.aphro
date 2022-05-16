@@ -15,7 +15,7 @@ User as Node {
 }
 
 Todo as Node {
-  id: ID<Node>
+  id: ID<Todo>
   text: NaturalLanguage
   created: Timestamp
   modified: Timestamp

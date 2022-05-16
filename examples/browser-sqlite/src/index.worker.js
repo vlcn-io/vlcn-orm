@@ -2,6 +2,9 @@ import initSqlJs from '@jlongster/sql.js';
 import { SQLiteFS } from 'absurd-sql';
 import IndexedDBBackend from 'absurd-sql/dist/indexeddb-backend';
 
+import TodoTable from './generated/Todo.sqlite.sql';
+import UserTable from './generated/User.sqlite.sql';
+
 async function init() {
   let SQL = await initSqlJs({ locateFile: file => file });
   let sqlFS = new SQLiteFS(SQL.FS, new IndexedDBBackend());
@@ -22,21 +25,25 @@ async function runQueries() {
   let db = await init();
 
   try {
-    db.exec('CREATE TABLE kv (key TEXT PRIMARY KEY, value TEXT)');
-  } catch (e) {}
-
-  db.exec('BEGIN TRANSACTION');
-  let stmt = db.prepare('INSERT OR REPLACE INTO kv (key, value) VALUES (?, ?)');
-  for (let i = 0; i < 5; i++) {
-    stmt.run([i, ((Math.random() * 100) | 0).toString()]);
+    db.exec(TodoTable);
+    db.exec(UserTable);
+    // db.exec('CREATE TABLE kv (key TEXT PRIMARY KEY, value TEXT)');
+  } catch (e) {
+    console.error(e);
   }
-  stmt.free();
-  db.exec('COMMIT');
 
-  stmt = db.prepare(`SELECT SUM(value) FROM kv`);
-  stmt.step();
-  console.log('Result:', stmt.getAsObject());
-  stmt.free();
+  // db.exec('BEGIN TRANSACTION');
+  // let stmt = db.prepare('INSERT OR REPLACE INTO kv (key, value) VALUES (?, ?)');
+  // for (let i = 0; i < 5; i++) {
+  //   stmt.run([i, ((Math.random() * 100) | 0).toString()]);
+  // }
+  // stmt.free();
+  // db.exec('COMMIT');
+
+  // stmt = db.prepare(`SELECT SUM(value) FROM kv`);
+  // stmt.step();
+  // console.log('Result:', stmt.getAsObject());
+  // stmt.free();
 }
 
 runQueries();

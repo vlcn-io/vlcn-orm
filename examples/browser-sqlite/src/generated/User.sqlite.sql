@@ -1,5 +1,5 @@
--- SIGNED-SOURCE: <cc1e50c7aac987cd31b1814c839f9cd6>
-create table ` user ` (
+-- SIGNED-SOURCE: <4f301f575722ffcd89bedeb073ef1417>
+create table if not exists ` user ` (
   ` id ` bigint,
   ` name ` varchar(255),
   ` created ` bigint,

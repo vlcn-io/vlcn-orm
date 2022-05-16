@@ -6,8 +6,8 @@ module.exports = {
     hot: true,
     headers: {
       'Cross-Origin-Opener-Policy': 'same-origin',
-      'Cross-Origin-Embedder-Policy': 'require-corp'
-    }
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+    },
   },
   entry: './src/index.js',
   mode: 'development',
@@ -16,8 +16,16 @@ module.exports = {
     fallback: {
       crypto: false,
       path: false,
-      fs: false
-    }
+      fs: false,
+    },
   },
-  plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })]
+  plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })],
+  module: {
+    rules: [
+      {
+        test: /\.sql$/i,
+        use: 'raw-loader',
+      },
+    ],
+  },
 };

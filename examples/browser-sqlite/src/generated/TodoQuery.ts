@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <bb8b1ab722027e730ae83527d46e0a13>
+// SIGNED-SOURCE: <d996ee37406ab41e9172d48dd6f5cc80>
 import { Context } from "@aphro/context-runtime-ts";
 import { DerivedQuery } from "@aphro/query-runtime-ts";
 import { QueryFactory } from "@aphro/query-runtime-ts";
@@ -11,7 +11,6 @@ import { SID_of } from "@strut/sid";
 import Todo from "./Todo.js";
 import { Data } from "./Todo.js";
 import { default as spec } from "./TodoSpec.js";
-import Node from "./Node.js";
 import User from "./User.js";
 
 export default class TodoQuery extends DerivedQuery<Todo> {

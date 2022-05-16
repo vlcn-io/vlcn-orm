@@ -1,5 +1,6 @@
 # 5/16
 
+- Actually start a transaction for your commit mutations in `persistor`
 - TS Runtime that just includes everything needed for TS in 1 package
 - Install cli as bin
 - Inject context into mutations

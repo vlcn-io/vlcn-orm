@@ -29,6 +29,7 @@ importers:
       '@strut/sid': workspace:*
       absurd-sql: ^0.0.46
       html-webpack-plugin: ^5.3.2
+      raw-loader: ^4.0.2
       webpack: ^5.50.0
       webpack-cli: ^4.7.2
       webpack-dev-server: ^3.11.2
@@ -43,6 +44,7 @@ importers:
     devDependencies:
       '@aphro/codegen-cli': link:../../packages/codegen-cli
       html-webpack-plugin: 5.5.0_webpack@5.72.1
+      raw-loader: 4.0.2_webpack@5.72.1
       webpack: 5.72.1_webpack-cli@4.9.2
       webpack-cli: 4.9.2_udexolmqwt3ncbnwkiwqgqx6g4
       webpack-dev-server: 3.11.3_smhu6mcfcg7aivfsuosc335k3u
@@ -2717,6 +2719,10 @@ packages:
     resolution: {integrity: sha1-3DQxT05nkxgJP8dgJyUl+UvyXBY=}
     dev: true
 
+  /big.js/5.2.2:
+    resolution: {integrity: sha512-vyL2OymJxmarO8gxMr0mhChsO9QGwhynfuu4+MHTAW6czfq9humCB7rKpUjDd9YUiDPU4mzpyupFSvOClAwbmQ==}
+    dev: true
+
   /binary-extensions/1.13.1:
     resolution: {integrity: sha512-Un7MIEDdUC5gNpcGDV97op1Ywk748MpHcFTHoYs6qnj1Z3j7I53VG3nwZhKzoBZmbdRNnb6WRdFlwl7tSDuZGw==}
     engines: {node: '>=0.10.0'}
@@ -3418,6 +3424,11 @@ packages:
 
   /emoji-regex/8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
+    dev: true
+
+  /emojis-list/3.0.0:
+    resolution: {integrity: sha512-/kyM18EfinwXZbno9FyUGeFh87KC8HRQBQGildHZbEuRyWFOmv1U10o9BBp8XVZDVNNuQKyIGIu5ZYAAXJ0V2Q==}
+    engines: {node: '>= 4'}
     dev: true
 
   /encodeurl/1.0.2:
@@ -5150,6 +5161,15 @@ packages:
     engines: {node: '>=6.11.5'}
     dev: true
 
+  /loader-utils/2.0.2:
+    resolution: {integrity: sha512-TM57VeHptv569d/GKh6TAYdzKblwDNiumOdkFnejjD0XwTH87K90w3O7AiJRqdQoXygvi1VQTJTLGhJl7WqA7A==}
+    engines: {node: '>=8.9.0'}
+    dependencies:
+      big.js: 5.2.2
+      emojis-list: 3.0.0
+      json5: 2.2.1
+    dev: true
+
   /locate-path/3.0.0:
     resolution: {integrity: sha512-7AO748wWnIhNqAuaty2ZWHkQHRSNfPVIsPIfwEOWO22AmaoVrWavlOcMR5nzTLNYvp36X220/maaRsrec1G65A==}
     engines: {node: '>=6'}
@@ -5883,6 +5903,17 @@ packages:
       http-errors: 2.0.0
       iconv-lite: 0.4.24
       unpipe: 1.0.0
+    dev: true
+
+  /raw-loader/4.0.2_webpack@5.72.1:
+    resolution: {integrity: sha512-ZnScIV3ag9A4wPX/ZayxL/jZH+euYb6FcUinPcgiQW0+UBtEv0O6Q3lGd3cqJ+GHH+rksEv3Pj99oxJ3u3VIKA==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      webpack: ^4.0.0 || ^5.0.0
+    dependencies:
+      loader-utils: 2.0.2
+      schema-utils: 3.1.1
+      webpack: 5.72.1_webpack-cli@4.9.2
     dev: true
 
   /react-is/17.0.2:
