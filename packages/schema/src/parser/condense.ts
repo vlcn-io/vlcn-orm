@@ -255,6 +255,7 @@ function engineToType(engine: StorageEngine): StorageType {
   switch (engine) {
     case 'postgres':
     case 'mysql':
+    case 'sqlite':
       return 'sql';
   }
 }

@@ -7,10 +7,16 @@
     "serve": "webpack serve"
   },
   "dependencies": {
+    "@aphro/context-runtime-ts": "workspace:*",
+    "@aphro/model-runtime-ts": "workspace:*",
+    "@aphro/mutator-runtime-ts": "workspace:*",
+    "@aphro/query-runtime-ts": "workspace:*",
+    "@strut/sid": "workspace:*",
     "@jlongster/sql.js": "^1.6.7",
     "absurd-sql": "^0.0.46"
   },
   "devDependencies": {
+    "@aphro/codegen-cli": "workspace:*",
     "webpack": "^5.50.0",
     "html-webpack-plugin": "^5.3.2",
     "webpack-cli": "^4.7.2",

@@ -1,5 +1,9 @@
 # 5/16
 
+- TS Runtime that just includes everything needed for TS in 1 package
+- Install cli as bin
+- Inject context into mutations
+- Add delete to mutations. E.g., `for` and `delete`
 - Return some ids so we can gain access to persisted models.. if so desired..
   - Mainly useful for create
   - Update is technically immediately reflected

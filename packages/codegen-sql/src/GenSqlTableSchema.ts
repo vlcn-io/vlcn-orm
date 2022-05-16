@@ -94,5 +94,7 @@ function getKnex(engine: StorageEngine) {
       return knex({ client: 'mysql' });
     case 'postgres':
       return knex({ client: 'pg' });
+    case 'sqlite':
+      return knex({ client: 'sqlite' });
   }
 }
