@@ -23,7 +23,7 @@ export default class GenSqlTableSchema extends CodegenStep {
     const knex = getKnex(this.schema.storage.engine);
     // TODO: go thru index config and apply index constraints
     return knex.schema
-      .createTableIfNotExists(this.schema.storage.tablish, table => {
+      .createTable(this.schema.storage.tablish, table => {
         Object.values(this.schema.fields).forEach(field => {
           switch (field.type) {
             case 'id': {

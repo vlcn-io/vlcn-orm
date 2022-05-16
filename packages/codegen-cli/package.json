@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "main": "bin/cli.js",
   "type": "module",
+  "bin": {
+    "aphro": "./bin/cli.js"
+  },
   "dependencies": {
     "@aphro/codegen": "workspace:*",
     "@aphro/codegen-api": "workspace:*",

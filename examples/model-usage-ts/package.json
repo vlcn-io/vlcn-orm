@@ -28,7 +28,8 @@
     "build": "tsc --build",
     "watch": "tsc --build -w",
     "test": "node ./node_modules/jest/bin/jest.js",
-    "knex-test": "node ./node_modules/knex/bin/cli.js --env test"
+    "knex-test": "node ./node_modules/knex/bin/cli.js --env test",
+    "aphro": "aphro gen ./src/example/domain.aphro --dest ./src/example/generated"
   },
   "jest": {
     "testMatch": [

@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "serve": "webpack serve"
+    "serve": "webpack serve",
+    "aphro": "aphro gen ./src/domain.aphro --dest ./src/generated"
   },
   "dependencies": {
     "@aphro/runtime-ts": "workspace:*",
