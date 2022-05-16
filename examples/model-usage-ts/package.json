@@ -3,17 +3,13 @@
   "version": "0.0.1",
   "type": "module",
   "dependencies": {
-    "@aphro/context-runtime-ts": "workspace:*",
-    "@aphro/model-runtime-ts": "workspace:*",
-    "@aphro/mutator-runtime-ts": "workspace:*",
-    "@aphro/query-runtime-ts": "workspace:*",
+    "@aphro/runtime-ts": "workspace:*",
     "@strut/sid": "workspace:*",
     "@vscode/sqlite3": "^5.0.8",
     "class-validator": "^0.13.2",
     "graphql": "^16.4.0",
     "knex": "^2.0.0",
-    "reflect-metadata": "^0.1.13",
-    "type-graphql": "^1.1.1"
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@aphro/codegen-cli": "workspace:*",

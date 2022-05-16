@@ -1,0 +1,31 @@
+{
+  "name": "@aphro/runtime-ts",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "type": "module",
+  "dependencies": {
+    "@aphro/cache-runtime-ts": "workspace:*",
+    "@aphro/context-runtime-ts": "workspace:*",
+    "@aphro/model-runtime-ts": "workspace:*",
+    "@aphro/mutator-runtime-ts": "workspace:*",
+    "@aphro/query-runtime-ts": "workspace:*",
+    "@strut/counter": "workspace:*",
+    "@strut/events": "workspace:*",
+    "@strut/sid": "workspace:*",
+    "@strut/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.4"
+  },
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "build": "tsc --build",
+    "watch": "tsc --build -w",
+    "test": "node ./node_modules/jest/bin/jest.js"
+  },
+  "jest": {
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ]
+  }
+}

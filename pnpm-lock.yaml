@@ -21,10 +21,7 @@ importers:
   examples/browser-sqlite:
     specifiers:
       '@aphro/codegen-cli': workspace:*
-      '@aphro/context-runtime-ts': workspace:*
-      '@aphro/model-runtime-ts': workspace:*
-      '@aphro/mutator-runtime-ts': workspace:*
-      '@aphro/query-runtime-ts': workspace:*
+      '@aphro/runtime-ts': workspace:*
       '@jlongster/sql.js': ^1.6.7
       '@strut/sid': workspace:*
       absurd-sql: ^0.0.46
@@ -34,10 +31,7 @@ importers:
       webpack-cli: ^4.7.2
       webpack-dev-server: ^3.11.2
     dependencies:
-      '@aphro/context-runtime-ts': link:../../packages/context-runtime-ts
-      '@aphro/model-runtime-ts': link:../../packages/model-runtime-ts
-      '@aphro/mutator-runtime-ts': link:../../packages/mutator-runtime-ts
-      '@aphro/query-runtime-ts': link:../../packages/query-runtime-ts
+      '@aphro/runtime-ts': link:../../packages-aggregate/runtime-ts
       '@jlongster/sql.js': 1.6.7
       '@strut/sid': link:../../mono/typescript/packages/sid
       absurd-sql: 0.0.46
@@ -52,10 +46,7 @@ importers:
   examples/model-usage-ts:
     specifiers:
       '@aphro/codegen-cli': workspace:*
-      '@aphro/context-runtime-ts': workspace:*
-      '@aphro/model-runtime-ts': workspace:*
-      '@aphro/mutator-runtime-ts': workspace:*
-      '@aphro/query-runtime-ts': workspace:*
+      '@aphro/runtime-ts': workspace:*
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
       '@strut/sid': workspace:*
@@ -70,20 +61,15 @@ importers:
       knex: ^2.0.0
       reflect-metadata: ^0.1.13
       ts-jest: ^28.0.1
-      type-graphql: ^1.1.1
       typescript: ^4.6.4
     dependencies:
-      '@aphro/context-runtime-ts': link:../../packages/context-runtime-ts
-      '@aphro/model-runtime-ts': link:../../packages/model-runtime-ts
-      '@aphro/mutator-runtime-ts': link:../../packages/mutator-runtime-ts
-      '@aphro/query-runtime-ts': link:../../packages/query-runtime-ts
+      '@aphro/runtime-ts': link:../../packages-aggregate/runtime-ts
       '@strut/sid': link:../../mono/typescript/packages/sid
       '@vscode/sqlite3': 5.0.8
       class-validator: 0.13.2
       graphql: 16.4.0
       knex: 2.0.0
       reflect-metadata: 0.1.13
-      type-graphql: 1.1.1_fpfsawmy672a6466gxhkvvmhcy
     devDependencies:
       '@aphro/codegen-cli': link:../../packages/codegen-cli
       '@babel/core': 7.17.10
@@ -193,6 +179,31 @@ importers:
       typescript: ^4.6.4
     devDependencies:
       '@types/node': 17.0.31
+      typescript: 4.6.4
+
+  packages-aggregate/runtime-ts:
+    specifiers:
+      '@aphro/cache-runtime-ts': workspace:*
+      '@aphro/context-runtime-ts': workspace:*
+      '@aphro/model-runtime-ts': workspace:*
+      '@aphro/mutator-runtime-ts': workspace:*
+      '@aphro/query-runtime-ts': workspace:*
+      '@strut/counter': workspace:*
+      '@strut/events': workspace:*
+      '@strut/sid': workspace:*
+      '@strut/utils': workspace:*
+      typescript: ^4.6.4
+    dependencies:
+      '@aphro/cache-runtime-ts': link:../../packages/cache-runtime-ts
+      '@aphro/context-runtime-ts': link:../../packages/context-runtime-ts
+      '@aphro/model-runtime-ts': link:../../packages/model-runtime-ts
+      '@aphro/mutator-runtime-ts': link:../../packages/mutator-runtime-ts
+      '@aphro/query-runtime-ts': link:../../packages/query-runtime-ts
+      '@strut/counter': link:../../mono/typescript/packages/counter
+      '@strut/events': link:../../mono/typescript/packages/events
+      '@strut/sid': link:../../mono/typescript/packages/sid
+      '@strut/utils': link:../../mono/typescript/packages/utils
+    devDependencies:
       typescript: 4.6.4
 
   packages/cache-runtime-ts:
@@ -2128,6 +2139,7 @@ packages:
     dependencies:
       '@types/minimatch': 3.0.5
       '@types/node': 17.0.31
+    dev: true
 
   /@types/graceful-fs/4.1.5:
     resolution: {integrity: sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==}
@@ -2168,17 +2180,15 @@ packages:
 
   /@types/minimatch/3.0.5:
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
+    dev: true
 
   /@types/node/17.0.31:
     resolution: {integrity: sha512-AR0x5HbXGqkEx9CadRH3EBYx/VkiUgZIhP4wvPn/+5KIsgpNoyFaRlVe0Zlx9gRtg8fA06a9tskE2MSN7TcG4Q==}
+    dev: true
 
   /@types/prettier/2.6.0:
     resolution: {integrity: sha512-G/AdOadiZhnJp0jXCaBQU449W2h716OW/EoXeYkCytxKL06X1WCXB4DZpp8TpZ8eyIJVS1cw4lrlkkSYU21cDw==}
     dev: true
-
-  /@types/semver/7.3.9:
-    resolution: {integrity: sha512-L/TMpyURfBkf+o/526Zb6kd/tchUP3iBDEPjqjb+U2MAJhVRxxrmr2fwpe08E7QsV7YLcpq0tUaQ9O9x97ZIxQ==}
-    dev: false
 
   /@types/stack-utils/2.0.1:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
@@ -2701,6 +2711,7 @@ packages:
 
   /balanced-match/1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
+    dev: true
 
   /base/0.11.2:
     resolution: {integrity: sha512-5T6P4xPgpp0YDFvSWwEZ4NoE3aM4QBQXDzmVbraCkFj8zHM+mba8SyqB5DbZWyR7mYHo6Y7BdQo3MoA4m0TeQg==}
@@ -2773,6 +2784,7 @@ packages:
     dependencies:
       balanced-match: 1.0.2
       concat-map: 0.0.1
+    dev: true
 
   /braces/2.3.2:
     resolution: {integrity: sha512-aNdbnj9P8PjdXU4ybaWLK2IF3jc/EoDYbC7AazW6to3TRsfXxscC9UXOB5iDiEQrkyIbWp2SLQda4+QAa7nc3w==}
@@ -3099,6 +3111,7 @@ packages:
 
   /concat-map/0.0.1:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    dev: true
 
   /connect-history-api-fallback/1.6.0:
     resolution: {integrity: sha512-e54B99q/OUoH64zYYRf3HBP5z24G38h5D3qXu23JGRoigpX5Ss4r9ZnDk3g0Z8uQC2x2lPaJ+UlWBc1ZWBWdLg==}
@@ -3825,6 +3838,7 @@ packages:
 
   /fs.realpath/1.0.0:
     resolution: {integrity: sha1-FQStJSMVjKpA20onh8sBQRmU6k8=}
+    dev: true
 
   /fsevents/1.2.13:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
@@ -3923,6 +3937,7 @@ packages:
       minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
+    dev: true
 
   /globals/11.12.0:
     resolution: {integrity: sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==}
@@ -3955,24 +3970,6 @@ packages:
   /graceful-fs/4.2.10:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
     dev: true
-
-  /graphql-query-complexity/0.7.2_graphql@16.4.0:
-    resolution: {integrity: sha512-+VgmrfxGEjHI3zuojWOR8bsz7Ycz/BZjNjxnlUieTz5DsB92WoIrYCSZdWG7UWZ3rfcA1Gb2Nf+wB80GsaZWuQ==}
-    peerDependencies:
-      graphql: ^0.13.0 || ^14.0.0 || ^15.0.0
-    dependencies:
-      graphql: 16.4.0
-      lodash.get: 4.4.2
-    dev: false
-
-  /graphql-subscriptions/1.2.1_graphql@16.4.0:
-    resolution: {integrity: sha512-95yD/tKi24q8xYa7Q9rhQN16AYj5wPbrb8tmHGM3WRc9EBmWrG/0kkMl+tQG8wcEuE9ibR4zyOM31p5Sdr2v4g==}
-    peerDependencies:
-      graphql: ^0.10.5 || ^0.11.3 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
-    dependencies:
-      graphql: 16.4.0
-      iterall: 1.3.0
-    dev: false
 
   /graphql/16.4.0:
     resolution: {integrity: sha512-tYDNcRvKCcfHREZYje3v33NSrSD/ZpbWWdPtBtUUuXx9NCo/2QDxYzNqCnMvfsrnbwRpEHMovVrPu/ERoLrIRg==}
@@ -4203,6 +4200,7 @@ packages:
     dependencies:
       once: 1.4.0
       wrappy: 1.0.2
+    dev: true
 
   /inherits/2.0.3:
     resolution: {integrity: sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=}
@@ -4210,6 +4208,7 @@ packages:
 
   /inherits/2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
+    dev: true
 
   /internal-ip/4.3.0:
     resolution: {integrity: sha512-S1zBo1D6zcsyuC6PMmY5+55YMILQ9av8lotMx447Bq6SAgo/sDK6y6uUKmuYhW7eacnIhFfsPmCNYdDzsnnDCg==}
@@ -4499,10 +4498,6 @@ packages:
       html-escaper: 2.0.2
       istanbul-lib-report: 3.0.0
     dev: true
-
-  /iterall/1.3.0:
-    resolution: {integrity: sha512-QZ9qOMdF+QLHxy1QIpUHUU1D5pS2CG2P69LF6L6CPjPYA/XMOmKV3PZpawHoAjHNyB0swdVTRxdYT4tbBbxqwg==}
-    dev: false
 
   /jest-changed-files/28.0.2:
     resolution: {integrity: sha512-QX9u+5I2s54ZnGoMEjiM2WeBvJR2J7w/8ZUmH2um/WLAuGAYFQcsVXY9+1YL6k0H/AGUdH8pXUAv6erDqEsvIA==}
@@ -5192,10 +5187,6 @@ packages:
     resolution: {integrity: sha1-gteb/zCmfEAF/9XiUVMArZyk168=}
     dev: true
 
-  /lodash.get/4.4.2:
-    resolution: {integrity: sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=}
-    dev: false
-
   /lodash.memoize/4.1.2:
     resolution: {integrity: sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=}
     dev: true
@@ -5230,6 +5221,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+    dev: true
 
   /make-dir/3.1.0:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
@@ -5361,6 +5353,7 @@ packages:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
     dependencies:
       brace-expansion: 1.1.11
+    dev: true
 
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
@@ -5578,6 +5571,7 @@ packages:
     resolution: {integrity: sha1-WDsap3WWHUsROsF9nFC6753Xa9E=}
     dependencies:
       wrappy: 1.0.2
+    dev: true
 
   /onetime/5.1.2:
     resolution: {integrity: sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==}
@@ -5693,6 +5687,7 @@ packages:
   /path-is-absolute/1.0.1:
     resolution: {integrity: sha1-F0uSaHNVNP+8es5r9TpanhtcX18=}
     engines: {node: '>=0.10.0'}
+    dev: true
 
   /path-is-inside/1.0.2:
     resolution: {integrity: sha1-NlQX3t5EQw0cEa9hAn+s8HS9/FM=}
@@ -6229,6 +6224,7 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
+    dev: true
 
   /send/0.18.0:
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==}
@@ -6956,26 +6952,6 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /type-graphql/1.1.1_fpfsawmy672a6466gxhkvvmhcy:
-    resolution: {integrity: sha512-iOOWVn0ehCYMukmnXStbkRwFE9dcjt7/oDcBS1JyQZo9CbhlIll4lHHps54HMEk4A4c8bUPd+DjK8w1/ZrxB4A==}
-    engines: {node: '>= 10.3'}
-    requiresBuild: true
-    peerDependencies:
-      class-validator: '>=0.12.0'
-      graphql: ^15.3.0
-    dependencies:
-      '@types/glob': 7.2.0
-      '@types/node': 17.0.31
-      '@types/semver': 7.3.9
-      class-validator: 0.13.2
-      glob: 7.2.0
-      graphql: 16.4.0
-      graphql-query-complexity: 0.7.2_graphql@16.4.0
-      graphql-subscriptions: 1.2.1_graphql@16.4.0
-      semver: 7.3.7
-      tslib: 2.4.0
-    dev: false
-
   /type-is/1.6.18:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
     engines: {node: '>= 0.6'}
@@ -7378,6 +7354,7 @@ packages:
 
   /wrappy/1.0.2:
     resolution: {integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=}
+    dev: true
 
   /write-file-atomic/4.0.1:
     resolution: {integrity: sha512-nSKUxgAbyioruk6hU87QzVbY279oYT6uiwgDoujth2ju4mJ+TZau7SQBhtbTmUyuNYTuXnSyRn66FV0+eCgcrQ==}
@@ -7404,6 +7381,7 @@ packages:
 
   /yallist/4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
+    dev: true
 
   /yargs-parser/13.1.2:
     resolution: {integrity: sha512-3lbsNRf/j+A4QuSZfDRA7HRSfWrzO0YjqTJd5kjAq37Zep1CEgaYmrH9Q3GwPiB9cHyd1Y1UwggGhJGoxipbzg==}

@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig-templates/lib.json",
+  "compilerOptions": {
+    "outDir": "./lib/",
+    "rootDir": "./src"
+  },
+  "include": ["./src/"],
+  "references": [
+    { "path": "../../mono/typescript/packages/counter" },
+    { "path": "../../mono/typescript/packages/events" },
+    { "path": "../../mono/typescript/packages/sid" },
+    { "path": "../../mono/typescript/packages/utils" },
+    { "path": "../../packages/cache-runtime-ts" },
+    { "path": "../../packages/context-runtime-ts" },
+    { "path": "../../packages/model-runtime-ts" },
+    { "path": "../../packages/mutator-runtime-ts" },
+    { "path": "../../packages/query-runtime-ts" }
+  ]
+}
