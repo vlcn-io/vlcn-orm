@@ -1,4 +1,5 @@
 import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
+import { SID_of } from '@strut/sid';
 
 export type ChangesetOptions = {
   returning: boolean;
@@ -14,13 +15,16 @@ export type CreateChangeset<M extends IModel<D>, D> = {
   updates: Partial<D>;
   spec: ModelSpec<M, D>;
   options?: ChangesetOptions;
+  id: SID_of<M>;
 };
 
 export type UpdateChangeset<M extends IModel<D>, D> = {
   type: 'update';
   updates: Partial<D>;
   spec: ModelSpec<M, D>;
+  model: M;
   options?: ChangesetOptions;
+  id: SID_of<M>;
 };
 
 export type DeleteChangeset<M extends IModel<D>, D> = {
@@ -28,23 +32,27 @@ export type DeleteChangeset<M extends IModel<D>, D> = {
   model: M;
   spec: ModelSpec<M, D>;
   options?: ChangesetOptions;
+  id: SID_of<M>;
 };
 
 export function updateChangeset<M extends IModel<D>, D>(
-  spec: ModelSpec<M, D>,
   updates: D,
+  model: M,
   options?: ChangesetOptions,
 ): Changeset<M, D> {
   return {
     type: 'update',
     updates,
-    spec,
+    model,
+    spec: model.spec,
     options,
+    id: model.id,
   };
 }
 
 export function createChangeset<M extends IModel<D>, D>(
   spec: ModelSpec<M, D>,
+  id: SID_of<M>,
   updates: D,
   options?: ChangesetOptions,
 ): CreateChangeset<M, D> {
@@ -53,18 +61,19 @@ export function createChangeset<M extends IModel<D>, D>(
     updates,
     spec,
     options,
+    id,
   };
 }
 
 export function deleteChangeset<M extends IModel<D>, D>(
-  spec: ModelSpec<M, D>,
   model: M,
   options?: ChangesetOptions,
 ): DeleteChangeset<M, D> {
   return {
     type: 'delete',
     model,
-    spec,
+    spec: model.spec,
     options,
+    id: model.id,
   };
 }

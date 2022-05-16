@@ -52,6 +52,10 @@ export class CreateMutationBuilder<
       type: 'create',
       updates: this.data,
       spec: this.spec,
+      // TODO: this is _not_ guaranteed to be an SID...
+      // We either need a validation step to force primary keys to be SIDs
+      // or we need to allow non-sids as primary keys
+      id: this.data[this.spec.primaryKey],
     };
   }
 }
@@ -69,6 +73,8 @@ export class UpdateMutationBuilder<
       type: 'update',
       updates: this.data,
       spec: this.spec,
+      model: this.model,
+      id: this.model.id,
     };
   }
 }
@@ -86,6 +92,7 @@ export class DeleteMutationBuilder<M extends IModel<D>, D extends Object> extend
       type: 'delete',
       model: this.model,
       spec: this.spec,
+      id: this.model.id,
     };
   }
 }

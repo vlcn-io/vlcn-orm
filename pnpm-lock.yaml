@@ -440,12 +440,14 @@ importers:
       '@aphro/context-runtime-ts': workspace:*
       '@aphro/model-runtime-ts': workspace:*
       '@aphro/schema-api': workspace:*
+      '@strut/sid': workspace:*
       '@strut/utils': workspace:*
       typescript: ^4.6.4
     dependencies:
       '@aphro/context-runtime-ts': link:../context-runtime-ts
       '@aphro/model-runtime-ts': link:../model-runtime-ts
       '@aphro/schema-api': link:../schema-api
+      '@strut/sid': link:../../mono/typescript/packages/sid
       '@strut/utils': link:../../mono/typescript/packages/utils
     devDependencies:
       typescript: 4.6.4
@@ -4240,7 +4242,7 @@ packages:
       '@types/jest': 27.5.0
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 28.1.0_@types+node@17.0.31
+      jest: 28.1.0
       jest-util: 28.1.0
       json5: 2.2.1
       lodash.memoize: 4.1.2
