@@ -435,12 +435,14 @@ importers:
       '@aphro/model-runtime-ts': workspace:*
       '@aphro/mutator-runtime-ts': workspace:*
       '@aphro/query-runtime-ts': workspace:*
+      '@strut/sid': workspace:*
     dependencies:
       '@aphro/cache-runtime-ts': link:../cache-runtime-ts
       '@aphro/context-runtime-ts': link:../context-runtime-ts
       '@aphro/model-runtime-ts': link:../model-runtime-ts
       '@aphro/mutator-runtime-ts': link:../mutator-runtime-ts
       '@aphro/query-runtime-ts': link:../query-runtime-ts
+      '@strut/sid': link:../../mono/typescript/packages/sid
     devDependencies:
       '@aphro/codegen-cli': link:../codegen-cli
 
