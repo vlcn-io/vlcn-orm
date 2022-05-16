@@ -14,7 +14,9 @@ beforeAll(async () => {
   ctx = context(viewer(asId('me')), resolver, new Cache());
 });
 
-test('Creating models via mutators', async () => {
+test('Creating models via mutators', () => {
+  // TODO: create simple API for people that want to use mutation builders directly?
+  // create(spec, updates).toChangeset/.commit | Or force everyone onto generated Mutations?
   const cs = new CreateMutationBuilder(spec)
     .set({
       id: sid(device),
@@ -23,8 +25,37 @@ test('Creating models via mutators', async () => {
       name: 'Bart',
     })
     .toChangeset();
-  expect(async () => await commit(ctx, [cs])).not.toThrow();
+
+  expect(async () => {
+    const [optimistic, persist] = commit(ctx, [cs]);
+    await persist;
+  }).not.toThrow();
 });
+
+test('Optimstic read after create', async () => {
+  const creationTime = Date.now();
+  const cs = new CreateMutationBuilder(spec)
+    .set({
+      id: sid(device),
+      created: creationTime,
+      modified: creationTime,
+      name: 'Bart',
+    })
+    .toChangeset();
+
+  const [optimistic, persist] = commit(ctx, [cs]);
+
+  const user = optimistic.nodes.getx(cs.id);
+  expect(user.name).toEqual('Bart');
+  expect(user.created).toEqual(creationTime);
+  expect(user.modified).toEqual(creationTime);
+
+  await persist;
+});
+
+test('Reading the created item after create', async () => {});
+
+test('Reading from the created item after create, after purging the cache', async () => {});
 
 afterAll(async () => {
   await destroyDb();
