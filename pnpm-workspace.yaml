@@ -22,4 +22,3 @@ packages:
   - 'packages/schema'
   - 'packages/schema-api'
   - 'packages/vscode'
-  - 'packages-aggregate/runtime-ts'

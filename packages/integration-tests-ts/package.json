@@ -4,7 +4,11 @@
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@aphro/runtime-ts": "workspace:*"
+    "@aphro/cache-runtime-ts": "workspace:*",
+    "@aphro/context-runtime-ts": "workspace:*",
+    "@aphro/query-runtime-ts": "workspace:*",
+    "@aphro/mutator-runtime-ts": "workspace:*",
+    "@aphro/model-runtime-ts": "workspace:*"
   },
   "devDependencies": {
     "@aphro/codegen-cli": "workspace:*"

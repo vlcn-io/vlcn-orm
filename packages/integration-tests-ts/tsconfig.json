@@ -5,5 +5,12 @@
     "rootDir": "./src"
   },
   "include": ["./src/"],
-  "references": [{ "path": "../../packages-aggregate/runtime-ts" }, { "path": "../codegen-cli" }]
+  "references": [
+    { "path": "../query-runtime-ts" },
+    { "path": "../context-runtime-ts" },
+    { "path": "../mutator-runtime-ts" },
+    { "path": "../model-runtime-ts" },
+    { "path": "../cache-runtime-ts" },
+    { "path": "../codegen-cli" }
+  ]
 }

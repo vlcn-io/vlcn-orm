@@ -5,10 +5,15 @@
   "license": "MIT",
   "scripts": {
     "serve": "webpack serve",
-    "aphro": "aphro gen ./src/domain.aphro --dest ./src/generated"
+    "aphro": "aphro gen ./src/domain.aphro --dest ./src/generated",
+    "tcheck": "tsc --noemit"
   },
   "dependencies": {
-    "@aphro/runtime-ts": "workspace:*",
+    "@aphro/query-runtime-ts": "workspace:*",
+    "@aphro/model-runtime-ts": "workspace:*",
+    "@aphro/context-runtime-ts": "workspace:*",
+    "@aphro/cache-runtime-ts": "workspace:*",
+    "@aphro/mutator-runtime-ts": "workspace:*",
     "@jlongster/sql.js": "^1.6.7",
     "@strut/sid": "workspace:*",
     "absurd-sql": "^0.0.46"

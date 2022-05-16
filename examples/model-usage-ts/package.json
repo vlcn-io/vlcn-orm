@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "type": "module",
   "dependencies": {
-    "@aphro/runtime-ts": "workspace:*",
+    "@aphro/context-runtime-ts": "workspace:*",
+    "@aphro/model-runtime-ts": "workspace:*",
+    "@aphro/mutator-runtime-ts": "workspace:*",
+    "@aphro/query-runtime-ts": "workspace:*",
     "@strut/sid": "workspace:*",
     "@vscode/sqlite3": "^5.0.8",
     "class-validator": "^0.13.2",

@@ -20,8 +20,12 @@ importers:
 
   examples/browser-sqlite:
     specifiers:
+      '@aphro/cache-runtime-ts': workspace:*
       '@aphro/codegen-cli': workspace:*
-      '@aphro/runtime-ts': workspace:*
+      '@aphro/context-runtime-ts': workspace:*
+      '@aphro/model-runtime-ts': workspace:*
+      '@aphro/mutator-runtime-ts': workspace:*
+      '@aphro/query-runtime-ts': workspace:*
       '@jlongster/sql.js': ^1.6.7
       '@strut/sid': workspace:*
       absurd-sql: ^0.0.46
@@ -31,7 +35,11 @@ importers:
       webpack-cli: ^4.7.2
       webpack-dev-server: ^3.11.2
     dependencies:
-      '@aphro/runtime-ts': link:../../packages-aggregate/runtime-ts
+      '@aphro/cache-runtime-ts': link:../../packages/cache-runtime-ts
+      '@aphro/context-runtime-ts': link:../../packages/context-runtime-ts
+      '@aphro/model-runtime-ts': link:../../packages/model-runtime-ts
+      '@aphro/mutator-runtime-ts': link:../../packages/mutator-runtime-ts
+      '@aphro/query-runtime-ts': link:../../packages/query-runtime-ts
       '@jlongster/sql.js': 1.6.7
       '@strut/sid': link:../../mono/typescript/packages/sid
       absurd-sql: 0.0.46
@@ -46,7 +54,10 @@ importers:
   examples/model-usage-ts:
     specifiers:
       '@aphro/codegen-cli': workspace:*
-      '@aphro/runtime-ts': workspace:*
+      '@aphro/context-runtime-ts': workspace:*
+      '@aphro/model-runtime-ts': workspace:*
+      '@aphro/mutator-runtime-ts': workspace:*
+      '@aphro/query-runtime-ts': workspace:*
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
       '@strut/sid': workspace:*
@@ -63,7 +74,10 @@ importers:
       ts-jest: ^28.0.1
       typescript: ^4.6.4
     dependencies:
-      '@aphro/runtime-ts': link:../../packages-aggregate/runtime-ts
+      '@aphro/context-runtime-ts': link:../../packages/context-runtime-ts
+      '@aphro/model-runtime-ts': link:../../packages/model-runtime-ts
+      '@aphro/mutator-runtime-ts': link:../../packages/mutator-runtime-ts
+      '@aphro/query-runtime-ts': link:../../packages/query-runtime-ts
       '@strut/sid': link:../../mono/typescript/packages/sid
       '@vscode/sqlite3': 5.0.8
       class-validator: 0.13.2
@@ -179,31 +193,6 @@ importers:
       typescript: ^4.6.4
     devDependencies:
       '@types/node': 17.0.31
-      typescript: 4.6.4
-
-  packages-aggregate/runtime-ts:
-    specifiers:
-      '@aphro/cache-runtime-ts': workspace:*
-      '@aphro/context-runtime-ts': workspace:*
-      '@aphro/model-runtime-ts': workspace:*
-      '@aphro/mutator-runtime-ts': workspace:*
-      '@aphro/query-runtime-ts': workspace:*
-      '@strut/counter': workspace:*
-      '@strut/events': workspace:*
-      '@strut/sid': workspace:*
-      '@strut/utils': workspace:*
-      typescript: ^4.6.4
-    dependencies:
-      '@aphro/cache-runtime-ts': link:../../packages/cache-runtime-ts
-      '@aphro/context-runtime-ts': link:../../packages/context-runtime-ts
-      '@aphro/model-runtime-ts': link:../../packages/model-runtime-ts
-      '@aphro/mutator-runtime-ts': link:../../packages/mutator-runtime-ts
-      '@aphro/query-runtime-ts': link:../../packages/query-runtime-ts
-      '@strut/counter': link:../../mono/typescript/packages/counter
-      '@strut/events': link:../../mono/typescript/packages/events
-      '@strut/sid': link:../../mono/typescript/packages/sid
-      '@strut/utils': link:../../mono/typescript/packages/utils
-    devDependencies:
       typescript: 4.6.4
 
   packages/cache-runtime-ts:
@@ -440,10 +429,18 @@ importers:
 
   packages/integration-tests-ts:
     specifiers:
+      '@aphro/cache-runtime-ts': workspace:*
       '@aphro/codegen-cli': workspace:*
-      '@aphro/runtime-ts': workspace:*
+      '@aphro/context-runtime-ts': workspace:*
+      '@aphro/model-runtime-ts': workspace:*
+      '@aphro/mutator-runtime-ts': workspace:*
+      '@aphro/query-runtime-ts': workspace:*
     dependencies:
-      '@aphro/runtime-ts': link:../../packages-aggregate/runtime-ts
+      '@aphro/cache-runtime-ts': link:../cache-runtime-ts
+      '@aphro/context-runtime-ts': link:../context-runtime-ts
+      '@aphro/model-runtime-ts': link:../model-runtime-ts
+      '@aphro/mutator-runtime-ts': link:../mutator-runtime-ts
+      '@aphro/query-runtime-ts': link:../query-runtime-ts
     devDependencies:
       '@aphro/codegen-cli': link:../codegen-cli
 

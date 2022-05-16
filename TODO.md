@@ -1,8 +1,8 @@
 # 5/16
 
 - Actually start a transaction for your commit mutations in `persistor`
-- TS Runtime that just includes everything needed for TS in 1 package
-- Install cli as bin
+- ~~TS Runtime that just includes everything needed for TS in 1 package~~
+- ~~Install cli as bin~~
 - Inject context into mutations
 - Add delete to mutations. E.g., `for` and `delete`
 - Return some ids so we can gain access to persisted models.. if so desired..
@@ -13,21 +13,21 @@
 
 # 5/13
 
-- CS executor... keep commit log reference?
-  - Well... we need direct persistor reference...
+- ~~CS executor... keep commit log reference?~~
+  - ~~Well... we need direct persistor reference...~~
 - Make `_` methods in `Model.ts` local to packages that need them via type extensions from foreign packages.
 
 # 5/6
-- re-work create tables? Use Knex? Or Use files? def. re-work for testing -- test infra should not require sql files
+- ~~re-work create tables? Use Knex? Or Use files? def. re-work for testing -- test infra should not require sql files~~
 - fix react hooks `// TODO: uncomment once we fix the models back up`
 
-- context thread thru and everywhere?
-- changesetExecutor fixup
-- mutator import
-- use writer from p2p
-- cache in context? e.g., request context
-  - viewer in context... / thread context thru
-- sid cast operation and sid create operation
+- ~~context thread thru and everywhere?~~
+- ~~changesetExecutor fixup~~
+- ~~mutator import~~
+- ~~use writer from p2p~~
+- ~~cache in context? e.g., request context~~
+  - ~~viewer in context... / thread context thru~~
+- ~~sid cast operation and sid create operation~~
 
 
 Integrations removed in commit:
