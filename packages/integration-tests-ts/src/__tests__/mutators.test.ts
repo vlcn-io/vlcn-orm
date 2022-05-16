@@ -53,7 +53,17 @@ test('Optimstic read after create', async () => {
   await persist;
 });
 
-test('Reading the created item after create', async () => {});
+test('Reading the created item after create', async () => {
+  const creationTime = Date.now();
+  const cs = new CreateMutationBuilder(spec)
+    .set({
+      id: sid(device),
+      created: creationTime,
+      modified: creationTime,
+      name: 'Bart',
+    })
+    .toChangeset();
+});
 
 test('Reading from the created item after create, after purging the cache', async () => {});
 

@@ -1,5 +1,6 @@
 # 5/16
 
+- Are query all methods re-hydrating the cache on return?
 - Preserve manual sections in partiall generated code
 - Actually start a transaction for your commit mutations in `persistor`
 - ~~TS Runtime that just includes everything needed for TS in 1 package~~
