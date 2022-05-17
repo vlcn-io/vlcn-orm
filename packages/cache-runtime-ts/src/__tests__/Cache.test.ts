@@ -21,7 +21,6 @@ test('get should always return what was just set', () => {
       const model = new TestModel(casted);
       cache.set(casted, model);
       expect(cache.get(casted)).toBe(model);
-      cache.destruct();
     }),
   );
 });
@@ -34,8 +33,6 @@ test('set should throw if we set an existing entry to a new instance', () => {
   cache.set(id, model);
   expect(() => cache.set(id, new TestModel(id))).toThrow();
   expect(() => cache.set(id, model)).not.toThrow();
-
-  cache.destruct();
 });
 
 test('remove', () => {
@@ -45,7 +42,6 @@ test('remove', () => {
   cache.set(id, model);
   cache.remove(id);
   expect(cache.get(id)).toBe(null);
-  cache.destruct();
 });
 
 test('destruct', () => {
@@ -53,7 +49,6 @@ test('destruct', () => {
   const id = asId<TestModel>('a');
   const model = new TestModel(id);
   cache.set(id, model);
-  cache.destruct();
   expect(cache.get(id)).toBe(null);
 });
 

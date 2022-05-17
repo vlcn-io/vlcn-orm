@@ -20,18 +20,19 @@ import { SID_of } from '@strut/sid';
  */
 export default class Cache {
   readonly #cache = new Map<SID_of<Object>, WeakRef<Object>>();
-  #intervalHandle: number;
+  #setCount: number = 0;
 
-  constructor() {
+  constructor() {}
+
+  #gc() {
+    this.#setCount = 0;
     // TODO: we can be smarter here if/when the cache becomes massive.
     // E.g., spread the GC over many ticks via chunking.
-    this.#intervalHandle = setInterval(() => {
-      for (let [key, ref] of this.#cache.entries()) {
-        if (ref.deref == null) {
-          this.#cache.delete(key);
-        }
+    for (let [key, ref] of this.#cache.entries()) {
+      if (ref.deref == null) {
+        this.#cache.delete(key);
       }
-    }, 1000);
+    }
   }
 
   get<T extends Object>(id: SID_of<T>): T | null {
@@ -49,6 +50,11 @@ export default class Cache {
   }
 
   set<T extends Object>(id: SID_of<T>, node: T): void {
+    ++this.#setCount;
+    if (this.#setCount > 1000) {
+      this.#gc();
+    }
+
     const existing = this.get(id);
     if (existing === node) {
       return;
@@ -78,9 +84,8 @@ export default class Cache {
     return thing as T;
   }
 
-  destruct() {
+  clear() {
     this.#cache.clear();
-    clearInterval(this.#intervalHandle);
   }
 }
 
