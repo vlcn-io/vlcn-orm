@@ -1,10 +1,10 @@
-`Aphrodite` is a schema layer whose first goal is to make [P2P](https://en.wikipedia.org/wiki/Peer-to-peer) & [Local-First](https://www.inkandswitch.com/local-first/) software development as easy as traditional development.
+`Aphrodite` is a schema layer whose first goal is to make [P2P](https://en.wikipedia.org/wiki/Peer-to-peer) & [Local-First](https://www.inkandswitch.com/local-first/) software development as easy as traditional software development.
 
-You can think of `Aphrodite` as an `ORM` of sorts that is designed for the needs of [Local-First](https://www.inkandswitch.com/local-first/) applications and `P2P` data transfer.
+You can think of `Aphrodite` as an `ORM` of sorts that is designed for the needs of [Local-First](https://www.inkandswitch.com/local-first/) applications and [P2P](https://en.wikipedia.org/wiki/Peer-to-peer) data transfer.
 
 # Overview
 
-The core of an application is its data and the consistency of that data. As such, everything in `Aphrodite` begins with the schema definition.
+The core of any application is its data and the consistency of that data. As such, everything in `Aphrodite` begins with a schema. This schema encodes the application's data, its relationships, consistency rules, allowed mutations and privacy.
 
 ## Schema
 
@@ -170,4 +170,4 @@ Todo as Node {
 
 It **is not** ready for release.
 
-Integration tests to show the various described use cases are being built out here: [https://github.com/tantaman/aphrodite/tree/main/packages/integration-tests-ts/src/__tests__](https://github.com/tantaman/aphrodite/tree/main/packages/integration-tests-ts/src/__tests__)
+Integration tests to show the various described use cases are being built out here: [https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/__tests__/mutators.test.ts](https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/__tests__/mutators.test.ts) (and up a dir)
