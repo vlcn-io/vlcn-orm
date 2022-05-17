@@ -160,7 +160,7 @@ Todo as Node {
 
 ## Polyglot Storage & Server Side
 
-`Aphrodite` isn't constrainted to local first software. It is a fully featured `ORM` for backends as well and allow traditional client-server development rather than strictly p2p applications.
+`Aphrodite` isn't constrainted to local first software. It is a fully featured `ORM` for backends as well and allows traditional client-server development in addition to p2p applications.
 
 `Aphrodite` will also support joins across different storage layers. E.g., traversing edges between `SQL`, `Redis`, `Neo4j` rows. This is done via [ChunkIterables](https://gist.github.com/tantaman/bd928ef93619e73365b07899da282996#aside---traversing-across-storage-backends) and [HopPlans](https://github.com/tantaman/aphrodite/blob/main/packages/query-runtime-ts/src/HopPlan.ts).
 
