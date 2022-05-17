@@ -1,12 +1,12 @@
 import { IModel } from '@aphro/model-runtime-ts';
-import { ICreateOrUpdateBuilder } from './Mutator.js';
+import { IMutationBuilder } from './Mutator.js';
 import { Changeset, ChangesetOptions } from './Changeset.js';
 import { commit } from './commit.js';
 import { Context } from '@aphro/context-runtime-ts';
 
 export default abstract class MutationsBase<M extends IModel<D>, D extends Object> {
   readonly ctx: Context;
-  constructor(ctx: Context, protected mutator: ICreateOrUpdateBuilder<M, D>) {
+  constructor(ctx: Context, protected mutator: IMutationBuilder<M, D>) {
     this.ctx = ctx;
   }
 

@@ -33,16 +33,26 @@ ${this.getCode()}
   }
 
   private getCode(): string {
-    return `export default class ${this.schema.name}Mutations {
-      constructor(
-        private mutator: ICreateOrUpdateBuilder<${this.schema.name}, Data>
-      ) {}
+    return `export default class ${this.schema.name}Mutations extends MutationsBase<${
+      this.schema.name
+    }, Data> {
+      private constructor(
+        ctx: Context,
+        mutator: ICreateOrUpdateBuilder<${this.schema.name}, Data>
+      ) {
+        super(ctx, mutator);
+      }
 
-      static for(model?: ${this.schema.name}) {
-        if (model) {
-          return new ${this.schema.name}Mutations(new UpdateMutationBuilder(spec, model))
-        }
-        return new ${this.schema.name}Mutations(new CreateMutationBuilder(spec));
+      static update(model: ${this.schema.name}) {
+        return new ${this.schema.name}Mutations(model.ctx, new UpdateMutationBuilder(spec, model))
+      }
+
+      static create(ctx: Context) {
+        return new ${this.schema.name}Mutations(ctx, new CreateMutationBuilder(spec));
+      }
+
+      static delete(model: ${this.schema.name}) {
+        return new ${this.schema.name}Mutations(model.ctx, new DeleteMutationBuilder(spec, model));
       }
 
       ${this.getMutationMethodsCode()}
@@ -52,12 +62,15 @@ ${this.getCode()}
   private collectImports(): Import[] {
     return [
       tsImport('{ICreateOrUpdateBuilder}', null, '@aphro/mutator-runtime-ts'),
+      tsImport('{Context}', null, '@aphro/context-runtime-ts'),
+      tsImport('{MutationsBase}', null, '@aphro/mutator-runtime-ts'),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
       tsImport('{default}', 'spec', `./${nodeFn.specName(this.schema.name)}.js`),
       tsImport('{Data}', null, `./${this.schema.name}.js`),
       tsImport('{UpdateMutationBuilder}', null, '@aphro/mutator-runtime-ts'),
       tsImport('{CreateMutationBuilder}', null, '@aphro/mutator-runtime-ts'),
+      tsImport('{DeleteMutationBuilder}', null, '@aphro/mutator-runtime-ts'),
       ...this.collectImportsForMutations(),
     ];
   }

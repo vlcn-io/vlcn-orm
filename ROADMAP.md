@@ -20,7 +20,7 @@
    1. Add another backend (besides SQL), e.g. redis
    2. Test hops across backends (e.g., SQL->Neo hop)
 8. Junction Edges
-9.  Abstract Edges
+9. Abstract Edges
 10. Neo/Tinkerpop/RedisGraph junction like edge defs
 11. Privacy rules
 12. Semantic types for fields
@@ -32,3 +32,4 @@
 18. Byzantine fault tolerance
 19. Consistency / integrity rules
 20. Triggers / Observers
+21. Property testing and zod?

@@ -1,19 +1,32 @@
-// SIGNED-SOURCE: <b99750e12dbb708a7a622941d023b786>
+// SIGNED-SOURCE: <6f271dc110baedb012d220e6d5ed9943>
 import { ICreateOrUpdateBuilder } from "@aphro/mutator-runtime-ts";
+import { Context } from "@aphro/context-runtime-ts";
+import { MutationsBase } from "@aphro/mutator-runtime-ts";
 import User from "./User.js";
 import { default as spec } from "./UserSpec.js";
 import { Data } from "./User.js";
 import { UpdateMutationBuilder } from "@aphro/mutator-runtime-ts";
 import { CreateMutationBuilder } from "@aphro/mutator-runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/mutator-runtime-ts";
 
-export default class UserMutations {
-  constructor(private mutator: ICreateOrUpdateBuilder<User, Data>) {}
+export default class UserMutations extends MutationsBase<User, Data> {
+  private constructor(
+    ctx: Context,
+    mutator: ICreateOrUpdateBuilder<User, Data>
+  ) {
+    super(ctx, mutator);
+  }
 
-  static for(model?: User) {
-    if (model) {
-      return new UserMutations(new UpdateMutationBuilder(spec, model));
-    }
-    return new UserMutations(new CreateMutationBuilder(spec));
+  static update(model: User) {
+    return new UserMutations(model.ctx, new UpdateMutationBuilder(spec, model));
+  }
+
+  static create(ctx: Context) {
+    return new UserMutations(ctx, new CreateMutationBuilder(spec));
+  }
+
+  static delete(model: User) {
+    return new UserMutations(model.ctx, new DeleteMutationBuilder(spec, model));
   }
 
   create(name: string): this {

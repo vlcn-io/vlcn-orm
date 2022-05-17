@@ -9,6 +9,9 @@ import {
 
 export interface IMutationBuilder<M extends IModel<D>, D extends Object> {
   toChangeset(options?: ChangesetOptions): Changeset<M, D>;
+  // TODO: remove this once we get mutations generation complete
+  // we don't need `set` for `delete`
+  set(newData: Partial<D>): this;
 }
 
 export interface ICreateOrUpdateBuilder<M extends IModel<D>, D extends Object>
@@ -22,6 +25,9 @@ abstract class MutationBuilder<M extends IModel<D>, D extends Object>
 {
   constructor(protected spec: ModelSpec<M, D>, protected data: Partial<D>) {}
   abstract toChangeset(): Changeset<M, D>;
+  set(newData: Partial<D>): this {
+    throw new Error('You cannot call `set` when deleting something');
+  }
 }
 
 abstract class CreateOrUpdateBuilder<M extends IModel<D>, D extends Object> extends MutationBuilder<

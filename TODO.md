@@ -1,5 +1,6 @@
 # 5/16
 
+- incorporate zod for schemas and test generation?
 - ensure the cache we're using is pegged to the right viewer??
 - generate static query all method for node classes
 - in spec.createFrom -- check cache first and either
