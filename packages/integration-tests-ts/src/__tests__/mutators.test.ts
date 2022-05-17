@@ -70,12 +70,14 @@ test('Reading the created item after create', async () => {
   await persist;
 
   // TODO: generate static User.queryAll method
-  const users = await UserQuery.create(ctx).gen();
-  expect(users.map(u => u.id)).toContain(cs.id);
+  let users = await UserQuery.create(ctx).gen();
   expect(users).toContain(optimistic.nodes.getx(cs.id));
-});
 
-test('Reading from the created item after create, after purging the cache', async () => {});
+  ctx.cache.clear();
+  users = await UserQuery.create(ctx).gen();
+  expect(users.map(u => u.id)).toContain(cs.id);
+  expect(users).not.toContain(optimistic.nodes.getx(cs.id));
+});
 
 afterAll(async () => {
   await destroyDb();
