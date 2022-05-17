@@ -37,9 +37,9 @@ From the schema definition, `Aphrodite` generates `TypeScript` (and eventually o
 
 ## Queries
 
-The main way of interacting with your data after defining a schema is through queries. Queries allow you to load, find and join your data in arbitrary ways.
+Queries allow you to load, find and join your data in arbitrary ways.
 
-To support local first development, all queries against your data can also be made reactive. Also to support local first, all components that view a given piece of data will always see the latest version of that data unless they explicitly and overtly decide not to.
+To support local first development, all queries against your data can be made reactive. Also to support local first, all components that view a given piece of data will always see the latest version of that data unless they explicitly and overtly decide not to.
 
 **Load and Query**
 ```typescript
@@ -60,7 +60,7 @@ function TodoList({user}: {user: User}) {
 
 Before you can query any data you need to create it. `Aphrodite` supports mutation primitives to allow you to do this in a safe and declarative way.
 
-To ensure your app never sees transient state, `Aphrodite` has concepts of `mutators`, `changesets` and `transactions`. These allow you to describe a mutation in full and then commit the mutation all at once. Mutations can be declared on the schema for convenience to allow programmatic discovery of operations against your data (inspired by [Block Protocl](https://blockprotocol.org/) and my prior work at @meta on a protocol for integrations ([draft post](https://github.com/tantaman/tantaman.github.io/blob/master/_drafts/2022-01-26-protocol-for-integrations.markdown)).
+To ensure your app never sees transient state, `Aphrodite` has concepts of `mutators`, `changesets` and `transactions`. These allow you to describe a change in full and then commit those changes all at once. Valid mutations can be declared on the schema to allow programmatic discovery of operations against your data (inspired by [Block Protocl](https://blockprotocol.org/) and A Protocol for Integrations ([draft post](https://github.com/tantaman/tantaman.github.io/blob/master/_drafts/2022-01-26-protocol-for-integrations.markdown)).
 
 **Declare Mutations**
 ```js
@@ -100,7 +100,7 @@ Todo as Node {
   ...
 } & Replication {
   ColumnLevel {
-    last-write-wins
+    lastWriteWins
   }
   Clock {
     Logical
@@ -113,7 +113,7 @@ Todo as Node {
   ...
 } & Replication {
   InstanceLevel {
-    last-write-wins
+    lastWriteWins
   }
   Clock {
     HybridLogical {
@@ -123,11 +123,9 @@ Todo as Node {
 }
 ```
 
-**Note** -- P2P syncing via CRDTs do not support transactions fully. You can create and commit a transaction on one client but, due to the nature of CRDTs, other clients may not accept the full contents of the transaction. So how do we ensure data consistency in the face of this?
+**Note** -- P2P syncing via CRDTs does not support transactions fully. You can create and commit a transaction on one client but, due to the nature of CRDTs, other clients may not accept the full contents of the transaction. So how do we ensure data consistency in the face of this?
 
 ## Data Consistency
-
-Given we cannot support transactions across instances when replicating to peers, how can we keep our application data consistent?
 
 Developers can define integrity constraints on their schemas. When a replicated update is received that violates the constraint, a new state update is added that rolls back the update. This feature is still in the research phase to understand what constraints and rollbacks can be supported in a p2p environment without causing state loops amongst peers.
 
