@@ -34,18 +34,8 @@ export default function defaultLayout(tree: ReturnType<typeof h>, file: VFile) {
     </svg>,
     <header id="header">
       <a href="/aphrodite" class="logo">
-        <svg
-          class="logo-svg"
-          width="700pt"
-          height="700pt"
-          version="1.1"
-          viewBox="0 0 700 700"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-        >
-          <use xlink:href="#icon-logo-dark"></use>
-        </svg>
-        <span class="logo-text">Aphrodite</span>
+        <img src="logos/aphrodite.png"></img>
+        <div class="logo-subtext">Beautiful Schemas</div>
       </a>
     </header>,
     <div id="static-container">

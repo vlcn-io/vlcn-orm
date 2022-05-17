@@ -1,9 +1,16 @@
-@import url("https://fonts.googleapis.com/css2?family=Courgette&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Courgette&display=swap");
 
 @font-face {
   font-family: "Rocher";
   src: url("https://assets.codepen.io/9632/RocherColorGX.woff2");
 }
+
+@font-face {
+  font-family: Gilbert;
+  src: url("fonts/gilbert-color.otf") format("opentype");
+} */
+
+// https://rsheeter.github.io/recolor/#1%2520rgba(196%252C%2520168%252C%2520126%252C%2520255)%252C%25203%2520rgba(50%252C%252041%252C%252027%252C%2520255)%252C%25205%2520rgba(196%252C%2520196%252C%2520196%252C%2520255)
 
 @font-palette-values --Grays {
   font-family: Rocher;
@@ -13,6 +20,11 @@
 @font-palette-values --Purples {
   font-family: Rocher;
   base-palette: 6;
+}
+
+@font-palette-values --Base {
+  font-family: Gilbert;
+  base-palette: 0;
 }
 
 @font-palette-values --Mint {
@@ -40,13 +52,13 @@ body {
 }
 
 body {
-  background: #130918;
+  /* background: #130918; */
+  background: white;
   width: 95%;
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
   font-family: Poppins, Verdana, sans-serif;
-  color: white;
 }
 
 .container {
@@ -61,15 +73,27 @@ body {
 }
 
 .logo {
-  display: flex;
-  align-items: center;
   text-decoration: none;
-  /* color: #e87121; */
-  /* color: white; */
-  font-palette: --Purples;
-  font-family: "Rocher";
-  /* font-family: "Courgette", cursive; */
   font-size: 1.5em;
+}
+
+.logo-subtext {
+  width: 280px;
+  font-size: 17px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  top: -16px;
+  color: #c17878;
+  text-align: center;
+}
+
+.logo > img {
+  width: 359px;
+  height: 93px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 
 #header {
