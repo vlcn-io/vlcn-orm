@@ -1,0 +1,8 @@
+node_modules/
+mono/
+tsconfig.tsbuildinfo
+lib/
+.turbo/
+.DS_Store
+bin/
+.pnpm-debug.log
