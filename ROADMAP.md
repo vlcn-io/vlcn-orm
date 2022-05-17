@@ -29,3 +29,6 @@
 15. Plugin framework for integrations like GraphQL or new codegen
 16. Polyglot indexing service support
 17. Purpose limitation
+18. Byzantine fault tolerance
+19. Consistency / integrity rules
+20. Triggers / Observers
