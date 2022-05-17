@@ -13,6 +13,8 @@ export default class Persistor {
     collectedDeletes: DeleteChangeset<IModel, Object>[],
     collectedCreatesOrUpdates: Map<SID_of<IModel>, IModel>,
   ) {
+    // TODO: start trnsaction
+    // TODO: commit transaction
     return Promise.all([
       writer.deleteBatch(this.context, collectedDeletes),
       writer.upsertBatch(this.context, collectedCreatesOrUpdates.values()),

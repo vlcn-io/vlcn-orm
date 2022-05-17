@@ -27,6 +27,10 @@ ${this.getSpecCode()}
   private getSpecCode(): string {
     return `const spec: ModelSpec<${this.schema.name}, Data> = {
   createFrom(ctx: Context, data: Data) {
+    const existing = ctx.cache.get(data[${this.schema.primaryKey}]);
+    if (existing) {
+      return existing;
+    }
     return new ${this.schema.name}(ctx, data);
   },
 

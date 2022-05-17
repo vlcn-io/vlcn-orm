@@ -66,8 +66,13 @@ test('Reading the created item after create', async () => {
     })
     .toChangeset();
 
-  // TODO: static User.queryAll method
+  const [optimistic, persist] = commit(ctx, [cs]);
+  await persist;
+
+  // TODO: generate static User.queryAll method
   const users = await UserQuery.create(ctx).gen();
+  expect(users.map(u => u.id)).toContain(cs.id);
+  expect(users).toContain(optimistic.nodes.getx(cs.id));
 });
 
 test('Reading from the created item after create, after purging the cache', async () => {});

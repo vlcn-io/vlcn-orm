@@ -1,5 +1,9 @@
 # 5/16
 
+- ensure the cache we're using is pegged to the right viewer??
+- generate static query all method for node classes
+- in spec.createFrom -- check cache first and either
+  - return cached value or merge into cache and return cached value?
 - Are query all methods re-hydrating the cache on return?
 - Preserve manual sections in partiall generated code
 - Actually start a transaction for your commit mutations in `persistor`
