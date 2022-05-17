@@ -8,7 +8,7 @@ export const meta = {
   siteAuthor: "Matt Wonlaw",
   siteTwitter: "@tantaman",
   image: {
-    url: "https://tantaman.com/aphrodite/logos/0-a-left/Aphrodite-logos_transparent.png",
+    url: "https://tantaman.com/aphrodite/logos/aphrodite.png",
     width: 1200,
     height: 1200,
     alt: "Aphrodite",

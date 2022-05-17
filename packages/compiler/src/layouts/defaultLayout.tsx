@@ -35,7 +35,23 @@ export default function defaultLayout(tree: ReturnType<typeof h>, file: VFile) {
     <header id="header">
       <a href="/aphrodite" class="logo">
         <img src="logos/aphrodite.png"></img>
-        <div class="logo-subtext">Beautiful Schemas</div>
+        <div class="logo-subtext">
+          <span>B</span>
+          <span>e</span>
+          <span>a</span>
+          <span>u</span>
+          <span>t</span>
+          <span>i</span>
+          <span>f</span>
+          <span>u</span>
+          <span>l</span> <span>S</span>
+          <span>c</span>
+          <span>h</span>
+          <span>e</span>
+          <span>m</span>
+          <span>a</span>
+          <span>s</span>
+        </div>
       </a>
     </header>,
     <div id="static-container">
