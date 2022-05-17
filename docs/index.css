@@ -43,7 +43,6 @@ body {
   position: absolute;
   right: 0px;
   transform: translateX(100%);
-  display: none;
 }
 
 code {
