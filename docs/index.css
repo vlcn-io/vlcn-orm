@@ -26,6 +26,10 @@ body {
   height: 100%;
 }
 
+html {
+  background: #fafafa;
+}
+
 body {
   /* background: #130918; */
   background: white;
@@ -37,6 +41,10 @@ body {
   /* font-family: 'Lora', 'Times New Roman', serif; */
   font-size: 1.125rem;
   position: relative;
+
+  padding: 20px;
+  padding-top: 0;
+  border: 1px solid #e5e5e5;
 }
 
 .toc {
