@@ -8,9 +8,9 @@ export const meta = {
   siteAuthor: "Matt Wonlaw",
   siteTwitter: "@tantaman",
   image: {
-    url: "https://tantaman.com/img/avatar-icon.png",
-    width: 312,
-    height: 369,
+    url: "https://tantaman.com/aphrodite/logos/0-a-left/Aphrodite-logos_transparent.png",
+    width: 1200,
+    height: 1200,
     alt: "Aphrodite",
   },
 };

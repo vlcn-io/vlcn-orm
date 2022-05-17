@@ -1,3 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=Courgette&display=swap");
+
+@font-face {
+  font-family: "Rocher";
+  src: url("https://assets.codepen.io/9632/RocherColorGX.woff2");
+}
+
+@font-palette-values --Grays {
+  font-family: Rocher;
+  base-palette: 9;
+}
+
+@font-palette-values --Purples {
+  font-family: Rocher;
+  base-palette: 6;
+}
+
+@font-palette-values --Mint {
+  font-family: Rocher;
+  base-palette: 7;
+}
+
+.grays {
+  font-palette: --Grays;
+}
+
+.purples {
+  font-palette: --Purples;
+}
+
+.mint {
+  font-palette: --Mint;
+}
+
 html,
 body {
   margin: 0;
@@ -7,6 +41,12 @@ body {
 
 body {
   background: #130918;
+  width: 95%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: Poppins, Verdana, sans-serif;
+  color: white;
 }
 
 .container {
@@ -17,5 +57,43 @@ body {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url(logos/0-a-left/Aphrodite-logos_transparent.png);
+  background-image: url("logos/0-a-left/Aphrodite-logos_transparent.png");
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  /* color: #e87121; */
+  /* color: white; */
+  font-palette: --Purples;
+  font-family: "Rocher";
+  /* font-family: "Courgette", cursive; */
+  font-size: 1.5em;
+}
+
+#header {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.logo-svg {
+  width: 64px;
+  height: 64px;
+  flex-grow: 0;
+  fill: #e87121;
+  display: none;
+}
+
+.logo-vbar {
+  border: 1px solid black;
+  height: 32px;
+  flex-grow: 0;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.logo-text {
+  flex-grow: 0;
+  font-size: 2em;
 }
