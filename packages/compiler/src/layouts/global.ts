@@ -9,8 +9,8 @@ export const meta = {
   siteTwitter: "@tantaman",
   image: {
     url: "https://tantaman.com/aphrodite/logos/aphrodite.png",
-    width: 1200,
-    height: 1200,
+    width: 359,
+    height: 93,
     alt: "Aphrodite",
   },
 };
