@@ -1,5 +1,4 @@
 import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
-import { __internalConfig } from '@aphro/context-runtime-ts';
 import {
   Changeset,
   CreateChangeset,

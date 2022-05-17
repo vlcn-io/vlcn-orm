@@ -5,6 +5,6 @@ import SQLSourceExpression, { SQLResult } from './SqlSourceExpression.js';
 
 export default class SQLSourceQuery<T extends IModel<Object>> extends SourceQuery<T> {
   constructor(ctx: Context, spec: ModelSpec<T, Object>) {
-    super(ctx, new SQLSourceExpression(spec, { what: 'model' }));
+    super(ctx, new SQLSourceExpression(ctx, spec, { what: 'model' }));
   }
 }

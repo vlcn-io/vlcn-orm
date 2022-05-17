@@ -3,10 +3,14 @@ import { BaseChunkIterable } from '../ChunkIterable.js';
 import specAndOpsToQuery from './specAndOpsToQuery.js';
 import { HoistedOperations } from './SqlSourceExpression.js';
 import { invariant } from '@strut/utils';
-import { __internalConfig } from '@aphro/context-runtime-ts';
+import { Context } from '@aphro/context-runtime-ts';
 
 export default class SQLSourceChunkIterable<T extends IModel<Object>> extends BaseChunkIterable<T> {
-  constructor(private spec: ModelSpec<T, Object>, private hoistedOperations: HoistedOperations) {
+  constructor(
+    private ctx: Context,
+    private spec: ModelSpec<T, Object>,
+    private hoistedOperations: HoistedOperations,
+  ) {
     super();
     invariant(this.spec.storage.type === 'sql', 'SQL source used for non-SQL model!');
   }
@@ -21,7 +25,7 @@ export default class SQLSourceChunkIterable<T extends IModel<Object>> extends Ba
     return await specAndOpsToQuery(
       this.spec,
       this.hoistedOperations,
-      __internalConfig.resolver
+      this.ctx.dbResolver
         .type(this.spec.storage.type)
         .engine(this.spec.storage.engine)
         .db(this.spec.storage.db),
