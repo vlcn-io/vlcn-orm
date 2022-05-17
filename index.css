@@ -1,0 +1,21 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background: #130918;
+}
+
+.container {
+  width: 80%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url(logos/0-a-left/Aphrodite-logos_transparent.png);
+}
