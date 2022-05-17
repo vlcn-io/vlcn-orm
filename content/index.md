@@ -2,11 +2,13 @@
 
 You can think of `Aphrodite` as an `ORM` of sorts that is designed for the needs of [Local-First](https://www.inkandswitch.com/local-first/) applications and `P2P` data transfer.
 
+# Overview
+
 ## Schema
 
-`Aphrodite` Schemas are written in a `DSL`. This `DSL` describes the `nodes` and `edges` that make up your application's data model. You can represent graph or relational structures with this schema definition language.
+`Aphrodite` Schemas are written in a `DSL`. This `DSL` describes the `nodes` and `edges` that make up your application's data model. You can represent graph or relational structures in this language.
 
-**Schema**
+**Example**
 ```js
 User as Node {
   id: ID<User>
@@ -54,9 +56,9 @@ function TodoList({user}: {user: User}) {
 
 ## Mutations
 
-Of course before you can query any data you'd need to create. `Aphrodite` supports mutation primitives to allow you to do this in a safe and declarative way.
+Before you can query any data you need to create it. `Aphrodite` supports mutation primitives to allow you to do this in a safe and declarative way.
 
-To ensure your app never sees transient state, `Aphrodite` has the concepts of `mutators`, `changesets` and `transactions`. These allow you to describe a mutation in full and then commit the mutation all at once. Mutations can be declared on the schema for convenience to allow programmatic discovery of operations against your data (inspired by [Block Protocl](https://blockprotocol.org/) and my prior work at @meta on a protocol for integrations ([draft post](https://github.com/tantaman/tantaman.github.io/blob/master/_drafts/2022-01-26-protocol-for-integrations.markdown)).
+To ensure your app never sees transient state, `Aphrodite` has concepts of `mutators`, `changesets` and `transactions`. These allow you to describe a mutation in full and then commit the mutation all at once. Mutations can be declared on the schema for convenience to allow programmatic discovery of operations against your data (inspired by [Block Protocl](https://blockprotocol.org/) and my prior work at @meta on a protocol for integrations ([draft post](https://github.com/tantaman/tantaman.github.io/blob/master/_drafts/2022-01-26-protocol-for-integrations.markdown)).
 
 **Declare Mutations**
 ```js
@@ -131,7 +133,9 @@ The data consistency ideas are part inspired by [Conflict Free Replicated Relati
 
 ## Privacy
 
-You may have noticed references to `owner` and `viewer` in the example code. This is because `Aphrodite` supports privacy on data even though it targets local first development. Imagine you have a local first app but your users should be able to share their local data with other users. You user's data shouldn't be replicated to just anyone. There need to be privacy controls in place to determine what users receive what updates.
+You may have noticed references to `owner` and `viewer` in the example code. This is because `Aphrodite` supports privacy on data even though it targets local first development.
+
+Imagine you have a local first app but your users want to be able to share parts of their local data with others. Your user's data shouldn't be replicated to just anyone. There need to be privacy controls in place to determine what users receive what updates.
 
 `Aphrodite` allows you to declare these rules on the schema itself or, when they're more complicated, within `TypeScript`.
 
@@ -151,3 +155,8 @@ Todo as Node {
   AlwaysDeny
 }
 ```
+
+
+## Polyglot Storage & Server Side
+
+`Aphrodite` isn't constrainted to local first software. It is a fully featured `ORM` for backends as well and allow traditional client-server development rather than strictly p2p applications.
