@@ -4,9 +4,11 @@ You can think of `Aphrodite` as an `ORM` of sorts that is designed for the needs
 
 # Overview
 
+The core of an application is its data and the consistency of that data. As such, everything in `Aphrodite` begins with the schema definition.
+
 ## Schema
 
-`Aphrodite` Schemas are written in a `DSL`. This `DSL` describes the `nodes` and `edges` that make up your application's data model. You can represent graph or relational structures in this language.
+`Aphrodite` Schemas are written in a `DSL`. This `DSL` describes the `nodes` and `edges` that make up the application's data model. The schema can represent graph or relational data models.
 
 **Example**
 ```js
@@ -31,13 +33,13 @@ Todo as Node {
 }
 ```
 
-From this `DSL` we generate `TypeScript` (and eventually other target languages) classes to interact with your data.
+From the schema definition, `Aphrodite` generates `TypeScript` (and eventually other target languages) classes to interact with your data.
 
 ## Queries
 
 The main way of interacting with your data after defining a schema is through queries. Queries allow you to load, find and join your data in arbitrary ways.
 
-To support local first development, all queries against your data can be made reactive.
+To support local first development, all queries against your data can also be made reactive. Also to support local first, all components that view a given piece of data will always see the latest version of that data unless they explicitly and overtly decide not to.
 
 **Load and Query**
 ```typescript
