@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <460cb4abe593b1864ce6a1ad4dc8bed4>
+// SIGNED-SOURCE: <a44adc6c2fc473a7a762355c50218706>
 import { Context } from "@aphro/context-runtime-ts";
 import { ModelSpec } from "@aphro/model-runtime-ts";
 import { default as ComponentSpec } from "./ComponentSpec.js";
@@ -7,7 +7,7 @@ import { Data } from "./Slide.js";
 
 const spec: ModelSpec<Slide, Data> = {
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data[id]);
+    const existing = ctx.cache.get(data["id"]);
     if (existing) {
       return existing;
     }

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b0972c8de61777235d92531071c9d82c>
+// SIGNED-SOURCE: <ab0e4f1e89ec2dd9d139299f00a93649>
 import { Context } from "@aphro/context-runtime-ts";
 import { ModelSpec } from "@aphro/model-runtime-ts";
 import { default as DeckSpec } from "./DeckSpec.js";
@@ -7,7 +7,7 @@ import { Data } from "./User.js";
 
 const spec: ModelSpec<User, Data> = {
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data[id]);
+    const existing = ctx.cache.get(data["id"]);
     if (existing) {
       return existing;
     }
