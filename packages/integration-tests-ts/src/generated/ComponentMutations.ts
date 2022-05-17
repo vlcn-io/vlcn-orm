@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5cfb580ac56d1e8824cb7f2b85e4d750>
+// SIGNED-SOURCE: <794e1cd24ee78d361e11bcc5f802d1d9>
 import { ICreateOrUpdateBuilder } from "@aphro/mutator-runtime-ts";
 import { Context } from "@aphro/context-runtime-ts";
 import { MutationsBase } from "@aphro/mutator-runtime-ts";
@@ -36,13 +36,21 @@ export default class ComponentMutations extends MutationsBase<Component, Data> {
     );
   }
 
-  create(subtype: "Text" | "Embed", slide: Slide, content: string): this {
+  create({
+    subtype,
+    slide,
+    content,
+  }: {
+    subtype: "Text" | "Embed";
+    slide: Slide;
+    content: string;
+  }): this {
     // BEGIN-MANUAL-SECTION
     // END-MANUAL-SECTION
     return this;
   }
 
-  delete(): this {
+  delete({}: {}): this {
     // BEGIN-MANUAL-SECTION
     // END-MANUAL-SECTION
     return this;

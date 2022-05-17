@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <6f271dc110baedb012d220e6d5ed9943>
+// SIGNED-SOURCE: <7c0113515d60d15235b704978ab41806>
 import { ICreateOrUpdateBuilder } from "@aphro/mutator-runtime-ts";
 import { Context } from "@aphro/context-runtime-ts";
 import { MutationsBase } from "@aphro/mutator-runtime-ts";
@@ -29,13 +29,13 @@ export default class UserMutations extends MutationsBase<User, Data> {
     return new UserMutations(model.ctx, new DeleteMutationBuilder(spec, model));
   }
 
-  create(name: string): this {
+  create({ name }: { name: string }): this {
     // BEGIN-MANUAL-SECTION
     // END-MANUAL-SECTION
     return this;
   }
 
-  delete(): this {
+  delete({}: {}): this {
     // BEGIN-MANUAL-SECTION
     // END-MANUAL-SECTION
     return this;

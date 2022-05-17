@@ -93,7 +93,10 @@ ${this.getCode()}
     const fullArgsDefs = Object.values(args).map(a =>
       mutationFn.transformMaybeQuickToFull(this.schema, a),
     );
-    return fullArgsDefs.map(a => a.name + ': ' + typeDefToTsType(a.typeDef)).join(',');
+    const type =
+      '{' + fullArgsDefs.map(a => a.name + ': ' + typeDefToTsType(a.typeDef)).join(',') + '}';
+    const destructure = '{' + fullArgsDefs.map(a => a.name).join(',') + '}';
+    return `${destructure}: ${type}`;
   }
 
   private collectImportsForMutations(): Import[] {

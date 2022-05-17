@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <f35b443976bc9dcd0a583a415f63bbc4>
+// SIGNED-SOURCE: <2a4295d19d5d6822973f670b1a1f8af2>
 import { ICreateOrUpdateBuilder } from "@aphro/mutator-runtime-ts";
 import { Context } from "@aphro/context-runtime-ts";
 import { MutationsBase } from "@aphro/mutator-runtime-ts";
@@ -36,19 +36,19 @@ export default class SlideMutations extends MutationsBase<Slide, Data> {
     );
   }
 
-  create(deck: Deck, order: number): this {
+  create({ deck, order }: { deck: Deck; order: number }): this {
     // BEGIN-MANUAL-SECTION
     // END-MANUAL-SECTION
     return this;
   }
 
-  reorder(order: number): this {
+  reorder({ order }: { order: number }): this {
     // BEGIN-MANUAL-SECTION
     // END-MANUAL-SECTION
     return this;
   }
 
-  delete(): this {
+  delete({}: {}): this {
     // BEGIN-MANUAL-SECTION
     // END-MANUAL-SECTION
     return this;
