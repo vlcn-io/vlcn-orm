@@ -4,5 +4,5 @@ tsconfig.tsbuildinfo
 lib/
 .turbo/
 .DS_Store
-bin/
 .pnpm-debug.log
+packages/compiler/dist

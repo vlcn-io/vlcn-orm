@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "esnext",
+    "moduleResolution": "Node",
+    "target": "es2017",
+    "lib": ["ESNext"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "hastscript",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowJs": true
+  },
+  "include": ["./src"]
+}

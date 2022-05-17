@@ -1,0 +1,9 @@
+{
+  "name": "@tantaman/sitefrontend",
+  "scripts": {
+    "build": "tsc",
+    "twatch": "tsc --watch"
+  },
+  "type": "module",
+  "dependencies": {}
+}

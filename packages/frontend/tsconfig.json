@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "../../docs/dist",
+    "rootDir": "./src",
+    "module": "ES2020",
+    "moduleResolution": "Node",
+    "target": "ES2017",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "jsx": "react",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowJs": true
+  },
+  "include": ["./src"]
+}

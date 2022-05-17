@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "version": "0.0.0",
+  "packageManager": "pnpm@7.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=17",
+    "pnpm": ">=7"
+  },
+  "dependencies": {
+    "@tantaman/sitecompiler": "workspace:*",
+    "rehype-parse": "^8.0.4"
+  },
+  "scripts": {
+    "build": "sitecompiler",
+    "serve": "cd docs && serve",
+    "todos": "leasot '**/*.ts' --ignore '**/node_modules'",
+    "preinstall": "npx only-allow pnpm"
+  }
+}
