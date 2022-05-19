@@ -135,13 +135,13 @@ The data consistency ideas are part inspired by [Conflict Free Replicated Relati
 
 In a distributed system, every peer could be running a different version of your software. This makes schemas all the more important. By having you data schematized, we can understand which clients and which pieces of data are ahead or behind in terms of data format.
 
-A peer whose data format is behind another peer's would cause problems if they tried to replicate changes to one another. One peer may have consistency rules that another does not. Or one peer may have fields removed from their schema that another has added. To combat this, `Aphrodite` pushes schema replications to auto-upgrade all peers to the greatest common version of a schema before replicating data controlled by that schema.
+A peer whose data format is behind another peer's would cause problems if they tried to replicate changes to one another. One peer may have consistency rules that another does not. One peer may have fields removed from their schema that another has added. To combat this, `Aphrodite` pushes schema replications to auto-upgrade all peers to the greatest common version of a schema before replicating data controlled by that schema.
 
 Schema version changes brings us to the next topic -- data migrations.
 
 ## Migrations
 
-`Aphrdoite` is being built as a storage agnostic schema layer. One of the benefits of this is that all migration information is encoded into `Aphrodite` schemas.
+Migrations between schema versions are encoded into `Aphrodite` schemas.
 
 ```js
 Todo as Node {
@@ -159,9 +159,9 @@ Todo as Node {
 }
 ```
 
-All migration definitions are retained so any old peer that joins a network can have their schema moved through the successive versions until it is up to date.
+All migration definitions are retained so any peer that joins a network can have their schema moved through the successive versions until it is up to date.
 
-This opens up issues for very large datasets. We have a few plans to address this:
+There are issues for very large datasets to consider as migrating billions of rows is not instant. We have a few plans to address this:
 1. For traditional server type deployments, allow mechanisms such as taking a db replica offline to run migrations then bringing it back online, catching it up then swapping it to master
 2. Allow migrations to be run lazily. I.e., apply the migration functions as needed as data is loaded by the application. This will only work for a subset of migration types.
 

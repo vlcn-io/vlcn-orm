@@ -131,10 +131,10 @@ liveCompletedTodos.<span class="hljs-title function_">subscribe</span>(<span cla
 <p>The data consistency ideas are part inspired by <a href="https://hal.inria.fr/hal-02983557/document">Conflict Free Replicated Relations</a> and the internal <code>Ent Integrity</code> project at <a href="https://engineering.fb.com/">Meta</a>.</p>
 <h2 id="schema-replication"><a aria-hidden="true" tabindex="-1" href="#schema-replication"><span class="icon icon-link"></span></a>Schema Replication</h2>
 <p>In a distributed system, every peer could be running a different version of your software. This makes schemas all the more important. By having you data schematized, we can understand which clients and which pieces of data are ahead or behind in terms of data format.</p>
-<p>A peer whose data format is behind another peer's would cause problems if they tried to replicate changes to one another. One peer may have consistency rules that another does not. Or one peer may have fields removed from their schema that another has added. To combat this, <code>Aphrodite</code> pushes schema replications to auto-upgrade all peers to the greatest common version of a schema before replicating data controlled by that schema.</p>
+<p>A peer whose data format is behind another peer's would cause problems if they tried to replicate changes to one another. One peer may have consistency rules that another does not. One peer may have fields removed from their schema that another has added. To combat this, <code>Aphrodite</code> pushes schema replications to auto-upgrade all peers to the greatest common version of a schema before replicating data controlled by that schema.</p>
 <p>Schema version changes brings us to the next topic -- data migrations.</p>
 <h2 id="migrations"><a aria-hidden="true" tabindex="-1" href="#migrations"><span class="icon icon-link"></span></a>Migrations</h2>
-<p><code>Aphrdoite</code> is being built as a storage agnostic schema layer. One of the benefits of this is that all migration information is encoded into <code>Aphrodite</code> schemas.</p>
+<p>Migrations between schema versions are encoded into <code>Aphrodite</code> schemas.</p>
 <pre><code class="hljs language-js"><span class="hljs-title class_">Todo</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Node</span> {
   <span class="hljs-attr">id</span>: ID_of&#x3C;<span class="hljs-title class_">Todo</span>>
   <span class="hljs-attr">text</span>: <span class="hljs-title class_">NaturalLanguage</span>
@@ -149,8 +149,8 @@ liveCompletedTodos.<span class="hljs-title function_">subscribe</span>(<span cla
   }
 }
 </code></pre>
-<p>All migration definitions are retained so any old peer that joins a network can have their schema moved through the successive versions until it is up to date.</p>
-<p>This opens up issues for very large datasets. We have a few plans to address this:</p>
+<p>All migration definitions are retained so any peer that joins a network can have their schema moved through the successive versions until it is up to date.</p>
+<p>There are issues for very large datasets to consider as migrating billions of rows is not instant. We have a few plans to address this:</p>
 <ol>
 <li>For traditional server type deployments, allow mechanisms such as taking a db replica offline to run migrations then bringing it back online, catching it up then swapping it to master</li>
 <li>Allow migrations to be run lazily. I.e., apply the migration functions as needed as data is loaded by the application. This will only work for a subset of migration types.</li>
