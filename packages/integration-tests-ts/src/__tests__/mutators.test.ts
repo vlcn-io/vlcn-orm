@@ -6,7 +6,6 @@ import sid, { asId } from '@strut/sid';
 import spec from '../generated/UserSpec.js';
 import { destroyDb, initDb } from './testBase.js';
 import Cache from '@aphro/cache-runtime-ts';
-import User from '../generated/User.js';
 import UserQuery from '../generated/UserQuery.js';
 const device = 'sdf';
 

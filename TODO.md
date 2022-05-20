@@ -1,3 +1,7 @@
+# 5/19
+- Enable references to uncreated things for mutations.
+- Creation and update mutation should never return null on optomistic
+
 # 5/16
 
 - incorporate zod for schemas and test generation?
