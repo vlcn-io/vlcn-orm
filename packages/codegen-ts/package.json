@@ -1,15 +1,15 @@
 {
   "name": "@aphro/codegen-ts",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@aphro/codegen": "^0.0.3",
-    "@aphro/codegen-api": "^0.0.3",
-    "@aphro/schema": "^0.0.3",
-    "@aphro/schema-api": "^0.0.3",
-    "@strut/counter": "^0.0.3",
-    "@strut/utils": "^0.0.3",
+    "@aphro/codegen": "workspace:*",
+    "@aphro/codegen-api": "workspace:*",
+    "@aphro/schema": "workspace:*",
+    "@aphro/schema-api": "workspace:*",
+    "@strut/counter": "workspace:*",
+    "@strut/utils": "workspace:*",
     "knex": "^2.0.0",
     "md5": "^2.3.0",
     "prettier": "^2.5.1"

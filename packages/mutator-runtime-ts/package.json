@@ -1,14 +1,14 @@
 {
   "name": "@aphro/mutator-runtime-ts",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@aphro/context-runtime-ts": "^0.0.3",
-    "@aphro/model-runtime-ts": "^0.0.3",
-    "@aphro/schema-api": "^0.0.3",
-    "@strut/utils": "^0.0.3",
-    "@strut/sid": "^0.0.3"
+    "@aphro/context-runtime-ts": "workspace:*",
+    "@aphro/model-runtime-ts": "workspace:*",
+    "@aphro/schema-api": "workspace:*",
+    "@strut/utils": "workspace:*",
+    "@strut/sid": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^4.6.4"

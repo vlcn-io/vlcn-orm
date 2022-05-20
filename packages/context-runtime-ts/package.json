@@ -1,13 +1,13 @@
 {
   "name": "@aphro/context-runtime-ts",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@aphro/schema-api": "^0.0.3",
-    "@aphro/cache-runtime-ts": "^0.0.3",
-    "@strut/utils": "^0.0.3",
-    "@strut/sid": "^0.0.3",
+    "@aphro/schema-api": "workspace:*",
+    "@aphro/cache-runtime-ts": "workspace:*",
+    "@strut/utils": "workspace:*",
+    "@strut/sid": "workspace:*",
     "knex": "^2.0.0"
   },
   "devDependencies": {

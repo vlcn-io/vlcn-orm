@@ -10,17 +10,17 @@
     "tcheck": "tsc --noemit"
   },
   "dependencies": {
-    "@aphro/query-runtime-ts": "^0.0.3",
-    "@aphro/model-runtime-ts": "^0.0.3",
-    "@aphro/context-runtime-ts": "^0.0.3",
-    "@aphro/cache-runtime-ts": "^0.0.3",
-    "@aphro/mutator-runtime-ts": "^0.0.3",
+    "@aphro/query-runtime-ts": "workspace:*",
+    "@aphro/model-runtime-ts": "workspace:*",
+    "@aphro/context-runtime-ts": "workspace:*",
+    "@aphro/cache-runtime-ts": "workspace:*",
+    "@aphro/mutator-runtime-ts": "workspace:*",
     "@jlongster/sql.js": "^1.6.7",
-    "@strut/sid": "^0.0.3",
+    "@strut/sid": "workspace:*",
     "absurd-sql": "^0.0.46"
   },
   "devDependencies": {
-    "@aphro/codegen-cli": "^0.0.3",
+    "@aphro/codegen-cli": "workspace:*",
     "html-webpack-plugin": "^5.3.2",
     "raw-loader": "^4.0.2",
     "webpack": "^5.50.0",

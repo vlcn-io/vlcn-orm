@@ -1,10 +1,10 @@
 {
   "name": "@aphro/codegen-api",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@aphro/schema-api": "^0.0.3"
+    "@aphro/schema-api": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^4.6.4"

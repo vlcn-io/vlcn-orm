@@ -1,11 +1,11 @@
 {
   "name": "@aphro/cache-runtime-ts",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@strut/sid": "^0.0.3",
-    "@strut/utils": "^0.0.3"
+    "@strut/sid": "workspace:*",
+    "@strut/utils": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",

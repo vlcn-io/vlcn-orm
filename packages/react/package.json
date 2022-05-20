@@ -1,14 +1,14 @@
 {
   "name": "@aphro/react",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@aphro/model-runtime-ts": "^0.0.3",
-    "@strut/counter": "^0.0.3",
-    "@strut/events": "^0.0.3",
-    "@strut/sid": "^0.0.3",
-    "@strut/utils": "^0.0.3",
+    "@aphro/model-runtime-ts": "workspace:*",
+    "@strut/counter": "workspace:*",
+    "@strut/events": "workspace:*",
+    "@strut/sid": "workspace:*",
+    "@strut/utils": "workspace:*",
     "react": "^18.1.0"
   },
   "devDependencies": {
