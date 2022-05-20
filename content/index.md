@@ -204,4 +204,4 @@ Write rules can be added to allow peers to reject incoming changes to data they 
 
 It **is not** ready for release.
 
-Integration tests to show the various described use cases are being built out here: [https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/__tests__/mutators.test.ts](https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/__tests__/mutators.test.ts) (and up a dir)
+Integration tests to show the various described use cases are being built out here: [https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/__tests__/declared-mutations.test.ts](https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/__tests__/declared-mutations.test.ts) (and up a dir)
