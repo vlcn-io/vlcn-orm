@@ -1,10 +1,10 @@
 {
   "name": "@aphro/grammar-extension-api",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@aphro/schema-api": "workapsace*",
+    "@aphro/schema-api": "workspace:*",
     "ohm-js": "^16.3.4"
   },
   "devDependencies": {
