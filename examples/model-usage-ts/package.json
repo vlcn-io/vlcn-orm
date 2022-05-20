@@ -1,6 +1,7 @@
 {
   "name": "@aphro/model-usage-ts",
   "version": "0.0.1",
+  "private": true,
   "type": "module",
   "dependencies": {
     "@aphro/context-runtime-ts": "workspace:*",
