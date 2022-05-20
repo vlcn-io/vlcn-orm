@@ -4,10 +4,10 @@
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@aphro/schema-api": "workspace:*",
-    "@aphro/cache-runtime-ts": "workspace:*",
-    "@strut/utils": "workspace:*",
-    "@strut/sid": "workspace:*",
+    "@aphro/schema-api": "^0.0.3",
+    "@aphro/cache-runtime-ts": "^0.0.3",
+    "@strut/utils": "^0.0.3",
+    "@strut/sid": "^0.0.3",
     "knex": "^2.0.0"
   },
   "devDependencies": {

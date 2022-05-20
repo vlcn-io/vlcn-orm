@@ -4,11 +4,11 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@aphro/context-runtime-ts": "workspace:*",
-    "@aphro/model-runtime-ts": "workspace:*",
-    "@aphro/mutator-runtime-ts": "workspace:*",
-    "@aphro/query-runtime-ts": "workspace:*",
-    "@strut/sid": "workspace:*",
+    "@aphro/context-runtime-ts": "^0.0.3",
+    "@aphro/model-runtime-ts": "^0.0.3",
+    "@aphro/mutator-runtime-ts": "^0.0.3",
+    "@aphro/query-runtime-ts": "^0.0.3",
+    "@strut/sid": "^0.0.3",
     "@vscode/sqlite3": "^5.0.8",
     "class-validator": "^0.13.2",
     "graphql": "^16.4.0",
@@ -16,7 +16,7 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@aphro/codegen-cli": "workspace:*",
+    "@aphro/codegen-cli": "^0.0.3",
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
     "@types/jest": "^27.4.1",

@@ -4,12 +4,12 @@
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@aphro/codegen-api": "workspace:*",
-    "@aphro/schema": "workspace:*",
-    "@aphro/schema-api": "workspace:*",
-    "@strut/counter": "workspace:*",
-    "@strut/sid": "workspace:*",
-    "@strut/utils": "workspace:*",
+    "@aphro/codegen-api": "^0.0.3",
+    "@aphro/schema": "^0.0.3",
+    "@aphro/schema-api": "^0.0.3",
+    "@strut/counter": "^0.0.3",
+    "@strut/sid": "^0.0.3",
+    "@strut/utils": "^0.0.3",
     "md5": "^2.3.0"
   },
   "devDependencies": {

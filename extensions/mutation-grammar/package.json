@@ -4,9 +4,9 @@
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@aphro/grammar-extension-api": "workspace:*",
-    "@aphro/schema": "workspace:*",
-    "@aphro/schema-api": "workspace:*"
+    "@aphro/grammar-extension-api": "^0.0.3",
+    "@aphro/schema": "^0.0.3",
+    "@aphro/schema-api": "^0.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",

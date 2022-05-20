@@ -4,7 +4,7 @@
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@aphro/schema-api": "workspace:*"
+    "@aphro/schema-api": "^0.0.3"
   },
   "devDependencies": {
     "typescript": "^4.6.4"

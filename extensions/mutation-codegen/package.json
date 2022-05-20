@@ -4,11 +4,11 @@
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@aphro/codegen-api": "workspace:*",
-    "@aphro/codegen-ts": "workspace:*",
-    "@aphro/mutation-grammar": "workspace:*",
-    "@aphro/schema": "workspace:*",
-    "@aphro/schema-api": "workspace:*"
+    "@aphro/codegen-api": "^0.0.3",
+    "@aphro/codegen-ts": "^0.0.3",
+    "@aphro/mutation-grammar": "^0.0.3",
+    "@aphro/schema": "^0.0.3",
+    "@aphro/schema-api": "^0.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
