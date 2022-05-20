@@ -157,7 +157,7 @@ importers:
       '@strut/utils': 0.0.1
       typescript: ^4.6.4
     dependencies:
-      '@strut/utils': link:../utils
+      '@strut/utils': 0.0.1
     devDependencies:
       typescript: 4.6.4
 
@@ -3115,6 +3115,10 @@ packages:
     dependencies:
       '@sinonjs/commons': 1.8.3
     dev: true
+
+  /@strut/utils/0.0.1:
+    resolution: {integrity: sha512-O0XZcpPJG2QW3t33HL1HI742v7Kr01GYEduOuM78+KqHR7mFNrMsfpkcka8jQ+axKhoFDyW4zAFTpJUj2F8TZw==}
+    dev: false
 
   /@tootallnate/once/1.1.2:
     resolution: {integrity: sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==}
