@@ -1,6 +1,6 @@
 {
   "name": "@aphro/codegen-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "bin/cli.js",
   "type": "module",
   "bin": {
