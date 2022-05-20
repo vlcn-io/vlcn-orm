@@ -4,8 +4,8 @@
   "main": "lib/index.js",
   "type": "module",
   "dependencies": {
-    "@strut/sid": "workspace:*",
-    "@strut/utils": "workspace:*"
+    "@strut/sid": "^0.0.3",
+    "@strut/utils": "^0.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
