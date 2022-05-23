@@ -11,14 +11,13 @@ beforeAll(async () => {
 });
 
 test('Creating models via declared mutations', () => {
-  // TODO: should not return null
   // TODO: collapse create?
   const [user, _] = UserMutations.creation(ctx).create({ name: 'Bill' }).save();
   // TODO: enable refs so we can use an uncreated user.
   const [deck, __] = DeckMutations.creation(ctx)
     .create({
       name: 'First Presentation',
-      owner: user as User,
+      owner: user,
       selectedSlide: null,
     })
     .save();

@@ -10,10 +10,10 @@ export default abstract class MutationsBase<M extends IModel<D>, D extends Objec
     this.ctx = ctx;
   }
 
-  save(): [M | null, Promise<void>] {
+  save(): [M, Promise<void>] {
     const cs = this.mutator.toChangeset();
     const [optimistic, persist] = commit(this.ctx, [cs]);
-    return [optimistic.nodes.get(cs.id), persist];
+    return [optimistic.nodes.getx(cs.id), persist];
   }
 
   // TODO: saveAndReturn ...
