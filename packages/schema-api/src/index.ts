@@ -228,10 +228,23 @@ type Time = {
   type: 'timestamp';
 } & FieldBase;
 
+export const primitives = [
+  'bool',
+  'int32',
+  'int64',
+  'float32',
+  'float64',
+  'uint32',
+  'uint64',
+  'string',
+  'null',
+] as const;
+
+export type PrimitiveSubtype = typeof primitives[number];
 type Primitive = {
   name: string;
   type: 'primitive';
-  subtype: 'bool' | 'int32' | 'int64' | 'float32' | 'float64' | 'uint32' | 'uint64' | 'string';
+  subtype: PrimitiveSubtype;
 } & FieldBase;
 
 type MapField = {
@@ -291,7 +304,8 @@ export type TypeAtom =
   | {
       type: 'intersection';
     }
-  | { type: 'union' };
+  | { type: 'union' }
+  | { type: 'primitive'; subtype: PrimitiveSubtype };
 
 type Storage = {
   name: 'storage';

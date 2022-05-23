@@ -47,11 +47,11 @@ ${this.getCode()}
         return new ${this.schema.name}Mutations(model.ctx, new UpdateMutationBuilder(spec, model))
       }
 
-      static create(ctx: Context) {
+      static creation(ctx: Context) {
         return new ${this.schema.name}Mutations(ctx, new CreateMutationBuilder(spec));
       }
 
-      static delete(model: ${this.schema.name}) {
+      static deletion(model: ${this.schema.name}) {
         return new ${this.schema.name}Mutations(model.ctx, new DeleteMutationBuilder(spec, model));
       }
 
@@ -93,8 +93,15 @@ ${this.getCode()}
     const fullArgsDefs = Object.values(args).map(a =>
       mutationFn.transformMaybeQuickToFull(this.schema, a),
     );
+
     const type =
-      '{' + fullArgsDefs.map(a => a.name + ': ' + typeDefToTsType(a.typeDef)).join(',') + '}';
+      '{' +
+      fullArgsDefs
+        .map(a => {
+          return a.name + ': ' + typeDefToTsType(a.typeDef);
+        })
+        .join(',') +
+      '}';
     const destructure = '{' + fullArgsDefs.map(a => a.name).join(',') + '}';
     return `${destructure}: ${type}`;
   }

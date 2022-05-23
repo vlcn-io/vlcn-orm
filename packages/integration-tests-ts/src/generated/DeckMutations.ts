@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4f6075669d2aa4edbe40dacfd442afb6>
+// SIGNED-SOURCE: <b27b8435f56d3275799a165e85cb9227>
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -23,11 +23,11 @@ export default class DeckMutations extends MutationsBase<Deck, Data> {
     return new DeckMutations(model.ctx, new UpdateMutationBuilder(spec, model));
   }
 
-  static create(ctx: Context) {
+  static creation(ctx: Context) {
     return new DeckMutations(ctx, new CreateMutationBuilder(spec));
   }
 
-  static delete(model: Deck) {
+  static deletion(model: Deck) {
     return new DeckMutations(model.ctx, new DeleteMutationBuilder(spec, model));
   }
 

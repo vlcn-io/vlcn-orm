@@ -1,6 +1,8 @@
 engine: sqlite
 db: example
 
+# `#` commented with some theoretical future additions.
+
 User as Node {
   id: ID<User>
   name: NaturalLanguage # & UserGenerated -- fields filled by users
@@ -11,11 +13,13 @@ User as Node {
 } & Mutations {
   create {
     name
-  } # & RateLimit { .. rate limit config .. }
+  } # & RateLimit { .. theoretical future rate limit config .. }
 
   delete {}
-} # & Visibility {} -- this refers to ability of users to _see_ the thing
-# & Computability {} -- this refers to the ability of execution contexts to consume the thing
+}
+# Theoretical extensions
+# & Visibility {} -- this refers to ability of users to _see_ the thing
+# & Computability {} -- theoretical reference to the ability of execution contexts to consume the thing
 # & GraphQL {} -- expose what things to GraphQL clients
 #  ^-- do we even need? If we allow clients to query in our generated query language
 #    then we can just persist their plans and use those as our APIs

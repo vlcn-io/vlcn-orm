@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <ef941b75461914f12b7b20f10a5af224>
+// SIGNED-SOURCE: <f76a3095c6d8cd17142128d8d727daa6>
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -25,11 +25,11 @@ export default class SlideMutations extends MutationsBase<Slide, Data> {
     );
   }
 
-  static create(ctx: Context) {
+  static creation(ctx: Context) {
     return new SlideMutations(ctx, new CreateMutationBuilder(spec));
   }
 
-  static delete(model: Slide) {
+  static deletion(model: Slide) {
     return new SlideMutations(
       model.ctx,
       new DeleteMutationBuilder(spec, model)

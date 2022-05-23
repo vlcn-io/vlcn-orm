@@ -1,5 +1,6 @@
 import { Field, Import, RemoveNameField, TypeAtom } from '@aphro/schema-api';
 import { uniqueImports } from '@aphro/codegen';
+import { assertUnreachable } from '@strut/utils';
 
 export function fieldToTsType(field: RemoveNameField<Field>): string {
   switch (field.type) {
@@ -26,6 +27,10 @@ export function fieldToTsType(field: RemoveNameField<Field>): string {
         case 'uint64':
         case 'string':
           return 'string';
+        case 'null':
+          return 'null';
+        default:
+          assertUnreachable(field.subtype);
       }
     case 'map':
       return `ReadonlyMap<${fieldToTsType(field.keys)}, ${fieldToTsType(field.values)}>`;
@@ -38,15 +43,21 @@ export function fieldToTsType(field: RemoveNameField<Field>): string {
 
 export function typeDefToTsType(def: TypeAtom[]): string {
   return def
-    .map(a =>
-      a.type === 'union'
-        ? '|'
-        : a.type === 'intersection'
-        ? '&'
-        : typeof a.name === 'string'
-        ? a.name
-        : fieldToTsType(a.name),
-    )
+    .map(a => {
+      switch (a.type) {
+        case 'union':
+          return '|';
+        case 'intersection':
+          return '&';
+        case 'primitive':
+          return a.subtype;
+        case 'type':
+          if (typeof a.name === 'string') {
+            return a.name;
+          }
+          return fieldToTsType(a.name);
+      }
+    })
     .join(' ');
 }
 

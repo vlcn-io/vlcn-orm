@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <091bbd164ed5d281794183d987cbcb3d>
+// SIGNED-SOURCE: <329e9df8fbf3132ae2d1495facce84c3>
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -25,11 +25,11 @@ export default class ComponentMutations extends MutationsBase<Component, Data> {
     );
   }
 
-  static create(ctx: Context) {
+  static creation(ctx: Context) {
     return new ComponentMutations(ctx, new CreateMutationBuilder(spec));
   }
 
-  static delete(model: Component) {
+  static deletion(model: Component) {
     return new ComponentMutations(
       model.ctx,
       new DeleteMutationBuilder(spec, model)

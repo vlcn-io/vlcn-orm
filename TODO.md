@@ -1,4 +1,5 @@
 # 5/22
+- Discord setup
 - hop queries e2e test
 - devex on returns from mutations
 - Revisit log and tail infra for persistence
