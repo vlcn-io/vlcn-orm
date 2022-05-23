@@ -25,15 +25,15 @@ test('All primitive field references can be used as inputs', () => {
       ALGOL_TEMPLATE,
     );
 
-    expect(contents).toEqual(`import { ICreateOrUpdateBuilder } from \"@aphro/runtime-ts\";
-import { Context } from \"@aphro/runtime-ts\";
-import { MutationsBase } from \"@aphro/runtime-ts\";
-import Foo from \"./Foo.js\";
-import { default as spec } from \"./FooSpec.js\";
-import { Data } from \"./Foo.js\";
-import { UpdateMutationBuilder } from \"@aphro/runtime-ts\";
-import { CreateMutationBuilder } from \"@aphro/runtime-ts\";
-import { DeleteMutationBuilder } from \"@aphro/runtime-ts\";
+    expect(contents).toEqual(`import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
+import { Context } from "@aphro/runtime-ts";
+import { MutationsBase } from "@aphro/runtime-ts";
+import Foo from "./Foo.js";
+import { default as spec } from "./FooSpec.js";
+import { Data } from "./Foo.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 
 export default class FooMutations extends MutationsBase<Foo, Data> {
   private constructor(
@@ -63,6 +63,124 @@ export default class FooMutations extends MutationsBase<Foo, Data> {
 }
 `);
   });
+});
+
+test('All primitive types can be used as custom inputs', () => {
+  primitives.forEach(primitive => {
+    const schema = `
+      Foo as Node {
+      } & Mutations {
+        create {
+          customField: ${primitive}
+        }
+      }
+    `;
+    const contents = removeSignature(
+      genIt(compileFromString(schema)[1].nodes.Foo).contents,
+      ALGOL_TEMPLATE,
+    );
+
+    expect(contents).toEqual(`import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
+import { Context } from "@aphro/runtime-ts";
+import { MutationsBase } from "@aphro/runtime-ts";
+import Foo from "./Foo.js";
+import { default as spec } from "./FooSpec.js";
+import { Data } from "./Foo.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+
+export default class FooMutations extends MutationsBase<Foo, Data> {
+  private constructor(
+    ctx: Context,
+    mutator: ICreateOrUpdateBuilder<Foo, Data>
+  ) {
+    super(ctx, mutator);
+  }
+
+  static update(model: Foo) {
+    return new FooMutations(model.ctx, new UpdateMutationBuilder(spec, model));
+  }
+
+  static creation(ctx: Context) {
+    return new FooMutations(ctx, new CreateMutationBuilder(spec));
+  }
+
+  static deletion(model: Foo) {
+    return new FooMutations(model.ctx, new DeleteMutationBuilder(spec, model));
+  }
+
+  create({ customField }: { customField: ${asTsType(primitive)} }): this {
+    // BEGIN-MANUAL-SECTION
+    // END-MANUAL-SECTION
+    return this;
+  }
+}
+`);
+  });
+});
+
+test('All composite types can be used as inputs', () => {});
+
+test('Node type names can be used as inputs', () => {
+  fc.assert(
+    fc.property(
+      fc.stringOf(fc.constantFrom('a', 'b', 'c', 'd', 'e'), { maxLength: 6, minLength: 1 }),
+      customName => {
+        const schema = `
+        Foo as Node {
+        } & Mutations {
+          create {
+            customField: ${customName}
+          }
+        }
+      `;
+        const contents = removeSignature(
+          genIt(compileFromString(schema)[1].nodes.Foo).contents,
+          ALGOL_TEMPLATE,
+        );
+
+        expect(contents).toEqual(`import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
+import { Context } from "@aphro/runtime-ts";
+import { MutationsBase } from "@aphro/runtime-ts";
+import Foo from "./Foo.js";
+import { default as spec } from "./FooSpec.js";
+import { Data } from "./Foo.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import ${customName} from "./${customName}.js";
+
+export default class FooMutations extends MutationsBase<Foo, Data> {
+  private constructor(
+    ctx: Context,
+    mutator: ICreateOrUpdateBuilder<Foo, Data>
+  ) {
+    super(ctx, mutator);
+  }
+
+  static update(model: Foo) {
+    return new FooMutations(model.ctx, new UpdateMutationBuilder(spec, model));
+  }
+
+  static creation(ctx: Context) {
+    return new FooMutations(ctx, new CreateMutationBuilder(spec));
+  }
+
+  static deletion(model: Foo) {
+    return new FooMutations(model.ctx, new DeleteMutationBuilder(spec, model));
+  }
+
+  create({ customField }: { customField: ${customName} }): this {
+    // BEGIN-MANUAL-SECTION
+    // END-MANUAL-SECTION
+    return this;
+  }
+}
+`);
+      },
+    ),
+  );
 });
 
 function genIt(schema: Node) {
