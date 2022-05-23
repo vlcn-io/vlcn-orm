@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig-templates/lib.json",
+  "compilerOptions": {
+    "outDir": "./lib/",
+    "rootDir": "./src"
+  },
+  "include": ["./src/"],
+  "references": [
+    { "path": "../cache-runtime-ts" },
+    { "path": "../context-runtime-ts" },
+    { "path": "../model-runtime-ts" },
+    { "path": "../mutator-runtime-ts" },
+    { "path": "../query-runtime-ts" }
+  ]
+}

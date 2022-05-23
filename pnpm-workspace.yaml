@@ -19,6 +19,7 @@ packages:
   - 'packages/mutator-runtime-ts'
   - 'packages/query-runtime-ts'
   - 'packages/react'
+  - 'packages/runtime-ts'
   - 'packages/schema'
   - 'packages/schema-api'
   - 'packages/vscode'

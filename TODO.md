@@ -1,3 +1,7 @@
+# 5/22
+- sqljs knex poc - https://github.com/gammaql/greldal/blob/20f65226256ec217ea056bf7e0c1eca48b5bb721/src/docs/utils/SQLJSClient.js
+  - https://gammaql.github.io/greldal/playground
+
 # 5/19
 - Enable references to uncreated things for mutations.
 - Creation and update mutation should never return null on optomistic
