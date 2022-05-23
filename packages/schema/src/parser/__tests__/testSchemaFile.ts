@@ -42,6 +42,10 @@ Transaction as Node {
   blobOfBlob: Map<string, Map<string, string>>
   list: Array<string>
 }
+
+Pig as Node {
+  optional: string | null
+}
 `;
 
 export const ast: SchemaFileAst = {
@@ -256,6 +260,19 @@ export const ast: SchemaFileAst = {
       ],
       extensions: [],
     },
+    {
+      type: 'node',
+      name: 'Pig',
+      fields: [
+        {
+          name: 'optional',
+          type: 'primitive',
+          subtype: 'string',
+          nullable: true,
+        },
+      ],
+      extensions: [],
+    },
   ],
 };
 
@@ -461,6 +478,25 @@ export const schemaFile: SchemaFile = {
         engine: 'postgres',
         db: 'test',
         tablish: 'transaction',
+      },
+    },
+    Pig: {
+      name: 'Pig',
+      primaryKey: 'id',
+      fields: {
+        optional: {
+          name: 'optional',
+          nullable: true,
+          subtype: 'string',
+          type: 'primitive',
+        },
+      },
+      extensions: {},
+      storage: {
+        type: 'sql',
+        engine: 'postgres',
+        db: 'test',
+        tablish: 'pig',
       },
     },
   },

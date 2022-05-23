@@ -84,12 +84,12 @@ export function createParser(config: Config = {}) {
       const typeExpr = type.toAst();
       let pulledType = typeExpr[0].name;
       if (typeExpr.length > 1) {
-        if (typeExpr[1] !== 'union') {
+        if (typeExpr[1].type !== 'union') {
           throw new Error('Field types can only be unioned at this time');
         }
-        if (typeExpr[0].subtype === 'null') {
+        if (typeExpr[0].name.subtype === 'null') {
           pulledType = typeExpr[2].name;
-        } else if (typeExpr[2].subtype === 'null') {
+        } else if (typeExpr[2].name.subtype === 'null') {
           pulledType = typeExpr[0].name;
         } else {
           throw new Error('Field types can only be a unioned with null at this time');

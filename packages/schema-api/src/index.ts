@@ -197,7 +197,7 @@ type MaybeDecoratored = {
 type FieldBase = {
   decorators?: string[];
   description?: string;
-  isRequired?: boolean;
+  nullable?: boolean;
 };
 
 export type ID = {
