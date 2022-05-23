@@ -1,11 +1,15 @@
-import { Context } from '@aphro/context-runtime-ts';
-import { context } from '@aphro/context-runtime-ts';
-import { viewer } from '@aphro/context-runtime-ts';
-import { commit, CreateMutationBuilder } from '@aphro/mutator-runtime-ts';
-import sid, { asId } from '@strut/sid';
+import {
+  Context,
+  context,
+  viewer,
+  commit,
+  CreateMutationBuilder,
+  asId,
+  sid,
+  Cache,
+} from '@aphro/runtime-ts';
 import spec from '../generated/UserSpec.js';
 import { destroyDb, initDb } from './testBase.js';
-import Cache from '@aphro/cache-runtime-ts';
 import UserQuery from '../generated/UserQuery.js';
 const device = 'sdf';
 

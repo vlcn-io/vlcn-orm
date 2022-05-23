@@ -1,6 +1,6 @@
 import { nullthrows } from '@strut/utils';
 import knex from 'knex';
-import { DBResolver } from '@aphro/context-runtime-ts';
+import { DBResolver } from '@aphro/runtime-ts';
 
 function createDb() {
   return knex({

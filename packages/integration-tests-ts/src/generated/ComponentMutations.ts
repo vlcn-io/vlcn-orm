@@ -1,13 +1,13 @@
-// SIGNED-SOURCE: <794e1cd24ee78d361e11bcc5f802d1d9>
-import { ICreateOrUpdateBuilder } from "@aphro/mutator-runtime-ts";
-import { Context } from "@aphro/context-runtime-ts";
-import { MutationsBase } from "@aphro/mutator-runtime-ts";
+// SIGNED-SOURCE: <091bbd164ed5d281794183d987cbcb3d>
+import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
+import { Context } from "@aphro/runtime-ts";
+import { MutationsBase } from "@aphro/runtime-ts";
 import Component from "./Component.js";
 import { default as spec } from "./ComponentSpec.js";
 import { Data } from "./Component.js";
-import { UpdateMutationBuilder } from "@aphro/mutator-runtime-ts";
-import { CreateMutationBuilder } from "@aphro/mutator-runtime-ts";
-import { DeleteMutationBuilder } from "@aphro/mutator-runtime-ts";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import Slide from "./Slide.js";
 
 export default class ComponentMutations extends MutationsBase<Component, Data> {

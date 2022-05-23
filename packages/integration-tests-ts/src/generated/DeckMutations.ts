@@ -1,13 +1,13 @@
-// SIGNED-SOURCE: <7d0d25f25f11886b40ae35917416132c>
-import { ICreateOrUpdateBuilder } from "@aphro/mutator-runtime-ts";
-import { Context } from "@aphro/context-runtime-ts";
-import { MutationsBase } from "@aphro/mutator-runtime-ts";
+// SIGNED-SOURCE: <4f6075669d2aa4edbe40dacfd442afb6>
+import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
+import { Context } from "@aphro/runtime-ts";
+import { MutationsBase } from "@aphro/runtime-ts";
 import Deck from "./Deck.js";
 import { default as spec } from "./DeckSpec.js";
 import { Data } from "./Deck.js";
-import { UpdateMutationBuilder } from "@aphro/mutator-runtime-ts";
-import { CreateMutationBuilder } from "@aphro/mutator-runtime-ts";
-import { DeleteMutationBuilder } from "@aphro/mutator-runtime-ts";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import User from "./User.js";
 import Slide from "./Slide.js";
 

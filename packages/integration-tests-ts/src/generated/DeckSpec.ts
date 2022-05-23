@@ -1,6 +1,6 @@
-// SIGNED-SOURCE: <e96d46c59c8be87fd599a73bfbfdd893>
-import { Context } from "@aphro/context-runtime-ts";
-import { ModelSpec } from "@aphro/model-runtime-ts";
+// SIGNED-SOURCE: <015cc2e78232d09b224a3a67db78cb61>
+import { Context } from "@aphro/runtime-ts";
+import { ModelSpec } from "@aphro/runtime-ts";
 import { default as UserSpec } from "./UserSpec.js";
 import { default as SlideSpec } from "./SlideSpec.js";
 import Deck from "./Deck.js";

@@ -1,13 +1,13 @@
-// SIGNED-SOURCE: <2a4295d19d5d6822973f670b1a1f8af2>
-import { ICreateOrUpdateBuilder } from "@aphro/mutator-runtime-ts";
-import { Context } from "@aphro/context-runtime-ts";
-import { MutationsBase } from "@aphro/mutator-runtime-ts";
+// SIGNED-SOURCE: <ef941b75461914f12b7b20f10a5af224>
+import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
+import { Context } from "@aphro/runtime-ts";
+import { MutationsBase } from "@aphro/runtime-ts";
 import Slide from "./Slide.js";
 import { default as spec } from "./SlideSpec.js";
 import { Data } from "./Slide.js";
-import { UpdateMutationBuilder } from "@aphro/mutator-runtime-ts";
-import { CreateMutationBuilder } from "@aphro/mutator-runtime-ts";
-import { DeleteMutationBuilder } from "@aphro/mutator-runtime-ts";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import Deck from "./Deck.js";
 
 export default class SlideMutations extends MutationsBase<Slide, Data> {

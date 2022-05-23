@@ -1,14 +1,14 @@
-// SIGNED-SOURCE: <da1eb71575386b14178d5fb92a990409>
-import { default as s } from "./ComponentSpec.js";
-import { P } from "@aphro/query-runtime-ts";
-import { Model } from "@aphro/model-runtime-ts";
-import { ModelSpec } from "@aphro/model-runtime-ts";
-import { SID_of } from "@strut/sid";
-import Slide from "./Slide.js";
+// SIGNED-SOURCE: <7f2b7385956b48877d69a04f9116b39b>
+import { default as s } from './ComponentSpec.js';
+import { P } from '@aphro/runtime-ts';
+import { Model } from '@aphro/runtime-ts';
+import { ModelSpec } from '@aphro/runtime-ts';
+import { SID_of } from '@aphro/runtime-ts';
+import Slide from './Slide.js';
 
 export type Data = {
   id: SID_of<Component>;
-  subtype: "Text" | "Embed";
+  subtype: 'Text' | 'Embed';
   slideId: SID_of<Slide>;
   content: string;
 };
@@ -20,7 +20,7 @@ export default class Component extends Model<Data> {
     return this.data.id as SID_of<this>;
   }
 
-  get subtype(): "Text" | "Embed" {
+  get subtype(): 'Text' | 'Embed' {
     return this.data.subtype;
   }
 

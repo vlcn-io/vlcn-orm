@@ -1,6 +1,6 @@
-// SIGNED-SOURCE: <a44adc6c2fc473a7a762355c50218706>
-import { Context } from "@aphro/context-runtime-ts";
-import { ModelSpec } from "@aphro/model-runtime-ts";
+// SIGNED-SOURCE: <018e14a28fc8b5d5f4c4016615866e92>
+import { Context } from "@aphro/runtime-ts";
+import { ModelSpec } from "@aphro/runtime-ts";
 import { default as ComponentSpec } from "./ComponentSpec.js";
 import Slide from "./Slide.js";
 import { Data } from "./Slide.js";

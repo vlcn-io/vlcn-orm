@@ -419,15 +419,10 @@ importers:
 
   packages/integration-tests-ts:
     specifiers:
-      '@aphro/cache-runtime-ts': workspace:*
       '@aphro/codegen-cli': workspace:*
-      '@aphro/context-runtime-ts': workspace:*
-      '@aphro/model-runtime-ts': workspace:*
-      '@aphro/mutator-runtime-ts': workspace:*
-      '@aphro/query-runtime-ts': workspace:*
+      '@aphro/runtime-ts': workspace:*
       '@babel/core': ^7.17.12
       '@babel/preset-env': ^7.17.12
-      '@strut/sid': workspace:*
       '@strut/utils': workspace:*
       '@types/jest': ^27.4.1
       jest: ^28.1.0
@@ -436,12 +431,7 @@ importers:
       ts-jest: ^28.0.1
       typescript: ^4.6.4
     dependencies:
-      '@aphro/cache-runtime-ts': link:../cache-runtime-ts
-      '@aphro/context-runtime-ts': link:../context-runtime-ts
-      '@aphro/model-runtime-ts': link:../model-runtime-ts
-      '@aphro/mutator-runtime-ts': link:../mutator-runtime-ts
-      '@aphro/query-runtime-ts': link:../query-runtime-ts
-      '@strut/sid': link:../../mono/typescript/packages/sid
+      '@aphro/runtime-ts': link:../runtime-ts
       '@strut/utils': link:../../mono/typescript/packages/utils
       knex: 2.0.0_sqlite3@5.0.8
       sqlite3: 5.0.8

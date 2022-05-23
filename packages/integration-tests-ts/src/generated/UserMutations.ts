@@ -1,13 +1,13 @@
-// SIGNED-SOURCE: <7c0113515d60d15235b704978ab41806>
-import { ICreateOrUpdateBuilder } from "@aphro/mutator-runtime-ts";
-import { Context } from "@aphro/context-runtime-ts";
-import { MutationsBase } from "@aphro/mutator-runtime-ts";
+// SIGNED-SOURCE: <1c7f4e86bb1b024183a4ddd2b43d69ea>
+import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
+import { Context } from "@aphro/runtime-ts";
+import { MutationsBase } from "@aphro/runtime-ts";
 import User from "./User.js";
 import { default as spec } from "./UserSpec.js";
 import { Data } from "./User.js";
-import { UpdateMutationBuilder } from "@aphro/mutator-runtime-ts";
-import { CreateMutationBuilder } from "@aphro/mutator-runtime-ts";
-import { DeleteMutationBuilder } from "@aphro/mutator-runtime-ts";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 
 export default class UserMutations extends MutationsBase<User, Data> {
   private constructor(
