@@ -43,7 +43,7 @@ const grammarDefinition = String.raw`
     | "" -- empty
   
   FieldDeclaration
-  	= propertyKey FieldType
+  	= propertyKey TypeExpression
   
   FieldType
   	= NonCompositeFieldType | CompositeFieldType
@@ -92,6 +92,7 @@ const grammarDefinition = String.raw`
     | "uint32"
     | "uint64"
     | "string"
+    | "null"
   
   ArrayField
   	= "Array" "<" FieldType ">"

@@ -1,6 +1,18 @@
 # 5/22
+- hop queries e2e test
+- devex on returns from mutations
+- Revisit log and tail infra for persistence
+- Actually start a transaction for your commit mutations in `persistor`
+- Preserve manual sections in partially generated code
+- Mutator devx. "create.create" :/ "delete.delete"
 - sqljs knex poc - https://github.com/gammaql/greldal/blob/20f65226256ec217ea056bf7e0c1eca48b5bb721/src/docs/utils/SQLJSClient.js
   - https://gammaql.github.io/greldal/playground
+- investigate sqlite reactivity
+- Extending available semantic types?? E.g., PhoneNumber. Does this always need to be a grammar extension or can we do something simpler?
+  - "Semantic<ArbitraryName> & Storage<StorageType>" -- what does this mean for codegen?
+  - Semantics generate type aliases? Should schema author be able to define the alias so storage doesn't have to continually
+    - be specified?
+- Anything we can leverage from json-schema? E.g., validator generation
 
 # 5/19
 - Enable references to uncreated things for mutations.
@@ -14,13 +26,11 @@
 - in spec.createFrom -- check cache first and either
   - return cached value or merge into cache and return cached value?
 - Are query all methods re-hydrating the cache on return?
-- Preserve manual sections in partiall generated code
-- Actually start a transaction for your commit mutations in `persistor`
 - ~~TS Runtime that just includes everything needed for TS in 1 package~~
 - ~~Install cli as bin~~
-- Inject context into mutations
-- Add delete to mutations. E.g., `for` and `delete`
-- Return some ids so we can gain access to persisted models.. if so desired..
+- ~~Inject context into mutations~~
+- ~~Add delete to mutations. E.g., `for` and `delete`~~
+- ~~Return some ids so we can gain access to persisted models.. if so desired..~~
   - Mainly useful for create
   - Update is technically immediately reflected
 - Tighten up package interfaces?

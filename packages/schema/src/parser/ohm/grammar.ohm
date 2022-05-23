@@ -87,6 +87,7 @@ Aphro {
     | "uint32"
     | "uint64"
     | "string"
+    | "null"
   
   ArrayField
   	= "Array" "<" FieldType ">"
@@ -112,7 +113,7 @@ Aphro {
     | IndexFn
     | ReadPrivacyFn
     | TraitsFn
-    | MutationsFn
+    // ExtensionPoint:NodeFunction
   
   OutboundEdgesFn
   	= "OutboundEdges" "{" EdgeDeclarations "}"
