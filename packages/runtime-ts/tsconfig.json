@@ -10,6 +10,7 @@
     { "path": "../context-runtime-ts" },
     { "path": "../model-runtime-ts" },
     { "path": "../mutator-runtime-ts" },
-    { "path": "../query-runtime-ts" }
+    { "path": "../query-runtime-ts" },
+    { "path": "../../mono/typescript/packages/sid" }
   ]
 }

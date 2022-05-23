@@ -1,10 +1,12 @@
--- SIGNED-SOURCE: <13fdf6d75dee327e18b81043637c3597>
-create table "user" (
-  "id" bigint,
-  "name" varchar(255),
-  "created" bigint,
-  "modified" bigint
-);
+-- SIGNED-SOURCE: <84753de1714b86769444320eb8ea95ca>
+create table
+  "user" (
+    "id" bigint,
+    "name" varchar(255),
+    "created" bigint,
+    "modified" bigint
+  );
+
 alter table
   "user"
 add

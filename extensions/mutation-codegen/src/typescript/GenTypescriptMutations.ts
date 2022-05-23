@@ -61,16 +61,16 @@ ${this.getCode()}
 
   private collectImports(): Import[] {
     return [
-      tsImport('{ICreateOrUpdateBuilder}', null, '@aphro/mutator-runtime-ts'),
-      tsImport('{Context}', null, '@aphro/context-runtime-ts'),
-      tsImport('{MutationsBase}', null, '@aphro/mutator-runtime-ts'),
+      tsImport('{ICreateOrUpdateBuilder}', null, '@aphro/runtime-ts'),
+      tsImport('{Context}', null, '@aphro/runtime-ts'),
+      tsImport('{MutationsBase}', null, '@aphro/runtime-ts'),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
       tsImport('{default}', 'spec', `./${nodeFn.specName(this.schema.name)}.js`),
       tsImport('{Data}', null, `./${this.schema.name}.js`),
-      tsImport('{UpdateMutationBuilder}', null, '@aphro/mutator-runtime-ts'),
-      tsImport('{CreateMutationBuilder}', null, '@aphro/mutator-runtime-ts'),
-      tsImport('{DeleteMutationBuilder}', null, '@aphro/mutator-runtime-ts'),
+      tsImport('{UpdateMutationBuilder}', null, '@aphro/runtime-ts'),
+      tsImport('{CreateMutationBuilder}', null, '@aphro/runtime-ts'),
+      tsImport('{DeleteMutationBuilder}', null, '@aphro/runtime-ts'),
       ...this.collectImportsForMutations(),
     ];
   }

@@ -1,28 +1,41 @@
-// SIGNED-SOURCE: <b99750e12dbb708a7a622941d023b786>
-import { ICreateOrUpdateBuilder } from "@aphro/mutator-runtime-ts";
+// SIGNED-SOURCE: <1c7f4e86bb1b024183a4ddd2b43d69ea>
+import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
+import { Context } from "@aphro/runtime-ts";
+import { MutationsBase } from "@aphro/runtime-ts";
 import User from "./User.js";
 import { default as spec } from "./UserSpec.js";
 import { Data } from "./User.js";
-import { UpdateMutationBuilder } from "@aphro/mutator-runtime-ts";
-import { CreateMutationBuilder } from "@aphro/mutator-runtime-ts";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 
-export default class UserMutations {
-  constructor(private mutator: ICreateOrUpdateBuilder<User, Data>) {}
-
-  static for(model?: User) {
-    if (model) {
-      return new UserMutations(new UpdateMutationBuilder(spec, model));
-    }
-    return new UserMutations(new CreateMutationBuilder(spec));
+export default class UserMutations extends MutationsBase<User, Data> {
+  private constructor(
+    ctx: Context,
+    mutator: ICreateOrUpdateBuilder<User, Data>
+  ) {
+    super(ctx, mutator);
   }
 
-  create(name: string): this {
+  static update(model: User) {
+    return new UserMutations(model.ctx, new UpdateMutationBuilder(spec, model));
+  }
+
+  static create(ctx: Context) {
+    return new UserMutations(ctx, new CreateMutationBuilder(spec));
+  }
+
+  static delete(model: User) {
+    return new UserMutations(model.ctx, new DeleteMutationBuilder(spec, model));
+  }
+
+  create({ name }: { name: string }): this {
     // BEGIN-MANUAL-SECTION
     // END-MANUAL-SECTION
     return this;
   }
 
-  delete(): this {
+  delete({}: {}): this {
     // BEGIN-MANUAL-SECTION
     // END-MANUAL-SECTION
     return this;

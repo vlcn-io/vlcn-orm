@@ -45,10 +45,10 @@ export default class ${this.schema.name}
   private collectImports(): Import[] {
     return [
       tsImport('{default}', 's', './' + nodeFn.specName(this.schema.name) + '.js'),
-      tsImport('{P}', null, '@aphro/query-runtime-ts'),
-      tsImport('{Model}', null, '@aphro/model-runtime-ts'),
-      tsImport('{ModelSpec}', null, '@aphro/model-runtime-ts'),
-      tsImport('{SID_of}', null, '@strut/sid'),
+      tsImport('{P}', null, '@aphro/runtime-ts'),
+      tsImport('{Model}', null, '@aphro/runtime-ts'),
+      tsImport('{ModelSpec}', null, '@aphro/runtime-ts'),
+      tsImport('{SID_of}', null, '@aphro/runtime-ts'),
       ...(this.schema.extensions.module?.imports.values() || []),
       ...this.getEdgeImports(),
       ...this.getIdFieldImports(),

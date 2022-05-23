@@ -54,13 +54,9 @@ importers:
   examples/model-usage-ts:
     specifiers:
       '@aphro/codegen-cli': workspace:*
-      '@aphro/context-runtime-ts': workspace:*
-      '@aphro/model-runtime-ts': workspace:*
-      '@aphro/mutator-runtime-ts': workspace:*
-      '@aphro/query-runtime-ts': workspace:*
+      '@aphro/runtime-ts': workspace:*
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
-      '@strut/sid': workspace:*
       '@types/jest': ^27.4.1
       '@types/node': ^17.0.31
       '@vscode/sqlite3': ^5.0.8
@@ -74,11 +70,7 @@ importers:
       ts-jest: ^28.0.1
       typescript: ^4.6.4
     dependencies:
-      '@aphro/context-runtime-ts': link:../../packages/context-runtime-ts
-      '@aphro/model-runtime-ts': link:../../packages/model-runtime-ts
-      '@aphro/mutator-runtime-ts': link:../../packages/mutator-runtime-ts
-      '@aphro/query-runtime-ts': link:../../packages/query-runtime-ts
-      '@strut/sid': link:../../mono/typescript/packages/sid
+      '@aphro/runtime-ts': link:../../packages/runtime-ts
       '@vscode/sqlite3': 5.0.8
       class-validator: 0.13.2
       graphql: 16.4.0
@@ -589,10 +581,7 @@ importers:
       '@aphro/model-runtime-ts': workspace:*
       '@aphro/mutator-runtime-ts': workspace:*
       '@aphro/query-runtime-ts': workspace:*
-      '@strut/counter': workspace:*
-      '@strut/events': workspace:*
       '@strut/sid': workspace:*
-      '@strut/utils': workspace:*
       typescript: ^4.6.4
     dependencies:
       '@aphro/cache-runtime-ts': link:../cache-runtime-ts
@@ -600,10 +589,7 @@ importers:
       '@aphro/model-runtime-ts': link:../model-runtime-ts
       '@aphro/mutator-runtime-ts': link:../mutator-runtime-ts
       '@aphro/query-runtime-ts': link:../query-runtime-ts
-      '@strut/counter': link:../../mono/typescript/packages/counter
-      '@strut/events': link:../../mono/typescript/packages/events
       '@strut/sid': link:../../mono/typescript/packages/sid
-      '@strut/utils': link:../../mono/typescript/packages/utils
     devDependencies:
       typescript: 4.6.4
 

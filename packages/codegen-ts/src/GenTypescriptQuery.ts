@@ -56,7 +56,7 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
 
   private collectImports(): Import[] {
     return [
-      tsImport('{Context}', null, '@aphro/context-runtime-ts'),
+      tsImport('{Context}', null, '@aphro/runtime-ts'),
       ...[
         'DerivedQuery',
         'QueryFactory',
@@ -65,8 +65,8 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
         'Predicate',
         'P',
         'ModelFieldGetter',
-      ].map(i => tsImport(`{${i}}`, null, '@aphro/query-runtime-ts')),
-      tsImport('{SID_of}', null, '@strut/sid'),
+      ].map(i => tsImport(`{${i}}`, null, '@aphro/runtime-ts')),
+      tsImport('{SID_of}', null, '@aphro/runtime-ts'),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
       tsImport('{Data}', null, `./${this.schema.name}.js`),
       tsImport('{default}', 'spec', `./${nodeFn.specName(this.schema.name)}.js`),

@@ -54,8 +54,8 @@ export default spec;
 
   private collectImports(): Import[] {
     return [
-      tsImport('{Context}', null, '@aphro/context-runtime-ts'),
-      tsImport('{ModelSpec}', null, '@aphro/model-runtime-ts'),
+      tsImport('{Context}', null, '@aphro/runtime-ts'),
+      tsImport('{ModelSpec}', null, '@aphro/runtime-ts'),
       ...this.getEdgeImports(),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
       tsImport('{Data}', null, `./${this.schema.name}.js`),

@@ -11,6 +11,17 @@ export default class SqlFile implements CodegenFile {
   }
 
   get contents(): string {
-    return sign(format(this.#contents, { language: this.dialect as any }), SQL_TEMPLATE);
+    return sign(
+      format(this.#contents, { language: this.#dialectToLanguage() as any }),
+      SQL_TEMPLATE,
+    );
+  }
+
+  #dialectToLanguage() {
+    if (this.dialect === 'postgres') {
+      return 'postgresql';
+    }
+
+    return this.dialect;
   }
 }

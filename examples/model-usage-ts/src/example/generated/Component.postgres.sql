@@ -1,10 +1,12 @@
--- SIGNED-SOURCE: <e0419ab0407d038e59d8c39b0adf105e>
-create table "component" (
-  "id" bigint,
-  "subtype" varchar(255),
-  "slideId" bigint,
-  "content" text
-);
+-- SIGNED-SOURCE: <5ebb41dee80d595ed9eb7f66cdefd045>
+create table
+  "component" (
+    "id" bigint,
+    "subtype" varchar(255),
+    "slideId" bigint,
+    "content" text
+  );
+
 alter table
   "component"
 add

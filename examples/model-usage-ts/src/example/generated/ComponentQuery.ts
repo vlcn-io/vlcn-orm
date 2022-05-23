@@ -1,13 +1,13 @@
-// SIGNED-SOURCE: <8de1f2ae168431000c46f866e90d4bb5>
-import { Context } from "@aphro/context-runtime-ts";
-import { DerivedQuery } from "@aphro/query-runtime-ts";
-import { QueryFactory } from "@aphro/query-runtime-ts";
-import { modelLoad } from "@aphro/query-runtime-ts";
-import { filter } from "@aphro/query-runtime-ts";
-import { Predicate } from "@aphro/query-runtime-ts";
-import { P } from "@aphro/query-runtime-ts";
-import { ModelFieldGetter } from "@aphro/query-runtime-ts";
-import { SID_of } from "@strut/sid";
+// SIGNED-SOURCE: <a2433894506bc6b71eb19e576fba1730>
+import { Context } from "@aphro/runtime-ts";
+import { DerivedQuery } from "@aphro/runtime-ts";
+import { QueryFactory } from "@aphro/runtime-ts";
+import { modelLoad } from "@aphro/runtime-ts";
+import { filter } from "@aphro/runtime-ts";
+import { Predicate } from "@aphro/runtime-ts";
+import { P } from "@aphro/runtime-ts";
+import { ModelFieldGetter } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
 import Component from "./Component.js";
 import { Data } from "./Component.js";
 import { default as spec } from "./ComponentSpec.js";

@@ -1,29 +1,56 @@
-// SIGNED-SOURCE: <e982446922c03897e3f9dfa074b543e5>
-import { ICreateOrUpdateBuilder } from "@aphro/mutator-runtime-ts";
+// SIGNED-SOURCE: <091bbd164ed5d281794183d987cbcb3d>
+import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
+import { Context } from "@aphro/runtime-ts";
+import { MutationsBase } from "@aphro/runtime-ts";
 import Component from "./Component.js";
 import { default as spec } from "./ComponentSpec.js";
 import { Data } from "./Component.js";
-import { UpdateMutationBuilder } from "@aphro/mutator-runtime-ts";
-import { CreateMutationBuilder } from "@aphro/mutator-runtime-ts";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import Slide from "./Slide.js";
 
-export default class ComponentMutations {
-  constructor(private mutator: ICreateOrUpdateBuilder<Component, Data>) {}
-
-  static for(model?: Component) {
-    if (model) {
-      return new ComponentMutations(new UpdateMutationBuilder(spec, model));
-    }
-    return new ComponentMutations(new CreateMutationBuilder(spec));
+export default class ComponentMutations extends MutationsBase<Component, Data> {
+  private constructor(
+    ctx: Context,
+    mutator: ICreateOrUpdateBuilder<Component, Data>
+  ) {
+    super(ctx, mutator);
   }
 
-  create(subtype: "Text" | "Embed", slide: Slide, content: string): this {
+  static update(model: Component) {
+    return new ComponentMutations(
+      model.ctx,
+      new UpdateMutationBuilder(spec, model)
+    );
+  }
+
+  static create(ctx: Context) {
+    return new ComponentMutations(ctx, new CreateMutationBuilder(spec));
+  }
+
+  static delete(model: Component) {
+    return new ComponentMutations(
+      model.ctx,
+      new DeleteMutationBuilder(spec, model)
+    );
+  }
+
+  create({
+    subtype,
+    slide,
+    content,
+  }: {
+    subtype: "Text" | "Embed";
+    slide: Slide;
+    content: string;
+  }): this {
     // BEGIN-MANUAL-SECTION
     // END-MANUAL-SECTION
     return this;
   }
 
-  delete(): this {
+  delete({}: {}): this {
     // BEGIN-MANUAL-SECTION
     // END-MANUAL-SECTION
     return this;

@@ -1,9 +1,9 @@
-// SIGNED-SOURCE: <e5fca69491ed7be9a66ac1e6dc201220>
+// SIGNED-SOURCE: <8ba1613a8e421e277e7988118078e565>
 import { default as s } from "./SlideSpec.js";
-import { P } from "@aphro/query-runtime-ts";
-import { Model } from "@aphro/model-runtime-ts";
-import { ModelSpec } from "@aphro/model-runtime-ts";
-import { SID_of } from "@strut/sid";
+import { P } from "@aphro/runtime-ts";
+import { Model } from "@aphro/runtime-ts";
+import { ModelSpec } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
 import ComponentQuery from "./ComponentQuery.js";
 import Component from "./Component.js";
 import Deck from "./Deck.js";

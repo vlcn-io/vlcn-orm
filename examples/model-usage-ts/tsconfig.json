@@ -17,10 +17,5 @@
     "rootDir": "./src"
   },
   "include": ["./src/", "knexfile.js"],
-  "references": [
-    { "path": "../../packages/model-runtime-ts" },
-    { "path": "../../packages/query-runtime-ts" },
-    { "path": "../../packages/context-runtime-ts" },
-    { "path": "../../packages/mutator-runtime-ts" }
-  ]
+  "references": [{ "path": "../../packages/runtime-ts" }]
 }

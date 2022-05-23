@@ -1,11 +1,15 @@
-// SIGNED-SOURCE: <6b8d7416eaa245e6a9cb59ad94298f73>
-import { Context } from "@aphro/context-runtime-ts";
-import { ModelSpec } from "@aphro/model-runtime-ts";
+// SIGNED-SOURCE: <13b23541bc571c18f51a716e92c2186e>
+import { Context } from "@aphro/runtime-ts";
+import { ModelSpec } from "@aphro/runtime-ts";
 import Component from "./Component.js";
 import { Data } from "./Component.js";
 
 const spec: ModelSpec<Component, Data> = {
   createFrom(ctx: Context, data: Data) {
+    const existing = ctx.cache.get(data["id"]);
+    if (existing) {
+      return existing;
+    }
     return new Component(ctx, data);
   },
 

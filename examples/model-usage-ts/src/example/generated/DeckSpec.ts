@@ -1,6 +1,6 @@
-// SIGNED-SOURCE: <d04d58a90d45c18435435cb46c236b42>
-import { Context } from "@aphro/context-runtime-ts";
-import { ModelSpec } from "@aphro/model-runtime-ts";
+// SIGNED-SOURCE: <b0946ae96390a3b62ba5ce2c3f3a3d29>
+import { Context } from "@aphro/runtime-ts";
+import { ModelSpec } from "@aphro/runtime-ts";
 import { default as UserSpec } from "./UserSpec.js";
 import { default as SlideSpec } from "./SlideSpec.js";
 import Deck from "./Deck.js";
@@ -8,6 +8,10 @@ import { Data } from "./Deck.js";
 
 const spec: ModelSpec<Deck, Data> = {
   createFrom(ctx: Context, data: Data) {
+    const existing = ctx.cache.get(data["id"]);
+    if (existing) {
+      return existing;
+    }
     return new Deck(ctx, data);
   },
 

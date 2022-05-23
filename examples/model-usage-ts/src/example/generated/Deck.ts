@@ -1,9 +1,9 @@
-// SIGNED-SOURCE: <53292a3217eb22caf529c0a5ce868a43>
+// SIGNED-SOURCE: <b52beee9fbb67b8e593ba77a66856b00>
 import { default as s } from "./DeckSpec.js";
-import { P } from "@aphro/query-runtime-ts";
-import { Model } from "@aphro/model-runtime-ts";
-import { ModelSpec } from "@aphro/model-runtime-ts";
-import { SID_of } from "@strut/sid";
+import { P } from "@aphro/runtime-ts";
+import { Model } from "@aphro/runtime-ts";
+import { ModelSpec } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
 import UserQuery from "./UserQuery.js";
 import SlideQuery from "./SlideQuery.js";
 import Slide from "./Slide.js";

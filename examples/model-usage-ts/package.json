@@ -4,11 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@aphro/context-runtime-ts": "workspace:*",
-    "@aphro/model-runtime-ts": "workspace:*",
-    "@aphro/mutator-runtime-ts": "workspace:*",
-    "@aphro/query-runtime-ts": "workspace:*",
-    "@strut/sid": "workspace:*",
+    "@aphro/runtime-ts": "workspace:*",
     "@vscode/sqlite3": "^5.0.8",
     "class-validator": "^0.13.2",
     "graphql": "^16.4.0",

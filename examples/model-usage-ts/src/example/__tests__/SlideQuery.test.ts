@@ -1,10 +1,8 @@
-import sid, { asId } from '@strut/sid';
 import createTestTables from '../../createTestTables.js';
 import SlideQuery from '../generated/SlideQuery.js';
 import { create as createDb } from '../../db.js';
-import { create as createKnexResolver } from '../../knexResolver.js';
-import { configure, debugContext } from '@aphro/context-runtime-ts';
-import { viewer } from '@aphro/context-runtime-ts/src/viewer';
+import { debugContext } from '@aphro/runtime-ts';
+import { viewer, asId, sid } from '@aphro/runtime-ts';
 
 /**
  * Now that everything generates correctly...
@@ -15,7 +13,7 @@ let db: ReturnType<typeof createDb>;
 const ctx = debugContext(viewer(asId('me')));
 beforeAll(async () => {
   db = createDb();
-  configure({ resolver: createKnexResolver(db) });
+  // configure({ resolver: createKnexResolver(db) });
 
   await createTestTables(db);
 });
