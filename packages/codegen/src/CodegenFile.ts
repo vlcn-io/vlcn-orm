@@ -23,6 +23,9 @@ export function removeSignature(content: string, template: string): string {
 export function checkSignature(content: string, template: string): void {
   const sig = readSignature(content, template);
   const baseContent = removeSignature(content, template);
+
+  // remove manual sections as they don't contribute to the signature
+
   if (sig !== md5(baseContent)) {
     throw {
       code: 'bad-signature',
@@ -30,7 +33,15 @@ export function checkSignature(content: string, template: string): void {
   }
 }
 
-export function extractManualSections(
+// export function removeManualSections(
+//   content: string,
+//   startMarkerTemplate: string,
+//   endMarker: string,
+// ): string {
+
+// }
+
+export function readManualSections(
   content: string,
   startMarkerTemplate: string,
   endMarker: string,

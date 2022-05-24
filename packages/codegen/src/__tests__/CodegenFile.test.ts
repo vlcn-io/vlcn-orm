@@ -3,7 +3,7 @@ import {
   readSignature,
   removeSignature,
   checkSignature,
-  extractManualSections,
+  readManualSections,
 } from '../CodegenFile.js';
 import md5 from 'md5';
 import fc from 'fast-check';
@@ -79,7 +79,7 @@ three
 end code
   `;
 
-  const extracted = extractManualSections(
+  const extracted = readManualSections(
     code,
     ALGOL_BEGIN_MANUAL_SECTION_MARKER,
     ALGOL_END_MANUAL_SECTION_MARKER,

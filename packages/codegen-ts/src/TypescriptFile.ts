@@ -12,6 +12,10 @@ export default class TypescriptFile implements CodegenFile {
   }
 
   get contents(): string {
-    return sign(prettier.format(this.#contents, { parser: 'typescript' }), ALGOL_TEMPLATE);
+    const content = sign(prettier.format(this.#contents, { parser: 'typescript' }), ALGOL_TEMPLATE);
+
+    // insert code from previously written manual sections if they exist
+
+    return content;
   }
 }
