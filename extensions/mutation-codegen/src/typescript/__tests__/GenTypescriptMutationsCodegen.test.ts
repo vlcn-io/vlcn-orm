@@ -15,7 +15,7 @@ test('All primitive field references can be used as inputs', () => {
       Foo as Node {
         someField: ${primitive}
       } & Mutations {
-        create {
+        create as Create {
           someField
         }
       }
@@ -34,6 +34,7 @@ import { Data } from "./Foo.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { Changeset } from "@aphro/runtime-ts";
 
 export default class FooMutations extends MutationsBase<Foo, Data> {
   private constructor(
@@ -70,7 +71,7 @@ test('All primitive types can be used as custom inputs', () => {
     const schema = `
       Foo as Node {
       } & Mutations {
-        create {
+        create as Create {
           customField: ${primitive}
         }
       }
@@ -89,6 +90,7 @@ import { Data } from "./Foo.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { Changeset } from "@aphro/runtime-ts";
 
 export default class FooMutations extends MutationsBase<Foo, Data> {
   private constructor(
@@ -125,12 +127,12 @@ test('All composite types can be used as inputs', () => {});
 test('Node type names can be used as inputs', () => {
   fc.assert(
     fc.property(
-      fc.stringOf(fc.constantFrom('a', 'b', 'c', 'd', 'e'), { maxLength: 6, minLength: 1 }),
+      fc.stringOf(fc.constantFrom('a', 'b', 'c', 'd', 'e'), { maxLength: 6, minLength: 3 }),
       customName => {
         const schema = `
         Foo as Node {
         } & Mutations {
-          create {
+          create as Create {
             customField: ${customName}
           }
         }
@@ -149,7 +151,9 @@ import { Data } from "./Foo.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { Changeset } from "@aphro/runtime-ts";
 import ${customName} from "./${customName}.js";
+import { Data as ${customName}Data } from "./${customName}.js";
 
 export default class FooMutations extends MutationsBase<Foo, Data> {
   private constructor(
@@ -171,7 +175,11 @@ export default class FooMutations extends MutationsBase<Foo, Data> {
     return new FooMutations(model.ctx, new DeleteMutationBuilder(spec, model));
   }
 
-  create({ customField }: { customField: ${customName} }): this {
+  create({
+    customField,
+  }: {
+    customField: ${customName} | Changeset<${customName}, ${customName}Data>;
+  }): this {
     // BEGIN-MANUAL-SECTION
     // END-MANUAL-SECTION
     return this;
