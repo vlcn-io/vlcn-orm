@@ -4,12 +4,94 @@ import { Context } from '@aphro/context-runtime-ts';
 import { IModel } from '@aphro/model-runtime-ts';
 import Persistor from './Persistor.js';
 
-// TODO: commit should return a mapping from ids back to created things...
 export function commit<M extends IModel<D>, D>(
   ctx: Context,
-  changesets: Changeset<M>[],
-): [Transaction, Promise<any>] {
+  changesets: [Changeset<M>],
+): [M, Promise<any>];
+export function commit<M1 extends IModel<D1>, D1, M2 extends IModel<D2>, D2>(
+  ctx: Context,
+  changesets: [Changeset<M1>, Changeset<M2>],
+): [M1, M2, Promise<any>];
+export function commit<
+  M1 extends IModel<D1>,
+  D1,
+  M2 extends IModel<D2>,
+  D2,
+  M3 extends IModel<D3>,
+  D3,
+>(
+  ctx: Context,
+  changesets: [Changeset<M1>, Changeset<M2>, Changeset<M3>],
+): [M1, M2, M3, Promise<any>];
+export function commit<
+  M1 extends IModel<D1>,
+  D1,
+  M2 extends IModel<D2>,
+  D2,
+  M3 extends IModel<D3>,
+  D3,
+  M4 extends IModel<D4>,
+  D4,
+>(
+  ctx: Context,
+  changesets: [Changeset<M1>, Changeset<M2>, Changeset<M3>, Changeset<M4>],
+): [M1, M2, M3, M4, Promise<any>];
+export function commit<
+  M1 extends IModel<D1>,
+  D1,
+  M2 extends IModel<D2>,
+  D2,
+  M3 extends IModel<D3>,
+  D3,
+  M4 extends IModel<D4>,
+  D4,
+  M5 extends IModel<D5>,
+  D5,
+>(
+  ctx: Context,
+  changesets: [Changeset<M1>, Changeset<M2>, Changeset<M3>, Changeset<M4>, Changeset<M5>],
+): [M1, M2, M3, M4, M5, Promise<any>];
+export function commit<
+  M1 extends IModel<D1>,
+  D1,
+  M2 extends IModel<D2>,
+  D2,
+  M3 extends IModel<D3>,
+  D3,
+  M4 extends IModel<D4>,
+  D4,
+  M5 extends IModel<D5>,
+  D5,
+  M6 extends IModel<D6>,
+  D6,
+>(
+  ctx: Context,
+  changesets: [
+    Changeset<M1>,
+    Changeset<M2>,
+    Changeset<M3>,
+    Changeset<M4>,
+    Changeset<M5>,
+    Changeset<M6>,
+  ],
+): [M1, M2, M3, M4, M5, M6, Promise<any>];
+
+export function commit(ctx: Context, changesets: Changeset<any>[]): [...IModel[], Promise<any>];
+
+export function commit(ctx: Context, changesets: Changeset<any>[]): [...IModel[], Promise<any>] {
   const transaction = new ChangesetExecutor(ctx, changesets).execute();
   const persistor = new Persistor(ctx);
-  return [transaction, persistor.persist(transaction)];
+
+  return [...changesets.map(cs => transaction.nodes.getx(cs.id)), persistor.persist(transaction)];
 }
+
+/*
+Attempt at mapped tuples rather than overloads...
+
+T extends readonly Changeset<
+    M[keyof T extends number ? keyof T : never],
+    D[keyof T extends number ? keyof T : never]
+  >[],
+  M extends readonly IModel<D[keyof T extends number ? keyof T : never]>[],
+  D extends { [K in keyof T]: K extends number ? D[K] : never },
+*/

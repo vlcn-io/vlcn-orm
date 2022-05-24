@@ -15,9 +15,8 @@ export type Transaction = {
 export class ChangesetExecutor {
   constructor(
     private ctx: Context,
-    private changesets: Changeset<IModel>[],
-  ) // private options: CommitOptions = {},
-  {}
+    private changesets: readonly Changeset<IModel>[], // private options: CommitOptions = {},
+  ) {}
 
   // Ideally we return the transaction list...
   // to replicate to logs.
