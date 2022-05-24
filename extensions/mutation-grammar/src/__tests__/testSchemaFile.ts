@@ -8,10 +8,13 @@ User as Node {
   id: ID<User>
   name: NaturalLanguage
 } & Mutations {
-  create {
+  create as Create {
     name
   }
-  delete {}
+  changeName as Update {
+    name
+  }
+  delete as Delete {}
 }
 `;
 
@@ -23,8 +26,17 @@ export const compiled = {
         [name]: {
           name,
           mutations: {
-            create: { args: { name: { name: 'name', type: 'quick' } }, name: 'create' },
-            delete: { args: {}, name: 'delete' },
+            create: {
+              args: { name: { name: 'name', type: 'quick' } },
+              name: 'create',
+              verb: 'create',
+            },
+            delete: { args: {}, name: 'delete', verb: 'delete' },
+            changeName: {
+              args: { name: { name: 'name', type: 'quick' } },
+              name: 'changeName',
+              verb: 'update',
+            },
           },
         },
       },

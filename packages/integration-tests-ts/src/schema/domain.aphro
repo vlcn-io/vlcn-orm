@@ -11,11 +11,11 @@ User as Node {
 } & OutboundEdges {
   decks: Edge<Deck.ownerId>
 } & Mutations {
-  create {
+  create as Create {
     name
   } # & RateLimit { .. theoretical future rate limit config .. }
 
-  delete {}
+  delete as Delete {}
 }
 # Theoretical extensions
 # & Visibility {} -- this refers to ability of users to _see_ the thing

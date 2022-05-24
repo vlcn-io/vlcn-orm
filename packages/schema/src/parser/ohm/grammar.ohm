@@ -38,7 +38,7 @@ Aphro {
     | "" -- empty
   
   FieldDeclaration
-  	= propertyKey FieldType
+  	= propertyKey TypeExpression
   
   FieldType
   	= NonCompositeFieldType | CompositeFieldType

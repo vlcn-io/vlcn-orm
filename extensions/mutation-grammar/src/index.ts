@@ -29,8 +29,11 @@ export type Mutations = {
   };
 };
 
+export type MutationVerb = 'create' | 'update' | 'delete';
+
 export type Mutation = {
   name: string;
+  verb: MutationVerb;
   args: {
     [key: string]: MutationArgDef;
   };
@@ -57,6 +60,7 @@ export type MutationsAst = {
 type MutationAst = {
   name: string;
   args: MutationArgDef[];
+  verb: MutationVerb;
 };
 
 const extension: GrammarExtension<MutationsAst, Mutations> = {
@@ -75,7 +79,7 @@ MutationDeclarations
   | "" -- empty
 
 MutationDeclaration
-  = name "{" MutationArgDeclarations "}"
+  = name "as" MutationVerb "{" MutationArgDeclarations "}"
 
 MutationArgDeclarations
   = MutationArgDeclarations MutationArgDeclaration -- list
@@ -84,6 +88,11 @@ MutationArgDeclarations
 MutationArgDeclaration
   = propertyKey TypeExpression -- full
   | name -- quick
+
+MutationVerb
+  = "Create"
+  | "Update"
+  | "Delete"
 `;
   },
 
@@ -97,11 +106,15 @@ MutationArgDeclaration
       },
       MutationDeclarations_list: list,
       MutationDeclarations_empty: listInit,
-      MutationDeclaration(name, _, args, __) {
+      MutationDeclaration(name, _, verb, __, args, ___) {
         return {
           name: name.toAst(),
+          verb: verb.toAst(),
           args: args.toAst(),
         };
+      },
+      MutationVerb(verb) {
+        return verb.sourceString.toLocaleLowerCase();
       },
       MutationArgDeclarations_list: list,
       MutationArgDeclarations_empty: listInit,
@@ -129,6 +142,7 @@ MutationArgDeclaration
         mutations: ast.declarations.reduce((l, r) => {
           l[r.name] = {
             name: r.name,
+            verb: r.verb,
             args: r.args.reduce((l, r) => {
               l[r.name] = r;
               return l;

@@ -1,4 +1,5 @@
 # 5/22
+- Auto-generate ID on create -- depending on id type...
 - Type validation on referenced types
   - Imports
 - Back to tailer architecture for persister?
