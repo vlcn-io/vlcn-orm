@@ -1,10 +1,10 @@
 import { sign } from '@aphro/codegen';
-import { CodegenFile, SQL_TEMPLATE } from '@aphro/codegen-api';
+import { CodegenFile, sqlTemplates } from '@aphro/codegen-api';
 import { format } from 'sql-formatter';
 
 export default class SqlFile implements CodegenFile {
   #contents: string;
-  readonly signatureTemplate: string = SQL_TEMPLATE;
+  readonly templates = sqlTemplates;
 
   constructor(public readonly name: string, contents: string, private dialect: string) {
     this.#contents = contents;
@@ -13,7 +13,7 @@ export default class SqlFile implements CodegenFile {
   get contents(): string {
     return sign(
       format(this.#contents, { language: this.#dialectToLanguage() as any }),
-      SQL_TEMPLATE,
+      this.templates,
     );
   }
 

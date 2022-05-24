@@ -1,12 +1,29 @@
 export interface CodegenFile {
   readonly name: string;
   readonly contents: string;
-  readonly signatureTemplate: string;
+  readonly templates: Templates;
 }
 
-export const ALGOL_TEMPLATE = '// SIGNED-SOURCE: <>';
-export const SQL_TEMPLATE = '-- SIGNED-SOURCE: <>';
-export const HASH_TEMPLATE = '# SIGNED-SOURCE: <>';
+export type Templates = {
+  signature: string;
+  startManual: string;
+  endManual: string;
+};
 
-export const ALGOL_BEGIN_MANUAL_SECTION_MARKER = '// BEGIN-MANUAL-SECTION: []';
-export const ALGOL_END_MANUAL_SECTION_MARKER = '// END-MANUAL-SECTION';
+export const algolTemplates = {
+  signature: '// SIGNED-SOURCE: <>',
+  startManual: '// BEGIN-MANUAL-SECTION: []',
+  endManual: '// END-MANUAL-SECTION',
+};
+
+export const sqlTemplates = {
+  signature: '-- SIGNED-SOURCE: <>',
+  startManual: '-- BEGIN-MANUAL-SECTION: []',
+  endManual: '-- END-MANUAL-SECTION',
+};
+
+export const hashTemplates = {
+  signature: '# SIGNED-SOURCE: <>',
+  startManual: '# BEGIN-MANUAL-SECTION: []',
+  endManual: '# END-MANUAL-SECTION',
+};

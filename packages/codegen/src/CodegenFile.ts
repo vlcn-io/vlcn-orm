@@ -1,28 +1,29 @@
+import { Templates } from '@aphro/codegen-api';
 import md5 from 'md5';
 
-export function sign(content: string, template: string) {
-  return `${template.replace('<>', '<' + md5(content) + '>\n')}${content}`;
+export function sign(content: string, templates: Templates) {
+  return `${templates.signature.replace('<>', '<' + md5(content) + '>\n')}${content}`;
 }
 
-export function readSignature(content: string, template: string): string {
-  const templateReg = new RegExp(template.replace('<>', '<([0-9a-f]+)>'));
+export function readSignature(content: string, templates: Templates): string {
+  const templateReg = new RegExp(templates.signature.replace('<>', '<([0-9a-f]+)>'));
   const firstLine = content.split('\n')[0];
   const result = templateReg.exec(firstLine);
   if (result) {
     return result[1];
   }
 
-  throw new Error('Could not find signature for ' + template + ' ' + firstLine);
+  throw new Error('Could not find signature for ' + templates.signature + ' ' + firstLine);
 }
 
-export function removeSignature(content: string, template: string): string {
-  const templateReg = new RegExp(template.replace('<>', '<([0-9a-f]+)>\n'));
+export function removeSignature(content: string, templates: Templates): string {
+  const templateReg = new RegExp(templates.signature.replace('<>', '<([0-9a-f]+)>\n'));
   return content.replace(templateReg, '');
 }
 
-export function checkSignature(content: string, template: string): void {
-  const sig = readSignature(content, template);
-  const baseContent = removeSignature(content, template);
+export function checkSignature(content: string, templates: Templates): void {
+  const sig = readSignature(content, templates);
+  const baseContent = removeSignature(content, templates);
 
   // remove manual sections as they don't contribute to the signature
 
@@ -33,18 +34,14 @@ export function checkSignature(content: string, template: string): void {
   }
 }
 
-export function removeManualSections(
-  content: string,
-  startMarkerTemplate: string,
-  endMarker: string,
-): string {
+export function removeManualSections(content: string, templates: Templates): string {
   const lines = content.split('\n');
-  const startMarkRegex = makeStartMarkerRegex(startMarkerTemplate);
+  const startMarkRegex = makeStartMarkerRegex(templates.startManual);
 
   const generatedLines: string[] = [];
   let inManualSection = false;
   for (const line of lines) {
-    if (line.indexOf(endMarker) != -1) {
+    if (line.indexOf(templates.endManual) != -1) {
       inManualSection = false;
     }
     if (startMarkRegex.exec(line) != null) {
@@ -63,10 +60,10 @@ export function removeManualSections(
 export function insertManualSections(
   content: string,
   manualCode: Map<string, string[]>,
-  startMarkerTemplate: string,
+  templates: Templates,
 ): string {
   const lines = content.split('\n');
-  const startMarkRegex = makeStartMarkerRegex(startMarkerTemplate);
+  const startMarkRegex = makeStartMarkerRegex(templates.startManual);
 
   const manualSectionStarts: [number, string][] = [];
   lines.forEach((line, i) => {
@@ -89,14 +86,10 @@ export function insertManualSections(
   return lines.join('\n');
 }
 
-export function readManualSections(
-  content: string,
-  startMarkerTemplate: string,
-  endMarker: string,
-): Map<string, string[]> {
+export function readManualSections(content: string, templates: Templates): Map<string, string[]> {
   const ret: Map<string, string[]> = new Map();
   const lines = content.split('\n');
-  const startMarkRegex = makeStartMarkerRegex(startMarkerTemplate);
+  const startMarkRegex = makeStartMarkerRegex(templates.startManual);
 
   let manualSectionName: string | null = null;
   let manualLines: string[] = [];
@@ -116,7 +109,7 @@ export function readManualSections(
 
   for (const line of lines) {
     if (manualSectionName != null) {
-      if (line.indexOf(endMarker) != -1) {
+      if (line.indexOf(templates.endManual) != -1) {
         ret.set(manualSectionName, manualLines);
         endManualSection();
         continue;

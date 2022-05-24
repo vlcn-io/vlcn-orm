@@ -4,7 +4,7 @@ import { Node, primitives, PrimitiveSubtype } from '@aphro/schema-api';
 import { GenTypescriptMutations } from '../GenTypescriptMutations';
 import mutationExtension from '@aphro/mutation-grammar';
 import { removeSignature } from '@aphro/codegen';
-import { ALGOL_TEMPLATE } from '@aphro/codegen-api';
+import { algolTemplates } from '@aphro/codegen-api';
 
 const grammarExtensions = [mutationExtension];
 const { compileFromString } = createCompiler({ grammarExtensions });
@@ -22,7 +22,7 @@ test('All primitive field references can be used as inputs', () => {
     `;
     const contents = removeSignature(
       genIt(compileFromString(schema)[1].nodes.Foo).contents,
-      ALGOL_TEMPLATE,
+      algolTemplates,
     );
 
     expect(contents).toEqual(`import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
@@ -78,7 +78,7 @@ test('All primitive types can be used as custom inputs', () => {
     `;
     const contents = removeSignature(
       genIt(compileFromString(schema)[1].nodes.Foo).contents,
-      ALGOL_TEMPLATE,
+      algolTemplates,
     );
 
     expect(contents).toEqual(`import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
@@ -139,7 +139,7 @@ test('Node type names can be used as inputs', () => {
       `;
         const contents = removeSignature(
           genIt(compileFromString(schema)[1].nodes.Foo).contents,
-          ALGOL_TEMPLATE,
+          algolTemplates,
         );
 
         expect(contents).toEqual(`import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";

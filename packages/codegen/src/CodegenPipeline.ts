@@ -25,7 +25,7 @@ export default class CodegenPipleine {
       files.map(async f => {
         try {
           const contents = await fs.promises.readFile(toPath(dest, f.name), { encoding: 'utf8' });
-          checkSignature(contents, f.signatureTemplate);
+          checkSignature(contents, f.templates);
         } catch (e) {
           if (e.code === 'bad-signature') {
             throw new Error(
