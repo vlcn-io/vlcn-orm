@@ -9,7 +9,7 @@ export default class GenTypescriptSpec extends CodegenStep {
     return true;
   }
 
-  constructor(private schema: Node) {
+  constructor(private dest: string, private schema: Node) {
     super();
   }
 

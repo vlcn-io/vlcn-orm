@@ -213,5 +213,5 @@ export default class FooQuery extends DerivedQuery<Foo> {
 });
 
 function genIt(schema: Node) {
-  return new GenTypescriptQuery(schema).gen();
+  return new GenTypescriptQuery('', schema).gen();
 }

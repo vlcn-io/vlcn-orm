@@ -10,7 +10,7 @@ export default class CodegenPipleine {
 
   async gen(schemas: (Node | Edge)[], dest: string) {
     const files = schemas.flatMap(schema =>
-      maybeMap(this.steps, step => (!step.accepts(schema) ? null : new step(schema).gen())),
+      maybeMap(this.steps, step => (!step.accepts(schema) ? null : new step(dest, schema).gen())),
     );
 
     await fs.promises.mkdir(dest, { recursive: true });

@@ -18,7 +18,7 @@ export class GenTypescriptMutations extends CodegenStep {
     return Object.values(schema.extensions.mutations?.mutations || []).length > 0;
   }
 
-  constructor(private schema: Node) {
+  constructor(private dest: string, private schema: Node) {
     super();
   }
 
@@ -112,7 +112,7 @@ ${this.getCode()}
 
   private getMutationMethodCode(m: Mutation): string {
     return `${m.name}(${this.getArgsCode(m.args)}): this {
-      // BEGIN-MANUAL-SECTION
+      // BEGIN-MANUAL-SECTION [${m.name}]
       // END-MANUAL-SECTION
       return this;
     }`;
