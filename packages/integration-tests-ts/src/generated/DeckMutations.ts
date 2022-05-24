@@ -1,5 +1,5 @@
-// SIGNED-SOURCE: <4eecf21ae8a252a6c3e2672af2c2d6cd>
-import { ICreateOrUpdateBuilder, sid } from "@aphro/runtime-ts";
+// SIGNED-SOURCE: <1268abf8c331406138992bae54dff3d9>
+import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
 import Deck from "./Deck.js";
@@ -14,8 +14,8 @@ import { Data as UserData } from "./User.js";
 import Slide from "./Slide.js";
 import { Data as SlideData } from "./Slide.js";
 
-// BEGIN-MANUAL-SECTION
-// Manual section for any new imports / export / top level things
+// BEGIN-MANUAL-SECTION: [module-level]
+import {sid} from '@aphro/runtime-ts';
 // END-MANUAL-SECTION
 
 class Mutations extends MutationsBase<Deck, Data> {
@@ -32,7 +32,7 @@ class Mutations extends MutationsBase<Deck, Data> {
     owner: User | Changeset<User, UserData>;
     selectedSlide: Slide | Changeset<Slide, SlideData> | null;
   }): this {
-    // BEGIN-MANUAL-SECTION
+    // BEGIN-MANUAL-SECTION: [create]
     this.mutator.set({
       id: sid('test'),
       name,
@@ -48,19 +48,19 @@ class Mutations extends MutationsBase<Deck, Data> {
   }: {
     selectedSlide: Slide | Changeset<Slide, SlideData>;
   }): this {
-    // BEGIN-MANUAL-SECTION
+    // BEGIN-MANUAL-SECTION: [selectSlide]
     // END-MANUAL-SECTION
     return this;
   }
 
   rename({ name }: { name: string }): this {
-    // BEGIN-MANUAL-SECTION
+    // BEGIN-MANUAL-SECTION: [rename]
     // END-MANUAL-SECTION
     return this;
   }
 
   delete({}: {}): this {
-    // BEGIN-MANUAL-SECTION
+    // BEGIN-MANUAL-SECTION: [delete]
     // END-MANUAL-SECTION
     return this;
   }

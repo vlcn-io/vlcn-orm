@@ -3,7 +3,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Node, Edge } from '@aphro/schema-api';
 import { CodegenFile, Step } from '@aphro/codegen-api';
-import { checkSignature } from './CodegenFile.js';
+import {
+  checkSignature,
+  insertManualSections,
+  readManualSections,
+  removeManualSections,
+} from './CodegenFile.js';
 
 export default class CodegenPipleine {
   constructor(private readonly steps: readonly Step[]) {}
@@ -14,18 +19,36 @@ export default class CodegenPipleine {
     );
 
     await fs.promises.mkdir(dest, { recursive: true });
-    await this.checkHashesAndAddManualCode(dest, files);
+    const toWrite = await this.checkHashesAndAddManualCode(dest, files);
     await Promise.all(
-      files.map(async f => await fs.promises.writeFile(toPath(dest, f.name), f.contents)),
+      toWrite.map(async f => await fs.promises.writeFile(toPath(dest, f[0]), f[1])),
     );
   }
 
-  private async checkHashesAndAddManualCode(dest: string, files: CodegenFile[]) {
-    await Promise.all(
+  private async checkHashesAndAddManualCode(
+    dest: string,
+    files: CodegenFile[],
+  ): Promise<[string, string][]> {
+    return await Promise.all(
       files.map(async f => {
         try {
           const contents = await fs.promises.readFile(toPath(dest, f.name), { encoding: 'utf8' });
           checkSignature(contents, f.templates);
+
+          const manualInsertions = readManualSections(contents, f.templates);
+          if (manualInsertions.size > 0) {
+            return [
+              f.name,
+              insertManualSections(
+                // We remove manual sections from the generated code because the code-generator may have
+                // generated comments into manual sections. If they did that but the file already exists,
+                // use the user's manual sections rather than our own generated manual sections.
+                removeManualSections(f.contents, f.templates),
+                manualInsertions,
+                f.templates,
+              ),
+            ];
+          }
         } catch (e) {
           if (e.code === 'bad-signature') {
             throw new Error(
@@ -41,6 +64,8 @@ export default class CodegenPipleine {
             throw e;
           }
         }
+
+        return [f.name, f.contents];
       }),
     );
   }

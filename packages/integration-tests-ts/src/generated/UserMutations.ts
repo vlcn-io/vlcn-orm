@@ -1,5 +1,5 @@
-// SIGNED-SOURCE: <8a1529dbc5707991d5f363d6bfcd1774>
-import { ICreateOrUpdateBuilder, sid } from "@aphro/runtime-ts";
+// SIGNED-SOURCE: <a15c9aed6e089d6338569ba06febf9ae>
+import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
 import User from "./User.js";
@@ -10,8 +10,8 @@ import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { Changeset } from "@aphro/runtime-ts";
 
-// BEGIN-MANUAL-SECTION
-// Manual section for any new imports / export / top level things
+// BEGIN-MANUAL-SECTION: [module-level]
+import {sid} from '@aphro/runtime-ts';
 // END-MANUAL-SECTION
 
 class Mutations extends MutationsBase<User, Data> {
@@ -20,7 +20,7 @@ class Mutations extends MutationsBase<User, Data> {
   }
 
   create({ name }: { name: string }): this {
-    // BEGIN-MANUAL-SECTION
+    // BEGIN-MANUAL-SECTION: [create]
     this.mutator.set({
       id: sid('test'),
       name,
@@ -30,7 +30,7 @@ class Mutations extends MutationsBase<User, Data> {
   }
 
   delete({}: {}): this {
-    // BEGIN-MANUAL-SECTION
+    // BEGIN-MANUAL-SECTION: [delete]
     // END-MANUAL-SECTION
     return this;
   }

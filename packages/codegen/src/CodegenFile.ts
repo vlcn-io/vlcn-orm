@@ -2,7 +2,12 @@ import { Templates } from '@aphro/codegen-api';
 import md5 from 'md5';
 
 export function sign(content: string, templates: Templates) {
-  return `${templates.signature.replace('<>', '<' + md5(content) + '>\n')}${content}`;
+  // We have a call to "removeManualSections" here because the code-generator may wish to place comments into manual
+  // sections. Those comments shouldn't get hashed.
+  return `${templates.signature.replace(
+    '<>',
+    '<' + md5(removeManualSections(content, templates)) + '>\n',
+  )}${content}`;
 }
 
 export function readSignature(content: string, templates: Templates): string {

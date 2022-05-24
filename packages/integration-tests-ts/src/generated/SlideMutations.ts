@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <7fdb7e5aac92110775e549ef989f223f>
+// SIGNED-SOURCE: <a190943b051d294414b6c6805ecb0b13>
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -12,7 +12,7 @@ import { Changeset } from "@aphro/runtime-ts";
 import Deck from "./Deck.js";
 import { Data as DeckData } from "./Deck.js";
 
-// BEGIN-MANUAL-SECTION
+// BEGIN-MANUAL-SECTION: [module-level]
 // Manual section for any new imports / export / top level things
 // END-MANUAL-SECTION
 
@@ -28,19 +28,19 @@ class Mutations extends MutationsBase<Slide, Data> {
     deck: Deck | Changeset<Deck, DeckData>;
     order: number;
   }): this {
-    // BEGIN-MANUAL-SECTION
+    // BEGIN-MANUAL-SECTION: [create]
     // END-MANUAL-SECTION
     return this;
   }
 
   reorder({ order }: { order: number }): this {
-    // BEGIN-MANUAL-SECTION
+    // BEGIN-MANUAL-SECTION: [reorder]
     // END-MANUAL-SECTION
     return this;
   }
 
   delete({}: {}): this {
-    // BEGIN-MANUAL-SECTION
+    // BEGIN-MANUAL-SECTION: [delete]
     // END-MANUAL-SECTION
     return this;
   }
