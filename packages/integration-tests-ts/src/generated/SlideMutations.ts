@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <f76a3095c6d8cd17142128d8d727daa6>
+// SIGNED-SOURCE: <a110044295a375194aa4ea290b83da8e>
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -8,7 +8,9 @@ import { Data } from "./Slide.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { Changeset } from "@aphro/runtime-ts";
 import Deck from "./Deck.js";
+import { Data as DeckData } from "./Deck.js";
 
 export default class SlideMutations extends MutationsBase<Slide, Data> {
   private constructor(
@@ -36,7 +38,13 @@ export default class SlideMutations extends MutationsBase<Slide, Data> {
     );
   }
 
-  create({ deck, order }: { deck: Deck; order: number }): this {
+  create({
+    deck,
+    order,
+  }: {
+    deck: Deck | Changeset<Deck, DeckData>;
+    order: number;
+  }): this {
     // BEGIN-MANUAL-SECTION
     // END-MANUAL-SECTION
     return this;

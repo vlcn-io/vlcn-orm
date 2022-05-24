@@ -71,6 +71,7 @@ ${this.getCode()}
       tsImport('{UpdateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{CreateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{DeleteMutationBuilder}', null, '@aphro/runtime-ts'),
+      tsImport('{Changeset}', null, '@aphro/runtime-ts'),
       ...this.collectImportsForMutations(),
     ];
   }
@@ -119,10 +120,13 @@ ${this.getCode()}
     return fullArgsDefs.flatMap(
       a =>
         a.typeDef
-          .map(td =>
+          .flatMap(td =>
             td.type === 'type'
               ? typeof td.name === 'string' && td.name !== 'null'
-                ? tsImport(td.name, null, `./${td.name}.js`)
+                ? [
+                    tsImport(td.name, null, `./${td.name}.js`),
+                    tsImport('{Data}', td.name + 'Data', `./${td.name}.js`),
+                  ]
                 : null
               : null,
           )

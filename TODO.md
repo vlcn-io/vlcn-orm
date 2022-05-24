@@ -1,4 +1,8 @@
 # 5/22
+- Type validation on referenced types
+  - Imports
+- Back to tailer architecture for persister?
+  - Would bring consistency to persist and replication.
 - Discord setup
 - hop queries e2e test
 - devex on returns from mutations

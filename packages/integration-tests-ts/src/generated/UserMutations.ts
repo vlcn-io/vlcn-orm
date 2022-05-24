@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <2663de439dfda4aa4ac90670bb74a7e2>
+// SIGNED-SOURCE: <d736cb3750e38343a2613b2ae56bf31a>
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -8,6 +8,7 @@ import { Data } from "./User.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { Changeset } from "@aphro/runtime-ts";
 
 export default class UserMutations extends MutationsBase<User, Data> {
   private constructor(

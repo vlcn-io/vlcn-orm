@@ -53,7 +53,7 @@ export function typeDefToTsType(def: TypeAtom[]): string {
           return a.subtype;
         case 'type':
           if (typeof a.name === 'string') {
-            return a.name;
+            return a.name + ` | Changeset<${a.name}, ${a.name}Data>`;
           }
           return fieldToTsType(a.name);
       }

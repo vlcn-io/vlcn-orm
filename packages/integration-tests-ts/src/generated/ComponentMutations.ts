@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <329e9df8fbf3132ae2d1495facce84c3>
+// SIGNED-SOURCE: <133143d7405472235ba337ea97717889>
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -8,7 +8,9 @@ import { Data } from "./Component.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { Changeset } from "@aphro/runtime-ts";
 import Slide from "./Slide.js";
+import { Data as SlideData } from "./Slide.js";
 
 export default class ComponentMutations extends MutationsBase<Component, Data> {
   private constructor(
@@ -42,7 +44,7 @@ export default class ComponentMutations extends MutationsBase<Component, Data> {
     content,
   }: {
     subtype: "Text" | "Embed";
-    slide: Slide;
+    slide: Slide | Changeset<Slide, SlideData>;
     content: string;
   }): this {
     // BEGIN-MANUAL-SECTION
