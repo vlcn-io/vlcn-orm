@@ -4,6 +4,8 @@ import {
   removeSignature,
   checkSignature,
   readManualSections,
+  removeManualSections,
+  insertManualSections,
 } from '../CodegenFile.js';
 import md5 from 'md5';
 import fc from 'fast-check';
@@ -11,6 +13,43 @@ import {
   ALGOL_BEGIN_MANUAL_SECTION_MARKER,
   ALGOL_END_MANUAL_SECTION_MARKER,
 } from '@aphro/codegen-api';
+
+const codeWithManualSections = `
+one
+two
+three
+// BEGIN-MANUAL-SECTION: [first]
+// END-MANUAL-SECTION
+
+other code
+
+// BEGIN-MANUAL-SECTION: [second]
+manual-two
+// END-MANUAL-SECTION
+// BEGIN-MANUAL-SECTION: [third]
+manual
+three
+// END-MANUAL-SECTION
+
+end code
+`;
+
+const codeWithManualSectionsNoAddtions = `
+one
+two
+three
+// BEGIN-MANUAL-SECTION: [first]
+// END-MANUAL-SECTION
+
+other code
+
+// BEGIN-MANUAL-SECTION: [second]
+// END-MANUAL-SECTION
+// BEGIN-MANUAL-SECTION: [third]
+// END-MANUAL-SECTION
+
+end code
+`;
 
 test('Signing source', () => {
   fc.assert(
@@ -58,34 +97,39 @@ test('Checking embedded signature', () => {
   );
 });
 
-test('Extracting manual sections', () => {
-  const code = `
-one
-two
-three
-// BEGIN-MANUAL-SECTION: [first]
-// END-MANUAL-SECTION
-
-other code
-
-// BEGIN-MANUAL-SECTION: [second]
-manual-two
-// END-MANUAL-SECTION
-// BEGIN-MANUAL-SECTION: [third]
-manual
-three
-// END-MANUAL-SECTION
-
-end code
-  `;
-
+test('Reading manual sections', () => {
   const extracted = readManualSections(
-    code,
+    codeWithManualSections,
     ALGOL_BEGIN_MANUAL_SECTION_MARKER,
     ALGOL_END_MANUAL_SECTION_MARKER,
   );
 
-  expect(extracted.get('first')).toEqual('');
-  expect(extracted.get('second')).toEqual('manual-two');
-  expect(extracted.get('third')).toEqual('manual\nthree');
+  expect(extracted.get('first')).toEqual([]);
+  expect(extracted.get('second')).toEqual(['manual-two']);
+  expect(extracted.get('third')).toEqual(['manual', 'three']);
+});
+
+test('Removing manual sections', () => {
+  expect(
+    removeManualSections(
+      codeWithManualSections,
+      ALGOL_BEGIN_MANUAL_SECTION_MARKER,
+      ALGOL_END_MANUAL_SECTION_MARKER,
+    ),
+  ).toEqual(codeWithManualSectionsNoAddtions);
+});
+
+test('Adding manual additions back in', () => {
+  const read = readManualSections(
+    codeWithManualSections,
+    ALGOL_BEGIN_MANUAL_SECTION_MARKER,
+    ALGOL_END_MANUAL_SECTION_MARKER,
+  );
+
+  const inserted = insertManualSections(
+    codeWithManualSectionsNoAddtions,
+    read,
+    ALGOL_BEGIN_MANUAL_SECTION_MARKER,
+  );
+  expect(inserted).toEqual(codeWithManualSections);
 });

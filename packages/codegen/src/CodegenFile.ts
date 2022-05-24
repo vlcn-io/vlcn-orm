@@ -33,27 +33,74 @@ export function checkSignature(content: string, template: string): void {
   }
 }
 
-// export function removeManualSections(
-//   content: string,
-//   startMarkerTemplate: string,
-//   endMarker: string,
-// ): string {
+export function removeManualSections(
+  content: string,
+  startMarkerTemplate: string,
+  endMarker: string,
+): string {
+  const lines = content.split('\n');
+  const startMarkRegex = makeStartMarkerRegex(startMarkerTemplate);
 
-// }
+  const generatedLines: string[] = [];
+  let inManualSection = false;
+  for (const line of lines) {
+    if (line.indexOf(endMarker) != -1) {
+      inManualSection = false;
+    }
+    if (startMarkRegex.exec(line) != null) {
+      generatedLines.push(line);
+      inManualSection = true;
+    }
+    if (inManualSection) {
+      continue;
+    }
+    generatedLines.push(line);
+  }
+
+  return generatedLines.join('\n');
+}
+
+export function insertManualSections(
+  content: string,
+  manualCode: Map<string, string[]>,
+  startMarkerTemplate: string,
+): string {
+  const lines = content.split('\n');
+  const startMarkRegex = makeStartMarkerRegex(startMarkerTemplate);
+
+  const manualSectionStarts: [number, string][] = [];
+  lines.forEach((line, i) => {
+    const match = startMarkRegex.exec(line);
+    if (!match) {
+      return;
+    }
+
+    manualSectionStarts.push([i, match[1]]);
+  });
+
+  for (let i = manualSectionStarts.length - 1; i >= 0; --i) {
+    const toInsert = manualCode.get(manualSectionStarts[i][1]);
+    if (toInsert == null) {
+      throw new Error(`Unable to find code for manual section ${manualSectionStarts[i][1]}`);
+    }
+    lines.splice(manualSectionStarts[i][0] + 1, 0, ...toInsert);
+  }
+
+  return lines.join('\n');
+}
 
 export function readManualSections(
   content: string,
   startMarkerTemplate: string,
   endMarker: string,
-): Map<string, string> {
-  const ret = new Map();
+): Map<string, string[]> {
+  const ret: Map<string, string[]> = new Map();
   const lines = content.split('\n');
-  const startMarkRegex = new RegExp(startMarkerTemplate.replace('[]', '\\[(.*)\\]'));
+  const startMarkRegex = makeStartMarkerRegex(startMarkerTemplate);
 
   let manualSectionName: string | null = null;
   let manualLines: string[] = [];
 
-  const inManualSection = () => manualSectionName != null;
   const endManualSection = () => {
     manualSectionName = null;
     manualLines = [];
@@ -68,9 +115,9 @@ export function readManualSections(
   };
 
   for (const line of lines) {
-    if (inManualSection()) {
+    if (manualSectionName != null) {
       if (line.indexOf(endMarker) != -1) {
-        ret.set(manualSectionName, manualLines.join('\n'));
+        ret.set(manualSectionName, manualLines);
         endManualSection();
         continue;
       }
@@ -87,4 +134,8 @@ export function readManualSections(
   }
 
   return ret;
+}
+
+function makeStartMarkerRegex(template: string) {
+  return new RegExp(template.replace('[]', '\\[(.*)\\]'));
 }
