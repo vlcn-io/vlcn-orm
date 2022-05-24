@@ -19,7 +19,7 @@ export const doc = {
   css: ["index.css"],
   js: [
     {
-      src: "https://www.googletagmanager.com/gtag/js?id=UA-177900110-1",
+      src: "https://www.googletagmanager.com/gtag/js?id=G-QT6QH0ZJQ4",
       async: true,
     },
     {
