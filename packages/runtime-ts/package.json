@@ -17,12 +17,6 @@
   "scripts": {
     "clean": "tsc --build --clean",
     "build": "tsc --build",
-    "watch": "tsc --build -w",
-    "test": "node ./node_modules/jest/bin/jest.js"
-  },
-  "jest": {
-    "testMatch": [
-      "**/__tests__/**/*.test.js"
-    ]
+    "watch": "tsc --build -w"
   }
 }
