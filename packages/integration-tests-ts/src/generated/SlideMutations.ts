@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a110044295a375194aa4ea290b83da8e>
+// SIGNED-SOURCE: <ebbab69dbc62d1bd88129aa20056cd93>
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -12,30 +12,9 @@ import { Changeset } from "@aphro/runtime-ts";
 import Deck from "./Deck.js";
 import { Data as DeckData } from "./Deck.js";
 
-export default class SlideMutations extends MutationsBase<Slide, Data> {
-  private constructor(
-    ctx: Context,
-    mutator: ICreateOrUpdateBuilder<Slide, Data>
-  ) {
+class Mutations extends MutationsBase<Slide, Data> {
+  constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<Slide, Data>) {
     super(ctx, mutator);
-  }
-
-  static update(model: Slide) {
-    return new SlideMutations(
-      model.ctx,
-      new UpdateMutationBuilder(spec, model)
-    );
-  }
-
-  static creation(ctx: Context) {
-    return new SlideMutations(ctx, new CreateMutationBuilder(spec));
-  }
-
-  static deletion(model: Slide) {
-    return new SlideMutations(
-      model.ctx,
-      new DeleteMutationBuilder(spec, model)
-    );
   }
 
   create({
@@ -60,5 +39,26 @@ export default class SlideMutations extends MutationsBase<Slide, Data> {
     // BEGIN-MANUAL-SECTION
     // END-MANUAL-SECTION
     return this;
+  }
+}
+
+export default class SlideMutations {
+  static create(
+    ctx: Context,
+    args: { deck: Deck | Changeset<Deck, DeckData>; order: number }
+  ): Mutations {
+    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
+  }
+  static reorder(model: Slide, args: { order: number }): Mutations {
+    return new Mutations(
+      model.ctx,
+      new UpdateMutationBuilder(spec, model)
+    ).reorder(args);
+  }
+  static delete(model: Slide, args: {}): Mutations {
+    return new Mutations(
+      model.ctx,
+      new DeleteMutationBuilder(spec, model)
+    ).delete(args);
   }
 }

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <94d44c30c5fc72969c647fc8b450b64a>
+// SIGNED-SOURCE: <a4575193fcf33a21cdaab0285f2a0055>
 import { ICreateOrUpdateBuilder, sid } from '@aphro/runtime-ts';
 import { Context } from '@aphro/runtime-ts';
 import { MutationsBase } from '@aphro/runtime-ts';
@@ -14,21 +14,9 @@ import { Data as UserData } from './User.js';
 import Slide from './Slide.js';
 import { Data as SlideData } from './Slide.js';
 
-export default class DeckMutations extends MutationsBase<Deck, Data> {
-  private constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<Deck, Data>) {
+class Mutations extends MutationsBase<Deck, Data> {
+  constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<Deck, Data>) {
     super(ctx, mutator);
-  }
-
-  static update(model: Deck) {
-    return new DeckMutations(model.ctx, new UpdateMutationBuilder(spec, model));
-  }
-
-  static creation(ctx: Context) {
-    return new DeckMutations(ctx, new CreateMutationBuilder(spec));
-  }
-
-  static deletion(model: Deck) {
-    return new DeckMutations(model.ctx, new DeleteMutationBuilder(spec, model));
   }
 
   create({
@@ -67,5 +55,31 @@ export default class DeckMutations extends MutationsBase<Deck, Data> {
     // BEGIN-MANUAL-SECTION
     // END-MANUAL-SECTION
     return this;
+  }
+}
+
+export default class DeckMutations {
+  static create(
+    ctx: Context,
+    args: {
+      name: string;
+      owner: User | Changeset<User, UserData>;
+      selectedSlide: Slide | Changeset<Slide, SlideData> | null;
+    },
+  ): Mutations {
+    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
+  }
+  static selectSlide(
+    model: Deck,
+    args: { selectedSlide: Slide | Changeset<Slide, SlideData> },
+  ): Mutations {
+    return new Mutations(model.ctx, new UpdateMutationBuilder(spec, model)).selectSlide(args);
+  }
+
+  static rename(model: Deck, args: { name: string }): Mutations {
+    return new Mutations(model.ctx, new UpdateMutationBuilder(spec, model)).rename(args);
+  }
+  static delete(model: Deck, args: {}): Mutations {
+    return new Mutations(model.ctx, new DeleteMutationBuilder(spec, model)).delete(args);
   }
 }

@@ -1,5 +1,9 @@
 # 5/22
 - Auto-generate ID on create -- depending on id type...
+- 'merge' codegen option
+- Preserve manual sections
+- prettier ignore partially generated code
+
 - Type validation on referenced types
   - Imports
 - Back to tailer architecture for persister?
@@ -9,7 +13,6 @@
 - devex on returns from mutations
 - Revisit log and tail infra for persistence
 - Actually start a transaction for your commit mutations in `persistor`
-- Preserve manual sections in partially generated code
 - Mutator devx. "create.create" :/ "delete.delete"
 - sqljs knex poc - https://github.com/gammaql/greldal/blob/20f65226256ec217ea056bf7e0c1eca48b5bb721/src/docs/utils/SQLJSClient.js
   - https://gammaql.github.io/greldal/playground

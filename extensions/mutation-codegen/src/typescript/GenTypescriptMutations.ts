@@ -6,7 +6,7 @@
 
 import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
 import { Node } from '@aphro/schema-api';
-import { Mutation, MutationArgDef, mutationFn } from '@aphro/mutation-grammar';
+import { Mutation, MutationArgDef, mutationFn, MutationVerb } from '@aphro/mutation-grammar';
 import { typeDefToTsType, TypescriptFile, importsToString } from '@aphro/codegen-ts';
 // TODO: tsImport should probably go into `codegen-ts`
 import { tsImport, nodeFn } from '@aphro/schema';
@@ -33,30 +33,23 @@ ${this.getCode()}
   }
 
   private getCode(): string {
-    return `export default class ${this.schema.name}Mutations extends MutationsBase<${
-      this.schema.name
-    }, Data> {
-      private constructor(
+    return `class Mutations extends MutationsBase<${this.schema.name}, Data> {
+      constructor(
         ctx: Context,
         mutator: ICreateOrUpdateBuilder<${this.schema.name}, Data>
       ) {
         super(ctx, mutator);
       }
 
-      static update(model: ${this.schema.name}) {
-        return new ${this.schema.name}Mutations(model.ctx, new UpdateMutationBuilder(spec, model))
-      }
-
-      static creation(ctx: Context) {
-        return new ${this.schema.name}Mutations(ctx, new CreateMutationBuilder(spec));
-      }
-
-      static deletion(model: ${this.schema.name}) {
-        return new ${this.schema.name}Mutations(model.ctx, new DeleteMutationBuilder(spec, model));
-      }
-
       ${this.getMutationMethodsCode()}
-    }`;
+    }
+
+    export default class ${this.schema.name}Mutations {
+      ${this.getFactoriesCode('create')}
+      ${this.getFactoriesCode('update')}
+      ${this.getFactoriesCode('delete')}
+    }
+    `;
   }
 
   private collectImports(): Import[] {
@@ -76,6 +69,36 @@ ${this.getCode()}
     ];
   }
 
+  private getFactoriesCode(verb: MutationVerb): string {
+    return Object.values(this.schema.extensions.mutations?.mutations || {})
+      .filter(m => m.verb === verb)
+      .map(m => this.getFactoryCode(verb, m))
+      .join('\n\n');
+  }
+
+  private getFactoryCode(verb: MutationVerb, m: Mutation): string {
+    switch (verb) {
+      case 'create':
+        return `static ${m.name}(ctx: Context, ${this.getArgsCode(m.args, false)}): Mutations {
+          return new Mutations(ctx, new CreateMutationBuilder(spec)).${m.name}(args)
+        }`;
+      case 'update':
+        return `static ${m.name}(model: ${this.schema.name}, ${this.getArgsCode(
+          m.args,
+          false,
+        )}): Mutations {
+          return new Mutations(model.ctx, new UpdateMutationBuilder(spec, model)).${m.name}(args)
+        }`;
+      case 'delete':
+        return `static ${m.name}(model: ${this.schema.name}, ${this.getArgsCode(
+          m.args,
+          false,
+        )}): Mutations {
+          return new Mutations(model.ctx, new DeleteMutationBuilder(spec, model)).${m.name}(args)
+        }`;
+    }
+  }
+
   private getMutationMethodsCode(): string {
     return Object.values(this.schema.extensions.mutations?.mutations || {})
       .map(m => this.getMutationMethodCode(m))
@@ -90,7 +113,10 @@ ${this.getCode()}
     }`;
   }
 
-  private getArgsCode(args: { [key: string]: MutationArgDef }): string {
+  private getArgsCode(
+    args: { [key: string]: MutationArgDef },
+    desturcture: boolean = true,
+  ): string {
     const fullArgsDefs = Object.values(args).map(a =>
       mutationFn.transformMaybeQuickToFull(this.schema, a),
     );
@@ -103,8 +129,11 @@ ${this.getCode()}
         })
         .join(',') +
       '}';
-    const destructure = '{' + fullArgsDefs.map(a => a.name).join(',') + '}';
-    return `${destructure}: ${type}`;
+    let argName = 'args';
+    if (desturcture) {
+      argName = '{' + fullArgsDefs.map(a => a.name).join(',') + '}';
+    }
+    return `${argName}: ${type}`;
   }
 
   private collectImportsForMutations(): Import[] {

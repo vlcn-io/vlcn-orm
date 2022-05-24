@@ -38,21 +38,21 @@ Deck as Node {
   slides: Edge<Slide.deckId>
   selectedSlide: Edge<Deck.selectedSlideId>
 } & Mutations {
-  create {
+  create as Create {
     name: NaturalLanguage
     owner: User
     selectedSlide: Slide | null
   }
 
-  selectSlide {
+  selectSlide as Update {
     selectedSlide: Slide
   }
 
-  rename {
+  rename as Update {
     name: NaturalLanguage
   }
 
-  delete {}
+  delete as Delete {}
 }
 
 Slide as Node {
@@ -62,16 +62,16 @@ Slide as Node {
 } & OutboundEdges {
   components: Edge<Component.slideId>
 } & Mutations {
-  create {
+  create as Create {
     deck: Deck
     order # if a param matches a field or edge name we infer the type
   }
 
-  reorder {
+  reorder as Update {
     order: float32
   }
 
-  delete {}
+  delete as Delete {}
 }
 
 Component as Node {
@@ -80,11 +80,11 @@ Component as Node {
   slideId: ID<Slide>
   content: string
 } & Mutations {
-  create {
+  create as Create {
     subtype
     slide: Slide
     content
   }
 
-  delete {}
+  delete as Delete {}
 }
