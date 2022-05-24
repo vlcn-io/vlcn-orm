@@ -1,6 +1,16 @@
-import { sign, readSignature, removeSignature, checkSignature } from '../CodegenFile.js';
+import {
+  sign,
+  readSignature,
+  removeSignature,
+  checkSignature,
+  extractManualSections,
+} from '../CodegenFile.js';
 import md5 from 'md5';
 import fc from 'fast-check';
+import {
+  ALGOL_BEGIN_MANUAL_SECTION_MARKER,
+  ALGOL_END_MANUAL_SECTION_MARKER,
+} from '@aphro/codegen-api';
 
 test('Signing source', () => {
   fc.assert(
@@ -46,4 +56,36 @@ test('Checking embedded signature', () => {
       expect(() => checkSignature(signed, '<>')).toThrow();
     }),
   );
+});
+
+test('Extracting manual sections', () => {
+  const code = `
+one
+two
+three
+// BEGIN-MANUAL-SECTION: [first]
+// END-MANUAL-SECTION
+
+other code
+
+// BEGIN-MANUAL-SECTION: [second]
+manual-two
+// END-MANUAL-SECTION
+// BEGIN-MANUAL-SECTION: [third]
+manual
+three
+// END-MANUAL-SECTION
+
+end code
+  `;
+
+  const extracted = extractManualSections(
+    code,
+    ALGOL_BEGIN_MANUAL_SECTION_MARKER,
+    ALGOL_END_MANUAL_SECTION_MARKER,
+  );
+
+  expect(extracted.get('first')).toEqual('');
+  expect(extracted.get('second')).toEqual('manual-two');
+  expect(extracted.get('third')).toEqual('manual\nthree');
 });

@@ -34,7 +34,7 @@ ${this.getCode()}
 
   private getCode(): string {
     return `
-    // BEGIN-MANUAL-SECTION
+    // BEGIN-MANUAL-SECTION: [module-level]
     // Manual section for any new imports / export / top level things
     // END-MANUAL-SECTION
 
@@ -112,7 +112,7 @@ ${this.getCode()}
 
   private getMutationMethodCode(m: Mutation): string {
     return `${m.name}(${this.getArgsCode(m.args)}): this {
-      // BEGIN-MANUAL-SECTION [${m.name}]
+      // BEGIN-MANUAL-SECTION: [${m.name}]
       // END-MANUAL-SECTION
       return this;
     }`;

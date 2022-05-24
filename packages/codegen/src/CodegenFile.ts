@@ -1,4 +1,3 @@
-import { invariant } from '@strut/utils';
 import md5 from 'md5';
 
 export function sign(content: string, template: string) {
@@ -29,4 +28,52 @@ export function checkSignature(content: string, template: string): void {
       code: 'bad-signature',
     };
   }
+}
+
+export function extractManualSections(
+  content: string,
+  startMarkerTemplate: string,
+  endMarker: string,
+): Map<string, string> {
+  const ret = new Map();
+  const lines = content.split('\n');
+  const startMarkRegex = new RegExp(startMarkerTemplate.replace('[]', '\\[(.*)\\]'));
+
+  let manualSectionName: string | null = null;
+  let manualLines: string[] = [];
+
+  const inManualSection = () => manualSectionName != null;
+  const endManualSection = () => {
+    manualSectionName = null;
+    manualLines = [];
+  };
+  const startManualSection = (match: RegExpExecArray) => {
+    manualSectionName = match[1];
+    if (manualSectionName == null) {
+      throw new Error(
+        `While processing ${content.substring(0, 100)} we hit a manual section without a name`,
+      );
+    }
+  };
+
+  for (const line of lines) {
+    if (inManualSection()) {
+      if (line.indexOf(endMarker) != -1) {
+        ret.set(manualSectionName, manualLines.join('\n'));
+        endManualSection();
+        continue;
+      }
+      manualLines.push(line);
+      continue;
+    }
+
+    const match = startMarkRegex.exec(line);
+    if (!match) {
+      continue;
+    }
+
+    startManualSection(match);
+  }
+
+  return ret;
 }
