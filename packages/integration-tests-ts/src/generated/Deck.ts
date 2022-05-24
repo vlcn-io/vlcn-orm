@@ -1,9 +1,11 @@
-// SIGNED-SOURCE: <b52beee9fbb67b8e593ba77a66856b00>
+// SIGNED-SOURCE: <5334adb03acfcc0ca79dab2e4691f81e>
 import { default as s } from "./DeckSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { Model } from "@aphro/runtime-ts";
 import { ModelSpec } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
+import DeckQuery from "./DeckQuery.js";
+import { Context } from "@aphro/runtime-ts";
 import UserQuery from "./UserQuery.js";
 import SlideQuery from "./SlideQuery.js";
 import Slide from "./Slide.js";
@@ -53,5 +55,9 @@ export default class Deck extends Model<Data> {
   }
   querySelectedSlide(): SlideQuery {
     return SlideQuery.fromId(this.ctx, this.selectedSlideId);
+  }
+
+  static queryAll(ctx: Context): DeckQuery {
+    return DeckQuery.create(ctx);
   }
 }

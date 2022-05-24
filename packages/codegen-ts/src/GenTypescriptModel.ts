@@ -28,6 +28,8 @@ export default class ${this.schema.name}
 
   ${this.getFieldCode()}
   ${this.getEdgeCode()}
+
+  ${this.getQueryAllMethodCode()}
 }
 `,
     );
@@ -49,6 +51,12 @@ export default class ${this.schema.name}
       tsImport('{Model}', null, '@aphro/runtime-ts'),
       tsImport('{ModelSpec}', null, '@aphro/runtime-ts'),
       tsImport('{SID_of}', null, '@aphro/runtime-ts'),
+      tsImport(
+        nodeFn.queryTypeName(this.schema.name),
+        null,
+        `./${nodeFn.queryTypeName(this.schema.name)}.js`,
+      ),
+      tsImport('{Context}', null, '@aphro/runtime-ts'),
       ...(this.schema.extensions.module?.imports.values() || []),
       ...this.getEdgeImports(),
       ...this.getIdFieldImports(),
@@ -175,5 +183,11 @@ export default class ${this.schema.name}
         // }
         return 'fromSrc(this.ctx, this.id)';
     }
+  }
+
+  private getQueryAllMethodCode(): string {
+    return `static queryAll(ctx: Context): ${nodeFn.queryTypeName(this.schema.name)} {
+      return ${nodeFn.queryTypeName(this.schema.name)}.create(ctx);
+    }`;
   }
 }

@@ -1,9 +1,11 @@
-// SIGNED-SOURCE: <8ba1613a8e421e277e7988118078e565>
+// SIGNED-SOURCE: <2a56a3f04cd4e704b29e35623a150cb4>
 import { default as s } from "./SlideSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { Model } from "@aphro/runtime-ts";
 import { ModelSpec } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
+import SlideQuery from "./SlideQuery.js";
+import { Context } from "@aphro/runtime-ts";
 import ComponentQuery from "./ComponentQuery.js";
 import Component from "./Component.js";
 import Deck from "./Deck.js";
@@ -31,5 +33,9 @@ export default class Slide extends Model<Data> {
 
   queryComponents(): ComponentQuery {
     return ComponentQuery.create(this.ctx).whereSlideId(P.equals(this.id));
+  }
+
+  static queryAll(ctx: Context): SlideQuery {
+    return SlideQuery.create(ctx);
   }
 }

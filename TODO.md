@@ -1,9 +1,11 @@
 # 5/22
 - Auto-generate ID on create -- depending on id type...
+- Switch to nanoid #22
 - 'merge' codegen option
-- Preserve manual sections
+- ~~Preserve manual sections~~
 - ~~prettier ignore partially generated code~~
   - Will need to suggest that users ignore `generated` folders
+- Test error paths, smooth error messages
 
 - Type validation on referenced types
   - Imports
@@ -14,7 +16,7 @@
 - devex on returns from mutations
 - Revisit log and tail infra for persistence
 - Actually start a transaction for your commit mutations in `persistor`
-- Mutator devx. "create.create" :/ "delete.delete"
+- ~~Mutator devx. "create.create" :/ "delete.delete"~~
 - sqljs knex poc - https://github.com/gammaql/greldal/blob/20f65226256ec217ea056bf7e0c1eca48b5bb721/src/docs/utils/SQLJSClient.js
   - https://gammaql.github.io/greldal/playground
 - investigate sqlite reactivity

@@ -1,9 +1,11 @@
-// SIGNED-SOURCE: <7f2b7385956b48877d69a04f9116b39b>
+// SIGNED-SOURCE: <5518dd6694b76fa1f25e5027f51345fd>
 import { default as s } from "./ComponentSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { Model } from "@aphro/runtime-ts";
 import { ModelSpec } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
+import ComponentQuery from "./ComponentQuery.js";
+import { Context } from "@aphro/runtime-ts";
 import Slide from "./Slide.js";
 
 export type Data = {
@@ -30,5 +32,9 @@ export default class Component extends Model<Data> {
 
   get content(): string {
     return this.data.content;
+  }
+
+  static queryAll(ctx: Context): ComponentQuery {
+    return ComponentQuery.create(ctx);
   }
 }
