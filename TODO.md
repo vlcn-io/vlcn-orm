@@ -2,7 +2,8 @@
 - Auto-generate ID on create -- depending on id type...
 - 'merge' codegen option
 - Preserve manual sections
-- prettier ignore partially generated code
+- ~~prettier ignore partially generated code~~
+  - Will need to suggest that users ignore `generated` folders
 
 - Type validation on referenced types
   - Imports

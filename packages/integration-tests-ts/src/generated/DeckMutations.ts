@@ -1,18 +1,22 @@
-// SIGNED-SOURCE: <a4575193fcf33a21cdaab0285f2a0055>
-import { ICreateOrUpdateBuilder, sid } from '@aphro/runtime-ts';
-import { Context } from '@aphro/runtime-ts';
-import { MutationsBase } from '@aphro/runtime-ts';
-import Deck from './Deck.js';
-import { default as spec } from './DeckSpec.js';
-import { Data } from './Deck.js';
-import { UpdateMutationBuilder } from '@aphro/runtime-ts';
-import { CreateMutationBuilder } from '@aphro/runtime-ts';
-import { DeleteMutationBuilder } from '@aphro/runtime-ts';
-import { Changeset } from '@aphro/runtime-ts';
-import User from './User.js';
-import { Data as UserData } from './User.js';
-import Slide from './Slide.js';
-import { Data as SlideData } from './Slide.js';
+// SIGNED-SOURCE: <4eecf21ae8a252a6c3e2672af2c2d6cd>
+import { ICreateOrUpdateBuilder, sid } from "@aphro/runtime-ts";
+import { Context } from "@aphro/runtime-ts";
+import { MutationsBase } from "@aphro/runtime-ts";
+import Deck from "./Deck.js";
+import { default as spec } from "./DeckSpec.js";
+import { Data } from "./Deck.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { Changeset } from "@aphro/runtime-ts";
+import User from "./User.js";
+import { Data as UserData } from "./User.js";
+import Slide from "./Slide.js";
+import { Data as SlideData } from "./Slide.js";
+
+// BEGIN-MANUAL-SECTION
+// Manual section for any new imports / export / top level things
+// END-MANUAL-SECTION
 
 class Mutations extends MutationsBase<Deck, Data> {
   constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<Deck, Data>) {
@@ -39,7 +43,11 @@ class Mutations extends MutationsBase<Deck, Data> {
     return this;
   }
 
-  selectSlide({ selectedSlide }: { selectedSlide: Slide | Changeset<Slide, SlideData> }): this {
+  selectSlide({
+    selectedSlide,
+  }: {
+    selectedSlide: Slide | Changeset<Slide, SlideData>;
+  }): this {
     // BEGIN-MANUAL-SECTION
     // END-MANUAL-SECTION
     return this;
@@ -65,21 +73,30 @@ export default class DeckMutations {
       name: string;
       owner: User | Changeset<User, UserData>;
       selectedSlide: Slide | Changeset<Slide, SlideData> | null;
-    },
+    }
   ): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
   }
   static selectSlide(
     model: Deck,
-    args: { selectedSlide: Slide | Changeset<Slide, SlideData> },
+    args: { selectedSlide: Slide | Changeset<Slide, SlideData> }
   ): Mutations {
-    return new Mutations(model.ctx, new UpdateMutationBuilder(spec, model)).selectSlide(args);
+    return new Mutations(
+      model.ctx,
+      new UpdateMutationBuilder(spec, model)
+    ).selectSlide(args);
   }
 
   static rename(model: Deck, args: { name: string }): Mutations {
-    return new Mutations(model.ctx, new UpdateMutationBuilder(spec, model)).rename(args);
+    return new Mutations(
+      model.ctx,
+      new UpdateMutationBuilder(spec, model)
+    ).rename(args);
   }
   static delete(model: Deck, args: {}): Mutations {
-    return new Mutations(model.ctx, new DeleteMutationBuilder(spec, model)).delete(args);
+    return new Mutations(
+      model.ctx,
+      new DeleteMutationBuilder(spec, model)
+    ).delete(args);
   }
 }

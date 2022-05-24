@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <921284e1636fdac8db6863cbc9aacf72>
+// SIGNED-SOURCE: <825f17bdd2cfe6d39be505ae7fa2d1bc>
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -11,6 +11,10 @@ import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { Changeset } from "@aphro/runtime-ts";
 import Slide from "./Slide.js";
 import { Data as SlideData } from "./Slide.js";
+
+// BEGIN-MANUAL-SECTION
+// Manual section for any new imports / export / top level things
+// END-MANUAL-SECTION
 
 class Mutations extends MutationsBase<Component, Data> {
   constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<Component, Data>) {

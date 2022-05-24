@@ -33,7 +33,12 @@ ${this.getCode()}
   }
 
   private getCode(): string {
-    return `class Mutations extends MutationsBase<${this.schema.name}, Data> {
+    return `
+    // BEGIN-MANUAL-SECTION
+    // Manual section for any new imports / export / top level things
+    // END-MANUAL-SECTION
+
+    class Mutations extends MutationsBase<${this.schema.name}, Data> {
       constructor(
         ctx: Context,
         mutator: ICreateOrUpdateBuilder<${this.schema.name}, Data>
