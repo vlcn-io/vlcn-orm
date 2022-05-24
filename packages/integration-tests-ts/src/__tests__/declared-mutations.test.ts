@@ -1,8 +1,7 @@
 import { context, Context, viewer, Cache, asId, commit } from '@aphro/runtime-ts';
 import DeckMutations from '../generated/DeckMutations';
-import User from '../generated/User';
 import UserMutations from '../generated/UserMutations';
-import { initDb } from './testBase';
+import { initDb, destroyDb } from './testBase';
 
 let ctx: Context;
 beforeAll(async () => {
@@ -10,7 +9,7 @@ beforeAll(async () => {
   ctx = context(viewer(asId('me')), resolver, new Cache());
 });
 
-test('Creating models via declared mutations', () => {
+test('Creating models via declared mutations', async () => {
   // TODO: collapse create?
   // TODO: can we remove some of the redundancy of `ctx`?
   const userChangeset = UserMutations.creation(ctx).create({ name: 'Bill' }).toChangeset();
@@ -18,14 +17,21 @@ test('Creating models via declared mutations', () => {
   const deckChangeset = DeckMutations.creation(ctx)
     .create({
       name: 'First Presentation',
-      owner: user,
+      owner: userChangeset,
       selectedSlide: null,
     })
     .toChangeset();
 
-  const ret = commit(ctx, [userChangeset, deckChangeset]);
-  const x = ret[0];
+  const [user, deck, persist] = commit(ctx, [userChangeset, deckChangeset]);
+  // console.log(ret);
+  //  = ret;
 
-  expect(deck?.name).toEqual('Firs Presentation');
-  expect(user?.name).toEqual('Bill');
+  expect(deck.name).toEqual('First Presentation');
+  expect(user.name).toEqual('Bill');
+
+  await persist;
+});
+
+afterAll(async () => {
+  await destroyDb();
 });

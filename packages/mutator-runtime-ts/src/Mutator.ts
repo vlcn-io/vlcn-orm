@@ -1,4 +1,5 @@
 import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
+import sid from '@strut/sid';
 import {
   Changeset,
   CreateChangeset,

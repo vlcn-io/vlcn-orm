@@ -50,7 +50,7 @@ test('Optimstic read after create', async () => {
 
   const [optimistic, persist] = commit(ctx, [cs]);
 
-  const user = optimistic.nodes.getx(cs.id);
+  const user = optimistic;
   expect(user.name).toEqual('Bart');
   expect(user.created).toEqual(creationTime);
   expect(user.modified).toEqual(creationTime);
@@ -74,12 +74,12 @@ test('Reading the created item after create', async () => {
 
   // TODO: generate static User.queryAll method
   let users = await UserQuery.create(ctx).gen();
-  expect(users).toContain(optimistic.nodes.getx(cs.id));
+  expect(users).toContain(optimistic);
 
   ctx.cache.clear();
   users = await UserQuery.create(ctx).gen();
   expect(users.map(u => u.id)).toContain(cs.id);
-  expect(users).not.toContain(optimistic.nodes.getx(cs.id));
+  expect(users).not.toContain(optimistic);
 });
 
 afterAll(async () => {

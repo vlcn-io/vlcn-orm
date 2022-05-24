@@ -1,20 +1,17 @@
 // SIGNED-SOURCE: <d736cb3750e38343a2613b2ae56bf31a>
-import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
-import { Context } from "@aphro/runtime-ts";
-import { MutationsBase } from "@aphro/runtime-ts";
-import User from "./User.js";
-import { default as spec } from "./UserSpec.js";
-import { Data } from "./User.js";
-import { UpdateMutationBuilder } from "@aphro/runtime-ts";
-import { CreateMutationBuilder } from "@aphro/runtime-ts";
-import { DeleteMutationBuilder } from "@aphro/runtime-ts";
-import { Changeset } from "@aphro/runtime-ts";
+import { ICreateOrUpdateBuilder, sid } from '@aphro/runtime-ts';
+import { Context } from '@aphro/runtime-ts';
+import { MutationsBase } from '@aphro/runtime-ts';
+import User from './User.js';
+import { default as spec } from './UserSpec.js';
+import { Data } from './User.js';
+import { UpdateMutationBuilder } from '@aphro/runtime-ts';
+import { CreateMutationBuilder } from '@aphro/runtime-ts';
+import { DeleteMutationBuilder } from '@aphro/runtime-ts';
+import { Changeset } from '@aphro/runtime-ts';
 
 export default class UserMutations extends MutationsBase<User, Data> {
-  private constructor(
-    ctx: Context,
-    mutator: ICreateOrUpdateBuilder<User, Data>
-  ) {
+  private constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<User, Data>) {
     super(ctx, mutator);
   }
 
@@ -32,6 +29,10 @@ export default class UserMutations extends MutationsBase<User, Data> {
 
   create({ name }: { name: string }): this {
     // BEGIN-MANUAL-SECTION
+    this.mutator.set({
+      id: sid('test'),
+      name,
+    });
     // END-MANUAL-SECTION
     return this;
   }
