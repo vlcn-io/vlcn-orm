@@ -192,7 +192,7 @@ export default class FooMutations extends MutationsBase<Foo, Data> {
 });
 
 function genIt(schema: Node) {
-  return new GenTypescriptMutations('', schema).gen();
+  return new GenTypescriptMutations(schema).gen();
 }
 
 function asTsType(prim: PrimitiveSubtype): string {

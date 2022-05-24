@@ -120,3 +120,12 @@ test('Adding manual additions back in', () => {
   const inserted = insertManualSections(codeWithManualSectionsNoAddtions, read, algolTemplates);
   expect(inserted).toEqual(codeWithManualSections);
 });
+
+test('Signing code with manual sections and checking that signature', () => {
+  const read = readManualSections(codeWithManualSections, algolTemplates);
+
+  const noAddtionsSigned = sign(codeWithManualSectionsNoAddtions, algolTemplates);
+  const signedThenManuallyModified = insertManualSections(noAddtionsSigned, read, algolTemplates);
+
+  expect(() => checkSignature(signedThenManuallyModified, algolTemplates)).not.toThrow();
+});

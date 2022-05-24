@@ -14,8 +14,6 @@ export default class TypescriptFile implements CodegenFile {
   get contents(): string {
     const content = sign(prettier.format(this.#contents, { parser: 'typescript' }), this.templates);
 
-    // insert code from previously written manual sections if they exist
-
     return content;
   }
 }

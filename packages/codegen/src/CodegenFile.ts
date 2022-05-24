@@ -23,9 +23,7 @@ export function removeSignature(content: string, templates: Templates): string {
 
 export function checkSignature(content: string, templates: Templates): void {
   const sig = readSignature(content, templates);
-  const baseContent = removeSignature(content, templates);
-
-  // remove manual sections as they don't contribute to the signature
+  const baseContent = removeManualSections(removeSignature(content, templates), templates);
 
   if (sig !== md5(baseContent)) {
     throw {

@@ -10,17 +10,17 @@ export default class CodegenPipleine {
 
   async gen(schemas: (Node | Edge)[], dest: string) {
     const files = schemas.flatMap(schema =>
-      maybeMap(this.steps, step => (!step.accepts(schema) ? null : new step(dest, schema).gen())),
+      maybeMap(this.steps, step => (!step.accepts(schema) ? null : new step(schema).gen())),
     );
 
     await fs.promises.mkdir(dest, { recursive: true });
-    await this.checkHashes(dest, files);
+    await this.checkHashesAndAddManualCode(dest, files);
     await Promise.all(
       files.map(async f => await fs.promises.writeFile(toPath(dest, f.name), f.contents)),
     );
   }
 
-  private async checkHashes(dest: string, files: CodegenFile[]) {
+  private async checkHashesAndAddManualCode(dest: string, files: CodegenFile[]) {
     await Promise.all(
       files.map(async f => {
         try {

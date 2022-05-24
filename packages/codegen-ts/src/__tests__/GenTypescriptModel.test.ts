@@ -165,5 +165,5 @@ export default class Bar extends Model<Data> {
 });
 
 function genIt(schema: Node) {
-  return new GenTypescriptModel('', schema).gen();
+  return new GenTypescriptModel(schema).gen();
 }

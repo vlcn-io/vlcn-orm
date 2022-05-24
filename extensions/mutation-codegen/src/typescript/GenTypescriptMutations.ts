@@ -18,7 +18,7 @@ export class GenTypescriptMutations extends CodegenStep {
     return Object.values(schema.extensions.mutations?.mutations || []).length > 0;
   }
 
-  constructor(private dest: string, private schema: Node) {
+  constructor(private schema: Node) {
     super();
   }
 

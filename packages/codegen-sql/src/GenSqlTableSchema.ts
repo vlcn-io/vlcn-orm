@@ -10,7 +10,7 @@ export default class GenSqlTableSchema extends CodegenStep {
     return schema.storage.type === 'sql';
   }
 
-  constructor(private dest: string, private schema: Node) {
+  constructor(private schema: Node) {
     super();
   }
 
