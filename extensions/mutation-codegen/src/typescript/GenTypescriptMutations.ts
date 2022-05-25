@@ -113,6 +113,7 @@ ${this.getCode()}
   private getMutationMethodCode(m: Mutation): string {
     return `${m.name}(${this.getArgsCode(m.args)}): this {
       // BEGIN-MANUAL-SECTION: [${m.name}]
+      throw new Error('Mutation ${m.name} is not implemented!');
       // END-MANUAL-SECTION
       return this;
     }`;

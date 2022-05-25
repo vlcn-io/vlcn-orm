@@ -34,3 +34,7 @@ Run
 ```
 pnpm publish -r --access=public --otp=___
 ```
+
+# Inspiration
+
+https://www.youtube.com/watch?v=rkZzg7Vowao

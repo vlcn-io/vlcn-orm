@@ -13,7 +13,7 @@ import Slide from "./Slide.js";
 import { Data as SlideData } from "./Slide.js";
 
 // BEGIN-MANUAL-SECTION: [module-level]
-// Manual section for any new imports / export / top level things
+import {sid} from '@aphro/runtime-ts';
 // END-MANUAL-SECTION
 
 class Mutations extends MutationsBase<Component, Data> {
@@ -31,6 +31,12 @@ class Mutations extends MutationsBase<Component, Data> {
     content: string;
   }): this {
     // BEGIN-MANUAL-SECTION: [create]
+    this.mutator.set({
+      id: sid('test'),
+      subtype,
+      slideId: slide.id,
+      content
+    })
     // END-MANUAL-SECTION
     return this;
   }

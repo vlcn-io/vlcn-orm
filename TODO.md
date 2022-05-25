@@ -1,11 +1,15 @@
 # 5/22
+- Create from data, re-hydrate cache?
 - Auto-generate ID on create -- depending on id type...
+- Promise subclass
 - Switch to nanoid #22
 - 'merge' codegen option
 - ~~Preserve manual sections~~
 - ~~prettier ignore partially generated code~~
   - Will need to suggest that users ignore `generated` folders
 - Test error paths, smooth error messages
+- 1+N query problem solution
+- bi-directional references... when creating objects that point to one another?
 
 - Type validation on referenced types
   - Imports

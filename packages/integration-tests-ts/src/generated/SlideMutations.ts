@@ -13,7 +13,7 @@ import Deck from "./Deck.js";
 import { Data as DeckData } from "./Deck.js";
 
 // BEGIN-MANUAL-SECTION: [module-level]
-// Manual section for any new imports / export / top level things
+import {sid} from '@aphro/runtime-ts';
 // END-MANUAL-SECTION
 
 class Mutations extends MutationsBase<Slide, Data> {
@@ -29,18 +29,25 @@ class Mutations extends MutationsBase<Slide, Data> {
     order: number;
   }): this {
     // BEGIN-MANUAL-SECTION: [create]
+    this.mutator.set({
+      id: sid('test'),
+      order,
+      deckId: deck.id,
+    })
     // END-MANUAL-SECTION
     return this;
   }
 
   reorder({ order }: { order: number }): this {
     // BEGIN-MANUAL-SECTION: [reorder]
+    throw new Error("Mutation reorder is not implemented!");
     // END-MANUAL-SECTION
     return this;
   }
 
   delete({}: {}): this {
     // BEGIN-MANUAL-SECTION: [delete]
+    throw new Error("Mutation delete is not implemented!");
     // END-MANUAL-SECTION
     return this;
   }

@@ -5,6 +5,7 @@ import User from '../generated/User.js';
 import UserQuery from '../generated/UserQuery.js';
 import DeckMutations from '../generated/DeckMutations.js';
 import SlideMutations from '../generated/SlideMutations.js';
+import ComponentMutations from '../generated/ComponentMutations.js';
 
 let ctx: Context;
 beforeAll(async () => {
@@ -17,7 +18,8 @@ test('Point queries', async () => {
   await persistHandle;
 
   // TODO: add a `first` method
-  const users = await UserQuery.create(ctx).whereId(P.equals(user.id)).gen();
+  // TODO: add a `gen` method to just load via id
+  const users = await User.queryAll(ctx).whereId(P.equals(user.id)).gen();
 
   // user query for created user should be fulfilled from the cache
   expect(users[0]).toEqual(user);
@@ -35,9 +37,7 @@ test('Query all', async () => {
   const [optimisitc, persistHandle] = commit(ctx, changesets);
   await persistHandle;
 
-  // TODO: this would be more ergonomic as `User.queryAll`
-  const users = await UserQuery.create(ctx).gen();
-
+  const users = await User.queryAll(ctx).gen();
   const names = users.map(u => u.name);
 
   suffixes.forEach(i => {
@@ -46,7 +46,36 @@ test('Query all', async () => {
 });
 
 test('Query with filter', async () => {});
-test('Hop query', async () => {});
+
+test('Query that traverses edges', async () => {
+  const userCs = UserMutations.create(ctx, {
+    name: 'Bob',
+  }).toChangeset();
+  const deckCs = DeckMutations.create(ctx, {
+    name: 'Preso',
+    owner: userCs,
+    selectedSlide: null, // TODO: enable ref to slide somehow...
+  }).toChangeset();
+  const slideCs = SlideMutations.create(ctx, {
+    order: 0,
+    deck: deckCs,
+  }).toChangeset();
+  const componentCs = ComponentMutations.create(ctx, {
+    content: 'Welcome!',
+    subtype: 'Text',
+    slide: slideCs,
+  }).toChangeset();
+  const [user, component, slide, deck, persistHandle] = commit(ctx, [
+    userCs,
+    componentCs,
+    slideCs,
+    deckCs,
+  ]);
+  await persistHandle;
+
+  const components = await user.queryDecks().querySlides().queryComponents().gen();
+  console.log(components);
+});
 
 afterAll(async () => {
   await destroyDb();
