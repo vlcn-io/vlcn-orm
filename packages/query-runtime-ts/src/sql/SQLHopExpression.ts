@@ -37,6 +37,26 @@ import { HoistedOperations } from './SqlSourceExpression.js';
  * data and craft the initial select to respect that.
  *
  * Orders, offsets, limits in a hop?
+ *
+ * Hop cases:
+ *  No limit on non terminal hops:
+ *   Field:
+ *   SELECT B.* FROM A JOIN B on A.field = B.id
+ *   Fk:
+ *   SELECT B.* FROM A JOIN B on A.id = B.fk
+ *   Jx (forward):
+ *   SELECT B.* FROM A JOIN Jx on A.id = Jx.id1 JOIN B on B.id = Jx.id2
+ *   Jx (reverse):
+ *   SELECT B.* FROM A JOIN Jx ON A.id = Jx.id2 JOIN B on B.id = Jx.id1
+ *
+ *  filters & order bys on intermediate hops are fine to apply at the end of the main select.
+ *
+ *  Limit on non terminal hop:
+ *   Field:
+ *   SELECT B.* FROM (SELECT * FROM A LIMIT 10) as Ass JOIN B on Ass.field = B.id
+ *
+ * Limits on non-terminal hops just switch the table from "TABLE_NAME" to "(SELECT * FROM TABLE_NAME LIMIT X) AS TABLE_NAMEss"
+ *
  */
 export default class SQLHopExpression<T> implements HopExpression<SID_of<any>, T> {
   readonly spec: ModelSpec<any, any>;
