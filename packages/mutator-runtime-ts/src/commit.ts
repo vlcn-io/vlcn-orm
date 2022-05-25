@@ -7,11 +7,11 @@ import Persistor from './Persistor.js';
 export function commit<M extends IModel<D>, D>(
   ctx: Context,
   changesets: [Changeset<M>],
-): [M, Promise<any>];
+): [Promise<any>, M];
 export function commit<M1 extends IModel<D1>, D1, M2 extends IModel<D2>, D2>(
   ctx: Context,
   changesets: [Changeset<M1>, Changeset<M2>],
-): [M1, M2, Promise<any>];
+): [Promise<any>, M1, M2];
 export function commit<
   M1 extends IModel<D1>,
   D1,
@@ -22,7 +22,7 @@ export function commit<
 >(
   ctx: Context,
   changesets: [Changeset<M1>, Changeset<M2>, Changeset<M3>],
-): [M1, M2, M3, Promise<any>];
+): [Promise<any>, M1, M2, M3];
 export function commit<
   M1 extends IModel<D1>,
   D1,
@@ -35,7 +35,7 @@ export function commit<
 >(
   ctx: Context,
   changesets: [Changeset<M1>, Changeset<M2>, Changeset<M3>, Changeset<M4>],
-): [M1, M2, M3, M4, Promise<any>];
+): [Promise<any>, M1, M2, M3, M4];
 export function commit<
   M1 extends IModel<D1>,
   D1,
@@ -50,7 +50,7 @@ export function commit<
 >(
   ctx: Context,
   changesets: [Changeset<M1>, Changeset<M2>, Changeset<M3>, Changeset<M4>, Changeset<M5>],
-): [M1, M2, M3, M4, M5, Promise<any>];
+): [Promise<any>, M1, M2, M3, M4, M5];
 export function commit<
   M1 extends IModel<D1>,
   D1,
@@ -74,16 +74,29 @@ export function commit<
     Changeset<M5>,
     Changeset<M6>,
   ],
-): [M1, M2, M3, M4, M5, M6, Promise<any>];
+): [Promise<any>, M1, M2, M3, M4, M5, M6];
 
-export function commit(ctx: Context, changesets: Changeset<any>[]): [...IModel[], Promise<any>];
+export function commit(ctx: Context, changesets: Changeset<any>[]): [Promise<any>, ...IModel[]];
 
-export function commit(ctx: Context, changesets: Changeset<any>[]): [...IModel[], Promise<any>] {
+export function commit(ctx: Context, changesets: Changeset<any>[]): [Promise<any>, ...IModel[]] {
   const transaction = new ChangesetExecutor(ctx, changesets).execute();
   const persistor = new Persistor(ctx);
 
-  return [...changesets.map(cs => transaction.nodes.getx(cs.id)), persistor.persist(transaction)];
+  return [persistor.persist(transaction), ...changesets.map(cs => transaction.nodes.getx(cs.id))];
 }
+
+/*
+export function commit(ctx: Context, changesets: Changeset<any>[]): CommitPromise {
+  const transaction = new ChangesetExecutor(ctx, changesets).execute();
+  const persistor = new Persistor(ctx);
+
+  return new CommitPromise(transaction.nodes, (resolve, reject) => {
+    persistor.persist(transaction).then(() => {
+      resolve();
+    }, reject);
+  });
+}
+*/
 
 /*
 Attempt at mapped tuples rather than overloads...

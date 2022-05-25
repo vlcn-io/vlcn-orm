@@ -32,7 +32,7 @@ test('Creating models via mutators', () => {
     .toChangeset();
 
   expect(async () => {
-    const [optimistic, persist] = commit(ctx, [cs]);
+    const [persist, optimistic] = commit(ctx, [cs]);
     await persist;
   }).not.toThrow();
 });
@@ -48,9 +48,8 @@ test('Optimstic read after create', async () => {
     })
     .toChangeset();
 
-  const [optimistic, persist] = commit(ctx, [cs]);
+  const [persist, user] = commit(ctx, [cs]);
 
-  const user = optimistic;
   expect(user.name).toEqual('Bart');
   expect(user.created).toEqual(creationTime);
   expect(user.modified).toEqual(creationTime);
@@ -69,7 +68,7 @@ test('Reading the created item after create', async () => {
     })
     .toChangeset();
 
-  const [optimistic, persist] = commit(ctx, [cs]);
+  const [persist, optimistic] = commit(ctx, [cs]);
   await persist;
 
   // TODO: generate static User.queryAll method

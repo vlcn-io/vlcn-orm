@@ -20,9 +20,7 @@ test('Creating models via declared mutations', async () => {
     selectedSlide: null,
   }).toChangeset();
 
-  const [user, deck, persist] = commit(ctx, [userChangeset, deckChangeset]);
-  // console.log(ret);
-  //  = ret;
+  const [persist, user, deck] = commit(ctx, [userChangeset, deckChangeset]);
 
   expect(deck.name).toEqual('First Presentation');
   expect(user.name).toEqual('Bill');

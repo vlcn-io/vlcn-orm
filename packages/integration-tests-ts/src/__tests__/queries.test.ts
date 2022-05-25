@@ -14,7 +14,7 @@ beforeAll(async () => {
 });
 
 test('Point queries', async () => {
-  const [user, persistHandle] = UserMutations.create(ctx, { name: 'Bill' }).save();
+  const [persistHandle, user] = UserMutations.create(ctx, { name: 'Bill' }).save();
   await persistHandle;
 
   // TODO: add a `first` method
@@ -65,7 +65,7 @@ test('Query that traverses edges', async () => {
     subtype: 'Text',
     slide: slideCs,
   }).toChangeset();
-  const [user, component, slide, deck, persistHandle] = commit(ctx, [
+  const [persistHandle, user, component, slide, deck] = commit(ctx, [
     userCs,
     componentCs,
     slideCs,

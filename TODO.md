@@ -1,7 +1,7 @@
 # 5/22
 - Create from data, re-hydrate cache?
 - Auto-generate ID on create -- depending on id type...
-- Promise subclass
+- ~~Promise subclass~~
 - Switch to nanoid #22
 - 'merge' codegen option
 - ~~Preserve manual sections~~
