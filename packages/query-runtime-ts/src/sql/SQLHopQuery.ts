@@ -30,7 +30,12 @@ function createExpression<TIn, TOut>(edge: EdgeSpec): HopExpression<TIn, TOut> {
 }
 
 function createJoinExpression<TIn, TOut>(edge: EdgeSpec): HopExpression<TIn, TOut> {
-  throw new Error('Join not yet supported');
+  switch (edge.type) {
+    case 'field':
+    case 'foreignKey':
+    case 'junction':
+  }
+  throw new Error('Create join expression is not yet implemented');
 }
 
 function createChainedHopExpression<TIn, TOut>(edge: EdgeSpec): HopExpression<TIn, TOut> {
