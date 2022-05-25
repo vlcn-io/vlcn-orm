@@ -19,7 +19,7 @@ export type HoistedOperations = {
   after?: ReturnType<typeof after>;
   // Points to the fully optimized hop expression
   // which can be hoisted
-  hop?: SQLHopExpression<any>;
+  hop?: SQLHopExpression<any, any>;
   // What we're actually selecting.
   // Could be IDs if we can't hoist the next hop and need to load them into the server for
   // the next hop. Could be based on what the caller asked for (count / ids / edges / models).
@@ -88,6 +88,7 @@ export default class SQLSourceExpression<T extends IModel<Object>> implements So
           break;
         case 'hop':
           // This can't happen... hop will be in `nextHop`
+          // It can if they optimize twice and the hop was made a chain hop.
           throw new Error('Hops should be passed in as hop plans');
         default:
           remainingExpressions.push(derivation);
@@ -145,9 +146,9 @@ export default class SQLSourceExpression<T extends IModel<Object>> implements So
   #optimizeHop(
     hop: HopPlan,
     thisHasRemainingExpressions: boolean,
-  ): [SQLHopExpression<any> | undefined, readonly Expression[]] {
+  ): [SQLHopExpression<any, any> | undefined, readonly Expression[]] {
     if (this.#canHoistHop(hop, thisHasRemainingExpressions)) {
-      return [hop.hop as SQLHopExpression<any>, hop.derivations];
+      return [hop.hop as SQLHopExpression<any, any>, hop.derivations];
     }
 
     // can't hoist it. Just return everything as derived expressions.

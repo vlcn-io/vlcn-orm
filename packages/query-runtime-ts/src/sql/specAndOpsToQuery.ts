@@ -120,6 +120,6 @@ function applyLimit<T extends Knex.QueryBuilder>(table: T, l?: ReturnType<typeof
   return table;
 }
 
-function applyHops<T extends Knex.QueryBuilder>(table: T, hop?: SQLHopExpression<any>): T {
+function applyHops<T extends Knex.QueryBuilder>(table: T, hop?: SQLHopExpression<any, any>): T {
   return table;
 }

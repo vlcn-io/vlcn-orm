@@ -3,6 +3,7 @@ import { HopExpression } from '../Expression.js';
 import { HopQuery, Query } from '../Query.js';
 import { EdgeSpec } from '@aphro/schema-api';
 import { Context } from '@aphro/context-runtime-ts';
+import SQLHopExpression from './SQLHopExpression.js';
 
 export default class SQLHopQuery<TIn, TOut> extends HopQuery<TIn, TOut> {
   /*
@@ -12,7 +13,7 @@ export default class SQLHopQuery<TIn, TOut> extends HopQuery<TIn, TOut> {
   */
   static create<TIn, TOut>(ctx: Context, sourceQuery: Query<TIn>, edge: EdgeSpec) {
     // based on source and dest spec, determine the appropriate hop expression
-    return new SQLHopQuery(ctx, sourceQuery, createExpression(edge));
+    return new SQLHopQuery<TIn, TOut>(ctx, sourceQuery, new SQLHopExpression(edge));
   }
 }
 
@@ -22,20 +23,11 @@ function createExpression<TIn, TOut>(edge: EdgeSpec): HopExpression<TIn, TOut> {
 
     // If we're the same storage on the same DB, we can use a join expression
     if (edge.source.storage.db === edge.dest.storage.db) {
-      return createJoinExpression(edge);
+      return new SQLHopExpression(edge);
     }
   }
 
   return createChainedHopExpression(edge);
-}
-
-function createJoinExpression<TIn, TOut>(edge: EdgeSpec): HopExpression<TIn, TOut> {
-  switch (edge.type) {
-    case 'field':
-    case 'foreignKey':
-    case 'junction':
-  }
-  throw new Error('Create join expression is not yet implemented');
 }
 
 function createChainedHopExpression<TIn, TOut>(edge: EdgeSpec): HopExpression<TIn, TOut> {

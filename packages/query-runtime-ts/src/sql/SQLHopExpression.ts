@@ -1,4 +1,5 @@
 import { ModelSpec } from '@aphro/model-runtime-ts';
+import { EdgeSpec } from '@aphro/schema-api';
 import { SID_of } from '@strut/sid';
 import { ChunkIterable } from '../ChunkIterable.js';
 import { HopExpression } from '../Expression.js';
@@ -58,11 +59,17 @@ import { HoistedOperations } from './SqlSourceExpression.js';
  * Limits on non-terminal hops just switch the table from "TABLE_NAME" to "(SELECT * FROM TABLE_NAME LIMIT X) AS TABLE_NAMEss"
  *
  */
-export default class SQLHopExpression<T> implements HopExpression<SID_of<any>, T> {
+export default class SQLHopExpression<TIn, TOut> implements HopExpression<TIn, TOut> {
   readonly spec: ModelSpec<any, any>;
   readonly ops: HoistedOperations;
 
-  chainAfter(iterable: ChunkIterable<SID_of<any>>): ChunkIterable<T> {
+  constructor(private edge: EdgeSpec) {}
+
+  chainAfter(iterable: ChunkIterable<TIn>): ChunkIterable<TOut> {
+    // Chain after is just...
+    // SELECT projection FROM foo WHERE id IN (chunk of ids)
+    // We'd need a SQLHopChunkIterable to which we pass the source iterable
+    // and which would then `specAndOpsToSQL` based on the hoisted operations + incoming chunk
     throw new Error('unimplemented');
   }
   /**
