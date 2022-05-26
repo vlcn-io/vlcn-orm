@@ -121,13 +121,21 @@ export default abstract class SQLExpression<T> {
 
   #hoistHop(
     hop: HopPlan,
-    myRemainingExpressions: readonly Expression[],
+    myRemainingExpressions: Expression[],
   ): [SQLHopExpression<any, any> | undefined, readonly Expression[]] {
+    const remainingExpressionsWithoutModelLoad = myRemainingExpressions.filter(
+      e => e.type !== 'modelLoad',
+    );
+
     // Technically ModelLoadExpressions are always inserted even if we don't need them...
     // Should we throw them out when queries are chained?
     // Well.. we still need them because if we can't optimize we need to load the model
     // for in-memory chaning and filtering.
-    if (this.#canHoistHop(hop, myRemainingExpressions)) {
+    if (this.#canHoistHop(hop, remainingExpressionsWithoutModelLoad)) {
+      const modelLoadIndex = myRemainingExpressions.findIndex(e => e.type === 'modelLoad');
+      // Since we're hopping there's no need to load the model of the currente expression.
+      // until we get to solving 1+N.
+      myRemainingExpressions.splice(modelLoadIndex, 1);
       return [hop.hop as SQLHopExpression<any, any>, hop.derivations];
     }
 
@@ -135,28 +143,15 @@ export default abstract class SQLExpression<T> {
     return [undefined, [hop.hop, ...hop.derivations]];
   }
 
-  #canHoistHop(hop: HopPlan, myRemainingExpressions: readonly Expression[]): boolean {
-    // If there are expressions that couldn't be rolled into source
-    // then we can't roll the hop in too! We'd be hopping before
-    // applying all expressions.
-    // Nit: -- this isn't quite true...
-    // we currently stick in a model load expression immediately when
-    // creating a query.
-    // We can drop the model load expression when we are hopping
-    // because we obvisouly no longer want the model from
-    // the first query.
-    // Note: we could also just never stick in a model load expression
-    // until calling `gen` or what have you.
-    // ModelLoadExpression vs IDLoad vs EdgeLoad would determine our `what`
-    // parameter which has thus far been indeterminate.
-    if (myRemainingExpressions.length > 0) {
+  #canHoistHop(hop: HopPlan, filteredRaminingExpressions: readonly Expression[]): boolean {
+    if (filteredRaminingExpressions.length > 0) {
       return false;
     }
 
-    // Check if the hop is:
+    // TODO Check if the hop is:
     // 1. the same backend (e.g., SQL)
     // 2. on the same logical database
     // 3. has a corresponding backend operator (e.g., join) to perform the hop
-    return false;
+    return true;
   }
 }

@@ -73,7 +73,9 @@ test('Query that traverses edges', async () => {
   await persistHandle;
 
   const components = await user.queryDecks().querySlides().queryComponents().gen();
-  console.log(components);
+
+  // We should have gotten our created component back
+  expect(components.map(c => c.id)).toEqual([component.id]);
 });
 
 afterAll(async () => {
