@@ -4,11 +4,12 @@ import specAndOpsToQuery from './specAndOpsToQuery.js';
 import { HoistedOperations } from './SqlSourceExpression.js';
 import { invariant } from '@strut/utils';
 import { Context } from '@aphro/context-runtime-ts';
+import { NodeSpec } from '@aphro/schema-api';
 
 export default class SQLSourceChunkIterable<T extends IModel<Object>> extends BaseChunkIterable<T> {
   constructor(
     private ctx: Context,
-    private spec: ModelSpec<T, Object>,
+    private spec: NodeSpec,
     private hoistedOperations: HoistedOperations,
   ) {
     super();

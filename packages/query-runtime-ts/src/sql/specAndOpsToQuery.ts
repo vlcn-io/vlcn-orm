@@ -1,13 +1,13 @@
-import { ModelSpec } from '@aphro/model-runtime-ts';
 import { HoistedOperations } from './SqlSourceExpression.js';
-import knex, { Knex } from 'knex';
+import { Knex } from 'knex';
 import { after, before, filter, orderBy, take } from '../Expression.js';
 import SQLHopExpression from './SQLHopExpression.js';
 import { ModelFieldGetter } from '../Field.js';
+import { NodeSpec } from '@aphro/schema-api';
 
 // given a model spec and hoisted operations, return the SQL query
 export default function specAndOpsToQuery(
-  spec: ModelSpec<any, any>,
+  spec: NodeSpec,
   ops: HoistedOperations,
   db: Knex,
 ): Knex.QueryBuilder {
@@ -39,9 +39,9 @@ export default function specAndOpsToQuery(
 }
 
 function getLastSpecAndProjection(
-  spec: ModelSpec<any, any>,
+  spec: NodeSpec,
   ops: HoistedOperations,
-): [ModelSpec<any, any>, HoistedOperations['what']] {
+): [NodeSpec, HoistedOperations['what']] {
   const hop = ops.hop;
   if (hop == null) {
     return [spec, ops.what];
