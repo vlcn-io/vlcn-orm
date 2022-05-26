@@ -76,6 +76,8 @@ test('Query that traverses edges', async () => {
 
   // We should have gotten our created component back
   expect(components.map(c => c.id)).toEqual([component.id]);
+  // The returned component should match the optimistic component / be the cached thing.
+  expect(components).toEqual([component]);
 });
 
 afterAll(async () => {
