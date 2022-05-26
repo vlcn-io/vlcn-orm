@@ -1,10 +1,13 @@
+import { Context } from '@aphro/context-runtime-ts';
 import { ModelSpec } from '@aphro/model-runtime-ts';
 import { EdgeSpec } from '@aphro/schema-api';
 import { SID_of } from '@strut/sid';
 import { ChunkIterable } from '../ChunkIterable.js';
 import { HopExpression } from '../Expression.js';
 import HopPlan from '../HopPlan.js';
-import { HoistedOperations } from './SqlExpression.js';
+import { IPlan } from '../Plan.js';
+import SQLExpression, { HoistedOperations } from './SqlExpression.js';
+import SQLHopChunkIterable from './SQLHopChunkIterable.js';
 
 /**
  * This should be very similar to `SQLSourceExpression`
@@ -59,25 +62,33 @@ import { HoistedOperations } from './SqlExpression.js';
  * Limits on non-terminal hops just switch the table from "TABLE_NAME" to "(SELECT * FROM TABLE_NAME LIMIT X) AS TABLE_NAMEss"
  *
  */
-export default class SQLHopExpression<TIn, TOut> implements HopExpression<TIn, TOut> {
-  readonly spec: ModelSpec<any, any>;
-  readonly ops: HoistedOperations;
-
-  constructor(private edge: EdgeSpec) {}
+export default class SQLHopExpression<TIn, TOut>
+  extends SQLExpression<TOut>
+  implements HopExpression<TIn, TOut>
+{
+  constructor(ctx: Context, private edge: EdgeSpec, ops: HoistedOperations) {
+    super(ctx, ops);
+  }
 
   chainAfter(iterable: ChunkIterable<TIn>): ChunkIterable<TOut> {
-    // Chain after is just...
-    // SELECT projection FROM foo WHERE id IN (chunk of ids)
-    // We'd need a SQLHopChunkIterable to which we pass the source iterable
-    // and which would then `specAndOpsToSQL` based on the hoisted operations + incoming chunk
-    throw new Error('unimplemented');
+    return new SQLHopChunkIterable(this.ctx, this.edge, this.ops);
   }
+
   /**
    * Optimizes the current plan (plan) and folds in the nxet hop (nextHop) if possible.
    */
-  optimize(plan: HopPlan, nextHop?: HopPlan): HopPlan {
-    throw new Error('unimplemented');
+  optimize(sourcePlan: IPlan, plan: HopPlan, nextHop?: HopPlan): HopPlan {
+    const [hoistedExpressions, remainingExpressions] = this.hoist(plan, nextHop);
+    return new HopPlan(
+      sourcePlan,
+      new SQLHopExpression(this.ctx, this.edge, hoistedExpressions),
+      remainingExpressions,
+    );
   }
 
   type: 'hop' = 'hop';
+
+  get destSpec() {
+    return this.edge.dest;
+  }
 }

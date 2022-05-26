@@ -28,10 +28,10 @@ export default class SQLSourceExpression<T extends IModel<Object>>
     ctx: Context,
     // we should take a schema instead of db
     // we'd need the schema to know if we can hoist certain fields or not
-    spec: NodeSpec,
-    hoistedOperations: HoistedOperations,
+    public readonly spec: NodeSpec,
+    ops: HoistedOperations,
   ) {
-    super(ctx, spec, hoistedOperations);
+    super(ctx, ops);
   }
 
   optimize(plan: Plan, nextHop?: HopPlan): Plan {
@@ -43,6 +43,6 @@ export default class SQLSourceExpression<T extends IModel<Object>>
   }
 
   get iterable(): ChunkIterable<T> {
-    return new SQLSourceChunkIterable(this.ctx, this.spec, this.hoistedOperations);
+    return new SQLSourceChunkIterable(this.ctx, this.spec, this.ops);
   }
 }

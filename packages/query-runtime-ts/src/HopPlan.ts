@@ -1,6 +1,6 @@
-import { ChunkIterable } from "./ChunkIterable.js";
-import { Expression, HopExpression } from "./Expression.js";
-import { IPlan } from "./Plan.js";
+import { ChunkIterable } from './ChunkIterable.js';
+import { Expression, HopExpression } from './Expression.js';
+import { IPlan } from './Plan.js';
 
 export default class HopPlan implements IPlan {
   #sourcePlan: IPlan;
@@ -9,7 +9,7 @@ export default class HopPlan implements IPlan {
   constructor(
     sourcePlan: IPlan,
     public readonly hop: HopExpression<any, any>,
-    derivations: Expression[]
+    derivations: Expression[],
   ) {
     this.#derivations = derivations;
     this.#sourcePlan = sourcePlan;
@@ -23,7 +23,7 @@ export default class HopPlan implements IPlan {
     const iterable = this.hop.chainAfter(this.#sourcePlan.iterable);
     return this.#derivations.reduce(
       (iterable, expression) => expression.chainAfter(iterable),
-      iterable
+      iterable,
     );
   }
 
@@ -44,7 +44,7 @@ export default class HopPlan implements IPlan {
    */
   optimize(nextHop?: HopPlan): IPlan {
     // Optimize our hop and fold in the next hop
-    const optimizedPlanForThisHop = this.hop.optimize(this, nextHop);
+    const optimizedPlanForThisHop = this.hop.optimize(this.#sourcePlan, this, nextHop);
     return this.#sourcePlan.optimize(optimizedPlanForThisHop);
   }
 }

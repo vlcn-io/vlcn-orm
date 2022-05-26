@@ -146,6 +146,6 @@ export interface HopExpression<TIn, TOut> {
   /**
    * Optimizes the current plan (plan) and folds in the nxet hop (nextHop) if possible.
    */
-  optimize(plan: HopPlan, nextHop?: HopPlan): HopPlan;
+  optimize(sourcePlan: IPlan, plan: HopPlan, nextHop?: HopPlan): HopPlan;
   type: 'hop';
 }

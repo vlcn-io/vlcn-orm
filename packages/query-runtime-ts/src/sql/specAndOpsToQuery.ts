@@ -47,7 +47,7 @@ function getLastSpecAndProjection(
     return [spec, ops.what];
   }
 
-  return getLastSpecAndProjection(hop.spec, hop.ops);
+  return getLastSpecAndProjection(hop.destSpec, hop.ops);
 }
 
 function applyFilters<T extends Knex.QueryBuilder>(

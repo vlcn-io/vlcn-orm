@@ -2,7 +2,7 @@ import { Context } from '@aphro/context-runtime-ts';
 import { NodeSpec } from '@aphro/schema-api';
 import { ChunkIterable } from '../ChunkIterable';
 import HopPlan from '../HopPlan';
-import Plan from '../Plan';
+import Plan, { IPlan } from '../Plan';
 import {
   after,
   before,
@@ -31,17 +31,11 @@ export type HoistedOperations = {
 };
 
 export default abstract class SQLExpression<T> {
-  constructor(
-    protected ctx: Context,
-    protected spec: NodeSpec,
-    protected hoistedOperations: HoistedOperations,
-  ) {}
+  constructor(protected ctx: Context, public readonly ops: HoistedOperations) {}
 
-  abstract readonly iterable: ChunkIterable<T>;
-
-  protected hoist(plan: Plan, nextHop?: HopPlan): [HoistedOperations, Expression[]] {
+  protected hoist(plan: IPlan, nextHop?: HopPlan): [HoistedOperations, Expression[]] {
     const remainingExpressions: Expression[] = [];
-    let { filters, orderBy, limit, hop, what, before, after } = this.hoistedOperations;
+    let { filters, orderBy, limit, hop, what, before, after } = this.ops;
     const writableFilters = filters ? [...filters] : [];
 
     for (let i = 0; i < plan.derivations.length; ++i) {

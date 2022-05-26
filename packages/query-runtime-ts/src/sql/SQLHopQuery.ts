@@ -13,21 +13,21 @@ export default class SQLHopQuery<TIn, TOut> extends HopQuery<TIn, TOut> {
   */
   static create<TIn, TOut>(ctx: Context, sourceQuery: Query<TIn>, edge: EdgeSpec) {
     // based on source and dest spec, determine the appropriate hop expression
-    return new SQLHopQuery<TIn, TOut>(ctx, sourceQuery, new SQLHopExpression(edge));
-  }
-}
+    if (edge.source.storage.type === 'sql') {
+      // Is the query layer doing this correctly?
+      invariant(edge.dest.storage.type === 'sql', 'SQLHopQuery created for non-sql destination');
 
-function createExpression<TIn, TOut>(edge: EdgeSpec): HopExpression<TIn, TOut> {
-  if (edge.source.storage.type === 'sql') {
-    invariant(edge.dest.storage.type === 'sql', 'SQLHopQuery created for non-sql destination');
-
-    // If we're the same storage on the same DB, we can use a join expression
-    if (edge.source.storage.db === edge.dest.storage.db) {
-      return new SQLHopExpression(edge);
+      // If we're the same storage on the same DB, we can use a join expression
+      if (edge.source.storage.db === edge.dest.storage.db) {
+        return new SQLHopQuery<TIn, TOut>(
+          ctx,
+          sourceQuery,
+          new SQLHopExpression(ctx, edge, { what: 'model' }),
+        );
+      }
     }
+    return new SQLHopQuery<TIn, TOut>(ctx, sourceQuery, createChainedHopExpression(edge));
   }
-
-  return createChainedHopExpression(edge);
 }
 
 function createChainedHopExpression<TIn, TOut>(edge: EdgeSpec): HopExpression<TIn, TOut> {
