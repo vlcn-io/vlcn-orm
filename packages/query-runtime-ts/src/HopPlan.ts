@@ -3,28 +3,19 @@ import { Expression, HopExpression } from './Expression.js';
 import { IPlan } from './Plan.js';
 
 export default class HopPlan implements IPlan {
-  #sourcePlan: IPlan;
-  #derivations: Expression[];
-
   constructor(
-    sourcePlan: IPlan,
+    private sourcePlan: IPlan,
     public readonly hop: HopExpression<any, any>,
-    derivations: Expression[],
-  ) {
-    this.#derivations = derivations;
-    this.#sourcePlan = sourcePlan;
-  }
+    private derivs: Expression[],
+  ) {}
 
   get derivations(): ReadonlyArray<Expression> {
-    return this.#derivations;
+    return this.derivs;
   }
 
   get iterable(): ChunkIterable<any> {
-    const iterable = this.hop.chainAfter(this.#sourcePlan.iterable);
-    return this.#derivations.reduce(
-      (iterable, expression) => expression.chainAfter(iterable),
-      iterable,
-    );
+    const iterable = this.hop.chainAfter(this.sourcePlan.iterable);
+    return this.derivs.reduce((iterable, expression) => expression.chainAfter(iterable), iterable);
   }
 
   addDerivation(expression?: Expression): this {
@@ -32,7 +23,7 @@ export default class HopPlan implements IPlan {
       return this;
     }
 
-    this.#derivations.push(expression);
+    this.derivs.push(expression);
 
     return this;
   }
@@ -44,7 +35,7 @@ export default class HopPlan implements IPlan {
    */
   optimize(nextHop?: HopPlan): IPlan {
     // Optimize our hop and fold in the next hop
-    const optimizedPlanForThisHop = this.hop.optimize(this.#sourcePlan, this, nextHop);
-    return this.#sourcePlan.optimize(optimizedPlanForThisHop);
+    const optimizedPlanForThisHop = this.hop.optimize(this.sourcePlan, this, nextHop);
+    return this.sourcePlan.optimize(optimizedPlanForThisHop);
   }
 }

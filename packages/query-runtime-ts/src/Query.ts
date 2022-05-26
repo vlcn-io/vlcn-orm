@@ -51,19 +51,16 @@ export abstract class SourceQuery<T> extends BaseQuery<T> {
 }
 
 export abstract class HopQuery<TIn, TOut> extends BaseQuery<TOut> {
-  #priorQuery: Query<TIn>;
-
   constructor(
     ctx: Context,
-    priorQuery: Query<TIn>,
+    private priorQuery: Query<TIn>,
     public readonly expression: HopExpression<TIn, TOut>,
   ) {
     super(ctx);
-    this.#priorQuery = priorQuery;
   }
 
   plan() {
-    return new HopPlan(this.#priorQuery.plan(), this.expression, []);
+    return new HopPlan(this.priorQuery.plan(), this.expression, []);
   }
 }
 

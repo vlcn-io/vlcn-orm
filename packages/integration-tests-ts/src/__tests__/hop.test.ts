@@ -1,7 +1,6 @@
 import { context, Context, viewer, Cache, asId, commit, P } from '@aphro/runtime-ts';
 import { destroyDb, initDb } from './testBase.js';
 import UserMutations from '../generated/UserMutations';
-import User from '../generated/User.js';
 import DeckMutations from '../generated/DeckMutations.js';
 import SlideMutations from '../generated/SlideMutations.js';
 import ComponentMutations from '../generated/ComponentMutations.js';
@@ -11,40 +10,6 @@ beforeAll(async () => {
   const resolver = await initDb();
   ctx = context(viewer(asId('me')), resolver, new Cache());
 });
-
-test('Point queries', async () => {
-  const [persistHandle, user] = UserMutations.create(ctx, { name: 'Bill' }).save();
-  await persistHandle;
-
-  // TODO: add a `first` method
-  // TODO: add a `gen` method to just load via id
-  const users = await User.queryAll(ctx).whereId(P.equals(user.id)).gen();
-
-  // user query for created user should be fulfilled from the cache
-  expect(users[0]).toEqual(user);
-});
-
-test('Query all', async () => {
-  const suffixes = [0, 1, 2, 3, 4];
-  const changesets = suffixes.map(i =>
-    UserMutations.create(ctx, {
-      name: 'user' + i,
-    }).toChangeset(),
-  );
-  // TODO: just return a subclass of `Promise` that has an `optimistic` field on it.
-  // People can await if they want the persisted or just use the optimistic version.
-  const [optimisitc, persistHandle] = commit(ctx, changesets);
-  await persistHandle;
-
-  const users = await User.queryAll(ctx).gen();
-  const names = users.map(u => u.name);
-
-  suffixes.forEach(i => {
-    expect(names).toContain('user' + i);
-  });
-});
-
-test('Query with filter', async () => {});
 
 test('Query that traverses edges', async () => {
   const userCs = UserMutations.create(ctx, {
@@ -72,8 +37,10 @@ test('Query that traverses edges', async () => {
   ]);
   await persistHandle;
 
-  const components = await user.queryDecks().querySlides().queryComponents().gen();
-  console.log(components);
+  const plan = user.queryDecks().querySlides().queryComponents().plan();
+  console.log(plan);
+  // const components = await user.queryDecks().querySlides().queryComponents().gen();
+  // console.log(components);
 });
 
 afterAll(async () => {
