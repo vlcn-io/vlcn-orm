@@ -4,6 +4,11 @@
   "version": "0.0.6",
   "main": "lib/index.js",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tantaman/aphrodite.git",
+    "directory": "packages/integration-tests-ts"
+  },
   "dependencies": {
     "@aphro/runtime-ts": "workspace:*",
     "@strut/utils": "workspace:*",

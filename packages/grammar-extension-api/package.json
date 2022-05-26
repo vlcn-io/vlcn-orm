@@ -3,6 +3,11 @@
   "version": "0.0.6",
   "main": "lib/index.js",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tantaman/aphrodite.git",
+    "directory": "packages/grammar-extension-api"
+  },
   "dependencies": {
     "@aphro/schema-api": "workspace:*",
     "ohm-js": "^16.3.4"

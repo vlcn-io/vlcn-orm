@@ -3,6 +3,11 @@
   "version": "0.0.5",
   "main": "lib/index.js",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tantaman/aphrodite.git",
+    "directory": "extensions/authorization-grammar"
+  },
   "devDependencies": {
     "typescript": "^4.6.4"
   },

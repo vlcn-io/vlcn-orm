@@ -3,6 +3,11 @@
   "version": "0.0.7",
   "main": "lib/index.js",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tantaman/aphrodite.git",
+    "directory": "extensions/mutation-grammar"
+  },
   "dependencies": {
     "@aphro/grammar-extension-api": "workspace:*",
     "@aphro/schema": "workspace:*",
