@@ -1,4 +1,4 @@
-import { context, Context, viewer, Cache, asId, commit, P } from '@aphro/runtime-ts';
+import { context, Context, viewer, Cache, asId, commit, P, printPlan } from '@aphro/runtime-ts';
 import { destroyDb, initDb } from './testBase.js';
 import UserMutations from '../generated/UserMutations';
 import DeckMutations from '../generated/DeckMutations.js';
@@ -38,7 +38,9 @@ test('Query that traverses edges', async () => {
   await persistHandle;
 
   const plan = user.queryDecks().querySlides().queryComponents().plan();
-  console.log(plan);
+  printPlan(plan);
+
+  printPlan(plan.optimize());
   // const components = await user.queryDecks().querySlides().queryComponents().gen();
   // console.log(components);
 });

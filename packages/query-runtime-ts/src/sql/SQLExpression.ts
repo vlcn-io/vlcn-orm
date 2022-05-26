@@ -1,9 +1,9 @@
 import { Context } from '@aphro/context-runtime-ts';
-import HopPlan from '../HopPlan';
-import { IPlan } from '../Plan';
+import HopPlan from '../HopPlan.js';
+import { IPlan } from '../Plan.js';
 import { after, before, Expression, filter, orderBy, take } from '../Expression.js';
-import SQLHopExpression from './SQLHopExpression';
-import { ModelFieldGetter } from '../Field';
+import SQLHopExpression from './SQLHopExpression.js';
+import { ModelFieldGetter } from '../Field.js';
 
 export type HoistedOperations = {
   filters?: readonly ReturnType<typeof filter>[];

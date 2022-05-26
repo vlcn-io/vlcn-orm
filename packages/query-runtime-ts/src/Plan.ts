@@ -10,7 +10,10 @@ export interface IPlan {
 }
 
 export default class Plan implements IPlan {
-  constructor(private source: SourceExpression<any>, public readonly derivations: Expression[]) {}
+  constructor(
+    public readonly source: SourceExpression<any>,
+    public readonly derivations: Expression[],
+  ) {}
 
   get iterable(): ChunkIterable<any> /* final TOut */ {
     const iterable = this.source.iterable;

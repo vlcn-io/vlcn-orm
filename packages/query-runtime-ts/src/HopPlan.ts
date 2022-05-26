@@ -4,7 +4,7 @@ import { IPlan } from './Plan.js';
 
 export default class HopPlan implements IPlan {
   constructor(
-    private sourcePlan: IPlan,
+    public readonly sourcePlan: IPlan,
     public readonly hop: HopExpression<any, any>,
     private derivs: Expression[],
   ) {}
