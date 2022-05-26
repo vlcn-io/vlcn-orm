@@ -16,7 +16,7 @@ Run
 pnpm changeset version
 ```
 
-Literaelly "version" rather than some version name/number.
+Literally "version" rather than some version name/number.
 
 Answer the questions.
 

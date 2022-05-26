@@ -1,6 +1,6 @@
-# @aphro/codegen
+# @aphro/query-runtime-ts
 
-## 0.0.7
+## 0.0.6
 
 ### Patch Changes
 
@@ -8,14 +8,7 @@
 - Updated dependencies
   - @strut/counter@0.0.6
   - @strut/utils@0.0.6
-  - @aphro/codegen-api@0.0.6
-  - @aphro/schema@0.0.8
+  - @aphro/context-runtime-ts@0.0.6
+  - @aphro/model-runtime-ts@0.0.6
   - @aphro/schema-api@0.0.6
   - @strut/sid@0.0.6
-
-## 0.0.6
-
-### Patch Changes
-
-- Updated dependencies [8524412]
-  - @aphro/schema@0.0.7
