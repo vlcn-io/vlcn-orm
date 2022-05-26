@@ -2,6 +2,10 @@ export interface ChunkIterable<T> {
   [Symbol.asyncIterator](): AsyncIterator<readonly T[]>;
 
   gen(): Promise<readonly T[]>;
+
+  map<TOut>(fn: (x: T) => TOut): ChunkIterable<TOut>;
+  mapAsync<TOut>(fn: (x: T) => Promise<TOut>): ChunkIterable<TOut>;
+  filter(fn: (x: T) => boolean): ChunkIterable<T>;
 }
 
 export abstract class BaseChunkIterable<T> implements ChunkIterable<T> {
@@ -16,8 +20,20 @@ export abstract class BaseChunkIterable<T> implements ChunkIterable<T> {
     return ret;
   }
 
-  map<TOut>(fn: (T) => Promise<TOut>): ChunkIterable<TOut> {
+  mapAsync<TOut>(fn: (x: T) => Promise<TOut>): ChunkIterable<TOut> {
     return new MappedChunkIterable(this, fn);
+  }
+
+  map<TOut>(fn: (x: T) => TOut): ChunkIterable<TOut> {
+    return new SyncMappedChunkIterable(this, fn);
+  }
+
+  filter(fn: (x: T) => boolean): ChunkIterable<T> {
+    return new SyncFilteredChunkIterable(this, fn);
+  }
+
+  filterAsync(fn: (x: T) => Promise<boolean>): ChunkIterable<T> {
+    return new FilteredChunkIterable(this, fn);
   }
 }
 
@@ -85,7 +101,30 @@ export class FilteredChunkIterable<T> extends BaseChunkIterable<T> {
           filteredChunk.push(chunk[i]);
         }
       }
-      yield filteredChunk;
+      if (filteredChunk.length > 0) {
+        yield filteredChunk;
+      }
+    }
+  }
+}
+
+export class SyncFilteredChunkIterable<T> extends BaseChunkIterable<T> {
+  constructor(private source: ChunkIterable<T>, private fn: (T) => boolean) {
+    super();
+  }
+
+  async *[Symbol.asyncIterator](): AsyncIterator<readonly T[]> {
+    for await (const chunk of this.source) {
+      const filterResults = chunk.map(this.fn);
+      const filteredChunk: T[] = [];
+      for (let i = 0; i < chunk.length; ++i) {
+        if (filterResults[i]) {
+          filteredChunk.push(chunk[i]);
+        }
+      }
+      if (filteredChunk.length > 0) {
+        yield filteredChunk;
+      }
     }
   }
 }
