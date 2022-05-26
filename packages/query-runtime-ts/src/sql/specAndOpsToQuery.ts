@@ -1,4 +1,4 @@
-import { HoistedOperations } from './SqlSourceExpression.js';
+import { HoistedOperations } from './SqlExpression.js';
 import { Knex } from 'knex';
 import { after, before, filter, orderBy, take } from '../Expression.js';
 import SQLHopExpression from './SQLHopExpression.js';

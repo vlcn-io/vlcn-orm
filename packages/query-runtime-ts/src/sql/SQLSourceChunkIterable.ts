@@ -1,7 +1,7 @@
 import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
 import { BaseChunkIterable } from '../ChunkIterable.js';
 import specAndOpsToQuery from './specAndOpsToQuery.js';
-import { HoistedOperations } from './SqlSourceExpression.js';
+import { HoistedOperations } from './SqlExpression.js';
 import { invariant } from '@strut/utils';
 import { Context } from '@aphro/context-runtime-ts';
 import { NodeSpec } from '@aphro/schema-api';

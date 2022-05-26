@@ -11,24 +11,11 @@ import SQLSourceChunkIterable from './SqlSourceChunkIterable.js';
 import Plan from '../Plan.js';
 import { ChunkIterable } from '../ChunkIterable.js';
 import HopPlan from '../HopPlan.js';
-export type HoistedOperations = {
-  filters?: readonly ReturnType<typeof filter>[];
-  orderBy?: ReturnType<typeof orderBy>;
-  limit?: ReturnType<typeof take>;
-  before?: ReturnType<typeof before>;
-  after?: ReturnType<typeof after>;
-  // Points to the fully optimized hop expression
-  // which can be hoisted
-  hop?: SQLHopExpression<any, any>;
-  // What we're actually selecting.
-  // Could be IDs if we can't hoist the next hop and need to load them into the server for
-  // the next hop. Could be based on what the caller asked for (count / ids / edges / models).
-  what: 'model' | 'ids' | 'edges' | 'count';
-};
 import { ModelFieldGetter } from '../Field.js';
 import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
 import SQLHopExpression from './SQLHopExpression.js';
 import { Context } from '@aphro/context-runtime-ts';
+import { HoistedOperations } from './SQLExpression.js';
 
 export interface SQLResult {}
 

@@ -4,7 +4,7 @@ import { SID_of } from '@strut/sid';
 import { ChunkIterable } from '../ChunkIterable.js';
 import { HopExpression } from '../Expression.js';
 import HopPlan from '../HopPlan.js';
-import { HoistedOperations } from './SqlSourceExpression.js';
+import { HoistedOperations } from './SqlExpression.js';
 
 /**
  * This should be very similar to `SQLSourceExpression`
