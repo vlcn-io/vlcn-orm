@@ -1,3 +1,6 @@
+# 5/26
+- Tests for in-memory filters
+
 # 5/22
 - Create from data, re-hydrate cache?
 - Auto-generate ID on create -- depending on id type...
@@ -11,7 +14,7 @@
 - 1+N query problem solution
 - bi-directional references... when creating objects that point to one another?
 
-- Type validation on referenced types
+- Schema Type validation on referenced types
   - Imports
 - Back to tailer architecture for persister?
   - Would bring consistency to persist and replication.

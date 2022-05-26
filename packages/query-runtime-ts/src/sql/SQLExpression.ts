@@ -1,17 +1,7 @@
 import { Context } from '@aphro/context-runtime-ts';
-import { NodeSpec } from '@aphro/schema-api';
-import { ChunkIterable } from '../ChunkIterable';
 import HopPlan from '../HopPlan';
-import Plan, { IPlan } from '../Plan';
-import {
-  after,
-  before,
-  Expression,
-  filter,
-  orderBy,
-  SourceExpression,
-  take,
-} from '../Expression.js';
+import { IPlan } from '../Plan';
+import { after, before, Expression, filter, orderBy, take } from '../Expression.js';
 import SQLHopExpression from './SQLHopExpression';
 import { ModelFieldGetter } from '../Field';
 
@@ -42,35 +32,35 @@ export default abstract class SQLExpression<T> {
       const derivation = plan.derivations[i];
       switch (derivation.type) {
         case 'filter':
-          if (!this.#optimizeFilter(derivation)) {
+          if (!this.#canHoistFilter(derivation)) {
             remainingExpressions.push(derivation);
           } else {
             writableFilters.push(derivation);
           }
           break;
         case 'take':
-          if (!this.#optimizeTake(derivation)) {
+          if (!this.#canHoistTake(derivation)) {
             remainingExpressions.push(derivation);
           } else {
             limit = derivation;
           }
           break;
         case 'before':
-          if (!this.#optimizeBefore(derivation)) {
+          if (!this.#canHoistBefore(derivation)) {
             remainingExpressions.push(derivation);
           } else {
             before = derivation;
           }
           break;
         case 'after':
-          if (!this.#optimizeAfter(derivation)) {
+          if (!this.#canHoistAfter(derivation)) {
             remainingExpressions.push(derivation);
           } else {
             after = derivation;
           }
           break;
         case 'orderBy':
-          if (!this.#optimizeOrderBy(derivation)) {
+          if (!this.#canHoistOrderBy(derivation)) {
             remainingExpressions.push(derivation);
           }
           break;
@@ -84,10 +74,7 @@ export default abstract class SQLExpression<T> {
     }
 
     if (nextHop) {
-      const [hoistedHop, derivedExressions] = this.#optimizeHop(
-        nextHop,
-        remainingExpressions.length > 0,
-      );
+      const [hoistedHop, derivedExressions] = this.#hoistHop(nextHop, remainingExpressions);
       for (const e of derivedExressions) {
         remainingExpressions.push(e);
       }
@@ -108,7 +95,7 @@ export default abstract class SQLExpression<T> {
     ];
   }
 
-  #optimizeFilter(expression: ReturnType<typeof filter>): boolean {
+  #canHoistFilter(expression: ReturnType<typeof filter>): boolean {
     if (expression.getter instanceof ModelFieldGetter) {
       return true;
     }
@@ -116,27 +103,31 @@ export default abstract class SQLExpression<T> {
   }
 
   // TODO: implement these!
-  #optimizeTake(expression: ReturnType<typeof take>): boolean {
+  #canHoistTake(expression: ReturnType<typeof take>): boolean {
     return false;
   }
 
-  #optimizeBefore(expression: ReturnType<typeof before>): boolean {
+  #canHoistBefore(expression: ReturnType<typeof before>): boolean {
     return false;
   }
 
-  #optimizeAfter(expression: ReturnType<typeof after>): boolean {
+  #canHoistAfter(expression: ReturnType<typeof after>): boolean {
     return false;
   }
 
-  #optimizeOrderBy(expression: ReturnType<typeof orderBy>): boolean {
+  #canHoistOrderBy(expression: ReturnType<typeof orderBy>): boolean {
     return false;
   }
 
-  #optimizeHop(
+  #hoistHop(
     hop: HopPlan,
-    thisHasRemainingExpressions: boolean,
+    myRemainingExpressions: readonly Expression[],
   ): [SQLHopExpression<any, any> | undefined, readonly Expression[]] {
-    if (this.#canHoistHop(hop, thisHasRemainingExpressions)) {
+    // Technically ModelLoadExpressions are always inserted even if we don't need them...
+    // Should we throw them out when queries are chained?
+    // Well.. we still need them because if we can't optimize we need to load the model
+    // for in-memory chaning and filtering.
+    if (this.#canHoistHop(hop, myRemainingExpressions)) {
       return [hop.hop as SQLHopExpression<any, any>, hop.derivations];
     }
 
@@ -144,7 +135,7 @@ export default abstract class SQLExpression<T> {
     return [undefined, [hop.hop, ...hop.derivations]];
   }
 
-  #canHoistHop(hop: HopPlan, thisHasRemainingExpressions: boolean): boolean {
+  #canHoistHop(hop: HopPlan, myRemainingExpressions: readonly Expression[]): boolean {
     // If there are expressions that couldn't be rolled into source
     // then we can't roll the hop in too! We'd be hopping before
     // applying all expressions.
@@ -158,7 +149,7 @@ export default abstract class SQLExpression<T> {
     // until calling `gen` or what have you.
     // ModelLoadExpression vs IDLoad vs EdgeLoad would determine our `what`
     // parameter which has thus far been indeterminate.
-    if (thisHasRemainingExpressions) {
+    if (myRemainingExpressions.length > 0) {
       return false;
     }
 
