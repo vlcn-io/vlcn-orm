@@ -10,6 +10,6 @@ export default class ModelLoadExpression<TData, TModel extends IModel<TData>>
   constructor(private ctx: Context, private factory: (ctx: Context, data: TData) => TModel) {}
 
   chainAfter(iterable: ChunkIterable<TData>) {
-    return new SyncMappedChunkIterable(iterable, d => this.factory(this.ctx, d));
+    return iterable.map(d => this.factory(this.ctx, d));
   }
 }

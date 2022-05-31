@@ -1,5 +1,6 @@
 # 5/26
 - Tests for in-memory filters
+- Reactivity
 
 # 5/22
 - Create from data, re-hydrate cache?

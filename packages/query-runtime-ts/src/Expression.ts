@@ -89,7 +89,7 @@ export function filter<Tm, Tv>(
     getter,
     predicate,
     chainAfter(iterable) {
-      return new FilteredChunkIterable(iterable, async m => predicate.call(getter.get(m)));
+      return iterable.filter(m => predicate.call(getter.get(m)));
     },
   };
 }

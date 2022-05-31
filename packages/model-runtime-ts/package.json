@@ -9,8 +9,8 @@
     "directory": "packages/model-runtime-ts"
   },
   "dependencies": {
-    "@aphro/schema-api": "workspace:*",
     "@aphro/context-runtime-ts": "workspace:*",
+    "@aphro/schema-api": "workspace:*",
     "@strut/counter": "workspace:*",
     "@strut/events": "workspace:*",
     "@strut/sid": "workspace:*",
