@@ -5,6 +5,7 @@ packages:
   - 'extensions/mutation-grammar'
   - 'extensions/mutation-codegen'
   - 'mono/typescript/packages/*'
+  - 'packages/absurd-sql'
   - 'packages/cache-runtime-ts'
   - 'packages/codegen'
   - 'packages/codegen-api'
