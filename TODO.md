@@ -1,6 +1,10 @@
 # 5/26
 - Tests for in-memory filters
 - Reactivity
+- union/concat/map/etc query methods
+- Actually start a transaction for your commit mutations in `persistor`
+- bi-directional references... when creating objects that point to one another?
+
 
 # 5/22
 - Create from data, re-hydrate cache?
@@ -13,17 +17,16 @@
   - Will need to suggest that users ignore `generated` folders
 - Test error paths, smooth error messages
 - 1+N query problem solution
-- bi-directional references... when creating objects that point to one another?
+
 
 - Schema Type validation on referenced types
   - Imports
 - Back to tailer architecture for persister?
   - Would bring consistency to persist and replication.
 - Discord setup
-- hop queries e2e test
-- devex on returns from mutations
+- ~~hop queries e2e test~~
+- ~~devex on returns from mutations~~
 - Revisit log and tail infra for persistence
-- Actually start a transaction for your commit mutations in `persistor`
 - ~~Mutator devx. "create.create" :/ "delete.delete"~~
 - sqljs knex poc - https://github.com/gammaql/greldal/blob/20f65226256ec217ea056bf7e0c1eca48b5bb721/src/docs/utils/SQLJSClient.js
   - https://gammaql.github.io/greldal/playground
