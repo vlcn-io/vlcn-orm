@@ -1,18 +1,44 @@
+export type SQL = SqlClass<any>;
+
+type TypeMappings = {
+  T: string;
+  C: string;
+  LC: string[];
+  t: string;
+  Q: SQL;
+  LQ: SQL[];
+  d: number;
+  s: string;
+  Ld: number[];
+  Ls: string[];
+};
+
+type ReplacementType = keyof TypeMappings;
+type Type<T extends ReplacementType> = TypeMappings[T];
+
+type Types<Tuple extends [...ReplacementType[]]> = {
+  // @ts-ignore -- fixing this breaks type checking on actual usage.
+  [Index in keyof Tuple]: Type<Tuple[Index]>;
+};
+
 class SqlClass<T extends [...ReplacementType[]]> {
   constructor(private parts: TemplateStringsArray, private types: T, private values: Types<T>) {}
 
-  toString(dialect: 'sqlite' | 'postgres'): [string, any[]] {
+  toString(dialect: 'sqlite'): [string, any[]] {
     // TODO: dialect conversion
-    return [this.pullStatement(), this.pullBindings()];
+    return [this.pullStatement() + ';', this.pullBindings()];
   }
 
   private sanitize(i: number): string {
     const t = this.types[i];
     switch (t) {
-      case 'T':
+      case 'LC':
+        return (this.values[i] as string[]).map(this.sanitizeColumn).join(', ');
       case 'C':
+        return this.sanitizeColumn(this.values[i] as string);
+      case 'T':
       case 't':
-        return this.values[i] as string;
+        return '`' + this.values[i] + '`';
       case 'Q':
         return (this.values[i] as SQL).pullStatement();
       case 'LQ':
@@ -27,12 +53,18 @@ class SqlClass<T extends [...ReplacementType[]]> {
     }
   }
 
+  private sanitizeColumn(column: string): string {
+    const parts = column.split('.');
+    return parts.map(p => '`' + p + '`').join('.');
+  }
+
   pullBindings(): any[] {
-    let ret = [];
+    let ret: any[] = [];
     for (let i = 0; i < this.values.length; ++i) {
       const type = this.types[i];
       switch (type) {
         case 'T':
+        case 'LC':
         case 'C':
         case 't':
           break;
@@ -63,27 +95,6 @@ class SqlClass<T extends [...ReplacementType[]]> {
       .join('');
   }
 }
-
-export type SQL = SqlClass<any>;
-
-type TypeMappings = {
-  T: string;
-  C: string;
-  t: string;
-  Q: SQL;
-  LQ: SQL[];
-  d: number;
-  s: string;
-  Ld: number[];
-  Ls: string[];
-};
-
-type ReplacementType = keyof TypeMappings;
-type Type<T extends ReplacementType> = TypeMappings[T];
-
-type Types<Tuple extends [...ReplacementType[]]> = {
-  [Index in keyof Tuple]: Type<Tuple[Index extends number ? Index : never]>;
-};
 
 export function sql<T extends [...ReplacementType[]]>(
   parts: TemplateStringsArray,
