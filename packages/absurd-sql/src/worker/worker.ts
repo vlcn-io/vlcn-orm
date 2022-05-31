@@ -25,19 +25,35 @@ async function init() {
     PRAGMA journal_mode=MEMORY;
   `);
 
-  // Receive and execute queries.
+  // https://github.com/knex/knex/blob/master/lib/dialects/sqlite3/index.js#L133 ?
   self.addEventListener('message', async function ({ data }) {
     const { pkg, event, id, queryObj } = data;
+    if (pkg !== thisPackage) {
+      return;
+    }
+    if (event !== 'query') {
+      return;
+    }
 
-    // const stmt = db.prepare(queryObj.sql);
-    // stmt.bind(queryObj.bindings);
+    db[queryObj.method](queryObj.sql, queryObj.bindings, (err, response) => {
+      if (err) {
+        console.log(err);
+        self.postMessage({
+          pkg: thisPackage,
+          event: 'query-response',
+          err,
+        });
+        return;
+      }
 
-    // self.postMessage({
-    //   pkg: thisPackage,
-    //   event: 'query-response',
-    //   id,
-    //   result: await db.exec(query),
-    // });
+      console.log(response);
+      self.postMessage({
+        pkg: thisPackage,
+        event: 'query-response',
+        id,
+        result: response,
+      });
+    });
   });
 
   self.postMessage({

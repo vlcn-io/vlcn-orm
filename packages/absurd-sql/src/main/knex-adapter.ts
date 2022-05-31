@@ -25,17 +25,27 @@ export default class AbsurdSqlClient extends SQLiteClient {
     });
   }
 
-  async _query(connection, obj) {
-    // connection object will be a handle to post message
-    // we'll send the obj over
-    // and receive messages back
+  async _query(connection: Connection, obj) {
     const { method } = obj;
-    const stmt = connection.prepare(obj.sql);
-    stmt.bind(obj.bindings);
-    obj.response = [];
-    while (stmt.step()) {
-      obj.response.push(stmt.getAsObject());
+    let callMethod: 'run' | 'all';
+    switch (method) {
+      case 'insert':
+      case 'update':
+      case 'counter':
+      case 'del':
+        callMethod = 'run';
+        break;
+      default:
+        callMethod = 'all';
     }
+
+    const result = await connection.exec({
+      sql: obj.sql,
+      bindings: obj.bindings,
+      method: callMethod,
+    });
+
+    obj.response = result;
     obj.context = this;
     return obj;
   }
@@ -45,6 +55,8 @@ export default class AbsurdSqlClient extends SQLiteClient {
   }
 
   // Ensures the response is returned in the same format as other clients.
+  // TODO: can we not just use the impl from
+  // https://github.com/knex/knex/blob/master/lib/dialects/sqlite3/index.js ?
   processResponse(obj, runner) {
     const ctx = obj.context;
     let { response } = obj;

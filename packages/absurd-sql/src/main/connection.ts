@@ -11,7 +11,6 @@ export default class Connection {
     id: number;
     resolve: (v: any) => void;
     reject: (e: any) => void;
-    promise: Promise<unknown>;
   }[] = [];
 
   readonly ready: Promise<boolean>;
@@ -38,8 +37,8 @@ export default class Connection {
   }
 
   // TODO: what type gets returned?
-  async exec(queryObj): Promise<any> {
-    counter.bump('exect-query');
+  async exec(queryObj: { sql: string; bindings: any[]; method: 'all' | 'run' }): Promise<any> {
+    counter.bump('query');
     const id = queryId++;
 
     let resolvePending;
@@ -53,10 +52,11 @@ export default class Connection {
       id,
       resolve: resolvePending,
       reject: rejectPending,
-      promise,
     });
 
     this.#worker.postMessage({ pkg: thisPackage, event: 'query', queryObj, id });
+
+    return await promise;
   }
 
   #messageListener = ({ data }) => {
