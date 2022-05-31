@@ -3,8 +3,9 @@
  *  & https://github.com/ngokevin/expo-sqlite-plus-web/blob/main/src/db.web.ts#L22
  */
 import SQLiteClient from 'knex/lib/dialects/sqlite3';
+import Connection from './connection';
 
-export default class SQLJSClient extends SQLiteClient {
+export default class AbsurdSqlClient extends SQLiteClient {
   dialect = 'absurd-sql';
   driverName = 'absurd-sql';
 
@@ -12,10 +13,15 @@ export default class SQLJSClient extends SQLiteClient {
     throw new Error('ExpectedToNotBeReachable');
   }
 
-  // Get a raw connection from the database, returning a promise with the connection object.
   acquireRawConnection() {
     return new Promise(async (resolve, reject) => {
-      // resolve with an object to pass messages to our worker
+      const connection = new Connection();
+      const ready = await connection.ready;
+      if (ready) {
+        resolve(connection);
+      } else {
+        reject('Failed to establish a connection to the absurd-sql webworker');
+      }
     });
   }
 

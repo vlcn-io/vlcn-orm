@@ -14,10 +14,27 @@ export default class Connection {
     promise: Promise<unknown>;
   }[] = [];
 
-  constructor(worker: Worker) {
+  readonly ready: Promise<boolean>;
+
+  constructor() {
     counter.bump('create');
     window.addEventListener('message', this.#messageListener);
-    this.#worker = worker;
+    this.#worker = new Worker(new URL('../worker/worker.js', import.meta.url));
+
+    this.ready = new Promise(resolve => {
+      function setReady({ data }) {
+        const { pkg, event } = data;
+        if (pkg !== thisPackage) {
+          return;
+        }
+        if (event !== 'ready') {
+          return;
+        }
+        resolve(true);
+        this.#worker.removeEventListener('message', setReady);
+      }
+      this.#worker.addEventListener('message', setReady);
+    });
   }
 
   // TODO: what type gets returned?
