@@ -6,6 +6,7 @@
   },
   "include": ["./src/"],
   "references": [
+    { "path": "../packages/absurd-sql" },
     { "path": "../packages/codegen" },
     { "path": "../packages/codegen-api" },
     { "path": "../packages/codegen-cli" },
@@ -19,6 +20,6 @@
     { "path": "../packages/schema-api" },
     { "path": "../extensions/mutation-codegen" },
     { "path": "../extensions/mutation-grammar" },
-    { "path": "../examples/model-usage-ts" }
+    { "path": "../examples/todo-mvc" }
   ]
 }

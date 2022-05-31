@@ -4,13 +4,13 @@
 - union/concat/map/etc query methods
 - Actually start a transaction for your commit mutations in `persistor`
 - bi-directional references... when creating objects that point to one another?
-
+- Auto-generate ID on create -- depending on id type...
 
 # 5/22
 - Create from data, re-hydrate cache?
-- Auto-generate ID on create -- depending on id type...
 - ~~Promise subclass~~
-- Switch to nanoid #22
+- ~~Switch to nanoid #22~~
+  - Maybe,,,
 - 'merge' codegen option
 - ~~Preserve manual sections~~
 - ~~prettier ignore partially generated code~~

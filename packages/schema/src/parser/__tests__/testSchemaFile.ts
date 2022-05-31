@@ -1,7 +1,7 @@
 import { InboundEdgesAst, SchemaFile, SchemaFileAst } from '@aphro/schema-api';
 
 export const contents = `
-engine: postgres
+engine: sqlite
 db: test
 
 Person as Node {
@@ -50,7 +50,7 @@ Pig as Node {
 
 export const ast: SchemaFileAst = {
   preamble: {
-    engine: 'postgres',
+    engine: 'sqlite',
     db: 'test',
   },
   entities: [
@@ -382,7 +382,7 @@ export const schemaFile: SchemaFile = {
       },
       storage: {
         type: 'sql',
-        engine: 'postgres',
+        engine: 'sqlite',
         db: 'test',
         tablish: 'person',
       },
@@ -414,7 +414,7 @@ export const schemaFile: SchemaFile = {
       extensions: {},
       storage: {
         type: 'sql',
-        engine: 'postgres',
+        engine: 'sqlite',
         db: 'test',
         tablish: 'wallet',
       },
@@ -475,7 +475,7 @@ export const schemaFile: SchemaFile = {
       extensions: {},
       storage: {
         type: 'sql',
-        engine: 'postgres',
+        engine: 'sqlite',
         db: 'test',
         tablish: 'transaction',
       },
@@ -494,7 +494,7 @@ export const schemaFile: SchemaFile = {
       extensions: {},
       storage: {
         type: 'sql',
-        engine: 'postgres',
+        engine: 'sqlite',
         db: 'test',
         tablish: 'pig',
       },
@@ -523,7 +523,7 @@ export const schemaFile: SchemaFile = {
       },
       storage: {
         type: 'sql',
-        engine: 'postgres',
+        engine: 'sqlite',
         db: 'test',
         tablish: 'followedge',
       },

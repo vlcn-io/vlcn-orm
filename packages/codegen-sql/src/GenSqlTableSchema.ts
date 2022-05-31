@@ -94,10 +94,10 @@ export default class GenSqlTableSchema extends CodegenStep {
 
 function getKnex(engine: StorageEngine) {
   switch (engine) {
-    case 'mysql':
-      return knex({ client: 'mysql' });
-    case 'postgres':
-      return knex({ client: 'pg' });
+    // case 'mysql':
+    //   return knex({ client: 'mysql' });
+    // case 'postgres':
+    //   return knex({ client: 'pg' });
     case 'sqlite':
       return knex({ client: 'sqlite' });
   }
