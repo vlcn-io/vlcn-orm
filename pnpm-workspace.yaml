@@ -1,6 +1,5 @@
 packages:
   - 'build-all'
-  - 'examples/model-usage-ts'
   - 'examples/browser-sqlite'
   - 'extensions/authorization-grammar'
   - 'extensions/mutation-grammar'
