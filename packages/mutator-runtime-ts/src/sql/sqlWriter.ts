@@ -15,17 +15,21 @@ export default {
     const db = ctx.dbResolver.type(persist.type).engine(persist.engine).db(persist.db);
 
     // TODO: put field names into spec
+    // TODO: get smarter on merge. right now this is ok because we save the entire snapshot.
     const cols = Object.keys(first._d());
-    const query = sql`INSERT INTO ${'T'} (${'LC'}) VALUES (${'L?'}) ON CONFLICT(${'C'}) MERGE`(
+    const query = sql`INSERT OR REPLACE INTO ${'T'} (${'LC'}) VALUES ${'LR'}`(
       first.spec.storage.tablish,
       cols,
-      cols.length,
-      first.spec.primaryKey,
+      nodes.map(n => Object.values(n._d())),
+      // first.spec.primaryKey,
     ).toString(first.spec.storage.engine);
 
+    // console.log(query);
+    // console.log(nodes.map(n => Object.values(n._d())));
     await db.exec(
       query[0],
-      nodes.map(n => Object.values(n._d())),
+      query[1],
+      // nodes.flatMap(n => Object.values(n._d())),
     );
   },
 

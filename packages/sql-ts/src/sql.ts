@@ -17,6 +17,7 @@ type TypeMappings = {
   Ls: string[];
   La: any[];
   'L?': number;
+  LR: any[][];
 };
 
 type ReplacementType = keyof TypeMappings;
@@ -66,6 +67,10 @@ class SqlClass<T extends [...ReplacementType[]]> {
       case 'Ls':
       case 'La':
         return '?';
+      case 'LR':
+        return (this.values[i] as [][])
+          .map(v => '(' + v.map(v => '?').join(', ') + ')')
+          .join(',\n');
       case 'L?':
         const count = this.values[i] as number;
         const marks: string[] = [];
@@ -101,7 +106,13 @@ class SqlClass<T extends [...ReplacementType[]]> {
         case 'Ls':
         case 'La':
         case 'a':
-          ret.push(this.values[i]);
+          const v = this.values[i];
+          ret.push(v === undefined ? null : v);
+          break;
+        case 'LR':
+          ret = ret.concat(
+            (this.values[i] as [][]).flatMap(a => a).map(x => (x === undefined ? null : x)),
+          );
           break;
         case 'Q?':
           if (this.values[i] == null) {

@@ -44,7 +44,7 @@ export default function specAndOpsToQuery(spec: NodeSpec, ops: HoistedOperations
 
   return baseTemplate(
     projection,
-    lastSpec.storage.tablish,
+    spec.storage.tablish,
     hops,
     filters,
     beforeAndAfter,
