@@ -42,7 +42,7 @@ class SqlClass<T extends [...ReplacementType[]]> {
       case 'Q':
         return (this.values[i] as SQL).pullStatement();
       case 'LQ':
-        return (this.values[i] as SQL[]).map(q => q.pullStatement()).join('');
+        return (this.values[i] as SQL[]).map(q => q.pullStatement()).join(', ');
       case 'd':
       case 's':
       case 'Ld':

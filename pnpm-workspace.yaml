@@ -23,4 +23,5 @@ packages:
   - 'packages/runtime-ts'
   - 'packages/schema'
   - 'packages/schema-api'
+  - 'packages/sql-ts'
   - 'packages/vscode'

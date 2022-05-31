@@ -1,8 +1,8 @@
 import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
-import { Node, StorageEngine } from '@aphro/schema-api';
+import { Node } from '@aphro/schema-api';
 import { assertUnreachable } from '@strut/utils';
-import knex from 'knex';
 import SqlFile from './SqlFile.js';
+import { sql } from '@aphro/sql-ts';
 
 // use knex to generate create table
 export default class GenSqlTableSchema extends CodegenStep {
@@ -24,81 +24,50 @@ export default class GenSqlTableSchema extends CodegenStep {
   }
 
   private getSqlString(): string {
-    const knex = getKnex(this.schema.storage.engine);
+    const create = sql`CREATE TABLE ${'T'} (${'LQ'})`;
     // TODO: go thru index config and apply index constraints
-    return knex.schema
-      .createTable(this.schema.storage.tablish, table => {
-        Object.values(this.schema.fields).forEach(field => {
-          switch (field.type) {
-            case 'id': {
-              const columnBuilder = table.bigInteger(field.name).unsigned();
-              if (this.schema.primaryKey === field.name) {
-                columnBuilder.primary();
-              }
-              break;
-            }
-            case 'primitive':
-              switch (field.subtype) {
-                case 'int32':
-                  table.integer(field.name);
-                  break;
-                case 'int64':
-                  table.bigInteger(field.name);
-                  break;
-                case 'uint32':
-                  table.integer(field.name).unsigned();
-                  break;
-                case 'uint64':
-                  table.bigInteger(field.name).unsigned();
-                  break;
-                case 'float32':
-                  table.float(field.name);
-                  break;
-                case 'float64':
-                  table.double(field.name);
-                  break;
-                case 'string':
-                  // TODO: ask user to define len params so we know the type here
-                  table.text(field.name);
-                  break;
-                case 'bool':
-                  table.boolean(field.name);
-                  break;
-              }
-              break;
-            case 'map':
-            case 'array':
-              table.text(field.name);
-              break;
-            // TODO: ask user to define len params so we know the type here
-            case 'naturalLanguage':
-              table.string(field.name);
-              break;
-            case 'enumeration':
-              table.string(field.name, 255);
-              break;
-            case 'currency':
-              table.float(field.name);
-              break;
-            case 'timestamp':
-              table.bigInteger(field.name);
-              break;
-            default:
-              assertUnreachable(field);
+    const columnDefs = Object.values(this.schema.fields).map(field => {
+      switch (field.type) {
+        case 'id':
+          return sql`${'C'} ${'t'}`(field.name, 'bigint');
+        case 'primitive':
+          switch (field.subtype) {
+            case 'int32':
+            case 'uint32':
+              return sql`${'C'} ${'t'}`(field.name, 'int');
+            case 'int64':
+              return sql`${'C'} ${'t'}`(field.name, 'bigint');
+            case 'uint64':
+              return sql`${'C'} ${'t'}`(field.name, 'unsigned big int');
+            case 'float32':
+              return sql`${'C'} ${'t'}`(field.name, 'float');
+            case 'float64':
+              return sql`${'C'} ${'t'}`(field.name, 'double');
+            case 'string':
+              // TODO: ask user to define len params so we know the type here
+              return sql`${'C'} ${'t'}`(field.name, 'text');
+            case 'bool':
+              return sql`${'C'} ${'t'}`(field.name, 'boolean');
           }
-        });
-      })
-      .toString();
-  }
-}
+        case 'map':
+        case 'array':
+          return sql`${'C'} ${'t'}`(field.name, 'text');
+        // TODO: ask user to define len params so we know the type here
+        case 'naturalLanguage':
+          return sql`${'C'} ${'t'}`(field.name, 'text');
+        case 'enumeration':
+          return sql`${'C'} ${'t'}`(field.name, 'varchar(255)');
+        case 'currency':
+          return sql`${'C'} ${'t'}`(field.name, 'float');
+        case 'timestamp':
+          return sql`${'C'} ${'t'}`(field.name, 'bigint');
+        default:
+          assertUnreachable(field);
+      }
+    });
 
-function getKnex(engine: StorageEngine) {
-  switch (engine) {
-    // case 'mysql':
-    //   return knex({ client: 'mysql' });
-    // case 'postgres':
-    //   return knex({ client: 'pg' });
-    case 'sqlite':
-      return knex({ client: 'sqlite' });
+    return create(this.schema.name.toLowerCase(), columnDefs).toString(
+      this.schema.storage.engine,
+    )[0];
   }
 }
