@@ -1,1 +1,1 @@
-export { default as AbusrdSqlClient } from './main/knex-adapter';
+export { default as AbsurdSqlClient } from './main/knex-adapter';
