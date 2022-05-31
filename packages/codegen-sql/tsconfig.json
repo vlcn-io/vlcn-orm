@@ -10,6 +10,7 @@
     { "path": "../schema" },
     { "path": "../schema-api" },
     { "path": "../codegen" },
+    { "path": "../sql-ts" },
     { "path": "../../mono/typescript/packages/utils" },
     { "path": "../../mono/typescript/packages/counter" }
   ]

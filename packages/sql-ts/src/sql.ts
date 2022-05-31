@@ -5,6 +5,7 @@ type TypeMappings = {
   C: string;
   LC: string[];
   t: string;
+  l: string;
   Q: SQL;
   LQ: SQL[];
   d: number;
@@ -37,12 +38,14 @@ class SqlClass<T extends [...ReplacementType[]]> {
       case 'C':
         return this.sanitizeColumn(this.values[i] as string);
       case 'T':
-      case 't':
         return '`' + this.values[i] + '`';
       case 'Q':
         return (this.values[i] as SQL).pullStatement();
       case 'LQ':
         return (this.values[i] as SQL[]).map(q => q.pullStatement()).join(', ');
+      case 't':
+      case 'l':
+        return this.values[i] as string;
       case 'd':
       case 's':
       case 'Ld':
@@ -67,6 +70,7 @@ class SqlClass<T extends [...ReplacementType[]]> {
         case 'LC':
         case 'C':
         case 't':
+        case 'l':
           break;
         case 'd':
         case 's':

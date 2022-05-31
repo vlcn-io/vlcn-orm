@@ -1,11 +1,11 @@
--- SIGNED-SOURCE: <0c3f0013da7f8fabd9d49330cde532a5>
-create table
+-- SIGNED-SOURCE: <348c30a32154bec6b019a011718cafae>
+CREATE TABLE
   `deck` (
     `id` bigint,
-    `name` varchar(255),
+    `name` text,
     `created` bigint,
     `modified` bigint,
     `ownerId` bigint,
     `selectedSlideId` bigint,
     primary key (`id`)
-  )
+  );

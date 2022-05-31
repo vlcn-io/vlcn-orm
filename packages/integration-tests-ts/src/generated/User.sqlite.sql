@@ -1,9 +1,9 @@
--- SIGNED-SOURCE: <6296d347a5a832be323d893b9f138320>
-create table
+-- SIGNED-SOURCE: <b90edb6e4c90849e7ba065aa9cca60f5>
+CREATE TABLE
   `user` (
     `id` bigint,
-    `name` varchar(255),
+    `name` text,
     `created` bigint,
     `modified` bigint,
     primary key (`id`)
-  )
+  );

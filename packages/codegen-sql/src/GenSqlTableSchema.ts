@@ -52,8 +52,8 @@ export default class GenSqlTableSchema extends CodegenStep {
         case 'map':
         case 'array':
           return sql`${'C'} ${'t'}`(field.name, 'text');
-        // TODO: ask user to define len params so we know the type here
         case 'naturalLanguage':
+          // TODO: ask user to define len params so we know the type here
           return sql`${'C'} ${'t'}`(field.name, 'text');
         case 'enumeration':
           return sql`${'C'} ${'t'}`(field.name, 'varchar(255)');
@@ -65,6 +65,10 @@ export default class GenSqlTableSchema extends CodegenStep {
           assertUnreachable(field);
       }
     });
+
+    if (this.schema.primaryKey) {
+      columnDefs.push(sql`${'l'} (${'C'})`('primary key', this.schema.primaryKey));
+    }
 
     return create(this.schema.name.toLowerCase(), columnDefs).toString(
       this.schema.storage.engine,
