@@ -10,7 +10,10 @@
     "directory": "packages/absurd-sql"
   },
   "dependencies": {
-    "knex": "^2.0.0"
+    "@jlongster/sql.js": "^1.6.7",
+    "@strut/counter": "workspace:*",
+    "absurd-sql": "^0.0.46",
+    "knex": "^2.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.12",
