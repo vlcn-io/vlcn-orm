@@ -12,37 +12,37 @@ beforeAll(async () => {
   ctx = context(viewer(asId('me')), resolver, new Cache());
 });
 
-// test('Point queries', async () => {
-//   const [persistHandle, user] = UserMutations.create(ctx, { name: 'Bill' }).save();
-//   await persistHandle;
+test('Point queries', async () => {
+  const [persistHandle, user] = UserMutations.create(ctx, { name: 'Bill' }).save();
+  await persistHandle;
 
-//   // TODO: add a `first` method
-//   // TODO: add a `gen` method to just load via id
-//   const users = await User.queryAll(ctx).whereId(P.equals(user.id)).gen();
+  // TODO: add a `first` method
+  // TODO: add a `gen` method to just load via id
+  const users = await User.queryAll(ctx).whereId(P.equals(user.id)).gen();
 
-//   // user query for created user should be fulfilled from the cache
-//   expect(users[0]).toEqual(user);
-// });
+  // user query for created user should be fulfilled from the cache
+  expect(users[0]).toEqual(user);
+});
 
-// test('Query all', async () => {
-//   const suffixes = [0, 1, 2, 3, 4];
-//   const changesets = suffixes.map(i =>
-//     UserMutations.create(ctx, {
-//       name: 'user' + i,
-//     }).toChangeset(),
-//   );
-//   // TODO: just return a subclass of `Promise` that has an `optimistic` field on it.
-//   // People can await if they want the persisted or just use the optimistic version.
-//   const [optimisitc, persistHandle] = commit(ctx, changesets);
-//   await persistHandle;
+test('Query all', async () => {
+  const suffixes = [0, 1, 2, 3, 4];
+  const changesets = suffixes.map(i =>
+    UserMutations.create(ctx, {
+      name: 'user' + i,
+    }).toChangeset(),
+  );
+  // TODO: just return a subclass of `Promise` that has an `optimistic` field on it.
+  // People can await if they want the persisted or just use the optimistic version.
+  const [optimisitc, persistHandle] = commit(ctx, changesets);
+  await persistHandle;
 
-//   const users = await User.queryAll(ctx).gen();
-//   const names = users.map(u => u.name);
+  const users = await User.queryAll(ctx).gen();
+  const names = users.map(u => u.name);
 
-//   suffixes.forEach(i => {
-//     expect(names).toContain('user' + i);
-//   });
-// });
+  suffixes.forEach(i => {
+    expect(names).toContain('user' + i);
+  });
+});
 
 test('Query with filter', async () => {});
 
