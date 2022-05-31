@@ -1,21 +1,18 @@
 import { StorageEngine, StorageType } from '@aphro/schema-api';
-import { Knex } from 'knex';
 
 export interface DBResolver {
-  type<T extends StorageType>(type: T): TypedDBResolver<T>;
+  type(type: StorageType): TypedDBResolver;
 }
 
-export interface TypedDBResolver<T extends StorageType> {
+export interface TypedDBResolver {
   // TODO: we can scope engines based on type T
-  engine(engine: StorageEngine): SpecificTypedDBResolver<T>;
+  engine(engine: StorageEngine): SpecificTypedDBResolver;
 }
 
-export interface SpecificTypedDBResolver<T extends StorageType> {
-  db(db: string): DBTypes[T];
+export interface SpecificTypedDBResolver {
+  db(db: string): {
+    // TODO: strongly typed returns
+    exec: (query: string, bindings: any[]) => Promise<any>;
+    destroy(): void;
+  };
 }
-
-// TODO: the client should be able to configure what db types they'd like to supply
-// resolvers for
-export type DBTypes = {
-  sql: Knex;
-};

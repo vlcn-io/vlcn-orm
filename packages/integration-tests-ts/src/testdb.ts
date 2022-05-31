@@ -22,7 +22,14 @@ function createResolver(): DBResolver {
         engine(engine: 'sqlite') {
           return {
             db(dbName: string) {
-              return nullthrows(db);
+              return {
+                exec(query: string, bindings: any[]) {
+                  return nullthrows(db).raw(query, bindings);
+                },
+                destroy() {
+                  db?.destroy();
+                },
+              };
             },
           };
         },

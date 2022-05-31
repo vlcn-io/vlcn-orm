@@ -12,5 +12,5 @@ export default async function createTestTables() {
   );
 
   const db = resolver.type('sql').engine('sqlite').db('test');
-  await Promise.all(schemas.map(s => db.raw(s)));
+  await Promise.all(schemas.map(s => db.exec(s, [])));
 }

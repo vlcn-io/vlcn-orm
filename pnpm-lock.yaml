@@ -505,6 +505,7 @@ importers:
       '@aphro/context-runtime-ts': workspace:*
       '@aphro/model-runtime-ts': workspace:*
       '@aphro/schema-api': workspace:*
+      '@aphro/sql-ts': workspace:*
       '@strut/sid': workspace:*
       '@strut/utils': workspace:*
       typescript: ^4.6.4
@@ -512,6 +513,7 @@ importers:
       '@aphro/context-runtime-ts': link:../context-runtime-ts
       '@aphro/model-runtime-ts': link:../model-runtime-ts
       '@aphro/schema-api': link:../schema-api
+      '@aphro/sql-ts': link:../sql-ts
       '@strut/sid': link:../../mono/typescript/packages/sid
       '@strut/utils': link:../../mono/typescript/packages/utils
     devDependencies:

@@ -1,6 +1,7 @@
 import { Context } from '@aphro/context-runtime-ts';
 import { IModel } from '@aphro/model-runtime-ts';
 import { DeleteChangeset } from '../Changeset.js';
+import { sql } from '@aphro/sql-ts';
 
 export default {
   // Precondition: already grouped by db & table
@@ -13,10 +14,19 @@ export default {
 
     const db = ctx.dbResolver.type(persist.type).engine(persist.engine).db(persist.db);
 
-    await db(persist.tablish)
-      .insert(nodes.map(n => n._d()))
-      .onConflict(spec.primaryKey)
-      .merge();
+    // TODO: put field names into spec
+    const cols = Object.keys(first._d());
+    const query = sql`INSERT INTO ${'T'} (${'LC'}) VALUES (${'L?'}) ON CONFLICT(${'C'}) MERGE`(
+      first.spec.storage.tablish,
+      cols,
+      cols.length,
+      first.spec.primaryKey,
+    ).toString(first.spec.storage.engine);
+
+    await db.exec(
+      query[0],
+      nodes.map(n => Object.values(n._d())),
+    );
   },
 
   async deleteGroup(
