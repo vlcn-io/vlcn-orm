@@ -10,9 +10,11 @@ export interface TypedDBResolver {
 }
 
 export interface SpecificTypedDBResolver {
-  db(db: string): {
-    // TODO: strongly typed returns
-    exec: (query: string, bindings: any[]) => Promise<any>;
-    destroy(): void;
-  };
+  db(db: string): ResolvedDB;
 }
+
+export type ResolvedDB = {
+  // TODO: strongly typed returns
+  exec: (query: string, bindings: any[]) => Promise<any[]>;
+  destroy(): void;
+};

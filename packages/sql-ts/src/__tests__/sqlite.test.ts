@@ -73,6 +73,8 @@ test('INSERT INTO T VALUES (d, s, s)', () => {
   );
 });
 
+test('Multi row insert', () => {});
+
 test('SELECT * FROM T WHERE C = d', () => {
   expect(
     sql`SELECT * FROM ${'T'} WHERE ${'C'} = ${'d'}`('table', 'col', 1).toString('sqlite'),

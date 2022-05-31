@@ -9,21 +9,3 @@ function init() {
 }
 
 init();
-
-const db = knex({
-  client: 'sqlite3',
-});
-
-const dbResolver = {
-  type(t) {
-    return {
-      engine(engine) {
-        return {
-          db(dbName) {
-            return db;
-          },
-        };
-      },
-    };
-  },
-};

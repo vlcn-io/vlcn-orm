@@ -23,13 +23,13 @@ export default class SQLSourceChunkIterable<T extends IModel<Object>> extends Ba
     // also... this is pretty generic and would apply to non-sql data sources too.
     // given the actual query execution happens in the resolver.
     // also -- should we chunk it at all?
-    yield await specAndOpsToQuery(
-      this.spec,
-      this.hoistedOperations,
-      this.ctx.dbResolver
-        .type(this.spec.storage.type)
-        .engine(this.spec.storage.engine)
-        .db(this.spec.storage.db),
+    const resolvedDb = this.ctx.dbResolver
+      .type(this.spec.storage.type)
+      .engine(this.spec.storage.engine)
+      .db(this.spec.storage.db);
+    const sql = specAndOpsToQuery(this.spec, this.hoistedOperations).toString(
+      this.spec.storage.engine,
     );
+    yield await resolvedDb.exec(...sql);
   }
 }

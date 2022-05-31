@@ -11,8 +11,7 @@
   },
   "dependencies": {
     "@aphro/absurd-sql": "workspace:*",
-    "@aphro/runtime-ts": "workspace:*",
-    "knex": "^2.1.0"
+    "@aphro/runtime-ts": "workspace:*"
   },
   "devDependencies": {
     "@aphro/codegen-cli": "workspace:*",

@@ -59,7 +59,6 @@ importers:
       '@aphro/codegen-cli': workspace:*
       '@aphro/runtime-ts': workspace:*
       html-webpack-plugin: ^5.3.2
-      knex: ^2.1.0
       raw-loader: ^4.0.2
       webpack: ^5.50.0
       webpack-cli: ^4.7.2
@@ -67,7 +66,6 @@ importers:
     dependencies:
       '@aphro/absurd-sql': link:../../packages/absurd-sql
       '@aphro/runtime-ts': link:../../packages/runtime-ts
-      knex: 2.1.0
     devDependencies:
       '@aphro/codegen-cli': link:../../packages/codegen-cli
       html-webpack-plugin: 5.5.0_webpack@5.72.1
@@ -188,14 +186,12 @@ importers:
       '@types/jest': ^27.4.1
       absurd-sql: ^0.0.46
       jest: ^28.1.0
-      knex: ^2.1.0
       ts-jest: ^28.0.1
       typescript: ^4.6.4
     dependencies:
       '@jlongster/sql.js': 1.6.7
       '@strut/counter': link:../../mono/typescript/packages/counter
       absurd-sql: 0.0.46
-      knex: 2.1.0
     devDependencies:
       '@babel/core': 7.17.12
       '@babel/preset-env': 7.18.2_@babel+core@7.17.12
@@ -297,7 +293,6 @@ importers:
       command-line-args: ^5.2.1
       command-line-usage: ^6.1.3
       jest: ^28.1.0
-      knex: ^2.0.0
       md5: ^2.3.0
       prettier: ^2.5.1
       ts-jest: ^28.0.1
@@ -316,7 +311,6 @@ importers:
       chalk: 5.0.1
       command-line-args: 5.2.1
       command-line-usage: 6.1.3
-      knex: 2.1.0
       md5: 2.3.0
       prettier: 2.6.2
     devDependencies:
@@ -381,7 +375,6 @@ importers:
       '@types/prettier': ^2.6.0
       '@typescript-eslint/typescript-estree': ^5.22.0
       jest: ^28.1.0
-      knex: ^2.0.0
       md5: ^2.3.0
       prettier: ^2.5.1
       ts-jest: ^28.0.1
@@ -393,7 +386,6 @@ importers:
       '@aphro/schema-api': link:../schema-api
       '@strut/counter': link:../../mono/typescript/packages/counter
       '@strut/utils': link:../../mono/typescript/packages/utils
-      knex: 2.1.0
       md5: 2.3.0
       prettier: 2.6.2
     devDependencies:
@@ -412,14 +404,12 @@ importers:
       '@aphro/schema-api': workspace:*
       '@strut/sid': workspace:*
       '@strut/utils': workspace:*
-      knex: ^2.0.0
       typescript: ^4.6.4
     dependencies:
       '@aphro/cache-runtime-ts': link:../cache-runtime-ts
       '@aphro/schema-api': link:../schema-api
       '@strut/sid': link:../../mono/typescript/packages/sid
       '@strut/utils': link:../../mono/typescript/packages/utils
-      knex: 2.1.0
     devDependencies:
       typescript: 4.6.4
 
@@ -524,6 +514,7 @@ importers:
       '@aphro/context-runtime-ts': workspace:*
       '@aphro/model-runtime-ts': workspace:*
       '@aphro/schema-api': workspace:*
+      '@aphro/sql-ts': workspace:*
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
       '@strut/counter': workspace:*
@@ -533,17 +524,16 @@ importers:
       '@typescript-eslint/typescript-estree': ^5.22.0
       fast-check: ^2.25.0
       jest: ^28.1.0
-      knex: ^2.0.0
       ts-jest: ^28.0.1
       typescript: ^4.6.4
     dependencies:
       '@aphro/context-runtime-ts': link:../context-runtime-ts
       '@aphro/model-runtime-ts': link:../model-runtime-ts
       '@aphro/schema-api': link:../schema-api
+      '@aphro/sql-ts': link:../sql-ts
       '@strut/counter': link:../../mono/typescript/packages/counter
       '@strut/sid': link:../../mono/typescript/packages/sid
       '@strut/utils': link:../../mono/typescript/packages/utils
-      knex: 2.1.0
     devDependencies:
       '@babel/core': 7.17.12
       '@babel/preset-env': 7.18.2_@babel+core@7.17.12
@@ -2330,7 +2320,7 @@ packages:
     resolution: {integrity: sha512-mki5uBvhHzO8kYYix/WRy2WX8S3B5wdVSc9D6KcU5lQNglP2yt58/VfLuAK49glRXChosY8ap2oJ1qgma3GUVA==}
     dependencies:
       '@babel/runtime': 7.17.9
-      '@types/node': 12.20.52
+      '@types/node': 12.20.53
       find-up: 4.1.0
       fs-extra: 8.1.0
     dev: true
@@ -2533,8 +2523,8 @@ packages:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
     dev: true
 
-  /@types/node/12.20.52:
-    resolution: {integrity: sha512-cfkwWw72849SNYp3Zx0IcIs25vABmFh73xicxhCkTcvtZQeIez15PpwQN8fY3RD7gv1Wrxlc9MEtfMORZDEsGw==}
+  /@types/node/12.20.53:
+    resolution: {integrity: sha512-7+FWwfyf7EoFD6BqnlmR+XW8GELgnKOVW/BKBtn6GyrVQVRc9GMrLXdV6T/EFFd2WuK2b675lG6ua5eaALGQeg==}
     dev: true
 
   /@types/node/17.0.31:
@@ -3763,7 +3753,7 @@ packages:
       supports-color:
         optional: true
     dependencies:
-      ms: 2.1.2
+      ms: 2.1.3
       supports-color: 6.1.0
     dev: true
 
@@ -5877,52 +5867,6 @@ packages:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
     engines: {node: '>=6'}
     dev: true
-
-  /knex/2.1.0:
-    resolution: {integrity: sha512-vVsnD6UJdSJy55TvCXfFF9syfwyXNxfE9mvr2hJL/4Obciy2EPGoqjDpgRSlMruHuPWDOeYAG25nyrGvU+jJog==}
-    engines: {node: '>=12'}
-    hasBin: true
-    peerDependencies:
-      better-sqlite3: '*'
-      mysql: '*'
-      mysql2: '*'
-      pg: '*'
-      pg-native: '*'
-      sqlite3: '*'
-      tedious: '*'
-    peerDependenciesMeta:
-      better-sqlite3:
-        optional: true
-      mysql:
-        optional: true
-      mysql2:
-        optional: true
-      pg:
-        optional: true
-      pg-native:
-        optional: true
-      sqlite3:
-        optional: true
-      tedious:
-        optional: true
-    dependencies:
-      colorette: 2.0.16
-      commander: 9.3.0
-      debug: 4.3.4
-      escalade: 3.1.1
-      esm: 3.2.25
-      get-package-type: 0.1.0
-      getopts: 2.3.0
-      interpret: 2.2.0
-      lodash: 4.17.21
-      pg-connection-string: 2.5.0
-      rechoir: 0.8.0
-      resolve-from: 5.0.0
-      tarn: 3.0.2
-      tildify: 2.0.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
 
   /knex/2.1.0_sqlite3@5.0.8:
     resolution: {integrity: sha512-vVsnD6UJdSJy55TvCXfFF9syfwyXNxfE9mvr2hJL/4Obciy2EPGoqjDpgRSlMruHuPWDOeYAG25nyrGvU+jJog==}

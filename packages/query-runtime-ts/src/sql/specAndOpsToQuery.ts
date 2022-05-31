@@ -1,48 +1,56 @@
 import { HoistedOperations } from './SqlExpression.js';
-import { Knex } from 'knex';
 import { after, before, filter, orderBy, take } from '../Expression.js';
 import SQLHopExpression from './SQLHopExpression.js';
 import { ModelFieldGetter } from '../Field.js';
 import { NodeSpec } from '@aphro/schema-api';
 import { invariant } from '@strut/utils';
+import { sql, SQL } from '@aphro/sql-ts';
 
 // given a model spec and hoisted operations, return the SQL query
-export default function specAndOpsToQuery(
-  spec: NodeSpec,
-  ops: HoistedOperations,
-  db: Knex,
-): Knex.QueryBuilder {
-  let table = db(spec.storage.tablish);
+export default function specAndOpsToQuery(spec: NodeSpec, ops: HoistedOperations): SQL {
+  // nit: this doesn't take into account limits in between hops.
+  // SELECT projection FROM table {hops} {filters} {before/after} {orderby} {limit}
+  const baseTemplate = sql`
+    SELECT ${'Q'} FROM ${'T'} ${'LQ'} ${'Q?'} ${'Q?'} ${'Q?'} ${'Q?'}
+  `;
 
   const [lastSpec, lastWhat] = getLastSpecAndProjection(spec, ops);
-  switch (lastWhat) {
-    case 'count':
-      table = table.select(`count(${lastSpec.storage.tablish}.${lastSpec.primaryKey})`);
-      break;
-    case 'edges':
-      throw new Error('edge projection not yet supported');
-    case 'ids':
-      table = table.select(lastSpec.storage.tablish + '.' + lastSpec.primaryKey);
-      break;
-    case 'model':
-      // TODO: explicitly name the fields so we get the right order?
-      table = table.select(`${lastSpec.storage.tablish}.*`);
-      break;
-  }
+  const projection = (() => {
+    switch (lastWhat) {
+      case 'count':
+        return sql`count(${'T'}.${'C'})`(lastSpec.storage.tablish, lastSpec.primaryKey);
+      case 'edges':
+        throw new Error('edge projection not yet supported');
+      case 'ids':
+        return sql`${'T'}.${'C'}`(lastSpec.storage.tablish, lastSpec.primaryKey);
+      case 'model':
+        // TODO: explicitly name the fields so we get the right order!
+        return sql`${'T'}.*`(lastSpec.storage.tablish);
+    }
+  })();
 
   // Hops must be applied first
   // Given filters, limits, orders, etc. occur at the end of a SQL statement
-  table = applyHops(spec, table, ops.hop);
-  // applyFilters needs to also grab filters from the hops
-  table = applyFilters(table, ops.filters);
-  // should also grab before/afters from the hops
-  table = applyBeforeAndAfter(table, ops.before, ops.after);
-  // should also grab order bys from the hops and apply in-order of the hops
-  table = applyOrderBy(table, ops.orderBy);
-  // `applyHops` takes limits into account given they change the nature of the join to a sub-select
-  table = applyLimit(table, ops.limit);
+  const hops = getHops([], spec, ops.hop);
 
-  return table;
+  // applyFilters needs to also grab filters from the hops
+  const filters = getFilters(spec, ops.filters);
+  // should also grab before/afters from the hops
+  const beforeAndAfter = getBeforeAndAfter(ops.before, ops.after);
+  // should also grab order bys from the hops and apply in-order of the hops
+  const orderBy = getOrderBy(ops.orderBy);
+  // `applyHops` takes limits into account given they change the nature of the join to a sub-select
+  const limit = getLimit(ops.limit);
+
+  return baseTemplate(
+    projection,
+    lastSpec.storage.tablish,
+    hops,
+    filters,
+    beforeAndAfter,
+    orderBy,
+    limit,
+  );
 }
 
 function getLastSpecAndProjection(
@@ -57,26 +65,15 @@ function getLastSpecAndProjection(
   return getLastSpecAndProjection(hop.destSpec, hop.ops);
 }
 
-function applyFilters<T extends Knex.QueryBuilder>(
-  table: T,
-  filters?: readonly ReturnType<typeof filter>[],
-): Knex.QueryBuilder {
-  if (!filters) {
-    return table;
+function getFilters(spec: NodeSpec, filters?: readonly ReturnType<typeof filter>[]): SQL | null {
+  if (!filters || filters.length === 0) {
+    return null;
   }
-  let first = true;
-  return filters.reduce((table, filter) => {
-    let type: 'none' | 'and' = first ? 'none' : 'and';
-    first = false;
-    return applyFilter(table, filter, type);
-  }, table);
+
+  return sql`WHERE ${'LQA'}`(filters.map(f => getFilter(spec, f)));
 }
 
-function applyFilter<T extends Knex.QueryBuilder>(
-  table: T,
-  f: ReturnType<typeof filter>,
-  type: 'none' | 'and' | 'or',
-): Knex.QueryBuilder {
+function getFilter(spec: NodeSpec, f: ReturnType<typeof filter>): SQL {
   const getter = f.getter as ModelFieldGetter<any, any, any>;
   let op: string | null = null;
   const predicate = f.predicate;
@@ -100,31 +97,43 @@ function applyFilter<T extends Knex.QueryBuilder>(
       op = '>=';
       break;
     case 'in':
-      return table.whereIn(getter.fieldName, predicate.value as any);
+      return sql`${'T'}.${'C'} IN (${'La'})`(
+        spec.storage.tablish,
+        getter.fieldName,
+        predicate.value as any,
+      );
     case 'notIn':
-      return table.whereNotIn(getter.fieldName, predicate.value as any);
+      return sql`${'T'}.${'C'} NOT IN (${'La'})`(
+        spec.storage.tablish,
+        getter.fieldName,
+        predicate.value as any,
+      );
   }
 
-  return table.where(getter.fieldName, op, f.predicate.value as any);
+  return sql`${'T'}.${'C'} ${'l'} ${'a'}`(
+    spec.storage.tablish,
+    getter.fieldName,
+    op,
+    f.predicate.value as any,
+  );
 }
 
-function applyBeforeAndAfter<T extends Knex.QueryBuilder>(
-  table: T,
+function getBeforeAndAfter(
   b?: ReturnType<typeof before>,
   a?: ReturnType<typeof after>,
-): T {
+): SQL | null {
   // TODO: we should figure this one out... e.g., unrolling the cursors and such.
   // should that concern be here tho?
   // or should we just be at > or < at this level?
-  return table;
+  return null;
 }
 
-function applyOrderBy<T extends Knex.QueryBuilder>(table: T, o?: ReturnType<typeof orderBy>): T {
-  return table;
+function getOrderBy(o?: ReturnType<typeof orderBy>): SQL | null {
+  return null;
 }
 
-function applyLimit<T extends Knex.QueryBuilder>(table: T, l?: ReturnType<typeof take>): T {
-  return table;
+function getLimit(l?: ReturnType<typeof take>): SQL | null {
+  return null;
 }
 
 /**
@@ -180,13 +189,9 @@ function applyLimit<T extends Knex.QueryBuilder>(table: T, l?: ReturnType<typeof
  * Limits on non-terminal hops just switch the table from "TABLE_NAME" to "(SELECT * FROM TABLE_NAME LIMIT X) AS TABLE_NAMEss"
  *
  */
-function applyHops(
-  source: NodeSpec,
-  builder: Knex.QueryBuilder,
-  hop?: SQLHopExpression<any, any>,
-): Knex.QueryBuilder {
+function getHops(hops: SQL[], source: NodeSpec, hop?: SQLHopExpression<any, any>): SQL[] {
   if (!hop) {
-    return builder;
+    return hops;
   }
 
   invariant(source === hop.edge.source, 'Edge source and provided source are mismatched!');
@@ -198,26 +203,33 @@ function applyHops(
   switch (edge.type) {
     case 'field':
     case 'foreignKey':
-      builder = builder.join(
-        edge.dest.storage.tablish,
-        `${edge.source.storage.tablish}.${edge.sourceField}`,
-        `${edge.dest.storage.tablish}.${edge.destField}`,
+      hops.push(
+        sql`JOIN ${'T'} ON ${'T'}.${'C'} = ${'T'}.${'C'}`(
+          edge.dest.storage.tablish,
+          edge.source.storage.tablish,
+          edge.sourceField,
+          edge.dest.storage.tablish,
+          edge.destField,
+        ),
       );
       // Could be more hops to join in
-      return applyHops(edge.dest, builder, ops.hop);
+      return getHops(hops, edge.dest, ops.hop);
     case 'junction':
       // TODO: could be traversing the junction in the reverse direction
-      builder = builder
-        .join(
+      hops.push(
+        sql`JOIN ${'T'} ON ${'T'}.${'C'} = ${'T'}.${'C'} JOIN ${'T'} ON ${'T'}.${'C'} = ${'T'}.${'C'}`(
           edge.storage.tablish,
-          `${edge.source.storage.tablish}.${edge.source.primaryKey}`,
-          `${edge.storage.tablish}.id1`,
-        )
-        .join(
+          edge.source.storage.tablish,
+          edge.source.primaryKey,
+          edge.storage.tablish,
+          'id1',
           edge.dest.storage.tablish,
-          `${edge.storage.tablish}.id2`,
-          `${edge.dest.storage.tablish}.${edge.dest.primaryKey}`,
-        );
-      return applyHops(edge.dest, builder, ops.hop);
+          edge.storage.tablish,
+          'id2',
+          edge.dest.storage.tablish,
+          edge.dest.primaryKey,
+        ),
+      );
+      return getHops(hops, edge.dest, ops.hop);
   }
 }

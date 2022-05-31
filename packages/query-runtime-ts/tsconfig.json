@@ -8,6 +8,7 @@
   "references": [
     { "path": "../model-runtime-ts" },
     { "path": "../schema-api" },
+    { "path": "../sql-ts" },
     { "path": "../context-runtime-ts" },
     { "path": "../../mono/typescript/packages/counter" },
     { "path": "../../mono/typescript/packages/sid" },

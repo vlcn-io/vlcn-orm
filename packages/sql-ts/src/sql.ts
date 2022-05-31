@@ -8,8 +8,11 @@ type TypeMappings = {
   l: string;
   Q: SQL;
   LQ: SQL[];
+  LQA: SQL[];
+  'Q?': SQL | null;
   d: number;
   s: string;
+  a: any;
   Ld: number[];
   Ls: string[];
   La: any[];
@@ -29,7 +32,7 @@ class SqlClass<T extends [...ReplacementType[]]> {
 
   toString(dialect: 'sqlite'): [string, any[]] {
     // TODO: dialect conversion
-    return [this.pullStatement() + ';', this.pullBindings()];
+    return [this.pullStatement().trim() + ';', this.pullBindings()];
   }
 
   private sanitize(i: number): string {
@@ -41,15 +44,24 @@ class SqlClass<T extends [...ReplacementType[]]> {
         return this.sanitizeColumn(this.values[i] as string);
       case 'T':
         return '`' + this.values[i] + '`';
+      case 'Q?':
+        if (this.values[i] == null) {
+          return '';
+        }
+
+      // intentional fall-through
       case 'Q':
         return (this.values[i] as SQL).pullStatement();
       case 'LQ':
-        return (this.values[i] as SQL[]).map(q => q.pullStatement()).join(', ');
+        return (this.values[i] as SQL[]).map(q => q.pullStatement()).join(' ');
+      case 'LQA':
+        return (this.values[i] as SQL[]).map(q => q.pullStatement()).join(' AND ');
       case 't':
       case 'l':
         return this.values[i] as string;
       case 'd':
       case 's':
+      case 'a':
       case 'Ld':
       case 'Ls':
       case 'La':
@@ -88,12 +100,19 @@ class SqlClass<T extends [...ReplacementType[]]> {
         case 'Ld':
         case 'Ls':
         case 'La':
+        case 'a':
           ret.push(this.values[i]);
           break;
+        case 'Q?':
+          if (this.values[i] == null) {
+            break;
+          }
+        // intentional fall-through
         case 'Q':
           ret = ret.concat((this.values[i] as SQL).pullBindings());
           break;
         case 'LQ':
+        case 'LQA':
           ret = ret.concat((this.values[i] as SQL[]).flatMap(q => q.pullBindings()));
           break;
         default:

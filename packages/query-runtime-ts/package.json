@@ -12,10 +12,10 @@
     "@aphro/context-runtime-ts": "workspace:*",
     "@aphro/model-runtime-ts": "workspace:*",
     "@aphro/schema-api": "workspace:*",
+    "@aphro/sql-ts": "workspace:*",
     "@strut/counter": "workspace:*",
     "@strut/sid": "workspace:*",
-    "@strut/utils": "workspace:*",
-    "knex": "^2.0.0"
+    "@strut/utils": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
