@@ -9,6 +9,7 @@ type TypeMappings = {
   Q: SQL;
   LQ: SQL[];
   LQA: SQL[];
+  'LQ,': SQL[];
   'Q?': SQL | null;
   d: number;
   s: string;
@@ -57,6 +58,8 @@ class SqlClass<T extends [...ReplacementType[]]> {
         return (this.values[i] as SQL[]).map(q => q.pullStatement()).join(' ');
       case 'LQA':
         return (this.values[i] as SQL[]).map(q => q.pullStatement()).join(' AND ');
+      case 'LQ,':
+        return (this.values[i] as SQL[]).map(q => q.pullStatement()).join(', ');
       case 't':
       case 'l':
         return this.values[i] as string;
@@ -124,6 +127,7 @@ class SqlClass<T extends [...ReplacementType[]]> {
           break;
         case 'LQ':
         case 'LQA':
+        case 'LQ,':
           ret = ret.concat((this.values[i] as SQL[]).flatMap(q => q.pullBindings()));
           break;
         default:

@@ -24,7 +24,7 @@ export default class GenSqlTableSchema extends CodegenStep {
   }
 
   private getSqlString(): string {
-    const create = sql`CREATE TABLE ${'T'} (${'LQ'})`;
+    const create = sql`CREATE TABLE ${'T'} (${'LQ,'})`;
     // TODO: go thru index config and apply index constraints
     const columnDefs = Object.values(this.schema.fields).map(field => {
       switch (field.type) {

@@ -1,5 +1,6 @@
 import count from '@strut/counter';
 import thisPackage from '../pkg.js';
+import { initBackend } from 'absurd-sql/dist/indexeddb-main-thread.js';
 
 let queryId = 0;
 
@@ -19,9 +20,10 @@ export default class Connection {
     counter.bump('create');
     window.addEventListener('message', this.#messageListener);
     this.#worker = new Worker(new URL('../worker/worker.js', import.meta.url));
+    initBackend(this.#worker);
 
     this.ready = new Promise(resolve => {
-      function setReady({ data }) {
+      const setReady = ({ data }) => {
         const { pkg, event } = data;
         if (pkg !== thisPackage) {
           return;
@@ -31,7 +33,7 @@ export default class Connection {
         }
         resolve(true);
         this.#worker.removeEventListener('message', setReady);
-      }
+      };
       this.#worker.addEventListener('message', setReady);
     });
   }
