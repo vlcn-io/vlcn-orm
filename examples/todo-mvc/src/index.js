@@ -10,7 +10,4 @@ async function start() {
   try {
     await Promise.all([connection.exec(TodoTable), connection.exec(UserTable)]);
   } catch (e) {}
-
-  // db.exec(TodoTable);
-  //   db.exec(UserTable);
 }

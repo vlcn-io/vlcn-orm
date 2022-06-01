@@ -1,23 +1,35 @@
+/**
+ * So the day after writing this I was browsing my old `fk-your-frameworks` project in order to create the TODO-MVC
+ * example for [Aphrodite](https://aphrodite.sh). The TODO example project being the original reason for writing this
+ * file (because Knexjs doesn't work in the browser). While looking at `fk-your-frameworks` I remembered that
+ * a former Facebooker contributed to it. Browsing what he was up to these days and lo and behold he has spent
+ * a ton of time creating a Facebook inspired SQL library for TypeScript:
+ * https://www.atdatabases.org/docs/sql
+ *
+ * We should replace this file with @databases/sql. They're both inspired by Facebook's SQL library and
+ * similar in that regard. His, however, has more than 4 hrs of work put into it and has a much cleaner API :)
+ */
+
 export type SQL = SqlClass<any>;
 
 type TypeMappings = {
-  T: string;
-  C: string;
-  LC: string[];
-  t: string;
-  l: string;
+  T: string; // table name
+  C: string; // column name
+  LC: string[]; // list of column names
+  t: string; // type name
+  l: string; // "literal" / "raw"
   Q: SQL;
-  LQ: SQL[];
-  LQA: SQL[];
-  'LQ,': SQL[];
-  'Q?': SQL | null;
+  LQ: SQL[]; // list of queries
+  LQA: SQL[]; // list of queries joined by AND
+  'LQ,': SQL[]; // list of queries joined by ,
+  'Q?': SQL | null; // maybe a query
   d: number;
   s: string;
   a: any;
   Ld: number[];
   Ls: string[];
-  La: any[];
-  'L?': number;
+  La: any[]; // list of any
+  'L?': number; // a number of ? marks to insert
   LR: any[][];
 };
 
