@@ -27,5 +27,8 @@
     "testMatch": [
       "**/__tests__/**/*.test.js"
     ]
+  },
+  "dependencies": {
+    "@databases/sql": "^3.2.0"
   }
 }

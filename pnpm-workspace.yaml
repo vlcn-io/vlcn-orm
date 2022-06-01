@@ -1,6 +1,5 @@
 packages:
   - 'build-all'
-  - 'examples/browser-sqlite'
   - 'examples/todo-mvc'
   - 'extensions/authorization-grammar'
   - 'extensions/mutation-grammar'
