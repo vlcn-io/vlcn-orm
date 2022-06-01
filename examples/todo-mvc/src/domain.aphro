@@ -11,9 +11,12 @@ Todo as Node {
 } & Mutations {
   create as Create {
     text
+    listId
   }
 
-  toggleComplete as Update {}
+  toggleComplete as Update {
+    completed: Timestamp | null
+  }
 
   changeText as Update {
     text
@@ -21,7 +24,7 @@ Todo as Node {
 }
 
 TodoList as Node {
-  id: ID<AppState>
+  id: ID<TodoList>
   filter: Enumeration<all | active | completed>
   editing: ID<Todo> | null
 } & OutboundEdges {

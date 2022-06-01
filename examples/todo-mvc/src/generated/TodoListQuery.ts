@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <cc81312f251e3ebf92182367be74fb33>
+// SIGNED-SOURCE: <2956249c834402b3ea3584d523e07dc9>
 import { Context } from "@aphro/runtime-ts";
 import { DerivedQuery } from "@aphro/runtime-ts";
 import { QueryFactory } from "@aphro/runtime-ts";
@@ -11,7 +11,6 @@ import { SID_of } from "@aphro/runtime-ts";
 import TodoList from "./TodoList.js";
 import { Data } from "./TodoList.js";
 import { default as spec } from "./TodoListSpec.js";
-import AppState from "./AppState.js";
 import Todo from "./Todo.js";
 import { default as TodoSpec } from "./TodoSpec.js";
 import TodoQuery from "./TodoQuery";

@@ -3,37 +3,41 @@ import { uniqueImports } from '@aphro/codegen';
 import { assertUnreachable } from '@strut/utils';
 
 export function fieldToTsType(field: RemoveNameField<Field>): string {
+  let suffix = '';
+  if (field.nullable) {
+    suffix = ' | null';
+  }
   switch (field.type) {
     case 'id':
-      return `SID_of<${field.of}>`;
+      return `SID_of<${field.of}>` + suffix;
     case 'naturalLanguage':
-      return 'string';
+      return 'string' + suffix;
     case 'enumeration':
       return field.keys.map(k => `'${k}'`).join('|');
     case 'currency':
     case 'timestamp':
-      return 'number';
+      return 'number' + suffix;
     case 'primitive':
       switch (field.subtype) {
         case 'bool':
-          return 'boolean';
+          return 'boolean' + suffix;
         case 'int32':
         case 'float32':
         case 'uint32':
-          return 'number';
+          return 'number' + suffix;
         // since JS can't represent 64 bit numbers -- 53 bits is js max int.
         case 'int64':
         case 'float64':
         case 'uint64':
         case 'string':
-          return 'string';
+          return 'string' + suffix;
         case 'null':
           return 'null';
         default:
           assertUnreachable(field.subtype);
       }
     case 'map':
-      return `ReadonlyMap<${fieldToTsType(field.keys)}, ${fieldToTsType(field.values)}>`;
+      return `ReadonlyMap<${fieldToTsType(field.keys)}, ${fieldToTsType(field.values)}>` + suffix;
   }
 
   throw new Error(

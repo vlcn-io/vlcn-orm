@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <670b1521b28b7094c6115f9898a01230>
+// SIGNED-SOURCE: <47455dbc246891aa6989898ed713239b>
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -12,6 +12,8 @@ import { Changeset } from "@aphro/runtime-ts";
 
 // BEGIN-MANUAL-SECTION: [module-level]
 // Manual section for any new imports / export / top level things
+import { SID_of, sid } from "@aphro/runtime-ts";
+import Todo from "./Todo.js";
 // END-MANUAL-SECTION
 
 class Mutations extends MutationsBase<TodoList, Data> {
@@ -21,21 +23,27 @@ class Mutations extends MutationsBase<TodoList, Data> {
 
   create({}: {}): this {
     // BEGIN-MANUAL-SECTION: [create]
-    throw new Error("Mutation create is not implemented!");
+    this.mutator.set({
+      id: sid('fixme'),
+      filter: 'all',
+      editing: null,
+    });
     // END-MANUAL-SECTION
     return this;
   }
 
   filter({ filter }: { filter: "all" | "active" | "completed" }): this {
     // BEGIN-MANUAL-SECTION: [filter]
-    throw new Error("Mutation filter is not implemented!");
+    this.mutator.set({
+      filter,
+    });
     // END-MANUAL-SECTION
     return this;
   }
 
-  edit({ editing }: { editing: SID_of<Todo> }): this {
+  edit({ editing }: { editing: SID_of<Todo> | null }): this {
     // BEGIN-MANUAL-SECTION: [edit]
-    throw new Error("Mutation edit is not implemented!");
+    this.mutator.set({editing});
     // END-MANUAL-SECTION
     return this;
   }
@@ -55,7 +63,10 @@ export default class TodoListMutations {
     ).filter(args);
   }
 
-  static edit(model: TodoList, args: { editing: SID_of<Todo> }): Mutations {
+  static edit(
+    model: TodoList,
+    args: { editing: SID_of<Todo> | null }
+  ): Mutations {
     return new Mutations(
       model.ctx,
       new UpdateMutationBuilder(spec, model)

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <2b1a4b5122a81ae7430d6aafa2b7d7dd>
+// SIGNED-SOURCE: <f1a7af3f223286a2809355cbabdd2f2c>
 import { default as s } from "./TodoSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { Model } from "@aphro/runtime-ts";
@@ -14,7 +14,7 @@ export type Data = {
   text: string;
   created: number;
   modified: number;
-  completed: number;
+  completed: number | null;
 };
 
 export default class Todo extends Model<Data> {
@@ -40,7 +40,7 @@ export default class Todo extends Model<Data> {
     return this.data.modified;
   }
 
-  get completed(): number {
+  get completed(): number | null {
     return this.data.completed;
   }
 

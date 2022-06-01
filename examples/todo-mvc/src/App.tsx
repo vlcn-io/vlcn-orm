@@ -1,9 +1,12 @@
 import Todo from './generated/Todo.js';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import TodoList from './generated/TodoList.js';
+import { Data } from './generated/TodoList.js';
+import TodoListMutations from './generated/TodoListMutations.js';
 
-type Filter = 'active' | 'none' | 'completed';
+type Filter = Data['filter'];
 
-function Header() {
+function Header({ todoList }: { todoList: TodoList }) {
   return (
     <header className="header">
       <h1>todos</h1>
@@ -53,15 +56,13 @@ function TodoView({
 function Footer({
   remaining,
   todos,
-  filter,
   clearCompleted,
-  updateFilter,
+  todoList,
 }: {
   remaining: Todo[];
   todos: Todo[];
-  filter: Filter;
   clearCompleted: () => void;
-  updateFilter: (f: Filter) => void;
+  todoList: TodoList;
 }) {
   let clearCompletedButton;
   if (remaining.length !== todos.length) {
@@ -72,6 +73,8 @@ function Footer({
     );
   }
 
+  const updateFilter = (filter: Filter) => TodoListMutations.filter(todoList, { filter }).save();
+
   return (
     <footer className="footer">
       <span className="todo-count">
@@ -80,14 +83,17 @@ function Footer({
       </span>
       <ul className="filters">
         <li>
-          <a className={filter === 'none' ? 'selected' : ''} onClick={() => updateFilter('none')}>
+          <a
+            className={todoList.filter === 'all' ? 'selected' : ''}
+            onClick={() => updateFilter('all')}
+          >
             {' '}
             All{' '}
           </a>
         </li>
         <li>
           <a
-            className={filter === 'active' ? 'selected' : ''}
+            className={todoList.filter === 'active' ? 'selected' : ''}
             onClick={() => updateFilter('active')}
           >
             Active
@@ -95,7 +101,7 @@ function Footer({
         </li>
         <li>
           <a
-            className={filter === 'completed' ? 'selected' : ''}
+            className={todoList.filter === 'completed' ? 'selected' : ''}
             onClick={() => updateFilter('completed')}
           >
             Completed
@@ -107,18 +113,25 @@ function Footer({
   );
 }
 
-export default function App() {
-  const [filter, setFilter] = useState<Filter>();
-  const state: { items: Todo[] } = {
-    items: [],
-  };
+export default function App({ list }: { list: TodoList }) {
   const clearCompleted = () => {};
   const startEditing = () => {};
   const remaining = [];
-  let toggleAll;
+  let toggleAllCheck;
 
-  if (state.items.length) {
-    toggleAll = (
+  // TODO: this'll be cumbersome until we add custom hooks and live queries.
+  const [todos, setTodos] = useState<Todo[]>([]);
+  useEffect(() => {
+    list
+      .queryTodos()
+      .gen()
+      .then(todos => {
+        setTodos(todos);
+      });
+  }, []);
+
+  if (todos.length) {
+    toggleAllCheck = (
       <>
         <input
           type="checkbox"
@@ -133,20 +146,19 @@ export default function App() {
 
   return (
     <div className="todoapp">
-      <Header />
-      <section className="main" style={state.items.length ? {} : { display: 'none' }}>
-        {toggleAll}
+      <Header todoList={list} />
+      <section className="main" style={todos.length ? {} : { display: 'none' }}>
+        {toggleAllCheck}
         <ul className="todo-list">
-          {state.items.map(t => (
+          {todos.map(t => (
             <TodoView key={t.id} todo={t} editing={false} startEditing={startEditing} />
           ))}
         </ul>
         <Footer
           remaining={remaining}
-          todos={state.items}
-          filter={filter}
+          todos={todos}
+          todoList={list}
           clearCompleted={clearCompleted}
-          updateFilter={f => setFilter(f)}
         />
       </section>
     </div>

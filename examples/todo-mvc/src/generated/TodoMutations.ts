@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <27c6d23f2914402119c9675918e3d4f1>
+// SIGNED-SOURCE: <d204b7492e324bfc924b6c415c827df3>
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -11,7 +11,8 @@ import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { Changeset } from "@aphro/runtime-ts";
 
 // BEGIN-MANUAL-SECTION: [module-level]
-// Manual section for any new imports / export / top level things
+import { SID_of, sid } from "@aphro/runtime-ts";
+import TodoList from "./TodoList.js";
 // END-MANUAL-SECTION
 
 class Mutations extends MutationsBase<Todo, Data> {
@@ -19,33 +20,49 @@ class Mutations extends MutationsBase<Todo, Data> {
     super(ctx, mutator);
   }
 
-  create({ text }: { text: string }): this {
+  create({ text, listId }: { text: string; listId: SID_of<TodoList> }): this {
     // BEGIN-MANUAL-SECTION: [create]
-    throw new Error("Mutation create is not implemented!");
+    this.mutator.set({
+      id: sid('fixme'),
+      text,
+      listId,
+      created: Date.now(),
+      modified: Date.now(),
+    });
     // END-MANUAL-SECTION
     return this;
   }
 
-  toggleComplete({}: {}): this {
+  toggleComplete({ completed }: { completed: number | null }): this {
     // BEGIN-MANUAL-SECTION: [toggleComplete]
-    throw new Error("Mutation toggleComplete is not implemented!");
+    this.mutator.set({
+      completed: completed == null ? Date.now() : null,
+    });
     // END-MANUAL-SECTION
     return this;
   }
 
   changeText({ text }: { text: string }): this {
     // BEGIN-MANUAL-SECTION: [changeText]
-    throw new Error("Mutation changeText is not implemented!");
+    this.mutator.set({
+      text,
+    });
     // END-MANUAL-SECTION
     return this;
   }
 }
 
 export default class TodoMutations {
-  static create(ctx: Context, args: { text: string }): Mutations {
+  static create(
+    ctx: Context,
+    args: { text: string; listId: SID_of<TodoList> }
+  ): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
   }
-  static toggleComplete(model: Todo, args: {}): Mutations {
+  static toggleComplete(
+    model: Todo,
+    args: { completed: number | null }
+  ): Mutations {
     return new Mutations(
       model.ctx,
       new UpdateMutationBuilder(spec, model)

@@ -6,6 +6,17 @@
 - Simplify configuration and context creation?
 - "unable to find code for manual section _foo_"
   - Well this could happen whenever we introduce a new mutation that previously did not exist.
+- Imports for mutator args
+  - E.g., TodoList in example
+- Manual sections in models to allow for extra methods?
+- Access to existing model in update mutation builders
+- Nullability to mutator params... when defined via shortcut
+  - Field types need their type atoms!\
+- Device ids in context?
+- Insert and reads
+  - Ensure things are properly ordered on read and write
+    - by encoding field names into spec
+- Empty mutations should generate empty args
 
 # 5/26
 - Tests for in-memory filters
