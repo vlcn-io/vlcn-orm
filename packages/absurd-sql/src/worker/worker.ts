@@ -1,7 +1,7 @@
 import initSqlJs from '@jlongster/sql.js';
 import { SQLiteFS } from 'absurd-sql';
-import IndexedDBBackend from 'absurd-sql/dist/indexeddb-backend';
-import thisPackage from '../pkg';
+import IndexedDBBackend from 'absurd-sql/dist/indexeddb-backend.js';
+import thisPackage from '../pkg.js';
 
 async function init() {
   let SQL = await initSqlJs({ locateFile: file => file });

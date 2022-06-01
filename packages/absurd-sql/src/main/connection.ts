@@ -1,5 +1,5 @@
 import count from '@strut/counter';
-import thisPackage from '../pkg';
+import thisPackage from '../pkg.js';
 
 let queryId = 0;
 

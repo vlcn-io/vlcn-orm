@@ -1,9 +1,9 @@
-import { AbsurdSqlClient } from '@aphro/absurd-sql';
-import Knex from 'knex';
+import { Connection } from '@aphro/absurd-sql';
 
-const knex = Knex({
-  client: AbsurdSqlClient,
-  connection: ':memory:',
-});
+const connection = new Connection();
 
-console.log(knex.select(knex.raw(1)).toSQL());
+connection.ready
+  .then(() => {
+    console.log('connection ready!');
+  })
+  .catch(e => console.error(e));
