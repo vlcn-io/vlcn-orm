@@ -7,9 +7,10 @@ import SlideMutations from '../generated/SlideMutations.js';
 import ComponentMutations from '../generated/ComponentMutations.js';
 
 let ctx: Context;
+const cache = new Cache();
 beforeAll(async () => {
   const resolver = await initDb();
-  ctx = context(viewer(asId('me')), resolver, new Cache());
+  ctx = context(viewer(asId('me')), resolver, cache);
 });
 
 test('Point queries', async () => {

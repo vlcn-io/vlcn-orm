@@ -1,1 +1,1 @@
-export { default as AbsurdSqlClient } from './main/knex-adapter';
+export { default as Connection } from './main/connection.js';

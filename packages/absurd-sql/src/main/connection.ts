@@ -37,7 +37,7 @@ export default class Connection {
   }
 
   // TODO: what type gets returned?
-  async exec(queryObj: { sql: string; bindings: any[]; method: 'all' | 'run' }): Promise<any> {
+  async exec(queryObj: { sql: string; bindings: any[] }): Promise<any> {
     counter.bump('query');
     const id = queryId++;
 

@@ -5,6 +5,9 @@
 - Actually start a transaction for your commit mutations in `persistor`
 - bi-directional references... when creating objects that point to one another?
 - Auto-generate ID on create -- depending on id type...
+- computed fields
+- return changesets from mutations?
+  - Or add changesets to mutations for persist? Mutations that use mutations
 
 # 5/22
 - Create from data, re-hydrate cache?
@@ -210,3 +213,7 @@ CREATE TABLE public."Slide"
 ```
 
 https://codetabs.com/count-loc/count-loc-online.html
+
+---
+
+Mutations that use mutations... How will we handle this?

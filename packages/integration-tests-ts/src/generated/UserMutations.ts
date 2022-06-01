@@ -24,6 +24,8 @@ class Mutations extends MutationsBase<User, Data> {
     this.mutator.set({
       id: sid('test'),
       name,
+      created: Date.now(),
+      modified: Date.now(),
     });
     // END-MANUAL-SECTION
     return this;
