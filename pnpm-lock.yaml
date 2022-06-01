@@ -373,12 +373,14 @@ importers:
     specifiers:
       '@aphro/cache-runtime-ts': workspace:*
       '@aphro/schema-api': workspace:*
+      '@strut/events': workspace:*
       '@strut/sid': workspace:*
       '@strut/utils': workspace:*
       typescript: ^4.6.4
     dependencies:
       '@aphro/cache-runtime-ts': link:../cache-runtime-ts
       '@aphro/schema-api': link:../schema-api
+      '@strut/events': link:../../mono/typescript/packages/events
       '@strut/sid': link:../../mono/typescript/packages/sid
       '@strut/utils': link:../../mono/typescript/packages/utils
     devDependencies:

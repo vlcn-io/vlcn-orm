@@ -4,11 +4,13 @@ import { HeteroModelMap } from '@aphro/model-runtime-ts';
 import { SID_of } from '@strut/sid';
 import { Changeset } from './Changeset.js';
 import { Task } from './NotifyQueue.js';
+import Persistor from './Persistor.js';
 
 export type CombinedChangesets = Map<SID_of<IModel>, Changeset<IModel>>;
 export type Transaction = {
   readonly changes: Map<SID_of<IModel>, Changeset<IModel>>;
   readonly nodes: HeteroModelMap;
+  readonly persistHandle: Promise<any>;
   // readonly options: CommitOptions;
 };
 
@@ -36,7 +38,10 @@ export class ChangesetExecutor {
       }
     }, 0);
 
-    return transaction;
+    return {
+      ...transaction,
+      persistHandle: new Persistor(this.ctx).persist(transaction),
+    };
   }
 
   private removeNoops(changesets: CombinedChangesets) {
@@ -49,7 +54,7 @@ export class ChangesetExecutor {
     }
   }
 
-  private apply(changesets: CombinedChangesets): [Transaction, Set<Task>] {
+  private apply(changesets: CombinedChangesets): [Omit<Transaction, 'persistHandle'>, Set<Task>] {
     const nodes = new MutableHeteroModelMap();
     const notifications: Set<Task> = new Set();
     for (const [id, cs] of changesets) {

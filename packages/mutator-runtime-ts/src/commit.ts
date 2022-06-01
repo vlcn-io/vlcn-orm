@@ -80,9 +80,8 @@ export function commit(ctx: Context, changesets: Changeset<any>[]): [Promise<any
 
 export function commit(ctx: Context, changesets: Changeset<any>[]): [Promise<any>, ...IModel[]] {
   const transaction = new ChangesetExecutor(ctx, changesets).execute();
-  const persistor = new Persistor(ctx);
 
-  return [persistor.persist(transaction), ...changesets.map(cs => transaction.nodes.getx(cs.id))];
+  return [transaction.persistHandle, ...changesets.map(cs => transaction.nodes.getx(cs.id))];
 }
 
 /*

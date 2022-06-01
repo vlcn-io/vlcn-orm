@@ -1,29 +1,33 @@
-/*
-
-*/
-
 import { Context } from '@aphro/context-runtime-ts';
+import TransactionLog from '@aphro/context-runtime-ts/src/transactionLog';
 import { IPlan } from '../Plan.js';
 import { Query } from '../Query.js';
-
-type Event = {
-  type: 'pending' | 'update';
-};
 
 type Status = 'pending' | 'resolved';
 
 class LiveResult<T> {
   #latest?: T;
-  #subscribers: Set<(data: T) => void>;
+  #subscribers: Set<(data: T[]) => void>;
   #status: Status = 'pending';
   #optimizedQueryPlan: IPlan;
   #implicatedDatasets: Set<string>;
 
-  constructor(ctx: Context, query: Query<T>) {
+  #disposables: (() => void)[] = [];
+
+  constructor(private ctx: Context, query: Query<T>) {
     this.#optimizedQueryPlan = query.plan().optimize();
     this.#implicatedDatasets = query.implicatedDatasets();
 
-    // ctx.commitLog.on((tx) => {if (this.#matters(tx)) { tx.persist.then(this.#react) }})
+    this.#disposables.push(
+      ctx.commitLog.observe(tx => {
+        if (this.#matters(tx)) {
+          // TODO: we have a divergence in optimistic results and db results.
+          // I.e., the optimistic layer could succeed and persist layer fail.
+          // We need to reoncile this for our users.
+          tx.persist.then(this.#react);
+        }
+      }),
+    );
 
     /*
     How should we convert a query into a reactive plan?
@@ -53,12 +57,48 @@ class LiveResult<T> {
     */
   }
 
-  on(subscriber: (data: T) => void) {
-    this.#subscribers.add(subscriber);
+  // TODO: move definition of `Transaction`
+  #matters(tx: any): boolean {
+    // pull implicated datasets from tx
+    // see if in #implicatedDatasets
+    return false;
   }
 
-  off(subscriber: (data: T) => void) {
+  #react() {
+    // TODO: we'd probably want to enable
+    // streaming reactive updates, diff/patch updates, handling pagination in reactive queries
+    this.#genReact().then(this.#notify);
+  }
+
+  async #genReact(): Promise<T[]> {
+    let results: T[] = [];
+    for await (const chunk of this.#optimizedQueryPlan.iterable) {
+      results = results.concat(chunk);
+    }
+
+    return results;
+  }
+
+  #notify(result: T[]) {
+    for (const s of this.#subscribers) {
+      s(result);
+    }
+  }
+
+  on(subscriber: (data: T[]) => void) {
+    this.#subscribers.add(subscriber);
+    return () => this.off(subscriber);
+  }
+
+  off(subscriber: (data: T[]) => void) {
     this.#subscribers.delete(subscriber);
+  }
+
+  destroy() {
+    this.#subscribers = new Set();
+    this.#disposables.forEach(d => d());
+    this.#disposables = [];
+    // this.ctx.commitLog.off(this.#logListener);
   }
 
   get latest() {

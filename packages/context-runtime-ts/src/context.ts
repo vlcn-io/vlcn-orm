@@ -1,16 +1,18 @@
-import { Viewer } from './viewer';
+import { Viewer } from './viewer.js';
 import { DBResolver } from './DBResolver.js';
 import { printResolver } from './resolvers.js';
 import Cache from '@aphro/cache-runtime-ts';
+import TransactionLog from './transactionLog.js';
 
 export type Context = {
   readonly viewer: Viewer;
   readonly dbResolver: DBResolver;
   readonly cache: Cache;
-  // readonly commitLog: TransactionLog;
+  // TODO: we need to move the definition of `Transaction` so it is usable here.
+  readonly commitLog: TransactionLog<any>;
 };
 
-// const defaultCommitLog = new TransactionLog(50);
+const defaultCommitLog = new TransactionLog(50);
 
 /**
  * TODO: we should likely hide the cache parameter from the user so they don't shoot themselves in the foot
@@ -24,13 +26,13 @@ export default function context(
   viewer: Viewer,
   dbResolver: DBResolver,
   cache: Cache,
-  // commitLog: TransactionLog = defaultCommitLog,
+  commitLog: TransactionLog<any> = defaultCommitLog,
 ): Context {
   return {
     viewer,
     dbResolver,
     cache,
-    // commitLog,
+    commitLog,
   };
 }
 

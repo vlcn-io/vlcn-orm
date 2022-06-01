@@ -13,6 +13,8 @@
       - Sub to the whole thing I suppose.
     - All model props are getters so you could technically understand what props a function against that model uses.
     - Maybe we go `solidjs` first?
+- Auto-build of schemas?
+  - Better working of partially generated files and auto-completed imports..
       
 
 # 6/1

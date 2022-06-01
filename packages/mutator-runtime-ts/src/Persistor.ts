@@ -22,7 +22,7 @@ export default class Persistor {
   }
 
   // TODO: all of this batching is likely premature optmization
-  persist(tx: Transaction) {
+  persist(tx: Omit<Transaction, 'persistHandle'>) {
     const collectedDeletes: DeleteChangeset<IModel, Object>[] = [];
     const collectedCreatesOrUpdates: Map<SID_of<IModel>, IModel> = new Map();
     tx.changes.forEach((value, key) => {
