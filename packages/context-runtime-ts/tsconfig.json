@@ -8,6 +8,7 @@
   "references": [
     { "path": "../schema-api" },
     { "path": "../../mono/typescript/packages/utils" },
-    { "path": "../../mono/typescript/packages/sid" }
+    { "path": "../../mono/typescript/packages/sid" },
+    { "path": "../../mono/typescript/packages/events" }
   ]
 }

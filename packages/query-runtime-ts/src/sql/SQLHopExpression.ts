@@ -1,4 +1,5 @@
 import { Context } from '@aphro/context-runtime-ts';
+import { specToDatasetKey } from '@aphro/model-runtime-ts';
 import { EdgeSpec } from '@aphro/schema-api';
 import { ChunkIterable } from '../ChunkIterable.js';
 import { HopExpression } from '../Expression.js';
@@ -39,12 +40,6 @@ export default class SQLHopExpression<TIn, TOut>
   }
 
   implicatedDataset(): string {
-    return (
-      this.destSpec.storage.engine +
-      '-' +
-      this.destSpec.storage.db +
-      '-' +
-      this.destSpec.storage.tablish
-    );
+    return specToDatasetKey(this.destSpec);
   }
 }
