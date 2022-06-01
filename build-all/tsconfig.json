@@ -18,8 +18,8 @@
     { "path": "../packages/react" },
     { "path": "../packages/schema" },
     { "path": "../packages/schema-api" },
+    { "path": "../packages/sql-ts" },
     { "path": "../extensions/mutation-codegen" },
-    { "path": "../extensions/mutation-grammar" },
-    { "path": "../examples/todo-mvc" }
+    { "path": "../extensions/mutation-grammar" }
   ]
 }

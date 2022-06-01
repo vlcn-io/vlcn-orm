@@ -2,14 +2,17 @@
   "baseBranch": "origin/main",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": [],
       "outputs": []
     },
     "test": {
       "dependsOn": []
     },
     "clean": {
-      "dependsOn": ["^clean"]
+      "dependsOn": []
+    },
+    "deep-clean": {
+      "dependsOn": []
     }
   }
 }
