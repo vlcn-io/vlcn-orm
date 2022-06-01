@@ -6,10 +6,11 @@
   "license": "MIT",
   "scripts": {
     "serve": "webpack serve",
-    "aphro": "aphro gen ./src/domain.aphro --dest ./src/generated",
+    "aphro": "aphro gen ./src/domain.aphro --dest ./src/generated && cp src/generated/*.sql dist/generated",
     "tclean": "tsc --build --clean",
     "tbuild": "tsc --build",
-    "twatch": "tsc --build -w"
+    "twatch": "tsc --build -w",
+    "copy": "cp src/index.html dist/index.html && cp src/generated/*.sql dist/generated"
   },
   "dependencies": {
     "@aphro/absurd-sql": "workspace:*",
