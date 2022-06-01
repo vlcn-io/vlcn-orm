@@ -7,7 +7,9 @@
   "scripts": {
     "serve": "webpack serve",
     "aphro": "aphro gen ./src/domain.aphro --dest ./src/generated",
-    "tcheck": "tsc --noemit"
+    "tclean": "tsc --build --clean",
+    "tbuild": "tsc --build",
+    "twatch": "tsc --build -w"
   },
   "dependencies": {
     "@aphro/absurd-sql": "workspace:*",
