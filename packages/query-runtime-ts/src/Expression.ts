@@ -134,6 +134,7 @@ export function modelLoad<TData, TModel extends IModel<TData>>(
 export interface SourceExpression<TOut> {
   readonly iterable: ChunkIterable<TOut>;
   optimize(plan: Plan, nextHop?: HopPlan): Plan;
+  implicatedDataset(): string;
 }
 
 export interface DerivedExpression<TIn, TOut> {
@@ -147,5 +148,6 @@ export interface HopExpression<TIn, TOut> {
    * Optimizes the current plan (plan) and folds in the nxet hop (nextHop) if possible.
    */
   optimize(sourcePlan: IPlan, plan: HopPlan, nextHop?: HopPlan): HopPlan;
+  implicatedDataset(): string;
   type: 'hop';
 }

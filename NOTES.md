@@ -37,4 +37,12 @@ pnpm publish -r --access=public --otp=___
 
 # Inspiration
 
-https://www.youtube.com/watch?v=rkZzg7Vowao
+Lamport: https://www.youtube.com/watch?v=rkZzg7Vowao
+
+Solidjs architecture: https://www.youtube.com/watch?v=_ne2BsvFBH0, https://www.youtube.com/watch?v=j8ANWdE7wfY
+
+
+# Dep Tracking
+
+How might we have Model properties integrated into SolidJS's reactivity system?
+Live queries too.

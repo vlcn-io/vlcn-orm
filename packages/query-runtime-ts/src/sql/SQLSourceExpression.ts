@@ -1,19 +1,9 @@
-import {
-  after,
-  before,
-  Expression,
-  filter,
-  orderBy,
-  SourceExpression,
-  take,
-} from '../Expression.js';
+import { SourceExpression } from '../Expression.js';
 import SQLSourceChunkIterable from './SqlSourceChunkIterable.js';
 import Plan from '../Plan.js';
 import { ChunkIterable } from '../ChunkIterable.js';
 import HopPlan from '../HopPlan.js';
-import { ModelFieldGetter } from '../Field.js';
-import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
-import SQLHopExpression from './SQLHopExpression.js';
+import { IModel } from '@aphro/model-runtime-ts';
 import { Context } from '@aphro/context-runtime-ts';
 import SQLExpression, { HoistedOperations } from './SQLExpression.js';
 import { NodeSpec } from '@aphro/schema-api';
@@ -44,5 +34,9 @@ export default class SQLSourceExpression<T extends IModel<Object>>
 
   get iterable(): ChunkIterable<T> {
     return new SQLSourceChunkIterable(this.ctx, this.spec, this.ops);
+  }
+
+  implicatedDataset(): string {
+    return this.spec.storage.engine + '-' + this.spec.storage.db + '-' + this.spec.storage.tablish;
   }
 }

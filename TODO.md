@@ -5,6 +5,15 @@
 - Device ids in context?
 - Context creation / configuration seems bloated
 - Migration / table schema conflict errors are not surfaced well
+- "subscribing" to a model itself -- and/or the keys on it you care about.
+  - This was fine in Strut with just you.. but will others understand it?
+    - `useBind([p1, p2, p3], model);`
+      - mutators that signal solid signals?
+    - What about computed props or functions against the model?
+      - Sub to the whole thing I suppose.
+    - All model props are getters so you could technically understand what props a function against that model uses.
+    - Maybe we go `solidjs` first?
+      
 
 # 6/1
 - See `index.js` for `todo-mvc` about bootstrapping.

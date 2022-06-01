@@ -1,11 +1,12 @@
 import { Context } from '@aphro/context-runtime-ts';
-import { DerivedExpression, Expression, HopExpression, SourceExpression } from './Expression.js';
+import { Expression, HopExpression, SourceExpression } from './Expression.js';
 import HopPlan from './HopPlan.js';
 import Plan, { IPlan } from './Plan.js';
 
 export interface Query<T> {
   plan(): IPlan;
   gen(): Promise<T[]>;
+  implicatedDatasets(): Set<string>;
 }
 
 abstract class BaseQuery<T> implements Query<T> {
@@ -26,6 +27,7 @@ abstract class BaseQuery<T> implements Query<T> {
   }
 
   abstract plan(): IPlan;
+  abstract implicatedDatasets(): Set<string>;
 }
 
 export abstract class SourceQuery<T> extends BaseQuery<T> {
@@ -48,6 +50,10 @@ export abstract class SourceQuery<T> extends BaseQuery<T> {
   plan() {
     return new Plan(this.expression, []);
   }
+
+  implicatedDatasets(): Set<string> {
+    return new Set([this.expression.implicatedDataset()]);
+  }
 }
 
 export abstract class HopQuery<TIn, TOut> extends BaseQuery<TOut> {
@@ -61,6 +67,12 @@ export abstract class HopQuery<TIn, TOut> extends BaseQuery<TOut> {
 
   plan() {
     return new HopPlan(this.priorQuery.plan(), this.expression, []);
+  }
+
+  implicatedDatasets(): Set<string> {
+    const s = this.priorQuery.implicatedDatasets();
+    s.add(this.expression.implicatedDataset());
+    return s;
   }
 }
 
@@ -81,6 +93,10 @@ export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
     }
 
     return plan;
+  }
+
+  implicatedDatasets(): Set<string> {
+    return this.#priorQuery.implicatedDatasets();
   }
 }
 

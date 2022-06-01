@@ -30,6 +30,9 @@ class TestHopExpression implements HopExpression<any, any> {
     return plan;
   }
   type: 'hop';
+  implicatedDataset(): string {
+    return '---';
+  }
 }
 
 test('re-orders hop plans', () => {

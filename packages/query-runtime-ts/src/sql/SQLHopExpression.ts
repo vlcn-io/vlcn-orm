@@ -37,4 +37,14 @@ export default class SQLHopExpression<TIn, TOut>
   get destSpec() {
     return this.edge.dest;
   }
+
+  implicatedDataset(): string {
+    return (
+      this.destSpec.storage.engine +
+      '-' +
+      this.destSpec.storage.db +
+      '-' +
+      this.destSpec.storage.tablish
+    );
+  }
 }
