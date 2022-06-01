@@ -1,3 +1,11 @@
+# API Problems
+- Using mutations within mutations and gathering all changesets together while still allowing chaining
+- Reading already queried edges
+  - Sync if it is fulfilled? Still async but have a query cache?
+- Device ids in context?
+- Context creation / configuration seems bloated
+- Migration / table schema conflict errors are not surfaced well
+
 # 6/1
 - See `index.js` for `todo-mvc` about bootstrapping.
 - Conversion of ids to 64bit ints upon storage
