@@ -14,7 +14,9 @@
   },
   "dependencies": {
     "@aphro/absurd-sql": "workspace:*",
-    "@aphro/runtime-ts": "workspace:*"
+    "@aphro/runtime-ts": "workspace:*",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
   },
   "devDependencies": {
     "@aphro/codegen-cli": "workspace:*",

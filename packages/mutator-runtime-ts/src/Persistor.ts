@@ -1,4 +1,4 @@
-import writer from './writer';
+import writer from './writer.js';
 import { nullthrows } from '@strut/utils';
 import { DeleteChangeset } from './Changeset.js';
 import { IModel } from '@aphro/model-runtime-ts';

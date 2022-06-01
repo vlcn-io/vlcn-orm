@@ -90,7 +90,7 @@ export default class Connection {
     if (data.error) {
       pending.reject(data.error);
     } else {
-      pending.resolve(data);
+      pending.resolve(data.result);
     }
   };
 

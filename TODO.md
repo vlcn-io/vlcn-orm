@@ -1,3 +1,12 @@
+# 6/1
+- See `index.js` for `todo-mvc` about bootstrapping.
+- Conversion of ids to 64bit ints upon storage
+- Removal of Knex from test code
+- Integration of @databases
+- Simplify configuration and context creation?
+- "unable to find code for manual section _foo_"
+  - Well this could happen whenever we introduce a new mutation that previously did not exist.
+
 # 5/26
 - Tests for in-memory filters
 - Reactivity

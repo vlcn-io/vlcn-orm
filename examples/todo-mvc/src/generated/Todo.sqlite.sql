@@ -1,10 +1,10 @@
--- SIGNED-SOURCE: <e17f7dacd3e46f1c6ee0cbb758565ded>
+-- SIGNED-SOURCE: <a8aa2c917bb640c09c275c16a5408c86>
 CREATE TABLE
   `todo` (
     `id` bigint,
     `text` text,
     `created` bigint,
     `modified` bigint,
-    `ownerId` bigint,
+    `completed` bigint,
     primary key (`id`)
   );

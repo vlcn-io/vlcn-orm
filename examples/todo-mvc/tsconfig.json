@@ -11,15 +11,14 @@
     "experimentalDecorators": true,
     "baseUrl": "./src/",
     "declaration": true,
-    "composite": true,
     "declarationMap": true,
-    "incremental": true,
     "rootDir": "./src",
-    "allowJs": true
+    "allowJs": true,
+    "jsx": "react"
   },
   "include": ["./src/"],
   "references": [
-    { "path": "../../packages/model-runtime-ts" },
+    { "path": "../../packages/runtime-ts" },
     { "path": "../../packages/absurd-sql" },
     { "path": "../../packages/codegen-cli" }
   ]

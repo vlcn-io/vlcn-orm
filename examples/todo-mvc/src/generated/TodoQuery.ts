@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <97ffbf1fe7e1aee8d692a7d884cec477>
+// SIGNED-SOURCE: <970498f7f331f3b443b6489052a6010b>
 import { Context } from "@aphro/runtime-ts";
 import { DerivedQuery } from "@aphro/runtime-ts";
 import { QueryFactory } from "@aphro/runtime-ts";
@@ -11,7 +11,6 @@ import { SID_of } from "@aphro/runtime-ts";
 import Todo from "./Todo.js";
 import { Data } from "./Todo.js";
 import { default as spec } from "./TodoSpec.js";
-import User from "./User.js";
 
 export default class TodoQuery extends DerivedQuery<Todo> {
   static create(ctx: Context) {
@@ -58,11 +57,11 @@ export default class TodoQuery extends DerivedQuery<Todo> {
     );
   }
 
-  whereOwnerId(p: Predicate<Data["ownerId"]>) {
+  whereCompleted(p: Predicate<Data["completed"]>) {
     return new TodoQuery(
       this.ctx,
       this,
-      filter(new ModelFieldGetter<"ownerId", Data, Todo>("ownerId"), p)
+      filter(new ModelFieldGetter<"completed", Data, Todo>("completed"), p)
     );
   }
 }

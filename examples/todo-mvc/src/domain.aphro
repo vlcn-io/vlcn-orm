@@ -1,27 +1,20 @@
 engine: sqlite
 db: todomvc
 
-User as Node {
-  id: ID<User>
-  name: NaturalLanguage
-  created: Timestamp
-  modified: Timestamp
-} & OutboundEdges {
-  todos: Edge<Todo.ownerId>
-} & Mutations {
-  create as Create {
-    name
-  }
-}
-
 Todo as Node {
   id: ID<Todo>
   text: NaturalLanguage
   created: Timestamp
   modified: Timestamp
-  ownerId: ID<User>
+  completed: Timestamp | null
 } & Mutations {
   create as Create {
+    text
+  }
+
+  toggleComplete as Update {}
+
+  changeText as Update {
     text
   }
 }

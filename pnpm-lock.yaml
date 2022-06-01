@@ -60,12 +60,16 @@ importers:
       '@aphro/runtime-ts': workspace:*
       html-webpack-plugin: ^5.3.2
       raw-loader: ^4.0.2
+      react: ^18.1.0
+      react-dom: ^18.1.0
       webpack: ^5.50.0
       webpack-cli: ^4.7.2
       webpack-dev-server: ^3.11.2
     dependencies:
       '@aphro/absurd-sql': link:../../packages/absurd-sql
       '@aphro/runtime-ts': link:../../packages/runtime-ts
+      react: 18.1.0
+      react-dom: 18.1.0_react@18.1.0
     devDependencies:
       '@aphro/codegen-cli': link:../../packages/codegen-cli
       html-webpack-plugin: 5.5.0_webpack@5.72.1
@@ -6997,6 +7001,16 @@ packages:
       webpack: 5.72.1_webpack-cli@4.9.2
     dev: true
 
+  /react-dom/18.1.0_react@18.1.0:
+    resolution: {integrity: sha512-fU1Txz7Budmvamp7bshe4Zi32d0ll7ect+ccxNu9FlObT605GOEB8BfO4tmRJ39R5Zj831VCpvQ05QPBW5yb+w==}
+    peerDependencies:
+      react: ^18.1.0
+    dependencies:
+      loose-envify: 1.4.0
+      react: 18.1.0
+      scheduler: 0.22.0
+    dev: false
+
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
     dev: true
@@ -7290,6 +7304,12 @@ packages:
 
   /safer-buffer/2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
+
+  /scheduler/0.22.0:
+    resolution: {integrity: sha512-6QAm1BgQI88NPYymgGQLCZgvep4FyePDWFpXVK+zNSUgHwlqpJy8VEh8Et0KxTACS4VWwMousBElAZOH9nkkoQ==}
+    dependencies:
+      loose-envify: 1.4.0
+    dev: false
 
   /schema-utils/1.0.0:
     resolution: {integrity: sha512-i27Mic4KovM/lnGsy8whRCHhc7VicJajAjTrYg11K9zfZXnYIt4k5F+kZkwjnrhKzLic/HLU4j11mjsz2G/75g==}

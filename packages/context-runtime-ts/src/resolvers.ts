@@ -1,5 +1,5 @@
 import { StorageEngine, StorageType } from '@aphro/schema-api';
-import { DBResolver } from './DBResolver';
+import { DBResolver, ResolvedDB } from './DBResolver.js';
 
 export const printResolver: DBResolver = spyResolver(function () {
   console.log(arguments);
@@ -39,4 +39,20 @@ function spyProxy(spy: (...args: any[]) => any) {
   };
 
   return new Proxy({}, objProxyDef);
+}
+
+export function basicResolver(resolved: ResolvedDB): DBResolver {
+  return {
+    type(t: StorageType) {
+      return {
+        engine(e: StorageEngine) {
+          return {
+            db(db: string) {
+              return resolved;
+            },
+          };
+        },
+      };
+    },
+  };
 }

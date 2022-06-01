@@ -1,6 +1,6 @@
 import { Viewer } from './viewer';
-import { DBResolver } from './DBResolver';
-import { printResolver } from './resolvers';
+import { DBResolver } from './DBResolver.js';
+import { printResolver } from './resolvers.js';
 import Cache from '@aphro/cache-runtime-ts';
 
 export type Context = {
