@@ -3,6 +3,7 @@ db: todomvc
 
 Todo as Node {
   id: ID<Todo>
+  listId: ID<TodoList>
   text: NaturalLanguage
   created: Timestamp
   modified: Timestamp
@@ -16,5 +17,23 @@ Todo as Node {
 
   changeText as Update {
     text
+  }
+}
+
+TodoList as Node {
+  id: ID<AppState>
+  filter: Enumeration<all | active | completed>
+  editing: ID<Todo> | null
+} & OutboundEdges {
+  todos: Edge<Todo.listId>
+} & Mutations {
+  create as Create {}
+
+  filter as Update {
+    filter
+  }
+
+  edit as Update {
+    editing
   }
 }
