@@ -20,39 +20,6 @@ importers:
     devDependencies:
       typescript: 4.6.4
 
-  examples/browser-sqlite:
-    specifiers:
-      '@aphro/cache-runtime-ts': workspace:*
-      '@aphro/codegen-cli': workspace:*
-      '@aphro/context-runtime-ts': workspace:*
-      '@aphro/model-runtime-ts': workspace:*
-      '@aphro/mutator-runtime-ts': workspace:*
-      '@aphro/query-runtime-ts': workspace:*
-      '@jlongster/sql.js': ^1.6.7
-      '@strut/sid': workspace:*
-      absurd-sql: ^0.0.46
-      html-webpack-plugin: ^5.3.2
-      raw-loader: ^4.0.2
-      webpack: ^5.50.0
-      webpack-cli: ^4.7.2
-      webpack-dev-server: ^3.11.2
-    dependencies:
-      '@aphro/cache-runtime-ts': link:../../packages/cache-runtime-ts
-      '@aphro/context-runtime-ts': link:../../packages/context-runtime-ts
-      '@aphro/model-runtime-ts': link:../../packages/model-runtime-ts
-      '@aphro/mutator-runtime-ts': link:../../packages/mutator-runtime-ts
-      '@aphro/query-runtime-ts': link:../../packages/query-runtime-ts
-      '@jlongster/sql.js': 1.6.7
-      '@strut/sid': link:../../mono/typescript/packages/sid
-      absurd-sql: 0.0.46
-    devDependencies:
-      '@aphro/codegen-cli': link:../../packages/codegen-cli
-      html-webpack-plugin: 5.5.0_webpack@5.72.1
-      raw-loader: 4.0.2_webpack@5.72.1
-      webpack: 5.72.1_webpack-cli@4.9.2
-      webpack-cli: 4.9.2_udexolmqwt3ncbnwkiwqgqx6g4
-      webpack-dev-server: 3.11.3_smhu6mcfcg7aivfsuosc335k3u
-
   examples/todo-mvc:
     specifiers:
       '@aphro/absurd-sql': workspace:*

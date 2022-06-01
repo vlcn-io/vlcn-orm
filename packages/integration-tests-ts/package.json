@@ -29,7 +29,8 @@
     "build": "tsc --build",
     "watch": "tsc --build -w",
     "test": "node ./node_modules/jest/bin/jest.js",
-    "aphro": "aphro gen src/schema/domain.aphro -d src/generated"
+    "aphro": "aphro gen src/schema/domain.aphro -d src/generated",
+    "deep-clean": "rm -rf ./lib && rm tsconfig.tsbuildinfo"
   },
   "jest": {
     "testMatch": [
