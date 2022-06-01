@@ -18,7 +18,6 @@ export default class Connection {
 
   constructor() {
     counter.bump('create');
-    window.addEventListener('message', this.#messageListener);
     this.#worker = new Worker(new URL('../worker/worker.js', import.meta.url));
     initBackend(this.#worker);
 
@@ -36,6 +35,8 @@ export default class Connection {
       };
       this.#worker.addEventListener('message', setReady);
     });
+
+    this.#worker.addEventListener('message', this.#messageListener);
   }
 
   // TODO: what type gets returned?
@@ -95,6 +96,6 @@ export default class Connection {
 
   destroy() {
     counter.bump('destroy');
-    window.removeEventListener('message', this.#messageListener);
+    this.#worker.removeEventListener('message', this.#messageListener);
   }
 }

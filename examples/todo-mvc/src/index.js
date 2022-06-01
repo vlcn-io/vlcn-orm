@@ -8,13 +8,8 @@ connection.ready.then(start).catch(e => console.error(e));
 
 async function start() {
   try {
-    console.log('creating');
     await Promise.all([connection.exec(TodoTable), connection.exec(UserTable)]);
-  } catch (e) {
-    console.log(e);
-  }
-
-  console.log('created?');
+  } catch (e) {}
 
   // db.exec(TodoTable);
   //   db.exec(UserTable);

@@ -34,7 +34,7 @@ async function init() {
         stmt.bind(queryObj.bindings);
         while (stmt.step()) rows.push(stmt.get());
       } catch (e) {
-        this.self.postMessage({
+        self.postMessage({
           pkg: thisPackage,
           event: 'query-response',
           id,
@@ -61,7 +61,15 @@ async function init() {
           id,
           error: e,
         });
+        return;
       }
+
+      self.postMessage({
+        pkg: thisPackage,
+        event: 'query-response',
+        id,
+        result: [],
+      });
     }
   });
 
