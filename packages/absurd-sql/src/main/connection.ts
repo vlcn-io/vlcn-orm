@@ -39,7 +39,7 @@ export default class Connection {
   }
 
   // TODO: what type gets returned?
-  async exec(queryObj: { sql: string; bindings: any[] }): Promise<any> {
+  async exec(sql: string, bindings?: any[]): Promise<any> {
     counter.bump('query');
     const id = queryId++;
 
@@ -56,13 +56,13 @@ export default class Connection {
       reject: rejectPending,
     });
 
-    this.#worker.postMessage({ pkg: thisPackage, event: 'query', queryObj, id });
+    this.#worker.postMessage({ pkg: thisPackage, event: 'query', queryObj: { sql, bindings }, id });
 
     return await promise;
   }
 
   #messageListener = ({ data }) => {
-    const { pkg, id, event, result } = data;
+    const { pkg, id, event } = data;
     if (pkg !== thisPackage) {
       return;
     }
@@ -86,7 +86,11 @@ export default class Connection {
 
     // TODO: handle rejection...
 
-    pending.resolve(data);
+    if (data.error) {
+      pending.reject(data.error);
+    } else {
+      pending.resolve(data);
+    }
   };
 
   destroy() {

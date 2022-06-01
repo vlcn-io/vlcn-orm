@@ -27,22 +27,42 @@ async function init() {
       return;
     }
 
-    const stmt = db.prepare(queryObj.sql);
-    const rows: any[] = [];
-    try {
-      stmt.bind(queryObj.bindings);
-      while (stmt.step()) rows.push(stmt.get());
-    } finally {
-      stmt.free();
-    }
+    if (queryObj.bindings) {
+      const stmt = db.prepare(queryObj.sql);
+      const rows: any[] = [];
+      try {
+        stmt.bind(queryObj.bindings);
+        while (stmt.step()) rows.push(stmt.get());
+      } catch (e) {
+        this.self.postMessage({
+          pkg: thisPackage,
+          event: 'query-response',
+          id,
+          error: e,
+        });
+        return;
+      } finally {
+        stmt.free();
+      }
 
-    console.log(rows);
-    self.postMessage({
-      pkg: thisPackage,
-      event: 'query-response',
-      id,
-      result: rows,
-    });
+      self.postMessage({
+        pkg: thisPackage,
+        event: 'query-response',
+        id,
+        result: rows,
+      });
+    } else {
+      try {
+        db.exec(queryObj.sql);
+      } catch (e) {
+        self.postMessage({
+          pkg: thisPackage,
+          event: 'query-response',
+          id,
+          error: e,
+        });
+      }
+    }
   });
 
   self.postMessage({
