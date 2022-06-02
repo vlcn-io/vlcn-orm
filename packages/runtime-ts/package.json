@@ -14,7 +14,6 @@
     "@aphro/model-runtime-ts": "workspace:*",
     "@aphro/mutator-runtime-ts": "workspace:*",
     "@aphro/query-runtime-ts": "workspace:*",
-    "@aphro/transaction-runtime-ts": "workspace:*",
     "@strut/sid": "workspace:*"
   },
   "devDependencies": {

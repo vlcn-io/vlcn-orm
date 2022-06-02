@@ -1,6 +1,6 @@
 // TODO: this should be in a separate package from the core model code.
 import { useEffect, useReducer } from 'react';
-import { IModel } from '@aphro/model-runtime-ts';
+import { IModel } from '@aphro/context-runtime-ts';
 import counter from '@strut/counter';
 
 // TODO: use the new react18 external state hook thinger.

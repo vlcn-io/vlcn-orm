@@ -1,13 +1,12 @@
 // If you make this a module you can allow other files to extend the type
 
 import Plan, { IPlan } from './Plan.js';
-import { ChunkIterable, FilteredChunkIterable, TakeChunkIterable } from './ChunkIterable.js';
+import { ChunkIterable, TakeChunkIterable } from './ChunkIterable.js';
 import { Predicate } from './Predicate.js';
 import { FieldGetter } from './Field.js';
 import HopPlan from './HopPlan.js';
 import ModelLoadExpression from './ModelLoadExpression.js';
-import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
-import { Context } from '@aphro/context-runtime-ts';
+import { Context, IModel } from '@aphro/context-runtime-ts';
 
 export type ExpressionType =
   | 'take'

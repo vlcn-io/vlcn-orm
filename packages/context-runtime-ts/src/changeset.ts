@@ -1,5 +1,5 @@
-import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
 import { SID_of } from '@strut/sid';
+import { IModel, ModelSpec } from './IModel.js';
 
 export type ChangesetOptions = {
   returning: boolean;
@@ -34,5 +34,3 @@ export type DeleteChangeset<M extends IModel<D>, D> = {
   options?: ChangesetOptions;
   id: SID_of<M>;
 };
-
-export default {};

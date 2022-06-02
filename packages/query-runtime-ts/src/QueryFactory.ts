@@ -1,5 +1,4 @@
-import { Context } from '@aphro/context-runtime-ts';
-import { IModel, ModelSpec } from '@aphro/model-runtime-ts';
+import { Context, IModel, ModelSpec } from '@aphro/context-runtime-ts';
 import { EdgeSpec } from '@aphro/schema-api';
 import { DerivedQuery, HopQuery, Query } from './Query.js';
 import SQLHopQuery from './sql/SqlHopQuery.js';

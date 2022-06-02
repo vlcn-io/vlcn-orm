@@ -1,6 +1,6 @@
 import { SID_of } from '@strut/sid';
 import { nullthrows } from '@strut/utils';
-import { IModel } from './Model';
+import { IModel } from '@aphro/context-runtime-ts';
 
 export default class ImmutableHeteroModelMap {
   protected map: Map<SID_of<IModel>, IModel | null> = new Map();

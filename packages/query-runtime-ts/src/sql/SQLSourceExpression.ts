@@ -3,8 +3,8 @@ import SQLSourceChunkIterable from './SqlSourceChunkIterable.js';
 import Plan from '../Plan.js';
 import { ChunkIterable } from '../ChunkIterable.js';
 import HopPlan from '../HopPlan.js';
-import { IModel, specToDatasetKey } from '@aphro/model-runtime-ts';
-import { Context } from '@aphro/context-runtime-ts';
+import { specToDatasetKey } from '@aphro/model-runtime-ts';
+import { Context, IModel } from '@aphro/context-runtime-ts';
 import SQLExpression, { HoistedOperations } from './SQLExpression.js';
 import { NodeSpec } from '@aphro/schema-api';
 

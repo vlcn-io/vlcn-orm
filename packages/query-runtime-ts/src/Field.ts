@@ -1,4 +1,4 @@
-import { IModel } from '@aphro/model-runtime-ts';
+import { IModel } from '@aphro/context-runtime-ts';
 
 export interface FieldGetter<Tm, Tv> {
   readonly get: (Tm) => Tv;

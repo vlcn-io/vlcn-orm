@@ -469,7 +469,6 @@ importers:
       '@aphro/model-runtime-ts': workspace:*
       '@aphro/schema-api': workspace:*
       '@aphro/sql-ts': workspace:*
-      '@aphro/transaction-runtime-ts': workspace:*
       '@strut/sid': workspace:*
       '@strut/utils': workspace:*
       typescript: ^4.6.4
@@ -478,7 +477,6 @@ importers:
       '@aphro/model-runtime-ts': link:../model-runtime-ts
       '@aphro/schema-api': link:../schema-api
       '@aphro/sql-ts': link:../sql-ts
-      '@aphro/transaction-runtime-ts': link:../transaction-runtime-ts
       '@strut/sid': link:../../mono/typescript/packages/sid
       '@strut/utils': link:../../mono/typescript/packages/utils
     devDependencies:
@@ -521,7 +519,7 @@ importers:
 
   packages/react:
     specifiers:
-      '@aphro/model-runtime-ts': workspace:*
+      '@aphro/context-runtime-ts': workspace:*
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
       '@strut/counter': workspace:*
@@ -535,7 +533,7 @@ importers:
       ts-jest: ^28.0.1
       typescript: ^4.6.4
     dependencies:
-      '@aphro/model-runtime-ts': link:../model-runtime-ts
+      '@aphro/context-runtime-ts': link:../context-runtime-ts
       '@strut/counter': link:../../mono/typescript/packages/counter
       '@strut/events': link:../../mono/typescript/packages/events
       '@strut/sid': link:../../mono/typescript/packages/sid
@@ -557,7 +555,6 @@ importers:
       '@aphro/model-runtime-ts': workspace:*
       '@aphro/mutator-runtime-ts': workspace:*
       '@aphro/query-runtime-ts': workspace:*
-      '@aphro/transaction-runtime-ts': workspace:*
       '@strut/sid': workspace:*
       typescript: ^4.6.4
     dependencies:
@@ -566,7 +563,6 @@ importers:
       '@aphro/model-runtime-ts': link:../model-runtime-ts
       '@aphro/mutator-runtime-ts': link:../mutator-runtime-ts
       '@aphro/query-runtime-ts': link:../query-runtime-ts
-      '@aphro/transaction-runtime-ts': link:../transaction-runtime-ts
       '@strut/sid': link:../../mono/typescript/packages/sid
     devDependencies:
       typescript: 4.6.4
@@ -636,29 +632,6 @@ importers:
       typescript: ^4.6.4
     dependencies:
       '@databases/sql': 3.2.0
-    devDependencies:
-      '@babel/core': 7.17.12
-      '@babel/preset-env': 7.18.2_@babel+core@7.17.12
-      '@types/jest': 27.5.0
-      fast-check: 2.25.0
-      jest: 28.1.0
-      ts-jest: 28.0.1_xznfi5jx2ufjvdv4hjq3va5qxe
-      typescript: 4.6.4
-
-  packages/transaction-runtime-ts:
-    specifiers:
-      '@aphro/model-runtime-ts': workspace:*
-      '@babel/core': ^7.17.10
-      '@babel/preset-env': ^7.17.10
-      '@strut/sid': workspace:*
-      '@types/jest': ^27.4.1
-      fast-check: ^2.25.0
-      jest: ^28.1.0
-      ts-jest: ^28.0.1
-      typescript: ^4.6.4
-    dependencies:
-      '@aphro/model-runtime-ts': link:../model-runtime-ts
-      '@strut/sid': link:../../mono/typescript/packages/sid
     devDependencies:
       '@babel/core': 7.17.12
       '@babel/preset-env': 7.18.2_@babel+core@7.17.12
