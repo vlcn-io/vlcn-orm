@@ -32,9 +32,8 @@ test('Query all', async () => {
       name: 'user' + i,
     }).toChangeset(),
   );
-  // TODO: just return a subclass of `Promise` that has an `optimistic` field on it.
-  // People can await if they want the persisted or just use the optimistic version.
-  const [optimisitc, persistHandle] = commit(ctx, changesets);
+
+  const [persistHandle, optimistic] = commit(ctx, changesets);
   await persistHandle;
 
   const users = await User.queryAll(ctx).gen();

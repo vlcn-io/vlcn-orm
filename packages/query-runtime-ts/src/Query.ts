@@ -1,11 +1,13 @@
 import { Context } from '@aphro/context-runtime-ts';
 import { Expression, HopExpression, SourceExpression } from './Expression.js';
 import HopPlan from './HopPlan.js';
+import LiveResult from './live/LiveResult.js';
 import Plan, { IPlan } from './Plan.js';
 
 export interface Query<T> {
   plan(): IPlan;
   gen(): Promise<T[]>;
+  live(): LiveResult<T>;
   implicatedDatasets(): Set<string>;
 }
 
@@ -24,6 +26,10 @@ abstract class BaseQuery<T> implements Query<T> {
     }
 
     return results;
+  }
+
+  live(): LiveResult<T> {
+    return new LiveResult(this.ctx, this);
   }
 
   abstract plan(): IPlan;

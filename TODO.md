@@ -4,6 +4,8 @@
   - Sync if it is fulfilled? Still async but have a query cache?
 - Device ids in context?
 - Context creation / configuration seems bloated
+  - Cache could be auto-generated on a per user basis when creating a context.
+    - When do we drop a user's cache?
 - Migration / table schema conflict errors are not surfaced well
 - "subscribing" to a model itself -- and/or the keys on it you care about.
   - This was fine in Strut with just you.. but will others understand it?
@@ -15,7 +17,15 @@
     - Maybe we go `solidjs` first?
 - Auto-build of schemas?
   - Better working of partially generated files and auto-completed imports..
+
+# Instrumentation
 - Incorporate counter in places where we subscribe (e.g., LiveResult) to ensure 0 memory leaks
+- Inspect and add logging (counters) for noop mutations being correctly ignored.
+
+# 6/2
+- Integrate https://github.com/marketplace/actions/todo-to-issue' ?
+- Isolate integration test case databases....
+  - I.e., create a new / clean DB for each test case.
 
 # 6/1
 - See `index.js` for `todo-mvc` about bootstrapping.

@@ -32,15 +32,18 @@ MVP live queries will be non-optimistic unfortunately.
 We can listen to `persistor` or we can listen to a transaction log.
 */
 export default class LiveResult<T> {
-  #latest?: T;
-  #subscribers: Set<(data: T[]) => void>;
+  #latest?: T[];
+  #subscribers: Set<(data: T[]) => void> = new Set();
   #status: Status = 'pending';
   #optimizedQueryPlan: IPlan;
   #implicatedDatasets: Set<string>;
 
   #disposables: (() => void)[] = [];
 
-  constructor(private ctx: Context, query: Query<T>) {
+  // Exposed to allow tests to await results before exiting.
+  __currentHandle: Promise<T[]>;
+
+  constructor(ctx: Context, query: Query<T>) {
     this.#optimizedQueryPlan = query.plan().optimize();
     this.#implicatedDatasets = query.implicatedDatasets();
 
@@ -54,6 +57,9 @@ export default class LiveResult<T> {
         }
       }),
     );
+
+    // We invoke this in order to kick off the initial query.
+    this.#react();
   }
 
   #matters(tx: Transaction): boolean {
@@ -68,7 +74,7 @@ export default class LiveResult<T> {
   #react() {
     // TODO: we'd probably want to enable
     // streaming reactive updates, diff/patch updates, handling pagination in reactive queries
-    this.#genReact().then(this.#notify);
+    this.__currentHandle = this.#genReact().then(this.#notify);
   }
 
   async #genReact(): Promise<T[]> {
@@ -80,22 +86,25 @@ export default class LiveResult<T> {
     return results;
   }
 
-  #notify(result: T[]) {
+  #notify = (result: T[]) => {
+    this.#latest = result;
     for (const s of this.#subscribers) {
       s(result);
     }
-  }
 
-  on(subscriber: (data: T[]) => void) {
+    return result;
+  };
+
+  subscribe(subscriber: (data: T[]) => void) {
     this.#subscribers.add(subscriber);
-    return () => this.off(subscriber);
+    return () => this.unsubscribe(subscriber);
   }
 
-  off(subscriber: (data: T[]) => void) {
+  unsubscribe(subscriber: (data: T[]) => void) {
     this.#subscribers.delete(subscriber);
   }
 
-  destroy() {
+  free() {
     this.#subscribers = new Set();
     this.#disposables.forEach(d => d());
     this.#disposables = [];
