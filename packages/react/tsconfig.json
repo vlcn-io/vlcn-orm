@@ -5,5 +5,5 @@
     "rootDir": "./src"
   },
   "include": ["./src/"],
-  "references": [{ "path": "../context-runtime-ts" }]
+  "references": [{ "path": "../runtime-ts" }]
 }

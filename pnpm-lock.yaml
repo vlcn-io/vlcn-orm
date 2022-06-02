@@ -519,7 +519,7 @@ importers:
 
   packages/react:
     specifiers:
-      '@aphro/context-runtime-ts': workspace:*
+      '@aphro/runtime-ts': workspace:*
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
       '@strut/counter': workspace:*
@@ -533,7 +533,7 @@ importers:
       ts-jest: ^28.0.1
       typescript: ^4.6.4
     dependencies:
-      '@aphro/context-runtime-ts': link:../context-runtime-ts
+      '@aphro/runtime-ts': link:../runtime-ts
       '@strut/counter': link:../../mono/typescript/packages/counter
       '@strut/events': link:../../mono/typescript/packages/events
       '@strut/sid': link:../../mono/typescript/packages/sid

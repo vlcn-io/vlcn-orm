@@ -9,7 +9,7 @@
     "directory": "packages/react"
   },
   "dependencies": {
-    "@aphro/context-runtime-ts": "workspace:*",
+    "@aphro/runtime-ts": "workspace:*",
     "@strut/counter": "workspace:*",
     "@strut/events": "workspace:*",
     "@strut/sid": "workspace:*",
