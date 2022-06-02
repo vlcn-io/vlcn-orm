@@ -18,12 +18,21 @@ connection.ready
   })
   .catch(e => console.error(e));
 
+/**
+ * TODO: We need some better way to indicate the current state of "bootstrapping"
+ * The framework should take care of:
+ *  1. Are all tables created?
+ *  2. Are all tables up to date with the currently running schema?
+ *  3. If not (2), start down the migration path
+ * @param ctx
+ * @returns
+ */
 async function bootstrap(ctx: Context): Promise<TodoList> {
-  // TODO: We need some better way to indicate the current state of "bootstrapping"
-  // The framework should take care of:
-  // 1. Are all tables created?
-  // 2. Are all tables up to date with the currently running schema?
-  // 3. If not (2), start down the migration path
+  // Since we don't yet support migrations. Drop during development.
+  await Promise.allSettled([
+    connection.exec(`DROP TABLE IF EXISTS todo`, []),
+    connection.exec(`DROP TABLE IF EXISTS todolist`, []),
+  ]);
 
   const results = await Promise.allSettled([
     connection.exec(TodoListTable),

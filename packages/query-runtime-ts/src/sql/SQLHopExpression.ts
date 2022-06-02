@@ -5,7 +5,7 @@ import { ChunkIterable } from '../ChunkIterable.js';
 import { HopExpression } from '../Expression.js';
 import HopPlan from '../HopPlan.js';
 import { IPlan } from '../Plan.js';
-import SQLExpression, { HoistedOperations } from './SqlExpression.js';
+import SQLExpression, { HoistedOperations } from './SQLExpression.js';
 import SQLHopChunkIterable from './SQLHopChunkIterable.js';
 
 export default class SQLHopExpression<TIn, TOut>
