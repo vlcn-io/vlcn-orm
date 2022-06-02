@@ -22,6 +22,17 @@
 - Incorporate counter in places where we subscribe (e.g., LiveResult) to ensure 0 memory leaks
 - Inspect and add logging (counters) for noop mutations being correctly ignored.
 
+# Top:
+- Ordering of properties on reads and writes (values statement write the right cols, returned rows map to right json keys)
+- Migration error messages
+- @databases, postgres
+- Auto-create IDs for create mutations
+- Mutations in mutations
+- Circular reference support in mutations
+- Codegen and imports ... and maybe using traits to get rid of manual sections / partially generated files
+- "unable to find manual section for ..."
+- Instrumentation tasks
+
 # 6/2
 - Integrate https://github.com/marketplace/actions/todo-to-issue' ?
 - Isolate integration test case databases....
@@ -37,13 +48,12 @@
   - Well this could happen whenever we introduce a new mutation that previously did not exist.
 - Imports for mutator args
   - E.g., TodoList in example
-- Manual sections in models to allow for extra methods?
 - Access to existing model in update mutation builders
 - Nullability to mutator params... when defined via shortcut
   - Field types need their type atoms!\
 - Device ids in context?
 - Insert and reads
-  - Ensure things are properly ordered on read and write
+  - Ensure things are properly **ordered** on read and write
     - by encoding field names into spec
 - Empty mutations should generate empty args
 
@@ -266,3 +276,28 @@ https://codetabs.com/count-loc/count-loc-online.html
 ---
 
 Mutations that use mutations... How will we handle this?
+
+
+# Reactivity Thoughts
+Should we even re-run queries on node modification?
+Should not the application developer listen to the nodes directly rather than the queries for those nodes?
+If this is true we should _only_ react to creates and deletes......
+I think this actually might be the optimal route.
+It is slightly confusing but way better for perf and forces the developer to make better choices.
+Why do I think this latter statement is true?
+
+The problem an app could run into is multiple notifications and re-renders...
+
+E.g.,
+
+slide well listens to slide query to add/remove slides.
+but it'll also get a query update even on slide modification.
+
+we don't really care about the latter...
+
+maybe live queries should let the dev say "live(['create', 'update', 'delete'])" or some such.
+
+We could optimize further and ignore updates of fields that were not part of the filter set...
+Since updating those fields does not change the query result.
+
+Well the dev should choose that too. Maybe they do want new values (in the case that child comps don't listen directly to models).

@@ -25,9 +25,6 @@ export class ChangesetExecutor {
     this.removeNoops(combined);
     const [transaction, notifications] = this.apply(combined);
 
-    // TODO: maybe allow this...
-    // this.context.commitLog.push(transaction);
-
     // TODO: Should we do this tick or next tick?
     setTimeout(() => {
       for (const n of notifications) {
@@ -35,10 +32,14 @@ export class ChangesetExecutor {
       }
     }, 0);
 
-    return {
+    const ret = {
       ...transaction,
       persistHandle: new Persistor(this.ctx).persist(transaction),
     };
+
+    this.ctx.commitLog.push(ret);
+
+    return ret;
   }
 
   private removeNoops(changesets: CombinedChangesets) {

@@ -41,7 +41,7 @@ export default class LiveResult<T> {
   #disposables: (() => void)[] = [];
 
   // Exposed to allow tests to await results before exiting.
-  __currentHandle: Promise<T[]>;
+  __currentHandle: Promise<unknown>;
 
   constructor(ctx: Context, query: Query<T>) {
     this.#optimizedQueryPlan = query.plan().optimize();
@@ -53,13 +53,13 @@ export default class LiveResult<T> {
           // TODO: we have a divergence in optimistic results and db results.
           // I.e., the optimistic layer could succeed and persist layer fail.
           // We need to reoncile this for our users.
-          tx.persistHandle.then(this.#react);
+          this.__currentHandle = tx.persistHandle.then(this.#react);
         }
       }),
     );
 
     // We invoke this in order to kick off the initial query.
-    this.#react();
+    this.__currentHandle = this.#react();
   }
 
   #matters(tx: Transaction): boolean {
@@ -71,11 +71,11 @@ export default class LiveResult<T> {
     return false;
   }
 
-  #react() {
+  #react = () => {
     // TODO: we'd probably want to enable
     // streaming reactive updates, diff/patch updates, handling pagination in reactive queries
-    this.__currentHandle = this.#genReact().then(this.#notify);
-  }
+    return this.#genReact().then(this.#notify);
+  };
 
   async #genReact(): Promise<T[]> {
     let results: T[] = [];

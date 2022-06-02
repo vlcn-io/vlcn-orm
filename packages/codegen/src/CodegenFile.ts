@@ -81,7 +81,9 @@ export function insertManualSections(
   for (let i = manualSectionStarts.length - 1; i >= 0; --i) {
     const toInsert = manualCode.get(manualSectionStarts[i][1]);
     if (toInsert == null) {
-      throw new Error(`Unable to find code for manual section ${manualSectionStarts[i][1]}`);
+      // This is a valid case. The schema could create a new manual section that does not yet exist in the generated file.
+      // e.g., when defining a new mutation on an existing schema.
+      continue;
     }
     lines.splice(manualSectionStarts[i][0] + 1, 0, ...toInsert);
   }

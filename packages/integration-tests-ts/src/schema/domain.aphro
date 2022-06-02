@@ -15,6 +15,10 @@ User as Node {
     name
   } # & RateLimit { .. theoretical future rate limit config .. }
 
+  rename as Update {
+    name
+  }
+
   delete as Delete {}
 }
 # Theoretical extensions

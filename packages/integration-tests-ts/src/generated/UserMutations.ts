@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a15c9aed6e089d6338569ba06febf9ae>
+// SIGNED-SOURCE: <284113949e00cdf4a9a1e60e6e614ce0>
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -31,6 +31,15 @@ class Mutations extends MutationsBase<User, Data> {
     return this;
   }
 
+  rename({ name }: { name: string }): this {
+    // BEGIN-MANUAL-SECTION: [rename]
+    this.mutator.set({
+      name
+    });
+    // END-MANUAL-SECTION
+    return this;
+  }
+
   delete({}: {}): this {
     // BEGIN-MANUAL-SECTION: [delete]
     // END-MANUAL-SECTION
@@ -42,7 +51,12 @@ export default class UserMutations {
   static create(ctx: Context, args: { name: string }): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
   }
-
+  static rename(model: User, args: { name: string }): Mutations {
+    return new Mutations(
+      model.ctx,
+      new UpdateMutationBuilder(spec, model)
+    ).rename(args);
+  }
   static delete(model: User, args: {}): Mutations {
     return new Mutations(
       model.ctx,
