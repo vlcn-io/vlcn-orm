@@ -1,29 +1,36 @@
 {
-  "name": "@aphro/runtime-ts",
-  "version": "0.0.2",
+  "name": "@aphro/transaction-runtime-ts",
+  "version": "0.0.1",
   "main": "lib/index.js",
   "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/tantaman/aphrodite.git",
-    "directory": "packages/runtime-ts"
+    "directory": "packages/transaction-runtime-ts"
   },
   "dependencies": {
-    "@aphro/cache-runtime-ts": "workspace:*",
-    "@aphro/context-runtime-ts": "workspace:*",
     "@aphro/model-runtime-ts": "workspace:*",
-    "@aphro/mutator-runtime-ts": "workspace:*",
-    "@aphro/query-runtime-ts": "workspace:*",
-    "@aphro/transaction-runtime-ts": "workspace:*",
     "@strut/sid": "workspace:*"
   },
   "devDependencies": {
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "@types/jest": "^27.4.1",
+    "fast-check": "^2.25.0",
+    "jest": "^28.1.0",
+    "ts-jest": "^28.0.1",
     "typescript": "^4.6.4"
   },
   "scripts": {
     "clean": "tsc --build --clean",
     "build": "tsc --build",
     "watch": "tsc --build -w",
+    "test": "node ./node_modules/jest/bin/jest.js",
     "deep-clean": "rm -rf ./lib && rm tsconfig.tsbuildinfo"
+  },
+  "jest": {
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ]
   }
 }

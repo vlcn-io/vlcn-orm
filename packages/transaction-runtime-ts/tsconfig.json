@@ -6,12 +6,7 @@
   },
   "include": ["./src/"],
   "references": [
-    { "path": "../cache-runtime-ts" },
-    { "path": "../context-runtime-ts" },
     { "path": "../model-runtime-ts" },
-    { "path": "../mutator-runtime-ts" },
-    { "path": "../query-runtime-ts" },
-    { "path": "../transaction-runtime-ts" },
     { "path": "../../mono/typescript/packages/sid" }
   ]
 }
