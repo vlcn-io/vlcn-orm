@@ -1,5 +1,5 @@
-import { Context } from '@aphro/context-runtime-ts';
-import TransactionLog from '@aphro/context-runtime-ts/src/transactionLog';
+import { Context, Transaction } from '@aphro/context-runtime-ts';
+import { specToDatasetKey } from '@aphro/model-runtime-ts';
 import { IPlan } from '../Plan.js';
 import { Query } from '../Query.js';
 
@@ -56,10 +56,12 @@ export default class LiveResult<T> {
     );
   }
 
-  // TODO: move definition of `Transaction`
-  #matters(tx: any): boolean {
-    // pull implicated datasets from tx
-    // see if in #implicatedDatasets
+  #matters(tx: Transaction): boolean {
+    for (const cs of tx.changes.values()) {
+      if (this.#implicatedDatasets.has(specToDatasetKey(cs.spec))) {
+        return true;
+      }
+    }
     return false;
   }
 
@@ -97,7 +99,6 @@ export default class LiveResult<T> {
     this.#subscribers = new Set();
     this.#disposables.forEach(d => d());
     this.#disposables = [];
-    // this.ctx.commitLog.off(this.#logListener);
   }
 
   get latest() {

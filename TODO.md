@@ -15,7 +15,7 @@
     - Maybe we go `solidjs` first?
 - Auto-build of schemas?
   - Better working of partially generated files and auto-completed imports..
-      
+- Incorporate counter in places where we subscribe (e.g., LiveResult) to ensure 0 memory leaks
 
 # 6/1
 - See `index.js` for `todo-mvc` about bootstrapping.
