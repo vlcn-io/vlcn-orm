@@ -1,7 +1,8 @@
 import { Context, Transaction } from '@aphro/context-runtime-ts';
 import { specToDatasetKey } from '@aphro/model-runtime-ts';
+import { assertUnreachable } from '@strut/utils';
 import { IPlan } from '../Plan.js';
-import { Query } from '../Query.js';
+import { Query, UpdateType } from '../Query.js';
 
 type Status = 'pending' | 'resolved';
 
@@ -37,13 +38,15 @@ export default class LiveResult<T> {
   #status: Status = 'pending';
   #optimizedQueryPlan: IPlan;
   #implicatedDatasets: Set<string>;
+  #on: UpdateType;
 
   #disposables: (() => void)[] = [];
 
   // Exposed to allow tests to await results before exiting.
   __currentHandle: Promise<unknown>;
 
-  constructor(ctx: Context, query: Query<T>) {
+  constructor(ctx: Context, on: UpdateType, query: Query<T>) {
+    this.#on = on;
     this.#optimizedQueryPlan = query.plan().optimize();
     this.#implicatedDatasets = query.implicatedDatasets();
 
@@ -64,6 +67,26 @@ export default class LiveResult<T> {
 
   #matters(tx: Transaction): boolean {
     for (const cs of tx.changes.values()) {
+      const changesetType = cs.type;
+      switch (changesetType) {
+        case 'create':
+          if ((this.#on & UpdateType.CREATE) === 0) {
+            continue;
+          }
+          break;
+        case 'update':
+          if ((this.#on & UpdateType.UPDATE) === 0) {
+            continue;
+          }
+          break;
+        case 'delete':
+          if ((this.#on & UpdateType.DELETE) === 0) {
+            continue;
+          }
+          break;
+        default:
+          assertUnreachable(changesetType);
+      }
       if (this.#implicatedDatasets.has(specToDatasetKey(cs.spec))) {
         return true;
       }

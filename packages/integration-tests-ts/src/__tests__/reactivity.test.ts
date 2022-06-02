@@ -3,6 +3,7 @@ import { destroyDb, initDb } from './testBase.js';
 import UserMutations from '../generated/UserMutations';
 import User from '../generated/User.js';
 import { nullthrows } from '@strut/utils';
+import { UpdateType } from '@aphro/runtime-ts';
 
 let ctx: Context;
 const cache = new Cache();
@@ -25,7 +26,7 @@ test('queryAll subscription', async () => {
   await persistHandle;
 
   // Set up our live query
-  const liveResult = User.queryAll(ctx).live();
+  const liveResult = User.queryAll(ctx).live(UpdateType.ANY);
 
   // Test that we get notified when it receives its initial data
   let wasNotified = false;

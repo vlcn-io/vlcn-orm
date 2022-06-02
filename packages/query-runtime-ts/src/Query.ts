@@ -4,10 +4,20 @@ import HopPlan from './HopPlan.js';
 import LiveResult from './live/LiveResult.js';
 import Plan, { IPlan } from './Plan.js';
 
+export enum UpdateType {
+  CREATE = 1,
+  UPDATE = 2,
+  CREATE_OR_UPDATE = UpdateType.CREATE | UpdateType.UPDATE,
+  DELETE = 4,
+  CREATE_OR_DELETE = UpdateType.CREATE | UpdateType.DELETE,
+  DELETE_OR_UPDATE = UpdateType.CREATE | UpdateType.UPDATE,
+  ANY = UpdateType.CREATE | UpdateType.UPDATE | UpdateType.DELETE,
+}
+
 export interface Query<T> {
   plan(): IPlan;
   gen(): Promise<T[]>;
-  live(): LiveResult<T>;
+  live(on: UpdateType): LiveResult<T>;
   implicatedDatasets(): Set<string>;
 }
 
@@ -28,8 +38,8 @@ abstract class BaseQuery<T> implements Query<T> {
     return results;
   }
 
-  live(): LiveResult<T> {
-    return new LiveResult(this.ctx, this);
+  live(on: UpdateType): LiveResult<T> {
+    return new LiveResult(this.ctx, on, this);
   }
 
   abstract plan(): IPlan;

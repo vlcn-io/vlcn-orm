@@ -32,6 +32,8 @@
 - Codegen and imports ... and maybe using traits to get rid of manual sections / partially generated files
 - "unable to find manual section for ..."
 - Instrumentation tasks
+- Allow index constraints!
+- Allow docstrings for fields and node and edges!
 
 # 6/2
 - Integrate https://github.com/marketplace/actions/todo-to-issue' ?
