@@ -1,14 +1,15 @@
 import Observable from '@strut/events';
+import { Transaction } from './transaction.js';
 
-type Node<T> = {
-  transaction: T;
-  next?: Node<T>;
-  prev?: Node<T>;
+type Node = {
+  transaction: Transaction;
+  next?: Node;
+  prev?: Node;
 };
 
-export default class TransactionLog<T> extends Observable<T> {
-  private lastTransaction?: Node<T>;
-  private firstTransaction?: Node<T>;
+export default class TransactionLog extends Observable<Transaction> {
+  private lastTransaction?: Node;
+  private firstTransaction?: Node;
   private length: number = 0;
 
   constructor(private capacity: number) {
@@ -23,7 +24,7 @@ export default class TransactionLog<T> extends Observable<T> {
     return this.lastTransaction?.next != null;
   }
 
-  push(tx: T) {
+  push(tx: Transaction) {
     ++this.length;
     if (this.lastTransaction == null) {
       this.lastTransaction = this.firstTransaction = { transaction: tx };

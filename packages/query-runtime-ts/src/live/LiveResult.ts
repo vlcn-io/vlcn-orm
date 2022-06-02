@@ -50,7 +50,7 @@ export default class LiveResult<T> {
           // TODO: we have a divergence in optimistic results and db results.
           // I.e., the optimistic layer could succeed and persist layer fail.
           // We need to reoncile this for our users.
-          tx.persist.then(this.#react);
+          tx.persistHandle.then(this.#react);
         }
       }),
     );

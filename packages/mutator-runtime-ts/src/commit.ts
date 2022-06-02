@@ -1,4 +1,4 @@
-import { ChangesetExecutor, Transaction } from './ChangesetExecutor.js';
+import { ChangesetExecutor } from './ChangesetExecutor.js';
 import { Context, IModel, Changeset } from '@aphro/context-runtime-ts';
 
 export function commit<M extends IModel<D>, D>(

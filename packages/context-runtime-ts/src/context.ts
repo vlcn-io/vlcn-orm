@@ -8,8 +8,7 @@ export type Context = {
   readonly viewer: Viewer;
   readonly dbResolver: DBResolver;
   readonly cache: Cache;
-  // TODO: we need to move the definition of `Transaction` so it is usable here.
-  readonly commitLog: TransactionLog<any>;
+  readonly commitLog: TransactionLog;
 };
 
 const defaultCommitLog = new TransactionLog(50);
@@ -26,7 +25,7 @@ export default function context(
   viewer: Viewer,
   dbResolver: DBResolver,
   cache: Cache,
-  commitLog: TransactionLog<any> = defaultCommitLog,
+  commitLog: TransactionLog = defaultCommitLog,
 ): Context {
   return {
     viewer,

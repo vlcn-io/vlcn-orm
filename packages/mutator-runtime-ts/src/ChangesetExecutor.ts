@@ -3,19 +3,13 @@ import {
   Changeset,
   IModel,
   MutableHeteroModelMap,
-  HeteroModelMap,
+  Transaction,
 } from '@aphro/context-runtime-ts';
 import { SID_of } from '@strut/sid';
 import { Task } from './NotifyQueue.js';
 import Persistor from './Persistor.js';
 
 export type CombinedChangesets = Map<SID_of<IModel>, Changeset<IModel>>;
-export type Transaction = {
-  readonly changes: Map<SID_of<IModel>, Changeset<IModel>>;
-  readonly nodes: HeteroModelMap;
-  readonly persistHandle: Promise<any>;
-  // readonly options: CommitOptions;
-};
 
 export class ChangesetExecutor {
   constructor(
