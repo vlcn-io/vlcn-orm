@@ -1,18 +1,36 @@
 import Todo, { Data as TodoData } from './generated/Todo.js';
 import * as React from 'react';
+import { useState } from 'react';
 import { useQuery } from '@aphro/react';
 import { UpdateType } from '@aphro/runtime-ts';
 import TodoList, { Data } from './generated/TodoList.js';
 import TodoListMutations from './generated/TodoListMutations.js';
-import TodoQuery from 'generated/TodoQuery.js';
+import TodoMutations from './generated/TodoMutations.js';
 
 type Filter = Data['filter'];
 
 function Header({ todoList }: { todoList: TodoList }) {
+  const [newText, setNewText] = useState<string>('');
   return (
     <header className="header">
       <h1>todos</h1>
-      <input type="text" className="new-todo" placeholder="What needs to be done?" autoFocus />
+      <input
+        type="text"
+        className="new-todo"
+        placeholder="What needs to be done?"
+        autoFocus
+        value={newText}
+        onChange={e => setNewText(e.target.value)}
+        onKeyUp={e => {
+          if (e.key === 'Enter') {
+            TodoMutations.create(todoList.ctx, {
+              text: (e.target as HTMLInputElement).value,
+              listId: todoList.id,
+            }).save();
+            setNewText('');
+          }
+        }}
+      />
     </header>
   );
 }
@@ -147,6 +165,7 @@ export default function App({ list }: { list: TodoList }) {
     );
   }
 
+  console.log(todos);
   return (
     <div className="todoapp">
       <Header todoList={list} />
