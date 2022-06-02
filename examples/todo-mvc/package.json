@@ -14,12 +14,14 @@
   },
   "dependencies": {
     "@aphro/absurd-sql": "workspace:*",
+    "@aphro/react": "workspace:*",
     "@aphro/runtime-ts": "workspace:*",
     "react": "^18.1.0",
     "react-dom": "^18.1.0"
   },
   "devDependencies": {
     "@aphro/codegen-cli": "workspace:*",
+    "@types/react": "^18.0.10",
     "html-webpack-plugin": "^5.3.2",
     "raw-loader": "^4.0.2",
     "webpack": "^5.50.0",

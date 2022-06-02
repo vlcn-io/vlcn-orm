@@ -20,6 +20,7 @@
   "references": [
     { "path": "../../packages/runtime-ts" },
     { "path": "../../packages/absurd-sql" },
-    { "path": "../../packages/codegen-cli" }
+    { "path": "../../packages/codegen-cli" },
+    { "path": "../../packages/react" }
   ]
 }

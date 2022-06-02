@@ -1,6 +1,6 @@
 // TODO: this should be in a separate package from the core model code.
 import { useEffect, useReducer, useRef, useState } from 'react';
-import { IModel, Query } from '@aphro/runtime-ts';
+import { IModel, Query, UpdateType, LiveResult } from '@aphro/runtime-ts';
 import counter from '@strut/counter';
 
 const count = counter('model-infra/Hooks');
@@ -38,21 +38,25 @@ type UseQueryData<T> =
       error: Error;
     };
 
-export function useQuery<M extends IModel, Q extends Query<M>>(
+type QueryReturnType<Q> = Q extends Query<infer M> ? M : any;
+
+export function useQuery<Q extends Query<QueryReturnType<Q>>>(
+  on: UpdateType,
   queryProvider: () => Q,
   deps: any[],
-): void {
-  const currentLiveResult = useRef();
-  const [result, setResult] = useState<UseQueryData<M>>({
+): UseQueryData<QueryReturnType<Q>> {
+  const currentLiveResult = useRef<LiveResult<QueryReturnType<Q>> | null>(null);
+  const [result, setResult] = useState<UseQueryData<QueryReturnType<Q>>>({
     status: 'loading',
   });
 
   useEffect(() => {
+    count.bump('useQuery.useEffect');
     const q = queryProvider();
-    const liveResult = q.live();
+    const liveResult = q.live(on);
     currentLiveResult.current = liveResult;
     // returns a disposer
-    return q.live().subscribe((data: M[]) => {
+    return liveResult.subscribe((data: QueryReturnType<Q>[]) => {
       // this can mismatch if this is an old subscriber from a prior run
       // of `useEffect`. Theoretically this should not happen.
       if (liveResult !== currentLiveResult.current) {

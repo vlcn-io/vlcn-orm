@@ -1,8 +1,10 @@
-import Todo from './generated/Todo.js';
-import React, { useState, useEffect } from 'react';
-import TodoList from './generated/TodoList.js';
-import { Data } from './generated/TodoList.js';
+import Todo, { Data as TodoData } from './generated/Todo.js';
+import * as React from 'react';
+import { useQuery } from '@aphro/react';
+import { UpdateType } from '@aphro/runtime-ts';
+import TodoList, { Data } from './generated/TodoList.js';
 import TodoListMutations from './generated/TodoListMutations.js';
+import TodoQuery from 'generated/TodoQuery.js';
 
 type Filter = Data['filter'];
 
@@ -31,18 +33,18 @@ function TodoView({
   const toggleTodo = () => {};
 
   if (editing) {
-    body = <input type="text" className="edit" autofocus value={todo.text} onChange={saveTodo} />;
+    body = <input type="text" className="edit" autoFocus value={todo.text} onChange={saveTodo} />;
   } else {
     body = (
-      <div class="view">
+      <div className="view">
         <input
           type="checkbox"
           className="toggle"
-          checled={todo.completed != null}
-          onclick={toggleTodo}
+          checked={todo.completed != null}
+          onClick={toggleTodo}
         />
-        <label ondblclick={() => startEditing(todo)}>{todo.text}</label>
-        <button class="destroy" onClick={deleteTodo} />
+        <label onDoubleClick={() => startEditing(todo)}>{todo.text}</label>
+        <button className="destroy" onClick={deleteTodo} />
       </div>
     );
   }
@@ -119,16 +121,17 @@ export default function App({ list }: { list: TodoList }) {
   const remaining = [];
   let toggleAllCheck;
 
-  // TODO: this'll be cumbersome until we add custom hooks and live queries.
-  const [todos, setTodos] = useState<Todo[]>([]);
-  useEffect(() => {
-    list
-      .queryTodos()
-      .gen()
-      .then(todos => {
-        setTodos(todos);
-      });
-  }, []);
+  const todoQuery = useQuery(UpdateType.ANY, () => list.queryTodos(), []);
+
+  if (todoQuery.status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (todoQuery.status === 'error') {
+    return <div>Error...</div>;
+  }
+
+  const todos = todoQuery.data;
 
   if (todos.length) {
     toggleAllCheck = (
@@ -137,9 +140,9 @@ export default function App({ list }: { list: TodoList }) {
           type="checkbox"
           className="toggle-all"
           checked={remaining.length > 0}
-          onclick="toggleAll();"
+          // onclick="toggleAll();"
         />
-        <label for="toggle-all">Mark all as complete</label>
+        <label>Mark all as complete</label>
       </>
     );
   }

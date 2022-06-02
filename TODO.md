@@ -17,6 +17,8 @@
     - Maybe we go `solidjs` first?
 - Auto-build of schemas?
   - Better working of partially generated files and auto-completed imports..
+- Use `infer` keyword more to reduce number of generics required
+  - See the commit that added this line
 
 # Instrumentation
 - Incorporate counter in places where we subscribe (e.g., LiveResult) to ensure 0 memory leaks
