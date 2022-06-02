@@ -10,7 +10,7 @@ export enum UpdateType {
   CREATE_OR_UPDATE = UpdateType.CREATE | UpdateType.UPDATE,
   DELETE = 4,
   CREATE_OR_DELETE = UpdateType.CREATE | UpdateType.DELETE,
-  DELETE_OR_UPDATE = UpdateType.CREATE | UpdateType.UPDATE,
+  DELETE_OR_UPDATE = UpdateType.DELETE | UpdateType.UPDATE,
   ANY = UpdateType.CREATE | UpdateType.UPDATE | UpdateType.DELETE,
 }
 
