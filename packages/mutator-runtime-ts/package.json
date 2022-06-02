@@ -13,6 +13,7 @@
     "@aphro/model-runtime-ts": "workspace:*",
     "@aphro/schema-api": "workspace:*",
     "@aphro/sql-ts": "workspace:*",
+    "@aphro/transaction-runtime-ts": "workspace:*",
     "@strut/utils": "workspace:*",
     "@strut/sid": "workspace:*"
   },

@@ -1,6 +1,6 @@
 import writer from './writer.js';
 import { nullthrows } from '@strut/utils';
-import { DeleteChangeset } from './Changeset.js';
+import { DeleteChangeset } from '@aphro/transaction-runtime-ts';
 import { IModel } from '@aphro/model-runtime-ts';
 import { SID_of } from '@strut/sid';
 import { Context } from '@aphro/context-runtime-ts';

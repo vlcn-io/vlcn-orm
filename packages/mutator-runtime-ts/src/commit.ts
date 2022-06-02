@@ -1,8 +1,7 @@
 import { ChangesetExecutor, Transaction } from './ChangesetExecutor.js';
-import { Changeset } from './Changeset.js';
+import { Changeset } from '@aphro/transaction-runtime-ts';
 import { Context } from '@aphro/context-runtime-ts';
 import { IModel } from '@aphro/model-runtime-ts';
-import Persistor from './Persistor.js';
 
 export function commit<M extends IModel<D>, D>(
   ctx: Context,

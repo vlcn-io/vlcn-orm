@@ -1,7 +1,7 @@
 import { Context } from '@aphro/context-runtime-ts';
 import { IModel } from '@aphro/model-runtime-ts';
 import { StorageConfig } from '@aphro/schema-api';
-import { DeleteChangeset } from './Changeset.js';
+import { DeleteChangeset } from '@aphro/transaction-runtime-ts';
 import sqlWriter from './sql/sqlWriter.js';
 
 export default {
