@@ -34,6 +34,7 @@ async function init() {
         stmt.bind(queryObj.bindings);
         while (stmt.step()) rows.push(stmt.getAsObject());
       } catch (e) {
+        console.error(e);
         self.postMessage({
           pkg: thisPackage,
           event: 'query-response',

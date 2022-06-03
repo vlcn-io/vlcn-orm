@@ -30,7 +30,7 @@ export default {
 function createAwaitables(
   ctx: Context,
   nodes: IterableIterator<IModel<Object>>,
-  sqlOp: (ctx: Context, nodes: IModel[]) => void,
+  sqlOp: (ctx: Context, nodes: IModel[]) => Promise<void>,
 ): Promise<void>[] {
   const byEngineDbTable: Map<string, IModel<Object>[]> = new Map();
   for (const node of nodes) {
@@ -48,7 +48,7 @@ function createAwaitables(
     const type = group[0].spec.storage.type;
     switch (type) {
       case 'sql':
-        writes.push(sqlWriter.upsertGroup(ctx, group));
+        writes.push(sqlOp(ctx, group));
         break;
     }
   }

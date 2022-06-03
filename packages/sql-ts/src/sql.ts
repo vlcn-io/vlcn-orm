@@ -78,10 +78,11 @@ class SqlClass<T extends [...ReplacementType[]]> {
       case 'd':
       case 's':
       case 'a':
+        return '?';
       case 'Ld':
       case 'Ls':
       case 'La':
-        return '?';
+        return (this.values[i] as []).map(v => '?').join(', ');
       case 'LR':
         return (this.values[i] as [][])
           .map(v => '(' + v.map(v => '?').join(', ') + ')')
@@ -117,13 +118,18 @@ class SqlClass<T extends [...ReplacementType[]]> {
           break;
         case 'd':
         case 's':
-        case 'Ld':
-        case 'Ls':
-        case 'La':
-        case 'a':
+        case 'a': {
           const v = this.values[i];
           ret.push(v === undefined ? null : v);
           break;
+        }
+        case 'Ld':
+        case 'Ls':
+        case 'La': {
+          const v = this.values[i] as [];
+          ret = ret.concat(v.map(v => (v === undefined ? null : v)));
+          break;
+        }
         case 'LR':
           ret = ret.concat(
             (this.values[i] as [][]).flatMap(a => a).map(x => (x === undefined ? null : x)),
