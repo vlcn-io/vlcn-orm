@@ -200,7 +200,9 @@ Write rules can be added to allow peers to reject incoming changes to data they 
 
 # Current Implementation
 
-`Aphrodite` is under active development here: https://github.com/tantaman/aphrodite
+`Aphrodite` is under active development here: [https://github.com/tantaman/aphrodite](https://github.com/tantaman/aphrodite)
+
+A TodoMVC example app that uses Aphrodite is under development here: [https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc](https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc)
 
 It **is not** ready for release.
 
