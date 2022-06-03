@@ -1,7 +1,7 @@
 import Todo, { Data as TodoData } from './generated/Todo.js';
 import * as React from 'react';
 import { useState } from 'react';
-import { unwrap, unwrapx, useBind, useQuery } from '@aphro/react';
+import { unwraps, useBind, useQuery } from '@aphro/react';
 import { P, UpdateType } from '@aphro/runtime-ts';
 import TodoList, { Data } from './generated/TodoList.js';
 import TodoListMutations from './generated/TodoListMutations.js';
@@ -141,7 +141,7 @@ export default function App({ list }: { list: TodoList }) {
 
   useBind(list, ['filter']);
 
-  const [activeTodos, completeTodos, allTodos] = unwrapx(
+  const [activeTodos, completeTodos, allTodos] = unwraps(
     useQuery(UpdateType.ANY, () => list.queryTodos().whereCompleted(P.equals(null)), []),
     useQuery(UpdateType.ANY, () => list.queryTodos().whereCompleted(P.notEqual(null)), []),
     useQuery(UpdateType.CREATE_OR_DELETE, () => list.queryTodos(), []),

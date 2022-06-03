@@ -32,3 +32,14 @@ export function unwrapx<T extends ReadonlyArray<UseQueryData<any>>>(
 
   return ret;
 }
+
+export function unwraps<T extends ReadonlyArray<UseQueryData<any>>>(
+  ...results: T
+): ExtractValue<T> {
+  const ret = unwrap(...results);
+  if (ret == null) {
+    return results.map(r => []) as any;
+  }
+
+  return ret;
+}
