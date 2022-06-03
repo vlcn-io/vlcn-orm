@@ -1,4 +1,10 @@
-// SIGNED-SOURCE: <f1a7af3f223286a2809355cbabdd2f2c>
+// SIGNED-SOURCE: <b6d3d291707e197af64ebd660be4d8ec>
+/**
+ * AUTO-GENERATED FILE
+ * Do not modify. Update your schema and re-generate for changes.
+ * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
+ * `END-MANUAL-SECTION` markers.
+ */
 import { default as s } from "./TodoSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { Model } from "@aphro/runtime-ts";

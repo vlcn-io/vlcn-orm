@@ -1,4 +1,10 @@
-// SIGNED-SOURCE: <c531dec8b47fa3125e16e119084f6783>
+// SIGNED-SOURCE: <53fecf0674ef03c3ff55a18880a7dad5>
+/**
+ * AUTO-GENERATED FILE
+ * Do not modify. Update your schema and re-generate for changes.
+ * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
+ * `END-MANUAL-SECTION` markers.
+ */
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
