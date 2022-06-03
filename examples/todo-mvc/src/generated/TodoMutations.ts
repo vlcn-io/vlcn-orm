@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <53fecf0674ef03c3ff55a18880a7dad5>
+// SIGNED-SOURCE: <802860b99b21110713cbef48f120f488>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -48,6 +48,15 @@ class Mutations extends MutationsBase<Todo, Data> {
     return this;
   }
 
+  setComplete({ completed }: { completed: number | null }): this {
+    // BEGIN-MANUAL-SECTION: [setComplete]
+    this.mutator.set({
+      completed,
+    });
+    // END-MANUAL-SECTION
+    return this;
+  }
+
   changeText({ text }: { text: string }): this {
     // BEGIN-MANUAL-SECTION: [changeText]
     this.mutator.set({
@@ -79,6 +88,16 @@ export default class TodoMutations {
       model.ctx,
       new UpdateMutationBuilder(spec, model)
     ).toggleComplete(args);
+  }
+
+  static setComplete(
+    model: Todo,
+    args: { completed: number | null }
+  ): Mutations {
+    return new Mutations(
+      model.ctx,
+      new UpdateMutationBuilder(spec, model)
+    ).setComplete(args);
   }
 
   static changeText(model: Todo, args: { text: string }): Mutations {

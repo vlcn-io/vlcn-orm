@@ -18,6 +18,10 @@ Todo as Node {
     completed: Timestamp | null
   }
 
+  setComplete as Update {
+    completed: Timestamp | null
+  }
+
   changeText as Update {
     text
   }

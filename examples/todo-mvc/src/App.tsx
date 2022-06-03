@@ -1,8 +1,8 @@
-import Todo, { Data as TodoData } from './generated/Todo.js';
+import Todo from './generated/Todo.js';
 import * as React from 'react';
 import { useState } from 'react';
 import { unwraps, useBind, useQuery } from '@aphro/react';
-import { P, UpdateType } from '@aphro/runtime-ts';
+import { commit, P, UpdateType } from '@aphro/runtime-ts';
 import TodoList, { Data } from './generated/TodoList.js';
 import TodoListMutations from './generated/TodoListMutations.js';
 import TodoMutations from './generated/TodoMutations.js';
@@ -46,7 +46,10 @@ function TodoView({
   startEditing: (t: Todo) => void;
 }) {
   let body;
-  const saveTodo = () => {};
+  // TODO: we need to re-enable optimistic updates + delayed persists.
+  const saveTodo = () => {
+    // commitDebounced();
+  };
   const deleteTodo = () => TodoMutations.delete(todo, {}).save();
   const toggleTodo = () => TodoMutations.toggleComplete(todo, { completed: todo.completed }).save();
 
@@ -134,13 +137,30 @@ function Footer({
 }
 
 export default function App({ list }: { list: TodoList }) {
-  const clearCompleted = () => {};
-  const startEditing = () => {};
-  const toggleAll = () => {};
+  const clearCompleted = () =>
+    commit(
+      list.ctx,
+      completeTodos.map(t => TodoMutations.delete(t, {}).toChangeset()),
+    );
+  const startEditing = (todo: Todo) => TodoListMutations.edit(list, { editing: todo.id }).save();
+  const toggleAll = () => {
+    if (remaining === 0) {
+      // uncomplete all
+      commit(
+        list.ctx,
+        completeTodos.map(t => TodoMutations.setComplete(t, { completed: null }).toChangeset()),
+      );
+    } else {
+      // complete all
+      commit(
+        list.ctx,
+        activeTodos.map(t => TodoMutations.setComplete(t, { completed: Date.now() }).toChangeset()),
+      );
+    }
+  };
   let toggleAllCheck;
 
   useBind(list, ['filter']);
-
   const [activeTodos, completeTodos, allTodos] = unwraps(
     useQuery(UpdateType.ANY, () => list.queryTodos().whereCompleted(P.equals(null)), []),
     useQuery(UpdateType.ANY, () => list.queryTodos().whereCompleted(P.notEqual(null)), []),
@@ -155,12 +175,13 @@ export default function App({ list }: { list: TodoList }) {
     toggleAllCheck = (
       <>
         <input
+          id="toggle-all"
           type="checkbox"
           className="toggle-all"
-          checked={remaining > 0}
+          checked={remaining === 0}
           onChange={toggleAll}
         />
-        <label>Mark all as complete</label>
+        <label htmlFor="toggle-all">Mark all as complete</label>
       </>
     );
   }
