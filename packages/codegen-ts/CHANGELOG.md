@@ -1,5 +1,14 @@
 # @aphro/codegen-ts
 
+## 0.0.9
+
+### Patch Changes
+
+- Better error reporting, .js extensions on all generated imports
+- Updated dependencies
+  - @aphro/schema@0.0.10
+  - @aphro/codegen@0.0.9
+
 ## 0.0.8
 
 ### Patch Changes

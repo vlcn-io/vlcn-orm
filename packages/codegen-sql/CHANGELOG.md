@@ -1,5 +1,13 @@
 # @aphro/codegen-sql
 
+## 0.0.9
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/schema@0.0.10
+  - @aphro/codegen@0.0.9
+
 ## 0.0.8
 
 ### Patch Changes

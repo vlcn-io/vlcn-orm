@@ -1,5 +1,11 @@
 # @aphro/schema
 
+## 0.0.10
+
+### Patch Changes
+
+- Better error reporting, .js extensions on all generated imports
+
 ## 0.0.9
 
 ### Patch Changes
