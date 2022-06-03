@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <d204b7492e324bfc924b6c415c827df3>
+// SIGNED-SOURCE: <c531dec8b47fa3125e16e119084f6783>
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -50,6 +50,12 @@ class Mutations extends MutationsBase<Todo, Data> {
     // END-MANUAL-SECTION
     return this;
   }
+
+  delete({}: {}): this {
+    // BEGIN-MANUAL-SECTION: [delete]
+    // END-MANUAL-SECTION
+    return this;
+  }
 }
 
 export default class TodoMutations {
@@ -74,5 +80,11 @@ export default class TodoMutations {
       model.ctx,
       new UpdateMutationBuilder(spec, model)
     ).changeText(args);
+  }
+  static delete(model: Todo, args: {}): Mutations {
+    return new Mutations(
+      model.ctx,
+      new DeleteMutationBuilder(spec, model)
+    ).delete(args);
   }
 }

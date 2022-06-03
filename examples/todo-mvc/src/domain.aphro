@@ -21,6 +21,8 @@ Todo as Node {
   changeText as Update {
     text
   }
+
+  delete as Delete {}
 }
 
 TodoList as Node {

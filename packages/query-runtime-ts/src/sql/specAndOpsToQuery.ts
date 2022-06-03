@@ -38,7 +38,7 @@ export default function specAndOpsToQuery(spec: NodeSpec, ops: HoistedOperations
   // should also grab before/afters from the hops
   const beforeAndAfter = getBeforeAndAfter(ops.before, ops.after);
   // should also grab order bys from the hops and apply in-order of the hops
-  const orderBy = getOrderBy(ops.orderBy);
+  const orderBy = getOrderBy(spec, ops.orderBy);
   // `applyHops` takes limits into account given they change the nature of the join to a sub-select
   const limit = getLimit(ops.limit);
 
@@ -134,8 +134,9 @@ function getBeforeAndAfter(
   return null;
 }
 
-function getOrderBy(o?: ReturnType<typeof orderBy>): SQL | null {
-  return null;
+function getOrderBy(spec: NodeSpec, o?: ReturnType<typeof orderBy>): SQL | null {
+  // TODO: also apply o
+  return sql`ORDER BY ${'C'} DESC`(spec.primaryKey);
 }
 
 function getLimit(l?: ReturnType<typeof take>): SQL | null {

@@ -40,6 +40,8 @@
 - Allow docstrings for fields and node and edges!
 
 # 6/2
+- Order by generation
+- Projections -- count & ids
 - Integrate https://github.com/marketplace/actions/todo-to-issue' ?
 - Isolate integration test case databases....
   - I.e., create a new / clean DB for each test case.

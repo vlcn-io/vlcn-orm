@@ -47,7 +47,7 @@ function TodoView({
 }) {
   let body;
   const saveTodo = () => {};
-  const deleteTodo = () => {};
+  const deleteTodo = () => TodoMutations.delete(todo, {}).save();
   const toggleTodo = () => TodoMutations.toggleComplete(todo, { completed: todo.completed }).save();
 
   if (editing) {
@@ -137,7 +137,6 @@ export default function App({ list }: { list: TodoList }) {
   const clearCompleted = () => {};
   const startEditing = () => {};
   const toggleAll = () => {};
-  const remaining = 0;
   const totalTodos = 1;
   let toggleAllCheck;
 
@@ -157,6 +156,12 @@ export default function App({ list }: { list: TodoList }) {
     },
     [list.filter],
   );
+  // const remaining = useQuery(
+  //   UpdateType.ANY,
+  //   () => list.queryTodos().whereCompleted(P.equals(null)).count(),
+  //   [],
+  // );
+  const remaining = 0;
 
   if (todoQuery.status === 'loading') {
     return <div>Loading...</div>;
