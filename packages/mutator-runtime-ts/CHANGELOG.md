@@ -1,5 +1,11 @@
 # @aphro/mutator-runtime-ts
 
+## 0.0.8
+
+### Patch Changes
+
+- fix commit overloads to expand to arbitrary number of changesets
+
 ## 0.0.7
 
 ### Patch Changes

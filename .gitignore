@@ -4,3 +4,4 @@ dist/
 .turbo/
 tsconfig.tsbuildinfo
 .pnpm-debug.log
+mealtrained/

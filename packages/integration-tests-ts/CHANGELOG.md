@@ -1,5 +1,11 @@
 # @aphro/integration-tests-ts
 
+## 0.0.8
+
+### Patch Changes
+
+- @aphro/runtime-ts@0.0.4
+
 ## 0.0.7
 
 ### Patch Changes
