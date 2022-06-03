@@ -1,5 +1,14 @@
 # @aphro/integration-tests-ts
 
+## 0.0.7
+
+### Patch Changes
+
+- enable running in the browser, implement reactive queries
+- Updated dependencies
+  - @strut/utils@0.0.7
+  - @aphro/runtime-ts@0.0.3
+
 ## 0.0.6
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @aphro/mutator-runtime-ts
 
+## 0.0.7
+
+### Patch Changes
+
+- enable running in the browser, implement reactive queries
+- Updated dependencies
+  - @strut/sid@0.0.7
+  - @strut/utils@0.0.7
+  - @aphro/context-runtime-ts@0.0.7
+  - @aphro/model-runtime-ts@0.0.7
+  - @aphro/schema-api@0.0.7
+  - @aphro/sql-ts@0.0.2
+
 ## 0.0.6
 
 ### Patch Changes
