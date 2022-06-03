@@ -19,6 +19,8 @@
   - Better working of partially generated files and auto-completed imports..
 - Use `infer` keyword more to reduce number of generics required
   - See the commit that added this line
+- Access to model in mutator for updates
+- Default to always applying an order by id if no ordering exists -- stable results.
 
 # Instrumentation
 - Incorporate counter in places where we subscribe (e.g., LiveResult) to ensure 0 memory leaks

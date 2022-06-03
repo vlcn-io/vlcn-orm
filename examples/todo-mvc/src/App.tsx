@@ -1,8 +1,8 @@
 import Todo, { Data as TodoData } from './generated/Todo.js';
 import * as React from 'react';
 import { useState } from 'react';
-import { useQuery } from '@aphro/react';
-import { UpdateType } from '@aphro/runtime-ts';
+import { useBind, useQuery } from '@aphro/react';
+import { P, UpdateType } from '@aphro/runtime-ts';
 import TodoList, { Data } from './generated/TodoList.js';
 import TodoListMutations from './generated/TodoListMutations.js';
 import TodoMutations from './generated/TodoMutations.js';
@@ -48,7 +48,7 @@ function TodoView({
   let body;
   const saveTodo = () => {};
   const deleteTodo = () => {};
-  const toggleTodo = () => {};
+  const toggleTodo = () => TodoMutations.toggleComplete(todo, { completed: todo.completed }).save();
 
   if (editing) {
     body = <input type="text" className="edit" autoFocus value={todo.text} onChange={saveTodo} />;
@@ -59,7 +59,7 @@ function TodoView({
           type="checkbox"
           className="toggle"
           checked={todo.completed != null}
-          onClick={toggleTodo}
+          onChange={toggleTodo}
         />
         <label onDoubleClick={() => startEditing(todo)}>{todo.text}</label>
         <button className="destroy" onClick={deleteTodo} />
@@ -79,13 +79,13 @@ function Footer({
   clearCompleted,
   todoList,
 }: {
-  remaining: Todo[];
+  remaining: number;
   todos: Todo[];
   clearCompleted: () => void;
   todoList: TodoList;
 }) {
   let clearCompletedButton;
-  if (remaining.length !== todos.length) {
+  if (remaining !== todos.length) {
     clearCompletedButton = (
       <button className="clear-completed" onClick={clearCompleted}>
         Clear completed
@@ -98,8 +98,8 @@ function Footer({
   return (
     <footer className="footer">
       <span className="todo-count">
-        <strong> {remaining.length ? remaining.length : '0'} </strong>
-        {remaining.length === 1 ? 'item' : 'items'} left
+        <strong> {remaining} </strong>
+        {remaining === 1 ? 'item' : 'items'} left
       </span>
       <ul className="filters">
         <li>
@@ -136,10 +136,27 @@ function Footer({
 export default function App({ list }: { list: TodoList }) {
   const clearCompleted = () => {};
   const startEditing = () => {};
-  const remaining = [];
+  const toggleAll = () => {};
+  const remaining = 0;
+  const totalTodos = 1;
   let toggleAllCheck;
 
-  const todoQuery = useQuery(UpdateType.ANY, () => list.queryTodos(), []);
+  useBind(list, ['filter']);
+  // TODO: can we be smarter about the dep and understand if it is a
+  // getter for a model? If thats the case we can bind on our own.
+  const todoQuery = useQuery(
+    UpdateType.ANY,
+    () => {
+      if (list.filter === 'all') {
+        return list.queryTodos();
+      }
+
+      return list
+        .queryTodos()
+        .whereCompleted(list.filter === 'active' ? P.equals(null) : P.notEqual(null));
+    },
+    [list.filter],
+  );
 
   if (todoQuery.status === 'loading') {
     return <div>Loading...</div>;
@@ -157,19 +174,18 @@ export default function App({ list }: { list: TodoList }) {
         <input
           type="checkbox"
           className="toggle-all"
-          checked={remaining.length > 0}
-          // onclick="toggleAll();"
+          checked={remaining > 0}
+          onChange={toggleAll}
         />
         <label>Mark all as complete</label>
       </>
     );
   }
 
-  console.log(todos);
   return (
     <div className="todoapp">
       <Header todoList={list} />
-      <section className="main" style={todos.length ? {} : { display: 'none' }}>
+      <section className="main" style={totalTodos ? {} : { display: 'none' }}>
         {toggleAllCheck}
         <ul className="todo-list">
           {todos.map(t => (
