@@ -1,4 +1,10 @@
-// SIGNED-SOURCE: <018e14a28fc8b5d5f4c4016615866e92>
+// SIGNED-SOURCE: <79342591b4c1bd6bebe04fe37b6ea146>
+/**
+ * AUTO-GENERATED FILE
+ * Do not modify. Update your schema and re-generate for changes.
+ * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
+ * `END-MANUAL-SECTION` markers.
+ */
 import { Context } from "@aphro/runtime-ts";
 import { ModelSpec } from "@aphro/runtime-ts";
 import { default as ComponentSpec } from "./ComponentSpec.js";
@@ -31,7 +37,9 @@ const spec: ModelSpec<Slide, Data> = {
       get source() {
         return spec;
       },
-      dest: ComponentSpec,
+      get dest() {
+        return ComponentSpec;
+      },
     },
   },
 };

@@ -84,6 +84,7 @@ export default spec;
     const destField = edgeFn.outboundEdgeDestFieldName(this.schema, edge);
     const sourceFn = 'get source() { return spec; }';
     const destType = edgeFn.destModelSpecName(this.schema, edge);
+    const destFn = `get dest() { return ${destType}; }`;
 
     switch (edgeType) {
       case 'field':
@@ -92,7 +93,7 @@ export default spec;
           sourceField: '${sourceField}',
           destField: '${destField}',
           ${sourceFn},
-          dest: ${destType},
+          ${destFn},
         }`;
       case 'junction':
         return `{
@@ -101,7 +102,7 @@ export default spec;
           sourceField: '${sourceField}',
           destField: '${destField}',
           ${sourceFn},
-          dest: ${destType},
+          ${destFn},
         }`;
       case 'foreignKey':
         return `{
@@ -109,7 +110,7 @@ export default spec;
           sourceField: '${sourceField}',
           destField: '${destField}',
           ${sourceFn},
-          dest: ${destType}
+          ${destFn},
         }`;
     }
   }

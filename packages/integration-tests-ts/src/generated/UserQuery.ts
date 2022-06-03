@@ -1,4 +1,10 @@
-// SIGNED-SOURCE: <34b2ab41f8d5052e30ed8466c85319d6>
+// SIGNED-SOURCE: <b2ac4d3f87ffb457e615b4cacec88196>
+/**
+ * AUTO-GENERATED FILE
+ * Do not modify. Update your schema and re-generate for changes.
+ * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
+ * `END-MANUAL-SECTION` markers.
+ */
 import { Context } from "@aphro/runtime-ts";
 import { DerivedQuery } from "@aphro/runtime-ts";
 import { QueryFactory } from "@aphro/runtime-ts";
@@ -12,7 +18,7 @@ import User from "./User.js";
 import { Data } from "./User.js";
 import { default as spec } from "./UserSpec.js";
 import { default as DeckSpec } from "./DeckSpec.js";
-import DeckQuery from "./DeckQuery";
+import DeckQuery from "./DeckQuery.js";
 
 export default class UserQuery extends DerivedQuery<User> {
   static create(ctx: Context) {

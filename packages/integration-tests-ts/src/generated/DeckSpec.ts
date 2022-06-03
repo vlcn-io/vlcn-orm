@@ -1,4 +1,10 @@
-// SIGNED-SOURCE: <015cc2e78232d09b224a3a67db78cb61>
+// SIGNED-SOURCE: <81ddc1ee07ab156b51048a7bff17dd0b>
+/**
+ * AUTO-GENERATED FILE
+ * Do not modify. Update your schema and re-generate for changes.
+ * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
+ * `END-MANUAL-SECTION` markers.
+ */
 import { Context } from "@aphro/runtime-ts";
 import { ModelSpec } from "@aphro/runtime-ts";
 import { default as UserSpec } from "./UserSpec.js";
@@ -32,7 +38,9 @@ const spec: ModelSpec<Deck, Data> = {
       get source() {
         return spec;
       },
-      dest: UserSpec,
+      get dest() {
+        return UserSpec;
+      },
     },
     slides: {
       type: "foreignKey",
@@ -41,7 +49,9 @@ const spec: ModelSpec<Deck, Data> = {
       get source() {
         return spec;
       },
-      dest: SlideSpec,
+      get dest() {
+        return SlideSpec;
+      },
     },
     selectedSlide: {
       type: "field",
@@ -50,7 +60,9 @@ const spec: ModelSpec<Deck, Data> = {
       get source() {
         return spec;
       },
-      dest: SlideSpec,
+      get dest() {
+        return SlideSpec;
+      },
     },
   },
 };
