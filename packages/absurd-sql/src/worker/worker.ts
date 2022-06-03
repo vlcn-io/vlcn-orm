@@ -32,7 +32,7 @@ async function init() {
       const rows: any[] = [];
       try {
         stmt.bind(queryObj.bindings);
-        while (stmt.step()) rows.push(stmt.get());
+        while (stmt.step()) rows.push(stmt.getAsObject());
       } catch (e) {
         self.postMessage({
           pkg: thisPackage,
