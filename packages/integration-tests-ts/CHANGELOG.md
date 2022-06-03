@@ -1,5 +1,11 @@
 # @aphro/integration-tests-ts
 
+## 0.0.9
+
+### Patch Changes
+
+- lazily reference destinations of edges (allows for circular edges)
+
 ## 0.0.8
 
 ### Patch Changes

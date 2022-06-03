@@ -1,5 +1,11 @@
 # @aphro/codegen-ts
 
+## 0.0.10
+
+### Patch Changes
+
+- lazily reference destinations of edges (allows for circular edges)
+
 ## 0.0.9
 
 ### Patch Changes
