@@ -39,22 +39,32 @@ function TodoView({
   todo,
   editing,
   startEditing,
+  saveTodo,
 }: {
   key?: any;
   todo: Todo;
   editing: boolean;
   startEditing: (t: Todo) => void;
+  saveTodo: (todo: Todo, text: string) => void;
 }) {
   let body;
-  // TODO: we need to re-enable optimistic updates + delayed persists.
-  const saveTodo = () => {
-    // commitDebounced();
-  };
+
+  const [text, setText] = useState(todo.text);
   const deleteTodo = () => TodoMutations.delete(todo, {}).save();
   const toggleTodo = () => TodoMutations.toggleComplete(todo, { completed: todo.completed }).save();
 
   if (editing) {
-    body = <input type="text" className="edit" autoFocus value={todo.text} onChange={saveTodo} />;
+    body = (
+      <input
+        type="text"
+        className="edit"
+        autoFocus
+        value={text}
+        onBlur={() => saveTodo(todo, text)}
+        onKeyUp={e => e.key === 'Enter' && saveTodo(todo, text)}
+        onChange={e => setText(e.target.value)}
+      />
+    );
   } else {
     body = (
       <div className="view">
@@ -143,6 +153,13 @@ export default function App({ list }: { list: TodoList }) {
       completeTodos.map(t => TodoMutations.delete(t, {}).toChangeset()),
     );
   const startEditing = (todo: Todo) => TodoListMutations.edit(list, { editing: todo.id }).save();
+  const saveTodo = (todo: Todo, text: string) => {
+    commit(
+      list.ctx,
+      TodoMutations.changeText(todo, { text: text }).toChangeset(),
+      TodoListMutations.edit(list, { editing: null }).toChangeset(),
+    );
+  };
   const toggleAll = () => {
     if (remaining === 0) {
       // uncomplete all
@@ -160,7 +177,7 @@ export default function App({ list }: { list: TodoList }) {
   };
   let toggleAllCheck;
 
-  useBind(list, ['filter']);
+  useBind(list, ['filter', 'editing']);
   const [activeTodos, completeTodos, allTodos] = unwraps(
     useQuery(UpdateType.ANY, () => list.queryTodos().whereCompleted(P.equals(null)), []),
     useQuery(UpdateType.ANY, () => list.queryTodos().whereCompleted(P.notEqual(null)), []),
@@ -193,7 +210,13 @@ export default function App({ list }: { list: TodoList }) {
         {toggleAllCheck}
         <ul className="todo-list">
           {todos.map(t => (
-            <TodoView key={t.id} todo={t} editing={false} startEditing={startEditing} />
+            <TodoView
+              key={t.id}
+              todo={t}
+              editing={list.editing === t.id}
+              startEditing={startEditing}
+              saveTodo={saveTodo}
+            />
           ))}
         </ul>
         <Footer

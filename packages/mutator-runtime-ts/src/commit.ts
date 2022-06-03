@@ -1,5 +1,5 @@
 import { ChangesetExecutor } from './ChangesetExecutor.js';
-import { Context, Changeset, IModel } from '@aphro/context-runtime-ts';
+import { Context, Changeset, IModel, Transaction } from '@aphro/context-runtime-ts';
 
 type ExtractValue<T extends readonly Changeset<any, any>[]> = {
   [K in keyof T]: T[K] extends Changeset<infer V, infer D> ? V : never;
@@ -29,4 +29,36 @@ export function commit<T extends readonly Changeset<any, any>[]>(
   const transaction = new ChangesetExecutor(ctx, changesets).execute();
 
   return [transaction.persistHandle, ...changesets.map(cs => transaction.nodes.get(cs.id))] as any;
+}
+
+// TODO: we need to re-enable optimistic updates + delayed persists.
+// and test the interaction of this with live queries.
+
+// Give the user more control of how commits are handled.
+// One reason is to delay actual persisting of data for highly-interactive applications.
+// The user can provide their own `persistor` impl which collects updates and persists after some delay.
+// Or maybe it throws all persists out except the last one and runs that via debounce.
+type CommitOptions = {
+  ctx: Context;
+  persistor?: (ctx: Context, tx: Omit<Transaction, 'persistHandle'>) => Promise<[void, void]>;
+};
+
+export function commitExt<M extends IModel<D>, D>(
+  opts: CommitOptions,
+  changesets: Changeset<M>,
+): [Promise<any>, M];
+export function commitExt<T extends ReadonlyArray<Changeset<any, any>>>(
+  opts: CommitOptions,
+  changesets: T,
+): [Promise<any>, ...ExtractValue<T>];
+export function commitExt<T extends ReadonlyArray<Changeset<any, any>>>(
+  opts: CommitOptions,
+  ...changesets: T
+): [Promise<any>, ...ExtractValue<T>];
+
+export function commitExt<T extends readonly Changeset<any, any>[]>(
+  opts: CommitOptions,
+  ...changesets: T
+): [Promise<any>, ...ExtractValue<T>] {
+  throw new Error();
 }
