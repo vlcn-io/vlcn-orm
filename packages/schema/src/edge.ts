@@ -22,7 +22,9 @@ const funcs = {
           const column = edge.throughOrTo.column;
           if (column == null) {
             throw new Error(
-              'Locally declared edge that is not _through_ something is currently unsupported',
+              `Locally declared edge (${JSON.stringify(
+                edge,
+              )}) that is not _through_ something is currently unsupported`,
             );
           }
 

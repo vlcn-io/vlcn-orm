@@ -164,7 +164,9 @@ export default class ${this.schema.name}
         if (column == null) {
           // this error should already have been thrown earlier.
           throw new Error(
-            'Locally declared edge that is not _through_ something is currently unsupported',
+            `Locally declared edge (${JSON.stringify(
+              edge,
+            )}) that is not _through_ something is currently unsupported`,
           );
         }
 

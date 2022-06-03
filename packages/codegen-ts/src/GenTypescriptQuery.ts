@@ -157,7 +157,7 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${field.of}>) {
         tsImport(
           edgeFn.queryTypeName(this.schema, edge),
           null,
-          `./${edgeFn.queryTypeName(this.schema, edge)}`,
+          `./${edgeFn.queryTypeName(this.schema, edge)}.js`,
         ),
       ]);
 
