@@ -25,7 +25,7 @@ export function useBind<M extends IModel<D>, D>(m: M, keys?: (keyof D)[]): void 
   }, [m]);
 }
 
-type UseQueryData<T> =
+export type UseQueryData<T> =
   | {
       status: 'loading';
     }

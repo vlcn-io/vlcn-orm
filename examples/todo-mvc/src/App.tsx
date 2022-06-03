@@ -1,7 +1,7 @@
 import Todo, { Data as TodoData } from './generated/Todo.js';
 import * as React from 'react';
 import { useState } from 'react';
-import { useBind, useQuery } from '@aphro/react';
+import { unwrap, unwrapx, useBind, useQuery } from '@aphro/react';
 import { P, UpdateType } from '@aphro/runtime-ts';
 import TodoList, { Data } from './generated/TodoList.js';
 import TodoListMutations from './generated/TodoListMutations.js';
@@ -137,43 +137,21 @@ export default function App({ list }: { list: TodoList }) {
   const clearCompleted = () => {};
   const startEditing = () => {};
   const toggleAll = () => {};
-  const totalTodos = 1;
   let toggleAllCheck;
 
   useBind(list, ['filter']);
-  // TODO: can we be smarter about the dep and understand if it is a
-  // getter for a model? If thats the case we can bind on our own.
-  const todoQuery = useQuery(
-    UpdateType.ANY,
-    () => {
-      if (list.filter === 'all') {
-        return list.queryTodos();
-      }
 
-      return list
-        .queryTodos()
-        .whereCompleted(list.filter === 'active' ? P.equals(null) : P.notEqual(null));
-    },
-    [list.filter],
+  const [activeTodos, completeTodos, allTodos] = unwrapx(
+    useQuery(UpdateType.ANY, () => list.queryTodos().whereCompleted(P.equals(null)), []),
+    useQuery(UpdateType.ANY, () => list.queryTodos().whereCompleted(P.notEqual(null)), []),
+    useQuery(UpdateType.CREATE_OR_DELETE, () => list.queryTodos(), []),
   );
-  // const remaining = useQuery(
-  //   UpdateType.ANY,
-  //   () => list.queryTodos().whereCompleted(P.equals(null)).count(),
-  //   [],
-  // );
-  const remaining = 0;
 
-  if (todoQuery.status === 'loading') {
-    return <div>Loading...</div>;
-  }
+  const remaining = activeTodos.length;
+  let todos =
+    list.filter === 'active' ? activeTodos : list.filter === 'completed' ? completeTodos : allTodos;
 
-  if (todoQuery.status === 'error') {
-    return <div>Error...</div>;
-  }
-
-  const todos = todoQuery.data;
-
-  if (todos.length) {
+  if (allTodos.length) {
     toggleAllCheck = (
       <>
         <input
@@ -190,7 +168,7 @@ export default function App({ list }: { list: TodoList }) {
   return (
     <div className="todoapp">
       <Header todoList={list} />
-      <section className="main" style={totalTodos ? {} : { display: 'none' }}>
+      <section className="main" style={allTodos.length > 0 ? {} : { display: 'none' }}>
         {toggleAllCheck}
         <ul className="todo-list">
           {todos.map(t => (
@@ -199,7 +177,7 @@ export default function App({ list }: { list: TodoList }) {
         </ul>
         <Footer
           remaining={remaining}
-          todos={todos}
+          todos={allTodos}
           todoList={list}
           clearCompleted={clearCompleted}
         />
