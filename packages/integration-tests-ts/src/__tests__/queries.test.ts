@@ -64,12 +64,13 @@ test('Query that traverses edges', async () => {
     subtype: 'Text',
     slide: slideCs,
   }).toChangeset();
-  const [persistHandle, user, component, slide, deck] = commit(ctx, [
+  const [persistHandle, user, component, slide, deck] = commit(
+    ctx,
     userCs,
     componentCs,
     slideCs,
     deckCs,
-  ]);
+  );
   await persistHandle;
 
   const components = await user.queryDecks().querySlides().queryComponents().gen();
