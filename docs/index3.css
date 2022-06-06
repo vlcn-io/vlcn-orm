@@ -44,15 +44,16 @@
 }
 
 :root {
-  --black: #353534;
+  --black: #072042;
   --code-font: ml, "Roboto Mono", Menlo, monospace;
   --brown: #c45f2e;
+  --dress: #78a2db;
+  /* --grass: #bed777; */
 }
 
 .hero-catch {
   max-width: 500px;
   margin-top: 40px;
-  /* font-family: "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif; */
 }
 
 .hero-catch h1 {
@@ -63,12 +64,16 @@
 }
 
 .hero-install {
+  margin-top: 40px;
   padding: 10px;
   border-radius: 8px;
+  padding-left: 20px;
+  background: var(--dress);
 }
 
 .hero-catch p {
   color: var(--brown);
+  font-family: "Canela Text", serif;
 }
 
 .hero-right {
@@ -80,7 +85,7 @@
   width: 600px;
   background: var(--black);
   border-radius: 30px;
-  border: 1px solid var(--brown);
+  border: 1px solid var(--dress);
 }
 
 .hero-code pre {
@@ -104,7 +109,23 @@
   margin: 0;
   height: 1px;
   width: 100%;
-  background-color: var(--brown);
+  background-color: var(--dress);
+}
+
+.hero-call-to-action {
+  margin-top: 40px;
+}
+
+.get-started-btn {
+  width: 120px;
+  color: white;
+  text-align: center;
+  font-size: 20px;
+  border-radius: 32px;
+  padding: 20px;
+  background: var(--black);
+  cursor: pointer;
+  border: 1px solid var(--dress);
 }
 
 html,
@@ -112,10 +133,11 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: #bed777;
+  background: var(--dress);
 
-  font-family: "Canela Text", serif;
-  color: #353534;
+  font-family: "DM Sans", "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif;
+  /* font-family: "Canela Text", serif; */
+  color: var(--black);
 
   /* font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
@@ -223,17 +245,6 @@ Shrikhand, "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif;
 
 .hero-right {
   flex-grow: 1;
-}
-
-#header-nav {
-  background: #bed777;
-  padding: 4px;
-  color: var(--brown);
-  font-size: 18px;
-}
-
-.grass {
-  height: 100%;
 }
 
 .header-nav-menu {
