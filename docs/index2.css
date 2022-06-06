@@ -8,6 +8,11 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  background: #bed777;
+
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 .god-head {
@@ -63,32 +68,55 @@ header {
   padding: 10px 10px 0px 10px;
 }
 
-.header-contents {
+.post-header:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 170px;
+  background: #b9e2f5;
+  clip-path: polygon(0 0, 100% 0, 100% 40%, 0 0%);
+  margin-left: 132px;
+}
+
+.header-contents,
+.header-nav-contents {
   display: flex;
+}
+
+.header-contents,
+.header-nav-contents,
+.container {
   width: 87.5%;
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
 }
 
+.post-header-container {
+  margin-left: 25%;
+  position: relative;
+}
+
 #header-nav {
   background: #bed777;
-  display: flex;
   padding: 4px;
+  color: #c45f2e;
+  font-size: 18px;
+}
+
+.grass {
+  height: 100%;
 }
 
 .header-nav-menu {
   flex-grow: 1;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  flex-direction: column;
 }
 
 .logotext-main {
   font-family: Gilbert;
-  color: #ff540e;
+  color: #c45f2e;
+  /* color: #ff540e; */
   font-size: 64px;
 }
 
