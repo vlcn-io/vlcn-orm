@@ -1,3 +1,8 @@
+@font-face {
+  font-family: Gilbert;
+  src: url("fonts/gilbert-bold.otf") format("opentype");
+}
+
 html,
 body {
   margin: 0;
@@ -9,6 +14,10 @@ body {
   width: 132px;
   height: 100px;
   background-repeat: no-repeat;
+}
+
+.god-head-w-spacer {
+  width: 132px;
 }
 
 .god-head-aphrodite {
@@ -35,6 +44,10 @@ body {
   background-image: url("/assets/gods/hades.svg");
 }
 
+.god-head-hermes {
+  background-image: url("/assets/gods/hermes.svg");
+}
+
 .god-head-hephaestus {
   background-image: url("/assets/gods/hephaestus.svg");
 }
@@ -45,7 +58,58 @@ body {
 
 header {
   height: 100px;
-  border-bottom: 8px solid #bed777;
+  /* border-bottom: 8px solid #bed777; */
   background: #b9e2f5;
   padding: 10px 10px 0px 10px;
+}
+
+.header-contents {
+  display: flex;
+  width: 87.5%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#header-nav {
+  background: #bed777;
+  display: flex;
+  padding: 4px;
+}
+
+.header-nav-menu {
+  flex-grow: 1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+}
+
+.logotext-main {
+  font-family: Gilbert;
+  color: #ff540e;
+  font-size: 64px;
+}
+
+.logotext-subtext {
+  width: 280px;
+  font-size: 12px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  top: -16px;
+  /* color: #c45f2e; */
+  color: #111;
+  text-align: center;
+  font-family: Poppins, Verdana, sans-serif;
+}
+
+.header-contents .logotext {
+  flex-grow: 1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
 }
