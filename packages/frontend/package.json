@@ -5,5 +5,12 @@
     "twatch": "tsc --watch"
   },
   "type": "module",
-  "dependencies": {}
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "@types/react": "^18.0.9",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
+  }
 }

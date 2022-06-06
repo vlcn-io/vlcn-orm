@@ -1,0 +1,86 @@
+---
+title: "⛓ Query Builder"
+tags: [software-engineering, aphrodite]
+js: ["https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"]
+---
+
+import Mermaid from "/dist/components/Mermaid.js";
+
+[Aphrodite](http://aphrodite.sh) generates rich and type safe query builders ([example](https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/generated/UserQuery.ts#L17-L66)) from your schemas.
+The query builders not only query for nodes of a given type but also traverse edges, apply filters, do pagination and more.
+
+As an example, we can traverse from a user to their photos uploaded after `2022-01-01` to users tagged in those photos named `Jeff` like so:
+
+```typescript
+const jeffQuery = user
+  .queryPhotos()
+  .whereUploadDate(P.greaterThan(new Date("2022-01-01")))
+  .queryTaggedUsers()
+  .whereName(P.equals("Jeff"));
+```
+
+Given that each hop can return a new type of query (e.g., `PhotoQuery` or `UserQuery`) on which to apply filters or take more hops, how do we enable such an API?
+
+The solution is pretty simple. Every invocation to a method on the query builder returns a new query builder that holds:
+
+1. A reference the previous query
+2. A reference to the expression (filter/map/limit/etc) being applied
+
+I.e.,
+
+```javascript
+class UserQuery implements Query {
+  sourceQuery: Query;
+  expression: Expression | null;
+  ...
+
+  queryPhotos() {
+    return new PhotoQuery(this);
+  }
+
+  whereName(predicate) {
+    return new UserQuery(this, predicate)
+  }
+}
+```
+
+This forms a linked list which represents all the invocations made against the query builder, creating a structure that looks like:
+
+<center>
+  <Mermaid
+    id="one"
+    chart={`graph LR
+UserQueryF["UserQuery(name == Jeff)"] --> UserQuery
+UserQuery --> PhotoQueryF["PhotoQuery(uploadDate > 2022-01-01)"]
+PhotoQueryF --> PhotoQuery`}
+  />
+</center>
+
+The first node in the list represents the last query builder method that was invoked (`whereName(P.equals('Jeff'))`) and the last node in the list represents the first query builder method that was invoked (`queryPhotos`).
+
+Walking the linked list to the end will get you to the root that starts the query.
+
+Running each node in the list from the end back to the start will run the full query. In reality, however, we convert the query to a `plan` and optimize the `plan` before running it. See [Query Planning](./2022-05-26-query-planning).
+
+In reality, the above structure is actually a bit more complicated but this is the basic idea.
+
+A more faithful representation of what is created by the query builder API in reality is reproduced below.
+
+<center>
+  <Mermaid
+    id="two"
+    chart={`graph TD
+UserQueryF["UserQuery(name == Jeff)"] --> UserQuery
+UserQuery --> HopQueryPtoU["HopQuery(PhotosToUsersEdge)"]
+HopQueryPtoU --> PhotoQueryF["PhotoQuery(uploadDate > 2022-01-01)"]
+PhotoQueryF --> PhotoQuery
+PhotoQuery --> HopQueryUtoP["HopQuery(UsersToPhotosEdge)"]
+HopQueryUtoP --> Root["Root(user)"]`}
+  />
+</center>
+
+Base query classes:
+[https://github.com/tantaman/aphrodite/blob/main/packages/query-runtime-ts/src/Query.ts](https://github.com/tantaman/aphrodite/blob/main/packages/query-runtime-ts/src/Query.ts)
+
+Example generated query builder:
+[https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/generated/UserQuery.ts#L17-L66](https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/generated/UserQuery.ts#L17-L66)

@@ -1,0 +1,281 @@
+---
+title: "📝 Query Planning"
+tags: [software-engineering, aphrodite]
+js: ["https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"]
+---
+
+import Mermaid from "/dist/components/Mermaid.js";
+
+# Review
+
+Previously we discussed the [query builder](./2022-05-26-query-builder).
+
+To recap, when a user interacts with the query builder a linked list of queries is built up behind the scenes. This list of queries holds a reference to the prior query and an expression to apply. Wehn taking this list together as a whole, it represents the user's desired final query.
+
+E.g., invoking the query builder like this
+
+```typescript
+const jeffQuery = user
+  .queryPhotos()
+  .whereUploadDate(P.greaterThan(new Date("2022-01-01")))
+  .queryTaggedUsers()
+  .whereName(P.equals("Jeff"));
+```
+
+returns a linked list that looks roughly like
+
+<center>
+  <Mermaid
+    id="hhg"
+    chart={`graph LR
+UserQueryF["UserQuery(name == Jeff)"] --> UserQuery
+UserQuery --> PhotoQueryF["PhotoQuery(uploadDate > 2022-01-01)"]
+PhotoQueryF --> PhotoQuery`}
+  />
+</center>
+
+The first node in the list represents the last query builder method that was invoked (`whereName(P.equals('Jeff'))`) and the last node in the list the first query builder method (`queryPhotos`).
+
+# Planning
+
+There are several important steps that happen after building a query to get it into a state where it can be executed. The first of those is the query planning step.
+
+The core idea of query planning is to walk the list of queries returned by the query builder, gather them into groups and convert them into expressions that can be executed.
+
+## The Walk
+
+We walk the list of queries provided by our query builder, collecting the expressions it contains into one or more plans.
+
+We perform this walk by asking the last query returned by the query builder to plan itself. This query then asks the query before it to plan itself and so on, all the way down.
+
+The "root" or "source" plan is then returned back up the call stack. As the plan comes up the stack, each derived query appends its expression to the plan.
+
+```typescript
+abstract class DerivedQuery {
+  readonly expression: DerivedExpression | null;
+  ...
+
+  plan() {
+    // Ask the prior query to plan itself
+    const plan = this.priorQuery.plan();
+    if (this.expression) {
+      // append our expression to the plan
+      plan.addDerivation(this.expression);
+    }
+
+    return plan;
+  }
+}
+
+abstract class SourceQuery {
+  readonly expression: SourceExpression;
+  ...
+
+  plan() {
+    // We're the source query. Return a new plan with our source expression.
+    return new Plan(this.expression, [])
+  }
+}
+```
+
+Lets look at thow this process works with a simple query: finding all users named "Bill".
+
+```javascript
+const query = User.queryAll().whereName(P.equals("Bill"));
+```
+
+This query would return a linked list that looks like:
+
+<center>
+  <Mermaid
+    id="ggg"
+    chart={`graph LR
+UserQueryF["UserQuery(name == Bill)"] --> UserQuery
+UserQuery --> SQLSourceQuery
+`}
+  />
+</center>
+
+`UserQuery(name == Bill)` being the last node in the list and linked back to the prior queries.
+
+`SQLSourceQuery` is a new addition to the diagram. It is a query type that is returned by the query builder when creating a query not derived from a prior query. It represents the root and would be specific to the storage type that is kicking off the query. E.g., `SQLSourceQuery`, `CypherSourceQuery` or `IndexDBSourceQuery` would be some possibilities depending on where the source model type is stored.
+
+The plan for this basic query would look like:
+
+```javascript
+Plan {
+  source: SQLSourceExpression(table = users, db = example),
+  derivations: [
+    FilterExpression(name == Bill),
+  ]
+}
+```
+
+## A More Complicated Walk
+
+That simple plan isn't very illuminating so lets look at a more complicated query.
+
+```javascript
+const query = User.queryAll()
+  .whereAge(P.greaterThan(24))
+  .whereName(P.equals("Matt"))
+  .orderBy(UserSpec.age)
+  .take(5);
+```
+
+Which generates this list of linked queries:
+
+<center>
+  <Mermaid
+    id="gfdf"
+    chart={`graph TD
+UserQueryT["UserQuery(take 5)"] --> UserQueryO["UserQuery(orderBy age)"]
+UserQueryO --> UserQueryN["UserQuery(name == 'Matt')"]
+UserQueryN --> UserQueryA["UserQuery(age > 24)"]
+UserQueryA --> UserQuery
+UserQuery --> SQLSourceQuery
+`}
+  />
+</center>
+
+Remember that the planning phase walks to the end of the list and returns a plan all the way back up the list.
+Given that, the planning phase will convert the list of queries to:
+
+```javascript
+Plan {
+  source: SQLSourceExpression(table = users, db = example),
+  derivations: [
+    FilterExpression(a > 24),
+    FilterExpression(name == 'Matt'),
+    OrderByExpression(age)
+    TakeExpression(5)
+  ]
+}
+```
+
+What this plan says is to
+
+1. Run the `SQLSourceExpression` then
+2. Run all subsequent expressions
+
+As you can see, the first step of query planning is very simple. It is just extracting and correctly ordering all of the expressions from the list of queries.
+
+Although I did say that there could be many plans from one list of queries.
+
+Multiple plans happen when we have "hop queries" or "edge traversals." Planning also involves one more step called -- the optimization step.
+
+First we'll discuss hop queries and hop plans then we'll get into hoisting and plan optimization.
+
+## Hops and Many Plans
+
+Hops (or edge traversals) are represented as separate `HopPlans`. If we build a query like the following:
+
+```typescript
+const query = User.queryAll()
+  .whereName(P.equals("Bill"))
+  .queryPhotos()
+  .whereUploadDate(P.greaterThan(new Date("2022-01-01")))
+  .queryComments();
+```
+
+We'll get this list of queries:
+
+<center>
+  <Mermaid
+    id="xcxc"
+    chart={`graph TD
+CommentQuery --> HopQueryPC["HopQuery(PhotosToCommentsEdge)"]
+HopQueryPC --> PhotosQueryUD["PhotosQuery(uploadDate > 2022-01-01)"]
+PhotosQueryUD --> PhotosQuery
+PhotosQuery --> HopQueryUP["HopQuery(UserToPhotosEdge)"]
+HopQueryUP --> UserQueryN["UserQuery(name == Bill)"]
+UserQueryN --> UserQuery
+UserQuery --> SQLSourceQuery
+`}
+  />
+</center>
+
+Converting this to a plan works exactly the same as normal planning except every time we hit a hop, we wrap the plan it receives from the query before it into a `HopPlan`.
+
+The basic implementation of hop planing is below --
+
+```typescript
+abstract class DerivedQuery {
+  readonly expression: DerivedExpression | null;
+  ...
+
+  plan() {
+    // Derived queries add to plans rather than creating plans.
+    // Ask the prior query to plan itself
+    const plan = this.priorQuery.plan();
+    if (this.expression) {
+      // append our expression to the plan
+      plan.addDerivation(this.expression);
+    }
+
+    return plan;
+  }
+}
+
+abstract class SourceQuery {
+  readonly expression: SourceExpression;
+  ...
+
+  plan() {
+    // We're the source query. Return the plan with our source expression.
+    return new Plan(this.expression, [])
+  }
+}
+
+abstract class HopQuery {
+  readonly expression: HopExpression;
+  ...
+  plan() {
+    // HopQueries wrap the plans of their predecessors into HopPlans.
+    return new HopPlan(this.priorQuery.plan(), this.expression, []);
+  }
+}
+```
+
+Based on that, our multi-hop example would generate the following plan:
+
+```javascript
+HopPlan {
+  sourcePlan: HopPlan {
+    sourcePlan: Plan {
+      source: SQLSourceExpression(table = users, db = example),
+      derivations: [
+        FilterExpression(name == 'Matt'),
+      ],
+    },
+    hopExpression: SQLHopExpression(UserToPhotosEdge),
+    derivations: [
+      FilterExpression(uploadDate > '2022-01-01'),
+    ],
+  },
+  hopExpression: SQLHopExpression(PhotosToCommentsEdge)
+  derivations: []
+}
+```
+
+Or, visually:
+
+<center>
+  <Mermaid
+    id="hjh"
+    chart={`graph LR
+HopPlan["HopPlan(PhotosToCommentsEdge)"] --> HopPlanUP["HopPlan(UserToPhotosEdge)"]
+HopPlanUP --> Plan["Plan(SQLSourceExpression(table = users, db = example))"]
+`}
+  />
+</center>
+
+This follows a similar pattern to our query builder in that each hop plan has a pointer to the plan before it, creating a linked list of plans.
+
+Hops get their own plans since they're often operating on different tables or even different databases or storage types altogether. I.e., you can hop from a `SQL` node to an `IndexDB` node and back.
+
+This splitting of plans begs the question: how we can do a global optimization across all plans and create a single plan of execution?
+
+# Optimization
+
+That brings us to query plan optimization. Written as a separate post in the series here: [Query Plan Optimization](./2022-05-26-query-plan-optimization).
