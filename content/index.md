@@ -1,3 +1,5 @@
+<a href="https://github.com/tantaman/aphrodite" style="position: absolute; top: 0; right: 0;"><img loading="lazy" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_green_007200.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+
 `Aphrodite` is a schema layer whose first goal is to make [P2P](https://en.wikipedia.org/wiki/Peer-to-peer) & [Local-First](https://www.inkandswitch.com/local-first/) software as easy to develop as traditional client-server software.
 
 You can think of `Aphrodite` as an `ORM` of sorts that is designed for the needs of [Local-First](https://www.inkandswitch.com/local-first/) applications and [P2P](https://en.wikipedia.org/wiki/Peer-to-peer) data transfer.
@@ -198,7 +200,7 @@ Write rules can be added to allow peers to reject incoming changes to data they 
 
 `Aphrodite` will also support joins across different storage layers. E.g., traversing edges between `SQL`, `Redis`, `Neo4j` rows. This is done via [ChunkIterables](https://gist.github.com/tantaman/bd928ef93619e73365b07899da282996#aside---traversing-across-storage-backends) and [HopPlans](https://github.com/tantaman/aphrodite/blob/main/packages/query-runtime-ts/src/HopPlan.ts).
 
-# GitHub & Current Implementation
+# Current Implementation
 
 `Aphrodite` is under active development here: [https://github.com/tantaman/aphrodite](https://github.com/tantaman/aphrodite)
 
