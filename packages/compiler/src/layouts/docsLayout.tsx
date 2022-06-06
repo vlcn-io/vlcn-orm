@@ -12,9 +12,6 @@ export default function docsLayout(tree: ReturnType<typeof h>, file: VFile) {
   }
   const newChildren = [body.children];
   const matter = file.data.matter;
-  if (matter?.title) {
-    newChildren.unshift(<h1>{matter?.title}</h1>);
-  }
   body.children = [
     <aside>
       <div class="center">
@@ -55,7 +52,12 @@ export default function docsLayout(tree: ReturnType<typeof h>, file: VFile) {
         </li>
       </ol>
     </aside>,
-    <main>{newChildren}</main>,
+    <main>
+      <article>
+        {matter?.title ? <h1>{matter.title}</h1> : []}
+        <section>{newChildren}</section>
+      </article>
+    </main>,
   ];
 }
 

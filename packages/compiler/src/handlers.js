@@ -91,8 +91,6 @@ root.render(React.createElement(MDXContent, {}, null));
   },
 
   async md(file, cwd, files, collection) {
-    console.log(collection);
-    console.log(getLayout(collection).doc || {});
     const parsed = await processMarkdown(
       await read(file),
       getLayout(collection).doc || {}
