@@ -57,7 +57,7 @@
 }
 
 .hero-catch p {
-  color: #ac968c
+  color: #c45f2e
 }
 
 html,
@@ -67,7 +67,8 @@ body {
   height: 100%;
   background: #bed777;
 
-  font-family: "Canela Text", serif
+  font-family: "Canela Text", serif;
+  color: #353534;
 
   /* font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
