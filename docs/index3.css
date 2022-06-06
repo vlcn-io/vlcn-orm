@@ -1,0 +1,227 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
+
+@font-face{
+  font-family:Canela Deck;
+  src: url(/fonts/CanelaDeck-Regular.woff2) format("woff2");
+  font-weight:400;
+  font-style:normal;
+  font-display:swap
+}
+@font-face{
+  font-family:Canela Deck;
+  src: url(/fonts/CanelaDeck-Bold.woff2) format("woff2");
+  font-weight:700;
+  font-style:normal;
+  font-display:swap
+}
+@font-face{
+  font-family:Canela Deck;
+  src: url(/fonts/CanelaDeck-Light.woff2) format("woff2");
+  font-weight:100;
+  font-style:normal;
+  font-display:swap
+}
+@font-face{
+  font-family:Canela Text;
+  src: url(/fonts/CanelaText-Medium.woff2) format("woff2");
+  font-weight:600;
+  font-style:normal;
+  font-display:swap
+}
+@font-face{
+  font-family:Canela Text;
+  src: url(/fonts/CanelaText-Light.woff2) format("woff2");
+  font-weight:300;
+  font-style:normal;
+  font-display:swap
+}
+@font-face{
+  font-family:Canela Text;
+  src: url(/fonts/CanelaText-LightItalic.woff2) format("woff2");
+  font-weight:300;
+  font-style:italic;
+  font-display:swap
+}
+
+.hero-catch {
+  max-width: 500px;
+  margin-top: 40px;
+  /* font-family: "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif; */
+}
+
+.hero-catch h1 {
+  font-size: 54px;
+  margin-top: 0px;
+  font-weight: bold;
+  font-family: "Canela Deck", serif
+}
+
+.hero-catch p {
+  color: #ac968c
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #bed777;
+
+  font-family: "Canela Text", serif
+
+  /* font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
+}
+
+.god-circle {
+  /* background: blue; */
+  /* border-radius: 66px; */
+  display: inline-block;
+  /* border: 1px solid black; */
+  border-radius: 76px;
+  overflow: hidden;
+  /* width: 132px; */
+  /* background: #b9e2f5; */
+  /* height: 132px; */
+  /* padding: 10px; */
+}
+
+.god-head {
+  width: 140px;
+  height: 132px;
+  background-repeat: no-repeat;
+}
+
+.god-head-w-spacer {
+  width: 132px;
+}
+
+.god-head-aphrodite {
+  background-image: url("/assets/gods/aphrodite.svg");
+}
+
+.god-head-zeus {
+  background-image: url("/assets/gods/zeus.svg");
+}
+
+.god-head-ares {
+  background-image: url("/assets/gods/ares.svg");
+}
+
+.god-head-artemis {
+  background-image: url("/assets/gods/artemis.svg");
+}
+
+.god-head-dionysus {
+  background-image: url("/assets/gods/dionysus.svg");
+}
+
+.god-head-hades {
+  background-image: url("/assets/gods/hades.svg");
+}
+
+.god-head-hermes {
+  background-image: url("/assets/gods/hermes.svg");
+}
+
+.god-head-hephaestus {
+  background-image: url("/assets/gods/hephaestus.svg");
+}
+
+.god-head-poseidon {
+  background-image: url("/assets/gods/poseidon.svg");
+}
+
+.hero {
+  background: #b9e2f5;
+  padding: 80px;
+}
+
+/* .hero-container {
+  position: relative;
+}
+
+.hero-container:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 170px;
+  background: #b9e2f5;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0%);
+} */
+
+.hero-container,
+.container {
+  width: 87.5%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 30px;
+}
+
+/*
+Shrikhand, "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif;
+*/
+
+.hero-container {
+  display: flex;
+}
+
+.hero-left {
+  flex-grow: 1;
+}
+
+.hero-right {
+  flex-grow: 1;
+}
+
+.post-header-container {
+  margin-left: calc()
+  position: relative;
+}
+
+#header-nav {
+  background: #bed777;
+  padding: 4px;
+  color: #c45f2e;
+  font-size: 18px;
+}
+
+.grass {
+  height: 100%;
+}
+
+.header-nav-menu {
+  flex-grow: 1;
+}
+
+.logotext-main {
+  font-family: Gilbert;
+  color: #c45f2e;
+  /* color: #ff540e; */
+  font-size: 64px;
+}
+
+.logotext-subtext {
+  width: 280px;
+  font-size: 12px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  top: -16px;
+  /* color: #c45f2e; */
+  color: #111;
+  text-align: center;
+  font-family: Poppins, Verdana, sans-serif;
+}
+
+.header-contents .logotext {
+  flex-grow: 1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+}

@@ -8,3 +8,9 @@ https://www.color-hex.com/color-palette/22229
 
 Blue and grass:
 https://www.pinterest.com/pin/764767580450297018/
+
+fonts
+https://dribbble.com/shots/10410355-Canette
+
+this:
+https://maggieappleton.com/garden-history
