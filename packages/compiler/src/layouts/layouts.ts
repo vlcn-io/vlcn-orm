@@ -5,7 +5,7 @@ import docsLayout from "./docsLayout.js";
 
 export const layouts = {
   default: blogLayout,
-  doc: docsLayout,
+  docs: docsLayout,
 } as const;
 
 type Layout = keyof typeof layouts;
@@ -17,4 +17,8 @@ export default function layout() {
       file
     );
   };
+}
+
+export function getLayout(l: Layout) {
+  return layouts[l] || layouts["default"];
 }

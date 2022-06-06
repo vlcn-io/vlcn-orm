@@ -59,6 +59,6 @@ export default function docsLayout(tree: ReturnType<typeof h>, file: VFile) {
   ];
 }
 
-export const doc = {
-  css: ["docs/index.css"],
+docsLayout.doc = {
+  css: ["/docs/index.css"],
 };

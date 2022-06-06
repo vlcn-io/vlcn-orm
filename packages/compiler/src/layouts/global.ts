@@ -16,7 +16,7 @@ export const meta = {
 };
 
 export const doc = {
-  css: ["tufte.css", "main.css"],
+  css: ["/tufte.css", "/main.css"],
   js: [
     {
       src: "https://www.googletagmanager.com/gtag/js?id=G-QT6QH0ZJQ4",

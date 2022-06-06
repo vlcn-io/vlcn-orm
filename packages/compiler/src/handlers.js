@@ -1,6 +1,6 @@
 import fs from "fs";
 
-import layout from "./layouts/layouts.js";
+import layout, { getLayout } from "./layouts/layouts.js";
 import { read } from "to-vfile";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
@@ -33,7 +33,7 @@ import path, { parse } from "path";
 import { doc, meta } from "./layouts/global.js";
 
 export default {
-  async mdx(file, cwd) {
+  async mdx(file, cwd, files, collection) {
     // TODO: extract frontmatter and things. Enable GFM and such.
     const compiledMdx = await compileMdx(await read(file), {
       jsxImportSource: "https://esm.sh/react",
@@ -90,8 +90,13 @@ root.render(React.createElement(MDXContent, {}, null));
     };
   },
 
-  async md(file, cwd) {
-    const parsed = await processMarkdown(await read(file));
+  async md(file, cwd, files, collection) {
+    console.log(collection);
+    console.log(getLayout(collection).doc || {});
+    const parsed = await processMarkdown(
+      await read(file),
+      getLayout(collection).doc || {}
+    );
 
     return {
       content: parsed.toString(),
@@ -102,12 +107,12 @@ root.render(React.createElement(MDXContent, {}, null));
     };
   },
 
-  async json(file, cwd) {
+  async json(file, cwd, files, collection) {
     const contents = await fs.promises.readFile(file, { encoding: "utf8" });
     return JSON.parse(contents);
   },
 
-  async html(file, cwd) {
+  async html(file, cwd, files, collection) {
     const parsed = await addRehypePlugins(unified().use(rehypeParse)).process(
       await read(file)
     );
@@ -120,7 +125,7 @@ root.render(React.createElement(MDXContent, {}, null));
     };
   },
 
-  async js(file, cwd, files) {
+  async js(file, cwd, files, collection) {
     // should js return a rehype doc?
     // probs.. so we can have all the same integrations as above.
     const module = await import(file);
@@ -165,6 +170,7 @@ function addRehypePlugins(pipeline, docAdditions, gottenMatter) {
       ...doc,
       ...docAdditions,
       js: (doc.js || []).concat((docAdditions || {}).js || []),
+      css: (doc.css || []).concat((docAdditions || {}).css || []),
     })
     .use(rehypeMeta, meta)
     .use(layout)

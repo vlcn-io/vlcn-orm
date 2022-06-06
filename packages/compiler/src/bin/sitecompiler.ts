@@ -2,4 +2,4 @@
 
 import { build } from "../index.js";
 
-await Promise.all([build("")]);
+await Promise.all([build(""), build("docs")]);

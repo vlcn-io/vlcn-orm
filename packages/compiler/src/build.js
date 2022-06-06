@@ -1,13 +1,13 @@
-import fs from 'fs';
-import path from 'path';
-import handlers from './handlers.js';
-import postProcess from './postProcess.js';
+import fs from "fs";
+import path from "path";
+import handlers from "./handlers.js";
+import postProcess from "./postProcess.js";
 
-const builtDir = './docs/';
+const builtDir = "./docs/";
 
 export default async function build(collection) {
   const dest = builtDir + collection;
-  const files = await fs.promises.readdir('./content/' + collection);
+  const files = await fs.promises.readdir("./content/" + collection);
   const artifacts = (
     await Promise.all(
       files.map(async (file) => {
@@ -19,18 +19,21 @@ export default async function build(collection) {
         let artifact;
         try {
           artifact = await handler(
-            path.resolve('./content/' + collection + file),
-            path.resolve('./content/' + collection),
+            path.resolve(
+              "./content/" + collection + (collection === "" ? "" : "/") + file
+            ),
+            path.resolve("./content/" + collection),
             files,
+            collection
           );
         } catch (e) {
-          console.error('Failed compiling ' + file);
+          console.error("Failed compiling " + file);
           console.error(e);
           return null;
         }
 
-        return [dest + '/' + file, artifact];
-      }),
+        return [dest + "/" + file, artifact];
+      })
     )
   ).filter((a) => a != null);
 
@@ -45,13 +48,13 @@ export default async function build(collection) {
         ...[
           (a.companionFiles || []).map((f) => {
             fs.promises.writeFile(
-              path.dirname(stadalonePath) + '/' + f.name,
-              f.content,
+              path.dirname(stadalonePath) + "/" + f.name,
+              f.content
             );
           }),
         ],
       ];
-    }),
+    })
   );
 }
 

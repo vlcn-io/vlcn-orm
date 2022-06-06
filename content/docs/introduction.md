@@ -1,5 +1,5 @@
 ---
-layout: doc
+layout: docs
 title: Introduction
 ---
 
