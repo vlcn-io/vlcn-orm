@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <title>Overview - Aphrodite</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/prism/prism.css">
   <link rel="stylesheet" href="tufte.css">
   <link rel="stylesheet" href="index3.css">
 
@@ -39,11 +40,17 @@
             central server.
           </p>
         </div>
+        <div class="hero-install">
+          <code>
+            npm install @aphro/runtime-ts<br/>
+            npm install --save-dev @aphro/codegen-cli
+          </code>
+        </div>
       </div>
       <div class="hero-right">
         <div class="hero-code">
           <pre class="fullwidth">
-<code># Define your schema
+<code class="language-typescript">// Define your schema
 User as Node {
   id: ID&lt;User&gt;
   name: NaturalLanguage
@@ -58,8 +65,9 @@ Todo as Node {
   ownerId: ID&lt;User&gt;
 }
 </code>
-<code>// Query for your data
-function MyTodos({viewer}) {
+<hr />
+<code class="language-jsx">// Query your data
+function TodoList({viewer}) {
   const todos = useLiveQuery(
     () => viewer.queryTodos().whereCompleted(P.equals(null))
   );
@@ -75,6 +83,7 @@ function MyTodos({viewer}) {
       </div>
     </div>
   </div>
+  <script src="assets/prism/prism.js"></script>
 </body>
 
 </html>
