@@ -1,3 +1,9 @@
+:root {
+  --black: #353534;
+  --code-font: ml, "Roboto Mono", Menlo, monospace;
+}
+
+
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
 
 @font-face{
@@ -58,6 +64,29 @@
 
 .hero-catch p {
   color: #c45f2e
+}
+
+.hero-right {
+  display: flex;
+  justify-content: right;
+}
+
+.hero-code {
+  width: 600px;
+  background: var(--black);
+  border-radius: 30px;
+  padding: 30px;
+}
+
+.hero-code pre {
+  color: white;
+  width: 100%;
+  max-width: 100%;
+}
+
+.hero-code pre > code {
+  width: 100%;
+  margin-left: 0px;
 }
 
 html,

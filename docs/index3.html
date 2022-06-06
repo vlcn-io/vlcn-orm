@@ -41,7 +41,37 @@
         </div>
       </div>
       <div class="hero-right">
-        Code...
+        <div class="hero-code">
+          <pre class="fullwidth">
+<code># Define your schema
+User as Node {
+  id: ID&lt;User&gt;
+  name: NaturalLanguage
+} & OutboundEdges {
+  todos: Edge&lt;Todo.ownerId&gt;
+}
+
+Todo as Node {
+  id: ID&lt;Todo&gt;
+  text: NaturalLanguage
+  completed: Timestamp | null
+  ownerId: ID&lt;User&gt;
+}
+</code>
+<code>// Query for your data
+function MyTodos({viewer}) {
+  const todos = useLiveQuery(
+    () => viewer.queryTodos().whereCompleted(P.equals(null))
+  );
+  return (
+    &lt;li&gt;
+      {todos.map(todo => &lt;Todo todo={todo} /&gt;)}
+    &lt;/li&gt;
+  );
+}
+</code>
+          </pre>
+        </div>
       </div>
     </div>
   </div>
