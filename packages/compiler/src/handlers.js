@@ -1,42 +1,42 @@
-import fs from 'fs';
+import fs from "fs";
 
-import layout from './layouts/layouts.js';
-import { read } from 'to-vfile';
-import { unified } from 'unified';
-import remarkParse from 'remark-parse';
-import remarkFrontmatter from 'remark-frontmatter';
-import remarkGfm from 'remark-gfm';
-import remarkRehype from 'remark-rehype';
-import rehypeStringify from 'rehype-stringify';
-import remarkWikiLink from 'remark-wiki-link';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import rehypeSlug from 'rehype-slug';
-import rehypeHighlight from 'rehype-highlight';
-import toc from '@jsdevtools/rehype-toc';
-import rehypeDocument from './rehype-document.js';
-import rehypeMeta from 'rehype-meta';
-import rehypeInferTitleMeta from 'rehype-infer-title-meta';
-import rehypeInferDescriptionMeta from 'rehype-infer-description-meta';
-import rehypeInferReadingTimeMeta from 'rehype-infer-reading-time-meta';
-import rehypeParse from 'rehype-parse';
+import layout from "./layouts/layouts.js";
+import { read } from "to-vfile";
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkFrontmatter from "remark-frontmatter";
+import remarkGfm from "remark-gfm";
+import remarkRehype from "remark-rehype";
+import rehypeStringify from "rehype-stringify";
+import remarkWikiLink from "remark-wiki-link";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeSlug from "rehype-slug";
+import rehypeHighlight from "rehype-highlight";
+import toc from "@jsdevtools/rehype-toc";
+import rehypeDocument from "./rehype-document.js";
+import rehypeMeta from "rehype-meta";
+import rehypeInferTitleMeta from "rehype-infer-title-meta";
+import rehypeInferDescriptionMeta from "rehype-infer-description-meta";
+import rehypeInferReadingTimeMeta from "rehype-infer-reading-time-meta";
+import rehypeParse from "rehype-parse";
 // import unifiedInferGitMeta from 'unified-infer-git-meta';
-import { compile as compileMdx } from '@mdx-js/mdx';
-import { matter } from 'vfile-matter';
+import { compile as compileMdx } from "@mdx-js/mdx";
+import { matter } from "vfile-matter";
 
-import clojure from 'highlight.js/lib/languages/clojure';
-import typescript from 'highlight.js/lib/languages/typescript';
-import javascript from 'highlight.js/lib/languages/javascript';
-import java from 'highlight.js/lib/languages/java';
-import xml from 'highlight.js/lib/languages/xml';
-import rust from 'highlight.js/lib/languages/rust';
-import path, { parse } from 'path';
-import { doc, meta } from './layouts/global.js';
+import clojure from "highlight.js/lib/languages/clojure";
+import typescript from "highlight.js/lib/languages/typescript";
+import javascript from "highlight.js/lib/languages/javascript";
+import java from "highlight.js/lib/languages/java";
+import xml from "highlight.js/lib/languages/xml";
+import rust from "highlight.js/lib/languages/rust";
+import path, { parse } from "path";
+import { doc, meta } from "./layouts/global.js";
 
 export default {
   async mdx(file, cwd) {
     // TODO: extract frontmatter and things. Enable GFM and such.
     const compiledMdx = await compileMdx(await read(file), {
-      jsxImportSource: 'https://esm.sh/react',
+      jsxImportSource: "https://esm.sh/react",
       remarkPlugins: [
         remarkFrontmatter,
         () => (tree, file) => {
@@ -58,7 +58,7 @@ export default {
         ],
       ],
     });
-    const companionScriptName = path.basename(file) + '.js';
+    const companionScriptName = path.basename(file) + ".js";
     const parsed = await processMarkdown(
       '<div id="mdx"></div>',
       {
@@ -72,7 +72,7 @@ root.render(React.createElement(MDXContent, {}, null));
 `,
         js: compiledMdx.data.matter.js || [],
       },
-      compiledMdx.data.matter,
+      compiledMdx.data.matter
     );
 
     return {
@@ -103,13 +103,13 @@ root.render(React.createElement(MDXContent, {}, null));
   },
 
   async json(file, cwd) {
-    const contents = await fs.promises.readFile(file, { encoding: 'utf8' });
+    const contents = await fs.promises.readFile(file, { encoding: "utf8" });
     return JSON.parse(contents);
   },
 
   async html(file, cwd) {
     const parsed = await addRehypePlugins(unified().use(rehypeParse)).process(
-      await read(file),
+      await read(file)
     );
     return {
       content: parsed.toString(),
@@ -146,7 +146,7 @@ async function processMarkdown(fileOrContent, docAdditions, gottenMatter) {
       .use(remarkWikiLink)
       .use(remarkRehype, { allowDangerousHtml: true }),
     docAdditions,
-    gottenMatter,
+    gottenMatter
   ).process(fileOrContent);
 }
 
@@ -173,7 +173,7 @@ function addRehypePlugins(pipeline, docAdditions, gottenMatter) {
 
 function compiledFilename(file) {
   let ret = path.basename(file);
-  return ret.substring(0, ret.lastIndexOf('.')) + '.html';
+  return ret.substring(0, ret.lastIndexOf(".")) + ".html";
 }
 
 // https://unifiedjs.com/explore/package/rehype-meta/

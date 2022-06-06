@@ -3,7 +3,7 @@ import { select } from "hast-util-select";
 import { h } from "hastscript";
 import { VFile } from "vfile";
 
-export default function defaultLayout(tree: ReturnType<typeof h>, file: VFile) {
+export default function blogLayout(tree: ReturnType<typeof h>, file: VFile) {
   const body = select("body", tree);
   if (!body) {
     throw new Error(

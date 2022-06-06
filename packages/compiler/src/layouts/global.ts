@@ -8,15 +8,15 @@ export const meta = {
   siteAuthor: "Matt Wonlaw",
   siteTwitter: "@tantaman",
   image: {
-    url: "https://tantaman.com/aphrodite/logos/aphrodite.png",
-    width: 359,
-    height: 93,
+    url: "https://aphrodite.sh/assets/gods/aphrodite.svg",
+    width: 130.75,
+    height: 354.05,
     alt: "Aphrodite",
   },
 };
 
 export const doc = {
-  css: ["index.css"],
+  css: ["tufte.css", "main.css"],
   js: [
     {
       src: "https://www.googletagmanager.com/gtag/js?id=G-QT6QH0ZJQ4",
