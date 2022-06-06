@@ -1,0 +1,51 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.god-head {
+  width: 132px;
+  height: 100px;
+  background-repeat: no-repeat;
+}
+
+.god-head-aphrodite {
+  background-image: url("/assets/gods/aphrodite.svg");
+}
+
+.god-head-zeus {
+  background-image: url("/assets/gods/zeus.svg");
+}
+
+.god-head-ares {
+  background-image: url("/assets/gods/ares.svg");
+}
+
+.god-head-artemis {
+  background-image: url("/assets/gods/artemis.svg");
+}
+
+.god-head-dionysus {
+  background-image: url("/assets/gods/dionysus.svg");
+}
+
+.god-head-hades {
+  background-image: url("/assets/gods/hades.svg");
+}
+
+.god-head-hephaestus {
+  background-image: url("/assets/gods/hephaestus.svg");
+}
+
+.god-head-poseidon {
+  background-image: url("/assets/gods/poseidon.svg");
+}
+
+header {
+  height: 100px;
+  border-bottom: 8px solid #bed777;
+  background: #b9e2f5;
+  padding: 10px 10px 0px 10px;
+}
