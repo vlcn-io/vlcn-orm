@@ -1,0 +1,130 @@
+@font-face {
+  font-family: Canela Deck;
+  src: url(/fonts/CanelaDeck-Regular.woff2) format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Canela Deck;
+  src: url(/fonts/CanelaDeck-Bold.woff2) format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Canela Deck;
+  src: url(/fonts/CanelaDeck-Light.woff2) format("woff2");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Canela Text;
+  src: url(/fonts/CanelaText-Medium.woff2) format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Canela Text;
+  src: url(/fonts/CanelaText-Light.woff2) format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Canela Text;
+  src: url(/fonts/CanelaText-LightItalic.woff2) format("woff2");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --black: #072042;
+  --code-font: ml, "Roboto Mono", Menlo, monospace;
+  --brown: #c45f2e;
+  --dress: #78a2db;
+  --light-blue: #b9e2f5;
+  /* --grass: #bed777; */
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--dress);
+
+  /* font-family: "Canela Text", serif; */
+  color: var(--black);
+
+  /* font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
+}
+
+.center-block {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center {
+  text-align: center;
+}
+
+.god-circle {
+  /* background: blue; */
+  /* border-radius: 66px; */
+  display: inline-block;
+  /* border: 1px solid black; */
+  border-radius: 76px;
+  overflow: hidden;
+  /* width: 132px; */
+  /* background: #b9e2f5; */
+  /* height: 132px; */
+  /* padding: 10px; */
+}
+
+.god-head {
+  width: 140px;
+  height: 132px;
+  background-repeat: no-repeat;
+}
+
+.god-head-aphrodite {
+  background-image: url("/assets/gods/aphrodite.svg");
+}
+
+.god-head-zeus {
+  background-image: url("/assets/gods/zeus.svg");
+}
+
+.god-head-ares {
+  background-image: url("/assets/gods/ares.svg");
+}
+
+.god-head-artemis {
+  background-image: url("/assets/gods/artemis.svg");
+}
+
+.god-head-dionysus {
+  background-image: url("/assets/gods/dionysus.svg");
+}
+
+.god-head-hades {
+  background-image: url("/assets/gods/hades.svg");
+}
+
+.god-head-hermes {
+  background-image: url("/assets/gods/hermes.svg");
+}
+
+.god-head-hephaestus {
+  background-image: url("/assets/gods/hephaestus.svg");
+}
+
+.god-head-poseidon {
+  background-image: url("/assets/gods/poseidon.svg");
+}

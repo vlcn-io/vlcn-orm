@@ -1,0 +1,45 @@
+body {
+  display: flex;
+  background: #fffff8;
+  font-family: "Canela Text";
+}
+
+h1 {
+  font-family: "Canela Deck";
+}
+
+aside {
+  width: 270px;
+  height: calc(100% - 30px);
+  padding-top: 30px;
+  padding-right: 30px;
+}
+
+main {
+  flex-grow: 1;
+  /* padding-top: 100px; */
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+aside {
+  background: var(--light-blue);
+}
+
+aside ol {
+  list-style-type: none;
+}
+
+aside ol li {
+  padding-bottom: 10px;
+}
+
+.indent {
+  padding-left: 1em;
+  text-indent: -1em;
+}
+
+aside a {
+  text-decoration: none;
+}
