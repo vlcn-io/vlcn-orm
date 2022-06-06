@@ -43,3 +43,7 @@ aside ol li {
 aside a {
   text-decoration: none;
 }
+
+.active {
+  font-weight: bold;
+}
