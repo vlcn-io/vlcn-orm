@@ -17,7 +17,7 @@ const sections = [
     god: "hermes",
   },
   {
-    name: "schema",
+    name: "schemas",
     title: "Schemas",
     god: "aphrodite",
   },
@@ -94,6 +94,7 @@ export default function docsLayout(tree: ReturnType<typeof h>, file: VFile) {
     <main>
       <article>
         {matter?.title ? <h1>{matter.title}</h1> : []}
+        {matter?.subtitle ? <p class="subtitle">{matter.subtitle}</p> : []}
         <section>{newChildren}</section>
       </article>
     </main>,
