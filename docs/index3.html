@@ -16,6 +16,10 @@
 </head>
 
 <body class="aphrodite">
+  <a href="https://github.com/tantaman/aphrodite" style="position: absolute; top: 0; right: 0;"><img loading="lazy"
+      width="149" height="149"
+      src="https://github.blog/wp-content/uploads/2008/12/forkme_right_green_007200.png?resize=149%2C149"
+      class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
   <!-- <div class="hero-container">
     <div class="hero">
       herro
@@ -50,9 +54,11 @@
           </code>
         </div>
         <div class="hero-call-to-action">
-          <div class="get-started-btn">
-            Get Started
-          </div>
+          <a href="/docs/introduction">
+            <div class="get-started-btn">
+              Get Started
+            </div>
+          </a>
         </div>
       </div>
       <div class="hero-right">
@@ -92,34 +98,8 @@ function TodoList({viewer}) {
     </div>
   </div>
   <script src="assets/prism/prism.js"></script>
-  <script>
-    const gods = [
-      'aphrodite',
-      'zeus',
-      'ares',
-      'artemis',
-      'dionysus',
-      'hades',
-      'hermes',
-      'hephaestus',
-      'poseidon'
-    ];
-    const body = document.querySelector('body');
-    const godHead = document.querySelector('.god-head');
-    let lastIdx = null;
-
-    function switchGod() {
-      let idx = Math.floor(Math.random() * gods.length);
-      if (idx === lastIdx) {
-        idx = (idx + 1) % gods.length;
-      }
-      body.classList = gods[idx];
-      godHead.classList = 'god-head god-head-' + gods[idx];
-      lastIdx = idx;
-    }
-
-    switchGod();
-  </script>
+  <script src="/assets/god-switcher.js"></script>
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 
 </html>

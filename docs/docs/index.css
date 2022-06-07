@@ -1,11 +1,17 @@
 body {
   display: flex;
+  color: #111111;
   background: #fffff8;
-  font-family: "Canela Text";
+  /* font-family: "Canela Text"; */
 }
 
 h1 {
-  font-family: "Canela Deck";
+  /* font-family: "Canela Deck"; */
+}
+
+.toc {
+  position: absolute;
+  right: 30px;
 }
 
 aside {
@@ -24,7 +30,8 @@ main {
 }
 
 aside {
-  background: var(--light-blue);
+  /* background: var(--light-blue); */
+  border-right: 1px solid var(--black);
 }
 
 aside ol {

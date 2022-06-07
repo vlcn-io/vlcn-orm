@@ -99,4 +99,5 @@ export default function docsLayout(tree: ReturnType<typeof h>, file: VFile) {
 
 docsLayout.doc = {
   css: ["/docs/index.css"],
+  js: ["/assets/god-switcher.js"],
 };
