@@ -84,7 +84,7 @@ body {
 }
 
 .hero {
-  background: #b9e2f5;
+  background: var(--light-blue);
   padding: 80px;
 }
 

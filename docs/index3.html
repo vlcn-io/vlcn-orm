@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Overview - Aphrodite</title>
+  <title>Aphrodite - Gifts of Olympus</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="assets/prism/prism.css">
   <link rel="stylesheet" href="tufte.css">
@@ -15,7 +15,7 @@
   <meta name="copyright" content="© 2022 Matt Wonlaw">
 </head>
 
-<body>
+<body class="aphrodite">
   <!-- <div class="hero-container">
     <div class="hero">
       herro
@@ -25,7 +25,7 @@
   <div class="hero">
     <div class="hero-container">
       <div class="hero-left">
-        <div class="god-circle">
+        <div class="god-circle" onclick="switchGod()" style="cursor: pointer">
           <div class="god-head god-head-aphrodite">
           </div>
         </div>
@@ -92,6 +92,34 @@ function TodoList({viewer}) {
     </div>
   </div>
   <script src="assets/prism/prism.js"></script>
+  <script>
+    const gods = [
+      'aphrodite',
+      'zeus',
+      'ares',
+      'artemis',
+      'dionysus',
+      'hades',
+      'hermes',
+      'hephaestus',
+      'poseidon'
+    ];
+    const body = document.querySelector('body');
+    const godHead = document.querySelector('.god-head');
+    let lastIdx = null;
+
+    function switchGod() {
+      let idx = Math.floor(Math.random() * gods.length);
+      if (idx === lastIdx) {
+        idx = (idx + 1) % gods.length;
+      }
+      body.classList = gods[idx];
+      godHead.classList = 'god-head god-head-' + gods[idx];
+      lastIdx = idx;
+    }
+
+    switchGod();
+  </script>
 </body>
 
 </html>
