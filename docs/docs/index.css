@@ -6,13 +6,18 @@ body {
   /* font-family: "Canela Text"; */
 }
 
+html,
+body {
+  height: auto;
+}
+
 h1 {
   /* font-family: "Canela Deck"; */
 }
 
 aside {
   width: 270px;
-  height: calc(100% - 30px);
+  /* height: calc(100% - 30px); */
   padding-top: 30px;
   padding-right: 30px;
   border-right: 1px solid var(--black);

@@ -13,7 +13,7 @@ The best way to understand the value of `Aphrodite`, as well as the long term di
 Opportunities (workstreams):
 1. Plurality of client side languages & platforms
 2. "ORM" Scope
-3. Lack of declarative conflict resolution in ORMs & DBs
+3. Declarative conflict resolution in a relational world
 4. Peer-2-Peer discovery & state replication
 5. Permissions in a decentralized world
 6. From Schemas to Protocols
@@ -44,7 +44,7 @@ Concerns like:
 5. Conflict resolution strategy
 6. Semantic type(s)
 
-## Lack of declarative conflict resolution
+## Declarative conflict resolution
 
 If you're putting your data model on the client with the desire to allow your client to run completely offline for extended periods of time, then re-syncing with other peers or a server when your client is back online -- you need a way to do conflict resolution.
 
@@ -53,3 +53,19 @@ There are many exciting projects in this space
 - [yjs](https://yjs.dev/)
 - [GunDB](https://gun.eco/)
 
+`Aphrodite` differentiates itself by supporting relational and graph data models. The other differentiating factor is that `Aphrodite` is not schemaless.
+
+On `Aphrodite`, we believe that schemas are important in order to:
+1. Prevent programmer mistakes
+2. Provide type safe APIs
+3. Detect mismatching (at the schema level) data models between peers
+4. Define & enforce invariants on data
+5. Enable better understanding of application data
+
+The schema is also where you declare your conflict resolution strategy for a given data type.
+
+## Peer-2-Peer discovery & state replication
+
+## Permissions
+
+## Schemas ... Protocols

@@ -27,22 +27,22 @@
 <meta name="twitter:label1" content="Reading time">
 <meta name="twitter:data1" content="3-4 minutes">
 </head>
-<body><aside><div class="center"><a class="home-link" href="/"><div class="god-circle center-block"><div class="god-head god-head-aphrodite"></div></div></a><a class="hamburger"></a></div><ol><li class="active indent"><a href="/docs/introduction">Introduction</a></li><li class="indent"><a href="/docs/quickstart">Quickstart</a></li><li class="indent"><a href="/docs/schemas">Schemas</a></li><li class="indent"><a href="/docs/models">Models</a></li><li class="indent"><a href="/docs/mutations-and-transactions">Mutations &#x26; Transactions</a></li><li class="indent"><a href="/docs/queries">Queries</a></li><li class="indent"><a href="/docs/reactivity">Reactivity</a></li><li class="indent"><a href="/docs/data-sync-p2p">Data Sync &#x26; P2P</a></li><li class="indent"><a href="/docs/permissions">Permissions</a></li><li class="indent"><a href="/docs/migrations">Migrations</a></li></ol></aside><main><article><h1>Introduction</h1><p class="subtitle">the goals of Aphrodite and the problems being solved</p><section>
-<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#plurality-of-client-side-languages--platforms">Plurality of client side languages &#x26; platforms</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#orm-scope">ORM Scope</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#lack-of-declarative-conflict-resolution">Lack of declarative conflict resolution</a></li></ol></nav><p>The ultimate goal of <code>Aphrodite</code> is to make <a href="https://www.inkandswitch.com/local-first/">local-first</a> and <a href="https://en.wikipedia.org/wiki/Peer-to-peer">peer-to-peer</a> software easier to develop. The <code>Aphrodite</code> project has made significant progress to that end but the more progress we make, the more opportunities we see.</p>
+<body><aside><div class="center"><a class="home-link" href="/"><div class="god-circle center-block"><div class="god-head god-head-aphrodite"></div></div></a><a class="hamburger"></a></div><ol><li class="active indent"><a href="/docs/introduction">Introduction</a></li><li class="indent"><a href="/docs/quickstart">Quickstart</a></li><li class="indent"><a href="/docs/schemas">Schemas</a></li><li class="indent"><a href="/docs/models">Models</a></li><li class="indent"><a href="/docs/mutations-and-transactions">Mutating Data</a></li><li class="indent"><a href="/docs/queries">Queries</a></li><li class="indent"><a href="/docs/reactivity">Reactivity</a></li><li class="indent"><a href="/docs/data-sync-p2p">Data Sync &#x26; P2P</a></li><li class="indent"><a href="/docs/permissions">Permissions</a></li><li class="indent"><a href="/docs/migrations">Migrations</a></li></ol></aside><main><article><h1>Introduction</h1><p class="subtitle">the goals of Aphrodite and the problems being solved</p><section>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#plurality-of-client-side-languages--platforms">Plurality of client side languages &#x26; platforms</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#orm-scope">ORM Scope</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#declarative-conflict-resolution">Declarative conflict resolution</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#peer-2-peer-discovery--state-replication">Peer-2-Peer discovery &#x26; state replication</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#permissions">Permissions</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#schemas--protocols">Schemas ... Protocols</a></li></ol></nav><p>The ultimate goal of <code>Aphrodite</code> is to make <a href="https://www.inkandswitch.com/local-first/">local-first</a> and <a href="https://en.wikipedia.org/wiki/Peer-to-peer">peer-to-peer</a> software easier to develop. The <code>Aphrodite</code> project has made significant progress to that end but the more progress we make, the more opportunities we see.</p>
 <p>A nice feature of the problems &#x26; opportunities thus far is that they can be tackled in sequence. Each solution building on the solution before it, each solution making local-first and p2p software a step function easier to develop, and each solution unlocking entirely new capabilities for application developers.</p>
 <p>The best way to understand the value of <code>Aphrodite</code>, as well as the long term direction of the project, is to understand each of the opportunities that have been identified &#x26; the progress made against each.</p>
 <p>Opportunities (workstreams):</p>
 <ol>
 <li>Plurality of client side languages &#x26; platforms</li>
 <li>"ORM" Scope</li>
-<li>Lack of declarative conflict resolution in ORMs &#x26; DBs</li>
+<li>Declarative conflict resolution in a relational world</li>
 <li>Peer-2-Peer discovery &#x26; state replication</li>
 <li>Permissions in a decentralized world</li>
 <li>From Schemas to Protocols</li>
 </ol>
 <h2 id="plurality-of-client-side-languages--platforms"><a aria-hidden="true" tabindex="-1" href="#plurality-of-client-side-languages--platforms"><span class="icon icon-link"></span></a>Plurality of client side languages &#x26; platforms</h2>
 <p>The plurality of client side languages and platforms (iOS, Android, Web, desktop, embedded) brings us an opportunity. Projects like <a href="https://reactnative.dev/">React Native</a> and <a href="https://flutter.dev/">Flutter</a> have solved the code-reuse problem for UI components but we're still struggling to share business logic and domain models between platforms without moving that code to the server. This makes modern apps nearly impossible to use offline, slow (due to network round trips), and complex (handling network failure, optimistic updates, polling and subscriptions).</p>
-<p><code>Aphrodite</code> is designed as a multi-platform <code>ORM</code> and <code>Schema Definition Language</code>. <code>Aphrodite</code> <a class="internal new" href="#/page/docs/schemas">schemas</a> are written in a <code>DSL</code> which is used to generate code for interacting with and controlling your data model in a given target language.</p>
+<p><code>Aphrodite</code> is designed as a multi-platform <code>ORM</code> and <code>Schema Definition Language</code>. <code>Aphrodite</code> <a class="internal new" href="/docs/schemas">schemas</a> are written in a <code>DSL</code> which is used to generate code for interacting with and controlling your data model in a given target language.</p>
 <p><code>Aphrodite</code>'s MVP targets TypeScript with the next language targets being (in current order of priority):</p>
 <ol>
 <li>Kotlin</li>
@@ -61,7 +61,7 @@
 <li>Conflict resolution strategy</li>
 <li>Semantic type(s)</li>
 </ol>
-<h2 id="lack-of-declarative-conflict-resolution"><a aria-hidden="true" tabindex="-1" href="#lack-of-declarative-conflict-resolution"><span class="icon icon-link"></span></a>Lack of declarative conflict resolution</h2>
+<h2 id="declarative-conflict-resolution"><a aria-hidden="true" tabindex="-1" href="#declarative-conflict-resolution"><span class="icon icon-link"></span></a>Declarative conflict resolution</h2>
 <p>If you're putting your data model on the client with the desire to allow your client to run completely offline for extended periods of time, then re-syncing with other peers or a server when your client is back online -- you need a way to do conflict resolution.</p>
 <p>There are many exciting projects in this space</p>
 <ul>
@@ -69,6 +69,19 @@
 <li><a href="https://yjs.dev/">yjs</a></li>
 <li><a href="https://gun.eco/">GunDB</a></li>
 </ul>
+<p><code>Aphrodite</code> differentiates itself by supporting relational and graph data models. The other differentiating factor is that <code>Aphrodite</code> is not schemaless.</p>
+<p>On <code>Aphrodite</code>, we believe that schemas are important in order to:</p>
+<ol>
+<li>Prevent programmer mistakes</li>
+<li>Provide type safe APIs</li>
+<li>Detect mismatching (at the schema level) data models between peers</li>
+<li>Define &#x26; enforce invariants on data</li>
+<li>Enable better understanding of application data</li>
+</ol>
+<p>The schema is also where you declare your conflict resolution strategy for a given data type.</p>
+<h2 id="peer-2-peer-discovery--state-replication"><a aria-hidden="true" tabindex="-1" href="#peer-2-peer-discovery--state-replication"><span class="icon icon-link"></span></a>Peer-2-Peer discovery &#x26; state replication</h2>
+<h2 id="permissions"><a aria-hidden="true" tabindex="-1" href="#permissions"><span class="icon icon-link"></span></a>Permissions</h2>
+<h2 id="schemas--protocols"><a aria-hidden="true" tabindex="-1" href="#schemas--protocols"><span class="icon icon-link"></span></a>Schemas ... Protocols</h2>
 <script src="https://www.googletagmanager.com/gtag/js?id=G-QT6QH0ZJQ4" async></script>
 <script src="/ga.js"></script>
 <script src="/assets/god-switcher.js"></script>

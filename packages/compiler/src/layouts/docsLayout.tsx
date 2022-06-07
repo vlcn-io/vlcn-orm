@@ -28,7 +28,7 @@ const sections = [
   },
   {
     name: "mutations-and-transactions",
-    title: "Mutations & Transactions",
+    title: "Mutating Data",
     god: "dionysus",
   },
   {

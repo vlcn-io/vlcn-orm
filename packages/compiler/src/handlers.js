@@ -32,6 +32,10 @@ import rust from "highlight.js/lib/languages/rust";
 import path, { parse } from "path";
 import { doc, meta } from "./layouts/global.js";
 
+const wikilinkOptions = {
+  hrefTemplate: (permalink) => `/${permalink}`,
+  pageResolver: (name) => [name.replace(/ /g, "%20").toLowerCase()],
+};
 export default {
   async mdx(file, cwd, files, collection) {
     // TODO: extract frontmatter and things. Enable GFM and such.
@@ -43,7 +47,7 @@ export default {
           matter(file, { strip: true });
         },
         remarkGfm,
-        remarkWikiLink,
+        [remarkWikiLink, wikilinkOptions],
       ],
       rehypePlugins: [
         [rehypeInferDescriptionMeta, { truncateSize: 255 }],
@@ -146,7 +150,7 @@ async function processMarkdown(fileOrContent, docAdditions, gottenMatter) {
         matter(file, { strip: true });
       })
       .use(remarkGfm)
-      .use(remarkWikiLink)
+      .use(remarkWikiLink, wikilinkOptions)
       .use(remarkRehype, { allowDangerousHtml: true }),
     docAdditions,
     gottenMatter
