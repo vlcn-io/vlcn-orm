@@ -8,10 +8,10 @@ export const meta = {
   siteAuthor: "Matt Wonlaw",
   siteTwitter: "@tantaman",
   image: {
-    url: "https://aphrodite.sh/assets/gods/aphrodite.svg",
-    width: 130.75,
-    height: 354.05,
-    alt: "Aphrodite",
+    url: "https://aphrodite.sh/assets/gods/hephaestus.svg",
+    width: 192,
+    height: 411,
+    alt: "Hephaestus",
   },
 };
 
