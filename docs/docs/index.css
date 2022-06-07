@@ -2,6 +2,7 @@ body {
   display: flex;
   color: #111111;
   background: #fffff8;
+  gap: 0px 40px;
   /* font-family: "Canela Text"; */
 }
 
@@ -9,16 +10,43 @@ h1 {
   /* font-family: "Canela Deck"; */
 }
 
-.toc {
-  position: absolute;
-  right: 30px;
-}
-
 aside {
   width: 270px;
   height: calc(100% - 30px);
   padding-top: 30px;
   padding-right: 30px;
+  border-right: 1px solid var(--black);
+}
+
+.toc {
+  position: absolute;
+  right: 30px;
+}
+
+@media (max-width: 1200px) {
+  .toc {
+    display: none;
+  }
+
+  aside {
+    /* display: none; */
+    width: 140px;
+    height: 130px;
+    overflow: hidden;
+    padding: 0;
+    border-right: none;
+    position: fixed;
+    right: 0px;
+  }
+
+  aside:hover {
+    height: 100%;
+    width: 270px;
+  }
+
+  body {
+    padding-left: 40px;
+  }
 }
 
 main {
@@ -27,11 +55,6 @@ main {
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
-}
-
-aside {
-  /* background: var(--light-blue); */
-  border-right: 1px solid var(--black);
 }
 
 aside ol {
