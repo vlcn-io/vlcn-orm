@@ -76,11 +76,12 @@ export default function docsLayout(tree: ReturnType<typeof h>, file: VFile) {
   body.children = [
     <aside>
       <div class="center">
-        <a href="/">
+        <a class="home-link" href="/">
           <div class="god-circle center-block">
             <div class={`god-head god-head-aphrodite`}></div>
           </div>
         </a>
+        <a class="hamburger"></a>
       </div>
       <ol>
         {sections.map((s) => (

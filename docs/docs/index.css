@@ -24,6 +24,17 @@ aside {
   right: 30px;
 }
 
+.hamburger {
+  display: none;
+  background-image: url("/assets/list.svg");
+  background-repeat: no-repeat;
+  width: 50px;
+  height: 50px;
+  background-size: 50px;
+  margin: 10px;
+  float: right;
+}
+
 @media (max-width: 1200px) {
   .toc {
     display: none;
@@ -31,13 +42,21 @@ aside {
 
   aside {
     /* display: none; */
-    width: 140px;
-    height: 130px;
+    width: 70px;
+    height: 70px;
     overflow: hidden;
     padding: 0;
     border-right: none;
     position: fixed;
     right: 0px;
+  }
+
+  .home-link {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
   }
 
   aside:hover {
