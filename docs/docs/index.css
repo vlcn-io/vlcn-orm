@@ -16,6 +16,7 @@ aside {
   padding-top: 30px;
   padding-right: 30px;
   border-right: 1px solid var(--black);
+  background: inherit;
 }
 
 .toc {
