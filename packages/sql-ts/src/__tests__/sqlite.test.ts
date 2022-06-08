@@ -1,6 +1,6 @@
 // const checkedFormatString = sql`SELECT * FROM ${'T'} WHERE ${'C'} = ${'d'}`;
 
-import { sql, sqliteFormat } from '../sql';
+import { sql, formatters } from '../sql.js';
 import fc from 'fast-check';
 
 const idChar = () => fc.integer({ min: 65, max: 122 }).map(String.fromCharCode);
@@ -12,7 +12,7 @@ const identifierArray = () => fc.array(identifier());
 test('SELECT * FROM T', () => {
   fc.assert(
     fc.property(identifier(), table => {
-      expect(sql`SELECT * FROM ${sql.ident(table)}`.format(sqliteFormat).text).toEqual(
+      expect(sql`SELECT * FROM ${sql.ident(table)}`.format(formatters.sqlite).text).toEqual(
         'SELECT * FROM "' + table + '"',
       );
     }),
@@ -23,7 +23,7 @@ test('SELECT C FROM T', () => {
   fc.assert(
     fc.property(identifier(), identifier(), (column, table) => {
       expect(
-        sql`SELECT ${sql.ident(column)} FROM ${sql.ident(table)}`.format(sqliteFormat).text,
+        sql`SELECT ${sql.ident(column)} FROM ${sql.ident(table)}`.format(formatters.sqlite).text,
       ).toEqual('SELECT "' + column + '" FROM "' + table + '"');
     }),
   );

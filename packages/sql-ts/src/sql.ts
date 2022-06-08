@@ -2,12 +2,12 @@ import { escapePostgresIdentifier, escapeSQLiteIdentifier } from '@databases/esc
 import { FormatConfig } from '@databases/sql';
 export { default as sql, SQLQuery } from '@databases/sql';
 
-export const pgFormat: FormatConfig = {
+const pgFormat: FormatConfig = {
   escapeIdentifier: str => escapePostgresIdentifier(str),
   formatValue: (value, index) => ({ placeholder: `$${index + 1}`, value }),
 };
 
-export const sqliteFormat: FormatConfig = {
+const sqliteFormat: FormatConfig = {
   escapeIdentifier: str => escapeSQLiteIdentifier(str),
   formatValue: value => ({ placeholder: '?', value }),
 };

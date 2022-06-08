@@ -1,13 +1,9 @@
 import { nullthrows } from '@strut/utils';
-import knex from 'knex';
-import { DBResolver } from '@aphro/runtime-ts';
+import { basicResolver, DBResolver, SQLQuery } from '@aphro/runtime-ts';
+import connect from '@databases/sqlite';
 
 function createDb() {
-  return knex({
-    client: 'sqlite3',
-    connection: ':memory:',
-    useNullAsDefault: true,
-  });
+  return connect();
 }
 
 let db: ReturnType<typeof createDb> | null = null;
@@ -16,26 +12,15 @@ function createResolver(): DBResolver {
     db = createDb();
   }
 
-  return {
-    type(t: 'sql') {
-      return {
-        engine(engine: 'sqlite') {
-          return {
-            db(dbName: string) {
-              return {
-                exec(query: string, bindings: any[]) {
-                  return nullthrows(db).raw(query, bindings);
-                },
-                destroy() {
-                  db?.destroy();
-                },
-              };
-            },
-          };
-        },
-      };
+  return basicResolver({
+    type: 'sql',
+    exec(q: SQLQuery) {
+      return nullthrows(db).query(q);
     },
-  };
+    destroy() {
+      db?.dispose();
+    },
+  });
 }
 
 export const resolver = createResolver();

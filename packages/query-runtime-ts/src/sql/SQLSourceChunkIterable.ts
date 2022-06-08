@@ -24,12 +24,9 @@ export default class SQLSourceChunkIterable<T extends IModel<Object>> extends Ba
     // given the actual query execution happens in the resolver.
     // also -- should we chunk it at all?
     const resolvedDb = this.ctx.dbResolver
-      .type(this.spec.storage.type)
       .engine(this.spec.storage.engine)
       .db(this.spec.storage.db);
-    const sql = specAndOpsToQuery(this.spec, this.hoistedOperations).format(
-      formatters[this.spec.storage.engine],
-    );
-    yield await resolvedDb.exec(sql.text, sql.values);
+    const sql = specAndOpsToQuery(this.spec, this.hoistedOperations);
+    yield await resolvedDb.exec(sql);
   }
 }

@@ -1,5 +1,5 @@
 import { StorageEngine, StorageType } from '@aphro/schema-api';
-import { DBResolver, ResolvedDB } from './DBResolver.js';
+import { DBResolver, EngineToResolved, ResolvedDB } from './DBResolver.js';
 
 export const printResolver: DBResolver = spyResolver(function () {
   console.log(arguments);
@@ -9,14 +9,10 @@ export const noopResolver: DBResolver = spyResolver(() => {});
 
 export function spyResolver(spy: (...args: any) => any): DBResolver {
   return {
-    type(t: StorageType) {
+    engine(engine: StorageEngine) {
       return {
-        engine(engine: StorageEngine) {
-          return {
-            db(db: string) {
-              return spyProxy(spy) as any;
-            },
-          };
+        db(db: string) {
+          return spyProxy(spy) as any;
         },
       };
     },
@@ -41,16 +37,12 @@ function spyProxy(spy: (...args: any[]) => any) {
   return new Proxy({}, objProxyDef);
 }
 
-export function basicResolver(resolved: ResolvedDB): DBResolver {
+export function basicResolver<E extends StorageEngine>(resolved: EngineToResolved[E]): DBResolver {
   return {
-    type(t: StorageType) {
+    engine(e: StorageEngine) {
       return {
-        engine(e: StorageEngine) {
-          return {
-            db(db: string) {
-              return resolved;
-            },
-          };
+        db(db: string) {
+          return resolved;
         },
       };
     },

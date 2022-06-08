@@ -4,7 +4,6 @@ import { assertUnreachable } from '@strut/utils';
 import SqlFile from './SqlFile.js';
 import { sql, formatters } from '@aphro/sql-ts';
 
-// use knex to generate create table
 export default class GenSqlTableSchema extends CodegenStep {
   static accepts(schema: Node): boolean {
     return schema.storage.type === 'sql';

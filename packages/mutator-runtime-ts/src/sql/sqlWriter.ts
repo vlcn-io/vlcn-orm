@@ -10,7 +10,7 @@ export default {
     const spec = first.spec;
     const persist = spec.storage;
 
-    const db = ctx.dbResolver.type(persist.type).engine(persist.engine).db(persist.db);
+    const db = ctx.dbResolver.engine(persist.engine).db(persist.db);
 
     // TODO: put field names into spec
     // TODO: get smarter on merge. right now replace is ok because we save the entire snapshot.
@@ -30,13 +30,12 @@ export default {
     const query = sql`INSERT OR REPLACE INTO ${sql.ident(spec.storage.tablish)} (${sql.join(
       cols.map(c => sql.ident(c)),
       ', ',
-    )}) VALUES ${sql.join(rows, ', ')}`.format(formatters[spec.storage.engine]);
+    )}) VALUES ${sql.join(rows, ', ')}`;
 
     // console.log(query);
     // console.log(nodes.map(n => Object.values(n._d())));
     await db.exec(
-      query.text,
-      query.values,
+      query,
       // nodes.flatMap(n => Object.values(n._d())),
     );
   },
@@ -47,16 +46,16 @@ export default {
     const spec = first.spec;
     const persist = spec.storage;
 
-    const db = ctx.dbResolver.type(persist.type).engine(persist.engine).db(persist.db);
+    const db = ctx.dbResolver.engine(persist.engine).db(persist.db);
 
     const query = sql`DELETE FROM ${sql.ident(persist.tablish)} WHERE ${sql.ident(
       spec.primaryKey,
     )} IN (${sql.join(
       nodes.map(n => sql.value(n.id)),
       ', ',
-    )})`.format(formatters[spec.storage.engine]);
+    )})`;
 
-    await db.exec(query.text, query.values);
+    await db.exec(query);
   },
 
   async createTables(): Promise<void> {},

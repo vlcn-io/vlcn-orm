@@ -7,6 +7,6 @@ export async function initDb() {
 }
 
 export async function destroyDb() {
-  const db = resolver.type('sql').engine('sqlite').db('test');
+  const db = resolver.engine('sqlite').db('test');
   await db.destroy();
 }
