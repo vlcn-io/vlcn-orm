@@ -198,7 +198,7 @@ Write rules can be added to allow peers to reject incoming changes to data they 
 
 `Aphrodite` will also support joins across different storage layers. E.g., traversing edges between `SQL`, `Redis`, `Neo4j` rows. This is done via [ChunkIterables](https://gist.github.com/tantaman/bd928ef93619e73365b07899da282996#aside---traversing-across-storage-backends) and [HopPlans](https://github.com/tantaman/aphrodite/blob/main/packages/query-runtime-ts/src/HopPlan.ts).
 
-# Current Implementation
+# GitHub & Current Implementation
 
 `Aphrodite` is under active development here: [https://github.com/tantaman/aphrodite](https://github.com/tantaman/aphrodite)
 
