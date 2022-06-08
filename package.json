@@ -9,8 +9,11 @@
   },
   "dependencies": {
     "@tantaman/sitecompiler": "workspace:*",
+    "rehype-meta": "^3.2.1",
     "rehype-parse": "^8.0.4",
-    "serve": "^13.0.2"
+    "rehype-stringify": "^9.0.3",
+    "serve": "^13.0.2",
+    "unified": "^10.1.2"
   },
   "scripts": {
     "build": "sitecompiler",

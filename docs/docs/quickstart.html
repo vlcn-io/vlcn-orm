@@ -8,22 +8,14 @@
 <link rel="stylesheet" href="/main.css">
 <link rel="stylesheet" href="/docs/index.css">
 
-<meta name="description" content="TODO -- MVP is slated for release on June 17 2022. Aphrodite is under active development here: https://github.com/tantaman/aphrodite
-
-It is not ready for release.
-
-A TodoMVC example app that uses Aphrodite is under development here: https://github.com…">
+<meta name="description" content="Aphrodite makes it easy to describe, model and interact with your data. After installing Aphrodite, everything begins with defining a schema. Note: Aphrodite currently targets TypeScript and the browser. To see when support will be added for vanilla JS,…">
 <meta name="keywords" content="software, schemas, data">
 <meta name="author" content="Matt Wonlaw">
 <meta name="copyright" content="© 2022 Matt Wonlaw">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Aphrodite">
 <meta property="og:title" content="Quickstart">
-<meta property="og:description" content="TODO -- MVP is slated for release on June 17 2022. Aphrodite is under active development here: https://github.com/tantaman/aphrodite
-
-It is not ready for release.
-
-A TodoMVC example app that uses Aphrodite is under development here: https://github.com…">
+<meta property="og:description" content="Aphrodite makes it easy to describe, model and interact with your data. After installing Aphrodite, everything begins with defining a schema. Note: Aphrodite currently targets TypeScript and the browser. To see when support will be added for vanilla JS,…">
 <meta property="og:image" content="https://aphrodite.sh/assets/gods/hephaestus.svg">
 <meta property="og:image:alt" content="Hephaestus">
 <meta property="og:image:width" content="192">
@@ -33,10 +25,43 @@ A TodoMVC example app that uses Aphrodite is under development here: https://git
 <meta name="twitter:image:alt" content="Hephaestus">
 <meta name="twitter:site" content="@tantaman">
 <meta name="twitter:label1" content="Reading time">
-<meta name="twitter:data1" content="1 minute">
+<meta name="twitter:data1" content="2 minutes">
 </head>
-<body><aside><div class="center"><a class="home-link" href="/"><div class="god-circle center-block"><div class="god-head god-head-aphrodite"></div></div></a><a class="hamburger"></a></div><ol><li class="indent"><a href="/docs/introduction">Introduction</a></li><li class="active indent"><a href="/docs/quickstart">Quickstart</a></li><li class="indent"><a href="/docs/schemas">Schemas</a></li><li class="indent"><a href="/docs/models">Models</a></li><li class="indent"><a href="/docs/mutations-and-transactions">Mutating Data</a></li><li class="indent"><a href="/docs/queries">Queries</a></li><li class="indent"><a href="/docs/reactivity">Reactivity</a></li><li class="indent"><a href="/docs/data-sync-p2p">Data Sync &#x26; P2P</a></li><li class="indent"><a href="/docs/permissions">Permissions</a></li><li class="indent"><a href="/docs/migrations">Migrations</a></li></ol></aside><main><article><h1>Quickstart</h1><section>
-<nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><p>TODO -- MVP is slated for release on June 17 2022.</p>
+<body><aside><div class="center"><a class="home-link" href="/"><div class="god-circle center-block"><div class="god-head god-head-aphrodite"></div></div></a><a class="hamburger"></a></div><ol><li class="indent"><a href="/docs/why">Why Aphrodite</a></li><li class="active indent"><a href="/docs/quickstart">Quickstart</a></li><li class="indent"><a href="/docs/schemas">Schemas</a></li><li class="indent"><a href="/docs/models">Models</a></li><li class="indent"><a href="/docs/mutations-and-transactions">Mutating Data</a></li><li class="indent"><a href="/docs/queries">Queries</a></li><li class="indent"><a href="/docs/reactivity">Reactivity</a></li><li class="indent"><a href="/docs/data-sync-p2p">Data Sync &#x26; P2P</a></li><li class="indent"><a href="/docs/permissions">Permissions</a></li><li class="indent"><a href="/docs/migrations">Migrations</a></li></ol></aside><main><article><h1>Quickstart</h1><p class="subtitle">get up and running with Aphrodite</p><section>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#installation">Installation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#your-first-schema">Your First Schema</a></li></ol></nav><p><code>Aphrodite</code> makes it easy to describe, model and interact with your data. After installing <code>Aphrodite</code>, everything begins with defining a schema.</p>
+<blockquote>
+<p>Note: <code>Aphrodite</code> currently targets TypeScript and the browser. To see when support will be added for vanilla <code>JS</code>, <code>Node</code>, <code>iOS</code>, and <code>Android</code> see the <a class="internal new" href="/blog/roadmap">roadmap</a>.</p>
+</blockquote>
+<h1 id="installation"><a aria-hidden="true" tabindex="-1" href="#installation"><span class="icon icon-link"></span></a>Installation</h1>
+<p><code>Aphrodite</code> has two main components:</p>
+<ol>
+<li>The runtime for the given target</li>
+<li>The codegen framework</li>
+</ol>
+<p>These are shipped as two separated packages as the codegen framework is only needed during development and is not deployed with your application.</p>
+<p>Install them using <a href="https://www.npmjs.com/">npm</a> as seen below --</p>
+<pre><code class="hljs language-bash">npm install @aphro/runtime-ts
+npm install --save-dev @aphro/codegen-cli
+</code></pre>
+<h1 id="your-first-schema"><a aria-hidden="true" tabindex="-1" href="#your-first-schema"><span class="icon icon-link"></span></a>Your First Schema</h1>
+<p>Schemas are the foundation of <code>Aphrodite</code>. They are stored as code and describe your application's data model. From the information provided in the  schema, we go on to generate:</p>
+<ol>
+<li>The corresponding database schema</li>
+<li>Classes to represent your data in the target language</li>
+<li>Query builders to traverse your data</li>
+<li>Mutators to safely modify your data</li>
+</ol>
+<p>To get started, create a file in your project's <code>src</code> directory called <code>domain.aphro</code>. This is where we'll place are node and edge definitions.</p>
+<p>Open that file and define a <code>TodoList</code> node --</p>
+<pre><code class="hljs language-typescript"><span class="hljs-title class_">TodoList</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Node</span> {
+  <span class="hljs-attr">id</span>: <span class="hljs-variable constant_">ID</span>&#x3C;<span class="hljs-title class_">TodoList</span>>
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
+}
+</code></pre>
+<p>next run</p>
+<pre><code class="hljs language-bash">npx aphro gen src/domain.aphro -d src/generated
+</code></pre>
+<p>--- to finish</p>
 <p><code>Aphrodite</code> is under active development here: <a href="https://github.com/tantaman/aphrodite">https://github.com/tantaman/aphrodite</a></p>
 <p>It <strong>is not</strong> ready for release.</p>
 <p>A TodoMVC example app that uses Aphrodite is under development here: <a href="https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc">https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc</a></p>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>🪨 Chunk Iterable - Aphrodite</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/tufte.css">
+<link rel="stylesheet" href="/main.css">
+<link rel="stylesheet" href="/docs/index.css">
+
+<meta name="description" content="Today I&#x27;ll be discussing the Chunk Iterable Framework. This is a core component of Aphrodite and is used to speed up the processing of data returned by queries. The main idea behind a chunk iterable is to be able to iterate over some source of data in…">
+<meta name="keywords" content="software-engineering, aphrodite, software, schemas, data">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Aphrodite">
+<meta property="og:title" content="🪨 Chunk Iterable">
+<meta property="og:description" content="Today I&#x27;ll be discussing the Chunk Iterable Framework. This is a core component of Aphrodite and is used to speed up the processing of data returned by queries. The main idea behind a chunk iterable is to be able to iterate over some source of data in…">
+<meta property="og:image" content="https://aphrodite.sh/assets/gods/hephaestus.svg">
+<meta property="og:image:alt" content="Hephaestus">
+<meta property="og:image:width" content="192">
+<meta property="og:image:height" content="411">
+<meta property="article:tag" content="software-engineering">
+<meta property="article:tag" content="aphrodite">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://aphrodite.sh/assets/gods/hephaestus.svg">
+<meta name="twitter:image:alt" content="Hephaestus">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="2 minutes">
+</head>
+<body><aside><div class="center"><a class="home-link" href="/"><div class="god-circle center-block"><div class="god-head god-head-aphrodite"></div></div></a></div></aside><main><article><h1>🪨 Chunk Iterable</h1><section>
+<nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><p>Today I'll be discussing the <a href="https://github.com/tantaman/aphrodite/blob/main/packages/query-runtime-ts/src/ChunkIterable.ts"><code>Chunk Iterable Framework</code></a>. This is a core component of <a href="http://aphrodite.sh">Aphrodite</a> and is used to speed up the processing of data returned by queries.</p>
+<p>The main idea behind a chunk iterable is to be able to iterate over some source of data in chunks. Why would we want to iterate over a data source in chunks?</p>
+<p>Mainly for performance. Imagine you have an unbounded stream of data. There are two options for processing this data that exist on a spectrum.</p>
+<ul>
+<li>Option 1: Process everything in the stream all at once.</li>
+<li>Option 2: Process a single item from the stream at a time.</li>
+</ul>
+<p>If the source is unbounded (or larger than your working memory), Option 1 is not possible.</p>
+<p>Option 2 is always possible but can be slow. Option 2 is like making 10,000 individual trips to the store to pick up 10,000 packs of m&#x26;ms. You probably can't fit 10,000 packs of m&#x26;ms in a single tripe but you could get a chunk of 500 packs in a single trip, reducing your total trips from 10,000 to 20.</p>
+<p><code>ChunkIterable</code> is the same. If a data source could return a massive amount of data, <code>ChunkIterable</code> streams the results back in chunks. This strikes a nice balance between batch processing and not overwhelming your local resources.</p>
+<p><code>ChunkIterable</code>, conforming to an <code>Iterable</code> interface, also allows you to perform operations like <code>filter</code> &#x26; <code>map</code> against chunks.</p>
+<p>This is important for <code>Aphrodite</code> as <code>Aphrodite</code> uses <code>map</code> to turn a raw data stream into models and uses <code>filter</code> to apply filters to streams that couldn't be hoisted to the database layer.</p>
+<script src="https://www.googletagmanager.com/gtag/js?id=G-QT6QH0ZJQ4" async></script>
+<script src="/ga.js"></script>
+<script src="/assets/god-switcher.js"></script>
+</section></article></main></body>
+</html>

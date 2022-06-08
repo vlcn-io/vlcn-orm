@@ -7,8 +7,8 @@ import { VFile } from "vfile";
 // And do a pass that gethers the file names and matter to allow nav generation.
 const sections = [
   {
-    name: "introduction",
-    title: "Introduction",
+    name: "why",
+    title: "Why Aphrodite",
     god: "aphrodite",
   },
   {

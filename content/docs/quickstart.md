@@ -1,9 +1,55 @@
 ---
 layout: docs
 title: Quickstart
+subtitle: get up and running with Aphrodite
 ---
 
-TODO -- MVP is slated for release on June 17 2022.
+`Aphrodite` makes it easy to describe, model and interact with your data. After installing `Aphrodite`, everything begins with defining a schema. 
+
+> Note: `Aphrodite` currently targets TypeScript and the browser. To see when support will be added for vanilla `JS`, `Node`, `iOS`, and `Android` see the [[blog/roadmap:roadmap]].
+
+# Installation
+
+`Aphrodite` has two main components:
+1. The runtime for the given target
+2. The codegen framework
+
+These are shipped as two separated packages as the codegen framework is only needed during development and is not deployed with your application.
+
+Install them using [npm](https://www.npmjs.com/) as seen below --
+
+```bash
+npm install @aphro/runtime-ts
+npm install --save-dev @aphro/codegen-cli
+```
+
+# Your First Schema
+
+Schemas are the foundation of `Aphrodite`. They are stored as code and describe your application's data model. From the information provided in the  schema, we go on to generate:
+
+1. The corresponding database schema
+2. Classes to represent your data in the target language
+3. Query builders to traverse your data
+4. Mutators to safely modify your data
+
+To get started, create a file in your project's `src` directory called `domain.aphro`. This is where we'll place are node and edge definitions.
+
+Open that file and define a `TodoList` node --
+
+```typescript
+TodoList as Node {
+  id: ID<TodoList>
+  name: string
+}
+```
+
+next run
+
+```bash
+npx aphro gen src/domain.aphro -d src/generated
+```
+
+--- to finish
 
 
 `Aphrodite` is under active development here: [https://github.com/tantaman/aphrodite](https://github.com/tantaman/aphrodite)

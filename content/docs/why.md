@@ -1,6 +1,6 @@
 ---
 layout: docs
-title: Introduction
+title: Why Aphrodite
 subtitle: the goals of Aphrodite and the problems being solved
 ---
 

@@ -157,7 +157,7 @@ async function processMarkdown(fileOrContent, docAdditions, gottenMatter) {
   ).process(fileOrContent);
 }
 
-function addRehypePlugins(pipeline, docAdditions, gottenMatter) {
+function addRehypePlugins(pipeline, docAdditions, gottenMatter, collection) {
   return pipeline
     .use(rehypeInferDescriptionMeta, { truncateSize: 255 })
     .use(rehypeInferTitleMeta)
