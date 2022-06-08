@@ -87,9 +87,49 @@ then re-run the codegen
 npx aphro gen src/domain.aphro -d src/generated
 ```
 
-You'll now see a new file called `TodoListMutations.ts`
+You'll now see a new file called `TodoListMutations.ts`. We'll use this to create some data.
 
 # Creating/Mutating a Node
+
+Opening up `TodoListMutations.ts` you'll see this manual section:
+
+```typescript
+create({ name }: { name: string }): this {
+  // BEGIN-MANUAL-SECTION: [create]
+  throw new Error("Mutation create is not implemented!");
+  // END-MANUAL-SECTION
+  return this;
+}
+```
+
+Here you can fill in any logic that should take place upon creation. `TodoList` is pretty simple -- we'll only be setting the name on create. Inside the `create` method we can access the raw `mutator` which lets us change any property on the model.
+
+```typescript
+create({ name }: { name: string }): this {
+  // BEGIN-MANUAL-SECTION: [create]
+  this.mutator.set({
+    name
+  });
+  // END-MANUAL-SECTION
+  return this;
+}
+```
+
+Now that the create mutation has been implemented, lets go ahead and use it. Create a `main.js` file in `src`.
+
+```typescript
+import TodoListMutations from './generated/TodoListMutations.js';
+
+const [persistHandle, todoList] = TodoListMutations.create(ctx, {name: 'My first list!'}).save();
+```
+
+Save returns two things:
+1. A promise to the pending database write
+2. An optimistic update, representing the created model
+
+The optimsitc update is useful for highly interactive environments where you want to do something with the changes before the write actually succeeds.
+
+> TODO: go over context creation and/or provide default contexts.
 
 # Querying for Nodes
 

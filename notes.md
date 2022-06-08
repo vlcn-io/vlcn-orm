@@ -1,6 +1,18 @@
 # TODO:
 - Watch mode for codegen
 - Simple context setup
+- Mutations generated file -- auto gen id, manual import section, ignore from formatting...
+  - Merge mode... Preserve manual sections even on formatting changes?
+  - Maybe we can ignore format changes? Maybe we can resolve imports?
+- Mutator api
+  - creates within creates
+- Pending write should return the models after await?
+  - How do we roll back optimistic writes on failure?
+    - Should the fwrk do this?
+      - Nuke from cache on create?
+- Cache configuration?
+  - E.g., always treat objects as "shared" or not?
+    - Not write-through? Other things?
 
 # Older Vision (that may be newer vision again)
 https://github.com/tantaman/aphrodite/tree/23889218f8149651f486f549df0303ba6fa54ee2#vision

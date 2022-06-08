@@ -47,3 +47,9 @@ Each roadmap item is tagged with the name of the release that will include it.
    4. (Unplanned) Cypher? Redis?
    5. (Unplanned) Sharded SQL
    6. (Unplanned) Custom & arbitrary services (Rest / Thrift / etc.)
+5. Non Green-Field deployments
+   1. Support field storage overrides
+   2. Support auto increment ids
+   3. Support id providers (e.g., uuid)
+6. Context
+   1. Identity

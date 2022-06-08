@@ -25,7 +25,7 @@
 <meta name="twitter:image:alt" content="Zeus">
 <meta name="twitter:site" content="@tantaman">
 <meta name="twitter:label1" content="Reading time">
-<meta name="twitter:data1" content="2-3 minutes">
+<meta name="twitter:data1" content="3-4 minutes">
 </head>
 <body><aside><div class="center"><a class="home-link" href="/"><div class="god-circle center-block"><div class="god-head god-head-aphrodite"></div></div></a><a class="hamburger"></a></div><ol><li class="indent"><a href="/docs/why">Why Aphrodite</a></li><li class="active indent"><a href="/docs/quickstart">Quickstart</a></li><li class="indent"><a href="/docs/schemas">Schemas</a></li><li class="indent"><a href="/docs/models">Models</a></li><li class="indent"><a href="/docs/mutations-and-transactions">Mutating Data</a></li><li class="indent"><a href="/docs/queries">Queries</a></li><li class="indent"><a href="/docs/reactivity">Reactivity</a></li><li class="indent"><a href="/docs/data-sync-p2p">Data Sync &#x26; P2P</a></li><li class="indent"><a href="/docs/permissions">Permissions</a></li><li class="indent"><a href="/docs/migrations">Migrations</a></li></ol></aside><main><article><h1>Quickstart</h1><p class="subtitle">get up and running with Aphrodite</p><section>
 <nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#installation">Installation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#your-first-schema">Your First Schema</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#adding-a-mutation">Adding a Mutation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#creatingmutating-a-node">Creating/Mutating a Node</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#querying-for-nodes">Querying for Nodes</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#defining-an-edge">Defining an Edge</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#walking-a-graph">Walking a Graph</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#reactive-queries">Reactive Queries</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#react-integration">React Integration</a></li></ol></nav><p><code>Aphrodite</code> makes it easy to describe, model and interact with your data. After installing <code>Aphrodite</code>, everything begins with defining a schema. If you'd like to understand <em>why</em> this project exists before diving in, see <a class="internal new" href="/docs/why">Why Aphrodite?</a></p>
@@ -88,8 +88,32 @@ npm install --save-dev @aphro/codegen-cli
 <p>then re-run the codegen</p>
 <pre><code class="hljs language-bash">npx aphro gen src/domain.aphro -d src/generated
 </code></pre>
-<p>You'll now see a new file called <code>TodoListMutations.ts</code></p>
+<p>You'll now see a new file called <code>TodoListMutations.ts</code>. We'll use this to create some data.</p>
 <h1 id="creatingmutating-a-node"><a aria-hidden="true" tabindex="-1" href="#creatingmutating-a-node"><span class="icon icon-link"></span></a>Creating/Mutating a Node</h1>
+<p>Opening up <code>TodoListMutations.ts</code> you'll see this manual section:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-title function_">create</span>({ name }: { <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span> }): <span class="hljs-variable language_">this</span> {
+  <span class="hljs-comment">// BEGIN-MANUAL-SECTION: [create]</span>
+  <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">"Mutation create is not implemented!"</span>);
+  <span class="hljs-comment">// END-MANUAL-SECTION</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>;
+}
+</code></pre>
+<p>Here you can fill in any logic that should take place upon creation. <code>TodoList</code> is pretty simple -- we'll only be setting the name on create. Inside the <code>create</code> method we can access the raw <code>mutator</code> which lets us change any property on the model.</p>
+<pre><code class="hljs language-typescript"><span class="hljs-title function_">create</span>({ name }: { <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span> }): <span class="hljs-variable language_">this</span> {
+  <span class="hljs-comment">// BEGIN-MANUAL-SECTION: [create]</span>
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">mutator</span>.<span class="hljs-title function_">set</span>({
+    name
+  });
+  <span class="hljs-comment">// END-MANUAL-SECTION</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>;
+}
+</code></pre>
+<p>Now that the create mutation has been implemented, lets go ahead and use it. Create a <code>main.js</code> file in <code>src</code>.</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">TodoListMutations</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'./generated/TodoListMutations.js'</span>;
+
+<span class="hljs-keyword">const</span> [persistHandle, optimisticUpdate] = <span class="hljs-title class_">TodoListMutations</span>.<span class="hljs-title function_">create</span>(ctx, {<span class="hljs-attr">name</span>: <span class="hljs-string">'My first list!'</span>}).<span class="hljs-title function_">save</span>();
+</code></pre>
+<p>^^TODO: context creation.</p>
 <h1 id="querying-for-nodes"><a aria-hidden="true" tabindex="-1" href="#querying-for-nodes"><span class="icon icon-link"></span></a>Querying for Nodes</h1>
 <h1 id="defining-an-edge"><a aria-hidden="true" tabindex="-1" href="#defining-an-edge"><span class="icon icon-link"></span></a>Defining an Edge</h1>
 <h1 id="walking-a-graph"><a aria-hidden="true" tabindex="-1" href="#walking-a-graph"><span class="icon icon-link"></span></a>Walking a Graph</h1>
