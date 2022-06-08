@@ -40,3 +40,10 @@ Each roadmap item is tagged with the name of the release that will include it.
    6. (🧚‍♀️ RC1) P2P Replication
    7. (🤦‍♂️ Beta) Migrations
    8. (🧚‍♀️ RC1) Permission evaluation
+4. Databases & Backends
+   1. (📦 MVP) SQLite
+   2. (💪 Alpha) Postgres
+   3. (🧚‍♀️ RC1) Polyglot persistence & edges between data stores
+   4. (Unplanned) Cypher? Redis?
+   5. (Unplanned) Sharded SQL
+   6. (Unplanned) Custom & arbitrary services (Rest / Thrift / etc.)
