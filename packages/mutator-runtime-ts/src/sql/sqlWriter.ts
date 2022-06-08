@@ -1,5 +1,5 @@
-import { Context, DeleteChangeset, IModel } from '@aphro/context-runtime-ts';
-import { sql } from '@aphro/sql-ts';
+import { Context, IModel } from '@aphro/context-runtime-ts';
+import { formatters, sql } from '@aphro/sql-ts';
 
 export default {
   // Precondition: already grouped by db & table
@@ -15,19 +15,28 @@ export default {
     // TODO: put field names into spec
     // TODO: get smarter on merge. right now replace is ok because we save the entire snapshot.
     // TODO: postgres unroll operation. @databases blog post
+
+    // TODO: probs need to guarantee order via `spec`
     const cols = Object.keys(first._d());
-    const query = sql`INSERT OR REPLACE INTO ${'T'} (${'LC'}) VALUES ${'LR'}`(
-      spec.storage.tablish,
-      cols,
-      nodes.map(n => Object.values(n._d())),
-      // first.spec.primaryKey,
-    ).toString(spec.storage.engine);
+    // TODO: we need access to fields in the spec in order to encode and handle complex fields.
+    // or code-gen the appropriate encoding into `_d()`
+    const rows = nodes.map(
+      n =>
+        sql`(${sql.join(
+          Object.values(n._d()).map(v => sql.value(v === undefined ? null : v)),
+          ', ',
+        )})`,
+    );
+    const query = sql`INSERT OR REPLACE INTO ${sql.ident(spec.storage.tablish)} (${sql.join(
+      cols.map(c => sql.ident(c)),
+      ', ',
+    )}) VALUES ${sql.join(rows, ', ')}`.format(formatters[spec.storage.engine]);
 
     // console.log(query);
     // console.log(nodes.map(n => Object.values(n._d())));
     await db.exec(
-      query[0],
-      query[1],
+      query.text,
+      query.values,
       // nodes.flatMap(n => Object.values(n._d())),
     );
   },
@@ -40,13 +49,13 @@ export default {
 
     const db = ctx.dbResolver.type(persist.type).engine(persist.engine).db(persist.db);
 
-    const query = sql`DELETE FROM ${'T'} WHERE ${'C'} IN (${'La'})`(
-      persist.tablish,
+    const query = sql`DELETE FROM ${sql.ident(persist.tablish)} WHERE ${sql.ident(
       spec.primaryKey,
-      nodes.map(n => n.id),
-    ).toString(spec.storage.engine);
+    )} IN (${sql.join(nodes.map(n => sql.value(n.id), ', '))})`.format(
+      formatters[spec.storage.engine],
+    );
 
-    await db.exec(...query);
+    await db.exec(query.text, query.values);
   },
 
   async createTables(): Promise<void> {},

@@ -4,28 +4,23 @@ import SQLHopExpression from './SQLHopExpression.js';
 import { ModelFieldGetter } from '../Field.js';
 import { NodeSpec } from '@aphro/schema-api';
 import { invariant } from '@strut/utils';
-import { sql, SQL } from '@aphro/sql-ts';
+import { sql, SQLQuery } from '@aphro/sql-ts';
 
 // given a model spec and hoisted operations, return the SQL query
-export default function specAndOpsToQuery(spec: NodeSpec, ops: HoistedOperations): SQL {
-  // nit: this doesn't take into account limits in between hops.
-  // SELECT projection FROM table {hops} {filters} {before/after} {orderby} {limit}
-  const baseTemplate = sql`
-    SELECT ${'Q'} FROM ${'T'} ${'LQ'} ${'Q?'} ${'Q?'} ${'Q?'} ${'Q?'}
-  `;
-
+export default function specAndOpsToQuery(spec: NodeSpec, ops: HoistedOperations): SQLQuery {
   const [lastSpec, lastWhat] = getLastSpecAndProjection(spec, ops);
   const projection = (() => {
     switch (lastWhat) {
       case 'count':
-        return sql`count(${'T'}.${'C'})`(lastSpec.storage.tablish, lastSpec.primaryKey);
+        return sql`count(${sql.ident(lastSpec.storage.tablish, lastSpec.primaryKey)}`;
       case 'edges':
         throw new Error('edge projection not yet supported');
       case 'ids':
-        return sql`${'T'}.${'C'}`(lastSpec.storage.tablish, lastSpec.primaryKey);
+        return sql`${sql.ident(lastSpec.storage.tablish, lastSpec.primaryKey)}`;
       case 'model':
         // TODO: explicitly name the fields so we get the right order!
-        return sql`${'T'}.*`(lastSpec.storage.tablish);
+        // we're ok for now since we force returns to be maps.
+        return sql`${sql.ident(lastSpec.storage.tablish)}.*`;
     }
   })();
 
@@ -34,23 +29,20 @@ export default function specAndOpsToQuery(spec: NodeSpec, ops: HoistedOperations
   const hops = getHops([], spec, ops.hop);
 
   // applyFilters needs to also grab filters from the hops
-  const filters = getFilters(spec, ops.filters);
+  const filters = getFilters(spec, ops.filters) || sql.__dangerous__rawValue('');
   // should also grab before/afters from the hops
-  const beforeAndAfter = getBeforeAndAfter(ops.before, ops.after);
+  const beforeAndAfter = getBeforeAndAfter(ops.before, ops.after) || sql.__dangerous__rawValue('');
   // should also grab order bys from the hops and apply in-order of the hops
-  const orderBy = getOrderBy(spec, ops.orderBy);
+  const orderBy = getOrderBy(spec, ops.orderBy) || sql.__dangerous__rawValue('');
   // `applyHops` takes limits into account given they change the nature of the join to a sub-select
-  const limit = getLimit(ops.limit);
+  const limit = getLimit(ops.limit) || sql.__dangerous__rawValue('');
 
-  return baseTemplate(
-    projection,
-    spec.storage.tablish,
+  // nit: this doesn't take into account limits in between hops.
+  // SELECT projection FROM table {hops} {filters} {before/after} {orderby} {limit}
+  return sql`SELECT ${projection} FROM ${sql.ident(spec.storage.tablish)} ${sql.join(
     hops,
-    filters,
-    beforeAndAfter,
-    orderBy,
-    limit,
-  );
+    sql` `,
+  )} ${filters} ${beforeAndAfter} ${orderBy} ${limit}`;
 }
 
 function getLastSpecAndProjection(
@@ -65,28 +57,34 @@ function getLastSpecAndProjection(
   return getLastSpecAndProjection(hop.destSpec, hop.ops);
 }
 
-function getFilters(spec: NodeSpec, filters?: readonly ReturnType<typeof filter>[]): SQL | null {
+function getFilters(
+  spec: NodeSpec,
+  filters?: readonly ReturnType<typeof filter>[],
+): SQLQuery | null {
   if (!filters || filters.length === 0) {
     return null;
   }
 
-  return sql`WHERE ${'LQA'}`(filters.map(f => getFilter(spec, f)));
+  return sql`WHERE ${sql.join(
+    filters.map(f => getFilter(spec, f)),
+    ' AND ',
+  )}`;
 }
 
-function getFilter(spec: NodeSpec, f: ReturnType<typeof filter>): SQL {
+function getFilter(spec: NodeSpec, f: ReturnType<typeof filter>): SQLQuery {
   const getter = f.getter as ModelFieldGetter<any, any, any>;
   let op: string | null = null;
   const predicate = f.predicate;
   switch (predicate.type) {
     case 'equal':
       if (predicate.value === null) {
-        return sql`${'T'}.${'C'} IS NULL`(spec.storage.tablish, getter.fieldName);
+        return sql`${sql.ident(spec.storage.tablish, getter.fieldName)}} IS NULL`;
       }
       op = '=';
       break;
     case 'notEqual':
       if (predicate.value === null) {
-        return sql`${'T'}.${'C'} IS NOT NULL`(spec.storage.tablish, getter.fieldName);
+        return sql`${sql.ident(spec.storage.tablish, getter.fieldName)} IS NOT NULL`;
       }
       op = '<>';
       break;
@@ -102,44 +100,49 @@ function getFilter(spec: NodeSpec, f: ReturnType<typeof filter>): SQL {
     case 'greaterThanOrEqual':
       op = '>=';
       break;
-    case 'in':
-      return sql`${'T'}.${'C'} IN (${'La'})`(
-        spec.storage.tablish,
-        getter.fieldName,
-        predicate.value as any,
-      );
-    case 'notIn':
-      return sql`${'T'}.${'C'} NOT IN (${'La'})`(
-        spec.storage.tablish,
-        getter.fieldName,
-        predicate.value as any,
-      );
+    case 'in': {
+      const values: SQLQuery[] = [];
+      for (const v of predicate.value) {
+        values.push(sql.value(v));
+      }
+      return sql`${sql.ident(spec.storage.tablish, getter.fieldName)} IN (${sql.join(
+        values,
+        ',',
+      )})`;
+    }
+    case 'notIn': {
+      const values: SQLQuery[] = [];
+      for (const v of predicate.value) {
+        values.push(sql.value(v));
+      }
+      return sql`${sql.ident(spec.storage.tablish, getter.fieldName)} NOT IN (${sql.join(
+        values,
+        ',',
+      )})`;
+    }
   }
 
-  return sql`${'T'}.${'C'} ${'l'} ${'a'}`(
-    spec.storage.tablish,
-    getter.fieldName,
+  return sql`${sql.ident(spec.storage.tablish, getter.fieldName)} ${sql.__dangerous__rawValue(
     op,
-    f.predicate.value as any,
-  );
+  )} ${sql.value(f.predicate.value)}`;
 }
 
 function getBeforeAndAfter(
   b?: ReturnType<typeof before>,
   a?: ReturnType<typeof after>,
-): SQL | null {
+): SQLQuery | null {
   // TODO: we should figure this one out... e.g., unrolling the cursors and such.
   // should that concern be here tho?
   // or should we just be at > or < at this level?
   return null;
 }
 
-function getOrderBy(spec: NodeSpec, o?: ReturnType<typeof orderBy>): SQL | null {
+function getOrderBy(spec: NodeSpec, o?: ReturnType<typeof orderBy>): SQLQuery | null {
   // TODO: also apply o
-  return sql`ORDER BY ${'C'} DESC`(spec.primaryKey);
+  return sql`ORDER BY ${sql.ident(spec.primaryKey)} DESC`;
 }
 
-function getLimit(l?: ReturnType<typeof take>): SQL | null {
+function getLimit(l?: ReturnType<typeof take>): SQLQuery | null {
   return null;
 }
 
@@ -196,7 +199,7 @@ function getLimit(l?: ReturnType<typeof take>): SQL | null {
  * Limits on non-terminal hops just switch the table from "TABLE_NAME" to "(SELECT * FROM TABLE_NAME LIMIT X) AS TABLE_NAMEss"
  *
  */
-function getHops(hops: SQL[], source: NodeSpec, hop?: SQLHopExpression<any, any>): SQL[] {
+function getHops(hops: SQLQuery[], source: NodeSpec, hop?: SQLHopExpression<any, any>): SQLQuery[] {
   if (!hop) {
     return hops;
   }
@@ -211,31 +214,25 @@ function getHops(hops: SQL[], source: NodeSpec, hop?: SQLHopExpression<any, any>
     case 'field':
     case 'foreignKey':
       hops.push(
-        sql`JOIN ${'T'} ON ${'T'}.${'C'} = ${'T'}.${'C'}`(
-          edge.dest.storage.tablish,
+        sql`JOIN ${sql.ident(edge.dest.storage.tablish)} ON ${sql.ident(
           edge.source.storage.tablish,
           edge.sourceField,
-          edge.dest.storage.tablish,
-          edge.destField,
-        ),
+        )} = ${sql.ident(edge.dest.storage.tablish, edge.destField)}`,
       );
       // Could be more hops to join in
       return getHops(hops, edge.dest, ops.hop);
     case 'junction':
       // TODO: could be traversing the junction in the reverse direction
       hops.push(
-        sql`JOIN ${'T'} ON ${'T'}.${'C'} = ${'T'}.${'C'} JOIN ${'T'} ON ${'T'}.${'C'} = ${'T'}.${'C'}`(
-          edge.storage.tablish,
+        sql`JOIN ${sql.ident(edge.storage.tablish)} ON ${sql.ident(
           edge.source.storage.tablish,
           edge.source.primaryKey,
-          edge.storage.tablish,
-          'id1',
+        )} = ${sql.ident(edge.storage.tablish, 'id1')} JOIN ${sql.ident(
           edge.dest.storage.tablish,
-          edge.storage.tablish,
-          'id2',
+        )} ON ${sql.ident(edge.storage.tablish, 'id2')} = ${sql.ident(
           edge.dest.storage.tablish,
           edge.dest.primaryKey,
-        ),
+        )}`,
       );
       return getHops(hops, edge.dest, ops.hop);
   }

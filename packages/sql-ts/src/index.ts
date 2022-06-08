@@ -1,1 +1,1 @@
-export { SQL, sql } from './sql.js';
+export { SQLQuery, sql, formatters } from './sql.js';

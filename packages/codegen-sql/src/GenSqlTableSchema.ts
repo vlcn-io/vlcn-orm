@@ -2,7 +2,7 @@ import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
 import { Node } from '@aphro/schema-api';
 import { assertUnreachable } from '@strut/utils';
 import SqlFile from './SqlFile.js';
-import { sql } from '@aphro/sql-ts';
+import { sql, formatters } from '@aphro/sql-ts';
 
 // use knex to generate create table
 export default class GenSqlTableSchema extends CodegenStep {
@@ -24,54 +24,54 @@ export default class GenSqlTableSchema extends CodegenStep {
   }
 
   private getSqlString(): string {
-    const create = sql`CREATE TABLE ${'T'} (${'LQ,'})`;
     // TODO: go thru index config and apply index constraints
     const columnDefs = Object.values(this.schema.fields).map(field => {
       switch (field.type) {
         case 'id':
-          return sql`${'C'} ${'t'}`(field.name, 'bigint');
+          return sql`${sql.ident(field.name)} bigint`;
         case 'primitive':
           switch (field.subtype) {
             case 'int32':
             case 'uint32':
-              return sql`${'C'} ${'t'}`(field.name, 'int');
+              return sql`${sql.ident(field.name)} int`;
             case 'int64':
-              return sql`${'C'} ${'t'}`(field.name, 'bigint');
+              return sql`${sql.ident(field.name)} bigint`;
             case 'uint64':
-              return sql`${'C'} ${'t'}`(field.name, 'unsigned big int');
+              return sql`${sql.ident(field.name)} unsinged big int`;
             case 'float32':
-              return sql`${'C'} ${'t'}`(field.name, 'float');
+              return sql`${sql.ident(field.name)} float`;
             case 'float64':
-              return sql`${'C'} ${'t'}`(field.name, 'double');
+              return sql`${sql.ident(field.name)} double`;
             case 'string':
               // TODO: ask user to define len params so we know the type here
-              return sql`${'C'} ${'t'}`(field.name, 'text');
+              return sql`${sql.ident(field.name)} text`;
             case 'bool':
-              return sql`${'C'} ${'t'}`(field.name, 'boolean');
+              return sql`${sql.ident(field.name)} boolean`;
           }
         case 'map':
         case 'array':
-          return sql`${'C'} ${'t'}`(field.name, 'text');
+          return sql`${sql.ident(field.name)} text`;
         case 'naturalLanguage':
           // TODO: ask user to define len params so we know the type here
-          return sql`${'C'} ${'t'}`(field.name, 'text');
+          return sql`${sql.ident(field.name)} text`;
         case 'enumeration':
-          return sql`${'C'} ${'t'}`(field.name, 'varchar(255)');
+          return sql`${sql.ident(field.name)} varchar(255)`;
         case 'currency':
-          return sql`${'C'} ${'t'}`(field.name, 'float');
+          return sql`${sql.ident(field.name)} float`;
         case 'timestamp':
-          return sql`${'C'} ${'t'}`(field.name, 'bigint');
+          return sql`${sql.ident(field.name)} bigint`;
         default:
           assertUnreachable(field);
       }
     });
 
     if (this.schema.primaryKey) {
-      columnDefs.push(sql`${'l'} (${'C'})`('primary key', this.schema.primaryKey));
+      columnDefs.push(sql`primary key (${sql.ident(this.schema.primaryKey)})`);
     }
 
-    return create(this.schema.name.toLowerCase(), columnDefs).toString(
-      this.schema.storage.engine,
-    )[0];
+    return sql`CREATE TABLE ${sql.ident(this.schema.name.toLocaleLowerCase())} (${sql.join(
+      columnDefs,
+      ', ',
+    )})`.format(formatters[this.schema.storage.engine]).text;
   }
 }

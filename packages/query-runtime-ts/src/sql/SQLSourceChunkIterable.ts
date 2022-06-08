@@ -4,6 +4,7 @@ import { HoistedOperations } from './SqlExpression.js';
 import { invariant } from '@strut/utils';
 import { Context, IModel } from '@aphro/context-runtime-ts';
 import { NodeSpec } from '@aphro/schema-api';
+import { formatters } from '@aphro/sql-ts';
 
 export default class SQLSourceChunkIterable<T extends IModel<Object>> extends BaseChunkIterable<T> {
   constructor(
@@ -26,9 +27,9 @@ export default class SQLSourceChunkIterable<T extends IModel<Object>> extends Ba
       .type(this.spec.storage.type)
       .engine(this.spec.storage.engine)
       .db(this.spec.storage.db);
-    const sql = specAndOpsToQuery(this.spec, this.hoistedOperations).toString(
-      this.spec.storage.engine,
+    const sql = specAndOpsToQuery(this.spec, this.hoistedOperations).format(
+      formatters[this.spec.storage.engine],
     );
-    yield await resolvedDb.exec(...sql);
+    yield await resolvedDb.exec(sql.text, sql.values);
   }
 }
