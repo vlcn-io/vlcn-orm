@@ -2,6 +2,9 @@
 - Watch mode for codegen
 - Simple context setup
 
+# Older Vision (that may be newer vision again)
+https://github.com/tantaman/aphrodite/tree/23889218f8149651f486f549df0303ba6fa54ee2#vision
+
 # Link to
 https://www.facebook.com/watch/?v=517429752187811
 
