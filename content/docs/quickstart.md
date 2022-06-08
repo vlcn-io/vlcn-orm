@@ -89,7 +89,7 @@ npx aphro gen src/domain.aphro -d src/generated
 
 You'll now see a new file called `TodoListMutations.ts`
 
-# Creating a Node Instance
+# Creating/Mutating a Node
 
 # Querying for Nodes
 
@@ -97,6 +97,11 @@ You'll now see a new file called `TodoListMutations.ts`
 
 # Walking a Graph
 
+# Reactive Queries
+
+# React Integration
+
+-- vue, solid, svelt
 
 `Aphrodite` is under active development here: [https://github.com/tantaman/aphrodite](https://github.com/tantaman/aphrodite)
 
