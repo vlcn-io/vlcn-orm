@@ -163,7 +163,7 @@ dl,
 ol,
 ul {
   font-size: 1.4rem;
-  line-height: 2rem;
+  /* line-height: 2rem; */
 }
 
 p {
