@@ -77,6 +77,10 @@ aside {
   body {
     padding-left: 40px;
   }
+
+  main {
+    width: 100%;
+  }
 }
 
 main {
