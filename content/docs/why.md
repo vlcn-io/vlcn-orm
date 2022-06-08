@@ -4,7 +4,7 @@ title: Why Aphrodite
 subtitle: the goals of Aphrodite and the problems being solved
 ---
 
-The ultimate goal of `Aphrodite` is to make [local-first](https://www.inkandswitch.com/local-first/) and [peer-to-peer](https://en.wikipedia.org/wiki/Peer-to-peer) software easier to develop. The `Aphrodite` project has made significant progress to that end but the more progress we make, the more opportunities we see.
+The ultimate goal of `Aphrodite` is to make multi-platform (including [local-first](https://www.inkandswitch.com/local-first/)) and [peer-to-peer](https://en.wikipedia.org/wiki/Peer-to-peer) software easier to develop. The `Aphrodite` project has made significant progress to that end but the more progress we make, the more opportunities we see.
 
 A nice feature of the problems & opportunities thus far is that they can be tackled in sequence. Each solution building on the solution before it, each solution making local-first and p2p software a step function easier to develop, and each solution unlocking entirely new capabilities for application developers.
 
@@ -22,7 +22,7 @@ Opportunities (workstreams):
 
 The plurality of client side languages and platforms (iOS, Android, Web, desktop, embedded) brings us an opportunity. Projects like [React Native](https://reactnative.dev/) and [Flutter](https://flutter.dev/) have solved the code-reuse problem for UI components but we're still struggling to share business logic and domain models between platforms without moving that code to the server. This makes modern apps nearly impossible to use offline, slow (due to network round trips), and complex (handling network failure, optimistic updates, polling and subscriptions).
 
-`Aphrodite` is designed as a multi-platform `ORM` and `Schema Definition Language`. `Aphrodite` [[docs/schemas:schemas]] are written in a `DSL` which is used to generate code for interacting with and controlling your data model in a given target language.
+`Aphrodite` is designed as a multi-platform `ORM` and `Schema Definition Language`. `Aphrodite` [[docs/schemas:schemas]] are  used to generate code for interacting with and controlling your data model in a variety of target languages. Think something like [protocol buffers](https://developers.google.com/protocol-buffers) or [thrift](https://thrift.apache.org/) but for persisted data.
 
 `Aphrodite`'s MVP targets TypeScript with the next language targets being (in current order of priority):
 1. Kotlin

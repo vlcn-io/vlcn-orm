@@ -4,7 +4,7 @@ title: Quickstart
 subtitle: get up and running with Aphrodite
 ---
 
-`Aphrodite` makes it easy to describe, model and interact with your data. After installing `Aphrodite`, everything begins with defining a schema. 
+`Aphrodite` makes it easy to describe, model and interact with your data. After installing `Aphrodite`, everything begins with defining a schema. If you'd like to understand *why* this project exists before diving in, see [[docs/why:Why Aphrodite?]]
 
 > Note: `Aphrodite` currently targets TypeScript and the browser. To see when support will be added for vanilla `JS`, `Node`, `iOS`, and `Android` see the [[blog/roadmap:roadmap]].
 
