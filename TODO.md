@@ -21,10 +21,20 @@
   - See the commit that added this line
 - Access to model in mutator for updates
 - Default to always applying an order by id if no ordering exists -- stable results.
+- map, union, intersect, filter, etc. on QueryBase
+- 
+
+# Mutator improvements
+- infer what the user wants to write in the manual section and generate that
+- Is your `sid` generator actually outputting hex? Why is the `fixme` string showing up? lulz
 
 # Instrumentation
 - Incorporate counter in places where we subscribe (e.g., LiveResult) to ensure 0 memory leaks
 - Inspect and add logging (counters) for noop mutations being correctly ignored.
+
+# Marketing Integrations
+- https://steampipe.io/
+  - TypedPipe
 
 # Top:
 - Ordering of properties on reads and writes (values statement write the right cols, returned rows map to right json keys)
