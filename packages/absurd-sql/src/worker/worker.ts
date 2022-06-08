@@ -27,6 +27,8 @@ async function init() {
       return;
     }
 
+    // console.log(queryObj);
+
     if (queryObj.bindings) {
       const stmt = db.prepare(queryObj.sql);
       const rows: any[] = [];

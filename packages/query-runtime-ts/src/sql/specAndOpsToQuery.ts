@@ -78,7 +78,7 @@ function getFilter(spec: NodeSpec, f: ReturnType<typeof filter>): SQLQuery {
   switch (predicate.type) {
     case 'equal':
       if (predicate.value === null) {
-        return sql`${sql.ident(spec.storage.tablish, getter.fieldName)}} IS NULL`;
+        return sql`${sql.ident(spec.storage.tablish, getter.fieldName)} IS NULL`;
       }
       op = '=';
       break;

@@ -51,9 +51,10 @@ export default {
 
     const query = sql`DELETE FROM ${sql.ident(persist.tablish)} WHERE ${sql.ident(
       spec.primaryKey,
-    )} IN (${sql.join(nodes.map(n => sql.value(n.id), ', '))})`.format(
-      formatters[spec.storage.engine],
-    );
+    )} IN (${sql.join(
+      nodes.map(n => sql.value(n.id)),
+      ', ',
+    )})`.format(formatters[spec.storage.engine]);
 
     await db.exec(query.text, query.values);
   },
