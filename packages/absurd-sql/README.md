@@ -1,6 +1,6 @@
-# Knex AbsurdSQL
+# AbsurdSQL
 
-Adds connection support to `Knex` for `AbsurdSQL`
+Adapter to let `Aphrodite` query `AbsurdSQL`
 
 We need custom support given `AbsurdSQL` is run in a web-worker and the application issuing queries is in the main browser thread. I.e., the connection from application to db is via `postMessage` in the browser.
 

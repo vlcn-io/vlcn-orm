@@ -1,12 +1,14 @@
 import count from '@strut/counter';
 import thisPackage from '../pkg.js';
 import { initBackend } from 'absurd-sql/dist/indexeddb-main-thread.js';
+import { formatters, SQLQuery } from '@aphro/sql-ts';
 
 let queryId = 0;
 
 const counter = count('@aphro/absurd-sql/Connection');
 
 export default class Connection {
+  type: 'sql' = 'sql';
   #worker: Worker;
   #pending: {
     id: number;
@@ -40,7 +42,7 @@ export default class Connection {
   }
 
   // TODO: what type gets returned?
-  async exec(sql: string, bindings?: any[]): Promise<any> {
+  async exec(sql: SQLQuery): Promise<any> {
     counter.bump('query');
     const id = queryId++;
 
@@ -57,7 +59,14 @@ export default class Connection {
       reject: rejectPending,
     });
 
-    this.#worker.postMessage({ pkg: thisPackage, event: 'query', queryObj: { sql, bindings }, id });
+    const formatted = sql.format(formatters['sqlite']);
+
+    this.#worker.postMessage({
+      pkg: thisPackage,
+      event: 'query',
+      queryObj: { sql: formatted.text, bindings: formatted.values },
+      id,
+    });
 
     return await promise;
   }

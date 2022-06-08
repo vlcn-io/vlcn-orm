@@ -2,6 +2,7 @@ import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { Connection } from '@aphro/absurd-sql';
+import { sql } from '@aphro/runtime-ts';
 import TodoTable from './generated/Todo.sqlite.sql';
 import TodoListTable from './generated/TodoList.sqlite.sql';
 import { asId, Cache, context, viewer, basicResolver, P, Context } from '@aphro/runtime-ts';
@@ -30,13 +31,13 @@ connection.ready
 async function bootstrap(ctx: Context): Promise<TodoList> {
   // Since we don't yet support migrations. Drop during development.
   await Promise.allSettled([
-    connection.exec(`DROP TABLE IF EXISTS todo`, []),
-    connection.exec(`DROP TABLE IF EXISTS todolist`, []),
+    connection.exec(sql`DROP TABLE IF EXISTS todo`),
+    connection.exec(sql`DROP TABLE IF EXISTS todolist`),
   ]);
 
   const results = await Promise.allSettled([
-    connection.exec(TodoListTable),
-    connection.exec(TodoTable),
+    connection.exec(sql.__dangerous__rawValue(TodoListTable)),
+    connection.exec(sql.__dangerous__rawValue(TodoTable)),
   ]);
 
   results.forEach(r => {
