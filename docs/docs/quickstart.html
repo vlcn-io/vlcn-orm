@@ -25,10 +25,10 @@
 <meta name="twitter:image:alt" content="Hephaestus">
 <meta name="twitter:site" content="@tantaman">
 <meta name="twitter:label1" content="Reading time">
-<meta name="twitter:data1" content="2 minutes">
+<meta name="twitter:data1" content="2-3 minutes">
 </head>
 <body><aside><div class="center"><a class="home-link" href="/"><div class="god-circle center-block"><div class="god-head god-head-aphrodite"></div></div></a><a class="hamburger"></a></div><ol><li class="indent"><a href="/docs/why">Why Aphrodite</a></li><li class="active indent"><a href="/docs/quickstart">Quickstart</a></li><li class="indent"><a href="/docs/schemas">Schemas</a></li><li class="indent"><a href="/docs/models">Models</a></li><li class="indent"><a href="/docs/mutations-and-transactions">Mutating Data</a></li><li class="indent"><a href="/docs/queries">Queries</a></li><li class="indent"><a href="/docs/reactivity">Reactivity</a></li><li class="indent"><a href="/docs/data-sync-p2p">Data Sync &#x26; P2P</a></li><li class="indent"><a href="/docs/permissions">Permissions</a></li><li class="indent"><a href="/docs/migrations">Migrations</a></li></ol></aside><main><article><h1>Quickstart</h1><p class="subtitle">get up and running with Aphrodite</p><section>
-<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#installation">Installation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#your-first-schema">Your First Schema</a></li></ol></nav><p><code>Aphrodite</code> makes it easy to describe, model and interact with your data. After installing <code>Aphrodite</code>, everything begins with defining a schema.</p>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#installation">Installation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#your-first-schema">Your First Schema</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#adding-a-mutation">Adding a Mutation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#creating-a-node-instance">Creating a Node Instance</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#querying-for-nodes">Querying for Nodes</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#defining-an-edge">Defining an Edge</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#walking-a-graph">Walking a Graph</a></li></ol></nav><p><code>Aphrodite</code> makes it easy to describe, model and interact with your data. After installing <code>Aphrodite</code>, everything begins with defining a schema.</p>
 <blockquote>
 <p>Note: <code>Aphrodite</code> currently targets TypeScript and the browser. To see when support will be added for vanilla <code>JS</code>, <code>Node</code>, <code>iOS</code>, and <code>Android</code> see the <a class="internal new" href="/blog/roadmap">roadmap</a>.</p>
 </blockquote>
@@ -53,7 +53,10 @@ npm install --save-dev @aphro/codegen-cli
 </ol>
 <p>To get started, create a file in your project's <code>src</code> directory called <code>domain.aphro</code>. This is where we'll place are node and edge definitions.</p>
 <p>Open that file and define a <code>TodoList</code> node --</p>
-<pre><code class="hljs language-typescript"><span class="hljs-title class_">TodoList</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Node</span> {
+<pre><code class="hljs language-typescript"><span class="hljs-attr">engine</span>: sqlite
+<span class="hljs-attr">db</span>: example
+
+<span class="hljs-title class_">TodoList</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Node</span> {
   <span class="hljs-attr">id</span>: <span class="hljs-variable constant_">ID</span>&#x3C;<span class="hljs-title class_">TodoList</span>>
   <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
 }
@@ -61,7 +64,35 @@ npm install --save-dev @aphro/codegen-cli
 <p>next run</p>
 <pre><code class="hljs language-bash">npx aphro gen src/domain.aphro -d src/generated
 </code></pre>
-<p>--- to finish</p>
+<p>This will generate a few files:</p>
+<pre><code class="hljs language-bash">src/generated
+|-- TodoList.ts
+|-- TodoListQuery.ts
+|-- TodoListSpec.ts
+</code></pre>
+<h1 id="adding-a-mutation"><a aria-hidden="true" tabindex="-1" href="#adding-a-mutation"><span class="icon icon-link"></span></a>Adding a Mutation</h1>
+<p>We have classes that allow us to load and query TodoList. What's missing, however, is the ability to create one. This is because we haven't defined any mutations that can act on TodoList.</p>
+<p>Open <code>domain.aphro</code> and add the following:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-attr">engine</span>: sqlite
+<span class="hljs-attr">db</span>: example
+
+<span class="hljs-title class_">TodoList</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Node</span> {
+  <span class="hljs-attr">id</span>: <span class="hljs-variable constant_">ID</span>&#x3C;<span class="hljs-title class_">TodoList</span>>
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
+} &#x26; <span class="hljs-title class_">Mutations</span> {
+  create <span class="hljs-keyword">as</span> <span class="hljs-title class_">Create</span> {
+    name
+  }
+}
+</code></pre>
+<p>then re-run the codegen</p>
+<pre><code class="hljs language-bash">npx aphro gen src/domain.aphro -d src/generated
+</code></pre>
+<p>You'll now see a new file called <code>TodoListMutations.ts</code></p>
+<h1 id="creating-a-node-instance"><a aria-hidden="true" tabindex="-1" href="#creating-a-node-instance"><span class="icon icon-link"></span></a>Creating a Node Instance</h1>
+<h1 id="querying-for-nodes"><a aria-hidden="true" tabindex="-1" href="#querying-for-nodes"><span class="icon icon-link"></span></a>Querying for Nodes</h1>
+<h1 id="defining-an-edge"><a aria-hidden="true" tabindex="-1" href="#defining-an-edge"><span class="icon icon-link"></span></a>Defining an Edge</h1>
+<h1 id="walking-a-graph"><a aria-hidden="true" tabindex="-1" href="#walking-a-graph"><span class="icon icon-link"></span></a>Walking a Graph</h1>
 <p><code>Aphrodite</code> is under active development here: <a href="https://github.com/tantaman/aphrodite">https://github.com/tantaman/aphrodite</a></p>
 <p>It <strong>is not</strong> ready for release.</p>
 <p>A TodoMVC example app that uses Aphrodite is under development here: <a href="https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc">https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc</a></p>

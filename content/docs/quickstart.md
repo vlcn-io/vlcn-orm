@@ -37,6 +37,9 @@ To get started, create a file in your project's `src` directory called `domain.a
 Open that file and define a `TodoList` node --
 
 ```typescript
+engine: sqlite
+db: example
+
 TodoList as Node {
   id: ID<TodoList>
   name: string
@@ -49,7 +52,50 @@ next run
 npx aphro gen src/domain.aphro -d src/generated
 ```
 
---- to finish
+This will generate a few files:
+
+```bash
+src/generated
+|-- TodoList.ts
+|-- TodoListQuery.ts
+|-- TodoListSpec.ts
+```
+
+# Adding a Mutation
+
+We have classes that allow us to load and query TodoList. What's missing, however, is the ability to create one. This is because we haven't defined any mutations that can act on TodoList.
+
+Open `domain.aphro` and add the following:
+
+```typescript
+engine: sqlite
+db: example
+
+TodoList as Node {
+  id: ID<TodoList>
+  name: string
+} & Mutations {
+  create as Create {
+    name
+  }
+}
+```
+
+then re-run the codegen
+
+```bash
+npx aphro gen src/domain.aphro -d src/generated
+```
+
+You'll now see a new file called `TodoListMutations.ts`
+
+# Creating a Node Instance
+
+# Querying for Nodes
+
+# Defining an Edge
+
+# Walking a Graph
 
 
 `Aphrodite` is under active development here: [https://github.com/tantaman/aphrodite](https://github.com/tantaman/aphrodite)
