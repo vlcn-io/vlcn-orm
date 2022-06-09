@@ -33,7 +33,12 @@ export default class CodegenPipleine {
       files.map(async f => {
         try {
           const contents = await fs.promises.readFile(toPath(dest, f.name), { encoding: 'utf8' });
-          checkSignature(contents, f.templates);
+          try {
+            checkSignature(contents, f.templates);
+          } catch (e) {
+            console.error('Fatal on file: ' + f.name);
+            throw e;
+          }
 
           const manualInsertions = readManualSections(contents, f.templates);
           if (manualInsertions.size > 0) {

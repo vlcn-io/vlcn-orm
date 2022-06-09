@@ -31,7 +31,9 @@ export class GenTypescriptMutationImpls extends CodegenStep {
       this.schema.name + 'MutationsImpl.ts',
       `${importsToString(this.collectImports())}
 
-${this.getCode()}
+export default {
+  ${this.getCode()}
+}
 `,
     );
   }
@@ -39,13 +41,13 @@ ${this.getCode()}
   private getCode(): string {
     return Object.values(this.schema.extensions.mutations?.mutations || {})
       .map(m => this.getMutationFunctionDefCode(m))
-      .join('\n\n');
+      .join(',\n\n');
   }
 
   private getMutationFunctionDefCode(m: Mutation): string {
-    const destructured = getArgNameAndType(m.args, true);
+    const [destructured, _] = getArgNameAndType(this.schema, m.args, true);
     const casedName = upcaseAt(m.name, 0);
-    return `export function ${m.name}(mutator: Omit<ICreateOrUpdateBuilder, 'toChangeset'>, ${destructured}: ${casedName}Args): void | Changeset[] {
+    return `${m.name}(mutator: Omit<IMutationBuilder<${this.schema.name}, Data>, 'toChangeset'>, ${destructured}: ${casedName}Args): void | Changeset<any>[] {
       // Use the provided mutator to make your desired changes.
       // e.g., mutator.set({name: "Foo" });
       // You do not need to return anything from this method. The mutator will track your changes.
@@ -54,7 +56,13 @@ ${this.getCode()}
   }
 
   private collectImports(): Import[] {
-    return [...this.importArgTypes(), ...collectImportsForMutations(this.schema)];
+    return [
+      ...this.importArgTypes(),
+      tsImport('{Changeset}', null, '@aphro/runtime-ts'),
+      tsImport('{Data}', null, `./${this.schema.name}.js`),
+      tsImport(this.schema.name, null, `./${this.schema.name}.js`),
+      tsImport('{IMutationBuilder}', null, '@aphro/runtime-ts'),
+    ];
   }
 
   private importArgTypes(): Import[] {

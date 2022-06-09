@@ -11,7 +11,7 @@ import chalk from 'chalk';
 
 // TODO: core codegen should not depend on plugins!
 import mutationExtension from '@aphro/mutation-grammar';
-import { GenTypescriptMutations } from '@aphro/mutation-codegen';
+import { GenTypescriptMutationImpls, GenTypescriptMutations } from '@aphro/mutation-codegen';
 import { Step } from '@aphro/codegen-api';
 
 import { GenTypescriptModel, GenTypescriptQuery, GenTypescriptSpec } from '@aphro/codegen-ts';
@@ -24,6 +24,7 @@ const steps: readonly Step[] = [
   GenTypescriptQuery,
   GenTypescriptSpec,
   GenTypescriptMutations,
+  GenTypescriptMutationImpls,
   GenSqlTableSchema,
 ];
 

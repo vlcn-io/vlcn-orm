@@ -60,7 +60,7 @@ ${this.getCode()}
   private getArgTypesCode(): string {
     return Object.values(this.schema.extensions.mutations?.mutations || {})
       .map(m => {
-        const [argName, argType] = getArgNameAndType(m.args, false);
+        const [argName, argType] = getArgNameAndType(this.schema, m.args, false);
         return `export type ${upcaseAt(m.name, 0)}Args = ${argType}`;
       })
       .join('\n\n');
@@ -68,11 +68,10 @@ ${this.getCode()}
 
   private collectImports(): Import[] {
     return [
-      tsImport('* as impls', null, `./${this.schema.name}MutationsImpl.js`),
+      tsImport('impls', null, `./${this.schema.name}MutationsImpl.js`),
       tsImport('{ICreateOrUpdateBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{Context}', null, '@aphro/runtime-ts'),
       tsImport('{MutationsBase}', null, '@aphro/runtime-ts'),
-      tsImport(this.schema.name, null, `./${this.schema.name}.js`),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
       tsImport('{default}', 'spec', `./${nodeFn.specName(this.schema.name)}.js`),
       tsImport('{Data}', null, `./${this.schema.name}.js`),
@@ -99,11 +98,11 @@ ${this.getCode()}
           return new Mutations(ctx, new CreateMutationBuilder(spec)).${m.name}(args)
         }`;
       case 'update':
-        return `static ${m.name}(model: ${this.schema.name}, args: ${nameCased}): Mutations {
+        return `static ${m.name}(model: ${this.schema.name}, args: ${nameCased}Args): Mutations {
           return new Mutations(model.ctx, new UpdateMutationBuilder(spec, model)).${m.name}(args)
         }`;
       case 'delete':
-        return `static ${m.name}(model: ${this.schema.name}, args: ${nameCased}): Mutations {
+        return `static ${m.name}(model: ${this.schema.name}, args: ${nameCased}Args): Mutations {
           return new Mutations(model.ctx, new DeleteMutationBuilder(spec, model)).${m.name}(args)
         }`;
     }
@@ -119,7 +118,7 @@ ${this.getCode()}
     const casedName = upcaseAt(m.name, 0);
     return `${m.name}(args: ${casedName}Args): this {
       const extraChangesets = impls.${m.name}(this.mutator, args);
-      this.mutator.addExtraChangesets(extraChangesets);
+      this.mutator.addExtraChangesets(extraChangesets || undefined);
       return this;
     }`;
   }

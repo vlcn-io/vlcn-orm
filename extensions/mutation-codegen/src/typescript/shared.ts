@@ -36,11 +36,12 @@ export function collectImportsForMutations(schema: Node): Import[] {
 }
 
 export function getArgNameAndType(
+  schema: Node,
   args: { [key: string]: MutationArgDef },
   desturcture: boolean = true,
 ): [string, string] {
   const fullArgsDefs = Object.values(args).map(a =>
-    mutationFn.transformMaybeQuickToFull(this.schema, a),
+    mutationFn.transformMaybeQuickToFull(schema, a),
   );
 
   const type =

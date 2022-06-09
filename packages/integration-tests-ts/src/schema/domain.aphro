@@ -93,4 +93,4 @@ Component as Node {
   delete as Delete {}
 }
 
-UserToFriends as Edge {}
+# UserToFriends as Edge {}

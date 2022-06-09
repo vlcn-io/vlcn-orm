@@ -18,7 +18,7 @@ export function readSignature(content: string, templates: Templates): string {
     return result[1];
   }
 
-  throw new Error('Could not find signature for ' + templates.signature + ' ' + firstLine);
+  throw new Error('Could not find signature for ' + templates.signature + '\n' + firstLine);
 }
 
 export function removeSignature(content: string, templates: Templates): string {

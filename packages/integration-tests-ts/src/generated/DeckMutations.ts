@@ -1,10 +1,11 @@
-// SIGNED-SOURCE: <d3085edd263dbbe589d4cce325fbf987>
+// SIGNED-SOURCE: <a48431c5f1f85b9e058011311e1b43e5>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
  * `END-MANUAL-SECTION` markers.
  */
+import impls from "./DeckMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -20,86 +21,67 @@ import { Data as UserData } from "./User.js";
 import Slide from "./Slide.js";
 import { Data as SlideData } from "./Slide.js";
 
-// BEGIN-MANUAL-SECTION: [module-level]
-import {sid} from '@aphro/runtime-ts';
-// END-MANUAL-SECTION
+export type CreateArgs = {
+  name: string;
+  owner: User | Changeset<User, UserData>;
+  selectedSlide: Slide | Changeset<Slide, SlideData> | null;
+};
 
+export type SelectSlideArgs = {
+  selectedSlide: Slide | Changeset<Slide, SlideData>;
+};
+
+export type RenameArgs = { name: string };
+
+export type DeleteArgs = {};
 class Mutations extends MutationsBase<Deck, Data> {
   constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<Deck, Data>) {
     super(ctx, mutator);
   }
 
-  create({
-    name,
-    owner,
-    selectedSlide,
-  }: {
-    name: string;
-    owner: User | Changeset<User, UserData>;
-    selectedSlide: Slide | Changeset<Slide, SlideData> | null;
-  }): this {
-    // BEGIN-MANUAL-SECTION: [create]
-    this.mutator.set({
-      id: sid('test'),
-      name,
-      ownerId: owner.id,
-      selectedSlideId: selectedSlide?.id,
-    });
-    // END-MANUAL-SECTION
+  create(args: CreateArgs): this {
+    const extraChangesets = impls.create(this.mutator, args);
+    this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
-  selectSlide({
-    selectedSlide,
-  }: {
-    selectedSlide: Slide | Changeset<Slide, SlideData>;
-  }): this {
-    // BEGIN-MANUAL-SECTION: [selectSlide]
-    // END-MANUAL-SECTION
+  selectSlide(args: SelectSlideArgs): this {
+    const extraChangesets = impls.selectSlide(this.mutator, args);
+    this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
-  rename({ name }: { name: string }): this {
-    // BEGIN-MANUAL-SECTION: [rename]
-    // END-MANUAL-SECTION
+  rename(args: RenameArgs): this {
+    const extraChangesets = impls.rename(this.mutator, args);
+    this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
-  delete({}: {}): this {
-    // BEGIN-MANUAL-SECTION: [delete]
-    // END-MANUAL-SECTION
+  delete(args: DeleteArgs): this {
+    const extraChangesets = impls.delete(this.mutator, args);
+    this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 }
 
 export default class DeckMutations {
-  static create(
-    ctx: Context,
-    args: {
-      name: string;
-      owner: User | Changeset<User, UserData>;
-      selectedSlide: Slide | Changeset<Slide, SlideData> | null;
-    }
-  ): Mutations {
+  static create(ctx: Context, args: CreateArgs): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
   }
-  static selectSlide(
-    model: Deck,
-    args: { selectedSlide: Slide | Changeset<Slide, SlideData> }
-  ): Mutations {
+  static selectSlide(model: Deck, args: SelectSlideArgs): Mutations {
     return new Mutations(
       model.ctx,
       new UpdateMutationBuilder(spec, model)
     ).selectSlide(args);
   }
 
-  static rename(model: Deck, args: { name: string }): Mutations {
+  static rename(model: Deck, args: RenameArgs): Mutations {
     return new Mutations(
       model.ctx,
       new UpdateMutationBuilder(spec, model)
     ).rename(args);
   }
-  static delete(model: Deck, args: {}): Mutations {
+  static delete(model: Deck, args: DeleteArgs): Mutations {
     return new Mutations(
       model.ctx,
       new DeleteMutationBuilder(spec, model)

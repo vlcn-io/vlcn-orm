@@ -13,6 +13,7 @@ export interface IMutationBuilder<M extends IModel<D>, D extends Object> {
   // TODO: remove this once we get mutations generation complete
   // we don't need `set` for `delete`
   set(newData: Partial<D>): this;
+  addExtraChangesets(changesets?: Changeset<any, any>[]): this;
 }
 
 export interface ICreateOrUpdateBuilder<M extends IModel<D>, D extends Object>
