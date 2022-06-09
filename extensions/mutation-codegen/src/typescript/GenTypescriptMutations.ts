@@ -6,8 +6,8 @@
 
 import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
 import { Node } from '@aphro/schema-api';
-import { Mutation, MutationArgDef, mutationFn, MutationVerb } from '@aphro/mutation-grammar';
-import { typeDefToTsType, TypescriptFile, importsToString } from '@aphro/codegen-ts';
+import { Mutation, MutationVerb } from '@aphro/mutation-grammar';
+import { TypescriptFile, importsToString } from '@aphro/codegen-ts';
 // TODO: tsImport should probably go into `codegen-ts`
 import { tsImport, nodeFn } from '@aphro/schema';
 // TODO: Import should probably go into `codegen-api`?
@@ -68,7 +68,7 @@ ${this.getCode()}
 
   private collectImports(): Import[] {
     return [
-      tsImport('impls', null, `./${this.schema.name}MutationsImpl.js`),
+      tsImport('*', 'impls', `./${this.schema.name}MutationsImpl.js`),
       tsImport('{ICreateOrUpdateBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{Context}', null, '@aphro/runtime-ts'),
       tsImport('{MutationsBase}', null, '@aphro/runtime-ts'),
@@ -117,7 +117,7 @@ ${this.getCode()}
   private getMutationMethodCode(m: Mutation): string {
     const casedName = upcaseAt(m.name, 0);
     return `${m.name}(args: ${casedName}Args): this {
-      const extraChangesets = impls.${m.name}(this.mutator, args);
+      const extraChangesets = impls.${m.name}Impl(this.mutator, args);
       this.mutator.addExtraChangesets(extraChangesets || undefined);
       return this;
     }`;

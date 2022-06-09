@@ -1,11 +1,11 @@
-// SIGNED-SOURCE: <a48431c5f1f85b9e058011311e1b43e5>
+// SIGNED-SOURCE: <a22f993f05ced2f5a5cd61d55ead8f5f>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
  * `END-MANUAL-SECTION` markers.
  */
-import impls from "./DeckMutationsImpl.js";
+import * as impls from "./DeckMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -40,25 +40,25 @@ class Mutations extends MutationsBase<Deck, Data> {
   }
 
   create(args: CreateArgs): this {
-    const extraChangesets = impls.create(this.mutator, args);
+    const extraChangesets = impls.createImpl(this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
   selectSlide(args: SelectSlideArgs): this {
-    const extraChangesets = impls.selectSlide(this.mutator, args);
+    const extraChangesets = impls.selectSlideImpl(this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
   rename(args: RenameArgs): this {
-    const extraChangesets = impls.rename(this.mutator, args);
+    const extraChangesets = impls.renameImpl(this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
   delete(args: DeleteArgs): this {
-    const extraChangesets = impls.delete(this.mutator, args);
+    const extraChangesets = impls.deleteImpl(this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }

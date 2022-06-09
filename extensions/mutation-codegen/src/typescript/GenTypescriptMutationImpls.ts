@@ -22,7 +22,7 @@ export class GenTypescriptMutationImpls extends CodegenStep {
     return Object.values(schema.extensions.mutations?.mutations || []).length > 0;
   }
 
-  constructor(private schema: Node) {
+  constructor(private schema: Node, private dest: string) {
     super();
   }
 
@@ -31,9 +31,7 @@ export class GenTypescriptMutationImpls extends CodegenStep {
       this.schema.name + 'MutationsImpl.ts',
       `${importsToString(this.collectImports())}
 
-export default {
-  ${this.getCode()}
-}
+${this.getCode()}
 `,
       true,
     );
@@ -42,13 +40,14 @@ export default {
   private getCode(): string {
     return Object.values(this.schema.extensions.mutations?.mutations || {})
       .map(m => this.getMutationFunctionDefCode(m))
-      .join(',\n\n');
+      .join('\n\n');
   }
 
   private getMutationFunctionDefCode(m: Mutation): string {
     const [destructured, _] = getArgNameAndType(this.schema, m.args, true);
     const casedName = upcaseAt(m.name, 0);
-    return `${m.name}(mutator: Omit<IMutationBuilder<${this.schema.name}, Data>, 'toChangeset'>, ${destructured}: ${casedName}Args): void | Changeset<any>[] {
+    // suffix with `Impl` so reserved words don't conflict
+    return `export function ${m.name}Impl(mutator: Omit<IMutationBuilder<${this.schema.name}, Data>, 'toChangeset'>, ${destructured}: ${casedName}Args): void | Changeset<any>[] {
       // Use the provided mutator to make your desired changes.
       // e.g., mutator.set({name: "Foo" });
       // You do not need to return anything from this method. The mutator will track your changes.

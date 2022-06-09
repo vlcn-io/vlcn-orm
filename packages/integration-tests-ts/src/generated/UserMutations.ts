@@ -1,11 +1,11 @@
-// SIGNED-SOURCE: <f4c3fe45953a1de112abc8be5b11b003>
+// SIGNED-SOURCE: <b086a56d5e691b746b567bacf04cfe07>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
  * `END-MANUAL-SECTION` markers.
  */
-import impls from "./UserMutationsImpl.js";
+import * as impls from "./UserMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -28,19 +28,19 @@ class Mutations extends MutationsBase<User, Data> {
   }
 
   create(args: CreateArgs): this {
-    const extraChangesets = impls.create(this.mutator, args);
+    const extraChangesets = impls.createImpl(this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
   rename(args: RenameArgs): this {
-    const extraChangesets = impls.rename(this.mutator, args);
+    const extraChangesets = impls.renameImpl(this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
   delete(args: DeleteArgs): this {
-    const extraChangesets = impls.delete(this.mutator, args);
+    const extraChangesets = impls.deleteImpl(this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }

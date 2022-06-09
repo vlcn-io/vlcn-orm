@@ -1,11 +1,11 @@
-// SIGNED-SOURCE: <bcc4c8c421294916ffea79536c994bce>
+// SIGNED-SOURCE: <2471b48115f7f1d964e33edfb19877a9>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
  * `END-MANUAL-SECTION` markers.
  */
-import impls from "./SlideMutationsImpl.js";
+import * as impls from "./SlideMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
@@ -33,19 +33,19 @@ class Mutations extends MutationsBase<Slide, Data> {
   }
 
   create(args: CreateArgs): this {
-    const extraChangesets = impls.create(this.mutator, args);
+    const extraChangesets = impls.createImpl(this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
   reorder(args: ReorderArgs): this {
-    const extraChangesets = impls.reorder(this.mutator, args);
+    const extraChangesets = impls.reorderImpl(this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
   delete(args: DeleteArgs): this {
-    const extraChangesets = impls.delete(this.mutator, args);
+    const extraChangesets = impls.deleteImpl(this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }

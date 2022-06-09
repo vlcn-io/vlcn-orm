@@ -4,6 +4,6 @@ import CodegenStep from './CodegenStep.js';
 import { Node, Edge } from '@aphro/schema-api';
 
 export type Step = {
-  new (x: Node | Edge): CodegenStep;
+  new (x: Node | Edge, dest: string): CodegenStep;
   accepts: (x: Node | Edge) => boolean;
 };
