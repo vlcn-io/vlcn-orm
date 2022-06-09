@@ -27,7 +27,7 @@ export class GenTypescriptMutationImpls extends CodegenStep {
     super();
   }
 
-  gen(): CodegenFile {
+  async gen(): Promise<CodegenFile> {
     // load existing file if it exists.
     // condense imports since we'll want to add imports if we add impls...
     // `getCode` is partial if there was an existing file.

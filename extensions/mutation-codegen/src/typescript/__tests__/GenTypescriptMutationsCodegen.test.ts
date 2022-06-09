@@ -9,9 +9,10 @@ import { algolTemplates } from '@aphro/codegen-api';
 const grammarExtensions = [mutationExtension];
 const { compileFromString } = createCompiler({ grammarExtensions });
 
-test('All primitive field references can be used as inputs', () => {
-  primitives.forEach(primitive => {
-    const schema = `
+test('All primitive field references can be used as inputs', async () => {
+  await Promise.all(
+    primitives.map(async primitive => {
+      const schema = `
       Foo as Node {
         someField: ${primitive}
       } & Mutations {
@@ -20,12 +21,12 @@ test('All primitive field references can be used as inputs', () => {
         }
       }
     `;
-    const contents = removeSignature(
-      genIt(compileFromString(schema)[1].nodes.Foo).contents,
-      algolTemplates,
-    );
+      const contents = removeSignature(
+        (await genIt(compileFromString(schema)[1].nodes.Foo)).contents,
+        algolTemplates,
+      );
 
-    expect(contents).toEqual(`import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
+      expect(contents).toEqual(`import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
 import Foo from "./Foo.js";
@@ -63,12 +64,14 @@ export default class FooMutations extends MutationsBase<Foo, Data> {
   }
 }
 `);
-  });
+    }),
+  );
 });
 
-test('All primitive types can be used as custom inputs', () => {
-  primitives.forEach(primitive => {
-    const schema = `
+test('All primitive types can be used as custom inputs', async () => {
+  await Promise.all(
+    primitives.map(async primitive => {
+      const schema = `
       Foo as Node {
       } & Mutations {
         create as Create {
@@ -76,12 +79,12 @@ test('All primitive types can be used as custom inputs', () => {
         }
       }
     `;
-    const contents = removeSignature(
-      genIt(compileFromString(schema)[1].nodes.Foo).contents,
-      algolTemplates,
-    );
+      const contents = removeSignature(
+        (await genIt(compileFromString(schema)[1].nodes.Foo)).contents,
+        algolTemplates,
+      );
 
-    expect(contents).toEqual(`import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
+      expect(contents).toEqual(`import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
 import Foo from "./Foo.js";
@@ -119,16 +122,17 @@ export default class FooMutations extends MutationsBase<Foo, Data> {
   }
 }
 `);
-  });
+    }),
+  );
 });
 
 test('All composite types can be used as inputs', () => {});
 
-test('Node type names can be used as inputs', () => {
+test('Node type names can be used as inputs', async () => {
   fc.assert(
-    fc.property(
+    fc.asyncProperty(
       fc.stringOf(fc.constantFrom('a', 'b', 'c', 'd', 'e'), { maxLength: 6, minLength: 3 }),
-      customName => {
+      async customName => {
         const schema = `
         Foo as Node {
         } & Mutations {
@@ -138,7 +142,7 @@ test('Node type names can be used as inputs', () => {
         }
       `;
         const contents = removeSignature(
-          genIt(compileFromString(schema)[1].nodes.Foo).contents,
+          (await genIt(compileFromString(schema)[1].nodes.Foo)).contents,
           algolTemplates,
         );
 
@@ -191,8 +195,8 @@ export default class FooMutations extends MutationsBase<Foo, Data> {
   );
 });
 
-function genIt(schema: Node) {
-  return new GenTypescriptMutations(schema).gen();
+async function genIt(schema: Node) {
+  return await new GenTypescriptMutations(schema, '').gen();
 }
 
 function asTsType(prim: PrimitiveSubtype): string {

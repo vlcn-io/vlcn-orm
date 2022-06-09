@@ -21,11 +21,11 @@ export class GenTypescriptMutations extends CodegenStep {
     return Object.values(schema.extensions.mutations?.mutations || []).length > 0;
   }
 
-  constructor(private schema: Node) {
+  constructor(private schema: Node, dest: string) {
     super();
   }
 
-  gen(): CodegenFile {
+  async gen(): Promise<CodegenFile> {
     return new TypescriptFile(
       this.schema.name + 'Mutations.ts',
       `${importsToString(this.collectImports())}

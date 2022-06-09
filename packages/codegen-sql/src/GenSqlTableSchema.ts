@@ -9,11 +9,11 @@ export default class GenSqlTableSchema extends CodegenStep {
     return schema.storage.type === 'sql';
   }
 
-  constructor(private schema: Node) {
+  constructor(private schema: Node, dest: string) {
     super();
   }
 
-  gen(): CodegenFile {
+  async gen(): Promise<CodegenFile> {
     const str = this.getSqlString();
     return new SqlFile(
       `${this.schema.name}.${this.schema.storage.engine}.sql`,

@@ -87,8 +87,8 @@ BarToFooEdge as InverseEdge<FooToBarEdge> {}
 
 const InboundThroughLocalFieldSchema = ``;
 
-test('NoEdgesSchema', () => {
-  const contents = genIt(compileFromString(NoEdgesSchema)[1].nodes.Foo).contents;
+test('NoEdgesSchema', async () => {
+  const contents = (await genIt(compileFromString(NoEdgesSchema)[1].nodes.Foo)).contents;
 
   // TODO: remove unneeded imports
   // Validation should require that a primary key field exists
@@ -120,8 +120,9 @@ export default class FooQuery extends DerivedQuery<Foo> {
 `);
 });
 
-test('OutboundEdgeViaFieldSchema', () => {
-  const contents = genIt(compileFromString(OutboundEdgeViaFieldSchema)[1].nodes.Foo).contents;
+test('OutboundEdgeViaFieldSchema', async () => {
+  const contents = (await genIt(compileFromString(OutboundEdgeViaFieldSchema)[1].nodes.Foo))
+    .contents;
 
   // TODO: queryBar is wrong as it needs a `where` statement applied
   // to understand _how_ we're hopping.
@@ -170,10 +171,9 @@ export default class FooQuery extends DerivedQuery<Foo> {
 `);
 });
 
-test('OutboundThroughForeignFieldSchema', () => {
-  const contents = genIt(
-    compileFromString(OutboundThroughForeignFieldSchema)[1].nodes.Foo,
-  ).contents;
+test('OutboundThroughForeignFieldSchema', async () => {
+  const contents = (await genIt(compileFromString(OutboundThroughForeignFieldSchema)[1].nodes.Foo))
+    .contents;
 
   expect(contents).toEqual(`// SIGNED-SOURCE: <56d05175d9549f70182c344f3305038d>
 import { DerivedQuery } from "@aphro/query-runtime-ts";
@@ -213,5 +213,5 @@ export default class FooQuery extends DerivedQuery<Foo> {
 });
 
 function genIt(schema: Node) {
-  return new GenTypescriptQuery(schema).gen();
+  return new GenTypescriptQuery(schema, '').gen();
 }

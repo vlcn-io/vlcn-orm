@@ -49,8 +49,8 @@ Bar as Node {
 }
 `;
 
-test('Generating an ID only model', () => {
-  const contents = genIt(compileFromString(IDOnlySchema)[1].nodes.IDOnly).contents;
+test('Generating an ID only model', async () => {
+  const contents = (await genIt(compileFromString(IDOnlySchema)[1].nodes.IDOnly)).contents;
   expect(contents).toEqual(
     `// SIGNED-SOURCE: <a92063a419b3fdeaba407c8fd67efbf8>
 import { P } from "@aphro/query-runtime-ts";
@@ -70,10 +70,9 @@ export default class IDOnly extends Model<Data> {
   );
 });
 
-test('Generating all primitive fields', () => {
-  const contents = genIt(
-    compileFromString(PrimitiveFieldsSchema)[1].nodes.PrimitiveFields,
-  ).contents;
+test('Generating all primitive fields', async () => {
+  const contents = (await genIt(compileFromString(PrimitiveFieldsSchema)[1].nodes.PrimitiveFields))
+    .contents;
   expect(contents).toEqual(`// SIGNED-SOURCE: <e88852c6860b87cb7a313e1d54871e66>
 import { P } from "@aphro/query-runtime-ts";
 import { Model } from "@aphro/model-runtime-ts";
@@ -121,8 +120,8 @@ export default class PrimitiveFields extends Model<Data> {
 `);
 });
 
-test('Outbound field edge', () => {
-  const contents = genIt(compileFromString(OutboundFieldEdgeSchema)[1].nodes.Foo).contents;
+test('Outbound field edge', async () => {
+  const contents = (await genIt(compileFromString(OutboundFieldEdgeSchema)[1].nodes.Foo)).contents;
   expect(contents).toEqual(`// SIGNED-SOURCE: <c7e9a1b500db49dc134745c01da4495d>
 import { P } from "@aphro/query-runtime-ts";
 import { Model } from "@aphro/model-runtime-ts";
@@ -145,8 +144,9 @@ export default class Foo extends Model<Data> {
 `);
 });
 
-test('Outbound foreign key edge', () => {
-  const contents = genIt(compileFromString(OutboundForeignKeyEdgeSchema)[1].nodes.Bar).contents;
+test('Outbound foreign key edge', async () => {
+  const contents = (await genIt(compileFromString(OutboundForeignKeyEdgeSchema)[1].nodes.Bar))
+    .contents;
   expect(contents).toEqual(`// SIGNED-SOURCE: <aae232d98ea740396d0665e7e3536165>
 import { P } from "@aphro/query-runtime-ts";
 import { Model } from "@aphro/model-runtime-ts";
@@ -164,6 +164,6 @@ export default class Bar extends Model<Data> {
 `);
 });
 
-function genIt(schema: Node) {
-  return new GenTypescriptModel(schema).gen();
+async function genIt(schema: Node) {
+  return await new GenTypescriptModel(schema, '').gen();
 }

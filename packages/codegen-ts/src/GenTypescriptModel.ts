@@ -10,11 +10,11 @@ export default class GenTypescriptModel extends CodegenStep {
     return true;
   }
 
-  constructor(private schema: Node) {
+  constructor(private schema: Node, dest: string) {
     super();
   }
 
-  gen(): CodegenFile {
+  async gen(): Promise<CodegenFile> {
     return new TypescriptFile(
       this.schema.name + '.ts',
       `${importsToString(this.collectImports())}

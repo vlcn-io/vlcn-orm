@@ -19,7 +19,7 @@ export default class GenTypescriptQuery extends CodegenStep {
     return true;
   }
 
-  constructor(private schema: Node) {
+  constructor(private schema: Node, dest: string) {
     super();
   }
 
@@ -28,7 +28,7 @@ export default class GenTypescriptQuery extends CodegenStep {
   // Since we can have edge data... so we'd need edge queries rather than a query per schema.
   // b/c structure on the edges...
   // TODO: de-duplicate imports by storing imports in an intermediate structure.
-  gen(): CodegenFile {
+  async gen(): Promise<CodegenFile> {
     const imports = this.collectImports();
     return new TypescriptFile(
       nodeFn.queryTypeName(this.schema.name) + '.ts',
