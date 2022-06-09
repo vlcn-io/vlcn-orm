@@ -92,29 +92,37 @@ test('NoEdgesSchema', async () => {
 
   // TODO: remove unneeded imports
   // Validation should require that a primary key field exists
-  expect(contents).toEqual(`// SIGNED-SOURCE: <2df261839ac9ac4c6ffd5245ecf0fd7a>
-import { DerivedQuery } from "@aphro/query-runtime-ts";
-import { QueryFactory } from "@aphro/query-runtime-ts";
-import { modelLoad } from "@aphro/query-runtime-ts";
-import { filter } from "@aphro/query-runtime-ts";
-import { Predicate } from "@aphro/query-runtime-ts";
-import { P } from "@aphro/query-runtime-ts";
-import { ModelFieldGetter } from "@aphro/query-runtime-ts";
-import { SID_of } from "@strut/sid";
+  expect(contents).toEqual(`// SIGNED-SOURCE: <4e728ed8200ff078b3a0647288b7650b>
+/**
+ * AUTO-GENERATED FILE
+ * Do not modify. Update your schema and re-generate for changes.
+ * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
+ * \`END-MANUAL-SECTION\` markers.
+ */
+import { Context } from "@aphro/runtime-ts";
+import { DerivedQuery } from "@aphro/runtime-ts";
+import { QueryFactory } from "@aphro/runtime-ts";
+import { modelLoad } from "@aphro/runtime-ts";
+import { filter } from "@aphro/runtime-ts";
+import { Predicate } from "@aphro/runtime-ts";
+import { P } from "@aphro/runtime-ts";
+import { ModelFieldGetter } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
 import Foo from "./Foo.js";
 import { Data } from "./Foo.js";
 import { default as spec } from "./FooSpec.js";
 
 export default class FooQuery extends DerivedQuery<Foo> {
-  static create() {
+  static create(ctx: Context) {
     return new FooQuery(
-      QueryFactory.createSourceQueryFor(spec),
-      modelLoad(spec.createFrom)
+      ctx,
+      QueryFactory.createSourceQueryFor(ctx, spec),
+      modelLoad(ctx, spec.createFrom)
     );
   }
 
-  static fromId(id: SID_of<Foo>) {
-    return this.create().whereId(P.equals(id));
+  static fromId(ctx: Context, id: SID_of<Foo>) {
+    return this.create(ctx).whereId(P.equals(id));
   }
 }
 `);
@@ -127,44 +135,54 @@ test('OutboundEdgeViaFieldSchema', async () => {
   // TODO: queryBar is wrong as it needs a `where` statement applied
   // to understand _how_ we're hopping.
   // queryBar().whereId(P.equals(this.barId));
-  expect(contents).toEqual(`// SIGNED-SOURCE: <352854ea6276f8f2e87be050c5ea70d4>
-import { DerivedQuery } from "@aphro/query-runtime-ts";
-import { QueryFactory } from "@aphro/query-runtime-ts";
-import { modelLoad } from "@aphro/query-runtime-ts";
-import { filter } from "@aphro/query-runtime-ts";
-import { Predicate } from "@aphro/query-runtime-ts";
-import { P } from "@aphro/query-runtime-ts";
-import { ModelFieldGetter } from "@aphro/query-runtime-ts";
-import { SID_of } from "@strut/sid";
+  expect(contents).toEqual(`// SIGNED-SOURCE: <397635a282c249258a02c22c2b4d096c>
+/**
+ * AUTO-GENERATED FILE
+ * Do not modify. Update your schema and re-generate for changes.
+ * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
+ * \`END-MANUAL-SECTION\` markers.
+ */
+import { Context } from "@aphro/runtime-ts";
+import { DerivedQuery } from "@aphro/runtime-ts";
+import { QueryFactory } from "@aphro/runtime-ts";
+import { modelLoad } from "@aphro/runtime-ts";
+import { filter } from "@aphro/runtime-ts";
+import { Predicate } from "@aphro/runtime-ts";
+import { P } from "@aphro/runtime-ts";
+import { ModelFieldGetter } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
 import Foo from "./Foo.js";
 import { Data } from "./Foo.js";
 import { default as spec } from "./FooSpec.js";
 import Bar from "./Bar.js";
 import { default as BarSpec } from "./BarSpec.js";
-import BarQuery from "./BarQuery";
+import BarQuery from "./BarQuery.js";
 
 export default class FooQuery extends DerivedQuery<Foo> {
-  static create() {
+  static create(ctx: Context) {
     return new FooQuery(
-      QueryFactory.createSourceQueryFor(spec),
-      modelLoad(spec.createFrom)
+      ctx,
+      QueryFactory.createSourceQueryFor(ctx, spec),
+      modelLoad(ctx, spec.createFrom)
     );
   }
 
-  static fromId(id: SID_of<Foo>) {
-    return this.create().whereId(P.equals(id));
+  static fromId(ctx: Context, id: SID_of<Foo>) {
+    return this.create(ctx).whereId(P.equals(id));
   }
 
   whereBarId(p: Predicate<Data["barId"]>) {
     return new FooQuery(
+      this.ctx,
       this,
       filter(new ModelFieldGetter<"barId", Data, Foo>("barId"), p)
     );
   }
   queryBar(): BarQuery {
     return new BarQuery(
-      QueryFactory.createHopQueryFor(this, spec.outboundEdges.bar),
-      modelLoad(BarSpec.createFrom)
+      this.ctx,
+      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.bar),
+      modelLoad(this.ctx, BarSpec.createFrom)
     );
   }
 }
@@ -175,37 +193,46 @@ test('OutboundThroughForeignFieldSchema', async () => {
   const contents = (await genIt(compileFromString(OutboundThroughForeignFieldSchema)[1].nodes.Foo))
     .contents;
 
-  expect(contents).toEqual(`// SIGNED-SOURCE: <56d05175d9549f70182c344f3305038d>
-import { DerivedQuery } from "@aphro/query-runtime-ts";
-import { QueryFactory } from "@aphro/query-runtime-ts";
-import { modelLoad } from "@aphro/query-runtime-ts";
-import { filter } from "@aphro/query-runtime-ts";
-import { Predicate } from "@aphro/query-runtime-ts";
-import { P } from "@aphro/query-runtime-ts";
-import { ModelFieldGetter } from "@aphro/query-runtime-ts";
-import { SID_of } from "@strut/sid";
+  expect(contents).toEqual(`// SIGNED-SOURCE: <9755b571c0f183ddb0df7509e94d4ae8>
+/**
+ * AUTO-GENERATED FILE
+ * Do not modify. Update your schema and re-generate for changes.
+ * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
+ * \`END-MANUAL-SECTION\` markers.
+ */
+import { Context } from "@aphro/runtime-ts";
+import { DerivedQuery } from "@aphro/runtime-ts";
+import { QueryFactory } from "@aphro/runtime-ts";
+import { modelLoad } from "@aphro/runtime-ts";
+import { filter } from "@aphro/runtime-ts";
+import { Predicate } from "@aphro/runtime-ts";
+import { P } from "@aphro/runtime-ts";
+import { ModelFieldGetter } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
 import Foo from "./Foo.js";
 import { Data } from "./Foo.js";
 import { default as spec } from "./FooSpec.js";
 import { default as BarSpec } from "./BarSpec.js";
-import BarQuery from "./BarQuery";
+import BarQuery from "./BarQuery.js";
 
 export default class FooQuery extends DerivedQuery<Foo> {
-  static create() {
+  static create(ctx: Context) {
     return new FooQuery(
-      QueryFactory.createSourceQueryFor(spec),
-      modelLoad(spec.createFrom)
+      ctx,
+      QueryFactory.createSourceQueryFor(ctx, spec),
+      modelLoad(ctx, spec.createFrom)
     );
   }
 
-  static fromId(id: SID_of<Foo>) {
-    return this.create().whereId(P.equals(id));
+  static fromId(ctx: Context, id: SID_of<Foo>) {
+    return this.create(ctx).whereId(P.equals(id));
   }
 
   queryBars(): BarQuery {
     return new BarQuery(
-      QueryFactory.createHopQueryFor(this, spec.outboundEdges.bars),
-      modelLoad(BarSpec.createFrom)
+      this.ctx,
+      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.bars),
+      modelLoad(this.ctx, BarSpec.createFrom)
     );
   }
 }
