@@ -28,7 +28,7 @@ createResolver()
  * @returns
  */
 async function bootstrap(ctx: Context): Promise<TodoList> {
-  const db = ctx.dbResolver.engine('sqlite').db('memory');
+  const db = ctx.dbResolver.engine('sqlite').db('--');
   // Since we don't yet support migrations. Drop during development.
   await Promise.allSettled([
     db.exec(sql`DROP TABLE IF EXISTS todo`),
@@ -47,10 +47,10 @@ async function bootstrap(ctx: Context): Promise<TodoList> {
   });
 
   const lists = await TodoList.queryAll(ctx).gen();
-  let list;
+  let list: TodoList;
   let _;
   if (lists.length === 0) {
-    [_, list] = await TodoListMutations.create(ctx, {}).save();
+    [_, list] = TodoListMutations.create(ctx, {}).save();
   } else {
     list = lists[0];
   }
