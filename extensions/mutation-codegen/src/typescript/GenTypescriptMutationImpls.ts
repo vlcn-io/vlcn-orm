@@ -6,8 +6,9 @@ import { TypescriptFile, importsToString } from '@aphro/codegen-ts';
 import { tsImport } from '@aphro/schema';
 // TODO: Import should probably go into `codegen-api`?
 import { Import } from '@aphro/schema-api';
-import { collectImportsForMutations, getArgNameAndType } from './shared.js';
+import { getArgNameAndType } from './shared.js';
 import { upcaseAt } from '@strut/utils';
+import * as ts from 'typescript';
 
 /**
  * TODO:
@@ -27,6 +28,18 @@ export class GenTypescriptMutationImpls extends CodegenStep {
   }
 
   gen(): CodegenFile {
+    // load existing file if it exists.
+    // condense imports since we'll want to add imports if we add impls...
+    // `getCode` is partial if there was an existing file.
+    // it'd be `append only` for new exports.
+    // and `prepend only` for new imports
+    // something like:
+    // `
+    // ${condenseImports(oldImports, collectImports)}
+    // ${old code}
+    // ${getMutationFuncs(omit funcs)}
+    // `
+    // gen should be async.
     return new TypescriptFile(
       this.schema.name + 'MutationsImpl.ts',
       `${importsToString(this.collectImports())}
@@ -41,6 +54,20 @@ ${this.getCode()}
     return Object.values(this.schema.extensions.mutations?.mutations || {})
       .map(m => this.getMutationFunctionDefCode(m))
       .join('\n\n');
+  }
+
+  private gatherAlreadyDefinedImpls(): Set<string> {
+    const s: Set<string> = new Set();
+    // tsd.createSourceFile('./DeckMutationsImpl.ts', fs.readFileSync('./DeckMutationsImpl.ts').toString(), tsd.ScriptTarget.ES2017, true);
+    // source.forEachChild()
+    // c.kind === ts.SyntaxKind.FunctionDeclaration
+    // or + 1?
+    // c.modifiers[0].kind === ts.SyntaxKind.ExportKeyword
+    // or - 1?
+    // c.name.escapedText.endsWith('Impl')
+    // s.add(c.name.escapedText)
+    // return s
+    return s;
   }
 
   private getMutationFunctionDefCode(m: Mutation): string {
