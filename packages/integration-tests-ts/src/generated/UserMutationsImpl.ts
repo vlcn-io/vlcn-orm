@@ -18,7 +18,7 @@ export default {
     mutator: Omit<IMutationBuilder<User, Data>, 'toChangeset'>,
     { name }: CreateArgs,
   ): void | Changeset<any>[] {
-    this.mutator.set({
+    mutator.set({
       id: sid('test'),
       name,
       created: Date.now(),
@@ -30,7 +30,7 @@ export default {
     mutator: Omit<IMutationBuilder<User, Data>, 'toChangeset'>,
     { name }: RenameArgs,
   ): void | Changeset<any>[] {
-    this.mutator.set({
+    mutator.set({
       name,
     });
   },

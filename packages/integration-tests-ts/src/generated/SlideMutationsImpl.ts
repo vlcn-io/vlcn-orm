@@ -18,7 +18,7 @@ export default {
     mutator: Omit<IMutationBuilder<Slide, Data>, 'toChangeset'>,
     { deck, order }: CreateArgs,
   ): void | Changeset<any>[] {
-    this.mutator.set({
+    mutator.set({
       id: sid('test'),
       order,
       deckId: deck.id,
