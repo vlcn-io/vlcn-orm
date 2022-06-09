@@ -24,9 +24,10 @@ const defaultCommitLog = new TransactionLog(50);
 export default function context(
   viewer: Viewer,
   dbResolver: DBResolver,
-  cache: Cache,
+  cache?: Cache,
   commitLog: TransactionLog = defaultCommitLog,
 ): Context {
+  cache = cache || cacheFactory(viewer);
   return {
     viewer,
     dbResolver,
@@ -44,4 +45,18 @@ export function newFrom(oldContext: Context, newValues: Partial<Context>): Conte
     ...oldContext,
     ...newValues,
   };
+}
+
+// Caches differ by viewer since the data could have different privacy settings.
+const viewerCaches: Map<string, Cache> = new Map();
+function cacheFactory(viewer: Viewer): Cache {
+  const key = viewer.key;
+  let cache = viewerCaches.get(key);
+  if (cache != null) {
+    return cache;
+  }
+
+  cache = new Cache();
+  viewerCaches.set(key, cache);
+  return cache;
 }

@@ -13,7 +13,8 @@
     "@jlongster/sql.js": "^1.6.7",
     "@strut/counter": "workspace:*",
     "absurd-sql": "^0.0.46",
-    "@aphro/sql-ts": "workspace:*"
+    "@aphro/sql-ts": "workspace:*",
+    "@aphro/context-runtime-ts": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.17.12",

@@ -1,20 +1,19 @@
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { Connection } from '@aphro/absurd-sql';
-import { sql } from '@aphro/runtime-ts';
+import { createResolver } from '@aphro/absurd-sql';
+import { anonymous, sql } from '@aphro/runtime-ts';
 import TodoTable from './generated/Todo.sqlite.sql';
 import TodoListTable from './generated/TodoList.sqlite.sql';
-import { asId, Cache, context, viewer, basicResolver, P, Context } from '@aphro/runtime-ts';
+import { context, Context } from '@aphro/runtime-ts';
 import App from './App.js';
 import TodoList from './generated/TodoList.js';
 import TodoListMutations from './generated/TodoListMutations.js';
 
-const connection = new Connection();
-connection.ready
-  .then(() => {
+createResolver()
+  .then(resolver => {
     // TODO: framework should take care of viewer creation?
-    const ctx = context(viewer(asId('1')), basicResolver(connection), new Cache());
+    const ctx = context(anonymous(), resolver);
     start(ctx);
   })
   .catch(e => console.error(e));
@@ -29,15 +28,16 @@ connection.ready
  * @returns
  */
 async function bootstrap(ctx: Context): Promise<TodoList> {
+  const db = ctx.dbResolver.engine('sqlite').db('memory');
   // Since we don't yet support migrations. Drop during development.
   await Promise.allSettled([
-    connection.exec(sql`DROP TABLE IF EXISTS todo`),
-    connection.exec(sql`DROP TABLE IF EXISTS todolist`),
+    db.exec(sql`DROP TABLE IF EXISTS todo`),
+    db.exec(sql`DROP TABLE IF EXISTS todolist`),
   ]);
 
   const results = await Promise.allSettled([
-    connection.exec(sql.__dangerous__rawValue(TodoListTable)),
-    connection.exec(sql.__dangerous__rawValue(TodoTable)),
+    db.exec(sql.__dangerous__rawValue(TodoListTable)),
+    db.exec(sql.__dangerous__rawValue(TodoTable)),
   ]);
 
   results.forEach(r => {

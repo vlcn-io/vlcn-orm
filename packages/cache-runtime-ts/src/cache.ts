@@ -6,6 +6,8 @@
 // Genning a node? check the cache.
 // Deleting a node? rm from cache
 //
+// TODO: we should allow cache configuration to control how optimistic updates are handled.
+// Changing cache config would then need to change return type of `persist` via mapped types.
 //
 
 import { invariant } from '@strut/utils';
