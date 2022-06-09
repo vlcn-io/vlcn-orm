@@ -19,6 +19,10 @@ export interface Query<T> {
   gen(): Promise<T[]>;
   live(on: UpdateType): LiveResult<T>;
   implicatedDatasets(): Set<string>;
+
+  // map<R>(fn: (t: T) => R): Query<R>;
+  // flatMap<R>(fn: (t: T) => R[]): Query<R>;
+  // filter(fn: (t: T) => boolean): Query<T>;
 }
 
 abstract class BaseQuery<T> implements Query<T> {
@@ -41,6 +45,14 @@ abstract class BaseQuery<T> implements Query<T> {
   live(on: UpdateType): LiveResult<T> {
     return new LiveResult(this.ctx, on, this);
   }
+
+  // map<R>(fn: (t: T) => R): Query<R> {
+  //   return
+  // }
+
+  // filter(fn: (t: T) => boolean): Query<T> {
+
+  // }
 
   abstract plan(): IPlan;
   abstract implicatedDatasets(): Set<string>;
