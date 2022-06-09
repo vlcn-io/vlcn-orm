@@ -65,6 +65,7 @@ importers:
       '@aphro/schema-api': workspace:*
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
+      '@strut/utils': workspace:*
       '@types/jest': ^27.4.1
       fast-check: ^2.25.0
       jest: ^28.1.0
@@ -77,6 +78,7 @@ importers:
       '@aphro/mutation-grammar': link:../mutation-grammar
       '@aphro/schema': link:../../packages/schema
       '@aphro/schema-api': link:../../packages/schema-api
+      '@strut/utils': link:../../mono/typescript/packages/utils
     devDependencies:
       '@babel/core': 7.18.2
       '@babel/preset-env': 7.18.2_@babel+core@7.18.2

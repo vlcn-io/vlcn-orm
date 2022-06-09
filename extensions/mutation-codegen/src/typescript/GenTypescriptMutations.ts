@@ -13,6 +13,9 @@ import { tsImport, nodeFn } from '@aphro/schema';
 // TODO: Import should probably go into `codegen-api`?
 import { Import } from '@aphro/schema-api';
 
+import { collectImportsForMutations, getArgNameAndType } from './shared.js';
+import { upcaseAt } from '@strut/utils';
+
 export class GenTypescriptMutations extends CodegenStep {
   static accepts(schema: Node): boolean {
     return Object.values(schema.extensions.mutations?.mutations || []).length > 0;
@@ -34,10 +37,7 @@ ${this.getCode()}
 
   private getCode(): string {
     return `
-    // BEGIN-MANUAL-SECTION: [module-level]
-    // Manual section for any new imports / export / top level things
-    // END-MANUAL-SECTION
-
+    ${this.getArgTypesCode()}
     class Mutations extends MutationsBase<${this.schema.name}, Data> {
       constructor(
         ctx: Context,
@@ -57,8 +57,18 @@ ${this.getCode()}
     `;
   }
 
+  private getArgTypesCode(): string {
+    return Object.values(this.schema.extensions.mutations?.mutations || {})
+      .map(m => {
+        const [argName, argType] = getArgNameAndType(m.args, false);
+        return `export type ${upcaseAt(m.name, 0)}Args = ${argType}`;
+      })
+      .join('\n\n');
+  }
+
   private collectImports(): Import[] {
     return [
+      tsImport('* as impls', null, `./${this.schema.name}MutationsImpl.js`),
       tsImport('{ICreateOrUpdateBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{Context}', null, '@aphro/runtime-ts'),
       tsImport('{MutationsBase}', null, '@aphro/runtime-ts'),
@@ -70,7 +80,7 @@ ${this.getCode()}
       tsImport('{CreateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{DeleteMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{Changeset}', null, '@aphro/runtime-ts'),
-      ...this.collectImportsForMutations(),
+      ...collectImportsForMutations(this.schema),
     ];
   }
 
@@ -82,23 +92,18 @@ ${this.getCode()}
   }
 
   private getFactoryCode(verb: MutationVerb, m: Mutation): string {
+    const nameCased = upcaseAt(m.name, 0);
     switch (verb) {
       case 'create':
-        return `static ${m.name}(ctx: Context, ${this.getArgsCode(m.args, false)}): Mutations {
+        return `static ${m.name}(ctx: Context, args: ${nameCased}Args): Mutations {
           return new Mutations(ctx, new CreateMutationBuilder(spec)).${m.name}(args)
         }`;
       case 'update':
-        return `static ${m.name}(model: ${this.schema.name}, ${this.getArgsCode(
-          m.args,
-          false,
-        )}): Mutations {
+        return `static ${m.name}(model: ${this.schema.name}, args: ${nameCased}): Mutations {
           return new Mutations(model.ctx, new UpdateMutationBuilder(spec, model)).${m.name}(args)
         }`;
       case 'delete':
-        return `static ${m.name}(model: ${this.schema.name}, ${this.getArgsCode(
-          m.args,
-          false,
-        )}): Mutations {
+        return `static ${m.name}(model: ${this.schema.name}, args: ${nameCased}): Mutations {
           return new Mutations(model.ctx, new DeleteMutationBuilder(spec, model)).${m.name}(args)
         }`;
     }
@@ -111,62 +116,12 @@ ${this.getCode()}
   }
 
   private getMutationMethodCode(m: Mutation): string {
-    return `${m.name}(${this.getArgsCode(m.args)}): this {
-      // BEGIN-MANUAL-SECTION: [${m.name}]
-      throw new Error('Mutation ${m.name} is not implemented!');
-      // END-MANUAL-SECTION
+    const casedName = upcaseAt(m.name, 0);
+    return `${m.name}(args: ${casedName}Args): this {
+      const extraChangesets = impls.${m.name}(this.mutator, args);
+      this.mutator.addExtraChangesets(extraChangesets);
       return this;
     }`;
-  }
-
-  private getArgsCode(
-    args: { [key: string]: MutationArgDef },
-    desturcture: boolean = true,
-  ): string {
-    const fullArgsDefs = Object.values(args).map(a =>
-      mutationFn.transformMaybeQuickToFull(this.schema, a),
-    );
-
-    const type =
-      '{' +
-      fullArgsDefs
-        .map(a => {
-          return a.name + ': ' + typeDefToTsType(a.typeDef);
-        })
-        .join(',') +
-      '}';
-    let argName = 'args';
-    if (desturcture) {
-      argName = '{' + fullArgsDefs.map(a => a.name).join(',') + '}';
-    }
-    return `${argName}: ${type}`;
-  }
-
-  private collectImportsForMutations(): Import[] {
-    return Object.values(this.schema.extensions.mutations?.mutations || {}).flatMap(m =>
-      this.collectImportsForArgs(m.args),
-    );
-  }
-
-  private collectImportsForArgs(args: { [key: string]: MutationArgDef }): Import[] {
-    const fullArgsDefs = Object.values(args).map(a =>
-      mutationFn.transformMaybeQuickToFull(this.schema, a),
-    );
-    return fullArgsDefs.flatMap(
-      a =>
-        a.typeDef
-          .flatMap(td =>
-            td.type === 'type'
-              ? typeof td.name === 'string' && td.name !== 'null'
-                ? [
-                    tsImport(td.name, null, `./${td.name}.js`),
-                    tsImport('{Data}', td.name + 'Data', `./${td.name}.js`),
-                  ]
-                : null
-              : null,
-          )
-          .filter(td => td != null) as Import[],
-    );
   }
 }
 

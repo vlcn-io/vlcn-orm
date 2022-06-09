@@ -29,6 +29,13 @@ abstract class MutationBuilder<M extends IModel<D>, D extends Object>
   set(newData: Partial<D>): this {
     throw new Error('You cannot call `set` when deleting something');
   }
+  addExtraChangesets(changesets?: Changeset<any, any>[]): this {
+    if (changesets == null) {
+      return this;
+    }
+    throw new Error('Using mutators within mutators is not yet supported. Coming soon!');
+    return this;
+  }
 }
 
 abstract class CreateOrUpdateBuilder<M extends IModel<D>, D extends Object> extends MutationBuilder<
