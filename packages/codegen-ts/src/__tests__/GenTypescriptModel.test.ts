@@ -52,18 +52,34 @@ Bar as Node {
 test('Generating an ID only model', async () => {
   const contents = (await genIt(compileFromString(IDOnlySchema)[1].nodes.IDOnly)).contents;
   expect(contents).toEqual(
-    `// SIGNED-SOURCE: <a92063a419b3fdeaba407c8fd67efbf8>
-import { P } from "@aphro/query-runtime-ts";
-import { Model } from "@aphro/model-runtime-ts";
-import { SID_of } from "@strut/sid";
+    `// SIGNED-SOURCE: <9861e185b20ac274b19c5501e4f1c8a8>
+/**
+ * AUTO-GENERATED FILE
+ * Do not modify. Update your schema and re-generate for changes.
+ * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
+ * \`END-MANUAL-SECTION\` markers.
+ */
+import { default as s } from "./IDOnlySpec.js";
+import { P } from "@aphro/runtime-ts";
+import { Model } from "@aphro/runtime-ts";
+import { ModelSpec } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
+import IDOnlyQuery from "./IDOnlyQuery.js";
+import { Context } from "@aphro/runtime-ts";
 
 export type Data = {
   id: SID_of<IDOnly>;
 };
 
 export default class IDOnly extends Model<Data> {
-  get id(): SID_of<IDOnly> {
-    return this.data.id;
+  readonly spec = s as ModelSpec<this, Data>;
+
+  get id(): SID_of<this> {
+    return this.data.id as SID_of<this>;
+  }
+
+  static queryAll(ctx: Context): IDOnlyQuery {
+    return IDOnlyQuery.create(ctx);
   }
 }
 `,
@@ -73,10 +89,20 @@ export default class IDOnly extends Model<Data> {
 test('Generating all primitive fields', async () => {
   const contents = (await genIt(compileFromString(PrimitiveFieldsSchema)[1].nodes.PrimitiveFields))
     .contents;
-  expect(contents).toEqual(`// SIGNED-SOURCE: <e88852c6860b87cb7a313e1d54871e66>
-import { P } from "@aphro/query-runtime-ts";
-import { Model } from "@aphro/model-runtime-ts";
-import { SID_of } from "@strut/sid";
+  expect(contents).toEqual(`// SIGNED-SOURCE: <e583b47a1583268c8aa0964a729316f9>
+/**
+ * AUTO-GENERATED FILE
+ * Do not modify. Update your schema and re-generate for changes.
+ * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
+ * \`END-MANUAL-SECTION\` markers.
+ */
+import { default as s } from "./PrimitiveFieldsSpec.js";
+import { P } from "@aphro/runtime-ts";
+import { Model } from "@aphro/runtime-ts";
+import { ModelSpec } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
+import PrimitiveFieldsQuery from "./PrimitiveFieldsQuery.js";
+import { Context } from "@aphro/runtime-ts";
 
 export type Data = {
   id: SID_of<PrimitiveFields>;
@@ -89,8 +115,10 @@ export type Data = {
 };
 
 export default class PrimitiveFields extends Model<Data> {
-  get id(): SID_of<PrimitiveFields> {
-    return this.data.id;
+  readonly spec = s as ModelSpec<this, Data>;
+
+  get id(): SID_of<this> {
+    return this.data.id as SID_of<this>;
   }
 
   get mrBool(): boolean {
@@ -116,29 +144,48 @@ export default class PrimitiveFields extends Model<Data> {
   get mrString(): string {
     return this.data.mrString;
   }
+
+  static queryAll(ctx: Context): PrimitiveFieldsQuery {
+    return PrimitiveFieldsQuery.create(ctx);
+  }
 }
 `);
 });
 
 test('Outbound field edge', async () => {
   const contents = (await genIt(compileFromString(OutboundFieldEdgeSchema)[1].nodes.Foo)).contents;
-  expect(contents).toEqual(`// SIGNED-SOURCE: <c7e9a1b500db49dc134745c01da4495d>
-import { P } from "@aphro/query-runtime-ts";
-import { Model } from "@aphro/model-runtime-ts";
-import { SID_of } from "@strut/sid";
+  expect(contents).toEqual(`// SIGNED-SOURCE: <793e13323fd680b424978b6281588c57>
+/**
+ * AUTO-GENERATED FILE
+ * Do not modify. Update your schema and re-generate for changes.
+ * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
+ * \`END-MANUAL-SECTION\` markers.
+ */
+import { default as s } from "./FooSpec.js";
+import { P } from "@aphro/runtime-ts";
+import { Model } from "@aphro/runtime-ts";
+import { ModelSpec } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
 import FooQuery from "./FooQuery.js";
+import { Context } from "@aphro/runtime-ts";
 
 export type Data = {
   fooId: SID_of<Foo>;
 };
 
 export default class Foo extends Model<Data> {
+  readonly spec = s as ModelSpec<this, Data>;
+
   get fooId(): SID_of<Foo> {
     return this.data.fooId;
   }
 
   queryFoos(): FooQuery {
-    return FooQuery.fromId(this.fooId);
+    return FooQuery.fromId(this.ctx, this.fooId);
+  }
+
+  static queryAll(ctx: Context): FooQuery {
+    return FooQuery.create(ctx);
   }
 }
 `);
@@ -147,18 +194,34 @@ export default class Foo extends Model<Data> {
 test('Outbound foreign key edge', async () => {
   const contents = (await genIt(compileFromString(OutboundForeignKeyEdgeSchema)[1].nodes.Bar))
     .contents;
-  expect(contents).toEqual(`// SIGNED-SOURCE: <aae232d98ea740396d0665e7e3536165>
-import { P } from "@aphro/query-runtime-ts";
-import { Model } from "@aphro/model-runtime-ts";
-import { SID_of } from "@strut/sid";
+  expect(contents).toEqual(`// SIGNED-SOURCE: <0486be955fd7838bad16f029bfc448b8>
+/**
+ * AUTO-GENERATED FILE
+ * Do not modify. Update your schema and re-generate for changes.
+ * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
+ * \`END-MANUAL-SECTION\` markers.
+ */
+import { default as s } from "./BarSpec.js";
+import { P } from "@aphro/runtime-ts";
+import { Model } from "@aphro/runtime-ts";
+import { ModelSpec } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
+import BarQuery from "./BarQuery.js";
+import { Context } from "@aphro/runtime-ts";
 import FooQuery from "./FooQuery.js";
 import Foo from "./Foo.js";
 
 export type Data = {};
 
 export default class Bar extends Model<Data> {
+  readonly spec = s as ModelSpec<this, Data>;
+
   queryFoos(): FooQuery {
-    return FooQuery.create().whereBarId(P.equals(this.id));
+    return FooQuery.create(this.ctx).whereBarId(P.equals(this.id));
+  }
+
+  static queryAll(ctx: Context): BarQuery {
+    return BarQuery.create(ctx);
   }
 }
 `);
