@@ -31,6 +31,9 @@ export default class CodegenPipleine {
   ): Promise<[string, string][]> {
     return await Promise.all(
       files.map(async f => {
+        if (f.isUnsigned) {
+          return [f.name, f.contents];
+        }
         try {
           const contents = await fs.promises.readFile(toPath(dest, f.name), { encoding: 'utf8' });
           try {

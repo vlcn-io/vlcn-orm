@@ -7,12 +7,21 @@ export default class TypescriptFile implements CodegenFile {
   #contents: string;
   readonly templates = algolTemplates;
 
-  constructor(public readonly name: string, contents: string) {
+  constructor(
+    public readonly name: string,
+    contents: string,
+    public readonly isUnsigned: boolean = false,
+  ) {
     this.#contents = contents;
   }
 
   get contents(): string {
-    this.#contents =
+    let contents = this.#contents;
+    if (this.isUnsigned) {
+      return prettier.format(contents, { parser: 'typescript' });
+    }
+
+    contents =
       `/**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -20,8 +29,7 @@ export default class TypescriptFile implements CodegenFile {
  * \`END-MANUAL-SECTION\` markers.
  */
 ` + this.#contents;
-    const content = sign(prettier.format(this.#contents, { parser: 'typescript' }), this.templates);
 
-    return content;
+    return sign(prettier.format(contents, { parser: 'typescript' }), this.templates);
   }
 }

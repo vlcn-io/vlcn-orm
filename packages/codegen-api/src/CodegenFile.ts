@@ -2,6 +2,7 @@ export interface CodegenFile {
   readonly name: string;
   readonly contents: string;
   readonly templates: Templates;
+  readonly isUnsigned: boolean;
 }
 
 export type Templates = {

@@ -6,7 +6,12 @@ export default class SqlFile implements CodegenFile {
   #contents: string;
   readonly templates = sqlTemplates;
 
-  constructor(public readonly name: string, contents: string, private dialect: string) {
+  constructor(
+    public readonly name: string,
+    contents: string,
+    private dialect: string,
+    public readonly isUnsigned: boolean = false,
+  ) {
     this.#contents = contents;
   }
 
