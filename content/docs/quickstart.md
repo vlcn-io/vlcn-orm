@@ -99,35 +99,38 @@ then re-run the codegen
 npx aphro gen src/domain.aphro -d src/generated
 ```
 
-You'll now see a new file called `TodoListMutations.ts`. We'll use this to create some data.
+You'll now see a new file called `TodoListMutationsImpl.ts`. We'll use this to create some data.
 
 # Creating/Mutating a Node
 
-Opening up `TodoListMutations.ts` you'll see this manual section:
+Opening up `TodoListMutationsImpl.ts` you'll see this method that has been generated for you:
 
 ```typescript
-create({ name }: { name: string }): this {
-  // BEGIN-MANUAL-SECTION: [create]
-  throw new Error("Mutation create is not implemented!");
-  // END-MANUAL-SECTION
-  return this;
+export function createImpl(
+  mutator: Omit<IMutationBuilder<TodoList, Data>, 'toChangeset'>,
+  {}: CreateArgs,
+): void | Changeset<any>[] {
+  // Use the provided mutator to make your desired changes.
+  // e.g., mutator.set({name: "Foo" });
+  // You do not need to return anything from this method. The mutator will track your changes.
+  // If you do return changesets, those changesets will be applied in addition to the changes made to the mutator.
 }
 ```
 
 Here you can fill in any logic that should take place upon creation. `TodoList` is pretty simple -- we'll only be setting the name on create. Inside the `create` method we can access the raw `mutator` which lets us change any property on the model.
 
 ```typescript
-create({ name }: { name: string }): this {
-  // BEGIN-MANUAL-SECTION: [create]
-  this.mutator.set({
+export function createImpl(
+  mutator: Omit<IMutationBuilder<TodoList, Data>, 'toChangeset'>,
+  {}: CreateArgs,
+): void | Changeset<any>[] {
+  mutator.set({
     name
   });
-  // END-MANUAL-SECTION
-  return this;
 }
 ```
 
-Now that the create mutation has been implemented, lets go ahead and use it. Create a `main.js` file in `src`.
+Now that the create mutation has been implemented, lets go ahead and use by importing `TodoListMutations` (sans impl). Create a `main.js` file in `src` and add the following contents:
 
 ```typescript
 import TodoListMutations from './generated/TodoListMutations.js';
