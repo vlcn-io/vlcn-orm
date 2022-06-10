@@ -59,7 +59,7 @@ TodoList as Node {
 
 ## Live Queries
 
-The UI is updated via live queries. Whenever a modification is made to a model through a mutator, that udpate is reflected back into the UI.
+The UI is updated via live queries. Whenever a modification is made to a model through a mutator, that update is reflected back into the UI.
 
 Live queries are [here](https://github.com/tantaman/aphrodite/blob/main/examples/todo-mvc/src/App.tsx#L181-L186).
 
