@@ -1,8 +1,8 @@
 # Aphrodite - TodoMVC
 
-An implementation of [TodoMVC](https://todomvc.com/) using `Aphrodite` to manage the data model.
-
 **[Launch the example](https://aphrodite-examples.pages.dev/todo-mvc/)!**
+
+*An implementation of [TodoMVC](https://todomvc.com/) using `Aphrodite` to manage the data model.*
 
 # Code Overview
 
