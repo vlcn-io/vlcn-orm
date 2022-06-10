@@ -79,7 +79,8 @@ body {
   background-repeat: no-repeat; */
 }
 
-.get-started-btn {
+.get-started-btn,
+.example-btn {
   width: 120px;
   color: white;
   text-align: center;
@@ -89,6 +90,12 @@ body {
   background: var(--black);
   cursor: pointer;
   border: 1px solid var(--dress);
+  text-decoration: none;
+}
+
+.example-btn {
+  background: transparent;
+  color: var(--black);
 }
 
 .god-head-w-spacer {
