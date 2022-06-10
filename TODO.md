@@ -1,3 +1,7 @@
+# Interesting
+- Counter / observability extension
+- Absurd SQL debug extension (e.g., inspect tables)
+
 # API Problems
 - Using mutations within mutations and gathering all changesets together while still allowing chaining
 - Reading already queried edges
