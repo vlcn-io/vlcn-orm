@@ -79,7 +79,7 @@ const [activeTodos, completeTodos, allTodos] = unwraps(
 
 Changes to the data model are expressed using changesets. I.e., you collect all the changes you'd like to make and the commit them in one shot -- ensuring minimal notifications of changes and that your state is always consistent.
 
-Some example [here](https://github.com/tantaman/aphrodite/blob/main/examples/todo-mvc/src/App.tsx#L151-L178)
+Some examples [here](https://github.com/tantaman/aphrodite/blob/main/examples/todo-mvc/src/App.tsx#L151-L178)
 
 ```typescript
 const clearCompleted = () =>
