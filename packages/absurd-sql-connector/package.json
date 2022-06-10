@@ -10,11 +10,11 @@
     "directory": "packages/absurd-sql"
   },
   "dependencies": {
+    "@aphro/absurd-sql": "^0.0.53",
     "@aphro/context-runtime-ts": "workspace:*",
     "@aphro/sql-ts": "workspace:*",
     "@aphro/sql.js": "^1.7.0",
-    "@strut/counter": "workspace:*",
-    "absurd-sql": "^0.0.46"
+    "@strut/counter": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.17.12",

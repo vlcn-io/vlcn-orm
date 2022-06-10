@@ -30,10 +30,10 @@ createResolver()
 async function bootstrap(ctx: Context): Promise<TodoList> {
   const db = ctx.dbResolver.engine('sqlite').db('--');
   // Since we don't yet support migrations. Drop during development.
-  await Promise.allSettled([
-    db.exec(sql`DROP TABLE IF EXISTS todo`),
-    db.exec(sql`DROP TABLE IF EXISTS todolist`),
-  ]);
+  // await Promise.allSettled([
+  //   db.exec(sql`DROP TABLE IF EXISTS todo`),
+  //   db.exec(sql`DROP TABLE IF EXISTS todolist`),
+  // ]);
 
   const results = await Promise.allSettled([
     db.exec(sql.__dangerous__rawValue(TodoListTable)),

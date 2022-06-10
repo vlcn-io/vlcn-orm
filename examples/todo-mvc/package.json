@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "serve": "webpack serve",
+    "build": "webpack",
     "aphro": "aphro gen ./src/domain.aphro --dest ./src/generated && cp src/generated/*.sql dist/generated",
     "tclean": "tsc --build --clean",
     "tbuild": "tsc --build",

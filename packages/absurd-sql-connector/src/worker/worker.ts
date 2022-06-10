@@ -1,6 +1,6 @@
 import initSqlJs from '@aphro/sql.js';
-import { SQLiteFS } from 'absurd-sql';
-import IndexedDBBackend from 'absurd-sql/dist/indexeddb-backend.js';
+import { SQLiteFS } from '@aphro/absurd-sql';
+import IndexedDBBackend from '@aphro/absurd-sql/dist/indexeddb-backend.js';
 import thisPackage from '../pkg.js';
 
 async function init() {
@@ -28,15 +28,14 @@ async function init() {
     }
 
     // console.log(queryObj);
-
     if (queryObj.bindings) {
-      const stmt = db.prepare(queryObj.sql);
-      const rows: any[] = [];
+      let stmt;
+      let rows: any[] = [];
       try {
+        stmt = db.prepare(queryObj.sql);
         stmt.bind(queryObj.bindings);
         while (stmt.step()) rows.push(stmt.getAsObject());
       } catch (e) {
-        console.error(e);
         self.postMessage({
           pkg: thisPackage,
           event: 'query-response',
@@ -45,7 +44,9 @@ async function init() {
         });
         return;
       } finally {
-        stmt.free();
+        if (stmt != null) {
+          stmt.free();
+        }
       }
 
       self.postMessage({

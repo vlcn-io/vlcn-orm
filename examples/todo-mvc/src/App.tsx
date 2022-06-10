@@ -22,9 +22,10 @@ function Header({ todoList }: { todoList: TodoList }) {
         value={newText}
         onChange={e => setNewText(e.target.value)}
         onKeyUp={e => {
-          if (e.key === 'Enter') {
+          const target = e.target as HTMLInputElement;
+          if (e.key === 'Enter' && target.value.trim() !== '') {
             TodoMutations.create(todoList.ctx, {
-              text: (e.target as HTMLInputElement).value,
+              text: target.value,
               listId: todoList.id,
             }).save();
             setNewText('');

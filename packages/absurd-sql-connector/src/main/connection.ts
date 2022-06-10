@@ -1,6 +1,6 @@
 import count from '@strut/counter';
 import thisPackage from '../pkg.js';
-import { initBackend } from 'absurd-sql/dist/indexeddb-main-thread.js';
+import { initBackend } from '@aphro/absurd-sql/dist/indexeddb-main-thread.js';
 import { formatters, SQLQuery } from '@aphro/sql-ts';
 
 let queryId = 0;
