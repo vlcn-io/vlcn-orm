@@ -1,4 +1,4 @@
-import initSqlJs from '@jlongster/sql.js';
+import initSqlJs from '@aphro/sql.js';
 import { SQLiteFS } from 'absurd-sql';
 import IndexedDBBackend from 'absurd-sql/dist/indexeddb-backend.js';
 import thisPackage from '../pkg.js';

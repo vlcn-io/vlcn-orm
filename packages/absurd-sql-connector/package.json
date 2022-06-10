@@ -1,5 +1,5 @@
 {
-  "name": "@aphro/absurd-sql",
+  "name": "@aphro/absurd-sql-connector",
   "private": true,
   "version": "0.0.2",
   "main": "lib/index.js",
@@ -10,11 +10,11 @@
     "directory": "packages/absurd-sql"
   },
   "dependencies": {
-    "@jlongster/sql.js": "^1.6.7",
-    "@strut/counter": "workspace:*",
-    "absurd-sql": "^0.0.46",
+    "@aphro/context-runtime-ts": "workspace:*",
     "@aphro/sql-ts": "workspace:*",
-    "@aphro/context-runtime-ts": "workspace:*"
+    "@aphro/sql.js": "^1.7.0",
+    "@strut/counter": "workspace:*",
+    "absurd-sql": "^0.0.46"
   },
   "devDependencies": {
     "@babel/core": "^7.17.12",

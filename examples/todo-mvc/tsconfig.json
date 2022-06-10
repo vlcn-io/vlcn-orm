@@ -19,7 +19,7 @@
   "include": ["./src/"],
   "references": [
     { "path": "../../packages/runtime-ts" },
-    { "path": "../../packages/absurd-sql" },
+    { "path": "../../packages/absurd-sql-connector" },
     { "path": "../../packages/codegen-cli" },
     { "path": "../../packages/react" }
   ]

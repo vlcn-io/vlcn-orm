@@ -13,7 +13,7 @@
     "copy": "cp src/index.html dist/index.html && cp src/generated/*.sql dist/generated"
   },
   "dependencies": {
-    "@aphro/absurd-sql": "workspace:*",
+    "@aphro/absurd-sql-connector": "workspace:*",
     "@aphro/react": "workspace:*",
     "@aphro/runtime-ts": "workspace:*",
     "react": "^18.1.0",
