@@ -8,7 +8,8 @@ import { tsImport } from '@aphro/schema';
 import { Import } from '@aphro/schema-api';
 import { getArgNameAndType } from './shared.js';
 import { upcaseAt } from '@strut/utils';
-import * as ts from 'typescript';
+import * as fs from 'fs';
+import * as path from 'path';
 
 /**
  * TODO:
@@ -28,6 +29,19 @@ export class GenTypescriptMutationImpls extends CodegenStep {
   }
 
   async gen(): Promise<CodegenFile> {
+    const fileName = this.schema.name + 'MutationsImpl.ts';
+    let priorContents: string | null = null;
+    try {
+      priorContents = await fs.promises.readFile(path.join(this.dest, fileName), {
+        encoding: 'utf8',
+      });
+    } catch (e) {}
+
+    if (priorContents != null) {
+      // const priorImports = extractImports(priorContents).map(toTsImport);
+      // const priorExports = extractExports().filter(isMutationMethod);
+    }
+
     // load existing file if it exists.
     // condense imports since we'll want to add imports if we add impls...
     // `getCode` is partial if there was an existing file.
@@ -41,7 +55,7 @@ export class GenTypescriptMutationImpls extends CodegenStep {
     // `
     // gen should be async.
     return new TypescriptFile(
-      this.schema.name + 'MutationsImpl.ts',
+      fileName,
       `${importsToString(this.collectImports())}
 
 ${this.getCode()}

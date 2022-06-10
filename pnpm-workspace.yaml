@@ -17,6 +17,7 @@ packages:
   - 'packages/integration-tests-ts'
   - 'packages/model-runtime-ts'
   - 'packages/mutator-runtime-ts'
+  - 'packages/parse-ts'
   - 'packages/query-runtime-ts'
   - 'packages/react'
   - 'packages/runtime-ts'
