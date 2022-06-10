@@ -31,7 +31,9 @@ ${this.getSpecCode()}
     if (existing) {
       return existing;
     }
-    return new ${this.schema.name}(ctx, data);
+    const result = new ${this.schema.name}(ctx, data);
+    ctx.cache.set(data['${this.schema.primaryKey}'], result);
+    return result;
   },
 
   primaryKey: '${this.schema.primaryKey}',

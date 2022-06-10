@@ -40,7 +40,9 @@ async function init() {
           pkg: thisPackage,
           event: 'query-response',
           id,
-          error: e,
+          error: {
+            message: e.message,
+          },
         });
         return;
       } finally {

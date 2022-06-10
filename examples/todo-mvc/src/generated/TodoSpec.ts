@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <969c4720585cad24b479bc43b9a52072>
+// SIGNED-SOURCE: <f489e43777dd9fdf3a1742d8304011e6>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -16,7 +16,9 @@ const spec: ModelSpec<Todo, Data> = {
     if (existing) {
       return existing;
     }
-    return new Todo(ctx, data);
+    const result = new Todo(ctx, data);
+    ctx.cache.set(data["id"], result);
+    return result;
   },
 
   primaryKey: "id",

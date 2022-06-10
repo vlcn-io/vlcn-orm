@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <97ab2aea427eff72a8726cc29ca0333c>
+// SIGNED-SOURCE: <5936a1a06d3b7a35590fdb7fec6f73ad>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -17,7 +17,9 @@ const spec: ModelSpec<TodoList, Data> = {
     if (existing) {
       return existing;
     }
-    return new TodoList(ctx, data);
+    const result = new TodoList(ctx, data);
+    ctx.cache.set(data["id"], result);
+    return result;
   },
 
   primaryKey: "id",
@@ -37,7 +39,9 @@ const spec: ModelSpec<TodoList, Data> = {
       get source() {
         return spec;
       },
-      dest: TodoSpec,
+      get dest() {
+        return TodoSpec;
+      },
     },
   },
 };

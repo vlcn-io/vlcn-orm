@@ -1,115 +1,84 @@
-// SIGNED-SOURCE: <802860b99b21110713cbef48f120f488>
+// SIGNED-SOURCE: <f6fe37fa12fda7bbfd41cc5ef7d759a7>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
  * `END-MANUAL-SECTION` markers.
  */
-import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
-import { Context } from "@aphro/runtime-ts";
-import { MutationsBase } from "@aphro/runtime-ts";
-import Todo from "./Todo.js";
-import { default as spec } from "./TodoSpec.js";
-import { Data } from "./Todo.js";
-import { UpdateMutationBuilder } from "@aphro/runtime-ts";
-import { CreateMutationBuilder } from "@aphro/runtime-ts";
-import { DeleteMutationBuilder } from "@aphro/runtime-ts";
-import { Changeset } from "@aphro/runtime-ts";
+import * as impls from './TodoMutationsImpl.js';
+import { ICreateOrUpdateBuilder, SID_of } from '@aphro/runtime-ts';
+import { Context } from '@aphro/runtime-ts';
+import { MutationsBase } from '@aphro/runtime-ts';
+import Todo from './Todo.js';
+import { default as spec } from './TodoSpec.js';
+import { Data } from './Todo.js';
+import { UpdateMutationBuilder } from '@aphro/runtime-ts';
+import { CreateMutationBuilder } from '@aphro/runtime-ts';
+import { DeleteMutationBuilder } from '@aphro/runtime-ts';
+import { Changeset } from '@aphro/runtime-ts';
+import TodoList from './TodoList.js';
 
-// BEGIN-MANUAL-SECTION: [module-level]
-import { SID_of, sid } from "@aphro/runtime-ts";
-import TodoList from "./TodoList.js";
-// END-MANUAL-SECTION
+export type CreateArgs = { text: string; listId: SID_of<TodoList> };
 
+export type ToggleCompleteArgs = { completed: number | null };
+
+export type SetCompleteArgs = { completed: number | null };
+
+export type ChangeTextArgs = { text: string };
+
+export type DeleteArgs = {};
 class Mutations extends MutationsBase<Todo, Data> {
   constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<Todo, Data>) {
     super(ctx, mutator);
   }
 
-  create({ text, listId }: { text: string; listId: SID_of<TodoList> }): this {
-    // BEGIN-MANUAL-SECTION: [create]
-    this.mutator.set({
-      id: sid('fixme'),
-      text,
-      listId,
-      created: Date.now(),
-      modified: Date.now(),
-    });
-    // END-MANUAL-SECTION
+  create(args: CreateArgs): this {
+    const extraChangesets = impls.createImpl(this.mutator, args);
+    this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
-  toggleComplete({ completed }: { completed: number | null }): this {
-    // BEGIN-MANUAL-SECTION: [toggleComplete]
-    this.mutator.set({
-      completed: completed == null ? Date.now() : null,
-    });
-    // END-MANUAL-SECTION
+  toggleComplete(args: ToggleCompleteArgs): this {
+    const extraChangesets = impls.toggleCompleteImpl(this.mutator, args);
+    this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
-  setComplete({ completed }: { completed: number | null }): this {
-    // BEGIN-MANUAL-SECTION: [setComplete]
-    this.mutator.set({
-      completed,
-    });
-    // END-MANUAL-SECTION
+  setComplete(args: SetCompleteArgs): this {
+    const extraChangesets = impls.setCompleteImpl(this.mutator, args);
+    this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
-  changeText({ text }: { text: string }): this {
-    // BEGIN-MANUAL-SECTION: [changeText]
-    this.mutator.set({
-      text,
-    });
-    // END-MANUAL-SECTION
+  changeText(args: ChangeTextArgs): this {
+    const extraChangesets = impls.changeTextImpl(this.mutator, args);
+    this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
-  delete({}: {}): this {
-    // BEGIN-MANUAL-SECTION: [delete]
-    // END-MANUAL-SECTION
+  delete(args: DeleteArgs): this {
+    const extraChangesets = impls.deleteImpl(this.mutator, args);
+    this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 }
 
 export default class TodoMutations {
-  static create(
-    ctx: Context,
-    args: { text: string; listId: SID_of<TodoList> }
-  ): Mutations {
+  static create(ctx: Context, args: CreateArgs): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
   }
-  static toggleComplete(
-    model: Todo,
-    args: { completed: number | null }
-  ): Mutations {
-    return new Mutations(
-      model.ctx,
-      new UpdateMutationBuilder(spec, model)
-    ).toggleComplete(args);
+  static toggleComplete(model: Todo, args: ToggleCompleteArgs): Mutations {
+    return new Mutations(model.ctx, new UpdateMutationBuilder(spec, model)).toggleComplete(args);
   }
 
-  static setComplete(
-    model: Todo,
-    args: { completed: number | null }
-  ): Mutations {
-    return new Mutations(
-      model.ctx,
-      new UpdateMutationBuilder(spec, model)
-    ).setComplete(args);
+  static setComplete(model: Todo, args: SetCompleteArgs): Mutations {
+    return new Mutations(model.ctx, new UpdateMutationBuilder(spec, model)).setComplete(args);
   }
 
-  static changeText(model: Todo, args: { text: string }): Mutations {
-    return new Mutations(
-      model.ctx,
-      new UpdateMutationBuilder(spec, model)
-    ).changeText(args);
+  static changeText(model: Todo, args: ChangeTextArgs): Mutations {
+    return new Mutations(model.ctx, new UpdateMutationBuilder(spec, model)).changeText(args);
   }
-  static delete(model: Todo, args: {}): Mutations {
-    return new Mutations(
-      model.ctx,
-      new DeleteMutationBuilder(spec, model)
-    ).delete(args);
+  static delete(model: Todo, args: DeleteArgs): Mutations {
+    return new Mutations(model.ctx, new DeleteMutationBuilder(spec, model)).delete(args);
   }
 }

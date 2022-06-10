@@ -1,6 +1,6 @@
 import Todo from './generated/Todo.js';
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useCallback, memo } from 'react';
 import { unwraps, useBind, useQuery } from '@aphro/react';
 import { commit, P, UpdateType } from '@aphro/runtime-ts';
 import TodoList, { Data } from './generated/TodoList.js';
@@ -36,56 +36,60 @@ function Header({ todoList }: { todoList: TodoList }) {
   );
 }
 
-function TodoView({
-  todo,
-  editing,
-  startEditing,
-  saveTodo,
-}: {
-  key?: any;
-  todo: Todo;
-  editing: boolean;
-  startEditing: (t: Todo) => void;
-  saveTodo: (todo: Todo, text: string) => void;
-}) {
-  let body;
+const TodoView = memo(
+  ({
+    todo,
+    editing,
+    startEditing,
+    saveTodo,
+  }: {
+    key?: any;
+    todo: Todo;
+    editing: boolean;
+    startEditing: (t: Todo) => void;
+    saveTodo: (todo: Todo, text: string) => void;
+  }) => {
+    let body;
 
-  const [text, setText] = useState(todo.text);
-  const deleteTodo = () => TodoMutations.delete(todo, {}).save();
-  const toggleTodo = () => TodoMutations.toggleComplete(todo, { completed: todo.completed }).save();
+    const [text, setText] = useState(todo.text);
+    useBind(todo, ['text', 'completed']);
+    const deleteTodo = () => TodoMutations.delete(todo, {}).save();
+    const toggleTodo = () =>
+      TodoMutations.toggleComplete(todo, { completed: todo.completed }).save();
 
-  if (editing) {
-    body = (
-      <input
-        type="text"
-        className="edit"
-        autoFocus
-        value={text}
-        onBlur={() => saveTodo(todo, text)}
-        onKeyUp={e => e.key === 'Enter' && saveTodo(todo, text)}
-        onChange={e => setText(e.target.value)}
-      />
-    );
-  } else {
-    body = (
-      <div className="view">
+    if (editing) {
+      body = (
         <input
-          type="checkbox"
-          className="toggle"
-          checked={todo.completed != null}
-          onChange={toggleTodo}
+          type="text"
+          className="edit"
+          autoFocus
+          value={text}
+          onBlur={() => saveTodo(todo, text)}
+          onKeyUp={e => e.key === 'Enter' && saveTodo(todo, text)}
+          onChange={e => setText(e.target.value)}
         />
-        <label onDoubleClick={() => startEditing(todo)}>{todo.text}</label>
-        <button className="destroy" onClick={deleteTodo} />
-      </div>
+      );
+    } else {
+      body = (
+        <div className="view">
+          <input
+            type="checkbox"
+            className="toggle"
+            checked={todo.completed != null}
+            onChange={toggleTodo}
+          />
+          <label onDoubleClick={() => startEditing(todo)}>{todo.text}</label>
+          <button className="destroy" onClick={deleteTodo} />
+        </div>
+      );
+    }
+    return (
+      <li className={(todo.completed != null ? 'completed ' : '') + (editing ? 'editing' : '')}>
+        {body}
+      </li>
     );
-  }
-  return (
-    <li className={(todo.completed != null ? 'completed ' : '') + (editing ? 'editing' : '')}>
-      {body}
-    </li>
-  );
-}
+  },
+);
 
 function Footer({
   remaining,
@@ -153,14 +157,20 @@ export default function App({ list }: { list: TodoList }) {
       list.ctx,
       completeTodos.map(t => TodoMutations.delete(t, {}).toChangeset()),
     );
-  const startEditing = (todo: Todo) => TodoListMutations.edit(list, { editing: todo.id }).save();
-  const saveTodo = (todo: Todo, text: string) => {
-    commit(
-      list.ctx,
-      TodoMutations.changeText(todo, { text: text }).toChangeset(),
-      TodoListMutations.edit(list, { editing: null }).toChangeset(),
-    );
-  };
+  const startEditing = useCallback(
+    (todo: Todo) => TodoListMutations.edit(list, { editing: todo.id }).save(),
+    [list],
+  );
+  const saveTodo = useCallback(
+    (todo: Todo, text: string) => {
+      commit(
+        list.ctx,
+        TodoMutations.changeText(todo, { text: text }).toChangeset(),
+        TodoListMutations.edit(list, { editing: null }).toChangeset(),
+      );
+    },
+    [list],
+  );
   const toggleAll = () => {
     if (remaining === 0) {
       // uncomplete all

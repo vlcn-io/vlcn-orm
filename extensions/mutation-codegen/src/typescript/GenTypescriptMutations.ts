@@ -78,7 +78,7 @@ ${this.getCode()}
       tsImport('{UpdateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{CreateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{DeleteMutationBuilder}', null, '@aphro/runtime-ts'),
-      tsImport('{Changeset}', null, '@aphro/runtime-ts'),
+      tsImport('{SID_of}', null, '@aphro/runtime-ts'),
       ...collectImportsForMutations(this.schema),
     ];
   }

@@ -22,7 +22,6 @@
 - Access to model in mutator for updates
 - Default to always applying an order by id if no ordering exists -- stable results.
 - map, union, intersect, filter, etc. on QueryBase
-- 
 
 # Mutator improvements
 - infer what the user wants to write in the manual section and generate that
@@ -48,6 +47,8 @@
 - Instrumentation tasks
 - Allow index constraints!
 - Allow docstrings for fields and node and edges!
+- Test for cache population on read & write (createFrom was not doing so)
+- - id of imports for mutation args
 
 # 6/2
 - Order by generation

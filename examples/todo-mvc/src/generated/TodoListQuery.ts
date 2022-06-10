@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <077fea950727d69d389c933069884922>
+// SIGNED-SOURCE: <b5a6c3bef62df6e01a2aaf11a0978e58>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -19,7 +19,7 @@ import { Data } from "./TodoList.js";
 import { default as spec } from "./TodoListSpec.js";
 import Todo from "./Todo.js";
 import { default as TodoSpec } from "./TodoSpec.js";
-import TodoQuery from "./TodoQuery";
+import TodoQuery from "./TodoQuery.js";
 
 export default class TodoListQuery extends DerivedQuery<TodoList> {
   static create(ctx: Context) {
