@@ -77,7 +77,9 @@ const [activeTodos, completeTodos, allTodos] = unwraps(
 
 ## Mutators
 
-Changes to the data model are expressed using changesets. I.e., you collect all the changes you'd like to make and the commit them in one shot -- ensuring minimal notifications of changes and that your state is always consistent.
+Changes to the data model are expressed using changesets. I.e., you collect all the changes you'd like to make and then commit them in one shot -- ensuring minimal notifications of changes and that your state is always consistent.
+
+You can read more about the original idea behind changesets here -- https://tantaman.com/2021-12-16-Missing-Mutation-Primitives.html
 
 Some examples [here](https://github.com/tantaman/aphrodite/blob/main/examples/todo-mvc/src/App.tsx#L151-L178)
 
