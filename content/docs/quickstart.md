@@ -4,6 +4,18 @@ title: Quickstart
 subtitle: get up and running with Aphrodite
 ---
 
+> If you've found these docs, you're a bit early. Aphrodite is still under construction. Official first release of Aphrodite to follow by end of June.
+>
+> [GitHub](https://github.com/tantaman/aphrodite)
+>
+> A **TodoMVC** example app that uses Aphrodite is here: [https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc](https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc)
+>
+> [Integration tests](https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/__tests__/) to show the described use cases are being built out.
+
+
+
+-----
+
 `Aphrodite` makes it easy to describe, model and interact with your data. After installing `Aphrodite`, everything begins with defining a schema. If you'd like to understand *why* this project exists before diving in, see [[docs/why:Why Aphrodite?]]
 
 > Note: `Aphrodite` currently targets TypeScript and the browser. To see when support will be added for vanilla `JS`, `Node`, `iOS`, and `Android` see the [[blog/roadmap:roadmap]].
@@ -142,13 +154,3 @@ The optimsitc update is useful for highly interactive environments where you wan
 # React Integration
 
 -- vue, solid, svelt
-
-`Aphrodite` is under active development here: [https://github.com/tantaman/aphrodite](https://github.com/tantaman/aphrodite)
-
-It **is not** ready for release.
-
-A TodoMVC example app that uses Aphrodite is under development here: [https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc](https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc)
-
-
-Integration tests to show the various described use cases are being built out here: [https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/__tests__/](https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/__tests__/) (and up a dir)
-

@@ -8,14 +8,18 @@
 <link rel="stylesheet" href="/main.css">
 <link rel="stylesheet" href="/docs/index.css">
 
-<meta name="description" content="Aphrodite makes it easy to describe, model and interact with your data. After installing Aphrodite, everything begins with defining a schema. If you&#x27;d like to understand why this project exists before diving in, see Why Aphrodite? Note: Aphrodite current…">
+<meta name="description" content="If you&#x27;ve found these docs, you&#x27;re a bit early. Aphrodite is still under construction. Official first release of Aphrodite to follow by end of June. GitHub
+
+A TodoMVC example app that uses Aphrodite is here: https://github.com/tantaman/aphrodite/tree/main…">
 <meta name="keywords" content="software, schemas, data">
 <meta name="author" content="Matt Wonlaw">
 <meta name="copyright" content="© 2022 Matt Wonlaw">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Aphrodite">
 <meta property="og:title" content="Quickstart">
-<meta property="og:description" content="Aphrodite makes it easy to describe, model and interact with your data. After installing Aphrodite, everything begins with defining a schema. If you&#x27;d like to understand why this project exists before diving in, see Why Aphrodite? Note: Aphrodite current…">
+<meta property="og:description" content="If you&#x27;ve found these docs, you&#x27;re a bit early. Aphrodite is still under construction. Official first release of Aphrodite to follow by end of June. GitHub
+
+A TodoMVC example app that uses Aphrodite is here: https://github.com/tantaman/aphrodite/tree/main…">
 <meta property="og:image" content="https://aphrodite.sh/assets/gods/zeus.png">
 <meta property="og:image:alt" content="Zeus">
 <meta property="og:image:width" content="266">
@@ -28,7 +32,14 @@
 <meta name="twitter:data1" content="3-4 minutes">
 </head>
 <body><aside><div class="center"><a class="home-link" href="/"><div class="god-circle center-block"><div class="god-head god-head-aphrodite"></div></div></a><a class="hamburger"></a></div><ol><li class="indent"><a href="/docs/why">Why Aphrodite</a></li><li class="active indent"><a href="/docs/quickstart">Quickstart</a></li><li class="indent"><a href="/docs/schemas">Schemas</a></li><li class="indent"><a href="/docs/models">Models</a></li><li class="indent"><a href="/docs/mutations-and-transactions">Mutating Data</a></li><li class="indent"><a href="/docs/queries">Queries</a></li><li class="indent"><a href="/docs/reactivity">Reactivity</a></li><li class="indent"><a href="/docs/data-sync-p2p">Data Sync &#x26; P2P</a></li><li class="indent"><a href="/docs/permissions">Permissions</a></li><li class="indent"><a href="/docs/migrations">Migrations</a></li></ol></aside><main><article><h1>Quickstart</h1><p class="subtitle">get up and running with Aphrodite</p><section>
-<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#installation">Installation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#your-first-schema">Your First Schema</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#adding-a-mutation">Adding a Mutation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#creatingmutating-a-node">Creating/Mutating a Node</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#querying-for-nodes">Querying for Nodes</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#defining-an-edge">Defining an Edge</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#walking-a-graph">Walking a Graph</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#reactive-queries">Reactive Queries</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#react-integration">React Integration</a></li></ol></nav><p><code>Aphrodite</code> makes it easy to describe, model and interact with your data. After installing <code>Aphrodite</code>, everything begins with defining a schema. If you'd like to understand <em>why</em> this project exists before diving in, see <a class="internal new" href="/docs/why">Why Aphrodite?</a></p>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#installation">Installation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#your-first-schema">Your First Schema</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#adding-a-mutation">Adding a Mutation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#creatingmutating-a-node">Creating/Mutating a Node</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#querying-for-nodes">Querying for Nodes</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#defining-an-edge">Defining an Edge</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#walking-a-graph">Walking a Graph</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#reactive-queries">Reactive Queries</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#react-integration">React Integration</a></li></ol></nav><blockquote>
+<p>If you've found these docs, you're a bit early. Aphrodite is still under construction. Official first release of Aphrodite to follow by end of June.</p>
+<p><a href="https://github.com/tantaman/aphrodite">GitHub</a></p>
+<p>A <strong>TodoMVC</strong> example app that uses Aphrodite is here: <a href="https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc">https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc</a></p>
+<p><a href="https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/__tests__/">Integration tests</a> to show the described use cases are being built out.</p>
+</blockquote>
+<hr>
+<p><code>Aphrodite</code> makes it easy to describe, model and interact with your data. After installing <code>Aphrodite</code>, everything begins with defining a schema. If you'd like to understand <em>why</em> this project exists before diving in, see <a class="internal new" href="/docs/why">Why Aphrodite?</a></p>
 <blockquote>
 <p>Note: <code>Aphrodite</code> currently targets TypeScript and the browser. To see when support will be added for vanilla <code>JS</code>, <code>Node</code>, <code>iOS</code>, and <code>Android</code> see the <a class="internal new" href="/blog/roadmap">roadmap</a>.</p>
 </blockquote>
@@ -111,19 +122,23 @@ npm install --save-dev @aphro/codegen-cli
 <p>Now that the create mutation has been implemented, lets go ahead and use it. Create a <code>main.js</code> file in <code>src</code>.</p>
 <pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">TodoListMutations</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'./generated/TodoListMutations.js'</span>;
 
-<span class="hljs-keyword">const</span> [persistHandle, optimisticUpdate] = <span class="hljs-title class_">TodoListMutations</span>.<span class="hljs-title function_">create</span>(ctx, {<span class="hljs-attr">name</span>: <span class="hljs-string">'My first list!'</span>}).<span class="hljs-title function_">save</span>();
+<span class="hljs-keyword">const</span> [persistHandle, todoList] = <span class="hljs-title class_">TodoListMutations</span>.<span class="hljs-title function_">create</span>(ctx, {<span class="hljs-attr">name</span>: <span class="hljs-string">'My first list!'</span>}).<span class="hljs-title function_">save</span>();
 </code></pre>
-<p>^^TODO: context creation.</p>
+<p>Save returns two things:</p>
+<ol>
+<li>A promise to the pending database write</li>
+<li>An optimistic update, representing the created model</li>
+</ol>
+<p>The optimsitc update is useful for highly interactive environments where you want to do something with the changes before the write actually succeeds.</p>
+<blockquote>
+<p>TODO: go over context creation and/or provide default contexts.</p>
+</blockquote>
 <h1 id="querying-for-nodes"><a aria-hidden="true" tabindex="-1" href="#querying-for-nodes"><span class="icon icon-link"></span></a>Querying for Nodes</h1>
 <h1 id="defining-an-edge"><a aria-hidden="true" tabindex="-1" href="#defining-an-edge"><span class="icon icon-link"></span></a>Defining an Edge</h1>
 <h1 id="walking-a-graph"><a aria-hidden="true" tabindex="-1" href="#walking-a-graph"><span class="icon icon-link"></span></a>Walking a Graph</h1>
 <h1 id="reactive-queries"><a aria-hidden="true" tabindex="-1" href="#reactive-queries"><span class="icon icon-link"></span></a>Reactive Queries</h1>
 <h1 id="react-integration"><a aria-hidden="true" tabindex="-1" href="#react-integration"><span class="icon icon-link"></span></a>React Integration</h1>
 <p>-- vue, solid, svelt</p>
-<p><code>Aphrodite</code> is under active development here: <a href="https://github.com/tantaman/aphrodite">https://github.com/tantaman/aphrodite</a></p>
-<p>It <strong>is not</strong> ready for release.</p>
-<p>A TodoMVC example app that uses Aphrodite is under development here: <a href="https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc">https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc</a></p>
-<p>Integration tests to show the various described use cases are being built out here: <a href="https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/__tests__/">https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/<strong>tests</strong>/</a> (and up a dir)</p>
 <script src="https://www.googletagmanager.com/gtag/js?id=G-QT6QH0ZJQ4" async></script>
 <script src="/ga.js"></script>
 <script src="/assets/god-switcher.js"></script>
