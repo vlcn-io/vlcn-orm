@@ -2,6 +2,10 @@
 
 An implementation of [TodoMVC](https://todomvc.com/) using `Aphrodite` to manage the data model.
 
+**[Launch the example](https://aphrodite-examples.pages.dev/todo-mvc/)!**
+
+# Code Overview
+
 ## Schema
 
 The schema that defines the data model is [here](https://github.com/tantaman/aphrodite/blob/main/examples/todo-mvc/src/domain.aphro) (reproduced below)
