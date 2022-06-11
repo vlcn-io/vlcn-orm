@@ -1,4 +1,5 @@
-import * as ts from 'typescript';
+// @ts-ignore
+import ts from 'typescript';
 import { filter } from './nodeChildren.js';
 
 // non complete implementation of export extraction.

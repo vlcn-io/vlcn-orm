@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a22f993f05ced2f5a5cd61d55ead8f5f>
+// SIGNED-SOURCE: <71d4928fb66a578878f50a2dfd47dcfe>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -15,7 +15,7 @@ import { Data } from "./Deck.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
-import { Changeset } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
 import User from "./User.js";
 import { Data as UserData } from "./User.js";
 import Slide from "./Slide.js";

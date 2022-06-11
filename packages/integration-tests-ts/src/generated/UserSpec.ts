@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <1a6563d23c860eb114110f84f2c83a30>
+// SIGNED-SOURCE: <8d686a42b13c176f61d63737e901caba>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -17,7 +17,9 @@ const spec: ModelSpec<User, Data> = {
     if (existing) {
       return existing;
     }
-    return new User(ctx, data);
+    const result = new User(ctx, data);
+    ctx.cache.set(data["id"], result);
+    return result;
   },
 
   primaryKey: "id",

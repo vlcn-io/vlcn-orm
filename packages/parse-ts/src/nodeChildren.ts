@@ -1,4 +1,5 @@
-import * as ts from 'typescript';
+// @ts-ignore
+import ts from 'typescript';
 
 export function filter<S extends ts.Node>(n: ts.Node, pred: (n: ts.Node) => n is S): S[] {
   const ret: S[] = [];

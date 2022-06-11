@@ -195,6 +195,8 @@ export default class FooMutations extends MutationsBase<Foo, Data> {
   );
 });
 
+test('ID imports', () => {});
+
 async function genIt(schema: Node) {
   return await new GenTypescriptMutations(schema, '').gen();
 }

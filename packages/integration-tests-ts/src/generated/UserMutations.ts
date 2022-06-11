@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b086a56d5e691b746b567bacf04cfe07>
+// SIGNED-SOURCE: <cc0d0c4e4151212005dbe9f03584e985>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -15,7 +15,7 @@ import { Data } from "./User.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
-import { Changeset } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
 
 export type CreateArgs = { name: string };
 

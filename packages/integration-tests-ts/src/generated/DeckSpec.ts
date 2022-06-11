@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <81ddc1ee07ab156b51048a7bff17dd0b>
+// SIGNED-SOURCE: <31003068194e923d45ad46cee2516e53>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,7 +18,9 @@ const spec: ModelSpec<Deck, Data> = {
     if (existing) {
       return existing;
     }
-    return new Deck(ctx, data);
+    const result = new Deck(ctx, data);
+    ctx.cache.set(data["id"], result);
+    return result;
   },
 
   primaryKey: "id",

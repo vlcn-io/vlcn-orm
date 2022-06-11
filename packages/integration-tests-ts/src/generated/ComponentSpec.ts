@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <071ea734766ecdc05e937591c9db777c>
+// SIGNED-SOURCE: <d9809cac390d9c07597355eaa769b1a6>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -16,7 +16,9 @@ const spec: ModelSpec<Component, Data> = {
     if (existing) {
       return existing;
     }
-    return new Component(ctx, data);
+    const result = new Component(ctx, data);
+    ctx.cache.set(data["id"], result);
+    return result;
   },
 
   primaryKey: "id",

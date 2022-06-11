@@ -11,6 +11,9 @@ import { upcaseAt } from '@strut/utils';
 import * as fs from 'fs';
 import * as path from 'path';
 
+import { extractors, toAst } from '@aphro/parse-ts';
+import * as ts from 'typescript';
+
 /**
  * TODO:
  * We need to not generate this file only if it does not already exists.
@@ -38,50 +41,33 @@ export class GenTypescriptMutationImpls extends CodegenStep {
     } catch (e) {}
 
     if (priorContents != null) {
+      const priorExports = extractors.exports(toAst.stringToAst(fileName, priorContents));
       // const priorImports = extractImports(priorContents).map(toTsImport);
-      // const priorExports = extractExports().filter(isMutationMethod);
+      return new TypescriptFile(
+        fileName,
+        `${priorContents}
+${this.getCode(priorExports)}
+`,
+        true,
+      );
     }
 
-    // load existing file if it exists.
-    // condense imports since we'll want to add imports if we add impls...
-    // `getCode` is partial if there was an existing file.
-    // it'd be `append only` for new exports.
-    // and `prepend only` for new imports
-    // something like:
-    // `
-    // ${condenseImports(oldImports, collectImports)}
-    // ${old code}
-    // ${getMutationFuncs(omit funcs)}
-    // `
-    // gen should be async.
     return new TypescriptFile(
       fileName,
       `${importsToString(this.collectImports())}
 
-${this.getCode()}
+${this.getCode([])}
 `,
       true,
     );
   }
 
-  private getCode(): string {
+  private getCode(priorExports: ts.FunctionDeclaration[]): string {
+    const ignore: Set<string> = new Set(priorExports.map(e => e.name?.escapedText as string));
     return Object.values(this.schema.extensions.mutations?.mutations || {})
+      .filter(m => !ignore.has(m.name + 'Impl'))
       .map(m => this.getMutationFunctionDefCode(m))
       .join('\n\n');
-  }
-
-  private gatherAlreadyDefinedImpls(): Set<string> {
-    const s: Set<string> = new Set();
-    // tsd.createSourceFile('./DeckMutationsImpl.ts', fs.readFileSync('./DeckMutationsImpl.ts').toString(), tsd.ScriptTarget.ES2017, true);
-    // source.forEachChild()
-    // c.kind === ts.SyntaxKind.FunctionDeclaration
-    // or + 1?
-    // c.modifiers[0].kind === ts.SyntaxKind.ExportKeyword
-    // or - 1?
-    // c.name.escapedText.endsWith('Impl')
-    // s.add(c.name.escapedText)
-    // return s
-    return s;
   }
 
   private getMutationFunctionDefCode(m: Mutation): string {

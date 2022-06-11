@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <79342591b4c1bd6bebe04fe37b6ea146>
+// SIGNED-SOURCE: <b2696ed1b0c8bd8f85bc482b31a6b62e>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -17,7 +17,9 @@ const spec: ModelSpec<Slide, Data> = {
     if (existing) {
       return existing;
     }
-    return new Slide(ctx, data);
+    const result = new Slide(ctx, data);
+    ctx.cache.set(data["id"], result);
+    return result;
   },
 
   primaryKey: "id",
