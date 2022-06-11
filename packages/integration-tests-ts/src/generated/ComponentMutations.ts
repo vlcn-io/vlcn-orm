@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <174dd16cb4816311a8549d0b33d61917>
+// SIGNED-SOURCE: <ae8369c94514bd9c78c9f775d73af0da>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -16,6 +16,7 @@ import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
+import { Changeset } from "@aphro/runtime-ts";
 import Slide from "./Slide.js";
 import { Data as SlideData } from "./Slide.js";
 

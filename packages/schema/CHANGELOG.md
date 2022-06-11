@@ -1,5 +1,18 @@
 # @aphro/schema
 
+## 0.0.11
+
+### Patch Changes
+
+- full todomvc example, no partiall generated mutators, removal of knexjs
+- Updated dependencies
+  - @strut/counter@0.0.8
+  - @strut/sid@0.0.8
+  - @strut/utils@0.0.8
+  - @aphro/codegen-api@0.0.8
+  - @aphro/grammar-extension-api@0.0.8
+  - @aphro/schema-api@0.0.8
+
 ## 0.0.10
 
 ### Patch Changes

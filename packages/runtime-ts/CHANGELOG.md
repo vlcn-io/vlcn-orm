@@ -1,5 +1,19 @@
 # @aphro/runtime-ts
 
+## 0.0.5
+
+### Patch Changes
+
+- full todomvc example, no partiall generated mutators, removal of knexjs
+- Updated dependencies
+  - @strut/sid@0.0.8
+  - @aphro/cache-runtime-ts@0.0.8
+  - @aphro/context-runtime-ts@0.0.8
+  - @aphro/model-runtime-ts@0.0.8
+  - @aphro/mutator-runtime-ts@0.0.9
+  - @aphro/query-runtime-ts@0.0.8
+  - @aphro/sql-ts@0.0.3
+
 ## 0.0.4
 
 ### Patch Changes

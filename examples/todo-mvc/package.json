@@ -1,6 +1,6 @@
 {
   "name": "@aphro/todo-mvc",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "index.js",
   "private": true,
   "license": "MIT",

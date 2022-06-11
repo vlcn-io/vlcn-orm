@@ -1,5 +1,15 @@
 # @aphro/absurd-sql
 
+## 0.0.3
+
+### Patch Changes
+
+- full todomvc example, no partiall generated mutators, removal of knexjs
+- Updated dependencies
+  - @strut/counter@0.0.8
+  - @aphro/context-runtime-ts@0.0.8
+  - @aphro/sql-ts@0.0.3
+
 ## 0.0.2
 
 ### Patch Changes

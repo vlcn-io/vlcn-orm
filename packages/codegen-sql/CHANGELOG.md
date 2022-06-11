@@ -1,5 +1,19 @@
 # @aphro/codegen-sql
 
+## 0.0.10
+
+### Patch Changes
+
+- full todomvc example, no partiall generated mutators, removal of knexjs
+- Updated dependencies
+  - @strut/counter@0.0.8
+  - @strut/utils@0.0.8
+  - @aphro/codegen@0.0.10
+  - @aphro/codegen-api@0.0.8
+  - @aphro/schema@0.0.11
+  - @aphro/schema-api@0.0.8
+  - @aphro/sql-ts@0.0.3
+
 ## 0.0.9
 
 ### Patch Changes

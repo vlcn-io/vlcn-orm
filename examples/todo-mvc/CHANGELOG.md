@@ -1,5 +1,15 @@
 # @aphro/todo-mvc
 
+## 1.0.4
+
+### Patch Changes
+
+- full todomvc example, no partiall generated mutators, removal of knexjs
+- Updated dependencies
+  - @aphro/absurd-sql-connector@0.0.3
+  - @aphro/react@0.0.9
+  - @aphro/runtime-ts@0.0.5
+
 ## 1.0.3
 
 ### Patch Changes

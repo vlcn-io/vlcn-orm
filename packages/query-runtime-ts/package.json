@@ -1,6 +1,6 @@
 {
   "name": "@aphro/query-runtime-ts",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "lib/index.js",
   "type": "module",
   "repository": {

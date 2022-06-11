@@ -6,7 +6,7 @@
   },
   "include": ["./src/"],
   "references": [
-    { "path": "../packages/absurd-sql" },
+    { "path": "../packages/absurd-sql-connector" },
     { "path": "../packages/codegen" },
     { "path": "../packages/codegen-api" },
     { "path": "../packages/codegen-cli" },
