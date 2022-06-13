@@ -7,6 +7,10 @@ let queryId = 0;
 
 const counter = count('@aphro/absurd-sql/Connection');
 
+// TODO: how should we handle db locks?
+// Throw to user land?
+// Place into queue on catch?
+// Always queue? -- this'll impact reads that could be parallel
 export default class Connection {
   type: 'sql' = 'sql';
   #worker: Worker;
