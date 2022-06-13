@@ -71,7 +71,7 @@ async function run() {
     // and.. map of all the things that were imported and referenced.
 
     // const schemas = schemaModules.map((s) => (<SchemaModule>s).default.get());
-    const pipeline = new CodegenPipeline(steps);
+    const pipeline = new CodegenPipeline(steps, []);
     await pipeline.gen(nodeSchemas, genOptions.dest);
 
     return;

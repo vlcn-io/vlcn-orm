@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { Node, Edge } from '@aphro/schema-api';
-import { CodegenFile, Step } from '@aphro/codegen-api';
+import { CodegenFile, GlobalStep, Step } from '@aphro/codegen-api';
 import {
   checkSignature,
   insertManualSections,
@@ -10,7 +10,10 @@ import {
 } from './CodegenFile.js';
 
 export default class CodegenPipleine {
-  constructor(private readonly steps: readonly Step[]) {}
+  constructor(
+    private readonly steps: readonly Step[],
+    private readonly globalSteps: readonly GlobalStep[],
+  ) {}
 
   async gen(schemas: (Node | Edge)[], dest: string) {
     let files = (
@@ -25,6 +28,12 @@ export default class CodegenPipleine {
         ),
       )
     ).flatMap(f => f.filter((f): f is CodegenFile => f != null));
+
+    const globalStepFiles = await Promise.all(
+      this.globalSteps.map(step => new step(schemas).gen()),
+    );
+
+    files = files.concat(globalStepFiles);
 
     await fs.promises.mkdir(dest, { recursive: true });
     const toWrite = await this.checkHashesAndAddManualCode(dest, files);
