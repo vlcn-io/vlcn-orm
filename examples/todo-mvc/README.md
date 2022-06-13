@@ -27,10 +27,6 @@ Todo as Node {
     listId
   }
 
-  toggleComplete as Update {
-    completed: Timestamp | null
-  }
-
   setComplete as Update {
     completed: Timestamp | null
   }
