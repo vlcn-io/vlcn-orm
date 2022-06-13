@@ -1,19 +1,23 @@
 import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
 import { Node, Edge, Enum } from '@aphro/schema-api';
-import { upcaseAt } from '@strut/utils';
 import { nodeFn } from '@aphro/schema';
-import { GraphQL } from '@aphro/graphql-grammar';
 import { gatherReadFields } from './gatherReadFields.js';
 import { inlineEnumName } from './inlineEnumName.js';
 import { fieldTypeToGraphQLType } from './fieldTypeToGraphQLType.js';
+import shouldExpose from './shouldExpose.js';
+import GraphQLFile from './GraphqlFile.js';
 
 export class GenGraphQLTypedefs extends CodegenStep {
   constructor(private nodes: Node[], private edges: Edge[], private schemaFileName: string) {
     super();
   }
 
+  static accepts(nodes: Node[], edges: Edge[]): boolean {
+    return nodes.filter(shouldExpose).length > 0;
+  }
+
   async gen(): Promise<CodegenFile> {
-    const file =
+    const filename =
       this.schemaFileName.substring(0, this.schemaFileName.lastIndexOf('.')) + '.graphql';
 
     const code = `
@@ -28,7 +32,7 @@ ${this.getObjectDefsCode()}
     // Given we want to be local, should we even support GraphQL?
     // The user can always just concat more things onto the end of the schema
     // And merge more resolvers in
-    throw new Error('unimplemented');
+    return new GraphQLFile(filename, code);
   }
 
   private getEnumDefsCode(): string {
@@ -44,7 +48,13 @@ ${this.getObjectDefsCode()}
   }
 
   private getObjectDefsCode(): string {
-    return this.nodes.map(this.getObjectDefCode).join('\n\n');
+    return (
+      this.nodes
+        // Only define types for nodes that expose something
+        .filter(shouldExpose)
+        .map(this.getObjectDefCode)
+        .join('\n\n')
+    );
   }
 
   private getObjectDefCode = (n: Node): string => {
