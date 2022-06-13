@@ -108,9 +108,8 @@ export default function condense(
         fields,
         extensions: extensions as Node['extensions'],
         storage: {
+          ...preamble,
           type: engineToType(preamble.engine),
-          engine: preamble.engine,
-          db: preamble.db,
           tablish: (extensions.storage as any)?.tablish || node.name.toLocaleLowerCase(),
         },
       },

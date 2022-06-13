@@ -18,6 +18,7 @@ export type SchemaFileAst = {
   preamble: {
     engine: StorageEngine;
     db: string;
+    [key: string]: string; // other engine-specific values
   };
   entities: (NodeAst | EdgeAst | NodeTraitAst)[];
 };
@@ -104,10 +105,11 @@ export type Import = {
 };
 
 export type StorageConfig = {
-  type: 'sql';
+  type: 'sql'; // | cypher | gremlin | ...
   db: string;
   tablish: string;
   engine: StorageEngine;
+  [key: string]: string; // engine specific extras
 }; // | { type: "opencypher" } ...;
 
 export type Edge = {

@@ -2,7 +2,7 @@ import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
 import { Node } from '@aphro/schema-api';
 import { assertUnreachable } from '@strut/utils';
 import SqlFile from './SqlFile.js';
-import { sql, formatters } from '@aphro/sql-ts';
+import { sql, formatters, SQLQuery } from '@aphro/sql-ts';
 
 export default class GenSqlTableSchema extends CodegenStep {
   static accepts(schema: Node): boolean {
@@ -37,43 +37,62 @@ export default class GenSqlTableSchema extends CodegenStep {
   private getSqliteString(): string {
     // TODO: go thru index config and apply index constraints
     const columnDefs = Object.values(this.schema.fields).map(field => {
+      let ret: SQLQuery;
       switch (field.type) {
         case 'id':
-          return sql`${sql.ident(field.name)} bigint`;
+          ret = sql`${sql.ident(field.name)} bigint`;
+          break;
         case 'primitive':
           switch (field.subtype) {
             case 'int32':
             case 'uint32':
-              return sql`${sql.ident(field.name)} int`;
+              ret = sql`${sql.ident(field.name)} int`;
+              break;
             case 'int64':
-              return sql`${sql.ident(field.name)} bigint`;
+              ret = sql`${sql.ident(field.name)} bigint`;
+              break;
             case 'uint64':
-              return sql`${sql.ident(field.name)} unsinged big int`;
+              ret = sql`${sql.ident(field.name)} unsinged big int`;
+              break;
             case 'float32':
-              return sql`${sql.ident(field.name)} float`;
+              ret = sql`${sql.ident(field.name)} float`;
+              break;
             case 'float64':
-              return sql`${sql.ident(field.name)} double`;
+              ret = sql`${sql.ident(field.name)} double`;
+              break;
             case 'string':
               // TODO: ask user to define len params so we know the type here
-              return sql`${sql.ident(field.name)} text`;
+              ret = sql`${sql.ident(field.name)} text`;
+              break;
             case 'bool':
-              return sql`${sql.ident(field.name)} boolean`;
+              ret = sql`${sql.ident(field.name)} boolean`;
+              break;
           }
         case 'map':
         case 'array':
-          return sql`${sql.ident(field.name)} text`;
+          ret = sql`${sql.ident(field.name)} text`;
+          break;
         case 'naturalLanguage':
           // TODO: ask user to define len params so we know the type here
-          return sql`${sql.ident(field.name)} text`;
+          ret = sql`${sql.ident(field.name)} text`;
+          break;
         case 'enumeration':
-          return sql`${sql.ident(field.name)} varchar(255)`;
+          ret = sql`${sql.ident(field.name)} varchar(255)`;
+          break;
         case 'currency':
-          return sql`${sql.ident(field.name)} float`;
+          ret = sql`${sql.ident(field.name)} float`;
+          break;
         case 'timestamp':
-          return sql`${sql.ident(field.name)} bigint`;
+          ret = sql`${sql.ident(field.name)} bigint`;
+          break;
         default:
           assertUnreachable(field);
       }
+
+      if (!field.nullable) {
+        ret = sql`${ret} NOT NULL`;
+      }
+      return ret;
     });
 
     if (this.schema.primaryKey) {
@@ -87,6 +106,83 @@ export default class GenSqlTableSchema extends CodegenStep {
   }
 
   private getPostgresString(): string {
-    return '';
+    const columnDefs = Object.values(this.schema.fields).map(field => {
+      let ret: SQLQuery;
+      switch (field.type) {
+        case 'id':
+          ret = sql`${sql.ident(field.name)} bigint`;
+          break;
+        case 'primitive':
+          switch (field.subtype) {
+            case 'int32':
+            case 'uint32':
+              ret = sql`${sql.ident(field.name)} int`;
+              break;
+            case 'int64':
+              ret = sql`${sql.ident(field.name)} bigint`;
+              break;
+            case 'uint64':
+              ret = sql`${sql.ident(field.name)} unsinged big int`;
+              break;
+            case 'float32':
+              ret = sql`${sql.ident(field.name)} float`;
+              break;
+            case 'float64':
+              ret = sql`${sql.ident(field.name)} double`;
+              break;
+            case 'string':
+              // TODO: ask user to define len params so we know the type here
+              ret = sql`${sql.ident(field.name)} text`;
+              break;
+            case 'bool':
+              ret = sql`${sql.ident(field.name)} boolean`;
+              break;
+          }
+        case 'map':
+        case 'array':
+          ret = sql`${sql.ident(field.name)} text`;
+          break;
+        case 'naturalLanguage':
+          // TODO: ask user to define len params so we know the type here
+          ret = sql`${sql.ident(field.name)} text`;
+          break;
+        case 'enumeration':
+          ret = sql`${sql.ident(field.name)} character varying(255)`;
+          break;
+        case 'currency':
+          ret = sql`${sql.ident(field.name)} float`;
+          break;
+        case 'timestamp':
+          ret = sql`${sql.ident(field.name)} bigint`;
+          break;
+        default:
+          assertUnreachable(field);
+      }
+
+      if (!field.nullable) {
+        ret = sql`${ret} NOT NULL`;
+      }
+      return ret;
+    });
+
+    if (this.schema.primaryKey) {
+      columnDefs.push(sql`primary key (${sql.ident(this.schema.primaryKey)})`);
+    }
+
+    return sql`CREATE TABLE ${sql.ident(this.schema.name.toLocaleLowerCase())} (${sql.join(
+      columnDefs,
+      ', ',
+    )})`.format(formatters[this.schema.storage.engine]).text;
   }
 }
+
+/*
+CREATE TABLE IF NOT EXISTS public.component
+(
+    id bigint NOT NULL,
+    subtype character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    "slideId" bigint NOT NULL,
+    content text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT component_pkey PRIMARY KEY (id)
+)
+*/
