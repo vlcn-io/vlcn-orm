@@ -20,6 +20,15 @@ importers:
     devDependencies:
       typescript: 4.7.2
 
+  examples/server-and-graphql:
+    specifiers:
+      '@aphro/codegen-cli': workspace:*
+      '@aphro/runtime-ts': workspace:*
+    dependencies:
+      '@aphro/runtime-ts': link:../../packages/runtime-ts
+    devDependencies:
+      '@aphro/codegen-cli': link:../../packages/codegen-cli
+
   examples/todo-mvc:
     specifiers:
       '@aphro/absurd-sql-connector': workspace:*

@@ -14,7 +14,19 @@ export default class GenSqlTableSchema extends CodegenStep {
   }
 
   async gen(): Promise<CodegenFile> {
-    const str = this.getSqlString();
+    let str;
+    const engine = this.schema.storage.engine;
+    switch (engine) {
+      case 'sqlite':
+        str = this.getSqliteString();
+        break;
+      case 'postgres':
+        str = this.getPostgresString();
+        break;
+      default:
+        assertUnreachable(engine);
+    }
+
     return new SqlFile(
       `${this.schema.name}.${this.schema.storage.engine}.sql`,
       str,
@@ -22,7 +34,7 @@ export default class GenSqlTableSchema extends CodegenStep {
     );
   }
 
-  private getSqlString(): string {
+  private getSqliteString(): string {
     // TODO: go thru index config and apply index constraints
     const columnDefs = Object.values(this.schema.fields).map(field => {
       switch (field.type) {
@@ -72,5 +84,9 @@ export default class GenSqlTableSchema extends CodegenStep {
       columnDefs,
       ', ',
     )})`.format(formatters[this.schema.storage.engine]).text;
+  }
+
+  private getPostgresString(): string {
+    return '';
   }
 }

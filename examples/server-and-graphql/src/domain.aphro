@@ -1,0 +1,40 @@
+# Bare bones monopoly game
+
+engine: postgres
+db: example
+
+Person as Node {
+  id: ID<Person>
+  token: string
+} & OutboundEdges {
+  playing: Edge<Player.ownerId>
+}
+
+Player as Node {
+  id: ID<Player>
+  piece: string
+  ownerId: ID<Person>
+  gameId: ID<Game>
+} & OutboundEdges {
+  properties: Edge<Property.ownerId>
+  playing: Edge<Player.gameId>
+}
+
+Game as Node {
+  id: ID<Game>
+  name: string
+} & OutboundEdges {
+  players: Edge<Player.gameId>
+  board: Edge<Property.gameId>
+}
+
+Property as Node {
+  id: ID<Property>
+  name: string
+  ownerId: ID<Player> | null
+  gameId: ID<Game>
+  cost: float32
+  mortgaged: bool
+  numHouses: int32
+  numHotels: int32
+}

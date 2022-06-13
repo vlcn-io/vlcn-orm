@@ -1,0 +1,19 @@
+{
+  "name": "@aphro/example-server-and-graphql",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "aphro": "aphro gen ./src/domain.aphro --dest ./src/generated && cp src/generated/*.sql dist/generated",
+    "clean": "tsc --build --clean",
+    "build": "tsc --build",
+    "watch": "tsc --build -w"
+  },
+  "dependencies": {
+    "@aphro/runtime-ts": "workspace:*"
+  },
+  "devDependencies": {
+    "@aphro/codegen-cli": "workspace:*"
+  }
+}

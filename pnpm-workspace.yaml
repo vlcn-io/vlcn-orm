@@ -1,6 +1,7 @@
 packages:
   - 'build-all'
   - 'examples/todo-mvc'
+  - 'examples/server-and-graphql'
   - 'extensions/authorization-grammar'
   - 'extensions/mutation-grammar'
   - 'extensions/mutation-codegen'

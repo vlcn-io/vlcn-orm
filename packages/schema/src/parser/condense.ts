@@ -254,6 +254,7 @@ function condenseExtensionsFor<T, R>(
 function engineToType(engine: StorageEngine): StorageType {
   switch (engine) {
     case 'sqlite':
+    case 'postgres':
       return 'sql';
   }
 }
