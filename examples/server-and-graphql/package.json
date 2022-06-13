@@ -8,12 +8,21 @@
     "aphro": "aphro gen ./src/domain.aphro --dest ./src/generated && cp src/generated/*.sql dist/generated",
     "clean": "tsc --build --clean",
     "build": "tsc --build",
-    "watch": "tsc --build -w"
+    "watch": "tsc --build -w",
+    "dev": "cross-env NODE_ENV=development ts-node-dev --exit-child --respawn src/main.ts",
+    "start": "ts-node src/main.ts"
   },
   "dependencies": {
-    "@aphro/runtime-ts": "workspace:*"
+    "@aphro/runtime-ts": "workspace:*",
+    "@graphql-tools/schema": "^8.3.14",
+    "graphql": "^16.5.0"
   },
   "devDependencies": {
-    "@aphro/codegen-cli": "workspace:*"
+    "@aphro/codegen-cli": "workspace:*",
+    "@types/node": "^17.0.31",
+    "cross-env": "^7.0.3",
+    "ts-node": "^10.8.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.7.3"
   }
 }

@@ -8,6 +8,8 @@ Person as Node {
   token: string
 } & OutboundEdges {
   playing: Edge<Player.ownerId>
+} & GraphQL {
+  id
 }
 
 Player as Node {
@@ -18,6 +20,11 @@ Player as Node {
 } & OutboundEdges {
   properties: Edge<Property.ownerId>
   playing: Edge<Player.gameId>
+  owner: Edge<Player.ownerId>
+} & GraphQL {
+  id
+  piece
+  owner
 }
 
 Game as Node {
@@ -26,6 +33,10 @@ Game as Node {
 } & OutboundEdges {
   players: Edge<Player.gameId>
   board: Edge<Property.gameId>
+} & GraphQL {
+  id
+  players
+  board
 }
 
 Property as Node {
@@ -37,4 +48,14 @@ Property as Node {
   mortgaged: bool
   numHouses: int32
   numHotels: int32
+} & OutboundEdges {
+  owner: Edge<Property.ownerId>
+} & GraphQL {
+  id
+  name
+  owner
+  cost
+  mortgaged
+  numHouses
+  numHotels
 }

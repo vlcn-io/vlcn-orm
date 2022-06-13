@@ -3,6 +3,7 @@ packages:
   - 'examples/todo-mvc'
   - 'examples/server-and-graphql'
   - 'extensions/authorization-grammar'
+  - 'extensions/graphql-grammar'
   - 'extensions/mutation-grammar'
   - 'extensions/mutation-codegen'
   - 'mono/typescript/packages/*'
