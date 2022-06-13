@@ -105,7 +105,11 @@ export default class GenSqlTableSchema extends CodegenStep {
     )})`.format(formatters[this.schema.storage.engine]).text;
   }
 
+  // TODO: We have a lot of work to do on storage types, storage type overrides, exposing
+  // all details of storage types to the query layer if desired.
+  // https://www.postgresql.org/docs/current/datatype.html
   private getPostgresString(): string {
+    const tableName = this.schema.name.toLocaleLowerCase();
     const columnDefs = Object.values(this.schema.fields).map(field => {
       let ret: SQLQuery;
       switch (field.type) {
@@ -116,19 +120,17 @@ export default class GenSqlTableSchema extends CodegenStep {
           switch (field.subtype) {
             case 'int32':
             case 'uint32':
-              ret = sql`${sql.ident(field.name)} int`;
+              ret = sql`${sql.ident(field.name)} integer`;
               break;
             case 'int64':
+            case 'uint64':
               ret = sql`${sql.ident(field.name)} bigint`;
               break;
-            case 'uint64':
-              ret = sql`${sql.ident(field.name)} unsinged big int`;
-              break;
             case 'float32':
-              ret = sql`${sql.ident(field.name)} float`;
+              ret = sql`${sql.ident(field.name)} real`;
               break;
             case 'float64':
-              ret = sql`${sql.ident(field.name)} double`;
+              ret = sql`${sql.ident(field.name)} double precision`;
               break;
             case 'string':
               // TODO: ask user to define len params so we know the type here
@@ -150,7 +152,7 @@ export default class GenSqlTableSchema extends CodegenStep {
           ret = sql`${sql.ident(field.name)} character varying(255)`;
           break;
         case 'currency':
-          ret = sql`${sql.ident(field.name)} float`;
+          ret = sql`${sql.ident(field.name)} real`;
           break;
         case 'timestamp':
           ret = sql`${sql.ident(field.name)} bigint`;
@@ -166,23 +168,16 @@ export default class GenSqlTableSchema extends CodegenStep {
     });
 
     if (this.schema.primaryKey) {
-      columnDefs.push(sql`primary key (${sql.ident(this.schema.primaryKey)})`);
+      columnDefs.push(
+        sql`CONSTRAINT ${sql.ident(tableName + '_pkey')} PRIMARY KEY (${sql.ident(
+          this.schema.primaryKey,
+        )})`,
+      );
     }
 
-    return sql`CREATE TABLE ${sql.ident(this.schema.name.toLocaleLowerCase())} (${sql.join(
-      columnDefs,
-      ', ',
-    )})`.format(formatters[this.schema.storage.engine]).text;
+    return sql`CREATE TABLE ${sql.ident(
+      this.schema.storage.schema || 'public',
+      tableName,
+    )} (${sql.join(columnDefs, ', ')})`.format(formatters[this.schema.storage.engine]).text;
   }
 }
-
-/*
-CREATE TABLE IF NOT EXISTS public.component
-(
-    id bigint NOT NULL,
-    subtype character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    "slideId" bigint NOT NULL,
-    content text COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT component_pkey PRIMARY KEY (id)
-)
-*/
