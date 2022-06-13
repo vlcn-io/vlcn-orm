@@ -1,4 +1,4 @@
-import { ValidationError } from '@aphro/schema-api';
+import { Node, SchemaFile, ValidationError } from '@aphro/schema-api';
 import { GrammarExtension } from '@aphro/grammar-extension-api';
 
 export const name = 'graphql';
@@ -63,9 +63,19 @@ GraphQLDeclarations
   condensor(ast: GraphQL): [ValidationError[], GraphQL] {
     return [[], ast];
   },
+
+  // augment(node: Node): void {},
 };
 
 export default extension;
 
 const list = (l, r) => l.toAst().concat(r.toAst());
 const listInit = _ => [];
+
+/**
+ * expose decorators?
+ * GraphQL may differ per target lang...
+ * Or gen the code yourself...
+ * Give ppl a decorator API for convenience?
+ *  But decorators need to be cross-platform...
+ */
