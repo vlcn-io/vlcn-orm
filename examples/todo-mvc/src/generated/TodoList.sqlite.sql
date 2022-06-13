@@ -1,8 +1,8 @@
--- SIGNED-SOURCE: <fb2a25e0b167f40dcc52187d02b401ca>
+-- SIGNED-SOURCE: <d8c4a03de2f8f91c42ae16f143833e6c>
 CREATE TABLE
   "todolist" (
-    "id" bigint,
-    "filter" varchar(255),
+    "id" bigint NOT NULL,
+    "filter" varchar(255) NOT NULL,
     "editing" bigint,
     primary key ("id")
   )

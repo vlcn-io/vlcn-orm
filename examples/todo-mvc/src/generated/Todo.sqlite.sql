@@ -1,11 +1,11 @@
--- SIGNED-SOURCE: <a0d325361b61cd7a85d13fc62b64a260>
+-- SIGNED-SOURCE: <88f79dbf54c98f138062b0dddd9f7e0b>
 CREATE TABLE
   "todo" (
-    "id" bigint,
-    "listId" bigint,
-    "text" text,
-    "created" bigint,
-    "modified" bigint,
+    "id" bigint NOT NULL,
+    "listId" bigint NOT NULL,
+    "text" text NOT NULL,
+    "created" bigint NOT NULL,
+    "modified" bigint NOT NULL,
     "completed" bigint,
     primary key ("id")
   )
