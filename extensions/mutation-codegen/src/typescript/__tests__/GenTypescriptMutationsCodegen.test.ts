@@ -26,7 +26,14 @@ test('All primitive field references can be used as inputs', async () => {
         algolTemplates,
       );
 
-      expect(contents).toEqual(`import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
+      expect(contents).toEqual(`/**
+ * AUTO-GENERATED FILE
+ * Do not modify. Update your schema and re-generate for changes.
+ * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
+ * \`END-MANUAL-SECTION\` markers.
+ */
+import * as impls from "./FooMutationsImpl.js";
+import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
 import Foo from "./Foo.js";
@@ -35,32 +42,25 @@ import { Data } from "./Foo.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
 import { Changeset } from "@aphro/runtime-ts";
 
-export default class FooMutations extends MutationsBase<Foo, Data> {
-  private constructor(
-    ctx: Context,
-    mutator: ICreateOrUpdateBuilder<Foo, Data>
-  ) {
+export type CreateArgs = { someField: ${asTsType(primitive)} };
+class Mutations extends MutationsBase<Foo, Data> {
+  constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<Foo, Data>) {
     super(ctx, mutator);
   }
 
-  static update(model: Foo) {
-    return new FooMutations(model.ctx, new UpdateMutationBuilder(spec, model));
-  }
-
-  static creation(ctx: Context) {
-    return new FooMutations(ctx, new CreateMutationBuilder(spec));
-  }
-
-  static deletion(model: Foo) {
-    return new FooMutations(model.ctx, new DeleteMutationBuilder(spec, model));
-  }
-
-  create({ someField }: { someField: ${asTsType(primitive)} }): this {
-    // BEGIN-MANUAL-SECTION
-    // END-MANUAL-SECTION
+  create(args: CreateArgs): this {
+    const extraChangesets = impls.createImpl(this.mutator, args);
+    this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
+  }
+}
+
+export default class FooMutations {
+  static create(ctx: Context, args: CreateArgs): Mutations {
+    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
   }
 }
 `);
@@ -84,7 +84,14 @@ test('All primitive types can be used as custom inputs', async () => {
         algolTemplates,
       );
 
-      expect(contents).toEqual(`import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
+      expect(contents).toEqual(`/**
+ * AUTO-GENERATED FILE
+ * Do not modify. Update your schema and re-generate for changes.
+ * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
+ * \`END-MANUAL-SECTION\` markers.
+ */
+import * as impls from "./FooMutationsImpl.js";
+import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
 import Foo from "./Foo.js";
@@ -93,32 +100,25 @@ import { Data } from "./Foo.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
 import { Changeset } from "@aphro/runtime-ts";
 
-export default class FooMutations extends MutationsBase<Foo, Data> {
-  private constructor(
-    ctx: Context,
-    mutator: ICreateOrUpdateBuilder<Foo, Data>
-  ) {
+export type CreateArgs = { customField: ${asTsType(primitive)} };
+class Mutations extends MutationsBase<Foo, Data> {
+  constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<Foo, Data>) {
     super(ctx, mutator);
   }
 
-  static update(model: Foo) {
-    return new FooMutations(model.ctx, new UpdateMutationBuilder(spec, model));
-  }
-
-  static creation(ctx: Context) {
-    return new FooMutations(ctx, new CreateMutationBuilder(spec));
-  }
-
-  static deletion(model: Foo) {
-    return new FooMutations(model.ctx, new DeleteMutationBuilder(spec, model));
-  }
-
-  create({ customField }: { customField: ${asTsType(primitive)} }): this {
-    // BEGIN-MANUAL-SECTION
-    // END-MANUAL-SECTION
+  create(args: CreateArgs): this {
+    const extraChangesets = impls.createImpl(this.mutator, args);
+    this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
+  }
+}
+
+export default class FooMutations {
+  static create(ctx: Context, args: CreateArgs): Mutations {
+    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
   }
 }
 `);
@@ -126,12 +126,12 @@ export default class FooMutations extends MutationsBase<Foo, Data> {
   );
 });
 
-test('All composite types can be used as inputs', () => {});
+// test('All composite types can be used as inputs', () => {});
 
 test('Node type names can be used as inputs', async () => {
-  fc.assert(
+  return fc.assert(
     fc.asyncProperty(
-      fc.stringOf(fc.constantFrom('a', 'b', 'c', 'd', 'e'), { maxLength: 6, minLength: 3 }),
+      fc.stringOf(fc.constantFrom('a', 'b', 'c', 'd', 'e'), { maxLength: 5, minLength: 3 }),
       async customName => {
         const schema = `
         Foo as Node {
@@ -146,7 +146,14 @@ test('Node type names can be used as inputs', async () => {
           algolTemplates,
         );
 
-        expect(contents).toEqual(`import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
+        expect(contents).toEqual(`/**
+ * AUTO-GENERATED FILE
+ * Do not modify. Update your schema and re-generate for changes.
+ * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
+ * \`END-MANUAL-SECTION\` markers.
+ */
+import * as impls from "./FooMutationsImpl.js";
+import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
 import Foo from "./Foo.js";
@@ -155,38 +162,27 @@ import { Data } from "./Foo.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
 import { Changeset } from "@aphro/runtime-ts";
 import ${customName} from "./${customName}.js";
 import { Data as ${customName}Data } from "./${customName}.js";
 
-export default class FooMutations extends MutationsBase<Foo, Data> {
-  private constructor(
-    ctx: Context,
-    mutator: ICreateOrUpdateBuilder<Foo, Data>
-  ) {
+export type CreateArgs = { customField: ${customName} | Changeset<${customName}, ${customName}Data> };
+class Mutations extends MutationsBase<Foo, Data> {
+  constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<Foo, Data>) {
     super(ctx, mutator);
   }
 
-  static update(model: Foo) {
-    return new FooMutations(model.ctx, new UpdateMutationBuilder(spec, model));
-  }
-
-  static creation(ctx: Context) {
-    return new FooMutations(ctx, new CreateMutationBuilder(spec));
-  }
-
-  static deletion(model: Foo) {
-    return new FooMutations(model.ctx, new DeleteMutationBuilder(spec, model));
-  }
-
-  create({
-    customField,
-  }: {
-    customField: ${customName} | Changeset<${customName}, ${customName}Data>;
-  }): this {
-    // BEGIN-MANUAL-SECTION
-    // END-MANUAL-SECTION
+  create(args: CreateArgs): this {
+    const extraChangesets = impls.createImpl(this.mutator, args);
+    this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
+  }
+}
+
+export default class FooMutations {
+  static create(ctx: Context, args: CreateArgs): Mutations {
+    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
   }
 }
 `);
@@ -195,7 +191,7 @@ export default class FooMutations extends MutationsBase<Foo, Data> {
   );
 });
 
-test('ID imports', () => {});
+// test('ID imports', () => {});
 
 async function genIt(schema: Node) {
   return await new GenTypescriptMutations(schema, '').gen();
