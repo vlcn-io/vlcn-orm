@@ -35,6 +35,10 @@
 - Incorporate counter in places where we subscribe (e.g., LiveResult) to ensure 0 memory leaks
 - Inspect and add logging (counters) for noop mutations being correctly ignored.
 
+# Validator!
+- validate engine, edges, type, db, indices...
+  - Missing `engine` or wrong `engine` doesn't throw rn
+
 # Marketing Integrations
 - https://steampipe.io/
   - TypedPipe
