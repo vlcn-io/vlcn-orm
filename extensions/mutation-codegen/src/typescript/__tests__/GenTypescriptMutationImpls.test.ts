@@ -1,25 +1,55 @@
 import { createCompiler } from '@aphro/schema';
 import mutationExtension from '@aphro/mutation-grammar';
 import { GenTypescriptMutationImpls } from '../GenTypescriptMutationImpls.js';
+import { Node } from '@aphro/schema-api';
 
 const grammarExtensions = [mutationExtension];
 const { compileFromString } = createCompiler({ grammarExtensions });
 
 const noMutations = `Foo as Node {}`;
-const emptyMutations = `Food as Node {} & Mutations {}`;
+const emptyMutations = `Foo as Node {} & Mutations {}`;
+const basic = `Foo as Node {} & Mutations {
+  edit as Update {
+    name: string
+    age: number
+    floaty: float
+  }
+}`;
 
 test('No mutations', async () => {
-  const out = await genIt(noMutations);
-  console.log(out);
+  expect(GenTypescriptMutationImpls.accepts(compileIt(noMutations))).toBe(false);
 });
 
 test('Empty mutations', async () => {
-  const out = await genIt(emptyMutations);
-  console.log(out);
+  expect(GenTypescriptMutationImpls.accepts(compileIt(emptyMutations))).toBe(false);
 });
 
-test('Generating over previously existing file', () => {});
+test('Generating a basic file', async () => {
+  const file = await genIt(compileIt(basic));
+  expect(file.contents).toEqual(`import { EditArgs } from "./FooMutations.js";
+import { Changeset } from "@aphro/runtime-ts";
+import { Data } from "./Foo.js";
+import Foo from "./Foo.js";
+import { IMutationBuilder } from "@aphro/runtime-ts";
 
-async function genIt(schema: string) {
-  return await new GenTypescriptMutationImpls(compileFromString(schema)[1].nodes.Foo, '').gen();
+export function editImpl(
+  mutator: Omit<IMutationBuilder<Foo, Data>, "toChangeset">,
+  { name, age, floaty }: EditArgs
+): void | Changeset<any>[] {
+  // Use the provided mutator to make your desired changes.
+  // e.g., mutator.set({name: "Foo" });
+  // You do not need to return anything from this method. The mutator will track your changes.
+  // If you do return changesets, those changesets will be applied in addition to the changes made to the mutator.
+}
+`);
+});
+
+// test('Generating over previously existing file', () => {});
+
+async function genIt(schema: Node) {
+  return await new GenTypescriptMutationImpls(schema, '').gen();
+}
+
+function compileIt(schema: string) {
+  return compileFromString(schema)[1].nodes.Foo;
 }
