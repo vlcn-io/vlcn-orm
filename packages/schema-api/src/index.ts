@@ -213,7 +213,7 @@ type NaturalLanguage = {
   type: 'naturalLanguage';
 } & FieldBase;
 
-type Enum = {
+export type Enum = {
   name: string;
   type: 'enumeration';
   keys: string[];

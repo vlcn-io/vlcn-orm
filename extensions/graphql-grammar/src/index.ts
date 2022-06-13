@@ -21,7 +21,8 @@ declare module '@aphro/grammar-extension-api' {
 
 export type GraphQL = {
   name: 'graphql';
-  expose: string[];
+  read: string[];
+  write: string[];
 };
 
 const extension: GrammarExtension<GraphQL, GraphQL> = {
@@ -50,6 +51,7 @@ GraphQLDeclarations
         return {
           name,
           read: read.toAst(),
+          write: [],
         };
       },
       GraphQLReadDeclarations(_, __, declarations, ___) {

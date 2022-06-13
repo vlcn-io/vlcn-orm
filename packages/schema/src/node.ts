@@ -1,4 +1,4 @@
-import { Field, ID, Import, Node } from '@aphro/schema-api';
+import { Enum, Field, ID, Import, Node } from '@aphro/schema-api';
 
 const inboundEdges = {
   isForeignKeyEdge() {},
@@ -55,5 +55,9 @@ export default {
 
   specName(nodeName: string): string {
     return nodeName + 'Spec';
+  },
+
+  inlineEnums(node: Node): Enum[] {
+    return Object.values(node.fields).filter((f): f is Enum => f.type === 'enumeration');
   },
 };

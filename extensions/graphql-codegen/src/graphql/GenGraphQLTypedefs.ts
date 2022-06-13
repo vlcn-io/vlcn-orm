@@ -1,0 +1,80 @@
+import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
+import { Node, Edge, Enum } from '@aphro/schema-api';
+import { upcaseAt } from '@strut/utils';
+import { nodeFn } from '@aphro/schema';
+import { GraphQL } from '@aphro/graphql-grammar';
+import { gatherReadFields } from './gatherReadFields.js';
+import { inlineEnumName } from './inlineEnumName.js';
+import { fieldTypeToGraphQLType } from './fieldTypeToGraphQLType.js';
+
+export class GenGraphQLTypedefs extends CodegenStep {
+  constructor(private nodes: Node[], private edges: Edge[], private schemaFileName: string) {
+    super();
+  }
+
+  async gen(): Promise<CodegenFile> {
+    const file =
+      this.schemaFileName.substring(0, this.schemaFileName.lastIndexOf('.')) + '.graphql';
+
+    const code = `
+${this.getEnumDefsCode()}
+
+${this.getObjectDefsCode()}
+`;
+
+    // TODO: Should we generate a single `node` call to fetch any `node`?
+    // How might we allow users to add their own root query types given Aphrodite doesn't express query types?
+    // We can enable the hack of `sentinel nodes` for the time being
+    // Given we want to be local, should we even support GraphQL?
+    // The user can always just concat more things onto the end of the schema
+    // And merge more resolvers in
+    throw new Error('unimplemented');
+  }
+
+  private getEnumDefsCode(): string {
+    const inlineEnums = this.pullInlineEnums();
+    // provide advice if we see inline enums?
+    return inlineEnums
+      .map(([name, e]) => {
+        `enum ${name} {
+  ${e.keys.join('\n')}
+}`;
+      })
+      .join('\n\n');
+  }
+
+  private getObjectDefsCode(): string {
+    return this.nodes.map(this.getObjectDefCode).join('\n\n');
+  }
+
+  private getObjectDefCode = (n: Node): string => {
+    return `type ${n.name} {
+  ${this.getFieldDefsCode(n)}
+  ${this.getConnectionDefsCode(n)}
+}`;
+  };
+
+  private getFieldDefsCode(n: Node): string {
+    const fields = gatherReadFields(n);
+    return fields.map(f => `${f.name}: ${fieldTypeToGraphQLType(n, f)}`).join('\n');
+  }
+
+  // Connection types are for edges. Given all edges extend a common base
+  // that enables cursoring and pagination we can generate schema types that adhere to the
+  // Relay connection spec https://relay.dev/graphql/connections.htm
+  private getConnectionDefsCode(n: Node): string {
+    return '';
+  }
+
+  private pullInlineEnums(): [string, Enum][] {
+    return this.nodes
+      .flatMap(n => {
+        const inlineEnums = nodeFn.inlineEnums(n);
+        if (inlineEnums.length === 0) {
+          return null;
+        }
+        return inlineEnums.map((e): [string, Enum] => [inlineEnumName(n, e), e]);
+      })
+      .filter((n): n is [string, Enum] => n !== null);
+  }
+}

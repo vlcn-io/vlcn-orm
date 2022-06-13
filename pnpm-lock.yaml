@@ -78,6 +78,37 @@ importers:
     devDependencies:
       typescript: 4.7.2
 
+  extensions/graphql-codegen:
+    specifiers:
+      '@aphro/codegen': workspace:*
+      '@aphro/codegen-api': workspace:*
+      '@aphro/codegen-ts': workspace:*
+      '@aphro/graphql-grammar': workspace:*
+      '@aphro/schema': workspace:*
+      '@aphro/schema-api': workspace:*
+      '@babel/core': ^7.17.10
+      '@babel/preset-env': ^7.17.10
+      '@strut/utils': workspace:*
+      '@types/jest': ^27.4.1
+      jest: ^28.1.0
+      ts-jest: ^28.0.1
+      typescript: ^4.6.4
+    dependencies:
+      '@aphro/codegen': link:../../packages/codegen
+      '@aphro/codegen-api': link:../../packages/codegen-api
+      '@aphro/codegen-ts': link:../../packages/codegen-ts
+      '@aphro/graphql-grammar': link:../graphql-grammar
+      '@aphro/schema': link:../../packages/schema
+      '@aphro/schema-api': link:../../packages/schema-api
+      '@strut/utils': link:../../mono/typescript/packages/utils
+    devDependencies:
+      '@babel/core': 7.18.2
+      '@babel/preset-env': 7.18.2_@babel+core@7.18.2
+      '@types/jest': 27.5.2
+      jest: 28.1.0
+      ts-jest: 28.0.4_237w5nogsejqfkagzhwviyxe3u
+      typescript: 4.7.3
+
   extensions/graphql-grammar:
     specifiers:
       '@aphro/grammar-extension-api': workspace:*
