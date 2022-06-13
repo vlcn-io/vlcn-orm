@@ -1,7 +1,7 @@
 # Bare bones monopoly game
 
 engine: postgres
-db: example
+db: monopoly
 
 Person as Node {
   id: ID<Person>
