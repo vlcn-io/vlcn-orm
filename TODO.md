@@ -40,6 +40,13 @@
 - validate engine, edges, type, db, indices...
   - Missing `engine` or wrong `engine` doesn't throw rn
 
+# Migrations
+- Food for thought
+  - https://gist.github.com/YannickGagnon/5320593
+- Add version param on schemas
+- Check current app version against persisted version at startup, warn on deltas.
+- Diff schema version to generate alter table commands
+
 # Marketing Integrations
 - https://steampipe.io/
   - TypedPipe
