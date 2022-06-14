@@ -26,6 +26,7 @@
 - Access to model in mutator for updates
 - Default to always applying an order by id if no ordering exists -- stable results.
 - map, union, intersect, filter, etc. on QueryBase
+- generated ids are not being converted to hex representations and ints on storage?
 
 # Mutator improvements
 - infer what the user wants to write in the manual section and generate that
@@ -57,6 +58,15 @@
 - Allow docstrings for fields and node and edges!
 - Test for cache population on read & write (createFrom was not doing so)
 - - id of imports for mutation args
+
+# 6/14
+- SID storage as bigint
+- ~~Type system cleanup relative to https://www.sqlite.org/datatype3.html~~
+- String lengths (for gensqltableschema)
+- Column overrides?
+- Index configs
+- Validate foreign key indices exist
+- Jx edge support
 
 # 6/2
 - Order by generation

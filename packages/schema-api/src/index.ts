@@ -234,6 +234,7 @@ export const primitives = [
   'uint64',
   'string',
   'null',
+  'any',
 ] as const;
 
 export type PrimitiveSubtype = typeof primitives[number];

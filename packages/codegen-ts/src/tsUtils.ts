@@ -32,6 +32,8 @@ export function fieldToTsType(field: RemoveNameField<Field>): string {
           return 'string' + suffix;
         case 'null':
           return 'null';
+        case 'any':
+          return 'any';
         default:
           assertUnreachable(field.subtype);
       }

@@ -60,6 +60,9 @@ export function fieldTypeToGraphQLType(n: Node, f: RemoveNameField<Field>): stri
         case 'uint64':
           ret = 'String';
           break;
+        case 'any':
+          ret = 'String';
+          break;
         default:
           assertUnreachable(f.subtype);
       }

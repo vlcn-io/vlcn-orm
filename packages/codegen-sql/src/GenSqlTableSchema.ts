@@ -67,6 +67,9 @@ export default class GenSqlTableSchema extends CodegenStep {
             case 'bool':
               ret = sql`${sql.ident(field.name)} boolean`;
               break;
+            case 'any':
+              ret = sql`${sql.ident(field.name)} any`;
+              break;
           }
         case 'map':
         case 'array':
@@ -100,78 +103,5 @@ export default class GenSqlTableSchema extends CodegenStep {
       columnDefs,
       ', ',
     )})`.format(formatters[this.schema.storage.engine]).text;
-  }
-
-  // TODO: We have a lot of work to do on storage types, storage type overrides, exposing
-  // all details of storage types to the query layer if desired.
-  // https://www.postgresql.org/docs/current/datatype.html
-  private getPostgresString(): string {
-    const tableName = this.schema.name.toLocaleLowerCase();
-    const columnDefs = Object.values(this.schema.fields).map(field => {
-      let ret: SQLQuery;
-      switch (field.type) {
-        case 'id':
-          ret = sql`${sql.ident(field.name)} bigint`;
-          break;
-        case 'primitive':
-          switch (field.subtype) {
-            case 'int32':
-            case 'uint32':
-              ret = sql`${sql.ident(field.name)} integer`;
-              break;
-            case 'int64':
-            case 'uint64':
-              ret = sql`${sql.ident(field.name)} bigint`;
-              break;
-            case 'float32':
-              ret = sql`${sql.ident(field.name)} real`;
-              break;
-            case 'float64':
-              ret = sql`${sql.ident(field.name)} double precision`;
-              break;
-            case 'string':
-              // TODO: ask user to define len params so we know the type here
-              ret = sql`${sql.ident(field.name)} text`;
-              break;
-            case 'bool':
-              ret = sql`${sql.ident(field.name)} boolean`;
-              break;
-          }
-        case 'map':
-        case 'array':
-          ret = sql`${sql.ident(field.name)} text`;
-          break;
-        case 'naturalLanguage':
-          // TODO: ask user to define len params so we know the type here
-          ret = sql`${sql.ident(field.name)} text`;
-          break;
-        case 'enumeration':
-          ret = sql`${sql.ident(field.name)} character varying(255)`;
-          break;
-        case 'timestamp':
-          ret = sql`${sql.ident(field.name)} bigint`;
-          break;
-        default:
-          assertUnreachable(field);
-      }
-
-      if (!field.nullable) {
-        ret = sql`${ret} NOT NULL`;
-      }
-      return ret;
-    });
-
-    if (this.schema.primaryKey) {
-      columnDefs.push(
-        sql`CONSTRAINT ${sql.ident(tableName + '_pkey')} PRIMARY KEY (${sql.ident(
-          this.schema.primaryKey,
-        )})`,
-      );
-    }
-
-    return sql`CREATE TABLE ${sql.ident(
-      this.schema.storage.schema || 'public',
-      tableName,
-    )} (${sql.join(columnDefs, ', ')})`.format(formatters[this.schema.storage.engine]).text;
   }
 }
