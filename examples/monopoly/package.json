@@ -11,11 +11,12 @@
     "build": "tsc --build",
     "watch": "tsc --build -w",
     "dev": "cross-env NODE_ENV=development ts-node-dev --exit-child --respawn src/main.ts",
-    "start": "cd dist && node main.js"
+    "start": "cd dist && cross-env NODE_ENV=development node main.js"
   },
   "dependencies": {
     "@aphro/runtime-ts": "workspace:*",
     "@graphql-tools/schema": "^8.3.14",
+    "@graphql-yoga/node": "^2.9.2",
     "graphql": "^16.5.0"
   },
   "devDependencies": {

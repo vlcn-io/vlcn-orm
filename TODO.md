@@ -73,6 +73,8 @@
 - Context should be passed through to mutator impls
   - Users should be able to extend context with own props
 - Ensure cache always matches viewer
+- Blog on caching and cache configuration (per request, per session, per viewer, combos, read thru, write thru, nuke on write, etc.)
+- Namespace the things in the `runtime-ts` pkg
 
 - String lengths (for gensqltableschema)
 - Column overrides?
