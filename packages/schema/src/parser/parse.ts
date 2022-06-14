@@ -25,6 +25,9 @@ export function createParser(config: Config = {}) {
         entities: entities.toAst(),
       };
     },
+    _iter(...children) {
+      return children.map(c => c.toAst());
+    },
     PropertyList_list: list,
     PropertyList_empty(_) {
       return [];

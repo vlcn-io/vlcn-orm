@@ -23,6 +23,7 @@ export type GraphQL = {
   name: 'graphql';
   read: string[];
   write: string[];
+  root?: 'root';
 };
 
 const extension: GrammarExtension<GraphQL, GraphQL> = {
@@ -34,10 +35,12 @@ const extension: GrammarExtension<GraphQL, GraphQL> = {
   grammar(): string {
     return String.raw`
 GraphQL
-    = "GraphQL" "{" GraphQLReadDeclarations "}"
+    = "GraphQL" "{" GraphQLExposeTypeDeclarations+ "}"
 
-GraphQLReadDeclarations
-    = "read" "{" GraphQLDeclarations "}"
+GraphQLExposeTypeDeclarations
+    = "read" "{" GraphQLDeclarations "}" -- read
+    | "write" "{" GraphQLDeclarations "}" -- write
+    | "root" -- root
 
 GraphQLDeclarations
     = GraphQLDeclarations name -- list
@@ -47,15 +50,34 @@ GraphQLDeclarations
 
   actions() {
     return {
-      GraphQL(_, __, read, ___) {
+      GraphQL(_, __, exposeTypes, ___) {
+        exposeTypes = exposeTypes.toAst();
+        const read = exposeTypes.find(t => t.type === 'read');
+        const write = exposeTypes.find(t => t.type === 'write');
+        const root = exposeTypes.find(t => t.type === 'root');
         return {
           name,
-          read: read.toAst(),
-          write: [],
+          read: read?.declarations || [],
+          write: write?.declarations || [],
+          root: root?.type,
         };
       },
-      GraphQLReadDeclarations(_, __, declarations, ___) {
-        return declarations.toAst();
+      GraphQLExposeTypeDeclarations_read(_, __, declarations, ___) {
+        return {
+          type: 'read',
+          declarations: declarations.toAst(),
+        };
+      },
+      GraphQLExposeTypeDeclarations_write(_, __, declarations, ___) {
+        return {
+          type: 'write',
+          declarations: declarations.toAst(),
+        };
+      },
+      GraphQLExposeTypeDeclarations_root(root) {
+        return {
+          type: 'root',
+        };
       },
       GraphQLDeclarations_list: list,
       GraphQLDeclarations_empty: listInit,

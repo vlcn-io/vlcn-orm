@@ -61,6 +61,7 @@ Bar as Node {
     ui64
     str
   }
+  root
 }
 
 Baz as Node {
@@ -75,7 +76,7 @@ test('Nothing exposed to GraphQL', async () => {
   expect(GenGraphQLTypedefs.accepts(nodes, edges)).toBe(false);
 
   const gql = await genIt(nodes, edges);
-  expect(gql.contents.trim()).toEqual('# SIGNED-SOURCE: <2228e977ebea8966e27929f43e39cb67>');
+  expect(gql.contents.trim()).toEqual('# SIGNED-SOURCE: <cc9067c2ee470dc248b14b194209a34e>');
 });
 
 test('Basic schema test', async () => {
@@ -85,7 +86,7 @@ test('Basic schema test', async () => {
   expect(GenGraphQLTypedefs.accepts(nodes, edges)).toBe(true);
 
   const gql = await genIt(nodes, edges);
-  expect(gql.contents).toEqual(`# SIGNED-SOURCE: <ac98ebac1f4a92aa37381fd2bb2ffbd2>
+  expect(gql.contents).toEqual(`# SIGNED-SOURCE: <51528adcd1b8982448d5729bf302df48>
 
 
 type Foo {
@@ -112,6 +113,10 @@ type Bar {
   ui32: Int
   ui64: String
   str: String
+}
+
+type Query {
+  bar(id: ID!): Bar
 }
 `);
 });

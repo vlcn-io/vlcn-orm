@@ -20,9 +20,11 @@ export class GenGraphQLTypedefs extends CodegenStep {
     const filename =
       this.schemaFileName.substring(0, this.schemaFileName.lastIndexOf('.')) + '.graphql';
 
-    const code = `
-${this.getEnumDefsCode()}
+    const code = `${this.getEnumDefsCode()}
+
 ${this.getObjectDefsCode()}
+
+${this.getRootQueryDefsCode()}
 `;
 
     // TODO: Should we generate a single `node` call to fetch any `node`?
@@ -34,16 +36,34 @@ ${this.getObjectDefsCode()}
     return new GraphQLFile(filename, code);
   }
 
+  private getRootQueryDefsCode(): string {
+    const nodes = this.nodes.filter(n => {
+      return shouldExpose(n) && n.extensions?.graphql?.root != null;
+    });
+
+    if (nodes.length === 0) {
+      return '';
+    }
+
+    return `type Query {
+  ${nodes.map(n => this.getRootQueryDefCode(n)).join('\n  ')}
+}`;
+  }
+
+  private getRootQueryDefCode(n: Node): string {
+    return `${n.name.toLowerCase()}(id: ID!): ${n.name}`;
+  }
+
   private getEnumDefsCode(): string {
     const inlineEnums = this.pullInlineEnums();
     // provide advice if we see inline enums?
     return inlineEnums
       .map(([name, e]) => {
         `enum ${name} {
-  ${e.keys.join('\n')}
+  ${e.keys.join('\n  ')}
 }`;
       })
-      .join('\n\n');
+      .join('\n');
   }
 
   private getObjectDefsCode(): string {
