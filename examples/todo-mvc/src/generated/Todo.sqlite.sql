@@ -1,6 +1,6 @@
--- SIGNED-SOURCE: <88f79dbf54c98f138062b0dddd9f7e0b>
+-- SIGNED-SOURCE: <f81866c7e1305b97408dc87348dc3bff>
 CREATE TABLE
-  "todo" (
+  IF NOT EXISTS "todo" (
     "id" bigint NOT NULL,
     "listId" bigint NOT NULL,
     "text" text NOT NULL,

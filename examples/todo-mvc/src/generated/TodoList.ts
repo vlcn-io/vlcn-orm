@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <7c1defcca2279032840baff340f43095>
+// SIGNED-SOURCE: <86c20b2fc5f4fe36824c22506b474493>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -42,5 +42,27 @@ export default class TodoList extends Model<Data> {
 
   static queryAll(ctx: Context): TodoListQuery {
     return TodoListQuery.create(ctx);
+  }
+
+  static async genx(
+    ctx: Context,
+    id: SID_of<TodoList>
+  ): Promise<TodoList | null> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
+  }
+
+  static async gen(
+    ctx: Context,
+    id: SID_of<TodoList>
+  ): Promise<TodoList | null> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }

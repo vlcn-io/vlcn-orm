@@ -35,16 +35,10 @@ async function bootstrap(ctx: Context): Promise<TodoList> {
   //   db.exec(sql`DROP TABLE IF EXISTS todolist`),
   // ]);
 
-  const results = await Promise.allSettled([
-    db.exec(sql.__dangerous__rawValue(TodoListTable)),
-    db.exec(sql.__dangerous__rawValue(TodoTable)),
+  await Promise.all([
+    db.query(sql.__dangerous__rawValue(TodoListTable)),
+    db.query(sql.__dangerous__rawValue(TodoTable)),
   ]);
-
-  results.forEach(r => {
-    if (r.status === 'rejected' && r.reason.message.indexOf('already exists') === -1) {
-      throw r.reason;
-    }
-  });
 
   const lists = await TodoList.queryAll(ctx).gen();
   let list: TodoList;

@@ -1,6 +1,6 @@
--- SIGNED-SOURCE: <d8c4a03de2f8f91c42ae16f143833e6c>
+-- SIGNED-SOURCE: <aba395c4f02a46c588bb67fd28bd8949>
 CREATE TABLE
-  "todolist" (
+  IF NOT EXISTS "todolist" (
     "id" bigint NOT NULL,
     "filter" varchar(255) NOT NULL,
     "editing" bigint,

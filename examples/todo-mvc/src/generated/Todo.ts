@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b6d3d291707e197af64ebd660be4d8ec>
+// SIGNED-SOURCE: <cbd8e564f7a5e2b84dd5b4fb46108357>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -52,5 +52,21 @@ export default class Todo extends Model<Data> {
 
   static queryAll(ctx: Context): TodoQuery {
     return TodoQuery.create(ctx);
+  }
+
+  static async genx(ctx: Context, id: SID_of<Todo>): Promise<Todo | null> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
+  }
+
+  static async gen(ctx: Context, id: SID_of<Todo>): Promise<Todo | null> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }
