@@ -22,7 +22,6 @@ export class GenGraphQLTypedefs extends CodegenStep {
 
     const code = `
 ${this.getEnumDefsCode()}
-
 ${this.getObjectDefsCode()}
 `;
 
@@ -60,13 +59,13 @@ ${this.getObjectDefsCode()}
   private getObjectDefCode = (n: Node): string => {
     return `type ${n.name} {
   ${this.getFieldDefsCode(n)}
-  ${this.getConnectionDefsCode(n)}
 }`;
+    // ${this.getConnectionDefsCode(n)}
   };
 
   private getFieldDefsCode(n: Node): string {
     const fields = gatherReadFields(n);
-    return fields.map(f => `${f.name}: ${fieldTypeToGraphQLType(n, f)}`).join('\n');
+    return fields.map(f => `${f.name}: ${fieldTypeToGraphQLType(n, f)}`).join('\n  ');
   }
 
   // Connection types are for edges. Given all edges extend a common base

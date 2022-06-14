@@ -39,6 +39,28 @@ Foo as Node {
 
 Bar as Node {
   id: ID<Bar>
+  name: string | null
+  truthy: bool | null
+  i32: int32 | null
+  i64: int64 | null
+  f32: float32 | null
+  f64: float64 | null
+  ui32: uint32 | null
+  ui64: uint64 | null
+  str: string | null
+} & GraphQL {
+  read {
+    id
+    name
+    truthy
+    i32
+    i64
+    f32
+    f64
+    ui32
+    ui64
+    str
+  }
 }
 
 Baz as Node {
@@ -53,7 +75,7 @@ test('Nothing exposed to GraphQL', async () => {
   expect(GenGraphQLTypedefs.accepts(nodes, edges)).toBe(false);
 
   const gql = await genIt(nodes, edges);
-  expect(gql.contents.trim()).toEqual('# SIGNED-SOURCE: <ff4c8ff01d544500ea4bfea43e6108c1>');
+  expect(gql.contents.trim()).toEqual('# SIGNED-SOURCE: <2228e977ebea8966e27929f43e39cb67>');
 });
 
 test('Basic schema test', async () => {
@@ -63,7 +85,35 @@ test('Basic schema test', async () => {
   expect(GenGraphQLTypedefs.accepts(nodes, edges)).toBe(true);
 
   const gql = await genIt(nodes, edges);
-  console.log(gql.contents);
+  expect(gql.contents).toEqual(`# SIGNED-SOURCE: <ac98ebac1f4a92aa37381fd2bb2ffbd2>
+
+
+type Foo {
+  id: ID!
+  name: String!
+  truthy: Boolean!
+  i32: Int!
+  i64: String!
+  f32: Float!
+  f64: Float!
+  ui32: Int!
+  ui64: String!
+  str: String!
+}
+
+type Bar {
+  id: ID!
+  name: String
+  truthy: Boolean
+  i32: Int
+  i64: String
+  f32: Float
+  f64: Float
+  ui32: Int
+  ui64: String
+  str: String
+}
+`);
 });
 
 async function genIt(nodes: Node[], edges: Edge[]) {
