@@ -20,7 +20,7 @@ importers:
     devDependencies:
       typescript: 4.7.2
 
-  examples/server-and-graphql:
+  examples/monopoly:
     specifiers:
       '@aphro/codegen-cli': workspace:*
       '@aphro/runtime-ts': workspace:*

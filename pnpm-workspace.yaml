@@ -1,7 +1,7 @@
 packages:
   - 'build-all'
+  - 'examples/monopoly'
   - 'examples/todo-mvc'
-  - 'examples/server-and-graphql'
   - 'extensions/authorization-grammar'
   - 'extensions/graphql-codegen'
   - 'extensions/graphql-grammar'
