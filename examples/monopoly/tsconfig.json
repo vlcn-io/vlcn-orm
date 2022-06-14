@@ -20,5 +20,5 @@
     "noFallthroughCasesInSwitch": false
   },
   "include": ["./src/"],
-  "references": [{ "path": "../../packages/codegen-cli" }]
+  "references": [{ "path": "../../packages/codegen-cli" }, { "path": "../../packages/runtime-ts" }]
 }

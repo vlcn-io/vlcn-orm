@@ -99,9 +99,8 @@ export default class GenSqlTableSchema extends CodegenStep {
       columnDefs.push(sql`primary key (${sql.ident(this.schema.primaryKey)})`);
     }
 
-    return sql`CREATE TABLE ${sql.ident(this.schema.name.toLocaleLowerCase())} (${sql.join(
-      columnDefs,
-      ', ',
-    )})`.format(formatters[this.schema.storage.engine]).text;
+    return sql`CREATE TABLE IF NOT EXISTS ${sql.ident(
+      this.schema.name.toLocaleLowerCase(),
+    )} (${sql.join(columnDefs, ', ')})`.format(formatters[this.schema.storage.engine]).text;
   }
 }

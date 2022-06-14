@@ -1,6 +1,6 @@
--- SIGNED-SOURCE: <d910a20b25adfc3187da6e445ed25839>
+-- SIGNED-SOURCE: <fae7d7dcecf4405383d971b34cd2e1f3>
 CREATE TABLE
-  "game" (
+  IF NOT EXISTS "game" (
     "id" bigint NOT NULL,
     "name" text NOT NULL,
     primary key ("id")

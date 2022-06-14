@@ -1,6 +1,6 @@
--- SIGNED-SOURCE: <dd920d5f861b4627b1994a70c6444cd9>
+-- SIGNED-SOURCE: <cf10fb88f80e15eccbfd9f0f54e288e6>
 CREATE TABLE
-  "player" (
+  IF NOT EXISTS "player" (
     "id" bigint NOT NULL,
     "piece" text NOT NULL,
     "ownerId" bigint NOT NULL,

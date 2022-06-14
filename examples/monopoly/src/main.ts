@@ -2,7 +2,14 @@ import { readdirSync, readFileSync } from 'fs';
 import { resolvers } from './generated/domain.graphql-resolvers.js';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { createServer } from '@graphql-yoga/node';
-import { context, anonymous, basicResolver, SQLQuery, Context } from '@aphro/runtime-ts';
+import {
+  context,
+  anonymous,
+  basicResolver,
+  SQLQuery,
+  Context,
+  resolverFromConnection,
+} from '@aphro/runtime-ts';
 import connect, { DatabaseConnection, sql } from '@databases/sqlite';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
@@ -20,28 +27,9 @@ const schema = makeExecutableSchema({
 
 async function main() {
   const db = connect(DB_FILE);
-  try {
-    // hmm... should we just add `if not exists` clauses on all our generate sqlite files?
-    await createTables(db);
-  } catch (e) {
-    if (e.code !== 'SQLITE_ERROR') {
-      throw e;
-    }
-  }
+  await createTables(db);
 
-  // TODO: just support `@databases` db connection directly?
-  const ctx = context(
-    anonymous(),
-    basicResolver({
-      type: 'sql',
-      exec(q: SQLQuery) {
-        return db.query(q);
-      },
-      destroy() {
-        db.dispose();
-      },
-    }),
-  );
+  const ctx = context(anonymous(), resolverFromConnection(db));
 
   await createTestData(ctx);
 

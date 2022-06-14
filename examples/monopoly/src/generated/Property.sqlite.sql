@@ -1,6 +1,6 @@
--- SIGNED-SOURCE: <0d32705fae927aee37e4eef4c1282106>
+-- SIGNED-SOURCE: <43de6d8d3ab36b1dbc82f5af7e565b8d>
 CREATE TABLE
-  "property" (
+  IF NOT EXISTS "property" (
     "id" bigint NOT NULL,
     "name" text NOT NULL,
     "ownerId" bigint,

@@ -1,6 +1,6 @@
--- SIGNED-SOURCE: <988436a5a564480483c94e37b9252a0b>
+-- SIGNED-SOURCE: <0ba0200ab00198aadbeb9e21776f3a9a>
 CREATE TABLE
-  "person" (
+  IF NOT EXISTS "person" (
     "id" bigint NOT NULL,
     "token" text NOT NULL,
     primary key ("id")
