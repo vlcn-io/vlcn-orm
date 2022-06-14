@@ -16,7 +16,7 @@ export interface SpecificTypedDBResolver<T extends ResolvedDB> {
 
 export type ResolvedDB = SQLResolvedDB | OtherResolvedDB;
 
-type SQLResolvedDB = {
+export type SQLResolvedDB = {
   query(q: SQLQuery): Promise<any[]>;
   dispose(): void;
 };

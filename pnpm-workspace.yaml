@@ -18,6 +18,7 @@ packages:
   - 'packages/context-runtime-ts'
   - 'packages/grammar-extension-api'
   - 'packages/integration-tests-ts'
+  - 'packages/migration-runtime-ts'
   - 'packages/model-runtime-ts'
   - 'packages/mutator-runtime-ts'
   - 'packages/parse-ts'
