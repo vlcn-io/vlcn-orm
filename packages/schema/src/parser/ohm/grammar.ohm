@@ -48,7 +48,6 @@ Aphro {
     | NaturalLanguageField
     | EnumField
     | TimeField
-    | CurrencyField
     | PrimitiveField
     | BitmaskField
   
@@ -74,9 +73,6 @@ Aphro {
   
   TimeField
   	= "Timestamp"
-  
-  CurrencyField
-  	= "Currency" "<" name ">"
   
   PrimitiveField
   	= "bool"

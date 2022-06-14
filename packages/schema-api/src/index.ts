@@ -133,7 +133,7 @@ export type NodeReference = string;
 type UnqalifiedFieldReference = string;
 export type EdgeReference = string;
 
-type NonComplexField = ID | NaturalLanguage | Enum | Currency | Time | Primitive;
+type NonComplexField = ID | NaturalLanguage | Enum | Time | Primitive;
 
 type ComplexField = MapField | ArrayField;
 
@@ -217,12 +217,6 @@ export type Enum = {
   name: string;
   type: 'enumeration';
   keys: string[];
-} & FieldBase;
-
-type Currency = {
-  name: string;
-  type: 'currency';
-  denomination: string;
 } & FieldBase;
 
 type Time = {

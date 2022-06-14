@@ -1,9 +1,9 @@
--- SIGNED-SOURCE: <c100b2d5fd07f332dacec6b02aece6d0>
+-- SIGNED-SOURCE: <dd920d5f861b4627b1994a70c6444cd9>
 CREATE TABLE
-  "public"."player" (
+  "player" (
     "id" bigint NOT NULL,
     "piece" text NOT NULL,
     "ownerId" bigint NOT NULL,
     "gameId" bigint NOT NULL,
-    CONSTRAINT "player_pkey" PRIMARY KEY ("id")
+    primary key ("id")
   )

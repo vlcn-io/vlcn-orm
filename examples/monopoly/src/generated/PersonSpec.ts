@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <8c142b0af593bb8d29f7985b2ab5b524>
+// SIGNED-SOURCE: <d143aa7c20fcb70e4e5f80cfe46d8043>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -25,7 +25,7 @@ const spec: ModelSpec<Person, Data> = {
   primaryKey: "id",
 
   storage: {
-    engine: "postgres",
+    engine: "sqlite",
     db: "monopoly",
     type: "sql",
     tablish: "person",

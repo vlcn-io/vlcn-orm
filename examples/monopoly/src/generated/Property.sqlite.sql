@@ -1,6 +1,6 @@
--- SIGNED-SOURCE: <341f057358215c2dccd645ae4e080b8e>
+-- SIGNED-SOURCE: <0d32705fae927aee37e4eef4c1282106>
 CREATE TABLE
-  "public"."property" (
+  "property" (
     "id" bigint NOT NULL,
     "name" text NOT NULL,
     "ownerId" bigint,
@@ -9,5 +9,5 @@ CREATE TABLE
     "mortgaged" text NOT NULL,
     "numHouses" text NOT NULL,
     "numHotels" text NOT NULL,
-    CONSTRAINT "property_pkey" PRIMARY KEY ("id")
+    primary key ("id")
   )

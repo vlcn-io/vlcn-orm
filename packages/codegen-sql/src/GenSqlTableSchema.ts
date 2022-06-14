@@ -79,9 +79,6 @@ export default class GenSqlTableSchema extends CodegenStep {
         case 'enumeration':
           ret = sql`${sql.ident(field.name)} varchar(255)`;
           break;
-        case 'currency':
-          ret = sql`${sql.ident(field.name)} float`;
-          break;
         case 'timestamp':
           ret = sql`${sql.ident(field.name)} bigint`;
           break;
@@ -150,9 +147,6 @@ export default class GenSqlTableSchema extends CodegenStep {
           break;
         case 'enumeration':
           ret = sql`${sql.ident(field.name)} character varying(255)`;
-          break;
-        case 'currency':
-          ret = sql`${sql.ident(field.name)} real`;
           break;
         case 'timestamp':
           ret = sql`${sql.ident(field.name)} bigint`;

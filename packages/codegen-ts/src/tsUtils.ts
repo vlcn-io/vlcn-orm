@@ -14,7 +14,6 @@ export function fieldToTsType(field: RemoveNameField<Field>): string {
       return 'string' + suffix;
     case 'enumeration':
       return field.keys.map(k => `'${k}'`).join('|');
-    case 'currency':
     case 'timestamp':
       return 'number' + suffix;
     case 'primitive':

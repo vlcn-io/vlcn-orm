@@ -30,7 +30,7 @@ FollowEdge as Edge<Person, Person> {
 
 Wallet as Node {
   id: ID<Wallet>
-  balance: Currency<usd>
+  balance: float32
   status: Enumeration<Active | Locked>
   alias: NaturalLanguage
 }
@@ -190,8 +190,8 @@ export const ast: SchemaFileAst = {
         },
         {
           name: 'balance',
-          type: 'currency',
-          denomination: 'usd',
+          type: 'primitive',
+          subtype: 'float32',
         },
         {
           name: 'status',
@@ -398,8 +398,8 @@ export const schemaFile: SchemaFile = {
         },
         balance: {
           name: 'balance',
-          type: 'currency',
-          denomination: 'usd',
+          type: 'primitive',
+          subtype: 'float32',
         },
         status: {
           name: 'status',

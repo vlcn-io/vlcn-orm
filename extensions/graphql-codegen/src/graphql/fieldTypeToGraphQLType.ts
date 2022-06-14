@@ -12,9 +12,6 @@ export function fieldTypeToGraphQLType(n: Node, f: RemoveNameField<Field>): stri
     case 'array':
       ret = `[${fieldTypeToGraphQLType(n, f.values)}]`;
       break;
-    case 'currency':
-      ret = 'Float';
-      break;
     case 'enumeration':
       // TODO o boi... enums inline in array will break all the things.
       ret = inlineEnumName(n, f as Enum);

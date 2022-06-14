@@ -1,6 +1,6 @@
 # Bare bones monopoly game
 
-engine: postgres
+engine: sqlite
 db: monopoly
 
 Person as Node {
