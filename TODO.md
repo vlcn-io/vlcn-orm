@@ -61,12 +61,20 @@
 
 # 6/14
 - SID storage as bigint
+  - https://stackoverflow.com/questions/19784491/opposite-of-hex-in-sqlite
+  - We can `unhex` or `X"..."` it to get it to a bigint?
 - ~~Type system cleanup relative to https://www.sqlite.org/datatype3.html~~
-- String lengths (for gensqltableschema)
-- Column overrides?
 - Index configs
 - Validate foreign key indices exist
 - Jx edge support
+- ~~ID_of imports for mutations~~
+- Migrations
+- Base query methods
+- Context should be passed through to mutator impls
+  - Users should be able to extend context with own props
+
+- String lengths (for gensqltableschema)
+- Column overrides?
 
 # 6/2
 - Order by generation

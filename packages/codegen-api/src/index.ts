@@ -10,4 +10,5 @@ export type Step = {
 
 export type GlobalStep = {
   new (nodes: Node[], edges: Edge[], schemaFileName: string): CodegenStep;
+  accepts: (nodes: Node[], edges: Edge[]) => boolean;
 };

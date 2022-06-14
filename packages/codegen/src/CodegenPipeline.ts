@@ -29,9 +29,13 @@ export default class CodegenPipleine {
       )
     ).flatMap(f => f.filter((f): f is CodegenFile => f != null));
 
-    const globalStepFiles = await Promise.all(
-      this.globalSteps.map(step => new step(nodes, edges, 'domain.js').gen()),
-    );
+    const globalStepFiles = (
+      await Promise.all(
+        this.globalSteps.map(step =>
+          !step.accepts(nodes, edges) ? null : new step(nodes, edges, 'domain.js').gen(),
+        ),
+      )
+    ).filter((f): f is CodegenFile => f != null);
 
     files = files.concat(globalStepFiles);
 
