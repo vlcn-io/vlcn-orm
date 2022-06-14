@@ -2,7 +2,7 @@ import { name } from '../index.js';
 
 export const contents = `
 db: test
-engine: postgres
+engine: sqlite
 
 User as Node {
   id: ID<User>
@@ -23,6 +23,8 @@ export const compiled = {
         [name]: {
           name,
           read: ['id', 'name'],
+          write: [],
+          root: undefined,
         },
       },
       fields: {
@@ -31,7 +33,7 @@ export const compiled = {
       },
       name: 'User',
       primaryKey: 'id',
-      storage: { db: 'test', engine: 'postgres', tablish: 'user', type: 'sql' },
+      storage: { db: 'test', engine: 'sqlite', tablish: 'user', type: 'sql' },
     },
   },
 };

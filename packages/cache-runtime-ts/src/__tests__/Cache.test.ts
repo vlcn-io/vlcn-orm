@@ -49,6 +49,7 @@ test('destruct', () => {
   const id = asId<TestModel>('a');
   const model = new TestModel(id);
   cache.set(id, model);
+  cache.clear();
   expect(cache.get(id)).toBe(null);
 });
 

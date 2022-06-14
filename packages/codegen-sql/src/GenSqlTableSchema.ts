@@ -70,7 +70,15 @@ export default class GenSqlTableSchema extends CodegenStep {
             case 'any':
               ret = sql`${sql.ident(field.name)} any`;
               break;
+            case 'null':
+              throw new Error(
+                `Field ${field.name} for node ${this.schema.name} must have a type other than simply just being null`,
+              );
+              break;
+            default:
+              assertUnreachable(field.subtype);
           }
+          break;
         case 'map':
         case 'array':
           ret = sql`${sql.ident(field.name)} text`;

@@ -1,13 +1,13 @@
--- SIGNED-SOURCE: <43de6d8d3ab36b1dbc82f5af7e565b8d>
+-- SIGNED-SOURCE: <08d2c4888e57b6cdcaa6a8f0ef8ad9c7>
 CREATE TABLE
   IF NOT EXISTS "property" (
     "id" bigint NOT NULL,
     "name" text NOT NULL,
     "ownerId" bigint,
     "gameId" bigint NOT NULL,
-    "cost" text NOT NULL,
-    "mortgaged" text NOT NULL,
-    "numHouses" text NOT NULL,
-    "numHotels" text NOT NULL,
+    "cost" float NOT NULL,
+    "mortgaged" boolean NOT NULL,
+    "numHouses" int NOT NULL,
+    "numHotels" int NOT NULL,
     primary key ("id")
   )
