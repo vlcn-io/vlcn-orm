@@ -2,7 +2,7 @@
 
 **[Launch the example](https://aphrodite-examples.pages.dev/todo-mvc/)!**
 
-*An implementation of [TodoMVC](https://todomvc.com/) using `Aphrodite` to manage the data model.*
+*An implementation of [TodoMVC](https://todomvc.com/) using `Aphrodite` to manage the data model locally in the browser.*
 
 # Code Overview
 
