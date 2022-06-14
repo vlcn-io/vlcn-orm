@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <ca03084d96966ad17fdd8c00c4e50985>
+// SIGNED-SOURCE: <75b752e6dee36e82c248c680c0d270ed>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -23,6 +23,8 @@ import { default as PropertySpec } from "./PropertySpec.js";
 import PropertyQuery from "./PropertyQuery.js";
 import { default as GameSpec } from "./GameSpec.js";
 import GameQuery from "./GameQuery.js";
+import { default as PersonSpec } from "./PersonSpec.js";
+import PersonQuery from "./PersonQuery.js";
 
 export default class PlayerQuery extends DerivedQuery<Player> {
   static create(ctx: Context) {
@@ -88,6 +90,13 @@ export default class PlayerQuery extends DerivedQuery<Player> {
         spec.outboundEdges.playing
       ),
       modelLoad(this.ctx, GameSpec.createFrom)
+    );
+  }
+  queryOwner(): PersonQuery {
+    return new PersonQuery(
+      this.ctx,
+      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.owner),
+      modelLoad(this.ctx, PersonSpec.createFrom)
     );
   }
 }

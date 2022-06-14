@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <0cc2c40825695a5a277f816b737f6b36>
+// SIGNED-SOURCE: <cd9b006ded7671ddb3bc7e84901c5e15>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -19,6 +19,8 @@ import { Data } from "./Property.js";
 import { default as spec } from "./PropertySpec.js";
 import Player from "./Player.js";
 import Game from "./Game.js";
+import { default as PlayerSpec } from "./PlayerSpec.js";
+import PlayerQuery from "./PlayerQuery.js";
 
 export default class PropertyQuery extends DerivedQuery<Property> {
   static create(ctx: Context) {
@@ -94,6 +96,13 @@ export default class PropertyQuery extends DerivedQuery<Property> {
       this.ctx,
       this,
       filter(new ModelFieldGetter<"numHotels", Data, Property>("numHotels"), p)
+    );
+  }
+  queryOwner(): PlayerQuery {
+    return new PlayerQuery(
+      this.ctx,
+      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.owner),
+      modelLoad(this.ctx, PlayerSpec.createFrom)
     );
   }
 }

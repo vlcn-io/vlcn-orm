@@ -1,6 +1,6 @@
 import { Enum, Field, Node, RemoveNameField } from '@aphro/schema-api';
 import { assertUnreachable } from '@strut/utils';
-import { inlineEnumName } from './inlineEnumName';
+import { inlineEnumName } from './inlineEnumName.js';
 
 // TODO: Aphrodite must enable computational & storage types + semantic types.
 // Do we really want to get into the semantic type game given people will have different understandings

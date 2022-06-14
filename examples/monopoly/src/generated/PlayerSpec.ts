@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a870ecf046a6a539f963939e7d4bce33>
+// SIGNED-SOURCE: <fed0587bcc67a41fb87ee84fb66ca77c>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,6 +9,7 @@ import { Context } from "@aphro/runtime-ts";
 import { ModelSpec } from "@aphro/runtime-ts";
 import { default as PropertySpec } from "./PropertySpec.js";
 import { default as GameSpec } from "./GameSpec.js";
+import { default as PersonSpec } from "./PersonSpec.js";
 import Player from "./Player.js";
 import { Data } from "./Player.js";
 
@@ -53,6 +54,17 @@ const spec: ModelSpec<Player, Data> = {
       },
       get dest() {
         return GameSpec;
+      },
+    },
+    owner: {
+      type: "field",
+      sourceField: "ownerId",
+      destField: "id",
+      get source() {
+        return spec;
+      },
+      get dest() {
+        return PersonSpec;
       },
     },
   },

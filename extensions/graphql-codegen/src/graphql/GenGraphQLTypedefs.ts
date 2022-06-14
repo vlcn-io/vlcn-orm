@@ -85,6 +85,7 @@ ${this.getRootQueryDefsCode()}
 
   private getFieldDefsCode(n: Node): string {
     const fields = gatherReadFields(n);
+    // TODO: throw better errors if selected field does not exist
     return fields.map(f => `${f.name}: ${fieldTypeToGraphQLType(n, f)}`).join('\n  ');
   }
 

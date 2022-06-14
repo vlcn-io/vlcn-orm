@@ -9,5 +9,5 @@ export type Step = {
 };
 
 export type GlobalStep = {
-  new (schemas: (Node | Edge)[]): CodegenStep;
+  new (nodes: Node[], edges: Edge[], schemaFileName: string): CodegenStep;
 };

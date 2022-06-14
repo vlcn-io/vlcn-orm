@@ -1,0 +1,26 @@
+type Person {
+  id: ID!
+}
+
+type Player {
+  id: ID!
+  piece: String!
+}
+
+type Game {
+  id: ID!
+}
+
+type Property {
+  id: ID!
+  name: String!
+  cost: Float!
+  mortgaged: Boolean!
+  numHouses: Int!
+  numHotels: Int!
+}
+
+type Query {
+  person(id: ID!): Person
+  persons(ids: [ID!]!): [Person]!
+}

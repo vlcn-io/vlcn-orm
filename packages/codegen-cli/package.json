@@ -16,6 +16,8 @@
     "@aphro/codegen-api": "workspace:*",
     "@aphro/codegen-sql": "workspace:*",
     "@aphro/codegen-ts": "workspace:*",
+    "@aphro/graphql-codegen": "workspace:*",
+    "@aphro/graphql-grammar": "workspace:*",
     "@aphro/mutation-codegen": "workspace:*",
     "@aphro/mutation-grammar": "workspace:*",
     "@aphro/schema": "workspace:*",

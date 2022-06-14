@@ -15,10 +15,10 @@ export default class CodegenPipleine {
     private readonly globalSteps: readonly GlobalStep[],
   ) {}
 
-  async gen(schemas: (Node | Edge)[], dest: string) {
+  async gen(nodes: Node[], edges: Edge[], dest: string) {
     let files = (
       await Promise.all(
-        schemas.map(
+        nodes.map(
           async schema =>
             await Promise.all(
               this.steps.map(
@@ -30,7 +30,7 @@ export default class CodegenPipleine {
     ).flatMap(f => f.filter((f): f is CodegenFile => f != null));
 
     const globalStepFiles = await Promise.all(
-      this.globalSteps.map(step => new step(schemas).gen()),
+      this.globalSteps.map(step => new step(nodes, edges, 'domain.js').gen()),
     );
 
     files = files.concat(globalStepFiles);

@@ -14,6 +14,8 @@
     { "path": "../codegen-sql" },
     { "path": "../../extensions/mutation-grammar" },
     { "path": "../../extensions/mutation-codegen" },
+    { "path": "../../extensions/graphql-grammar" },
+    { "path": "../../extensions/graphql-codegen" },
     { "path": "../../mono/typescript/packages/utils" },
     { "path": "../../mono/typescript/packages/counter" }
   ]

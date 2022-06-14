@@ -339,6 +339,8 @@ importers:
       '@aphro/codegen-api': workspace:*
       '@aphro/codegen-sql': workspace:*
       '@aphro/codegen-ts': workspace:*
+      '@aphro/graphql-codegen': workspace:*
+      '@aphro/graphql-grammar': workspace:*
       '@aphro/mutation-codegen': workspace:*
       '@aphro/mutation-grammar': workspace:*
       '@aphro/schema': workspace:*
@@ -364,6 +366,8 @@ importers:
       '@aphro/codegen-api': link:../codegen-api
       '@aphro/codegen-sql': link:../codegen-sql
       '@aphro/codegen-ts': link:../codegen-ts
+      '@aphro/graphql-codegen': link:../../extensions/graphql-codegen
+      '@aphro/graphql-grammar': link:../../extensions/graphql-grammar
       '@aphro/mutation-codegen': link:../../extensions/mutation-codegen
       '@aphro/mutation-grammar': link:../../extensions/mutation-grammar
       '@aphro/schema': link:../schema

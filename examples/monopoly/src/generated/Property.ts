@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <92c644644bac11ef39e111ee044bf16e>
+// SIGNED-SOURCE: <a78a230075580ab8a464d22928898dd9>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -12,6 +12,7 @@ import { ModelSpec } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import PropertyQuery from "./PropertyQuery.js";
 import { Context } from "@aphro/runtime-ts";
+import PlayerQuery from "./PlayerQuery.js";
 import Player from "./Player.js";
 import Game from "./Game.js";
 
@@ -59,6 +60,10 @@ export default class Property extends Model<Data> {
 
   get numHotels(): number {
     return this.data.numHotels;
+  }
+
+  queryOwner(): PlayerQuery {
+    return PlayerQuery.fromId(this.ctx, this.ownerId);
   }
 
   static queryAll(ctx: Context): PropertyQuery {

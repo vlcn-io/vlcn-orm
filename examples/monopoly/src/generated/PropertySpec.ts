@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <f40913f76cdd52d104697bff8ff26d5d>
+// SIGNED-SOURCE: <7716cf94c4343587c2df413f4f0b0722>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,6 +7,7 @@
  */
 import { Context } from "@aphro/runtime-ts";
 import { ModelSpec } from "@aphro/runtime-ts";
+import { default as PlayerSpec } from "./PlayerSpec.js";
 import Property from "./Property.js";
 import { Data } from "./Property.js";
 
@@ -30,7 +31,19 @@ const spec: ModelSpec<Property, Data> = {
     tablish: "property",
   },
 
-  outboundEdges: {},
+  outboundEdges: {
+    owner: {
+      type: "field",
+      sourceField: "ownerId",
+      destField: "id",
+      get source() {
+        return spec;
+      },
+      get dest() {
+        return PlayerSpec;
+      },
+    },
+  },
 };
 
 export default spec;

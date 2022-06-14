@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <f4d7fd801369fbb3cc0610d4519ec155>
+// SIGNED-SOURCE: <e97be8dfe7bfda15e790e54160d845e3>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -15,6 +15,7 @@ import { Context } from "@aphro/runtime-ts";
 import PropertyQuery from "./PropertyQuery.js";
 import Property from "./Property.js";
 import GameQuery from "./GameQuery.js";
+import PersonQuery from "./PersonQuery.js";
 import Person from "./Person.js";
 import Game from "./Game.js";
 
@@ -49,6 +50,9 @@ export default class Player extends Model<Data> {
   }
   queryPlaying(): GameQuery {
     return GameQuery.fromId(this.ctx, this.gameId);
+  }
+  queryOwner(): PersonQuery {
+    return PersonQuery.fromId(this.ctx, this.ownerId);
   }
 
   static queryAll(ctx: Context): PlayerQuery {

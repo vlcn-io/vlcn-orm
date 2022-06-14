@@ -12,6 +12,7 @@ Person as Node {
   read {
     id
   }
+  root
 }
 
 Player as Node {
@@ -27,7 +28,7 @@ Player as Node {
   read {
     id
     piece
-    owner
+    # owner
   }
 }
 
@@ -40,8 +41,8 @@ Game as Node {
 } & GraphQL {
   read {
     id
-    players
-    board
+    # players
+    # board
   }
 }
 
@@ -60,7 +61,7 @@ Property as Node {
   read {
     id
     name
-    owner
+    # owner
     cost
     mortgaged
     numHouses
