@@ -2,14 +2,7 @@ import { readdirSync, readFileSync } from 'fs';
 import { resolvers } from './generated/domain.graphql-resolvers.js';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { createServer } from '@graphql-yoga/node';
-import {
-  context,
-  anonymous,
-  basicResolver,
-  SQLQuery,
-  Context,
-  resolverFromConnection,
-} from '@aphro/runtime-ts';
+import { context, anonymous, Context, basicResolver } from '@aphro/runtime-ts';
 import connect, { DatabaseConnection, sql } from '@databases/sqlite';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
@@ -29,7 +22,7 @@ async function main() {
   const db = connect(DB_FILE);
   await createTables(db);
 
-  const ctx = context(anonymous(), resolverFromConnection(db));
+  const ctx = context(anonymous(), basicResolver(db));
 
   await createTestData(ctx);
 

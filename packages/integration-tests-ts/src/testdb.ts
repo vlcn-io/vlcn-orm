@@ -12,15 +12,7 @@ function createResolver(): DBResolver {
     db = createDb();
   }
 
-  return basicResolver({
-    type: 'sql',
-    exec(q: SQLQuery) {
-      return nullthrows(db).query(q);
-    },
-    destroy() {
-      db?.dispose();
-    },
-  });
+  return basicResolver(db);
 }
 
 export const resolver = createResolver();

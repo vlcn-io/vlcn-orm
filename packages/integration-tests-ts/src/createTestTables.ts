@@ -11,5 +11,5 @@ export default async function createTestTables() {
   const schemas = schemaPaths.map(s => sql.file(path.join(generatedDir, s)));
 
   const db = resolver.engine('sqlite').db('test');
-  await Promise.all(schemas.map(s => db.exec(s)));
+  await Promise.all(schemas.map(s => db.query(s)));
 }

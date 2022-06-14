@@ -27,6 +27,6 @@ export default class SQLSourceChunkIterable<T extends IModel<Object>> extends Ba
       .engine(this.spec.storage.engine)
       .db(this.spec.storage.db);
     const sql = specAndOpsToQuery(this.spec, this.hoistedOperations);
-    yield await resolvedDb.exec(sql);
+    yield await resolvedDb.query(sql);
   }
 }

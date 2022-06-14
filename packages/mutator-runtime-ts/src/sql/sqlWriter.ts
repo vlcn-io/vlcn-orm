@@ -34,7 +34,7 @@ export default {
 
     // console.log(query);
     // console.log(nodes.map(n => Object.values(n._d())));
-    await db.exec(
+    await db.query(
       query,
       // nodes.flatMap(n => Object.values(n._d())),
     );
@@ -55,7 +55,7 @@ export default {
       ', ',
     )})`;
 
-    await db.exec(query);
+    await db.query(query);
   },
 
   async createTables(): Promise<void> {},

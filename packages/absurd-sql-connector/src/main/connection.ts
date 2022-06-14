@@ -12,7 +12,6 @@ const counter = count('@aphro/absurd-sql/Connection');
 // Place into queue on catch?
 // Always queue? -- this'll impact reads that could be parallel
 export default class Connection {
-  type: 'sql' = 'sql';
   #worker: Worker;
   #pending: {
     id: number;
@@ -46,7 +45,7 @@ export default class Connection {
   }
 
   // TODO: what type gets returned?
-  async exec(sql: SQLQuery): Promise<any> {
+  async query(sql: SQLQuery): Promise<any> {
     counter.bump('query');
     const id = queryId++;
 
@@ -107,7 +106,7 @@ export default class Connection {
     }
   };
 
-  destroy() {
+  dispose() {
     counter.bump('destroy');
     this.#worker.removeEventListener('message', this.#messageListener);
   }

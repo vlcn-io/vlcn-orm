@@ -17,13 +17,12 @@ export interface SpecificTypedDBResolver<T extends ResolvedDB> {
 export type ResolvedDB = SQLResolvedDB | OtherResolvedDB;
 
 type SQLResolvedDB = {
-  type: 'sql';
-  exec(q: SQLQuery): Promise<any[]>;
-  destroy(): void;
+  query(q: SQLQuery): Promise<any[]>;
+  dispose(): void;
 };
 
 type OtherResolvedDB = {
   type: 'other';
-  exec: (query: string, bindings: any[]) => Promise<any[]>;
-  destroy(): void;
+  query: (query: string, bindings: any[]) => Promise<any[]>;
+  dispose(): void;
 };
