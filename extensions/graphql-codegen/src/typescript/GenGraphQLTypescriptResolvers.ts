@@ -1,10 +1,16 @@
 import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
-import { Node, Edge, Enum } from '@aphro/schema-api';
-import shouldExpose from '../graphql/shouldExpose';
+import { importsToString, TypescriptFile } from '@aphro/codegen-ts';
+import { tsImport } from '@aphro/schema';
+import { Node, Edge, Import } from '@aphro/schema-api';
+import { lowercaseAt } from '@strut/utils';
+import shouldExpose, { exposesRoot } from '../graphql/shouldExpose.js';
 
 export class GenGraphQLTypescriptResolvers extends CodegenStep {
+  private nodesWithRootCalls: Node[];
+
   constructor(private nodes: Node[], private edges: Edge[], private schemaFileName: string) {
     super();
+    this.nodesWithRootCalls = this.nodes.filter(exposesRoot);
   }
 
   static accepts(nodes: Node[], edges: Edge[]): boolean {
@@ -16,8 +22,37 @@ export class GenGraphQLTypescriptResolvers extends CodegenStep {
       this.schemaFileName.substring(0, this.schemaFileName.lastIndexOf('.')) +
       '.graphql-resolvers.ts';
 
-    const code = `
-`;
-    throw new Error('unimplemented');
+    // TODO: handle nodes with edges
+    // and nodes with computed properties
+    const code = `${importsToString(this.collectImports())}
+
+export const resolvers = {
+  Query: {
+    ${this.nodesWithRootCalls.map(this.getRootQueryCode).join(',\n')}
   }
+};
+`;
+    return new TypescriptFile(filename, code);
+  }
+
+  private collectImports(): Import[] {
+    return [
+      ...this.nodesWithRootCalls.map(n => tsImport(n.name, null, './' + n.name + '.js')),
+      tsImport('{Context}', null, '@aphro/runtime-ts'),
+    ];
+  }
+
+  private getRootQueryCode = (n: Node): string => {
+    // Will need to inject _our_ context
+    // https://www.graphql-yoga.com/tutorial/basic/07-connecting-server-and-database
+    return `async ${lowercaseAt(n.name, 0)}(parent, args, ctx: {aphrodite: Context}, info): ${
+      n.name
+    } {
+      return await ${n.name}.genOnly(ctx.aphrodite, args.id);
+    },
+    
+    async ${lowercaseAt(n.name, 0)}s(parent, args, ctx: {aphrodite: Context}, info): ${n.name}[] {
+      return await ${n.name}.queryAll(ctx.aphrodite).whereId(P.in(new Set(ctx.ids))).gen();
+    }`;
+  };
 }

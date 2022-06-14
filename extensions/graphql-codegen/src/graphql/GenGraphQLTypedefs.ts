@@ -4,8 +4,9 @@ import { nodeFn } from '@aphro/schema';
 import { gatherReadFields } from './gatherReadFields.js';
 import { inlineEnumName } from './inlineEnumName.js';
 import { fieldTypeToGraphQLType } from './fieldTypeToGraphQLType.js';
-import shouldExpose from './shouldExpose.js';
+import shouldExpose, { exposesRoot } from './shouldExpose.js';
 import GraphQLFile from './GraphqlFile.js';
+import { lowercaseAt } from '@strut/utils';
 
 export class GenGraphQLTypedefs extends CodegenStep {
   constructor(private nodes: Node[], private edges: Edge[], private schemaFileName: string) {
@@ -37,9 +38,7 @@ ${this.getRootQueryDefsCode()}
   }
 
   private getRootQueryDefsCode(): string {
-    const nodes = this.nodes.filter(n => {
-      return shouldExpose(n) && n.extensions?.graphql?.root != null;
-    });
+    const nodes = this.nodes.filter(exposesRoot);
 
     if (nodes.length === 0) {
       return '';
@@ -51,7 +50,8 @@ ${this.getRootQueryDefsCode()}
   }
 
   private getRootQueryDefCode(n: Node): string {
-    return `${n.name.toLowerCase()}(id: ID!): ${n.name}`;
+    return `${lowercaseAt(n.name, 0)}(id: ID!): ${n.name}
+  ${lowercaseAt(n.name, 0)}s(ids: [ID!]!): [${n.name}]!`;
   }
 
   private getEnumDefsCode(): string {

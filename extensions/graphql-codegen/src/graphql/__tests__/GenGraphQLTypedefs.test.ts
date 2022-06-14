@@ -1,6 +1,6 @@
 import { createCompiler } from '@aphro/schema';
 import graphqlExtension from '@aphro/graphql-grammar';
-import { GenGraphQLTypedefs } from '../GenGraphQLTypedefs';
+import { GenGraphQLTypedefs } from '../GenGraphQLTypedefs.js';
 import { Edge, Node } from '@aphro/schema-api';
 
 const grammarExtensions = [graphqlExtension];
@@ -86,7 +86,7 @@ test('Basic schema test', async () => {
   expect(GenGraphQLTypedefs.accepts(nodes, edges)).toBe(true);
 
   const gql = await genIt(nodes, edges);
-  expect(gql.contents).toEqual(`# SIGNED-SOURCE: <51528adcd1b8982448d5729bf302df48>
+  expect(gql.contents).toEqual(`# SIGNED-SOURCE: <b298fba16880368494414d071181667c>
 
 
 type Foo {
@@ -117,6 +117,7 @@ type Bar {
 
 type Query {
   bar(id: ID!): Bar
+  bars(ids: [ID!]!): [Bar]!
 }
 `);
 });

@@ -6,3 +6,7 @@ export default function shouldExpose(n: Node): boolean {
     (n.extensions.graphql.read?.length > 0 || n.extensions.graphql.write?.length > 0)
   );
 }
+
+export function exposesRoot(n: Node): boolean {
+  return shouldExpose(n) && n.extensions?.graphql?.root != null;
+}
