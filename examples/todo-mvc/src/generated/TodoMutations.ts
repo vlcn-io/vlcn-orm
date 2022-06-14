@@ -1,23 +1,23 @@
-// SIGNED-SOURCE: <55d57ca36425ae00f6a6d3b028535e55>
+// SIGNED-SOURCE: <c0c83e5cfee86e70e32e8f80c1468f96>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
  * `END-MANUAL-SECTION` markers.
  */
-import * as impls from './TodoMutationsImpl.js';
-import { ICreateOrUpdateBuilder } from '@aphro/runtime-ts';
-import { Context } from '@aphro/runtime-ts';
-import { MutationsBase } from '@aphro/runtime-ts';
-import Todo from './Todo.js';
-import { default as spec } from './TodoSpec.js';
-import { Data } from './Todo.js';
-import { UpdateMutationBuilder } from '@aphro/runtime-ts';
-import { CreateMutationBuilder } from '@aphro/runtime-ts';
-import { DeleteMutationBuilder } from '@aphro/runtime-ts';
-import { SID_of } from '@aphro/runtime-ts';
-import { Changeset } from '@aphro/runtime-ts';
-import TodoList from './TodoList.js';
+import * as impls from "./TodoMutationsImpl.js";
+import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
+import { Context } from "@aphro/runtime-ts";
+import { MutationsBase } from "@aphro/runtime-ts";
+import Todo from "./Todo.js";
+import { default as spec } from "./TodoSpec.js";
+import { Data } from "./Todo.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
+import { Changeset } from "@aphro/runtime-ts";
+import TodoList from "./TodoList.js";
 
 export type CreateArgs = { text: string; listId: SID_of<TodoList> };
 
@@ -69,17 +69,29 @@ export default class TodoMutations {
     return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
   }
   static toggleComplete(model: Todo, args: ToggleCompleteArgs): Mutations {
-    return new Mutations(model.ctx, new UpdateMutationBuilder(spec, model)).toggleComplete(args);
+    return new Mutations(
+      model.ctx,
+      new UpdateMutationBuilder(spec, model)
+    ).toggleComplete(args);
   }
 
   static setComplete(model: Todo, args: SetCompleteArgs): Mutations {
-    return new Mutations(model.ctx, new UpdateMutationBuilder(spec, model)).setComplete(args);
+    return new Mutations(
+      model.ctx,
+      new UpdateMutationBuilder(spec, model)
+    ).setComplete(args);
   }
 
   static changeText(model: Todo, args: ChangeTextArgs): Mutations {
-    return new Mutations(model.ctx, new UpdateMutationBuilder(spec, model)).changeText(args);
+    return new Mutations(
+      model.ctx,
+      new UpdateMutationBuilder(spec, model)
+    ).changeText(args);
   }
   static delete(model: Todo, args: DeleteArgs): Mutations {
-    return new Mutations(model.ctx, new DeleteMutationBuilder(spec, model)).delete(args);
+    return new Mutations(
+      model.ctx,
+      new DeleteMutationBuilder(spec, model)
+    ).delete(args);
   }
 }

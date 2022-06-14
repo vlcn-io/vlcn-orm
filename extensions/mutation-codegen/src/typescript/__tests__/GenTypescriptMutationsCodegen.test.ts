@@ -213,5 +213,7 @@ function asTsType(prim: PrimitiveSubtype): string {
     case 'uint64':
     case 'string':
       return 'string';
+    case 'any':
+      return 'any';
   }
 }

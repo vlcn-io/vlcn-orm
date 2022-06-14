@@ -12,20 +12,26 @@ function collectImportsForArgs(schema: Node, args: { [key: string]: MutationArgD
   const fullArgsDefs = Object.values(args).map(a =>
     mutationFn.transformMaybeQuickToFull(schema, a),
   );
-  return fullArgsDefs.flatMap(
-    a =>
-      a.typeDef
-        .flatMap(td =>
-          td.type === 'type'
-            ? typeof td.name === 'string' && td.name !== 'null'
-              ? [
-                  tsImport(td.name, null, `./${td.name}.js`),
-                  tsImport('{Data}', td.name + 'Data', `./${td.name}.js`),
-                ]
-              : null
-            : null,
-        )
-        .filter(td => td != null) as Import[],
+  return fullArgsDefs.flatMap(a =>
+    a.typeDef
+      .flatMap(td => {
+        if (td.type === 'type') {
+          if (typeof td.name === 'string' && td.name !== 'null') {
+            return [
+              tsImport(td.name, null, `./${td.name}.js`),
+              tsImport('{Data}', td.name + 'Data', `./${td.name}.js`),
+            ];
+          } else if (typeof td.name !== 'string') {
+            if (td.name.type === 'id') {
+              return [tsImport(td.name.of, null, `./${td.name.of}.js`)];
+            }
+            // else if (td.name.type === 'array') {
+            // } else if (td.name.type === 'map') {
+            // }
+          }
+        }
+      })
+      .filter((td): td is Import => td != null),
   );
 }
 
