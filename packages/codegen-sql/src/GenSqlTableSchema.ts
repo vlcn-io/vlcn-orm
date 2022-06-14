@@ -20,9 +20,9 @@ export default class GenSqlTableSchema extends CodegenStep {
       case 'sqlite':
         str = this.getSqliteString();
         break;
-      case 'postgres':
-        str = this.getPostgresString();
-        break;
+      // case 'postgres':
+      //   str = this.getPostgresString();
+      //   break;
       default:
         assertUnreachable(engine);
     }
