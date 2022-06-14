@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a78a230075580ab8a464d22928898dd9>
+// SIGNED-SOURCE: <31cc1f5c31fd30dac8454cefe22139fe>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -68,5 +68,27 @@ export default class Property extends Model<Data> {
 
   static queryAll(ctx: Context): PropertyQuery {
     return PropertyQuery.create(ctx);
+  }
+
+  static async genx(
+    ctx: Context,
+    id: SID_of<Property>
+  ): Promise<Property | null> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
+  }
+
+  static async gen(
+    ctx: Context,
+    id: SID_of<Property>
+  ): Promise<Property | null> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }

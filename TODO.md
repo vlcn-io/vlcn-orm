@@ -72,6 +72,7 @@
 - Base query methods
 - Context should be passed through to mutator impls
   - Users should be able to extend context with own props
+- Ensure cache always matches viewer
 
 - String lengths (for gensqltableschema)
 - Column overrides?

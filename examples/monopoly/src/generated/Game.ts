@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <fc14c86f093ee60b2a05950ffae0386b>
+// SIGNED-SOURCE: <5e3111f8694282b79fb1a39499d580e3>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -42,5 +42,21 @@ export default class Game extends Model<Data> {
 
   static queryAll(ctx: Context): GameQuery {
     return GameQuery.create(ctx);
+  }
+
+  static async genx(ctx: Context, id: SID_of<Game>): Promise<Game | null> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
+  }
+
+  static async gen(ctx: Context, id: SID_of<Game>): Promise<Game | null> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }

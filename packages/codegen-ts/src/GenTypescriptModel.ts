@@ -30,6 +30,10 @@ export default class ${this.schema.name}
   ${this.getEdgeCode()}
 
   ${this.getQueryAllMethodCode()}
+
+  ${this.getGenxMethodCode()}
+
+  ${this.getGenMethodCode()}
 }
 `,
     );
@@ -190,6 +194,26 @@ export default class ${this.schema.name}
   private getQueryAllMethodCode(): string {
     return `static queryAll(ctx: Context): ${nodeFn.queryTypeName(this.schema.name)} {
       return ${nodeFn.queryTypeName(this.schema.name)}.create(ctx);
+    }`;
+  }
+
+  private getGenMethodCode(): string {
+    return `static async gen(ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name} | null> {
+      const existing = ctx.cache.get(id);
+      if (existing) {
+        return existing;
+      }
+      return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
+    }`;
+  }
+
+  private getGenxMethodCode(): string {
+    return `static async genx(ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name} | null> {
+      const existing = ctx.cache.get(id);
+      if (existing) {
+        return existing;
+      }
+      return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
     }`;
   }
 }

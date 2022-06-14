@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <ec807b75a3a24e6aa104aedf9821a5a9>
+// SIGNED-SOURCE: <27692841a2c8c823fd282d35dc964acf>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,16 +7,27 @@
  */
 import Person from "./Person.js";
 import { Context } from "@aphro/runtime-ts";
+import { P } from "@aphro/runtime-ts";
 
 export const resolvers = {
   Query: {
-    async person(parent, args, ctx: { aphrodite: Context }, info): Person {
-      return await Person.genOnly(ctx.aphrodite, args.id);
+    async person(
+      parent,
+      args,
+      ctx: { aphrodite: Context },
+      info
+    ): Promise<Person> {
+      return await Person.gen(ctx.aphrodite, args.id);
     },
 
-    async persons(parent, args, ctx: { aphrodite: Context }, info): Person[] {
+    async persons(
+      parent,
+      args,
+      ctx: { aphrodite: Context },
+      info
+    ): Promise<Person[]> {
       return await Person.queryAll(ctx.aphrodite)
-        .whereId(P.in(new Set(ctx.ids)))
+        .whereId(P.in(new Set(args.ids)))
         .gen();
     },
   },

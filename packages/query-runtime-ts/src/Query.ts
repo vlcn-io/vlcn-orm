@@ -1,4 +1,5 @@
 import { Context } from '@aphro/context-runtime-ts';
+import { invariant } from '@strut/utils';
 import { Expression, HopExpression, SourceExpression } from './Expression.js';
 import HopPlan from './HopPlan.js';
 import LiveResult from './live/LiveResult.js';
@@ -15,14 +16,18 @@ export enum UpdateType {
 }
 
 export interface Query<T> {
-  plan(): IPlan;
   gen(): Promise<T[]>;
+  genOnlyValue(): Promise<T | null>;
+  genxOnlyValue(): Promise<T>;
+
   live(on: UpdateType): LiveResult<T>;
-  implicatedDatasets(): Set<string>;
 
   // map<R>(fn: (t: T) => R): Query<R>;
   // flatMap<R>(fn: (t: T) => R[]): Query<R>;
   // filter(fn: (t: T) => boolean): Query<T>;
+
+  plan(): IPlan;
+  implicatedDatasets(): Set<string>;
 }
 
 abstract class BaseQuery<T> implements Query<T> {
@@ -40,6 +45,22 @@ abstract class BaseQuery<T> implements Query<T> {
     }
 
     return results;
+  }
+
+  async genOnlyValue(): Promise<T | null> {
+    const values = await this.gen();
+    invariant(values.length <= 1, 'genOnlyValue returned more values than expected.');
+
+    return values[0] || null;
+  }
+
+  async genxOnlyValue(): Promise<T> {
+    const ret = await this.genOnlyValue();
+    if (ret == null) {
+      throw new Error('genxOnlyValue did not return a value');
+    }
+
+    return ret;
   }
 
   live(on: UpdateType): LiveResult<T> {

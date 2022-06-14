@@ -39,20 +39,24 @@ export const resolvers = {
     return [
       ...this.nodesWithRootCalls.map(n => tsImport(n.name, null, './' + n.name + '.js')),
       tsImport('{Context}', null, '@aphro/runtime-ts'),
+      tsImport('{P}', null, '@aphro/runtime-ts'),
     ];
   }
 
   private getRootQueryCode = (n: Node): string => {
     // Will need to inject _our_ context
     // https://www.graphql-yoga.com/tutorial/basic/07-connecting-server-and-database
-    return `async ${lowercaseAt(n.name, 0)}(parent, args, ctx: {aphrodite: Context}, info): ${
-      n.name
-    } {
-      return await ${n.name}.genOnly(ctx.aphrodite, args.id);
+    return `async ${lowercaseAt(
+      n.name,
+      0,
+    )}(parent, args, ctx: {aphrodite: Context}, info): Promise<${n.name}> {
+      return await ${n.name}.gen(ctx.aphrodite, args.id);
     },
     
-    async ${lowercaseAt(n.name, 0)}s(parent, args, ctx: {aphrodite: Context}, info): ${n.name}[] {
-      return await ${n.name}.queryAll(ctx.aphrodite).whereId(P.in(new Set(ctx.ids))).gen();
+    async ${lowercaseAt(n.name, 0)}s(parent, args, ctx: {aphrodite: Context}, info): Promise<${
+      n.name
+    }[]> {
+      return await ${n.name}.queryAll(ctx.aphrodite).whereId(P.in(new Set(args.ids))).gen();
     }`;
   };
 }

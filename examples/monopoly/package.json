@@ -4,13 +4,14 @@
   "main": "index.js",
   "private": true,
   "license": "MIT",
+  "type": "module",
   "scripts": {
-    "aphro": "aphro gen ./src/domain.aphro --dest ./src/generated && cp src/generated/*.sql dist/generated",
+    "aphro": "aphro gen ./src/domain.aphro --dest ./src/generated && cp src/generated/*.sql dist/generated && cp src/generated/*.graphql dist/generated",
     "clean": "tsc --build --clean",
     "build": "tsc --build",
     "watch": "tsc --build -w",
     "dev": "cross-env NODE_ENV=development ts-node-dev --exit-child --respawn src/main.ts",
-    "start": "ts-node src/main.ts"
+    "start": "cd dist && node main.js"
   },
   "dependencies": {
     "@aphro/runtime-ts": "workspace:*",

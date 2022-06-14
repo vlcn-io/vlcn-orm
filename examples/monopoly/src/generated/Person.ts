@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <8a14fdaee66dea61beba6aa192316920>
+// SIGNED-SOURCE: <074271e81c4001a63c3f4ebcfa9aea96>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -37,5 +37,21 @@ export default class Person extends Model<Data> {
 
   static queryAll(ctx: Context): PersonQuery {
     return PersonQuery.create(ctx);
+  }
+
+  static async genx(ctx: Context, id: SID_of<Person>): Promise<Person | null> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
+  }
+
+  static async gen(ctx: Context, id: SID_of<Person>): Promise<Person | null> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }
