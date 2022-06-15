@@ -3,7 +3,7 @@ layout: docs
 title: Models
 ---
 
-`Models` are classes that let you interact with your data once it is loaded. One model class is generated for each `Node` [[[docs/schema:schema]].
+`Models` are classes that let you interact with your data once it is loaded. One model class is generated for each `Node` [[docs/schemas:schema]].
 
 Lets take a look at a `Todo` schema and its generated `Model`.
 
@@ -57,14 +57,12 @@ export default class Todo extends Model<Data> {
 
 Taking a look at the model, we have one getter per field that exists in the schema. We also have three static methods:
 
-1. queryAll
-2. genx
-3. gen
+1. `queryAll`
+2. `genx`
+3. `gen`
 
-`QueryAll` returns a [[docs/queries:query]] that we can use to fetch and filter all todos.
-
-`genx` is a method that we can use to load a `Todo` by its primary key.
-
-`gen` is the same as `genx` except that it will return null, instead of throwing, if the `Todo` being fetched does not exist.
+**`QueryAll`** returns a [[docs/queries:query]] that we can use to fetch and filter all todos.<br/>
+**`genx`** is a method that we can use to load a `Todo` by its primary key.<br/>
+**`gen`** is the same as `genx` except that it will return null, instead of throwing, if the `Todo` being fetched does not exist.
 
 Note that the model is read only. There is no way to make changes to it. To do that, you'll need to use a [[docs/mutations-and-transactions:mutator]].
