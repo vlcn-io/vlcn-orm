@@ -80,12 +80,12 @@ import { context, anonymous, basicResolver } from '@aphro/runtime-ts';
 import connect from "@databases/sqlite";
 
 async function main() {
-  const db = connect(DB_FILE_NAME);
+  const db = connect("test.db");
   const ctx = context(anonymous(), basicResolver(db));
 }
 ```
 
-Replace `DB_FILE_NAME` with the path to your database. If the file does not exist it will be created. If you do not pass a file name your data will be stored in memory.
+"test.db" will be the file that holes our database. If the file does not exist it will be created. If you do not pass a file name your data will be stored in memory.
 
 # Your First Schema
 
@@ -102,7 +102,6 @@ Open that file and define a `TodoList` node --
 
 ```typescript
 engine: sqlite
-db: example
 
 TodoList as Node {
   id: ID<TodoList>
@@ -128,100 +127,10 @@ src/generated
 |-- TodoListSpec.ts
 ```
 
-# Adding a Mutation
-
-We have classes that allow us to load and query `TodoList`. What's missing, however, is the ability to create a `TodoList`. This is because we haven't defined any mutations yet. Declaring mutations in the schema is a powerful feature -- it lets us auto-generate things like GraphQL mutations, declare permissions for mutations, turn our data access layer into a protocol.
-
-Open `domain.aphro` and add the following:
-
-```typescript
-engine: sqlite
-db: example
-
-TodoList as Node {
-  id: ID<TodoList>
-  name: string
-} & Mutations {
-  create as Create {
-    name
-  }
-}
-```
-
-then re-run the codegen
-
-```bash
-npx aphro gen src/domain.aphro -d src/generated
-```
-
-You'll now see two new files -- `TodoListMutations.ts` and `TodoListMutationsImpl.ts`. We'll use these to create some data.
-
-- `TodoListMutations.ts` is completely genenreated and exposes the mutation API.
-- `TodoListMutationsImpl.ts` is where you enter your implementation of the API.
-
-# Creating / Mutating a Node
-
-Opening up `TodoListMutationsImpl.ts` you'll see this method that has been generated for you:
-
-```typescript
-export function createImpl(
-  mutator: Omit<IMutationBuilder<TodoList, Data>, "toChangeset">,
-  { name }: CreateArgs
-): void | Changeset<any>[] {
-  // Use the provided mutator to make your desired changes.
-  // e.g., mutator.set({name: "Foo" });
-  // You do not need to return anything from this method. The mutator will track your changes.
-  // If you do return changesets, those changesets will be applied in addition to the changes made to the mutator.
-}
-```
-
-Here you can fill in any logic that should take place upon creation. `TodoList` is pretty simple -- we'll only be setting the name on create. Inside the `create` method we can access the raw `mutator` which lets us change any property on the model.
-
-```typescript
-import { sid } from "@aphro/runtime-ts"; // new import to generate ids
-
-export function createImpl(
-  mutator: Omit<IMutationBuilder<TodoList, Data>, 'toChangeset'>,
-  { name }: CreateArgs,
-): void | Changeset<any>[] {
-  mutator.set({
-    id: sid("aaaa"), // we'll get into id generation later but just use this for now.
-    name
-  });
-}
-```
-
-Now that the create mutation has been implemented, lets go ahead and use it.
-
-In your `src/main.ts` add:
-
-```typescript
-import { context, anonymous, basicResolver } from "@aphro/runtime-ts";
-import connect from "@databases/sqlite";
-import TodoListMutations from "./generated/TodoListMutations.js"; // new import
-
-async function main() {
-  const db = connect(DB_FILE);
-  const ctx = context(anonymous(), basicResolver(db));
-
-  // new mutation call
-  const [persistHandle, todoList] = TodoListMutations.create(ctx, {
-    name: "My first list!",
-  }).save();
-}
-```
-
-Save returns two things:
-1. A promise to the pending database write
-2. An optimistic update, representing the created model
-
-The optimsitc update is useful for highly interactive environments where you want to do something with the changes before the write actually completes.
-
-Now if you were to run this you'll get an error because we haven't actually created the tables in the database yet!
-
 # Bootstrapping / Table Creation
 
-Lets go ahead and set up our database tables so we have something to read and write to. If you remember, the codegen step created a `sqlite.sql` file.
+All the schemas are generated but we haven't actually set up our database or created the tables! Lets go ahead and do that.
+The codegen step created a `TodoList.sqlite.sql` file that we can use to create the TodoList table.
 
 You have a few options here:
 1. Manually run that against your `sqlite` db
@@ -255,13 +164,9 @@ and then call it from your `main` function --
 
 ```typescript
 async function main() {
-  const db = connect(DB_FILE);
+  const db = connect("test.db");
   await createTables(db); // new call to `createTables`
   const ctx = context(anonymous(), basicResolver(db));
-
-  const [persistHandle, todoList] = TodoListMutations.create(ctx, {
-    name: "My first list!",
-  }).save();
 }
 ```
 
@@ -311,13 +216,14 @@ finally, we can run our build. Run it in watch mode so any time a ts file change
 npm run watch
 ```
 
-And now lets run our program:
+And now, in another terminal, lets run our program:
 
 ```bash
 node dist/main.js
 ```
 
-Obviously this didn't do much that is useful for us. It created a list and exited. Let us move on to querying for nodes so we can see what has been written.
+You should see that "test.db" was created in your project root. If you want to inspect this file you can use [SQLite Browser](https://sqlitebrowser.org/) or install [vscode-sqlite](https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite).
+
 
 # Querying for Nodes
 
@@ -337,7 +243,7 @@ static async gen(
 ): Promise<TodoList | null>;
 ```
 
-We'll use these to load the `TodoLists` that have been written. Lets update our main function.
+We'll use these to query for `TodoLists`. Lets update our main function.
 
 ```typescript
 import TodoList from "./generated/TodoList.js";
@@ -347,69 +253,23 @@ async function main() {
   await createTables(db); // new call to `createTables`
   const ctx = context(anonymous(), basicResolver(db));
 
-  const [persistHandle, todoList] = TodoListMutations.create(ctx, {
-    name: "My first list!",
-  }).save();
-
-  // Wait for the write to actually complete
-  await persistHandle;
-  // Query our todo lists (there will be many if you've run the app many times! :)
+  // Query our todo lists -- none exist yet so we should get back an empty list
   const lists = await TodoList.queryAll(ctx).gen();
   console.log(lists);
 }
 ```
 
-You'll see some output in your terminal:
+We haven'te created any todolists yet so the output of our program is just `[]`. Lets move on to creating some data.
 
-```
-[
-  TodoList {
-    ctx: {
-      viewer: [Object],
-      dbResolver: [Object],
-      cache: Cache {},
-      commitLog: [TransactionLog]
-    },
-    data: { id: '62a9ea68aaaa945a', name: 'My first list!' },
-    subscriptions: Set(0) {},
-    keyedSubscriptions: Map(0) {},
-    spec: {
-      createFrom: [Function: createFrom],
-      primaryKey: 'id',
-      storage: [Object],
-      outboundEdges: {}
-    }
-  },
-  ...
-```
+# Adding a Mutation
 
-Obviously we're creating a bunch of lists! Lets update the write to only write if a lists does not yet exist.
+We have classes that allow us to load and query `TodoList`. What's missing, however, is the ability to create a `TodoList`. This is because we haven't defined any mutations yet. Mutation are defined on our schemas. Declaring mutations in the schema is a powerful feature -- it lets us auto-generate things like `GraphQL` mutations, declare permissions for mutations, and turn our data access layer into a protocol (for cool things like integration into [block protocol](https://blockprotocol.org/)).
+
+Open `domain.aphro` and add the following:
 
 ```typescript
-import TodoList from "./generated/TodoList.js";
+engine: sqlite
 
-async function main() {
-  const db = connect(DB_FILE);
-  await createTables(db); // new call to `createTables`
-  const ctx = context(anonymous(), basicResolver(db));
-
-  let lists = await TodoList.queryAll(ctx).gen();
-
-  if (lists.length === 0) {
-    const [persistHandle, todoList] = TodoListMutations.create(ctx, {
-      name: "My first list!",
-    }).save();
-    await persistHandle;
-    lists = await TodoList.queryAll(ctx).gen();
-  }
-
-  console.log(lists);
-}
-```
-
-To delete all the extra lists that ended up being created, we can define a delete mutation for `TodoList` in `domain.aphro`
-
-```typescript
 TodoList as Node {
   id: ID<TodoList>
   name: string
@@ -417,52 +277,97 @@ TodoList as Node {
   create as Create {
     name
   }
-  delete as Delete {} # new delete mutation
 }
 ```
 
-and re-run our codegen.
+then re-run the codegen
 
 ```bash
 npx aphro gen src/domain.aphro -d src/generated
 ```
 
-Given `delete` has no args, you don't need to update anything after running codegen. (nit: except maybe adding an import to `TodoListMutationsImpl` at the time of this writing...)
+You'll now see two new files -- `TodoListMutations.ts` and `TodoListMutationsImpl.ts`. We'll use these to create some data.
 
-Now lets undo our mistake of adding so many lists --
+- `TodoListMutations.ts` is completely genenreated and exposes the mutation API.
+- `TodoListMutationsImpl.ts` is where you enter your implementation of the API.
+
+# Creating / Mutating a Node
+
+Opening up `TodoListMutationsImpl.ts` you'll see this method that has been generated for you:
 
 ```typescript
-async function main() {
-  ...
-  if (lists.length === 0) {
-    ...
-  } else if (lists.length > 1) {
-    lists.unshift();
-    const [handle, _] = commit(
-      ctx,
-      lists.map((list) => TodoListMutations.delete(list, {}).toChangeset())
-    );
-    await handle;
-  }
+export function createImpl(
+  mutator: Omit<IMutationBuilder<TodoList, Data>, "toChangeset">,
+  { name }: CreateArgs
+): void | Changeset<any>[] {
+  // Use the provided mutator to make your desired changes.
+  // e.g., mutator.set({name: "Foo" });
+  // You do not need to return anything from this method. The mutator will track your changes.
+  // If you do return changesets, those changesets will be applied in addition to the changes made to the mutator.
 }
 ```
 
-This introduces an important concept -- changesets and `commit`.
-
-If you want to bundle a bunch of mutations together and commit them all at once you use `changesets` and then pass that collection of `changesets` to `commit`.
-
-None of your models will change until the changesets are committed, allowing you to gather together as many mutations as you like.
-
-Once you've deleted your extra lists, might as well remove that code from main so it doesn't clutter it and update to something a bit more ergonmoic --
+Here you can fill in any logic that should take place upon creation. `TodoList` is pretty simple -- we'll only be setting the name and id on create. Inside the `create` method we can access the raw `mutator` which lets us change any property on the model.
 
 ```typescript
+import { sid } from "@aphro/runtime-ts"; // new import to generate ids
+
+export function createImpl(
+  mutator: Omit<IMutationBuilder<TodoList, Data>, 'toChangeset'>,
+  { name }: CreateArgs,
+): void | Changeset<any>[] {
+  mutator.set({
+    id: sid("aaaa"), // we'll get into id generation later but just use this for now.
+    name
+  });
+}
+```
+
+Now that the create mutation has been implemented, lets go ahead and use it.
+
+Update `src/main.ts` --
+
+```typescript
+import TodoListMutations from "./generated/TodoListMutations.js"; // new import
+
 async function main() {
-  const db = connect("test");
+  const db = connect("test.db");
   await createTables(db);
   const ctx = context(anonymous(), basicResolver(db));
 
-  let todoList = await TodoList.queryAll(ctx).genOnlyValue();
+  // Check for existing lists
+  let lists = await TodoList.queryAll(ctx).gen();
+  // If there are none, create one
+  if (lists.length === 0) {
+    let writeHandle;
+    [writeHandle, todoList] = TodoListMutations.create(ctx, {
+      name: "My first list!",
+    }).save();
 
+    // Wait for our write to persist
+    await writeHandle;
+    lists = await TodoList.queryAll(ctx).gen();
+  }
+
+  console.log(lists);
+}
+```
+
+Save returns two things:
+1. A promise to the pending database write
+2. An optimistic update, representing the created model before the DB write has completed
+
+The optimsitc update is useful for highly interactive environments where you want to do something with the changes before the write actually completes.
+
+The above code is a little cumbersome if we only want to create a single list. Lets clean it up.
+
+```typescript
+async function main() {
+  const db = connect("test.db");
+  await createTables(db);
+  const ctx = context(anonymous(), basicResolver(db));
+
+  let todoList = await TodoList.queryAll(ctx).genOnlyValue(); // `genOnlyValue` instead of `gen`
   if (todoList == null) {
     let _;
     [_, todoList] = TodoListMutations.create(ctx, {
@@ -473,6 +378,8 @@ async function main() {
   console.log(todoList);
 }
 ```
+
+Great, we've made a list but we don't have any todos.
 
 # Defining an Edge
 
