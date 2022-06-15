@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <074271e81c4001a63c3f4ebcfa9aea96>
+// SIGNED-SOURCE: <f0e7862b8fb8920b29909247812280b9>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -39,7 +39,7 @@ export default class Person extends Model<Data> {
     return PersonQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<Person>): Promise<Person | null> {
+  static async genx(ctx: Context, id: SID_of<Person>): Promise<Person> {
     const existing = ctx.cache.get(id);
     if (existing) {
       return existing;

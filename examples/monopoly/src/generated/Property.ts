@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <31cc1f5c31fd30dac8454cefe22139fe>
+// SIGNED-SOURCE: <c1fd6d45757ed4bdb0240a02ba9f621d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -70,10 +70,7 @@ export default class Property extends Model<Data> {
     return PropertyQuery.create(ctx);
   }
 
-  static async genx(
-    ctx: Context,
-    id: SID_of<Property>
-  ): Promise<Property | null> {
+  static async genx(ctx: Context, id: SID_of<Property>): Promise<Property> {
     const existing = ctx.cache.get(id);
     if (existing) {
       return existing;
