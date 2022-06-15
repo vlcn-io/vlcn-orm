@@ -19,7 +19,7 @@ Todo as Node {
   create as Create {
     text
   }
-  edite as Update {
+  edit as Update {
     text
   }
   complete as Update {}

@@ -6,7 +6,18 @@ subtitle: get up and running with Aphrodite
 
 `Aphrodite` makes it easy to describe, model and interact with your data. If you'd like to understand *why* this project exists before diving in, see [[docs/why:Why Aphrodite?]]
 
+# Starter Repositories
+
+If you learn faster by looking at code, we have a **starter repositories** you can clone and get running with. The starter projects also take care of most of the boilerplate in this guide.
+
+- [Node JS Starter Project](https://github.com/tantaman/aphrodite-node-starter)
+- Browser Starter (WIP)
+- Deno Start (WIP)
+- GraphQL Server Starter (WIP)
+
 # Setup
+
+We'll assume you did not clone any of the starter projects above. If you did, you can use those and skip the steps that are already completed.
 
 Create a directory for the quickstart project and cd into it. This is where we'll put our source and install our dependencies.
 
