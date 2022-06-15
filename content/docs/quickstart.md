@@ -13,7 +13,7 @@ If you learn faster by looking at code, we have a **starter repositories** you c
 - [Node JS Starter](https://github.com/tantaman/aphrodite-node-starter)
 - Browser Starter (WIP but see the [TodoMVC example](https://github.com/tantaman/aphrodite/blob/main/examples/todo-mvc/))
 - Deno Starter (WIP)
-- GraphQL Server Starter (WIP but see the [Monopoly example](https://github.com/tantaman/aphrodite/blob/main/examples/monopoly/src/main.ts))
+- [GraphQL Server Starter](https://github.com/tantaman/aphrodite-graphql-starter) (WIP)
 - iOS Starter (WIP)
 - Android Starter (WIP)
 
