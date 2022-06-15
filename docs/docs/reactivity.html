@@ -8,18 +8,14 @@
 <link rel="stylesheet" href="/main.css">
 <link rel="stylesheet" href="/docs/index.css">
 
-<meta name="description" content="todo https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/__tests__/reactivity.test.ts
-
-https://github.com/tantaman/aphrodite/blob/main/examples/todo-mvc/src/App.tsx#L181-L185">
+<meta name="description" content="Often we need to respond to changes in our data model. This is especially the case when developing UIs, where any change in the data can cause updates all across the display. Aphrodite lets you subscribe to your queries. Whenever any data is changed that…">
 <meta name="keywords" content="software, schemas, data">
 <meta name="author" content="Matt Wonlaw">
 <meta name="copyright" content="© 2022 Matt Wonlaw">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Aphrodite">
 <meta property="og:title" content="Reactivity">
-<meta property="og:description" content="todo https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/__tests__/reactivity.test.ts
-
-https://github.com/tantaman/aphrodite/blob/main/examples/todo-mvc/src/App.tsx#L181-L185">
+<meta property="og:description" content="Often we need to respond to changes in our data model. This is especially the case when developing UIs, where any change in the data can cause updates all across the display. Aphrodite lets you subscribe to your queries. Whenever any data is changed that…">
 <meta property="og:image" content="https://aphrodite.sh/assets/gods/zeus.png">
 <meta property="og:image:alt" content="Zeus">
 <meta property="og:image:width" content="266">
@@ -29,12 +25,24 @@ https://github.com/tantaman/aphrodite/blob/main/examples/todo-mvc/src/App.tsx#L1
 <meta name="twitter:image:alt" content="Zeus">
 <meta name="twitter:site" content="@tantaman">
 <meta name="twitter:label1" content="Reading time">
-<meta name="twitter:data1" content="1 minute">
+<meta name="twitter:data1" content="1-2 minutes">
 </head>
 <body><a href="https://github.com/tantaman/aphrodite" class="github-corner" aria-label="View source on GitHub"><svg width="100" height="100" viewBox="0 0 250 250" style="fill:var(--dress); color:var(--black); position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><aside><div class="center"><a class="home-link" href="/"><div class="god-circle center-block"><div class="god-head god-head-aphrodite"></div></div></a><a class="hamburger"></a></div><ol><li class="indent"><a href="/docs/why">Why Aphrodite</a></li><li class="indent"><a href="/docs/quickstart">Quickstart</a></li><li class="indent"><a href="/docs/schemas">Schemas</a></li><li class="indent"><a href="/docs/models">Models</a></li><li class="indent"><a href="/docs/mutations-and-transactions">Mutating Data</a></li><li class="indent"><a href="/docs/queries">Queries</a></li><li class="active indent"><a href="/docs/reactivity">Reactivity</a></li><li class="indent"><a href="/docs/data-sync-p2p">Data Sync &#x26; P2P</a></li><li class="indent"><a href="/docs/permissions">Permissions</a></li><li class="indent"><a href="/docs/migrations">Migrations</a></li></ol></aside><main><article><h1>Reactivity</h1><section>
-<nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><p>todo</p>
-<p><a href="https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/__tests__/reactivity.test.ts">https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/__tests__/reactivity.test.ts</a></p>
-<p><a href="https://github.com/tantaman/aphrodite/blob/main/examples/todo-mvc/src/App.tsx#L181-L185">https://github.com/tantaman/aphrodite/blob/main/examples/todo-mvc/src/App.tsx#L181-L185</a></p>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#example">Example</a></li></ol></nav><p>Often we need to respond to changes in our data model. This is especially the case when developing UIs, where any change in the data can cause updates all across the display.</p>
+<p><code>Aphrodite</code> lets you subscribe to your queries. Whenever any data is changed that would impact the result of a query, you'll be called back with the new dataset.</p>
+<p>This vastly simplifies application development. <code>React</code> removed the burden of updating a display. <code>Aphrodite</code> reactivity removes the burden of managing and responding to your state.</p>
+<h1 id="example"><a aria-hidden="true" tabindex="-1" href="#example"><span class="icon icon-link"></span></a>Example</h1>
+<p>Any query can be turned into a "live result" through the <code>live</code> method.</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">const</span> liveResult = viewer.<span class="hljs-title function_">queryTodos</span>().<span class="hljs-title function_">whereComplete</span>(P.<span class="hljs-title function_">equals</span>(<span class="hljs-literal">false</span>)).<span class="hljs-title function_">live</span>();
+liveResult.<span class="hljs-title function_">subscribe</span>(<span class="hljs-function">(<span class="hljs-params">todos</span>) =></span> ...);
+</code></pre>
+<p>A <code>useQuery</code> hook is currently provided for <code>React</code> developers in the <code>@aphro/react</code> package.</p>
+<p>This hook can be used like so:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">const</span> [todos] = <span class="hljs-title function_">unwraps</span>(
+  <span class="hljs-title function_">useQuery</span>(<span class="hljs-title class_">UpdateType</span>.<span class="hljs-property">ANY</span>, <span class="hljs-function">() =></span> list.<span class="hljs-title function_">queryTodos</span>().<span class="hljs-title function_">whereCompleted</span>(P.<span class="hljs-title function_">equals</span>(filter)), [filter]),
+);
+</code></pre>
+<p>For a full featured example of reactive queries see the <a href="https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc"><code>Todo-MVC</code> example</a>.</p>
 <script src="https://www.googletagmanager.com/gtag/js?id=G-QT6QH0ZJQ4" async></script>
 <script src="/ga.js"></script>
 <script src="/assets/god-switcher.js"></script>
