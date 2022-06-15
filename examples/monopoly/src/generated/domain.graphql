@@ -1,4 +1,10 @@
-# SIGNED-SOURCE: <108b77921a862d8cf7ebd5ca1a7e09aa>
+# SIGNED-SOURCE: <75b0b08368cb7785fef2f169bbd3b11e>
+type PageInfo {
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+  startCursor: String!
+  endCursor: String!
+}
 
 
 type Person {
@@ -8,10 +14,13 @@ type Person {
 type Player {
   id: ID!
   piece: String!
+  owner(first: Int, last: Int, before: String, after: String): PlayerToOwnerConnection
 }
 
 type Game {
   id: ID!
+  players(first: Int, last: Int, before: String, after: String): GameToPlayersConnection
+  board(first: Int, last: Int, before: String, after: String): GameToBoardConnection
 }
 
 type Property {
@@ -21,6 +30,53 @@ type Property {
   mortgaged: Boolean!
   numHouses: Int!
   numHotels: Int!
+  owner(first: Int, last: Int, before: String, after: String): PropertyToOwnerConnection
+}
+
+
+
+type PlayerToOwnerConnection {
+  edges: [PlayerToOwnerEdge]
+  pageInfo: PageInfo!
+  count: Int
+}
+
+type PlayerToOwnerEdge {
+  node: Player
+  cursor: String
+}
+
+type GameToPlayersConnection {
+  edges: [GameToPlayersEdge]
+  pageInfo: PageInfo!
+  count: Int
+}
+
+type GameToPlayersEdge {
+  node: Game
+  cursor: String
+}
+
+type GameToBoardConnection {
+  edges: [GameToBoardEdge]
+  pageInfo: PageInfo!
+  count: Int
+}
+
+type GameToBoardEdge {
+  node: Game
+  cursor: String
+}
+
+type PropertyToOwnerConnection {
+  edges: [PropertyToOwnerEdge]
+  pageInfo: PageInfo!
+  count: Int
+}
+
+type PropertyToOwnerEdge {
+  node: Property
+  cursor: String
 }
 
 type Query {

@@ -1,12 +1,13 @@
 import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
 import { Node, Edge, Enum } from '@aphro/schema-api';
 import { nodeFn } from '@aphro/schema';
-import { gatherReadFields } from './gatherReadFields.js';
+import { gatherReadEdges, gatherReadFields } from './gatherReadFields.js';
 import { inlineEnumName } from './inlineEnumName.js';
 import { fieldTypeToGraphQLType } from './fieldTypeToGraphQLType.js';
 import shouldExpose, { exposesRoot } from './shouldExpose.js';
 import GraphQLFile from './GraphqlFile.js';
 import { lowercaseAt } from '@strut/utils';
+import { connectionName, edgeName } from './connectionName.js';
 
 export class GenGraphQLTypedefs extends CodegenStep {
   constructor(private nodes: Node[], private edges: Edge[], private schemaFileName: string) {
@@ -21,9 +22,17 @@ export class GenGraphQLTypedefs extends CodegenStep {
     const filename =
       this.schemaFileName.substring(0, this.schemaFileName.lastIndexOf('.')) + '.graphql';
 
-    const code = `${this.getEnumDefsCode()}
+    const code = `type PageInfo {
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+  startCursor: String!
+  endCursor: String!
+}
+${this.getEnumDefsCode()}
 
 ${this.getObjectDefsCode()}
+
+${this.nodes.map(n => this.getConnectionDefsCode(n)).join('\n\n')}
 
 ${this.getRootQueryDefsCode()}
 `;
@@ -80,20 +89,50 @@ ${this.getRootQueryDefsCode()}
     return `type ${n.name} {
   ${this.getFieldDefsCode(n)}
 }`;
-    // ${this.getConnectionDefsCode(n)}
   };
 
   private getFieldDefsCode(n: Node): string {
     const fields = gatherReadFields(n);
+    const edges = gatherReadEdges(n);
     // TODO: throw better errors if selected field does not exist
-    return fields.map(f => `${f.name}: ${fieldTypeToGraphQLType(n, f)}`).join('\n  ');
+    // TODO: handle case where an operation with args is defined
+    return fields
+      .map(f => `${f.name}: ${fieldTypeToGraphQLType(n, f)}`)
+      .concat(
+        edges.map(
+          e =>
+            `${e.name}(first: Int, last: Int, before: String, after: String): ${connectionName(
+              n,
+              e,
+            )}`,
+        ),
+      )
+      .join('\n  ');
   }
 
-  // Connection types are for edges. Given all edges extend a common base
-  // that enables cursoring and pagination we can generate schema types that adhere to the
   // Relay connection spec https://relay.dev/graphql/connections.htm
   private getConnectionDefsCode(n: Node): string {
-    return '';
+    // Note: some edges should not return connections.
+    // E.g., edges that only return 1 item.
+    // These are:
+    // 1. Field edges
+    // 2. FK edges with a uniqueness constraint
+    // 3. JX edges with uniqueness constraints
+    const edges = gatherReadEdges(n);
+    return edges
+      .map(
+        e => `type ${connectionName(n, e)} {
+  edges: [${edgeName(n, e)}]
+  pageInfo: PageInfo!
+  count: Int
+}
+
+type ${edgeName(n, e)} {
+  node: ${n.name}
+  cursor: String
+}`,
+      )
+      .join('\n\n');
   }
 
   private pullInlineEnums(): [string, Enum][] {

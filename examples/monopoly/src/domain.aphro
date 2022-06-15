@@ -15,6 +15,9 @@ Person as Node {
   root
 }
 
+# Friends as Edge<Person, Person> {
+# } & Bidirectional
+
 Player as Node {
   id: ID<Player>
   piece: string
@@ -28,7 +31,7 @@ Player as Node {
   read {
     id
     piece
-    # owner
+    owner
   }
 }
 
@@ -41,8 +44,8 @@ Game as Node {
 } & GraphQL {
   read {
     id
-    # players
-    # board
+    players
+    board
   }
 }
 
@@ -61,7 +64,7 @@ Property as Node {
   read {
     id
     name
-    # owner
+    owner
     cost
     mortgaged
     numHouses
