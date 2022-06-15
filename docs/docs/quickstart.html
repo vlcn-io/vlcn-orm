@@ -25,10 +25,10 @@
 <meta name="twitter:image:alt" content="Zeus">
 <meta name="twitter:site" content="@tantaman">
 <meta name="twitter:label1" content="Reading time">
-<meta name="twitter:data1" content="5-7 minutes">
+<meta name="twitter:data1" content="6-9 minutes">
 </head>
 <body><a href="https://github.com/tantaman/aphrodite" class="github-corner" aria-label="View source on GitHub"><svg width="100" height="100" viewBox="0 0 250 250" style="fill:var(--dress); color:var(--black); position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><aside><div class="center"><a class="home-link" href="/"><div class="god-circle center-block"><div class="god-head god-head-aphrodite"></div></div></a><a class="hamburger"></a></div><ol><li class="indent"><a href="/docs/why">Why Aphrodite</a></li><li class="active indent"><a href="/docs/quickstart">Quickstart</a></li><li class="indent"><a href="/docs/schemas">Schemas</a></li><li class="indent"><a href="/docs/models">Models</a></li><li class="indent"><a href="/docs/mutations-and-transactions">Mutating Data</a></li><li class="indent"><a href="/docs/queries">Queries</a></li><li class="indent"><a href="/docs/reactivity">Reactivity</a></li><li class="indent"><a href="/docs/data-sync-p2p">Data Sync &#x26; P2P</a></li><li class="indent"><a href="/docs/permissions">Permissions</a></li><li class="indent"><a href="/docs/migrations">Migrations</a></li></ol></aside><main><article><h1>Quickstart</h1><p class="subtitle">get up and running with Aphrodite</p><section>
-<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#setup">Setup</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#installation">Installation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#configuration">Configuration</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#db-connection">DB Connection</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#your-first-schema">Your First Schema</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#adding-a-mutation">Adding a Mutation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#creatingmutating-a-node">Creating/Mutating a Node</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#querying-for-nodes">Querying for Nodes</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#defining-an-edge">Defining an Edge</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#walking-a-graph">Walking a Graph</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#reactive-queries">Reactive Queries</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#react-integration">React Integration</a></li></ol></nav><p><code>Aphrodite</code> makes it easy to describe, model and interact with your data. After installing <code>Aphrodite</code>, everything begins with defining a schema. If you'd like to understand <em>why</em> this project exists before diving in, see <a class="internal new" href="/docs/why">Why Aphrodite?</a></p>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#setup">Setup</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#installation">Installation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#configuration">Configuration</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#db-connection">DB Connection</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#your-first-schema">Your First Schema</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#adding-a-mutation">Adding a Mutation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#creatingmutating-a-node">Creating/Mutating a Node</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#bootstrapping--table-creation">Bootstrapping / Table Creation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#compile--run">Compile &#x26; Run</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#querying-for-nodes">Querying for Nodes</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#defining-an-edge">Defining an Edge</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#walking-a-graph">Walking a Graph</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#reactive-queries">Reactive Queries</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#react-integration">React Integration</a></li></ol></nav><p><code>Aphrodite</code> makes it easy to describe, model and interact with your data. After installing <code>Aphrodite</code>, everything begins with defining a schema. If you'd like to understand <em>why</em> this project exists before diving in, see <a class="internal new" href="/docs/why">Why Aphrodite?</a></p>
 <h1 id="setup"><a aria-hidden="true" tabindex="-1" href="#setup"><span class="icon icon-link"></span></a>Setup</h1>
 <p>Create a directory for the quickstart project and cd into it. This is where we'll put our source and install our dependencies.</p>
 <pre><code class="hljs language-bash"><span class="hljs-built_in">mkdir</span> quickstart
@@ -47,7 +47,7 @@ npm install --save-dev @aphro/codegen-cli
 </code></pre>
 <h1 id="configuration"><a aria-hidden="true" tabindex="-1" href="#configuration"><span class="icon icon-link"></span></a>Configuration</h1>
 <p>Given <code>Aphrodite</code> will be talking to a database, it needs some information about the database in order to be able to connect. This information is saved in the <code>Context</code> type.</p>
-<p>create a <code>main.ts</code> (or js) file.</p>
+<p>create a <code>main.ts</code> file.</p>
 <pre><code class="hljs language-bash"><span class="hljs-built_in">mkdir</span> src
 <span class="hljs-built_in">touch</span> src/main.js
 </code></pre>
@@ -57,6 +57,8 @@ npm install --save-dev @aphro/codegen-cli
 <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
   <span class="hljs-keyword">const</span> ctx = <span class="hljs-title function_">context</span>(<span class="hljs-title function_">anonymous</span>(), <span class="hljs-title function_">basicResolver</span>(db));
 }
+
+<span class="hljs-keyword">await</span> <span class="hljs-title function_">main</span>();
 </code></pre>
 <p>So what's going on here?</p>
 <ul>
@@ -148,23 +150,32 @@ npm install --save-dev @aphro/codegen-cli
 }
 </code></pre>
 <p>Here you can fill in any logic that should take place upon creation. <code>TodoList</code> is pretty simple -- we'll only be setting the name on create. Inside the <code>create</code> method we can access the raw <code>mutator</code> which lets us change any property on the model.</p>
-<pre><code class="hljs language-typescript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">createImpl</span>(<span class="hljs-params">
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { sid } <span class="hljs-keyword">from</span> <span class="hljs-string">"@aphro/runtime-ts"</span>; <span class="hljs-comment">// new import to generate ids</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">createImpl</span>(<span class="hljs-params">
   mutator: Omit&#x3C;IMutationBuilder&#x3C;TodoList, Data>, <span class="hljs-string">'toChangeset'</span>>,
   { name }: CreateArgs,
 </span>): <span class="hljs-built_in">void</span> | <span class="hljs-title class_">Changeset</span>&#x3C;<span class="hljs-built_in">any</span>>[] {
   mutator.<span class="hljs-title function_">set</span>({
+    <span class="hljs-attr">id</span>: <span class="hljs-title function_">sid</span>(<span class="hljs-string">"aaaa"</span>), <span class="hljs-comment">// we'll get into id generation later but just use this for now.</span>
     name
   });
 }
 </code></pre>
 <p>Now that the create mutation has been implemented, lets go ahead and use it.</p>
 <p>In your <code>src/main.ts</code> add:</p>
-<pre><code class="hljs language-typescript">...
-<span class="hljs-keyword">import</span> <span class="hljs-title class_">TodoListMutations</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'./generated/TodoListMutations.js'</span>;
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { context, anonymous, basicResolver } <span class="hljs-keyword">from</span> <span class="hljs-string">"@aphro/runtime-ts"</span>;
+<span class="hljs-keyword">import</span> connect <span class="hljs-keyword">from</span> <span class="hljs-string">"@databases/sqlite"</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">TodoListMutations</span> <span class="hljs-keyword">from</span> <span class="hljs-string">"./generated/TodoListMutations.js"</span>; <span class="hljs-comment">// new import</span>
 
 <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
-  ...
-  <span class="hljs-keyword">const</span> [persistHandle, todoList] = <span class="hljs-title class_">TodoListMutations</span>.<span class="hljs-title function_">create</span>(ctx, {<span class="hljs-attr">name</span>: <span class="hljs-string">'My first list!'</span>}).<span class="hljs-title function_">save</span>();
+  <span class="hljs-keyword">const</span> db = <span class="hljs-title function_">connect</span>(<span class="hljs-variable constant_">DB_FILE</span>);
+  <span class="hljs-keyword">const</span> ctx = <span class="hljs-title function_">context</span>(<span class="hljs-title function_">anonymous</span>(), <span class="hljs-title function_">basicResolver</span>(db));
+
+  <span class="hljs-comment">// new mutation call</span>
+  <span class="hljs-keyword">const</span> [persistHandle, todoList] = <span class="hljs-title class_">TodoListMutations</span>.<span class="hljs-title function_">create</span>(ctx, {
+    <span class="hljs-attr">name</span>: <span class="hljs-string">"My first list!"</span>,
+  }).<span class="hljs-title function_">save</span>();
 }
 </code></pre>
 <p>Save returns two things:</p>
@@ -174,6 +185,88 @@ npm install --save-dev @aphro/codegen-cli
 </ol>
 <p>The optimsitc update is useful for highly interactive environments where you want to do something with the changes before the write actually completes.</p>
 <p>Now if you were to run this you'll get an error because we haven't actually created the tables in the database yet!</p>
+<h1 id="bootstrapping--table-creation"><a aria-hidden="true" tabindex="-1" href="#bootstrapping--table-creation"><span class="icon icon-link"></span></a>Bootstrapping / Table Creation</h1>
+<p>Lets go ahead and set up our database tables so we have something to read and write to. If you remember, the codegen step created a <code>sqlite.sql</code> file.</p>
+<p>You have a few options here:</p>
+<ol>
+<li>Manually run that against your <code>sqlite</code> db</li>
+<li>Run it within your <code>main.ts</code> file</li>
+</ol>
+<p>We'll assume you're going to do (2).</p>
+<p>Create a <code>createTables</code> function in <code>main.ts</code></p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { fileURLToPath } <span class="hljs-keyword">from</span> <span class="hljs-string">'url'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">DatabaseConnection</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@databases/sqlite"</span>;
+<span class="hljs-keyword">import</span> path <span class="hljs-keyword">from</span> <span class="hljs-string">"path"</span>;
+<span class="hljs-keyword">import</span> { readdirSync } <span class="hljs-keyword">from</span> <span class="hljs-string">"fs"</span>;
+<span class="hljs-keyword">const</span> __filename = <span class="hljs-title function_">fileURLToPath</span>(<span class="hljs-keyword">import</span>.<span class="hljs-property">meta</span>.<span class="hljs-property">url</span>);
+<span class="hljs-keyword">const</span> __dirname = path.<span class="hljs-title function_">dirname</span>(__filename);
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">createTables</span>(<span class="hljs-params">db: DatabaseConnection</span>) {
+  <span class="hljs-keyword">const</span> generatedDir = path.<span class="hljs-title function_">join</span>(__dirname, <span class="hljs-string">".."</span>, <span class="hljs-string">"src"</span>, <span class="hljs-string">"generated"</span>);
+  <span class="hljs-keyword">const</span> schemaPaths = <span class="hljs-title function_">readdirSync</span>(generatedDir).<span class="hljs-title function_">filter</span>(<span class="hljs-function"><span class="hljs-params">name</span> =></span> name.<span class="hljs-title function_">endsWith</span>(<span class="hljs-string">'.sqlite.sql'</span>));
+
+  <span class="hljs-keyword">const</span> schemas = schemaPaths.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">s</span> =></span> sql.<span class="hljs-title function_">file</span>(path.<span class="hljs-title function_">join</span>(generatedDir, s)));
+
+  <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>(schemas.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">s</span> =></span> db.<span class="hljs-title function_">query</span>(s)));
+}
+</code></pre>
+<p>(TODO: create tables bootstrapping needs to be simplified)</p>
+<p>and then call it from your <code>main</code> function --</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> db = <span class="hljs-title function_">connect</span>(<span class="hljs-variable constant_">DB_FILE</span>);
+  <span class="hljs-keyword">await</span> <span class="hljs-title function_">createTables</span>(db); <span class="hljs-comment">// new call to `createTables`</span>
+  <span class="hljs-keyword">const</span> ctx = <span class="hljs-title function_">context</span>(<span class="hljs-title function_">anonymous</span>(), <span class="hljs-title function_">basicResolver</span>(db));
+
+  <span class="hljs-keyword">const</span> [persistHandle, todoList] = <span class="hljs-title class_">TodoListMutations</span>.<span class="hljs-title function_">create</span>(ctx, {
+    <span class="hljs-attr">name</span>: <span class="hljs-string">"My first list!"</span>,
+  }).<span class="hljs-title function_">save</span>();
+}
+</code></pre>
+<p>Great! We should be good to go to compile and run our script.</p>
+<h1 id="compile--run"><a aria-hidden="true" tabindex="-1" href="#compile--run"><span class="icon icon-link"></span></a>Compile &#x26; Run</h1>
+<p>Compiling and running requires setting up the typescript compiler. Lets go ahead and do that</p>
+<p>first, install typescript as a dependency</p>
+<pre><code class="hljs language-bash">npm install --save-dev typescript
+</code></pre>
+<p>next, add a <code>tsconfig.json</code> to your project</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"compilerOptions"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"declaration"</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"removeComments"</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"emitDecoratorMetadata"</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"experimentalDecorators"</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"allowSyntheticDefaultImports"</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"module"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"esnext"</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"target"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"esnext"</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"moduleResolution"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Node"</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"sourceMap"</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"outDir"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"./dist"</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"baseUrl"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"./"</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"skipLibCheck"</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"strictNullChecks"</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"noImplicitAny"</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"strictBindCallApply"</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"forceConsistentCasingInFileNames"</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"noFallthroughCasesInSwitch"</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"include"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"./src/"</span><span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p>third, add <code>build</code> and <code>watch</code> scripts to your <code>package.json</code></p>
+<pre><code class="hljs language-json">...
+<span class="hljs-attr">"scripts"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"build"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"tsc"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"watch"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"tsc -w"</span>
+<span class="hljs-punctuation">}</span>
+...
+</code></pre>
+<p>finally we can run our build. Run it in watch mode so any time a ts file changes there will be a rebuild.</p>
+<pre><code class="hljs language-bash">npm run watch
+</code></pre>
+<p>And now lets run our program:</p>
+<pre><code class="hljs language-bash">node dist/main.js
+</code></pre>
+<p>Obviously this didn't do much that is useful for us. It create a list and exited. Lets move on to querying for nodes so we can see what has been written.</p>
 <h1 id="querying-for-nodes"><a aria-hidden="true" tabindex="-1" href="#querying-for-nodes"><span class="icon icon-link"></span></a>Querying for Nodes</h1>
 <h1 id="defining-an-edge"><a aria-hidden="true" tabindex="-1" href="#defining-an-edge"><span class="icon icon-link"></span></a>Defining an Edge</h1>
 <h1 id="walking-a-graph"><a aria-hidden="true" tabindex="-1" href="#walking-a-graph"><span class="icon icon-link"></span></a>Walking a Graph</h1>

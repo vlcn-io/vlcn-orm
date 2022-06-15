@@ -34,7 +34,7 @@ npm install --save-dev @aphro/codegen-cli
 
 Given `Aphrodite` will be talking to a database, it needs some information about the database in order to be able to connect. This information is saved in the `Context` type.
 
-create a `main.ts` (or js) file.
+create a `main.ts` file.
 
 ```bash
 mkdir src
@@ -49,6 +49,8 @@ import { context, anonymous, basicResolver } from '@aphro/runtime-ts';
 async function main() {
   const ctx = context(anonymous(), basicResolver(db));
 }
+
+await main();
 ```
 
 So what's going on here?
@@ -176,11 +178,14 @@ export function createImpl(
 Here you can fill in any logic that should take place upon creation. `TodoList` is pretty simple -- we'll only be setting the name on create. Inside the `create` method we can access the raw `mutator` which lets us change any property on the model.
 
 ```typescript
+import { sid } from "@aphro/runtime-ts"; // new import to generate ids
+
 export function createImpl(
   mutator: Omit<IMutationBuilder<TodoList, Data>, 'toChangeset'>,
   { name }: CreateArgs,
 ): void | Changeset<any>[] {
   mutator.set({
+    id: sid("aaaa"), // we'll get into id generation later but just use this for now.
     name
   });
 }
@@ -191,7 +196,6 @@ Now that the create mutation has been implemented, lets go ahead and use it.
 In your `src/main.ts` add:
 
 ```typescript
-...
 import { context, anonymous, basicResolver } from "@aphro/runtime-ts";
 import connect from "@databases/sqlite";
 import TodoListMutations from "./generated/TodoListMutations.js"; // new import
@@ -214,6 +218,116 @@ Save returns two things:
 The optimsitc update is useful for highly interactive environments where you want to do something with the changes before the write actually completes.
 
 Now if you were to run this you'll get an error because we haven't actually created the tables in the database yet!
+
+# Bootstrapping / Table Creation
+
+Lets go ahead and set up our database tables so we have something to read and write to. If you remember, the codegen step created a `sqlite.sql` file.
+
+You have a few options here:
+1. Manually run that against your `sqlite` db
+2. Run it within your `main.ts` file
+
+We'll assume you're going to do (2).
+
+Create a `createTables` function in `main.ts`
+
+```typescript
+import { fileURLToPath } from 'url';
+import { DatabaseConnection } from "@databases/sqlite";
+import path from "path";
+import { readdirSync } from "fs";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+async function createTables(db: DatabaseConnection) {
+  const generatedDir = path.join(__dirname, "..", "src", "generated");
+  const schemaPaths = readdirSync(generatedDir).filter(name => name.endsWith('.sqlite.sql'));
+
+  const schemas = schemaPaths.map(s => sql.file(path.join(generatedDir, s)));
+
+  await Promise.all(schemas.map(s => db.query(s)));
+}
+```
+
+(TODO: create tables bootstrapping needs to be simplified)
+
+and then call it from your `main` function --
+
+```typescript
+async function main() {
+  const db = connect(DB_FILE);
+  await createTables(db); // new call to `createTables`
+  const ctx = context(anonymous(), basicResolver(db));
+
+  const [persistHandle, todoList] = TodoListMutations.create(ctx, {
+    name: "My first list!",
+  }).save();
+}
+```
+
+Great! We should be good to go to compile and run our script.
+
+# Compile & Run
+
+Compiling and running requires setting up the typescript compiler. Lets go ahead and do that
+
+first, install typescript as a dependency
+
+```bash
+npm install --save-dev typescript
+```
+
+next, add a `tsconfig.json` to your project
+
+```json
+{
+  "compilerOptions": {
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false
+  },
+  "include": ["./src/"]
+}
+```
+
+third, add `build` and `watch` scripts to your `package.json`
+
+```json
+...
+"scripts": {
+  "build": "tsc",
+  "watch": "tsc -w"
+}
+...
+```
+
+finally we can run our build. Run it in watch mode so any time a ts file changes there will be a rebuild.
+
+```bash
+npm run watch
+```
+
+And now lets run our program:
+
+```bash
+node dist/main.js
+```
+
+Obviously this didn't do much that is useful for us. It create a list and exited. Lets move on to querying for nodes so we can see what has been written.
 
 # Querying for Nodes
 
