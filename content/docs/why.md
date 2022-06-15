@@ -24,7 +24,7 @@ Opportunities (workstreams):
 
 The plurality of client side languages and platforms (iOS, Android, Web, desktop, embedded) brings us an opportunity. Projects like [React Native](https://reactnative.dev/) and [Flutter](https://flutter.dev/) have solved the code-reuse problem for UI components but we're still struggling to share business logic and domain models between platforms without moving that code to the server. This makes modern apps nearly impossible to use offline, slow (due to network round trips), and complex (handling network failure, optimistic updates, polling and subscriptions).
 
-`Aphrodite` is designed as a multi-platform `ORM` and `Schema Definition Language`. `Aphrodite` [[docs/schemas:schemas]] are  used to generate code for interacting with and controlling your data model in a variety of target languages. Think something like [protocol buffers](https://developers.google.com/protocol-buffers) or [thrift](https://thrift.apache.org/) but for persisted data.
+`Aphrodite` is designed as a multi-platform `ORM` and `Schema Definition Language`. `Aphrodite` [[docs/schemas:schemas]] generate code for interacting with and controlling your data model in a variety of target languages and paltforms. Think something like [protocol buffers](https://developers.google.com/protocol-buffers) or [thrift](https://thrift.apache.org/) but for persisted data.
 
 `Aphrodite`'s MVP targets TypeScript with the next language targets being (in current order of priority):
 1. Kotlin
@@ -35,14 +35,14 @@ The plurality of client side languages and platforms (iOS, Android, Web, desktop
 
 `Aphrodite` is really more than an ORM -- ORMs are just what it is most similar to.
 
-ORMs don't go far enough in their scope. Yes, they express your data and relationships between your data but they generally stop there. They could (and should) include any concern that can be expressed declaratively and is a property of the data.
+ORMs don't go far enough in their scope. Yes, they express your data and relationships between your data but they generally stop there. They could (and should) include any concern that is a property of the data and can be expressed declaratively.
 
 Concerns like:
 
-1. Invariants on the data (consistency rules)
+1. Invariants / consistency rules on the data
 2. Row level read & write permissions (e.g., postgres row level security)
 3. Relationship cardinality
-4. Allowed mutations
+4. Allowed mutations and shape of mutations (what values must be set at the same time, what values are computed, etc.)
 5. Conflict resolution strategy
 6. Semantic type(s)
 
@@ -70,4 +70,4 @@ The schema is also where you declare your conflict resolution strategy for a giv
 
 ## Permissions
 
-## Schemas ... Protocols
+## From Schemas to Protocols

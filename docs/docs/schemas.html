@@ -8,14 +8,14 @@
 <link rel="stylesheet" href="/main.css">
 <link rel="stylesheet" href="/docs/index.css">
 
-<meta name="description" content="todo https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/schema/domain.aphro">
+<meta name="description" content="Schemas are the core of Aphrodite. Schemas capture: The nodes in your data modelRelationships (edges) between themPermissions (who can read what nodes and what relationships)Persistence (where is the node/edge stored)Mutations (what about a node or…">
 <meta name="keywords" content="software, schemas, data">
 <meta name="author" content="Matt Wonlaw">
 <meta name="copyright" content="© 2022 Matt Wonlaw">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Aphrodite">
 <meta property="og:title" content="Schemas">
-<meta property="og:description" content="todo https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/schema/domain.aphro">
+<meta property="og:description" content="Schemas are the core of Aphrodite. Schemas capture: The nodes in your data modelRelationships (edges) between themPermissions (who can read what nodes and what relationships)Persistence (where is the node/edge stored)Mutations (what about a node or…">
 <meta property="og:image" content="https://aphrodite.sh/assets/gods/zeus.png">
 <meta property="og:image:alt" content="Zeus">
 <meta property="og:image:width" content="266">
@@ -25,11 +25,110 @@
 <meta name="twitter:image:alt" content="Zeus">
 <meta name="twitter:site" content="@tantaman">
 <meta name="twitter:label1" content="Reading time">
-<meta name="twitter:data1" content="1 minute">
+<meta name="twitter:data1" content="2-3 minutes">
 </head>
 <body><a href="https://github.com/tantaman/aphrodite" class="github-corner" aria-label="View source on GitHub"><svg width="100" height="100" viewBox="0 0 250 250" style="fill:var(--dress); color:var(--black); position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><aside><div class="center"><a class="home-link" href="/"><div class="god-circle center-block"><div class="god-head god-head-aphrodite"></div></div></a><a class="hamburger"></a></div><ol><li class="indent"><a href="/docs/why">Why Aphrodite</a></li><li class="indent"><a href="/docs/quickstart">Quickstart</a></li><li class="active indent"><a href="/docs/schemas">Schemas</a></li><li class="indent"><a href="/docs/models">Models</a></li><li class="indent"><a href="/docs/mutations-and-transactions">Mutating Data</a></li><li class="indent"><a href="/docs/queries">Queries</a></li><li class="indent"><a href="/docs/reactivity">Reactivity</a></li><li class="indent"><a href="/docs/data-sync-p2p">Data Sync &#x26; P2P</a></li><li class="indent"><a href="/docs/permissions">Permissions</a></li><li class="indent"><a href="/docs/migrations">Migrations</a></li></ol></aside><main><article><h1>Schemas</h1><section>
-<nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><p>todo</p>
-<p><a href="https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/schema/domain.aphro">https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/schema/domain.aphro</a></p>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#example-schemas">Example Schemas</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#node-example-fooaphro">Node Example (foo.aphro)</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#node-extensions">Node Extensions</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#outbound-edges-example">Outbound Edges Example</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#mutations-example">Mutations Example</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#graphql-example">GraphQL Example</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#junction-edge">Junction Edge</a></li></ol></li></ol></nav><p><code>Schemas</code> are the core of <code>Aphrodite</code>. Schemas capture:</p>
+<ol>
+<li>The nodes in your data model</li>
+<li>Relationships (edges) between them</li>
+<li>Permissions (who can read what nodes and what relationships)</li>
+<li>Persistence (where is the node/edge stored)</li>
+<li>Mutations (what about a node or edge can be changed, how and by who)</li>
+<li>Constraints (uniquness, indices, etc.)</li>
+</ol>
+<p>You can describe as much or as little as your data model as you like. The more you describe, the more <code>Aphrodite</code> can help you.</p>
+<h1 id="example-schemas"><a aria-hidden="true" tabindex="-1" href="#example-schemas"><span class="icon icon-link"></span></a>Example Schemas</h1>
+<p>Schemas are written in a simple DSL. This DSL only lets you declare things and not write arbitrary computations. The principle behind this is that if something about your data cannot be described declartively, it does not belong in <code>Aphrodite</code>.</p>
+<h2 id="node-example-fooaphro"><a aria-hidden="true" tabindex="-1" href="#node-example-fooaphro"><span class="icon icon-link"></span></a>Node Example (foo.aphro)</h2>
+<pre><code class="hljs language-typescript"><span class="hljs-attr">engine</span>: sqlite
+
+<span class="hljs-title class_">Foo</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Node</span> {
+  <span class="hljs-attr">id</span>: <span class="hljs-variable constant_">ID</span>&#x3C;<span class="hljs-title class_">Foo</span>>
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-attr">age</span>: int32
+  <span class="hljs-attr">created</span>: <span class="hljs-title class_">Timestamp</span>
+  <span class="hljs-attr">height</span>: float32
+  <span class="hljs-attr">something</span>: <span class="hljs-title class_">Enumeration</span>&#x3C;A | B | C>
+}
+</code></pre>
+<p>A few things to note here:</p>
+<ol>
+<li>Nodes are defined as <code>$identifier as Node</code></li>
+<li>What follows is a list of fields that make up the node</li>
+<li>Fields can be any of the data types listed in <a class="internal new" href="/docs/data-types">docs/data-types</a></li>
+</ol>
+<p>Nodes can be <em>extended</em> with more options via <code>&#x26;</code>. Lets see some extensions.</p>
+<h2 id="node-extensions"><a aria-hidden="true" tabindex="-1" href="#node-extensions"><span class="icon icon-link"></span></a>Node Extensions</h2>
+<p>The definition of a node can be extended with:</p>
+<ul>
+<li>Edges</li>
+<li>Mutations</li>
+<li>GraphQL definitions</li>
+<li>Permissions</li>
+<li>Constraints &#x26; Indices</li>
+<li>3rd party extensions</li>
+</ul>
+<p>All extensions to a node follow a syntax that looks like:</p>
+<pre><code class="hljs language-typescript">X <span class="hljs-keyword">as</span> <span class="hljs-title class_">Node</span> {
+  ...
+} &#x26; <span class="hljs-variable constant_">EXTENSION_1</span> { <span class="hljs-variable constant_">EXTENSION_1_ARGS</span> } &#x26; <span class="hljs-variable constant_">EXTENISON_2</span> { <span class="hljs-variable constant_">EXTENSION_2_ARGS</span> } &#x26; ...
+</code></pre>
+<p>Any number of extensions can be applied to a node. Extensions have access to and augment the definitions that come before them.</p>
+<h2 id="outbound-edges-example"><a aria-hidden="true" tabindex="-1" href="#outbound-edges-example"><span class="icon icon-link"></span></a>Outbound Edges Example</h2>
+<pre><code class="hljs language-typescript"><span class="hljs-title class_">Foo</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Node</span> {
+  ...
+  <span class="hljs-attr">bazId</span>: <span class="hljs-variable constant_">ID</span>&#x3C;<span class="hljs-title class_">Baz</span>>
+} &#x26; <span class="hljs-title class_">OutboundEdges</span> {
+  <span class="hljs-attr">bars</span>: <span class="hljs-title class_">Edge</span>&#x3C;<span class="hljs-title class_">Bar</span>.<span class="hljs-property">fooId</span>>
+  <span class="hljs-attr">baz</span>: <span class="hljs-title class_">Edge</span>&#x3C;<span class="hljs-title class_">Foo</span>.<span class="hljs-property">bazId</span>>
+}
+</code></pre>
+<p>Edges can be <em>through</em> a field. E.g., the edge from <code>foo</code> to <code>Baz</code> is through <code>Foo.bazId</code>.</p>
+<h2 id="mutations-example"><a aria-hidden="true" tabindex="-1" href="#mutations-example"><span class="icon icon-link"></span></a>Mutations Example</h2>
+<pre><code class="hljs language-typescript"><span class="hljs-title class_">Foo</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Node</span> {
+  <span class="hljs-attr">id</span>: <span class="hljs-variable constant_">ID</span>&#x3C;<span class="hljs-title class_">Foo</span>>
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-attr">age</span>: int32
+  <span class="hljs-attr">created</span>: <span class="hljs-title class_">Timestamp</span>
+  <span class="hljs-attr">height</span>: float32
+} &#x26; <span class="hljs-title class_">Mutations</span> {
+  create <span class="hljs-keyword">as</span> <span class="hljs-title class_">Create</span> {
+    name # args that match field names get their <span class="hljs-keyword">type</span> <span class="hljs-keyword">from</span> the field name
+    age
+    height
+  }
+
+  rename <span class="hljs-keyword">as</span> <span class="hljs-title class_">Update</span> {
+    name
+    <span class="hljs-attr">customArg</span>: <span class="hljs-built_in">string</span> # can add custom args
+    <span class="hljs-attr">bar</span>: <span class="hljs-title class_">Bar</span> # can take other nodes <span class="hljs-keyword">as</span> input
+  }
+}
+</code></pre>
+<h2 id="graphql-example"><a aria-hidden="true" tabindex="-1" href="#graphql-example"><span class="icon icon-link"></span></a>GraphQL Example</h2>
+<pre><code class="hljs language-typescript"><span class="hljs-title class_">Foo</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Node</span> {
+  ...
+} &#x26; <span class="hljs-title class_">GraphQL</span> {
+  read {
+    # names <span class="hljs-keyword">of</span> fields to expose <span class="hljs-keyword">for</span> read operations
+  }
+  write {
+    # names <span class="hljs-keyword">of</span> mutations to expose <span class="hljs-keyword">for</span> write operations
+  }
+  root # generate a root call to load <span class="hljs-string">`Foo`</span>
+}
+</code></pre>
+<h2 id="junction-edge"><a aria-hidden="true" tabindex="-1" href="#junction-edge"><span class="icon icon-link"></span></a>Junction Edge</h2>
+<p>Junction edges / pivot tables allow us to declare many-to-many relationships. Edges can have data if you like or have no fields.</p>
+<pre><code class="hljs language-typescript"><span class="hljs-title class_">Followers</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Edge</span>&#x3C;<span class="hljs-title class_">Person</span>, <span class="hljs-title class_">Person</span>> {}
+
+<span class="hljs-title class_">Person</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Node</span> {
+  <span class="hljs-attr">id</span>: <span class="hljs-variable constant_">ID</span>&#x3C;<span class="hljs-title class_">Person</span>>
+} &#x26; <span class="hljs-title class_">OutboundEdges</span> {
+  <span class="hljs-attr">followers</span>: <span class="hljs-title class_">Followers</span>
+}
+</code></pre>
 <script src="https://www.googletagmanager.com/gtag/js?id=G-QT6QH0ZJQ4" async></script>
 <script src="/ga.js"></script>
 <script src="/assets/god-switcher.js"></script>
