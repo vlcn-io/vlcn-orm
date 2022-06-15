@@ -10,10 +10,14 @@ subtitle: get up and running with Aphrodite
 
 If you learn faster by looking at code, we have a **starter repositories** you can clone and get running with. The starter projects also take care of most of the boilerplate in this guide.
 
-- [Node JS Starter Project](https://github.com/tantaman/aphrodite-node-starter)
+- [Node JS Starter](https://github.com/tantaman/aphrodite-node-starter)
 - Browser Starter (WIP)
-- Deno Start (WIP)
+- Deno Starter (WIP)
 - GraphQL Server Starter (WIP)
+- iOS Starter (WIP)
+- Android Starter (WIP)
+
+> Why server components if you're local-first? For improved durability and availability for those that want it.
 
 # Setup
 
