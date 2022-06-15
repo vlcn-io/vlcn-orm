@@ -4,6 +4,8 @@ title: Why Aphrodite
 subtitle: the goals of Aphrodite and the problems being solved
 ---
 
+> Note: roadmap available here: [[blog/roadmap]].
+
 The ultimate goal of `Aphrodite` is to make multi-platform (including [local-first](https://www.inkandswitch.com/local-first/)) and [peer-to-peer](https://en.wikipedia.org/wiki/Peer-to-peer) software easier to develop. The `Aphrodite` project has made significant progress to that end but the more progress we make, the more opportunities we see.
 
 A nice feature of the problems & opportunities thus far is that they can be tackled in sequence. Each solution building on the solution before it, each solution making local-first and p2p software a step function easier to develop, and each solution unlocking entirely new capabilities for application developers.

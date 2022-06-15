@@ -159,7 +159,7 @@ You'll now see two new files -- `TodoListMutations.ts` and `TodoListMutationsImp
 - `TodoListMutations.ts` is completely genenreated and exposes the mutation API.
 - `TodoListMutationsImpl.ts` is where you enter your implementation of the API.
 
-# Creating/Mutating a Node
+# Creating / Mutating a Node
 
 Opening up `TodoListMutationsImpl.ts` you'll see this method that has been generated for you:
 

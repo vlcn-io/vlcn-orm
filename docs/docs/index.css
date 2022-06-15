@@ -1,9 +1,8 @@
 body {
   display: flex;
-  color: #111111;
-  background: #fffff8;
-  gap: 0px 40px;
   font-family: "Canela Text";
+  background-color: #fffff8;
+  color: #111;
 }
 
 html,
@@ -45,49 +44,11 @@ aside {
   float: right;
 }
 
-@media (max-width: 1200px) {
-  .toc {
-    display: none;
-  }
-
-  aside {
-    /* display: none; */
-    width: 70px;
-    height: 70px;
-    overflow: hidden;
-    padding: 0;
-    border-right: none;
-    position: fixed;
-    right: 0px;
-  }
-
-  .home-link {
-    display: none;
-  }
-
-  .hamburger {
-    display: block;
-  }
-
-  aside:hover {
-    height: 100%;
-    width: 270px;
-  }
-
-  body {
-    padding-left: 40px;
-  }
-
-  main {
-    width: 100%;
-  }
-}
-
 main {
   flex-grow: 1;
   /* padding-top: 100px; */
-  max-width: 1400px;
-  margin-left: auto;
+  max-width: 800px;
+  margin-left: 80px;
   margin-right: auto;
 }
 
@@ -118,6 +79,55 @@ pre {
   background: var(--black);
   color: white;
   border-radius: 8px;
+}
+
+@media (max-width: 1600px) {
+  .toc {
+    display: none;
+  }
+}
+
+@media (max-width: 1200px) {
+  aside {
+    /* display: none; */
+    width: 70px;
+    height: 70px;
+    overflow: hidden;
+    padding: 0;
+    border-right: none;
+    position: fixed;
+    right: 0px;
+  }
+
+  .home-link {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  aside:hover {
+    height: 100%;
+    width: 270px;
+  }
+
+  main {
+    width: 600px;
+  }
+}
+
+@media (max-width: 950px) {
+  main {
+    margin-left: 4%;
+    margin-right: 4%;
+  }
+}
+
+@media (max-width: 700px) {
+  main {
+    width: 400px;
+  }
 }
 
 /* code {
