@@ -25,7 +25,7 @@
 <meta name="twitter:image:alt" content="Zeus">
 <meta name="twitter:site" content="@tantaman">
 <meta name="twitter:label1" content="Reading time">
-<meta name="twitter:data1" content="6-9 minutes">
+<meta name="twitter:data1" content="8-13 minutes">
 </head>
 <body><a href="https://github.com/tantaman/aphrodite" class="github-corner" aria-label="View source on GitHub"><svg width="100" height="100" viewBox="0 0 250 250" style="fill:var(--dress); color:var(--black); position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><aside><div class="center"><a class="home-link" href="/"><div class="god-circle center-block"><div class="god-head god-head-aphrodite"></div></div></a><a class="hamburger"></a></div><ol><li class="indent"><a href="/docs/why">Why Aphrodite</a></li><li class="active indent"><a href="/docs/quickstart">Quickstart</a></li><li class="indent"><a href="/docs/schemas">Schemas</a></li><li class="indent"><a href="/docs/models">Models</a></li><li class="indent"><a href="/docs/mutations-and-transactions">Mutating Data</a></li><li class="indent"><a href="/docs/queries">Queries</a></li><li class="indent"><a href="/docs/reactivity">Reactivity</a></li><li class="indent"><a href="/docs/data-sync-p2p">Data Sync &#x26; P2P</a></li><li class="indent"><a href="/docs/permissions">Permissions</a></li><li class="indent"><a href="/docs/migrations">Migrations</a></li></ol></aside><main><article><h1>Quickstart</h1><p class="subtitle">get up and running with Aphrodite</p><section>
 <nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#setup">Setup</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#installation">Installation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#configuration">Configuration</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#db-connection">DB Connection</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#your-first-schema">Your First Schema</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#adding-a-mutation">Adding a Mutation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#creatingmutating-a-node">Creating/Mutating a Node</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#bootstrapping--table-creation">Bootstrapping / Table Creation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#compile--run">Compile &#x26; Run</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#querying-for-nodes">Querying for Nodes</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#defining-an-edge">Defining an Edge</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#walking-a-graph">Walking a Graph</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#reactive-queries">Reactive Queries</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#react-integration">React Integration</a></li></ol></nav><p><code>Aphrodite</code> makes it easy to describe, model and interact with your data. After installing <code>Aphrodite</code>, everything begins with defining a schema. If you'd like to understand <em>why</em> this project exists before diving in, see <a class="internal new" href="/docs/why">Why Aphrodite?</a></p>
@@ -260,14 +260,139 @@ npm install --save-dev @aphro/codegen-cli
 <span class="hljs-punctuation">}</span>
 ...
 </code></pre>
-<p>finally we can run our build. Run it in watch mode so any time a ts file changes there will be a rebuild.</p>
+<p>finally, we can run our build. Run it in watch mode so any time a ts file changes there will be a rebuild.</p>
 <pre><code class="hljs language-bash">npm run watch
 </code></pre>
 <p>And now lets run our program:</p>
 <pre><code class="hljs language-bash">node dist/main.js
 </code></pre>
-<p>Obviously this didn't do much that is useful for us. It create a list and exited. Lets move on to querying for nodes so we can see what has been written.</p>
+<p>Obviously this didn't do much that is useful for us. It created a list and exited. Let us move on to querying for nodes so we can see what has been written.</p>
 <h1 id="querying-for-nodes"><a aria-hidden="true" tabindex="-1" href="#querying-for-nodes"><span class="icon icon-link"></span></a>Querying for Nodes</h1>
+<p>If you take a look at the generated <code>TodoList</code> model (<code>TodoList.ts</code>) you'll see that it provides a number of methods for fetching and querying <code>TodoLists</code>.</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">static</span> <span class="hljs-title function_">queryAll</span>(<span class="hljs-attr">ctx</span>: <span class="hljs-title class_">Context</span>): <span class="hljs-title class_">TodoListQuery</span>;
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> <span class="hljs-title function_">genx</span>(
+  <span class="hljs-attr">ctx</span>: <span class="hljs-title class_">Context</span>,
+  <span class="hljs-attr">id</span>: SID_of&#x3C;<span class="hljs-title class_">TodoList</span>>
+): <span class="hljs-title class_">Promise</span>&#x3C;<span class="hljs-title class_">TodoList</span>>;
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> <span class="hljs-title function_">gen</span>(
+  <span class="hljs-attr">ctx</span>: <span class="hljs-title class_">Context</span>,
+  <span class="hljs-attr">id</span>: SID_of&#x3C;<span class="hljs-title class_">TodoList</span>>
+): <span class="hljs-title class_">Promise</span>&#x3C;<span class="hljs-title class_">TodoList</span> | <span class="hljs-literal">null</span>>;
+</code></pre>
+<p>We'll use these to load the <code>TodoLists</code> that have been written. Lets update our main function.</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">TodoList</span> <span class="hljs-keyword">from</span> <span class="hljs-string">"./generated/TodoList.js"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> db = <span class="hljs-title function_">connect</span>(<span class="hljs-variable constant_">DB_FILE</span>);
+  <span class="hljs-keyword">await</span> <span class="hljs-title function_">createTables</span>(db); <span class="hljs-comment">// new call to `createTables`</span>
+  <span class="hljs-keyword">const</span> ctx = <span class="hljs-title function_">context</span>(<span class="hljs-title function_">anonymous</span>(), <span class="hljs-title function_">basicResolver</span>(db));
+
+  <span class="hljs-keyword">const</span> [persistHandle, todoList] = <span class="hljs-title class_">TodoListMutations</span>.<span class="hljs-title function_">create</span>(ctx, {
+    <span class="hljs-attr">name</span>: <span class="hljs-string">"My first list!"</span>,
+  }).<span class="hljs-title function_">save</span>();
+
+  <span class="hljs-comment">// Wait for the write to actually complete</span>
+  <span class="hljs-keyword">await</span> persistHandle;
+  <span class="hljs-comment">// Query our todo lists (there will be many if you've run the app many times! :)</span>
+  <span class="hljs-keyword">const</span> lists = <span class="hljs-keyword">await</span> <span class="hljs-title class_">TodoList</span>.<span class="hljs-title function_">queryAll</span>(ctx).<span class="hljs-title function_">gen</span>();
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(lists);
+}
+</code></pre>
+<p>You'll see some output in your terminal:</p>
+<pre><code class="hljs language-yaml">[
+  <span class="hljs-string">TodoList</span> {
+    <span class="hljs-attr">ctx:</span> {
+      <span class="hljs-attr">viewer:</span> [<span class="hljs-string">Object</span>],
+      <span class="hljs-attr">dbResolver:</span> [<span class="hljs-string">Object</span>],
+      <span class="hljs-attr">cache:</span> <span class="hljs-string">Cache</span> {},
+      <span class="hljs-attr">commitLog:</span> [<span class="hljs-string">TransactionLog</span>]
+    },
+    <span class="hljs-attr">data:</span> { <span class="hljs-attr">id:</span> <span class="hljs-string">'62a9ea68aaaa945a'</span>, <span class="hljs-attr">name:</span> <span class="hljs-string">'My first list!'</span> },
+    <span class="hljs-attr">subscriptions:</span> <span class="hljs-string">Set(0)</span> {},
+    <span class="hljs-attr">keyedSubscriptions:</span> <span class="hljs-string">Map(0)</span> {},
+    <span class="hljs-attr">spec:</span> {
+      <span class="hljs-attr">createFrom:</span> [<span class="hljs-attr">Function:</span> <span class="hljs-string">createFrom</span>],
+      <span class="hljs-attr">primaryKey:</span> <span class="hljs-string">'id'</span>,
+      <span class="hljs-attr">storage:</span> [<span class="hljs-string">Object</span>],
+      <span class="hljs-attr">outboundEdges:</span> {}
+    }
+  },
+  <span class="hljs-string">...</span>
+</code></pre>
+<p>Obviously we're creating a bunch of lists! Lets update the write to only write if a lists does not yet exist.</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">TodoList</span> <span class="hljs-keyword">from</span> <span class="hljs-string">"./generated/TodoList.js"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> db = <span class="hljs-title function_">connect</span>(<span class="hljs-variable constant_">DB_FILE</span>);
+  <span class="hljs-keyword">await</span> <span class="hljs-title function_">createTables</span>(db); <span class="hljs-comment">// new call to `createTables`</span>
+  <span class="hljs-keyword">const</span> ctx = <span class="hljs-title function_">context</span>(<span class="hljs-title function_">anonymous</span>(), <span class="hljs-title function_">basicResolver</span>(db));
+
+  <span class="hljs-keyword">let</span> lists = <span class="hljs-keyword">await</span> <span class="hljs-title class_">TodoList</span>.<span class="hljs-title function_">queryAll</span>(ctx).<span class="hljs-title function_">gen</span>();
+
+  <span class="hljs-keyword">if</span> (lists.<span class="hljs-property">length</span> === <span class="hljs-number">0</span>) {
+    <span class="hljs-keyword">const</span> [persistHandle, todoList] = <span class="hljs-title class_">TodoListMutations</span>.<span class="hljs-title function_">create</span>(ctx, {
+      <span class="hljs-attr">name</span>: <span class="hljs-string">"My first list!"</span>,
+    }).<span class="hljs-title function_">save</span>();
+    <span class="hljs-keyword">await</span> persistHandle;
+    lists = <span class="hljs-keyword">await</span> <span class="hljs-title class_">TodoList</span>.<span class="hljs-title function_">queryAll</span>(ctx).<span class="hljs-title function_">gen</span>();
+  }
+
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(lists);
+}
+</code></pre>
+<p>To delete all the extra lists that ended up being created, we can define a delete mutation for <code>TodoList</code> in <code>domain.aphro</code></p>
+<pre><code class="hljs language-typescript"><span class="hljs-title class_">TodoList</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Node</span> {
+  <span class="hljs-attr">id</span>: <span class="hljs-variable constant_">ID</span>&#x3C;<span class="hljs-title class_">TodoList</span>>
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
+} &#x26; <span class="hljs-title class_">Mutations</span> {
+  create <span class="hljs-keyword">as</span> <span class="hljs-title class_">Create</span> {
+    name
+  }
+  <span class="hljs-keyword">delete</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Delete</span> {} # <span class="hljs-keyword">new</span> <span class="hljs-keyword">delete</span> mutation
+}
+</code></pre>
+<p>and re-run our codegen.</p>
+<pre><code class="hljs language-bash">npx aphro gen src/domain.aphro -d src/generated
+</code></pre>
+<p>Given <code>delete</code> has no args, you don't need to update anything after running codegen. (nit: except maybe adding an import to <code>TodoListMutationsImpl</code> at the time of this writing...)</p>
+<p>Now lets undo our mistake of adding so many lists --</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  ...
+  <span class="hljs-keyword">if</span> (lists.<span class="hljs-property">length</span> === <span class="hljs-number">0</span>) {
+    ...
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (lists.<span class="hljs-property">length</span> > <span class="hljs-number">1</span>) {
+    lists.<span class="hljs-title function_">unshift</span>();
+    <span class="hljs-keyword">const</span> [handle, _] = <span class="hljs-title function_">commit</span>(
+      ctx,
+      lists.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">list</span>) =></span> <span class="hljs-title class_">TodoListMutations</span>.<span class="hljs-title function_">delete</span>(list, {}).<span class="hljs-title function_">toChangeset</span>())
+    );
+    <span class="hljs-keyword">await</span> handle;
+  }
+}
+</code></pre>
+<p>This introduces an important concept -- changesets and <code>commit</code>.</p>
+<p>If you want to bundle a bunch of mutations together and commit them all at once you use <code>changesets</code> and then pass that collection of <code>changesets</code> to <code>commit</code>.</p>
+<p>None of your models will change until the changesets are committed, allowing you to gather together as many mutations as you like.</p>
+<p>Once you've deleted your extra lists, might as well remove that code from main so it doesn't clutter it and update to something a bit more ergonmoic --</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> db = <span class="hljs-title function_">connect</span>(<span class="hljs-string">"test"</span>);
+  <span class="hljs-keyword">await</span> <span class="hljs-title function_">createTables</span>(db);
+  <span class="hljs-keyword">const</span> ctx = <span class="hljs-title function_">context</span>(<span class="hljs-title function_">anonymous</span>(), <span class="hljs-title function_">basicResolver</span>(db));
+
+  <span class="hljs-keyword">let</span> todoList = <span class="hljs-keyword">await</span> <span class="hljs-title class_">TodoList</span>.<span class="hljs-title function_">queryAll</span>(ctx).<span class="hljs-title function_">genOnlyValue</span>();
+
+  <span class="hljs-keyword">if</span> (todoList == <span class="hljs-literal">null</span>) {
+    <span class="hljs-keyword">let</span> _;
+    [_, todoList] = <span class="hljs-title class_">TodoListMutations</span>.<span class="hljs-title function_">create</span>(ctx, {
+      <span class="hljs-attr">name</span>: <span class="hljs-string">"My first list!"</span>,
+    }).<span class="hljs-title function_">save</span>();
+  }
+
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(todoList);
+}
+</code></pre>
 <h1 id="defining-an-edge"><a aria-hidden="true" tabindex="-1" href="#defining-an-edge"><span class="icon icon-link"></span></a>Defining an Edge</h1>
 <h1 id="walking-a-graph"><a aria-hidden="true" tabindex="-1" href="#walking-a-graph"><span class="icon icon-link"></span></a>Walking a Graph</h1>
 <h1 id="reactive-queries"><a aria-hidden="true" tabindex="-1" href="#reactive-queries"><span class="icon icon-link"></span></a>Reactive Queries</h1>

@@ -315,7 +315,7 @@ third, add `build` and `watch` scripts to your `package.json`
 ...
 ```
 
-finally we can run our build. Run it in watch mode so any time a ts file changes there will be a rebuild.
+finally, we can run our build. Run it in watch mode so any time a ts file changes there will be a rebuild.
 
 ```bash
 npm run watch
@@ -327,9 +327,162 @@ And now lets run our program:
 node dist/main.js
 ```
 
-Obviously this didn't do much that is useful for us. It create a list and exited. Lets move on to querying for nodes so we can see what has been written.
+Obviously this didn't do much that is useful for us. It created a list and exited. Let us move on to querying for nodes so we can see what has been written.
 
 # Querying for Nodes
+
+If you take a look at the generated `TodoList` model (`TodoList.ts`) you'll see that it provides a number of methods for fetching and querying `TodoLists`.
+
+```typescript
+static queryAll(ctx: Context): TodoListQuery;
+
+static async genx(
+  ctx: Context,
+  id: SID_of<TodoList>
+): Promise<TodoList>;
+
+static async gen(
+  ctx: Context,
+  id: SID_of<TodoList>
+): Promise<TodoList | null>;
+```
+
+We'll use these to load the `TodoLists` that have been written. Lets update our main function.
+
+```typescript
+import TodoList from "./generated/TodoList.js";
+
+async function main() {
+  const db = connect(DB_FILE);
+  await createTables(db); // new call to `createTables`
+  const ctx = context(anonymous(), basicResolver(db));
+
+  const [persistHandle, todoList] = TodoListMutations.create(ctx, {
+    name: "My first list!",
+  }).save();
+
+  // Wait for the write to actually complete
+  await persistHandle;
+  // Query our todo lists (there will be many if you've run the app many times! :)
+  const lists = await TodoList.queryAll(ctx).gen();
+  console.log(lists);
+}
+```
+
+You'll see some output in your terminal:
+
+```
+[
+  TodoList {
+    ctx: {
+      viewer: [Object],
+      dbResolver: [Object],
+      cache: Cache {},
+      commitLog: [TransactionLog]
+    },
+    data: { id: '62a9ea68aaaa945a', name: 'My first list!' },
+    subscriptions: Set(0) {},
+    keyedSubscriptions: Map(0) {},
+    spec: {
+      createFrom: [Function: createFrom],
+      primaryKey: 'id',
+      storage: [Object],
+      outboundEdges: {}
+    }
+  },
+  ...
+```
+
+Obviously we're creating a bunch of lists! Lets update the write to only write if a lists does not yet exist.
+
+```typescript
+import TodoList from "./generated/TodoList.js";
+
+async function main() {
+  const db = connect(DB_FILE);
+  await createTables(db); // new call to `createTables`
+  const ctx = context(anonymous(), basicResolver(db));
+
+  let lists = await TodoList.queryAll(ctx).gen();
+
+  if (lists.length === 0) {
+    const [persistHandle, todoList] = TodoListMutations.create(ctx, {
+      name: "My first list!",
+    }).save();
+    await persistHandle;
+    lists = await TodoList.queryAll(ctx).gen();
+  }
+
+  console.log(lists);
+}
+```
+
+To delete all the extra lists that ended up being created, we can define a delete mutation for `TodoList` in `domain.aphro`
+
+```typescript
+TodoList as Node {
+  id: ID<TodoList>
+  name: string
+} & Mutations {
+  create as Create {
+    name
+  }
+  delete as Delete {} # new delete mutation
+}
+```
+
+and re-run our codegen.
+
+```bash
+npx aphro gen src/domain.aphro -d src/generated
+```
+
+Given `delete` has no args, you don't need to update anything after running codegen. (nit: except maybe adding an import to `TodoListMutationsImpl` at the time of this writing...)
+
+Now lets undo our mistake of adding so many lists --
+
+```typescript
+async function main() {
+  ...
+  if (lists.length === 0) {
+    ...
+  } else if (lists.length > 1) {
+    lists.unshift();
+    const [handle, _] = commit(
+      ctx,
+      lists.map((list) => TodoListMutations.delete(list, {}).toChangeset())
+    );
+    await handle;
+  }
+}
+```
+
+This introduces an important concept -- changesets and `commit`.
+
+If you want to bundle a bunch of mutations together and commit them all at once you use `changesets` and then pass that collection of `changesets` to `commit`.
+
+None of your models will change until the changesets are committed, allowing you to gather together as many mutations as you like.
+
+Once you've deleted your extra lists, might as well remove that code from main so it doesn't clutter it and update to something a bit more ergonmoic --
+
+```typescript
+async function main() {
+  const db = connect("test");
+  await createTables(db);
+  const ctx = context(anonymous(), basicResolver(db));
+
+  let todoList = await TodoList.queryAll(ctx).genOnlyValue();
+
+  if (todoList == null) {
+    let _;
+    [_, todoList] = TodoListMutations.create(ctx, {
+      name: "My first list!",
+    }).save();
+  }
+
+  console.log(todoList);
+}
+```
 
 # Defining an Edge
 
