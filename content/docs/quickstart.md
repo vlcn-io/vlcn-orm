@@ -282,23 +282,13 @@ next, add a `tsconfig.json` to your project
 ```json
 {
   "compilerOptions": {
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "module": "esnext",
     "target": "esnext",
     "moduleResolution": "Node",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
-    "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "baseUrl": "./"
   },
   "include": ["./src/"]
 }
