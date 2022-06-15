@@ -79,6 +79,7 @@ ${this.getCode([])}
       // e.g., mutator.set({name: "Foo" });
       // You do not need to return anything from this method. The mutator will track your changes.
       // If you do return changesets, those changesets will be applied in addition to the changes made to the mutator.
+      throw new Error('You must implement the mutation ${m.name} for schema ${this.schema.name} in ${this.schema.name}MutationsImpl.ts');
     }`;
   }
 
