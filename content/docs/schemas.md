@@ -14,9 +14,11 @@ title: Schemas
 
 You can describe as much or as little as your data model as you like. The more you describe, the more `Aphrodite` can help you.
 
+From the schema definition, Aphrodite generates `TypeScript` (and eventually other target languages) classes ([[docs/models:models]], [[docs/queries::query builders]], [[docs/mutatations-and-transactions:mutators]]) to interact with your data.
+
 # Example Schemas
 
-Schemas are written in a simple DSL. This DSL only lets you declare things and not write arbitrary computations. The principle behind this is that if something about your data cannot be described declartively, it does not belong in `Aphrodite`.
+Schemas are written in a simple `DSL`. This `DSL` only lets you declare things and not write arbitrary computations. The principle behind this is that if something about your data cannot be described declartively, it does not belong in the schema.
 
 ## Node Example (foo.aphro)
 

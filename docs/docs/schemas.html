@@ -38,8 +38,9 @@
 <li>Constraints (uniquness, indices, etc.)</li>
 </ol>
 <p>You can describe as much or as little as your data model as you like. The more you describe, the more <code>Aphrodite</code> can help you.</p>
+<p>From the schema definition, Aphrodite generates <code>TypeScript</code> (and eventually other target languages) classes (<a class="internal new" href="/docs/models">models</a>, <a class="internal new" href="/docs/queries">:query builders</a>, <a class="internal new" href="/docs/mutatations-and-transactions">mutators</a>) to interact with your data.</p>
 <h1 id="example-schemas"><a aria-hidden="true" tabindex="-1" href="#example-schemas"><span class="icon icon-link"></span></a>Example Schemas</h1>
-<p>Schemas are written in a simple DSL. This DSL only lets you declare things and not write arbitrary computations. The principle behind this is that if something about your data cannot be described declartively, it does not belong in <code>Aphrodite</code>.</p>
+<p>Schemas are written in a simple <code>DSL</code>. This <code>DSL</code> only lets you declare things and not write arbitrary computations. The principle behind this is that if something about your data cannot be described declartively, it does not belong in the schema.</p>
 <h2 id="node-example-fooaphro"><a aria-hidden="true" tabindex="-1" href="#node-example-fooaphro"><span class="icon icon-link"></span></a>Node Example (foo.aphro)</h2>
 <pre><code class="hljs language-typescript"><span class="hljs-attr">engine</span>: sqlite
 
