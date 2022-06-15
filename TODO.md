@@ -70,6 +70,7 @@
 - - id of imports for mutation args
 
 # 6/14
+- Test handling of unhoisted ops
 - SID storage as bigint
   - https://stackoverflow.com/questions/19784491/opposite-of-hex-in-sqlite
   - We can `unhex` or `X"..."` it to get it to a bigint?

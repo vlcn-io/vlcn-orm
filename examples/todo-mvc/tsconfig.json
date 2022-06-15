@@ -5,13 +5,8 @@
     "strictNullChecks": true, // enable strict null checks as a best practice
     "module": "esnext", // specify module code generation
     "target": "esnext", // specify ECMAScript target version
-    "skipLibCheck": true,
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "baseUrl": "./src/",
-    "declaration": true,
-    "declarationMap": true,
     "rootDir": "./src",
     "allowJs": true,
     "jsx": "react"

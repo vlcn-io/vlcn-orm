@@ -6,8 +6,6 @@
     "target": "esnext",
     "skipLibCheck": true,
     "moduleResolution": "Node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "baseUrl": "./src/",
     "declaration": true,
     "allowJs": true,
