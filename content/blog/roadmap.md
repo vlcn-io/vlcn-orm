@@ -6,10 +6,10 @@ Concrete roadmap items are below. The larger vision and strategy can be found in
 
 ## Current Planned Releases
 
-1. MVP 📦
-2. Alpha 💪
-3. Beta 🤦‍♂️
-4. RC1 🧚‍♀️
+1. MVP 📦 - End of June / early July 2022
+2. Alpha 💪 - Sep. 2022
+3. Beta 🤦‍♂️ - Oct. 2022
+4. RC1 🧚‍♀️ - Nov. 2022
 
 Each roadmap item is tagged with the name of the release that will include it.
 
@@ -22,13 +22,13 @@ Each roadmap item is tagged with the name of the release that will include it.
    4. (💪 Alpha) Collection field types
    5. (💪 Alpha) Indices
    6. (📦 MVP) Mutations
-   7. (🤦‍♂️ Beta) Permissions
+   7. (💪 Alpha) Permissions
    8. (💪 Alpha) 3rd party integrations (e.g., GraphQL)
    9. (🧚‍♀️ RC1) Conflict Resolution / CRDTs & Clock Types
    10. (🤦‍♂️ Beta) Migrations
 2. Runtime Environment & Language Support
    1. (📦 MVP) TypeScript & the browser
-   2. (💪 Alpha) Vanilla JS & Node
+   2. (📦 MVP) TypeScript & Node
    3. (🤦‍♂️ Beta) Kotlin & Android
    4. (Post RC1) Swift & iOS
 3. Runtime Components
@@ -42,14 +42,9 @@ Each roadmap item is tagged with the name of the release that will include it.
    8. (🧚‍♀️ RC1) Permission evaluation
 4. Databases & Backends
    1. (📦 MVP) SQLite
-   2. (💪 Alpha) Postgres
-   3. (🧚‍♀️ RC1) Polyglot persistence & edges between data stores
-   4. (Unplanned) Cypher? Redis?
-   5. (Unplanned) Sharded SQL
-   6. (Unplanned) Custom & arbitrary services (Rest / Thrift / etc.)
+   2. (Unplanned) Others? (RocksDB? LevelDB? FoundationDB?)
 5. Non Green-Field deployments
-   1. Support field storage overrides
-   2. Support auto increment ids
-   3. Support id providers (e.g., uuid)
+   1. (Unplanned) Support field/column storage type overrides
+   2. (Unplanned) Support auto-incr primary keys
 6. Context
    1. Identity
