@@ -1,13 +1,13 @@
 {
   "name": "@aphro/absurd-sql-connector",
   "private": true,
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "lib/index.js",
   "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/tantaman/aphrodite.git",
-    "directory": "packages/absurd-sql"
+    "directory": "packages/absurd-sql-connector"
   },
   "dependencies": {
     "@aphro/absurd-sql": "^0.0.53",

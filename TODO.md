@@ -70,6 +70,8 @@
 - - id of imports for mutation args
 
 # 6/14
+- Bootstrap generation
+- Allow no args to sid for deviceid
 - Test handling of unhoisted ops
 - SID storage as bigint
   - https://stackoverflow.com/questions/19784491/opposite-of-hex-in-sqlite

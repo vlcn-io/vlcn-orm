@@ -37,3 +37,6 @@ Or we can ship with just the former and gen the latter as needed...
 
 
 */
+
+// Bootstrap function that takes in `domain.aphro` and a connection.
+// Will thus need to depend on sql codegen package.
