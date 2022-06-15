@@ -1,5 +1,15 @@
 # @aphro/absurd-sql
 
+## 0.0.4
+
+### Patch Changes
+
+- graphql support, 'create table if not exists' for easier bootstrapping, @databases connection support
+- Updated dependencies
+  - @strut/counter@0.0.9
+  - @aphro/context-runtime-ts@0.0.9
+  - @aphro/sql-ts@0.0.4
+
 ## 0.0.3
 
 ### Patch Changes

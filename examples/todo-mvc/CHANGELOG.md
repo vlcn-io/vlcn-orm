@@ -1,5 +1,15 @@
 # @aphro/todo-mvc
 
+## 1.0.5
+
+### Patch Changes
+
+- graphql support, 'create table if not exists' for easier bootstrapping, @databases connection support
+- Updated dependencies
+  - @aphro/absurd-sql-connector@0.0.4
+  - @aphro/react@0.0.10
+  - @aphro/runtime-ts@0.0.6
+
 ## 1.0.4
 
 ### Patch Changes

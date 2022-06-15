@@ -1,5 +1,19 @@
 # @aphro/codegen-sql
 
+## 0.0.11
+
+### Patch Changes
+
+- graphql support, 'create table if not exists' for easier bootstrapping, @databases connection support
+- Updated dependencies
+  - @strut/counter@0.0.9
+  - @strut/utils@0.0.9
+  - @aphro/codegen@0.0.11
+  - @aphro/codegen-api@0.0.9
+  - @aphro/schema@0.0.12
+  - @aphro/schema-api@0.0.9
+  - @aphro/sql-ts@0.0.4
+
 ## 0.0.10
 
 ### Patch Changes

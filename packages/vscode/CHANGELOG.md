@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.8
+
+### Patch Changes
+
+- graphql support, 'create table if not exists' for easier bootstrapping, @databases connection support
+
 ## 0.0.7
 
 ### Patch Changes

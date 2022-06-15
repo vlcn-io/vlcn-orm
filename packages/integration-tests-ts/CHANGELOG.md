@@ -1,5 +1,14 @@
 # @aphro/integration-tests-ts
 
+## 0.0.11
+
+### Patch Changes
+
+- graphql support, 'create table if not exists' for easier bootstrapping, @databases connection support
+- Updated dependencies
+  - @strut/utils@0.0.9
+  - @aphro/runtime-ts@0.0.6
+
 ## 0.0.10
 
 ### Patch Changes

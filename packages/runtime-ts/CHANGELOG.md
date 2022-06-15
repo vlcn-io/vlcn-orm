@@ -1,5 +1,19 @@
 # @aphro/runtime-ts
 
+## 0.0.6
+
+### Patch Changes
+
+- graphql support, 'create table if not exists' for easier bootstrapping, @databases connection support
+- Updated dependencies
+  - @strut/sid@0.0.9
+  - @aphro/cache-runtime-ts@0.0.9
+  - @aphro/context-runtime-ts@0.0.9
+  - @aphro/model-runtime-ts@0.0.9
+  - @aphro/mutator-runtime-ts@0.0.10
+  - @aphro/query-runtime-ts@0.0.9
+  - @aphro/sql-ts@0.0.4
+
 ## 0.0.5
 
 ### Patch Changes

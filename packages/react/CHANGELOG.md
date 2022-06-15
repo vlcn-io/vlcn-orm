@@ -1,5 +1,17 @@
 # @aphro/react
 
+## 0.0.10
+
+### Patch Changes
+
+- graphql support, 'create table if not exists' for easier bootstrapping, @databases connection support
+- Updated dependencies
+  - @strut/counter@0.0.9
+  - @strut/events@0.0.8
+  - @strut/sid@0.0.9
+  - @strut/utils@0.0.9
+  - @aphro/runtime-ts@0.0.6
+
 ## 0.0.9
 
 ### Patch Changes
