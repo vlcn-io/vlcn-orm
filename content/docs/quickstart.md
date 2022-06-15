@@ -11,7 +11,7 @@ subtitle: get up and running with Aphrodite
 If you learn faster by looking at code, we have a **starter repositories** you can clone and get running with. The starter projects also take care of most of the boilerplate in this guide.
 
 - [Node JS Starter](https://github.com/tantaman/aphrodite-node-starter)
-- Browser Starter (WIP but see the [TodoMVC example](https://github.com/tantaman/aphrodite/blob/main/examples/todo-mvc/))
+- Browser Starter (all data stored locally in the browser) (WIP but see the [TodoMVC example](https://github.com/tantaman/aphrodite/blob/main/examples/todo-mvc/))
 - Deno Starter (WIP)
 - [GraphQL Server Starter](https://github.com/tantaman/aphrodite-graphql-starter) (WIP)
 - iOS Starter (WIP)
