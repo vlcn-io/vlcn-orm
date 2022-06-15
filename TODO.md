@@ -1,3 +1,6 @@
+# From quickstart
+- update imports for mutation impls
+
 # Interesting
 - Counter / observability extension
 - Absurd SQL debug extension (e.g., inspect tables)

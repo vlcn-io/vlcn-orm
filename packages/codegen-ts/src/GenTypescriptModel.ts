@@ -208,7 +208,7 @@ export default class ${this.schema.name}
   }
 
   private getGenxMethodCode(): string {
-    return `static async genx(ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name} | null> {
+    return `static async genx(ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name}> {
       const existing = ctx.cache.get(id);
       if (existing) {
         return existing;
