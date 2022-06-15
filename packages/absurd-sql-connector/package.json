@@ -1,6 +1,5 @@
 {
   "name": "@aphro/absurd-sql-connector",
-  "private": true,
   "version": "0.0.5",
   "main": "lib/index.js",
   "type": "module",
