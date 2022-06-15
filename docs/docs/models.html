@@ -8,14 +8,28 @@
 <link rel="stylesheet" href="/main.css">
 <link rel="stylesheet" href="/docs/index.css">
 
-<meta name="description" content="todo https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc/src/generated">
+<meta name="description" content="Models are classes that let you interact with your data once it is loaded. One model class is generated for each Node schema. Lets take a look at a Todo schema and its generated Model.
+
+Todo node:
+
+Todo as Node {
+  id: ID<Todo>
+  text: string
+  completed…">
 <meta name="keywords" content="software, schemas, data">
 <meta name="author" content="Matt Wonlaw">
 <meta name="copyright" content="© 2022 Matt Wonlaw">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Aphrodite">
 <meta property="og:title" content="Models">
-<meta property="og:description" content="todo https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc/src/generated">
+<meta property="og:description" content="Models are classes that let you interact with your data once it is loaded. One model class is generated for each Node schema. Lets take a look at a Todo schema and its generated Model.
+
+Todo node:
+
+Todo as Node {
+  id: ID<Todo>
+  text: string
+  completed…">
 <meta property="og:image" content="https://aphrodite.sh/assets/gods/zeus.png">
 <meta property="og:image:alt" content="Zeus">
 <meta property="og:image:width" content="266">
@@ -25,11 +39,65 @@
 <meta name="twitter:image:alt" content="Zeus">
 <meta name="twitter:site" content="@tantaman">
 <meta name="twitter:label1" content="Reading time">
-<meta name="twitter:data1" content="1 minute">
+<meta name="twitter:data1" content="1-2 minutes">
 </head>
 <body><a href="https://github.com/tantaman/aphrodite" class="github-corner" aria-label="View source on GitHub"><svg width="100" height="100" viewBox="0 0 250 250" style="fill:var(--dress); color:var(--black); position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><aside><div class="center"><a class="home-link" href="/"><div class="god-circle center-block"><div class="god-head god-head-aphrodite"></div></div></a><a class="hamburger"></a></div><ol><li class="indent"><a href="/docs/why">Why Aphrodite</a></li><li class="indent"><a href="/docs/quickstart">Quickstart</a></li><li class="indent"><a href="/docs/schemas">Schemas</a></li><li class="active indent"><a href="/docs/models">Models</a></li><li class="indent"><a href="/docs/mutations-and-transactions">Mutating Data</a></li><li class="indent"><a href="/docs/queries">Queries</a></li><li class="indent"><a href="/docs/reactivity">Reactivity</a></li><li class="indent"><a href="/docs/data-sync-p2p">Data Sync &#x26; P2P</a></li><li class="indent"><a href="/docs/permissions">Permissions</a></li><li class="indent"><a href="/docs/migrations">Migrations</a></li></ol></aside><main><article><h1>Models</h1><section>
-<nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><p>todo</p>
-<p><a href="https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc/src/generated">https://github.com/tantaman/aphrodite/tree/main/examples/todo-mvc/src/generated</a></p>
+<nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><p><code>Models</code> are classes that let you interact with your data once it is loaded. One model class is generated for each <code>Node</code> <a class="internal new" href="/[docs/schema">schema</a>.</p>
+<p>Lets take a look at a <code>Todo</code> schema and its generated <code>Model</code>.</p>
+<p><strong>Todo node:</strong></p>
+<pre><code class="hljs language-typescript"><span class="hljs-title class_">Todo</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Node</span> {
+  <span class="hljs-attr">id</span>: <span class="hljs-variable constant_">ID</span>&#x3C;<span class="hljs-title class_">Todo</span>>
+  <span class="hljs-attr">text</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-attr">completed</span>: bool
+}
+</code></pre>
+<p><strong>Generated Todo model:</strong></p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Todo</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Model</span>&#x3C;<span class="hljs-title class_">Data</span>> {
+  <span class="hljs-keyword">readonly</span> spec = s <span class="hljs-keyword">as</span> <span class="hljs-title class_">ModelSpec</span>&#x3C;<span class="hljs-variable language_">this</span>, <span class="hljs-title class_">Data</span>>;
+
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">id</span>(): SID_of&#x3C;<span class="hljs-variable language_">this</span>> {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-property">id</span> <span class="hljs-keyword">as</span> SID_of&#x3C;<span class="hljs-variable language_">this</span>>;
+  }
+
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">text</span>(): <span class="hljs-built_in">string</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-property">text</span>;
+  }
+
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">completed</span>(): bool {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-property">completed</span>;
+  }
+
+  <span class="hljs-keyword">static</span> <span class="hljs-title function_">queryAll</span>(<span class="hljs-attr">ctx</span>: <span class="hljs-title class_">Context</span>): <span class="hljs-title class_">TodoQuery</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">TodoQuery</span>.<span class="hljs-title function_">create</span>(ctx);
+  }
+
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> <span class="hljs-title function_">genx</span>(<span class="hljs-attr">ctx</span>: <span class="hljs-title class_">Context</span>, <span class="hljs-attr">id</span>: SID_of&#x3C;<span class="hljs-title class_">Todo</span>>): <span class="hljs-title class_">Promise</span>&#x3C;<span class="hljs-title class_">Todo</span>> {
+    <span class="hljs-keyword">const</span> existing = ctx.<span class="hljs-property">cache</span>.<span class="hljs-title function_">get</span>(id);
+    <span class="hljs-keyword">if</span> (existing) {
+      <span class="hljs-keyword">return</span> existing;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">queryAll</span>(ctx).<span class="hljs-title function_">whereId</span>(P.<span class="hljs-title function_">equals</span>(id)).<span class="hljs-title function_">genxOnlyValue</span>();
+  }
+
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> <span class="hljs-title function_">gen</span>(<span class="hljs-attr">ctx</span>: <span class="hljs-title class_">Context</span>, <span class="hljs-attr">id</span>: SID_of&#x3C;<span class="hljs-title class_">Todo</span>>): <span class="hljs-title class_">Promise</span>&#x3C;<span class="hljs-title class_">Todo</span> | <span class="hljs-literal">null</span>> {
+    <span class="hljs-keyword">const</span> existing = ctx.<span class="hljs-property">cache</span>.<span class="hljs-title function_">get</span>(id);
+    <span class="hljs-keyword">if</span> (existing) {
+      <span class="hljs-keyword">return</span> existing;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">queryAll</span>(ctx).<span class="hljs-title function_">whereId</span>(P.<span class="hljs-title function_">equals</span>(id)).<span class="hljs-title function_">genOnlyValue</span>();
+  }
+}
+</code></pre>
+<p>Taking a look at the model, we have one getter per field that exists in the schema. We also have three static methods:</p>
+<ol>
+<li>queryAll</li>
+<li>genx</li>
+<li>gen</li>
+</ol>
+<p><code>QueryAll</code> returns a <a class="internal new" href="/docs/queries">query</a> that we can use to fetch and filter all todos.</p>
+<p><code>genx</code> is a method that we can use to load a <code>Todo</code> by its primary key.</p>
+<p><code>gen</code> is the same as <code>genx</code> except that it will return null, instead of throwing, if the <code>Todo</code> being fetched does not exist.</p>
+<p>Note that the model is read only. There is no way to make changes to it. To do that, you'll need to use a <a class="internal new" href="/docs/mutations-and-transactions">mutator</a>.</p>
 <script src="https://www.googletagmanager.com/gtag/js?id=G-QT6QH0ZJQ4" async></script>
 <script src="/ga.js"></script>
 <script src="/assets/god-switcher.js"></script>
