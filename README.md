@@ -1,3 +1,6 @@
+# http://aphrodite.sh/
+
+
 `Aphrodite` is a schema layer whose first goal is to make [P2P](https://en.wikipedia.org/wiki/Peer-to-peer) & [Local-First](https://www.inkandswitch.com/local-first/) software as easy to develop as traditional client-server software.
 
 You can think of `Aphrodite` as an `ORM` of sorts that is designed for the needs of [Local-First](https://www.inkandswitch.com/local-first/) applications and [P2P](https://en.wikipedia.org/wiki/Peer-to-peer) data transfer.
@@ -51,7 +54,7 @@ const liveCompletedTodos = user.queryTodos().whereCompleted(P.notEqual(null)).li
 liveCompletedTodos.subscribe((completed) => ...);
 
 function TodoList({user}: {user: User}) {
-  const todos = useQuery(() => user.queryTodos().live());
+  const todos = useQuery(() => user.queryTodos());
   return todos.map(todo => <Todo todo={todo} />);
 }
 ```
@@ -69,11 +72,11 @@ Todo as Node {
 } & OutboundEdges {
   ...
 } & Mutations {
-  create {
+  create as Create {
     text
   }
-  complete
-  uncomplete
+  complete as Update {}
+  uncomplete as Update {}
 }
 ```
 
