@@ -55,8 +55,7 @@ export function useQuery<Q extends Query<QueryReturnType<Q>>>(
     const q = queryProvider();
     const liveResult = q.live(on);
     currentLiveResult.current = liveResult;
-    // returns a disposer
-    return liveResult.subscribe((data: QueryReturnType<Q>[]) => {
+    liveResult.subscribe((data: QueryReturnType<Q>[]) => {
       // this can mismatch if this is an old subscriber from a prior run
       // of `useEffect`. Theoretically this should not happen.
       if (liveResult !== currentLiveResult.current) {
@@ -69,6 +68,8 @@ export function useQuery<Q extends Query<QueryReturnType<Q>>>(
         data,
       });
     });
+
+    return () => liveResult.free();
   }, deps);
 
   return result;
