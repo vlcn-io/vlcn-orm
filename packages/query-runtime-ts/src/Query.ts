@@ -1,6 +1,6 @@
 import { Context } from '@aphro/context-runtime-ts';
 import { invariant } from '@strut/utils';
-import { Expression, HopExpression, SourceExpression } from './Expression.js';
+import { count, Expression, HopExpression, SourceExpression } from './Expression.js';
 import HopPlan from './HopPlan.js';
 import LiveResult from './live/LiveResult.js';
 import Plan, { IPlan } from './Plan.js';
@@ -31,6 +31,7 @@ export interface Query<T> {
   // filter(fn: (t: T) => boolean): Query<T>;
   // take(n: number): Query<T>
   // after(cursor: Cursor<T>): Query<T>
+  count(): CountQuery;
 
   plan(): IPlan;
   implicatedDatasets(): Set<string>;
@@ -71,6 +72,10 @@ abstract class BaseQuery<T> implements Query<T> {
 
   live(on: UpdateType): LiveResult<T> {
     return new LiveResult(this.ctx, on, this);
+  }
+
+  count(): CountQuery {
+    return new CountQuery(this.ctx, this);
   }
 
   // map<R>(fn: (t: T) => R): Query<R> {
@@ -152,6 +157,12 @@ export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
 
   implicatedDatasets(): Set<string> {
     return this.#priorQuery.implicatedDatasets();
+  }
+}
+
+class CountQuery extends DerivedQuery<number> {
+  constructor(ctx: Context, priorQuery: Query<any>) {
+    super(ctx, priorQuery, count());
   }
 }
 

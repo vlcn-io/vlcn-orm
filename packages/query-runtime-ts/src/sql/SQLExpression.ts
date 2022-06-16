@@ -4,6 +4,7 @@ import { IPlan } from '../Plan.js';
 import { after, before, Expression, filter, orderBy, take } from '../Expression.js';
 import SQLHopExpression from './SQLHopExpression.js';
 import { ModelFieldGetter } from '../Field.js';
+import CountLoadExpression from '../CountLoadExpression.js';
 
 export type HoistedOperations = {
   filters?: readonly ReturnType<typeof filter>[];
@@ -75,6 +76,7 @@ export default abstract class SQLExpression<T> {
             remainingExpressions.push(derivation);
           } else {
             what = 'count';
+            remainingExpressions.push(new CountLoadExpression(this.ctx));
           }
           break;
         default:

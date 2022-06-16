@@ -12,7 +12,7 @@ export default function specAndOpsToQuery(spec: NodeSpec, ops: HoistedOperations
   const projection = (() => {
     switch (lastWhat) {
       case 'count':
-        return sql`count(${sql.ident(lastSpec.storage.tablish, lastSpec.primaryKey)}`;
+        return sql`count(*)`;
       case 'edges':
         throw new Error('edge projection not yet supported');
       case 'ids':

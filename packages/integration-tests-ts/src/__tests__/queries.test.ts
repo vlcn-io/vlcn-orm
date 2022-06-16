@@ -44,8 +44,6 @@ test('Query all', async () => {
   });
 });
 
-test('Query with filter', async () => {});
-
 test('Query that traverses edges', async () => {
   const userCs = UserMutations.create(ctx, {
     name: 'Bob',

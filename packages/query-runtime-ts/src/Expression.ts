@@ -27,6 +27,7 @@ import { FieldGetter } from './Field.js';
 import HopPlan from './HopPlan.js';
 import ModelLoadExpression from './ModelLoadExpression.js';
 import { Context, IModel } from '@aphro/context-runtime-ts';
+import CountLoadExpression from './CountLoadExpression.js';
 
 export type ExpressionType =
   | 'take'
@@ -36,7 +37,8 @@ export type ExpressionType =
   | 'orderBy'
   | 'hop'
   | 'modelLoad'
-  | 'count';
+  | 'count'
+  | 'countLoad';
 export type Direction = 'asc' | 'desc';
 export type Expression =
   | ReturnType<typeof take>
@@ -46,7 +48,8 @@ export type Expression =
   | ReturnType<typeof orderBy>
   | ReturnType<typeof hop>
   | ReturnType<typeof modelLoad>
-  | ReturnType<typeof count>;
+  | ReturnType<typeof count>
+  | CountLoadExpression<any>;
 /*
 declare module '@mono/model/query' {
   interface Expressions<ReturnType> {
