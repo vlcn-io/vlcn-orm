@@ -1,4 +1,4 @@
-import Cache from '../Cache.js';
+import Cache from '../cache.js';
 import { asId, SID_of } from '@strut/sid';
 import fc from 'fast-check';
 
