@@ -76,7 +76,13 @@ test('Nothing exposed to GraphQL', async () => {
   expect(GenGraphQLTypedefs.accepts(nodes, edges)).toBe(false);
 
   const gql = await genIt(nodes, edges);
-  expect(gql.contents.trim()).toEqual('# SIGNED-SOURCE: <cc9067c2ee470dc248b14b194209a34e>');
+  expect(gql.contents.trim()).toEqual(`# SIGNED-SOURCE: <fb8490f51e794f0195347fd473a82c04>
+type PageInfo {
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+  startCursor: String!
+  endCursor: String!
+}`);
 });
 
 test('Basic schema test', async () => {
@@ -86,7 +92,13 @@ test('Basic schema test', async () => {
   expect(GenGraphQLTypedefs.accepts(nodes, edges)).toBe(true);
 
   const gql = await genIt(nodes, edges);
-  expect(gql.contents).toEqual(`# SIGNED-SOURCE: <b298fba16880368494414d071181667c>
+  expect(gql.contents).toEqual(`# SIGNED-SOURCE: <eef8e68746f5972691460eb745867fa6>
+type PageInfo {
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+  startCursor: String!
+  endCursor: String!
+}
 
 
 type Foo {
@@ -114,6 +126,12 @@ type Bar {
   ui64: String
   str: String
 }
+
+
+
+
+
+
 
 type Query {
   bar(id: ID!): Bar

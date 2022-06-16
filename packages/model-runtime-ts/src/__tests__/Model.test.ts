@@ -1,4 +1,3 @@
-jest.useFakeTimers();
 import { debugContext } from '@aphro/context-runtime-ts';
 import { viewer } from '@aphro/context-runtime-ts/lib/viewer';
 import { asId } from '@strut/sid';
