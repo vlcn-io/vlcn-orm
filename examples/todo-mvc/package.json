@@ -5,8 +5,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "serve": "tsc --build && webpack serve",
-    "build": "tsc --build && webpack",
+    "serve": "pnpm ts-build && pnpm copy && webpack serve",
+    "build": "pnpm ts-build && pnpm copy  && webpack",
     "aphro": "aphro gen ./src/domain.aphro --dest ./src/generated && cp src/generated/*.sql dist/generated",
     "ts-clean": "tsc --build --clean",
     "ts-build": "tsc --build",
