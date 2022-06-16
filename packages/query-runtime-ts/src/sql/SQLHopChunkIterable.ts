@@ -24,7 +24,7 @@
 import { Context } from '@aphro/context-runtime-ts';
 import { EdgeSpec } from '@aphro/schema-api';
 import { BaseChunkIterable } from '../ChunkIterable.js';
-import { HoistedOperations } from './SqlExpression.js';
+import { HoistedOperations } from './SQLExpression.js';
 
 export default class SQLHopChunkIterable<T> extends BaseChunkIterable<T> {
   constructor(private ctx: Context, private edge: EdgeSpec, private ops: HoistedOperations) {

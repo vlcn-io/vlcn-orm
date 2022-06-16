@@ -1,4 +1,4 @@
-import { HoistedOperations } from './SqlExpression.js';
+import { HoistedOperations } from './SQLExpression.js';
 import { after, before, filter, orderBy, take } from '../Expression.js';
 import SQLHopExpression from './SQLHopExpression.js';
 import { ModelFieldGetter } from '../Field.js';

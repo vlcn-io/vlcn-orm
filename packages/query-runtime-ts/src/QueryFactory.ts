@@ -1,8 +1,8 @@
 import { Context, IModel, ModelSpec } from '@aphro/context-runtime-ts';
 import { EdgeSpec } from '@aphro/schema-api';
 import { DerivedQuery, HopQuery, Query } from './Query.js';
-import SQLHopQuery from './sql/SqlHopQuery.js';
-import SQLSourceQuery from './sql/SqlSourceQuery.js';
+import SQLHopQuery from './sql/SQLHopQuery.js';
+import SQLSourceQuery from './sql/SQLSourceQuery.js';
 
 // Runtime factory so we can swap to `Wire` when running on a client vs
 // the native platform.
