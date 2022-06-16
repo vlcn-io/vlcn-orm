@@ -38,7 +38,7 @@
     "build": "tsc --build",
     "watch": "tsc --build -w",
     "test": "node ./node_modules/jest/bin/jest.js",
-    "deep-clean": "rm -rf ./lib && rm tsconfig.tsbuildinfo"
+    "deep-clean": "rm -rf ./lib || true && rm tsconfig.tsbuildinfo || true"
   },
   "jest": {
     "testMatch": [

@@ -31,7 +31,7 @@
     "watch": "tsc --build -w",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "aphro": "aphro gen src/schema/domain.aphro -d src/generated",
-    "deep-clean": "rm -rf ./lib && rm tsconfig.tsbuildinfo"
+    "deep-clean": "rm -rf ./lib || true && rm tsconfig.tsbuildinfo || true"
   },
   "jest": {
     "testMatch": [
