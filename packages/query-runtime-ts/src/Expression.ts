@@ -116,17 +116,33 @@ export function filter<Tm, Tv>(
 export function orderBy<Tm, Tv>(
   getter: FieldGetter<Tm, Tv>,
   direction: Direction,
-): { type: 'orderBy' } & DerivedExpression<Tm, Tm> {
-  throw new Error();
+): { type: 'orderBy'; getter: FieldGetter<Tm, Tv>; direction: Direction } & DerivedExpression<
+  Tm,
+  Tm
+> {
+  return {
+    type: 'orderBy',
+    getter,
+    direction,
+    chainAfter(iterable) {
+      return iterable.orderBy((leftModel: Tm, rightModel: Tm) => {
+        const leftValue = getter.get(leftModel);
+        const rightValue = getter.get(rightModel);
+
+        if (leftValue == rightValue) {
+          return 0;
+        }
+
+        if (leftValue > rightValue) {
+          return direction === 'asc' ? 1 : -1;
+        }
+        return direction === 'asc' ? -1 : 1;
+      });
+    },
+  };
 }
 
-// put in the edge?
 export function hop<TIn, TOut>(): HopExpression<TIn, TOut> {
-  // hops have _kinds_
-  // like SQL hops
-  // or Cypher hops
-  // We'd have to determine this by taking in the edge information from
-  // the schema.
   throw new Error();
 }
 

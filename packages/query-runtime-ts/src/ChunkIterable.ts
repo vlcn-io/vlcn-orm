@@ -15,6 +15,9 @@ export interface ChunkIterable<T> {
   map<TOut>(fn: (x: T) => TOut): ChunkIterable<TOut>;
   mapAsync<TOut>(fn: (x: T) => Promise<TOut>): ChunkIterable<TOut>;
   filter(fn: (x: T) => boolean): ChunkIterable<T>;
+  filterAsync(fn: (x: T) => Promise<boolean>): ChunkIterable<T>;
+  orderBy(fn: (l: T, r: T) => number): ChunkIterable<T>;
+  take(n: number): ChunkIterable<T>;
 }
 
 export abstract class BaseChunkIterable<T> implements ChunkIterable<T> {
@@ -43,6 +46,14 @@ export abstract class BaseChunkIterable<T> implements ChunkIterable<T> {
 
   filterAsync(fn: (x: T) => Promise<boolean>): ChunkIterable<T> {
     return new FilteredChunkIterable(this, fn);
+  }
+
+  orderBy(fn: (l: T, r: T) => number): ChunkIterable<T> {
+    return new OrderedChunkIterable(this, fn);
+  }
+
+  take(n: number): ChunkIterable<T> {
+    return new TakeChunkIterable(this, n);
   }
 }
 
@@ -159,5 +170,21 @@ export class TakeChunkIterable<T> extends BaseChunkIterable<T> {
         break;
       }
     }
+  }
+}
+
+// Ordering in a chunk iterable is insanely expensive :(
+// We need to warn the user if/when their queries do this
+export class OrderedChunkIterable<T> extends BaseChunkIterable<T> {
+  constructor(private source: ChunkIterable<T>, private fn: (l: T, r: T) => number) {
+    super();
+  }
+
+  async *[Symbol.asyncIterator](): AsyncIterator<readonly T[]> {
+    let all: T[] = [];
+    for await (const chunk of this.source) {
+      all = all.concat(chunk);
+    }
+    yield all.sort(this.fn);
   }
 }

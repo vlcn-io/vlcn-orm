@@ -104,7 +104,7 @@ export default abstract class SQLExpression<T> {
 
   // TODO: implement these!
   #canHoistTake(expression: ReturnType<typeof take>): boolean {
-    return false;
+    return true;
   }
 
   #canHoistBefore(expression: ReturnType<typeof before>): boolean {
@@ -116,6 +116,10 @@ export default abstract class SQLExpression<T> {
   }
 
   #canHoistOrderBy(expression: ReturnType<typeof orderBy>): boolean {
+    if (expression.getter instanceof ModelFieldGetter) {
+      return true;
+    }
+
     return false;
   }
 
