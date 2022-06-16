@@ -13,26 +13,6 @@
  * See the comments in `./Field.ts` as well as the blog post
  * on query optimization: https://tantaman.com/2022-05-26-query-plan-optimization.html
  */
-
-// inverse of predicate
-// in set of prediate
-// binary predicate?
-// case sensitivity?
-
-// export interface Predicate<Tv> {
-//   readonly value: Tv;
-//   call(Tv): boolean;
-//   type:
-//     | Equal<Tv>['type']
-//     | NotEqual<Tv>['type']
-//     | LessThan<Tv>['type']
-//     | GreaterThan<Tv>['type']
-//     | LessThanOrEqual<Tv>['type']
-//     | GreaterThanOrEqual<Tv>['type']
-//     | In<Tv>['type']
-//     | NotIn<Tv>['type'];
-// }
-
 export type Predicate<Tv> =
   | Equal<Tv>
   | NotEqual<Tv>
@@ -182,3 +162,22 @@ const P = {
 };
 
 export default P;
+
+// inverse of predicate
+// in set of prediate
+// binary predicate?
+// case sensitivity?
+
+// export interface Predicate<Tv> {
+//   readonly value: Tv;
+//   call(Tv): boolean;
+//   type:
+//     | Equal<Tv>['type']
+//     | NotEqual<Tv>['type']
+//     | LessThan<Tv>['type']
+//     | GreaterThan<Tv>['type']
+//     | LessThanOrEqual<Tv>['type']
+//     | GreaterThanOrEqual<Tv>['type']
+//     | In<Tv>['type']
+//     | NotIn<Tv>['type'];
+// }

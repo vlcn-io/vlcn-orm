@@ -15,6 +15,10 @@ export enum UpdateType {
   ANY = UpdateType.CREATE | UpdateType.UPDATE | UpdateType.DELETE,
 }
 
+/**
+ * See https://tantaman.com/2022-05-26-query-builder for more details
+ * on query building.
+ */
 export interface Query<T> {
   gen(): Promise<T[]>;
   genOnlyValue(): Promise<T | null>;
@@ -25,6 +29,8 @@ export interface Query<T> {
   // map<R>(fn: (t: T) => R): Query<R>;
   // flatMap<R>(fn: (t: T) => R[]): Query<R>;
   // filter(fn: (t: T) => boolean): Query<T>;
+  // take(n: number): Query<T>
+  // after(cursor: Cursor<T>): Query<T>
 
   plan(): IPlan;
   implicatedDatasets(): Set<string>;
