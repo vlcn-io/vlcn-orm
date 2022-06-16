@@ -11,14 +11,29 @@ beforeAll(async () => {
 });
 
 test('count', async () => {
-  const [persistHandle, user] = UserMutations.create(ctx, { name: 'Bill' }).save();
+  let [persistHandle, user] = UserMutations.create(ctx, { name: 'Bill' }).save();
   await persistHandle;
 
-  const count = await User.queryAll(ctx).count().genxOnlyValue();
+  let count = await User.queryAll(ctx).count().genxOnlyValue();
   expect(count).toBe(1);
+
+  [persistHandle] = commit(
+    ctx,
+    [1, 2, 3, 4].map(i => UserMutations.create(ctx, { name: 'U' + i }).toChangeset()),
+  );
+
+  await persistHandle;
+
+  count = await User.queryAll(ctx).count().genxOnlyValue();
+  expect(count).toBe(5);
 });
 
-test('count optimization', () => {});
+test('count optimization', () => {
+  const optimizedPlan = User.queryAll(ctx).count().plan().optimize();
+
+  expect(optimizedPlan.derivations.length).toEqual(1);
+  expect(optimizedPlan.derivations[0].type).toEqual('countLoad');
+});
 
 afterAll(async () => {
   await destroyDb();
