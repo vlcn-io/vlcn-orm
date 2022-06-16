@@ -58,6 +58,9 @@ importers:
       raw-loader: ^4.0.2
       react: ^18.1.0
       react-dom: ^18.1.0
+      resolve-typescript-plugin: ^1.2.0
+      ts-loader: ^9.3.0
+      typescript: ^4.7.3
       webpack: ^5.50.0
       webpack-cli: ^4.7.2
       webpack-dev-server: ^3.11.2
@@ -72,6 +75,9 @@ importers:
       '@types/react': 18.0.12
       html-webpack-plugin: 5.5.0_webpack@5.73.0
       raw-loader: 4.0.2_webpack@5.73.0
+      resolve-typescript-plugin: 1.2.0_webpack@5.73.0
+      ts-loader: 9.3.0_jy5w4alwxi2du2dgjfsq7k3iza
+      typescript: 4.7.3
       webpack: 5.73.0_webpack-cli@4.9.2
       webpack-cli: 4.9.2_zfql53ztczs6ovqhld3lyzyboe
       webpack-dev-server: 3.11.3_gkh3o7gdsall36kyfdv2sybo54
@@ -9641,6 +9647,16 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /resolve-typescript-plugin/1.2.0_webpack@5.73.0:
+    resolution: {integrity: sha512-f0tu3fDdKcSmbgpLDNBKiMYPPG7D19tYCnph9B7GIlMMIWnbiLjAqqPXZVeO3POQSNF7ZYK4Ox+Gmvo116ERWQ==}
+    engines: {node: ^12 || ^14 || >=16}
+    peerDependencies:
+      webpack: ^4.0.0 || ^5.0.0
+    dependencies:
+      tslib: 2.3.1
+      webpack: 5.73.0_webpack-cli@4.9.2
+    dev: true
+
   /resolve-url/0.2.1:
     resolution: {integrity: sha512-ZuF55hVUQaaczgOIwqWzkEcEidmlD/xl44x1UZnhOXcYuFN2S6+rcxpG+C1N3So0wvNI3DmJICUFfu2SxhBmvg==}
     deprecated: https://github.com/lydell/resolve-url#deprecated
@@ -10610,6 +10626,21 @@ packages:
       yargs-parser: 20.2.9
     dev: true
 
+  /ts-loader/9.3.0_jy5w4alwxi2du2dgjfsq7k3iza:
+    resolution: {integrity: sha512-2kLLAdAD+FCKijvGKi9sS0OzoqxLCF3CxHpok7rVgCZ5UldRzH0TkbwG9XECKjBzHsAewntC5oDaI/FwKzEUog==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      typescript: '*'
+      webpack: ^5.0.0
+    dependencies:
+      chalk: 4.1.2
+      enhanced-resolve: 5.9.3
+      micromatch: 4.0.5
+      semver: 7.3.7
+      typescript: 4.7.3
+      webpack: 5.73.0_webpack-cli@4.9.2
+    dev: true
+
   /ts-node-dev/2.0.0_3tizgsnecxkh6uvlvs7umkbw44:
     resolution: {integrity: sha512-ywMrhCfH6M75yftYvrvNarLEY+SUXtUvU8/0Z6llrHQVBx12GiFk5sStF8UdfE/yfzk9IAq7O5EEbTQsxlBI8w==}
     engines: {node: '>=0.8.0'}
@@ -10680,6 +10711,10 @@ packages:
 
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
+    dev: true
+
+  /tslib/2.3.1:
+    resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
     dev: true
 
   /tslib/2.4.0:

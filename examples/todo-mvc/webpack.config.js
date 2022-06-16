@@ -1,6 +1,7 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ResolveTypeScriptPlugin from 'resolve-typescript-plugin';
 
-module.exports = {
+export default {
   devServer: {
     publicPath: '/',
     hot: true,
@@ -9,22 +10,28 @@ module.exports = {
       'Cross-Origin-Embedder-Policy': 'require-corp',
     },
   },
-  entry: './dist/index.js',
+  entry: './src/index.tsx',
   mode: 'development',
   resolve: {
-    extensions: ['.dev.js', '.js', '.json', '.wasm'],
+    plugins: [new ResolveTypeScriptPlugin()],
+    extensions: ['.dev.js', '.js', '.json', '.wasm', 'ts', 'tsx'],
     fallback: {
       crypto: false,
       path: false,
       fs: false,
     },
   },
-  plugins: [new HtmlWebpackPlugin({ template: './dist/index.html' })],
+  plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })],
   module: {
     rules: [
       {
         test: /\.sql$/i,
         use: 'raw-loader',
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       },
     ],
   },
