@@ -1,3 +1,12 @@
+/**
+ * Chunk iterables are used in two cases.
+ * Case 1: To process a large datastream in batches rather than all at once or one at a time.
+ *   This is a spatial performance and time-to-first-result optimization
+ * Case 2: To allow query operations that cannot be done in the database to be done in the application.
+ *   This allows developers to add filters to their queries that run arbitrary bits of code.
+ *
+ * See more on chunk iterables here: https://tantaman.com/2022-05-26-chunk-iterable.html
+ */
 export interface ChunkIterable<T> {
   [Symbol.asyncIterator](): AsyncIterator<readonly T[]>;
 

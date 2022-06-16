@@ -1,3 +1,19 @@
+/**
+ * Predicates allow filtering of data in queries.
+ *
+ * Now you might be shocked by the predicate.
+ *
+ * If a predicate is going to be run in the data source (e.g., SQL)
+ * why the heck does it have a `call` implementation!?!?!?
+ *
+ * As much as possible predicates are hoisted to the backend
+ * and run in SQL and thus `call` is never invoked. Where this is not possible the data is returned
+ * to the app and the predicate is applied in the application.
+ *
+ * See the comments in `./Field.ts` as well as the blog post
+ * on query optimization: https://tantaman.com/2022-05-26-query-plan-optimization.html
+ */
+
 // inverse of predicate
 // in set of prediate
 // binary predicate?

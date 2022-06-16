@@ -1,4 +1,24 @@
-// If you make this a module you can allow other files to extend the type
+/**
+ * There are three kinds of expressions:
+ * 1. Source expressions
+ * 2. Derived expressions
+ * 3. Hop expressions
+ *
+ * which are further subdivided into more kinds of expressions.
+ *
+ * Source expressions are used to load data from a data source. E.g., `SQLSourceExpression` loads
+ * data from a SQL database.
+ *
+ * Derived expressions transform data returned by source or hop expressions.
+ * In other words, derived expressions apply filters/limits/orderings/other arbitrary logic
+ *
+ * Hop expressions are source expressions that take a parameter. They represent
+ * hops from one data source to another or from one table to another. E.g.,
+ * joins or edge traversals.
+ *
+ * You can get some more context here:
+ * https://tantaman.com/2022-05-26-query-builder.html
+ */
 
 import Plan, { IPlan } from './Plan.js';
 import { ChunkIterable, TakeChunkIterable } from './ChunkIterable.js';

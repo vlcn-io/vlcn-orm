@@ -2,6 +2,13 @@ import { ChunkIterable } from './ChunkIterable.js';
 import { Expression, SourceExpression } from './Expression.js';
 import HopPlan from './HopPlan.js';
 
+/**
+ * Interface for a query plan! What is a query plan? Why
+ * does an ORM need a query plan given its just going to generate
+ * SQL at the end?
+ *
+ * Good questions. See https://tantaman.com/2022-05-26-query-planning
+ */
 export interface IPlan {
   get derivations(): readonly Expression[];
   get iterable(): ChunkIterable<any>;

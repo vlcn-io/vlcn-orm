@@ -2,6 +2,23 @@ import { ChunkIterable } from './ChunkIterable.js';
 import { Expression, HopExpression } from './Expression.js';
 import { IPlan } from './Plan.js';
 
+/**
+ * Hop plans hold all expressions that should be executed _after_ traversing a given
+ * hop (edge) but before traversing the next hop (edge).
+ *
+ * E.g., A --> B --> C
+ *
+ * A HopPlan exists from A --> B and another from B --> C.
+ *
+ * The first hop plan encodes any derived expressions that occur against the data
+ * loaded by the A --> B hop.
+ *
+ * The second hop plan encodes any derived expressions that occur against the data
+ * loaded by the B --> C hop.
+ *
+ * See more on query planning here:
+ * https://tantaman.com/2022-05-26-query-planning
+ */
 export default class HopPlan implements IPlan {
   constructor(
     public readonly sourcePlan: IPlan,
