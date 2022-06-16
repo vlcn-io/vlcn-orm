@@ -14,11 +14,26 @@ import { invariant } from '@strut/utils';
 import { SID_of } from '@strut/sid';
 
 /**
- * Cache as a class that people can construct, rather than a single global, so
- * processes can make it only alive per-request if that is their desire.
- *
- * Rich clients would keep their cache alive for the duration of the client session. I.e., from application
- * open to application close.
+ * Caching deserves an entire blog post.
+ * There are several dimensions to consider with the cache:
+ * 1. Is it write through?
+ * 2. Is it global?
+ * 3. Is it unique per viewer (YES, I think it always must be for privacy sake)
+ * 4. If unique per viewer, do we have 2 layers? One layer where the data is and global, the other layer
+ *   after privacy rules are applied?
+ * 5. Is it bounded? Or just weak reference based?
+ * 6. What classes of queries do we _know_ that we can resolve directly from the cache?
+ * 7. Do reads re-hydrate the cache or do reads coming back from query layer get tossed out and the cache value returned?
+ *   ^-- this depends on if write through or not
+ * 8. Related to 7 -- do we fetch _only_ ids first and then, if cache miss, the actual data?
+ *   ^-- this seems like a very marginal consideration esp for "db on device" software
+ * ---
+ * Based on above:
+ * 1. how do we ensure cross-viewer data is not ending up in the cache instance?
+ * 2. what cache configuration options do we expose
+ *   ^-- cache config will be different by use case.
+ *   ^-- we should provide templates/defaults for each use case (server, client, 1 user only, collaborative)
+ *   ^-- we should also provide a default that can work for all use cases.
  */
 export default class Cache {
   readonly #cache = new Map<SID_of<Object>, WeakRef<Object>>();
@@ -90,16 +105,3 @@ export default class Cache {
     this.#cache.clear();
   }
 }
-
-// export default {
-//   get,
-//   set,
-//   remove,
-//   clear() {
-//     cache.clear();
-//   },
-//   destroy() {
-//     cache.clear();
-//     clearInterval(intervalHandle);
-//   },
-// };

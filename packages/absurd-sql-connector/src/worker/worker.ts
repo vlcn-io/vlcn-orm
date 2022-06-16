@@ -3,6 +3,11 @@ import { SQLiteFS } from '@aphro/absurd-sql';
 import IndexedDBBackend from '@aphro/absurd-sql/dist/indexeddb-backend.js';
 import thisPackage from '../pkg.js';
 
+/**
+ * This is the entrypoint for our web-worker.
+ * It starts sqlite and sets up a listener to listen
+ * for query events from `connection.ts`.
+ */
 async function init() {
   let SQL = await initSqlJs({ locateFile: file => file });
   // let SQL = await initSqlJs({ locateFile: file => '/assets/js/sql.wasm' });

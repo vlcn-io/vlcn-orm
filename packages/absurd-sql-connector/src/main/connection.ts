@@ -11,6 +11,16 @@ const counter = count('@aphro/absurd-sql/Connection');
 // Throw to user land?
 // Place into queue on catch?
 // Always queue? -- this'll impact reads that could be parallel
+/**
+ * Absurd-sql runs in a web-worker. I.e., outside the main thread of the browser.
+ *
+ * Given it is in a worker we need a way to pass messages back and forth in order to run queries.
+ * That is what this class does.
+ *
+ * It
+ * 1. spawns the web-worker that will run our sqlite database
+ * 2. does message passing back and forth between the caller of `Connection` and the `sqlite` worker
+ */
 export default class Connection {
   #worker: Worker;
   #pending: {
@@ -96,8 +106,6 @@ export default class Connection {
     }
     const pending = this.#pending[index];
     this.#pending.splice(index, 1);
-
-    // TODO: handle rejection...
 
     if (data.error) {
       pending.reject(data.error);
