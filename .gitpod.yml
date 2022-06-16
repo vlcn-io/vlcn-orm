@@ -1,0 +1,2 @@
+tasks:
+  - init: pnpm install && cd build-all && pnpm build && cd ..

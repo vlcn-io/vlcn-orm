@@ -21,6 +21,7 @@
     { "path": "../packages/sql-ts" },
     { "path": "../extensions/mutation-codegen" },
     { "path": "../extensions/mutation-grammar" },
-    { "path": "../extensions/graphql-grammar" }
+    { "path": "../extensions/graphql-grammar" },
+    { "path": "../extensions/graphql-codegen" }
   ]
 }
