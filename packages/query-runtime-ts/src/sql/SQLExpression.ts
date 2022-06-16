@@ -24,7 +24,7 @@ export default abstract class SQLExpression<T> {
   constructor(protected ctx: Context, public readonly ops: HoistedOperations) {}
 
   protected hoist(plan: IPlan, nextHop?: HopPlan): [HoistedOperations, Expression[]] {
-    const remainingExpressions: Expression[] = [];
+    let remainingExpressions: Expression[] = [];
     let { filters, orderBy, limit, hop, what, before, after } = this.ops;
     const writableFilters = filters ? [...filters] : [];
 
@@ -68,6 +68,15 @@ export default abstract class SQLExpression<T> {
           // This can't happen... hop will be in `nextHop`
           // It can if they optimize twice and the hop was made a chain hop.
           throw new Error('Hops should be passed in as hop plans');
+        case 'count':
+          // Strip model load. Since we're counting we're not loading.
+          remainingExpressions = remainingExpressions.filter(e => e.type !== 'modelLoad');
+          if (!this.#canHoistCount(remainingExpressions)) {
+            remainingExpressions.push(derivation);
+          } else {
+            what = 'count';
+          }
+          break;
         default:
           remainingExpressions.push(derivation);
       }
@@ -157,5 +166,9 @@ export default abstract class SQLExpression<T> {
     // 2. on the same logical database
     // 3. has a corresponding backend operator (e.g., join) to perform the hop
     return true;
+  }
+
+  #canHoistCount(remainingExpressions: Expression[]) {
+    return remainingExpressions.length === 0;
   }
 }

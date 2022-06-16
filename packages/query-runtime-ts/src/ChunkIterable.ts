@@ -18,6 +18,7 @@ export interface ChunkIterable<T> {
   filterAsync(fn: (x: T) => Promise<boolean>): ChunkIterable<T>;
   orderBy(fn: (l: T, r: T) => number): ChunkIterable<T>;
   take(n: number): ChunkIterable<T>;
+  count(): ChunkIterable<number>;
 }
 
 export abstract class BaseChunkIterable<T> implements ChunkIterable<T> {
@@ -55,6 +56,10 @@ export abstract class BaseChunkIterable<T> implements ChunkIterable<T> {
 
   take(n: number): ChunkIterable<T> {
     return new TakeChunkIterable(this, n);
+  }
+
+  count(): ChunkIterable<number> {
+    return new CountChunkIterable(this);
   }
 }
 
@@ -187,5 +192,19 @@ export class OrderedChunkIterable<T> extends BaseChunkIterable<T> {
       all = all.concat(chunk);
     }
     yield all.sort(this.fn);
+  }
+}
+
+export class CountChunkIterable<T> extends BaseChunkIterable<number> {
+  constructor(private source: ChunkIterable<T>) {
+    super();
+  }
+
+  async *[Symbol.asyncIterator](): AsyncIterator<readonly number[]> {
+    let count = 0;
+    for await (const chunk of this.source) {
+      count += chunk.length;
+    }
+    yield [count];
   }
 }

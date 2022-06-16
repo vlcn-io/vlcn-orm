@@ -69,6 +69,12 @@
 - Test for cache population on read & write (createFrom was not doing so)
 - - id of imports for mutation args
 
+# 6/16
+- tests for specAndOpsToQuery
+- tests for chunk iterable additions
+- tests for SQLExpression addition
+- i.e., tests for commits of today
+
 # 6/14
 - Bootstrap generation
 - Allow no args to sid for deviceid

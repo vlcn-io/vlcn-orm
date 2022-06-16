@@ -22,7 +22,7 @@
 
 import Plan, { IPlan } from './Plan.js';
 import { ChunkIterable, TakeChunkIterable } from './ChunkIterable.js';
-import { Predicate } from './Predicate.js';
+import P, { Predicate } from './Predicate.js';
 import { FieldGetter } from './Field.js';
 import HopPlan from './HopPlan.js';
 import ModelLoadExpression from './ModelLoadExpression.js';
@@ -35,7 +35,8 @@ export type ExpressionType =
   | 'filter'
   | 'orderBy'
   | 'hop'
-  | 'modelLoad';
+  | 'modelLoad'
+  | 'count';
 export type Direction = 'asc' | 'desc';
 export type Expression =
   | ReturnType<typeof take>
@@ -44,7 +45,8 @@ export type Expression =
   | ReturnType<typeof filter>
   | ReturnType<typeof orderBy>
   | ReturnType<typeof hop>
-  | ReturnType<typeof modelLoad>;
+  | ReturnType<typeof modelLoad>
+  | ReturnType<typeof count>;
 /*
 declare module '@mono/model/query' {
   interface Expressions<ReturnType> {
@@ -138,6 +140,15 @@ export function orderBy<Tm, Tv>(
         }
         return direction === 'asc' ? -1 : 1;
       });
+    },
+  };
+}
+
+export function count<Tm>(): { type: 'count' } & DerivedExpression<Tm, number> {
+  return {
+    type: 'count',
+    chainAfter(iterable) {
+      return iterable.count();
     },
   };
 }
