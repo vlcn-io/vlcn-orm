@@ -63,3 +63,27 @@ test('Filtering chunk iterables', () => {
     }),
   );
 });
+
+test('Take chunk iterables', () => {
+  fc.assert(
+    fc.asyncProperty(
+      fc.array(fc.array(fc.string())),
+      fc.integer({ min: 0, max: 20 }),
+      async (chunks, limit) => {
+        const iterable = new StaticSourceChunkIterable(chunks);
+        expect(await iterable.take(limit).gen()).toEqual(chunks.flatMap(a => a).slice(0, limit));
+      },
+    ),
+  );
+});
+
+test('OrderBy chunk iterables', () => {
+  fc.assert(
+    fc.asyncProperty(fc.array(fc.array(fc.integer())), async chunks => {
+      const iterable = new StaticSourceChunkIterable(chunks);
+      expect(await iterable.orderBy((l, r) => l - r).gen()).toEqual(
+        chunks.flatMap(a => a).sort((l, r) => l - r),
+      );
+    }),
+  );
+});

@@ -21,6 +21,7 @@ export interface ChunkIterable<T> {
 }
 
 export abstract class BaseChunkIterable<T> implements ChunkIterable<T> {
+  // TODO: we should probs memoize the results of this...
   abstract [Symbol.asyncIterator](): AsyncIterator<readonly T[]>;
 
   async gen(): Promise<readonly T[]> {
