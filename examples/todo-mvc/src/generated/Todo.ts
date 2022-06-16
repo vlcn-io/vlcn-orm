@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <cbd8e564f7a5e2b84dd5b4fb46108357>
+// SIGNED-SOURCE: <19cf2784926e25cf9e1aba054df905f6>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -54,7 +54,7 @@ export default class Todo extends Model<Data> {
     return TodoQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<Todo>): Promise<Todo | null> {
+  static async genx(ctx: Context, id: SID_of<Todo>): Promise<Todo> {
     const existing = ctx.cache.get(id);
     if (existing) {
       return existing;

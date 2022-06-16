@@ -19,6 +19,8 @@ test('OrderBy', async () => {
 
   const users = await User.queryAll(ctx).orderByName().gen();
   expect(users.map(u => u.name)).toEqual([1, 2, 3, 4].map(i => 'U' + i));
+
+  // const users = await User.queryAll(ctx).orderByName().map().gen();
 });
 
 test('order bys on model fields are optimized', async () => {});

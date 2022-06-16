@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b5a6c3bef62df6e01a2aaf11a0978e58>
+// SIGNED-SOURCE: <357e1fc0605496f4a15ec16754cd02c4>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -11,6 +11,8 @@ import { QueryFactory } from "@aphro/runtime-ts";
 import { modelLoad } from "@aphro/runtime-ts";
 import { filter } from "@aphro/runtime-ts";
 import { Predicate } from "@aphro/runtime-ts";
+import { take } from "@aphro/runtime-ts";
+import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -62,6 +64,40 @@ export default class TodoListQuery extends DerivedQuery<TodoList> {
       this.ctx,
       QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.todos),
       modelLoad(this.ctx, TodoSpec.createFrom)
+    );
+  }
+
+  take(n: number) {
+    return new TodoListQuery(this.ctx, this, take(n));
+  }
+
+  orderById(direction: "asc" | "desc" = "asc") {
+    return new TodoListQuery(
+      this.ctx,
+      this,
+      orderBy(new ModelFieldGetter<"id", Data, TodoList>("id"), direction)
+    );
+  }
+
+  orderByFilter(direction: "asc" | "desc" = "asc") {
+    return new TodoListQuery(
+      this.ctx,
+      this,
+      orderBy(
+        new ModelFieldGetter<"filter", Data, TodoList>("filter"),
+        direction
+      )
+    );
+  }
+
+  orderByEditing(direction: "asc" | "desc" = "asc") {
+    return new TodoListQuery(
+      this.ctx,
+      this,
+      orderBy(
+        new ModelFieldGetter<"editing", Data, TodoList>("editing"),
+        direction
+      )
     );
   }
 }

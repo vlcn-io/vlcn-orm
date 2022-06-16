@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5efea7a9b92c72b3e6d7dfd0d2cdbf2d>
+// SIGNED-SOURCE: <0cb0a4bd7d4b4c2351eff3e8715cd156>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -11,6 +11,8 @@ import { QueryFactory } from "@aphro/runtime-ts";
 import { modelLoad } from "@aphro/runtime-ts";
 import { filter } from "@aphro/runtime-ts";
 import { Predicate } from "@aphro/runtime-ts";
+import { take } from "@aphro/runtime-ts";
+import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -77,6 +79,64 @@ export default class TodoQuery extends DerivedQuery<Todo> {
       this.ctx,
       this,
       filter(new ModelFieldGetter<"completed", Data, Todo>("completed"), p)
+    );
+  }
+
+  take(n: number) {
+    return new TodoQuery(this.ctx, this, take(n));
+  }
+
+  orderById(direction: "asc" | "desc" = "asc") {
+    return new TodoQuery(
+      this.ctx,
+      this,
+      orderBy(new ModelFieldGetter<"id", Data, Todo>("id"), direction)
+    );
+  }
+
+  orderByListId(direction: "asc" | "desc" = "asc") {
+    return new TodoQuery(
+      this.ctx,
+      this,
+      orderBy(new ModelFieldGetter<"listId", Data, Todo>("listId"), direction)
+    );
+  }
+
+  orderByText(direction: "asc" | "desc" = "asc") {
+    return new TodoQuery(
+      this.ctx,
+      this,
+      orderBy(new ModelFieldGetter<"text", Data, Todo>("text"), direction)
+    );
+  }
+
+  orderByCreated(direction: "asc" | "desc" = "asc") {
+    return new TodoQuery(
+      this.ctx,
+      this,
+      orderBy(new ModelFieldGetter<"created", Data, Todo>("created"), direction)
+    );
+  }
+
+  orderByModified(direction: "asc" | "desc" = "asc") {
+    return new TodoQuery(
+      this.ctx,
+      this,
+      orderBy(
+        new ModelFieldGetter<"modified", Data, Todo>("modified"),
+        direction
+      )
+    );
+  }
+
+  orderByCompleted(direction: "asc" | "desc" = "asc") {
+    return new TodoQuery(
+      this.ctx,
+      this,
+      orderBy(
+        new ModelFieldGetter<"completed", Data, Todo>("completed"),
+        direction
+      )
     );
   }
 }
