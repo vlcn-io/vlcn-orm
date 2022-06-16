@@ -63,6 +63,8 @@ export default abstract class SQLExpression<T> {
         case 'orderBy':
           if (!this.#canHoistOrderBy(derivation)) {
             remainingExpressions.push(derivation);
+          } else {
+            orderBy = derivation;
           }
           break;
         case 'hop':

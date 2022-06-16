@@ -17,13 +17,18 @@ test('OrderBy', async () => {
   );
   await persistHandle;
 
-  const users = await User.queryAll(ctx).orderByName().gen();
+  let users = await User.queryAll(ctx).orderByName().gen();
   expect(users.map(u => u.name)).toEqual([1, 2, 3, 4].map(i => 'U' + i));
 
-  // const users = await User.queryAll(ctx).orderByName().map().gen();
+  users = await User.queryAll(ctx).orderByName('desc').gen();
+  expect(users.map(u => u.name)).toEqual([4, 3, 2, 1].map(i => 'U' + i));
 });
 
-test('order bys on model fields are optimized', async () => {});
+test('order bys on model fields are optimized', () => {
+  const plan = User.queryAll(ctx).orderByName().plan().optimize();
+  expect(plan.derivations.length).toBe(1);
+  expect(plan.derivations[0].type).toBe('modelLoad');
+});
 
 afterAll(async () => {
   await destroyDb();
