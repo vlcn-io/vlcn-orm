@@ -306,3 +306,11 @@ body {
     animation: none;
   }
 }
+
+.pre-release-note {
+  font-weight: bold;
+}
+
+.pre-release-note span {
+  color: red;
+}

@@ -3,6 +3,11 @@ layout: docs
 title: Quickstart
 subtitle: get up and running with Aphrodite
 ---
+<div class="pre-release-note">
+  <p>
+    NOTE: Aphrodite is <span>pre-release</span>. See the <a href="blog/roadmap">roadmap</a>.
+  </p>
+</div>
 
 `Aphrodite` makes it easy to describe, model and interact with your data. If you'd like to understand *why* this project exists before diving in, see [[docs/why:Why Aphrodite?]]
 
@@ -10,10 +15,10 @@ subtitle: get up and running with Aphrodite
 
 If you learn faster by looking at code, we have a **starter repositories** you can clone and get running with. The starter projects also take care of most of the boilerplate in this guide.
 
-- [Node JS Starter](https://github.com/tantaman/aphrodite-node-starter)
-- Browser Starter (all data stored locally in the browser) (WIP but see the [TodoMVC example](https://github.com/tantaman/aphrodite/blob/main/examples/todo-mvc/))
+- Local-First Browser Starter (WIP but see the [TodoMVC example](https://github.com/tantaman/aphrodite/blob/main/examples/todo-mvc/))
+- Node JS Starter [GitHub](https://github.com/tantaman/aphrodite-node-starter) | [GitPod](https://gitpod.io/#git@github.com:tantaman/aphrodite-node-starter.git)
+- GraphQL Server Starter (WIP) [GitHub](https://github.com/tantaman/aphrodite-graphql-starter) | [GitPod](https://gitpod.io/#git@github.com:tantaman/aphrodite-graphql-starter.git)
 - Deno Starter (WIP)
-- [GraphQL Server Starter](https://github.com/tantaman/aphrodite-graphql-starter) (WIP)
 - iOS Starter (WIP)
 - Android Starter (WIP)
 

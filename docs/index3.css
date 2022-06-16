@@ -8,14 +8,6 @@ body {
   margin-top: 40px;
 }
 
-.hero-note {
-  font-weight: bold;
-}
-
-.hero-note span {
-  color: red;
-}
-
 .hero-catch h1 {
   font-size: 54px;
   margin-top: 0px;
