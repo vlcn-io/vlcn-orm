@@ -1,5 +1,14 @@
 # @aphro/absurd-sql
 
+## 0.0.6
+
+### Patch Changes
+
+- Fix casing errors on filesystem
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.0.10
+  - @aphro/sql-ts@0.0.5
+
 ## 0.0.4
 
 ### Patch Changes

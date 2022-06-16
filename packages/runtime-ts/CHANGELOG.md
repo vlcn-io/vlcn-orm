@@ -1,5 +1,18 @@
 # @aphro/runtime-ts
 
+## 0.0.7
+
+### Patch Changes
+
+- Fix casing errors on filesystem
+- Updated dependencies
+  - @aphro/cache-runtime-ts@0.0.10
+  - @aphro/context-runtime-ts@0.0.10
+  - @aphro/model-runtime-ts@0.0.10
+  - @aphro/mutator-runtime-ts@0.0.11
+  - @aphro/query-runtime-ts@0.0.10
+  - @aphro/sql-ts@0.0.5
+
 ## 0.0.6
 
 ### Patch Changes

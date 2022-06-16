@@ -1,5 +1,13 @@
 # @aphro/react
 
+## 0.0.11
+
+### Patch Changes
+
+- Fix casing errors on filesystem
+- Updated dependencies
+  - @aphro/runtime-ts@0.0.7
+
 ## 0.0.10
 
 ### Patch Changes

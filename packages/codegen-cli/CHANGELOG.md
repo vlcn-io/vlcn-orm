@@ -1,5 +1,22 @@
 # @aphro/codegen-cli
 
+## 0.0.13
+
+### Patch Changes
+
+- Fix casing errors on filesystem
+- Updated dependencies
+  - @aphro/graphql-codegen@0.0.3
+  - @aphro/graphql-grammar@0.0.3
+  - @aphro/mutation-codegen@0.0.13
+  - @aphro/mutation-grammar@0.0.12
+  - @aphro/codegen@0.0.12
+  - @aphro/codegen-api@0.0.10
+  - @aphro/codegen-sql@0.0.12
+  - @aphro/codegen-ts@0.0.13
+  - @aphro/schema@0.0.13
+  - @aphro/schema-api@0.0.10
+
 ## 0.0.12
 
 ### Patch Changes

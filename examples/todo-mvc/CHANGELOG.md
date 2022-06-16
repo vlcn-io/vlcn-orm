@@ -1,5 +1,15 @@
 # @aphro/todo-mvc
 
+## 1.0.6
+
+### Patch Changes
+
+- Fix casing errors on filesystem
+- Updated dependencies
+  - @aphro/absurd-sql-connector@0.0.6
+  - @aphro/react@0.0.11
+  - @aphro/runtime-ts@0.0.7
+
 ## 1.0.5
 
 ### Patch Changes

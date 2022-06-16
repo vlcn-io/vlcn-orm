@@ -1,5 +1,14 @@
 # @aphro/model-runtime-ts
 
+## 0.0.10
+
+### Patch Changes
+
+- Fix casing errors on filesystem
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.0.10
+  - @aphro/schema-api@0.0.10
+
 ## 0.0.9
 
 ### Patch Changes

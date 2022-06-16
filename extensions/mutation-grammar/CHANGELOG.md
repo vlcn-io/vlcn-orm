@@ -1,5 +1,15 @@
 # @aphro/mutation-grammar
 
+## 0.0.12
+
+### Patch Changes
+
+- Fix casing errors on filesystem
+- Updated dependencies
+  - @aphro/grammar-extension-api@0.0.10
+  - @aphro/schema@0.0.13
+  - @aphro/schema-api@0.0.10
+
 ## 0.0.11
 
 ### Patch Changes

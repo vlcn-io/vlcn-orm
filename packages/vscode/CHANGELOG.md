@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.9
+
+### Patch Changes
+
+- Fix casing errors on filesystem
+
 ## 0.0.8
 
 ### Patch Changes

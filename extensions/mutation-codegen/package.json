@@ -1,6 +1,6 @@
 {
   "name": "@aphro/mutation-codegen",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "main": "lib/index.js",
   "type": "module",
   "repository": {

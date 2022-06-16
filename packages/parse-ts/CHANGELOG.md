@@ -1,5 +1,11 @@
 # @aphro/parse-ts
 
+## 0.0.4
+
+### Patch Changes
+
+- Fix casing errors on filesystem
+
 ## 0.0.3
 
 ### Patch Changes
