@@ -1,11 +1,11 @@
--- SIGNED-SOURCE: <539c39f335e29c2f73550ecba61a5fbc>
+-- SIGNED-SOURCE: <64c81ec4396e235c7ba70b27446c42bc>
 CREATE TABLE
-  "deck" (
-    "id" bigint,
-    "name" text,
-    "created" bigint,
-    "modified" bigint,
-    "ownerId" bigint,
-    "selectedSlideId" bigint,
+  IF NOT EXISTS "deck" (
+    "id" bigint NOT NULL,
+    "name" text NOT NULL,
+    "created" bigint NOT NULL,
+    "modified" bigint NOT NULL,
+    "ownerId" bigint NOT NULL,
+    "selectedSlideId" bigint NOT NULL,
     primary key ("id")
   )

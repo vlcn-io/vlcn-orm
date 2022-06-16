@@ -36,7 +36,7 @@ export type ExpressionType =
   | 'orderBy'
   | 'hop'
   | 'modelLoad';
-export type Direction = 'asc' | 'dec';
+export type Direction = 'asc' | 'desc';
 export type Expression =
   | ReturnType<typeof take>
   | ReturnType<typeof before>

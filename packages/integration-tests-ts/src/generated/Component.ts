@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <566a2a0e64abd53fc35819dd5193ef78>
+// SIGNED-SOURCE: <03491d4a9d000f8aae633339ca77cc0d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -42,5 +42,24 @@ export default class Component extends Model<Data> {
 
   static queryAll(ctx: Context): ComponentQuery {
     return ComponentQuery.create(ctx);
+  }
+
+  static async genx(ctx: Context, id: SID_of<Component>): Promise<Component> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
+  }
+
+  static async gen(
+    ctx: Context,
+    id: SID_of<Component>
+  ): Promise<Component | null> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }

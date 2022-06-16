@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b37cd69a7ec728e02ed9c9691a6dad4c>
+// SIGNED-SOURCE: <9447659baaa72163eb4ac296d7f48321>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -11,6 +11,8 @@ import { QueryFactory } from "@aphro/runtime-ts";
 import { modelLoad } from "@aphro/runtime-ts";
 import { filter } from "@aphro/runtime-ts";
 import { Predicate } from "@aphro/runtime-ts";
+import { take } from "@aphro/runtime-ts";
+import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -110,6 +112,64 @@ export default class DeckQuery extends DerivedQuery<Deck> {
         spec.outboundEdges.selectedSlide
       ),
       modelLoad(this.ctx, SlideSpec.createFrom)
+    );
+  }
+
+  take(n: number) {
+    return new DeckQuery(this.ctx, this, take(n));
+  }
+
+  orderById(direction: "asc" | "desc" = "asc") {
+    return new DeckQuery(
+      this.ctx,
+      this,
+      orderBy(new ModelFieldGetter<"id", Data, Deck>("id"), direction)
+    );
+  }
+
+  orderByName(direction: "asc" | "desc" = "asc") {
+    return new DeckQuery(
+      this.ctx,
+      this,
+      orderBy(new ModelFieldGetter<"name", Data, Deck>("name"), direction)
+    );
+  }
+
+  orderByCreated(direction: "asc" | "desc" = "asc") {
+    return new DeckQuery(
+      this.ctx,
+      this,
+      orderBy(new ModelFieldGetter<"created", Data, Deck>("created"), direction)
+    );
+  }
+
+  orderByModified(direction: "asc" | "desc" = "asc") {
+    return new DeckQuery(
+      this.ctx,
+      this,
+      orderBy(
+        new ModelFieldGetter<"modified", Data, Deck>("modified"),
+        direction
+      )
+    );
+  }
+
+  orderByOwnerId(direction: "asc" | "desc" = "asc") {
+    return new DeckQuery(
+      this.ctx,
+      this,
+      orderBy(new ModelFieldGetter<"ownerId", Data, Deck>("ownerId"), direction)
+    );
+  }
+
+  orderBySelectedSlideId(direction: "asc" | "desc" = "asc") {
+    return new DeckQuery(
+      this.ctx,
+      this,
+      orderBy(
+        new ModelFieldGetter<"selectedSlideId", Data, Deck>("selectedSlideId"),
+        direction
+      )
     );
   }
 }

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <9a5918b4b0cfe7dc6187e2d6e2b74ea7>
+// SIGNED-SOURCE: <33ebae0e9a79fe8e2cd0b0f835dd7b14>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -43,5 +43,21 @@ export default class Slide extends Model<Data> {
 
   static queryAll(ctx: Context): SlideQuery {
     return SlideQuery.create(ctx);
+  }
+
+  static async genx(ctx: Context, id: SID_of<Slide>): Promise<Slide> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
+  }
+
+  static async gen(ctx: Context, id: SID_of<Slide>): Promise<Slide | null> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }

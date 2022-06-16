@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <543bc932d3d757f60937c6ce11bf9c76>
+// SIGNED-SOURCE: <bfb20b5e0854a223df835a016bbec16d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -11,6 +11,8 @@ import { QueryFactory } from "@aphro/runtime-ts";
 import { modelLoad } from "@aphro/runtime-ts";
 import { filter } from "@aphro/runtime-ts";
 import { Predicate } from "@aphro/runtime-ts";
+import { take } from "@aphro/runtime-ts";
+import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -61,6 +63,51 @@ export default class ComponentQuery extends DerivedQuery<Component> {
       this.ctx,
       this,
       filter(new ModelFieldGetter<"content", Data, Component>("content"), p)
+    );
+  }
+
+  take(n: number) {
+    return new ComponentQuery(this.ctx, this, take(n));
+  }
+
+  orderById(direction: "asc" | "desc" = "asc") {
+    return new ComponentQuery(
+      this.ctx,
+      this,
+      orderBy(new ModelFieldGetter<"id", Data, Component>("id"), direction)
+    );
+  }
+
+  orderBySubtype(direction: "asc" | "desc" = "asc") {
+    return new ComponentQuery(
+      this.ctx,
+      this,
+      orderBy(
+        new ModelFieldGetter<"subtype", Data, Component>("subtype"),
+        direction
+      )
+    );
+  }
+
+  orderBySlideId(direction: "asc" | "desc" = "asc") {
+    return new ComponentQuery(
+      this.ctx,
+      this,
+      orderBy(
+        new ModelFieldGetter<"slideId", Data, Component>("slideId"),
+        direction
+      )
+    );
+  }
+
+  orderByContent(direction: "asc" | "desc" = "asc") {
+    return new ComponentQuery(
+      this.ctx,
+      this,
+      orderBy(
+        new ModelFieldGetter<"content", Data, Component>("content"),
+        direction
+      )
     );
   }
 }

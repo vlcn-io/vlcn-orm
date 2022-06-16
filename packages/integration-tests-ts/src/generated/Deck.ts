@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <87e80990d7ad76df950fca0637d3a529>
+// SIGNED-SOURCE: <fbaa7c4bd6f4b38701530ce44d2f422e>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -65,5 +65,21 @@ export default class Deck extends Model<Data> {
 
   static queryAll(ctx: Context): DeckQuery {
     return DeckQuery.create(ctx);
+  }
+
+  static async genx(ctx: Context, id: SID_of<Deck>): Promise<Deck> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
+  }
+
+  static async gen(ctx: Context, id: SID_of<Deck>): Promise<Deck | null> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }

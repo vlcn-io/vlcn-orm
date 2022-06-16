@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b2ac4d3f87ffb457e615b4cacec88196>
+// SIGNED-SOURCE: <2886e8434b726fafe85c7af365b69c11>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -11,6 +11,8 @@ import { QueryFactory } from "@aphro/runtime-ts";
 import { modelLoad } from "@aphro/runtime-ts";
 import { filter } from "@aphro/runtime-ts";
 import { Predicate } from "@aphro/runtime-ts";
+import { take } from "@aphro/runtime-ts";
+import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -69,6 +71,45 @@ export default class UserQuery extends DerivedQuery<User> {
       this.ctx,
       QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.decks),
       modelLoad(this.ctx, DeckSpec.createFrom)
+    );
+  }
+
+  take(n: number) {
+    return new UserQuery(this.ctx, this, take(n));
+  }
+
+  orderById(direction: "asc" | "desc" = "asc") {
+    return new UserQuery(
+      this.ctx,
+      this,
+      orderBy(new ModelFieldGetter<"id", Data, User>("id"), direction)
+    );
+  }
+
+  orderByName(direction: "asc" | "desc" = "asc") {
+    return new UserQuery(
+      this.ctx,
+      this,
+      orderBy(new ModelFieldGetter<"name", Data, User>("name"), direction)
+    );
+  }
+
+  orderByCreated(direction: "asc" | "desc" = "asc") {
+    return new UserQuery(
+      this.ctx,
+      this,
+      orderBy(new ModelFieldGetter<"created", Data, User>("created"), direction)
+    );
+  }
+
+  orderByModified(direction: "asc" | "desc" = "asc") {
+    return new UserQuery(
+      this.ctx,
+      this,
+      orderBy(
+        new ModelFieldGetter<"modified", Data, User>("modified"),
+        direction
+      )
     );
   }
 }

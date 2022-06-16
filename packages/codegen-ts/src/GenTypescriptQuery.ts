@@ -49,6 +49,11 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
 
   ${this.getFilterMethodsCode()}
   ${this.getHopMethodsCode()}
+
+  ${this.getTakeMethodCode()}
+  ${this.getOrderByMethodsCode()}
+
+  ${this.getProjectionMethodsCode()}
 }
 `,
     );
@@ -63,6 +68,8 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
         'modelLoad',
         'filter',
         'Predicate',
+        'take',
+        'orderBy',
         'P',
         'ModelFieldGetter',
       ].map(i => tsImport(`{${i}}`, null, '@aphro/runtime-ts')),
@@ -94,6 +101,29 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
       filter(
         new ModelFieldGetter<"${field.name}", Data, ${this.schema.name}>("${field.name}"),
         p,
+      ), 
+    )`;
+  }
+
+  private getOrderByMethodsCode(): string {
+    const ret: string[] = [];
+    const fields = Object.values(this.schema.fields);
+    for (const field of fields) {
+      ret.push(`
+      orderBy${upcaseAt(field.name, 0)}(direction: 'asc' | 'desc' = 'asc') {
+        ${this.getOrderByMethodBody(field)}
+      }`);
+    }
+    return ret.join('\n');
+  }
+
+  private getOrderByMethodBody(field: Field): string {
+    return `return new ${nodeFn.queryTypeName(this.schema.name)}(
+      this.ctx,
+      this,
+      orderBy(
+        new ModelFieldGetter<"${field.name}", Data, ${this.schema.name}>("${field.name}"),
+        direction,
       ), 
     )`;
   }
@@ -206,6 +236,20 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${field.of}>) {
     )}(this.ctx, QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.${edge.name}),
       modelLoad(this.ctx, ${edgeFn.destModelTypeName(this.schema, edge)}Spec.createFrom),
     );`;
+  }
+
+  private getTakeMethodCode(): string {
+    return `take(n: number) {
+      return new ${nodeFn.queryTypeName(this.schema.name)}(
+        this.ctx,
+        this,
+        take(n),
+      );
+    }`;
+  }
+
+  private getProjectionMethodsCode(): string {
+    return '';
   }
 
   /*

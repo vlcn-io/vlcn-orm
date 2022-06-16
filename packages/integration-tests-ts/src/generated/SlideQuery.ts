@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <c782bccb0881896b6a3d99fb1691a525>
+// SIGNED-SOURCE: <e14abc4885573f88433b48aebd4fc408>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -11,6 +11,8 @@ import { QueryFactory } from "@aphro/runtime-ts";
 import { modelLoad } from "@aphro/runtime-ts";
 import { filter } from "@aphro/runtime-ts";
 import { Predicate } from "@aphro/runtime-ts";
+import { take } from "@aphro/runtime-ts";
+import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -66,6 +68,34 @@ export default class SlideQuery extends DerivedQuery<Slide> {
         spec.outboundEdges.components
       ),
       modelLoad(this.ctx, ComponentSpec.createFrom)
+    );
+  }
+
+  take(n: number) {
+    return new SlideQuery(this.ctx, this, take(n));
+  }
+
+  orderById(direction: "asc" | "desc" = "asc") {
+    return new SlideQuery(
+      this.ctx,
+      this,
+      orderBy(new ModelFieldGetter<"id", Data, Slide>("id"), direction)
+    );
+  }
+
+  orderByDeckId(direction: "asc" | "desc" = "asc") {
+    return new SlideQuery(
+      this.ctx,
+      this,
+      orderBy(new ModelFieldGetter<"deckId", Data, Slide>("deckId"), direction)
+    );
+  }
+
+  orderByOrder(direction: "asc" | "desc" = "asc") {
+    return new SlideQuery(
+      this.ctx,
+      this,
+      orderBy(new ModelFieldGetter<"order", Data, Slide>("order"), direction)
     );
   }
 }
