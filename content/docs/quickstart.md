@@ -5,7 +5,7 @@ subtitle: get up and running with Aphrodite
 ---
 <div class="pre-release-note">
   <p>
-    NOTE: Aphrodite is <span>pre-release</span>. See the <a href="blog/roadmap">roadmap</a>.
+    NOTE: Aphrodite is <span>pre-release</span>. See the <a href="/blog/roadmap">roadmap</a>.
   </p>
 </div>
 
