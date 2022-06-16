@@ -138,12 +138,34 @@ function getBeforeAndAfter(
 }
 
 function getOrderBy(spec: NodeSpec, o?: ReturnType<typeof orderBy>): SQLQuery | null {
-  // TODO: also apply o
-  return sql`ORDER BY ${sql.ident(spec.primaryKey)} DESC`;
+  if (o == null) {
+    return sql`ORDER BY ${sql.ident(spec.primaryKey)} DESC`;
+  }
+
+  const getter = o.getter as ModelFieldGetter<any, any, any>;
+
+  if (getter.fieldName === spec.primaryKey) {
+    if (o.direction === 'asc') {
+      return sql`ORDER BY ${sql.ident(spec.primaryKey)} ASC`;
+    } else {
+      return sql`ORDER BY ${sql.ident(spec.primaryKey)} DESC`;
+    }
+  }
+
+  if (o.direction === 'asc') {
+    return sql`ORDER BY ${sql.value(getter.fieldName)}, ${sql.ident(spec.primaryKey)} ASC`;
+  } else {
+    return sql`ORDER BY ${sql.value(getter.fieldName)}, ${sql.ident(spec.primaryKey)} DESC`;
+  }
 }
 
+// TODO: this is vastly different if the limit is in the middle of a join
+// We need to transform the entire query into sub-selects for the limited hop
 function getLimit(l?: ReturnType<typeof take>): SQLQuery | null {
-  return null;
+  if (l == null) {
+    return null;
+  }
+  return sql`LIMIT ${sql.value(l?.num)}`;
 }
 
 /**
