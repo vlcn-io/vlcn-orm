@@ -8,9 +8,6 @@
   "references": [
     { "path": "../schema-api" },
     { "path": "../cache-runtime-ts" },
-    { "path": "../sql-ts" },
-    { "path": "../../mono/typescript/packages/utils" },
-    { "path": "../../mono/typescript/packages/sid" },
-    { "path": "../../mono/typescript/packages/events" }
+    { "path": "../sql-ts" }
   ]
 }

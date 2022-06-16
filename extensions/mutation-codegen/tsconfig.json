@@ -12,7 +12,6 @@
     { "path": "../../packages/codegen-ts" },
     { "path": "../../packages/schema" },
     { "path": "../../packages/parse-ts" },
-    { "path": "../../mono/typescript/packages/utils" },
     { "path": "../mutation-grammar" }
   ]
 }

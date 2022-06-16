@@ -5,9 +5,5 @@
     "rootDir": "./src"
   },
   "include": ["./src/"],
-  "references": [
-    { "path": "../../mono/typescript/packages/counter" },
-    { "path": "../sql-ts" },
-    { "path": "../context-runtime-ts" }
-  ]
+  "references": [{ "path": "../sql-ts" }, { "path": "../context-runtime-ts" }]
 }

@@ -12,9 +12,9 @@
     "@aphro/schema-api": "workspace:*",
     "@aphro/cache-runtime-ts": "workspace:*",
     "@aphro/sql-ts": "workspace:*",
-    "@strut/utils": "workspace:*",
-    "@strut/sid": "workspace:*",
-    "@strut/events": "workspace:*"
+    "@strut/utils": "^0.0.11",
+    "@strut/sid": "^0.0.11",
+    "@strut/events": "^0.0.10"
   },
   "devDependencies": {
     "typescript": "^4.6.4"

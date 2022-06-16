@@ -9,8 +9,6 @@
     { "path": "../codegen-api" },
     { "path": "../schema" },
     { "path": "../schema-api" },
-    { "path": "../codegen" },
-    { "path": "../../mono/typescript/packages/utils" },
-    { "path": "../../mono/typescript/packages/counter" }
+    { "path": "../codegen" }
   ]
 }

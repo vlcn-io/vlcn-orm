@@ -13,9 +13,9 @@
     "@aphro/model-runtime-ts": "workspace:*",
     "@aphro/schema-api": "workspace:*",
     "@aphro/sql-ts": "workspace:*",
-    "@strut/counter": "workspace:*",
-    "@strut/sid": "workspace:*",
-    "@strut/utils": "workspace:*"
+    "@strut/counter": "^0.0.11",
+    "@strut/sid": "^0.0.11",
+    "@strut/utils": "^0.0.11"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",

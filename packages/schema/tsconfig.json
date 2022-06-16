@@ -8,9 +8,6 @@
   "references": [
     { "path": "../schema-api" },
     { "path": "../grammar-extension-api" },
-    { "path": "../codegen-api" },
-    { "path": "../../mono/typescript/packages/counter" },
-    { "path": "../../mono/typescript/packages/sid" },
-    { "path": "../../mono/typescript/packages/utils" }
+    { "path": "../codegen-api" }
   ]
 }

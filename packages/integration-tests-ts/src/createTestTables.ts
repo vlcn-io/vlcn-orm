@@ -4,6 +4,11 @@ import * as fs from 'fs';
 import { resolver } from './testdb.js';
 import { sql } from '@aphro/runtime-ts';
 
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 export default async function createTestTables() {
   const generatedDir = path.join(__dirname, '..', 'src', 'generated');
   const schemaPaths = fs.readdirSync(generatedDir).filter(name => name.endsWith('.sqlite.sql'));

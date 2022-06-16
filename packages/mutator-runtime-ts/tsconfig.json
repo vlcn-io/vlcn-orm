@@ -9,7 +9,6 @@
     { "path": "../schema-api" },
     { "path": "../model-runtime-ts" },
     { "path": "../context-runtime-ts" },
-    { "path": "../sql-ts" },
-    { "path": "../../mono/typescript/packages/utils" }
+    { "path": "../sql-ts" }
   ]
 }

@@ -5,8 +5,5 @@
     "rootDir": "./src"
   },
   "include": ["./src/"],
-  "references": [
-    { "path": "../../mono/typescript/packages/utils" },
-    { "path": "../../mono/typescript/packages/sid" }
-  ]
+  "references": []
 }

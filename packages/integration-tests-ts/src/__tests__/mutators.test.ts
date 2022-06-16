@@ -11,7 +11,7 @@ import {
 import spec from '../generated/UserSpec.js';
 import { destroyDb, initDb } from './testBase.js';
 import UserQuery from '../generated/UserQuery.js';
-const device = 'sdf';
+const device = 'aaaa';
 
 let ctx: Context;
 beforeAll(async () => {

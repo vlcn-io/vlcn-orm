@@ -1,25 +1,25 @@
-import { CreateArgs } from "./SlideMutations.js";
-import { ReorderArgs } from "./SlideMutations.js";
-import { DeleteArgs } from "./SlideMutations.js";
-import { Changeset, sid } from "@aphro/runtime-ts";
-import { Data } from "./Slide.js";
-import Slide from "./Slide.js";
-import { IMutationBuilder } from "@aphro/runtime-ts";
+import { CreateArgs } from './SlideMutations.js';
+import { ReorderArgs } from './SlideMutations.js';
+import { DeleteArgs } from './SlideMutations.js';
+import { Changeset, sid } from '@aphro/runtime-ts';
+import { Data } from './Slide.js';
+import Slide from './Slide.js';
+import { IMutationBuilder } from '@aphro/runtime-ts';
 
 export function createImpl(
-  mutator: Omit<IMutationBuilder<Slide, Data>, "toChangeset">,
-  { deck, order }: CreateArgs
+  mutator: Omit<IMutationBuilder<Slide, Data>, 'toChangeset'>,
+  { deck, order }: CreateArgs,
 ): void | Changeset<any>[] {
   mutator.set({
-    id: sid("test"),
+    id: sid('aaaa'),
     order,
     deckId: deck.id,
   });
 }
 
 export function reorderImpl(
-  mutator: Omit<IMutationBuilder<Slide, Data>, "toChangeset">,
-  { order }: ReorderArgs
+  mutator: Omit<IMutationBuilder<Slide, Data>, 'toChangeset'>,
+  { order }: ReorderArgs,
 ): void | Changeset<any>[] {
   // Use the provided mutator to make your desired changes.
   // e.g., mutator.set({name: "Foo" });
@@ -28,8 +28,8 @@ export function reorderImpl(
 }
 
 export function deleteImpl(
-  mutator: Omit<IMutationBuilder<Slide, Data>, "toChangeset">,
-  {}: DeleteArgs
+  mutator: Omit<IMutationBuilder<Slide, Data>, 'toChangeset'>,
+  {}: DeleteArgs,
 ): void | Changeset<any>[] {
   // Use the provided mutator to make your desired changes.
   // e.g., mutator.set({name: "Foo" });

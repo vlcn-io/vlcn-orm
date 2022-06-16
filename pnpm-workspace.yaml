@@ -7,7 +7,6 @@ packages:
   - 'extensions/graphql-grammar'
   - 'extensions/mutation-grammar'
   - 'extensions/mutation-codegen'
-  - 'mono/typescript/packages/*'
   - 'packages/absurd-sql-connector'
   - 'packages/cache-runtime-ts'
   - 'packages/codegen'

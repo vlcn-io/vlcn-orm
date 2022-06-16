@@ -9,8 +9,8 @@
     "directory": "packages/cache-runtime-ts"
   },
   "dependencies": {
-    "@strut/sid": "workspace:*",
-    "@strut/utils": "workspace:*"
+    "@strut/sid": "^0.0.11",
+    "@strut/utils": "^0.0.11"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",

@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "@aphro/runtime-ts": "workspace:*",
-    "@strut/counter": "workspace:*",
-    "@strut/events": "workspace:*",
-    "@strut/sid": "workspace:*",
-    "@strut/utils": "workspace:*",
+    "@strut/counter": "^0.0.11",
+    "@strut/events": "^0.0.10",
+    "@strut/sid": "^0.0.11",
+    "@strut/utils": "^0.0.11",
     "react": "^18.1.0"
   },
   "devDependencies": {
