@@ -6,8 +6,9 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "serve": "webpack serve",
+    "serve": "pnpm ts-build && webpack serve",
     "build": "webpack",
+    "ts-build": "tsc --build",
     "aphro": "aphro gen ./src/domain.aphro --dest ./src/generated"
   },
   "dependencies": {
