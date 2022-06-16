@@ -1,3 +1,3 @@
-import Cache from './Cache.js';
+import Cache from './cache.js';
 
 export default Cache;

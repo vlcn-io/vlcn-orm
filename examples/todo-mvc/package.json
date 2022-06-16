@@ -5,12 +5,12 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "serve": "webpack serve",
-    "build": "webpack",
+    "serve": "tsc --build && webpack serve",
+    "build": "tsc --build && webpack",
     "aphro": "aphro gen ./src/domain.aphro --dest ./src/generated && cp src/generated/*.sql dist/generated",
-    "tclean": "tsc --build --clean",
-    "tbuild": "tsc --build",
-    "twatch": "tsc --build -w",
+    "ts-clean": "tsc --build --clean",
+    "ts-build": "tsc --build",
+    "ts-watch": "tsc --build -w",
     "copy": "cp src/index.html dist/index.html && cp src/generated/*.sql dist/generated"
   },
   "dependencies": {
