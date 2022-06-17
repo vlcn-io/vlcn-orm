@@ -1,6 +1,8 @@
+
+
 # Area 1: ORM Table Stakes
 
-ORM Table Stakes is about having the "expected" features of a data access layer. Users should never be slowed down by the ORM. Hard things are made easy, impossible things are made possible. The ORM always feels like a helper and never a blocker.
+ORM Table Stakes is about having the "expected" features of a data access layer. In addition, users should never be slowed down by the ORM. Hard things are made easy, impossible things are made possible. The ORM always feels like a helper and never a blocker.
 
 **Table stakes / required featuers:**
 - Querying (join, count, filter, order by, union, map, intersect, filter, where exists, id & count projections)
@@ -11,22 +13,23 @@ ORM Table Stakes is about having the "expected" features of a data access layer.
 
 # Area 2: Exceeding ORM Expectations
 
-ORMs are leaving a bunch of scope on the table in terms of what they can unlock for users. See my draft "protocol for integrations" post.
-This focus is about moving into those and unlocking that value.
+ORMs are leaving a bunch of scope on the table in terms of what they can unlock for users. See my draft [protocol for integrations](https://github.com/tantaman/tantaman.github.io/blob/master/_drafts/2022-01-26-protocol-for-integrations.markdown) post.
+This focus area is about moving into those and unlocking that value.
 
 - Reactive queries (post)
 - Extensions (schema definition language & codegen can be extended by third parties to support things like GraphQL, Thrift, Block Protocol, Feature Extraction, etc.)
 - Object, field & edge level permissions (post)
+- P2P Permissions (see Area 6)
 - Semantic types (see "these are not types" post)
 - Object binding (post)
 
-# Area 3: Portability
+# Area 3: Runtime Portability
 
-Local-first means that your business logic exists on the client, not the server. Existing on the client means you have multiple platforms and languages to target since users have a myriad of devices -- iOS, Android, Desktop, maybe TVs and other things if we become successful enough to be used there too.
+Local-first means that your business logic exists on the client, not the server. Existing on the client means you have multiple platforms and languages to target since users have a myriad of devices -- iOS, Android, Desktop, maybe TVs, edge devices and other things.
 
-The current proof of concept is implemented in TypeScript. This is a portability barrier for those that want to write fully native (e.g., swift/kotlin) apps. I currently see two directions:
-1. Port all of the runtime components to `Rust` so we can compile native libraries in each target platform
-2. Do something crazy like writing the runtime in Wax and cross-compiling to Swift/Kotlin/TypeScript
+The current proof of concept is implemented in TypeScript. This is a portability barrier for those that want to write fully native (e.g., swift/kotlin) apps. I currently see two options:
+1. Port all of the runtime components to `Rust` so we can compile the runtime to native libraries in each target platform
+2. Do something crazy like writing the runtime in [Wax](https://github.com/LingDong-/wax) and cross-compiling to Swift/Kotlin/TypeScript
 
 I think (1) is the most reasonable, common and battle tested path.
 
@@ -38,30 +41,35 @@ Worrying about perf is often criticised as a premature optimization but when bet
 We need to figure out:
 1. How well do Aphrodite read queries perform vs raw SQL?
    1. We'll have to enumerate all the various query types (filters, pagination, ordering, single hop, multi-hop, etc.) and gather metrics on them.
-2. Writes?
+2. Writes
    1. We'll also need to dig into perf of potimistic writes
 3. Batch operations
 4. How well does it perform in the browser vs other environments?
 
 This isn't incredibly high priority right now but I think having these numbers will
-1) help guide development and
-2) be of interest to potential adopters
+
+1. help guide development and
+2. be of interest to potential adopters
 
 ## Monitoring
 Running a system blind / w/o minotring is as bad as never testing the system. You don't _really_ know what is going on or how the system
 behaves under real use cases until your add monitoring. Monitoring in this case being counting of what operations are happening & how often.
-How big caches become, what the cache hit rate is, etc.
+How big caches become, what the cache hit rate is, runtime exceptions, etc.
 
-Basically we'd need to go through each component and figure out what are the important metrics to gather for that component which will tell us whether
+We need to go through each component and figure out what are the important metrics to gather for that component which will tell us whether
 or not it is behaving as expected.
 
 ## Property Based Testing
 
-## Bug Squashing
+Property based testing is about ensuring certain properties hold rather than testing on specific examples. Some background here: https://increment.com/testing/in-praise-of-property-based-testing/
+
+Some test in the codebase are property based using [fast-check](https://github.com/dubzzz/fast-check). More of the query layer, query planner, specAndOpsToSQL, need property based tests to flex all possible inputs in terms of query operators and field types.
 
 # Area 5: Peer 2 Peer
 
-The dream is to get rid of the server and allow devices to update one another in a peer 2 peer fashion. This
+Local-first vs cloud-centric are two poles on a spectrum. If we go 100% local-first, there's no central server at all and devices update one another in a peer-to-peer fashion.
+
+The closer to that end we get the more this --
 
 1. Reduces cloud costs
 2. Increases user security as data can be made to never leave their local networks
@@ -113,3 +121,36 @@ After we can order events, we need to know how to merge data updates in a way th
 * https://hal.inria.fr/hal-02983557/document
 * https://www.researchgate.net/publication/353813091_Augmenting_SQLite_for_Local-First_Software
 * 
+
+# Area 6: P2P With Collaboration
+
+P2P is one thing -- P2P where you can invite collaborators and hide/share different pieces of data with them is another.
+
+The first thing we need is to provde identity without a central server to verify identity.
+
+Potential foundations:
+- [User Controller Authorization Networks](https://ucan.xyz/)
+- [Decentralized Identifiers](https://www.w3.org/TR/did-core/)
+
+After identity is solved, permission management is the next issue. We'll leverage the [permission framework built into the foundation of the ORM](https://www.w3.org/TR/did-core/) from area 2.
+
+The current hypothesis is that we can handle permissions at the point of replication.
+
+**Example:**
+
+If I share X with read permissions with you then X can be replicated to you from my local app. If I share X with write permissions with you then my local app will apply updates to X that come from you.
+
+There are some user expectation problems to solve --
+Once you've receive X from me does that then retain my original permissions? Can you change the permissions?
+
+And then two areas to design for:
+1. where we trust those that we share our data with
+2. where we may not trust those that we share our data with
+
+We'll solve for (1) first.
+
+# Area 7: Speculation
+
+- Allowing local applications to share data with other local applications
+  - [Block protocol](https://blockprotocol.org/) integrations
+  - The semantic type layer from area 2 becomes important here
