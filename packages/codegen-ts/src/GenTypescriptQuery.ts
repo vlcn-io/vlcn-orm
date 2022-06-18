@@ -44,6 +44,15 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
       modelLoad(ctx, spec.createFrom),
     );
   }
+
+  protected derive(expression: Expression): ${nodeFn.queryTypeName(this.schema.name)} {
+    return new ${nodeFn.queryTypeName(this.schema.name)}(
+      this.ctx,
+      this,
+      expression,
+    )
+  }
+
   ${this.getFromIdMethodCode()}
   ${this.getFromInboundFieldEdgeMethodsCode()}
 
@@ -72,6 +81,7 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
         'orderBy',
         'P',
         'ModelFieldGetter',
+        'Expression',
       ].map(i => tsImport(`{${i}}`, null, '@aphro/runtime-ts')),
       tsImport('{SID_of}', null, '@aphro/runtime-ts'),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
@@ -95,9 +105,7 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
   }
 
   private getFilterMethodBody(field: Field): string {
-    return `return new ${nodeFn.queryTypeName(this.schema.name)}(
-      this.ctx,
-      this,
+    return `return this.derive(
       filter(
         new ModelFieldGetter<"${field.name}", Data, ${this.schema.name}>("${field.name}"),
         p,
@@ -118,9 +126,7 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
   }
 
   private getOrderByMethodBody(field: Field): string {
-    return `return new ${nodeFn.queryTypeName(this.schema.name)}(
-      this.ctx,
-      this,
+    return `return this.derive(
       orderBy(
         new ModelFieldGetter<"${field.name}", Data, ${this.schema.name}>("${field.name}"),
         direction,

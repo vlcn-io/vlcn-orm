@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <2886e8434b726fafe85c7af365b69c11>
+// SIGNED-SOURCE: <a18b45e4a8f958bb0818e6a8139f0b54>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -15,6 +15,7 @@ import { take } from "@aphro/runtime-ts";
 import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
+import { Expression } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import User from "./User.js";
 import { Data } from "./User.js";
@@ -31,38 +32,32 @@ export default class UserQuery extends DerivedQuery<User> {
     );
   }
 
+  protected derive(expression: Expression): UserQuery {
+    return new UserQuery(this.ctx, this, expression);
+  }
+
   static fromId(ctx: Context, id: SID_of<User>) {
     return this.create(ctx).whereId(P.equals(id));
   }
 
   whereId(p: Predicate<Data["id"]>) {
-    return new UserQuery(
-      this.ctx,
-      this,
-      filter(new ModelFieldGetter<"id", Data, User>("id"), p)
-    );
+    return this.derive(filter(new ModelFieldGetter<"id", Data, User>("id"), p));
   }
 
   whereName(p: Predicate<Data["name"]>) {
-    return new UserQuery(
-      this.ctx,
-      this,
+    return this.derive(
       filter(new ModelFieldGetter<"name", Data, User>("name"), p)
     );
   }
 
   whereCreated(p: Predicate<Data["created"]>) {
-    return new UserQuery(
-      this.ctx,
-      this,
+    return this.derive(
       filter(new ModelFieldGetter<"created", Data, User>("created"), p)
     );
   }
 
   whereModified(p: Predicate<Data["modified"]>) {
-    return new UserQuery(
-      this.ctx,
-      this,
+    return this.derive(
       filter(new ModelFieldGetter<"modified", Data, User>("modified"), p)
     );
   }
@@ -79,33 +74,25 @@ export default class UserQuery extends DerivedQuery<User> {
   }
 
   orderById(direction: "asc" | "desc" = "asc") {
-    return new UserQuery(
-      this.ctx,
-      this,
+    return this.derive(
       orderBy(new ModelFieldGetter<"id", Data, User>("id"), direction)
     );
   }
 
   orderByName(direction: "asc" | "desc" = "asc") {
-    return new UserQuery(
-      this.ctx,
-      this,
+    return this.derive(
       orderBy(new ModelFieldGetter<"name", Data, User>("name"), direction)
     );
   }
 
   orderByCreated(direction: "asc" | "desc" = "asc") {
-    return new UserQuery(
-      this.ctx,
-      this,
+    return this.derive(
       orderBy(new ModelFieldGetter<"created", Data, User>("created"), direction)
     );
   }
 
   orderByModified(direction: "asc" | "desc" = "asc") {
-    return new UserQuery(
-      this.ctx,
-      this,
+    return this.derive(
       orderBy(
         new ModelFieldGetter<"modified", Data, User>("modified"),
         direction

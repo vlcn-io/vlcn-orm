@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <e14abc4885573f88433b48aebd4fc408>
+// SIGNED-SOURCE: <e0fe5e6711f0137058aebc22b4eb524c>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -15,6 +15,7 @@ import { take } from "@aphro/runtime-ts";
 import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
+import { Expression } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Slide from "./Slide.js";
 import { Data } from "./Slide.js";
@@ -32,30 +33,28 @@ export default class SlideQuery extends DerivedQuery<Slide> {
     );
   }
 
+  protected derive(expression: Expression): SlideQuery {
+    return new SlideQuery(this.ctx, this, expression);
+  }
+
   static fromId(ctx: Context, id: SID_of<Slide>) {
     return this.create(ctx).whereId(P.equals(id));
   }
 
   whereId(p: Predicate<Data["id"]>) {
-    return new SlideQuery(
-      this.ctx,
-      this,
+    return this.derive(
       filter(new ModelFieldGetter<"id", Data, Slide>("id"), p)
     );
   }
 
   whereDeckId(p: Predicate<Data["deckId"]>) {
-    return new SlideQuery(
-      this.ctx,
-      this,
+    return this.derive(
       filter(new ModelFieldGetter<"deckId", Data, Slide>("deckId"), p)
     );
   }
 
   whereOrder(p: Predicate<Data["order"]>) {
-    return new SlideQuery(
-      this.ctx,
-      this,
+    return this.derive(
       filter(new ModelFieldGetter<"order", Data, Slide>("order"), p)
     );
   }
@@ -76,25 +75,19 @@ export default class SlideQuery extends DerivedQuery<Slide> {
   }
 
   orderById(direction: "asc" | "desc" = "asc") {
-    return new SlideQuery(
-      this.ctx,
-      this,
+    return this.derive(
       orderBy(new ModelFieldGetter<"id", Data, Slide>("id"), direction)
     );
   }
 
   orderByDeckId(direction: "asc" | "desc" = "asc") {
-    return new SlideQuery(
-      this.ctx,
-      this,
+    return this.derive(
       orderBy(new ModelFieldGetter<"deckId", Data, Slide>("deckId"), direction)
     );
   }
 
   orderByOrder(direction: "asc" | "desc" = "asc") {
-    return new SlideQuery(
-      this.ctx,
-      this,
+    return this.derive(
       orderBy(new ModelFieldGetter<"order", Data, Slide>("order"), direction)
     );
   }

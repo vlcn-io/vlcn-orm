@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <357e1fc0605496f4a15ec16754cd02c4>
+// SIGNED-SOURCE: <fa55241f26510b1b3bd2dfb3409e33da>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -15,6 +15,7 @@ import { take } from "@aphro/runtime-ts";
 import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
+import { Expression } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import TodoList from "./TodoList.js";
 import { Data } from "./TodoList.js";
@@ -32,30 +33,28 @@ export default class TodoListQuery extends DerivedQuery<TodoList> {
     );
   }
 
+  protected derive(expression: Expression): TodoListQuery {
+    return new TodoListQuery(this.ctx, this, expression);
+  }
+
   static fromId(ctx: Context, id: SID_of<TodoList>) {
     return this.create(ctx).whereId(P.equals(id));
   }
 
   whereId(p: Predicate<Data["id"]>) {
-    return new TodoListQuery(
-      this.ctx,
-      this,
+    return this.derive(
       filter(new ModelFieldGetter<"id", Data, TodoList>("id"), p)
     );
   }
 
   whereFilter(p: Predicate<Data["filter"]>) {
-    return new TodoListQuery(
-      this.ctx,
-      this,
+    return this.derive(
       filter(new ModelFieldGetter<"filter", Data, TodoList>("filter"), p)
     );
   }
 
   whereEditing(p: Predicate<Data["editing"]>) {
-    return new TodoListQuery(
-      this.ctx,
-      this,
+    return this.derive(
       filter(new ModelFieldGetter<"editing", Data, TodoList>("editing"), p)
     );
   }
@@ -72,17 +71,13 @@ export default class TodoListQuery extends DerivedQuery<TodoList> {
   }
 
   orderById(direction: "asc" | "desc" = "asc") {
-    return new TodoListQuery(
-      this.ctx,
-      this,
+    return this.derive(
       orderBy(new ModelFieldGetter<"id", Data, TodoList>("id"), direction)
     );
   }
 
   orderByFilter(direction: "asc" | "desc" = "asc") {
-    return new TodoListQuery(
-      this.ctx,
-      this,
+    return this.derive(
       orderBy(
         new ModelFieldGetter<"filter", Data, TodoList>("filter"),
         direction
@@ -91,9 +86,7 @@ export default class TodoListQuery extends DerivedQuery<TodoList> {
   }
 
   orderByEditing(direction: "asc" | "desc" = "asc") {
-    return new TodoListQuery(
-      this.ctx,
-      this,
+    return this.derive(
       orderBy(
         new ModelFieldGetter<"editing", Data, TodoList>("editing"),
         direction

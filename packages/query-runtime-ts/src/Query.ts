@@ -2,6 +2,7 @@ import { Context } from '@aphro/context-runtime-ts';
 import { invariant } from '@strut/utils';
 import { count, Expression, HopExpression, SourceExpression } from './Expression.js';
 import HopPlan from './HopPlan.js';
+import IterableDerivedQuery from './IterableDerivedQuery.js';
 import LiveResult from './live/LiveResult.js';
 import Plan, { IPlan } from './Plan.js';
 
@@ -29,9 +30,9 @@ export interface Query<T> {
   // map<R>(fn: (t: T) => R): Query<R>;
   // flatMap<R>(fn: (t: T) => R[]): Query<R>;
   // filter(fn: (t: T) => boolean): Query<T>;
-  // take(n: number): Query<T>
+  // take(n: number): Query<T>;
   // after(cursor: Cursor<T>): Query<T>
-  count(): CountQuery;
+  count(): IterableDerivedQuery<number>;
 
   plan(): IPlan;
   implicatedDatasets(): Set<string>;
@@ -74,8 +75,8 @@ abstract class BaseQuery<T> implements Query<T> {
     return new LiveResult(this.ctx, on, this);
   }
 
-  count(): CountQuery {
-    return new CountQuery(this.ctx, this);
+  count(): IterableDerivedQuery<number> {
+    return new IterableDerivedQuery(this.ctx, this, count());
   }
 
   // map<R>(fn: (t: T) => R): Query<R> {
@@ -146,6 +147,19 @@ export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
     this.#expression = expression;
   }
 
+  /**
+   * This needs to match the constructor (sand priorQuery which is `this`) and serves the same purpose.
+   * 1. TypeScript does not allow `ConsistentConstruct`
+   * 2. TypeScript does not allow abstract static methods
+   * 3. TypeScript does not allow `new self()` to instantiate
+   *  a child class from a parent class. I.e., polymorphism on constructor.
+   * but an instance method that matches the constructor and returns `this` does
+   * the trick.
+   *
+   * `derive` is used for lambda filters
+   */
+  protected abstract derive(expression: Expression): ThisType<TOut>;
+
   plan() {
     const plan = this.#priorQuery.plan();
     if (this.#expression) {
@@ -157,12 +171,6 @@ export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
 
   implicatedDatasets(): Set<string> {
     return this.#priorQuery.implicatedDatasets();
-  }
-}
-
-class CountQuery extends DerivedQuery<number> {
-  constructor(ctx: Context, priorQuery: Query<any>) {
-    super(ctx, priorQuery, count());
   }
 }
 

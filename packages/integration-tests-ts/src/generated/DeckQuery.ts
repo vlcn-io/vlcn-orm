@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <9447659baaa72163eb4ac296d7f48321>
+// SIGNED-SOURCE: <55d09aa8456488ac45ecfeb5330e14d6>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -15,6 +15,7 @@ import { take } from "@aphro/runtime-ts";
 import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
+import { Expression } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Deck from "./Deck.js";
 import { Data } from "./Deck.js";
@@ -35,54 +36,44 @@ export default class DeckQuery extends DerivedQuery<Deck> {
     );
   }
 
+  protected derive(expression: Expression): DeckQuery {
+    return new DeckQuery(this.ctx, this, expression);
+  }
+
   static fromId(ctx: Context, id: SID_of<Deck>) {
     return this.create(ctx).whereId(P.equals(id));
   }
 
   whereId(p: Predicate<Data["id"]>) {
-    return new DeckQuery(
-      this.ctx,
-      this,
-      filter(new ModelFieldGetter<"id", Data, Deck>("id"), p)
-    );
+    return this.derive(filter(new ModelFieldGetter<"id", Data, Deck>("id"), p));
   }
 
   whereName(p: Predicate<Data["name"]>) {
-    return new DeckQuery(
-      this.ctx,
-      this,
+    return this.derive(
       filter(new ModelFieldGetter<"name", Data, Deck>("name"), p)
     );
   }
 
   whereCreated(p: Predicate<Data["created"]>) {
-    return new DeckQuery(
-      this.ctx,
-      this,
+    return this.derive(
       filter(new ModelFieldGetter<"created", Data, Deck>("created"), p)
     );
   }
 
   whereModified(p: Predicate<Data["modified"]>) {
-    return new DeckQuery(
-      this.ctx,
-      this,
+    return this.derive(
       filter(new ModelFieldGetter<"modified", Data, Deck>("modified"), p)
     );
   }
 
   whereOwnerId(p: Predicate<Data["ownerId"]>) {
-    return new DeckQuery(
-      this.ctx,
-      this,
+    return this.derive(
       filter(new ModelFieldGetter<"ownerId", Data, Deck>("ownerId"), p)
     );
   }
 
   whereSelectedSlideId(p: Predicate<Data["selectedSlideId"]>) {
-    return new DeckQuery(
-      this.ctx,
-      this,
+    return this.derive(
       filter(
         new ModelFieldGetter<"selectedSlideId", Data, Deck>("selectedSlideId"),
         p
@@ -120,33 +111,25 @@ export default class DeckQuery extends DerivedQuery<Deck> {
   }
 
   orderById(direction: "asc" | "desc" = "asc") {
-    return new DeckQuery(
-      this.ctx,
-      this,
+    return this.derive(
       orderBy(new ModelFieldGetter<"id", Data, Deck>("id"), direction)
     );
   }
 
   orderByName(direction: "asc" | "desc" = "asc") {
-    return new DeckQuery(
-      this.ctx,
-      this,
+    return this.derive(
       orderBy(new ModelFieldGetter<"name", Data, Deck>("name"), direction)
     );
   }
 
   orderByCreated(direction: "asc" | "desc" = "asc") {
-    return new DeckQuery(
-      this.ctx,
-      this,
+    return this.derive(
       orderBy(new ModelFieldGetter<"created", Data, Deck>("created"), direction)
     );
   }
 
   orderByModified(direction: "asc" | "desc" = "asc") {
-    return new DeckQuery(
-      this.ctx,
-      this,
+    return this.derive(
       orderBy(
         new ModelFieldGetter<"modified", Data, Deck>("modified"),
         direction
@@ -155,17 +138,13 @@ export default class DeckQuery extends DerivedQuery<Deck> {
   }
 
   orderByOwnerId(direction: "asc" | "desc" = "asc") {
-    return new DeckQuery(
-      this.ctx,
-      this,
+    return this.derive(
       orderBy(new ModelFieldGetter<"ownerId", Data, Deck>("ownerId"), direction)
     );
   }
 
   orderBySelectedSlideId(direction: "asc" | "desc" = "asc") {
-    return new DeckQuery(
-      this.ctx,
-      this,
+    return this.derive(
       orderBy(
         new ModelFieldGetter<"selectedSlideId", Data, Deck>("selectedSlideId"),
         direction

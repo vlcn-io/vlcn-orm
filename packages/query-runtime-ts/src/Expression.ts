@@ -38,7 +38,8 @@ export type ExpressionType =
   | 'hop'
   | 'modelLoad'
   | 'count'
-  | 'countLoad';
+  | 'countLoad'
+  | 'map';
 export type Direction = 'asc' | 'desc';
 export type Expression =
   | ReturnType<typeof take>
@@ -117,6 +118,8 @@ export function filter<Tm, Tv>(
     },
   };
 }
+
+export function map<T, R>() {}
 
 export function orderBy<Tm, Tv>(
   getter: FieldGetter<Tm, Tv>,
