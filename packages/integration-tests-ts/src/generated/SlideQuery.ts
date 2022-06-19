@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <e0fe5e6711f0137058aebc22b4eb524c>
+// SIGNED-SOURCE: <b07438345a63a71d99b0bb29c62f2bbf>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -16,6 +16,7 @@ import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
 import { Expression } from "@aphro/runtime-ts";
+import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Slide from "./Slide.js";
 import { Data } from "./Slide.js";
@@ -31,6 +32,10 @@ export default class SlideQuery extends DerivedQuery<Slide> {
       QueryFactory.createSourceQueryFor(ctx, spec),
       modelLoad(ctx, spec.createFrom)
     );
+  }
+
+  static empty(ctx: Context) {
+    return new SlideQuery(ctx, new EmptyQuery(ctx));
   }
 
   protected derive(expression: Expression): SlideQuery {

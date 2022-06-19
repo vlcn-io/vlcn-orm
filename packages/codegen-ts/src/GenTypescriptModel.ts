@@ -136,14 +136,28 @@ export default class ${this.schema.name}
     */
 
     return Object.values(this.schema.extensions.outboundEdges?.edges || {})
-      .map(
-        edge => `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(this.schema, edge)} {
+      .map(edge => {
+        let emptyReturnCondition = '';
+        if (edge.type === 'edge') {
+          const column = edge.throughOrTo.column;
+          if (
+            column != null &&
+            edge.throughOrTo.type === this.schema.name &&
+            this.schema.fields[column].nullable
+          ) {
+            emptyReturnCondition = `if (this.${column} == null) {
+              return ${edgeFn.queryTypeName(this.schema, edge)}.empty(this.ctx);
+            }`;
+          }
+        }
+        return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(this.schema, edge)} {\
+          ${emptyReturnCondition}
           return ${edgeFn.queryTypeName(this.schema, edge)}.${this.getFromMethodInvocation(
           'outbound',
           edge,
         )};
-        }`,
-      )
+        }`;
+      })
       .join('\n');
 
     // TODO: static inbound edge defs

@@ -1,8 +1,13 @@
 import { Context } from '@aphro/context-runtime-ts';
 import { invariant } from '@strut/utils';
-import { count, Expression, HopExpression, SourceExpression } from './Expression.js';
+import {
+  count,
+  EmptySourceExpression,
+  Expression,
+  HopExpression,
+  SourceExpression,
+} from './Expression.js';
 import HopPlan from './HopPlan.js';
-import IterableDerivedQuery from './IterableDerivedQuery.js';
 import LiveResult from './live/LiveResult.js';
 import Plan, { IPlan } from './Plan.js';
 
@@ -194,3 +199,19 @@ SlideQuery extends DerivedQuery {
   }
 }
 */
+
+export class IterableDerivedQuery<TOut> extends DerivedQuery<TOut> {
+  constructor(ctx: Context, priorQuery: Query<any>, expression: Expression) {
+    super(ctx, priorQuery, expression);
+  }
+
+  protected derive<TNOut>(expression: Expression): ThisType<TNOut> {
+    return new IterableDerivedQuery(this.ctx, this, expression);
+  }
+}
+
+export class EmptyQuery extends SourceQuery<void> {
+  constructor(ctx: Context) {
+    super(ctx, new EmptySourceExpression());
+  }
+}

@@ -13,7 +13,7 @@
     { "path": "../packages/codegen-sql" },
     { "path": "../packages/codegen-ts" },
     { "path": "../packages/grammar-extension-api" },
-    { "path": "../packages/integration-tests-ts" },
+
     { "path": "../packages/runtime-ts" },
     { "path": "../packages/react" },
     { "path": "../packages/schema" },

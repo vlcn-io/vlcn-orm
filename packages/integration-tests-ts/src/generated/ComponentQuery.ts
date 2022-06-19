@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <0d118f47be6cfd2b4bc03968386a21c5>
+// SIGNED-SOURCE: <304b30d7e3e9d6694c8ffd6175420434>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -16,6 +16,7 @@ import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
 import { Expression } from "@aphro/runtime-ts";
+import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Component from "./Component.js";
 import { Data } from "./Component.js";
@@ -29,6 +30,10 @@ export default class ComponentQuery extends DerivedQuery<Component> {
       QueryFactory.createSourceQueryFor(ctx, spec),
       modelLoad(ctx, spec.createFrom)
     );
+  }
+
+  static empty(ctx: Context) {
+    return new ComponentQuery(ctx, new EmptyQuery(ctx));
   }
 
   protected derive(expression: Expression): ComponentQuery {

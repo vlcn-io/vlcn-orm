@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <55d09aa8456488ac45ecfeb5330e14d6>
+// SIGNED-SOURCE: <929a6d26942dede098011437e0cd517e>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -16,6 +16,7 @@ import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
 import { Expression } from "@aphro/runtime-ts";
+import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Deck from "./Deck.js";
 import { Data } from "./Deck.js";
@@ -34,6 +35,10 @@ export default class DeckQuery extends DerivedQuery<Deck> {
       QueryFactory.createSourceQueryFor(ctx, spec),
       modelLoad(ctx, spec.createFrom)
     );
+  }
+
+  static empty(ctx: Context) {
+    return new DeckQuery(ctx, new EmptyQuery(ctx));
   }
 
   protected derive(expression: Expression): DeckQuery {

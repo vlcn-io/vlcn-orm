@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <fbaa7c4bd6f4b38701530ce44d2f422e>
+// SIGNED-SOURCE: <2e724a08c6dc14b5f60bf9bdc79f2564>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -23,7 +23,7 @@ export type Data = {
   created: number;
   modified: number;
   ownerId: SID_of<User>;
-  selectedSlideId: SID_of<Slide>;
+  selectedSlideId: SID_of<Slide> | null;
 };
 
 export default class Deck extends Model<Data> {
@@ -49,7 +49,7 @@ export default class Deck extends Model<Data> {
     return this.data.ownerId;
   }
 
-  get selectedSlideId(): SID_of<Slide> {
+  get selectedSlideId(): SID_of<Slide> | null {
     return this.data.selectedSlideId;
   }
 
@@ -60,6 +60,9 @@ export default class Deck extends Model<Data> {
     return SlideQuery.create(this.ctx).whereDeckId(P.equals(this.id));
   }
   querySelectedSlide(): SlideQuery {
+    if (this.selectedSlideId == null) {
+      return SlideQuery.empty(this.ctx);
+    }
     return SlideQuery.fromId(this.ctx, this.selectedSlideId);
   }
 

@@ -45,6 +45,13 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
     );
   }
 
+  static empty(ctx: Context) {
+    return new ${nodeFn.queryTypeName(this.schema.name)}(
+      ctx,
+      new EmptyQuery(ctx),
+    );
+  }
+
   protected derive(expression: Expression): ${nodeFn.queryTypeName(this.schema.name)} {
     return new ${nodeFn.queryTypeName(this.schema.name)}(
       this.ctx,
@@ -82,6 +89,7 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
         'P',
         'ModelFieldGetter',
         'Expression',
+        'EmptyQuery',
       ].map(i => tsImport(`{${i}}`, null, '@aphro/runtime-ts')),
       tsImport('{SID_of}', null, '@aphro/runtime-ts'),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),

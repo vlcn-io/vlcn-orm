@@ -36,7 +36,7 @@ Deck as Node {
   created: Timestamp
   modified: Timestamp
   ownerId: ID<User>
-  selectedSlideId: ID<Slide>
+  selectedSlideId: ID<Slide> | null
 } & OutboundEdges {
   owner: Edge<Deck.ownerId>
   slides: Edge<Slide.deckId>

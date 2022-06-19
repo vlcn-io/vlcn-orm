@@ -21,7 +21,7 @@
  */
 
 import Plan, { IPlan } from './Plan.js';
-import { ChunkIterable, TakeChunkIterable } from './ChunkIterable.js';
+import { ChunkIterable, StaticSourceChunkIterable, TakeChunkIterable } from './ChunkIterable.js';
 import P, { Predicate } from './Predicate.js';
 import { FieldGetter } from './Field.js';
 import HopPlan from './HopPlan.js';
@@ -202,4 +202,18 @@ export interface HopExpression<TIn, TOut> {
   optimize(sourcePlan: IPlan, plan: HopPlan, nextHop?: HopPlan): HopPlan;
   implicatedDataset(): string;
   type: 'hop';
+}
+
+export class EmptySourceExpression implements SourceExpression<void> {
+  optimize(plan: Plan, nextHop?: HopPlan): Plan {
+    return new Plan(new EmptySourceExpression(), []);
+  }
+
+  implicatedDataset(): string {
+    return '';
+  }
+
+  get iterable(): ChunkIterable<void> {
+    return new StaticSourceChunkIterable([]);
+  }
 }

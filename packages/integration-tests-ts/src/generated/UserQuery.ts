@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a18b45e4a8f958bb0818e6a8139f0b54>
+// SIGNED-SOURCE: <ee33c7b52334e44a73fd3138f1718ad4>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -16,6 +16,7 @@ import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
 import { Expression } from "@aphro/runtime-ts";
+import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import User from "./User.js";
 import { Data } from "./User.js";
@@ -30,6 +31,10 @@ export default class UserQuery extends DerivedQuery<User> {
       QueryFactory.createSourceQueryFor(ctx, spec),
       modelLoad(ctx, spec.createFrom)
     );
+  }
+
+  static empty(ctx: Context) {
+    return new UserQuery(ctx, new EmptyQuery(ctx));
   }
 
   protected derive(expression: Expression): UserQuery {
