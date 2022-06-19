@@ -20,9 +20,9 @@ export default class GenSqlTableSchema extends CodegenStep {
       case 'sqlite':
         str = this.getSqliteString();
         break;
-      // case 'postgres':
-      //   str = this.getPostgresString();
-      //   break;
+      case 'postgres':
+        str = this.getPostgresString();
+        break;
       default:
         assertUnreachable(engine);
     }
@@ -74,7 +74,6 @@ export default class GenSqlTableSchema extends CodegenStep {
               throw new Error(
                 `Field ${field.name} for node ${this.schema.name} must have a type other than simply just being null`,
               );
-              break;
             default:
               assertUnreachable(field.subtype);
           }
@@ -109,6 +108,85 @@ export default class GenSqlTableSchema extends CodegenStep {
 
     return sql`CREATE TABLE IF NOT EXISTS ${sql.ident(
       this.schema.name.toLocaleLowerCase(),
+    )} (${sql.join(columnDefs, ', ')})`.format(formatters[this.schema.storage.engine]).text;
+  }
+
+  private getPostgresString(): string {
+    const tableName = this.schema.name.toLocaleLowerCase();
+    const columnDefs = Object.values(this.schema.fields).map(field => {
+      let ret: SQLQuery;
+      switch (field.type) {
+        case 'id':
+          ret = sql`${sql.ident(field.name)} bigint`;
+          break;
+        case 'primitive':
+          switch (field.subtype) {
+            case 'int32':
+            case 'uint32':
+              ret = sql`${sql.ident(field.name)} integer`;
+              break;
+            case 'int64':
+            case 'uint64':
+              ret = sql`${sql.ident(field.name)} bigint`;
+              break;
+            case 'float32':
+              ret = sql`${sql.ident(field.name)} real`;
+              break;
+            case 'float64':
+              ret = sql`${sql.ident(field.name)} double precision`;
+              break;
+            case 'string':
+              // TODO: ask user to define len params so we know the type here
+              ret = sql`${sql.ident(field.name)} text`;
+              break;
+            case 'bool':
+              ret = sql`${sql.ident(field.name)} boolean`;
+              break;
+            case 'any':
+              ret = sql`${sql.ident(field.name)} text`;
+              break;
+            case 'null':
+              throw new Error(
+                `Field ${field.name} for node ${this.schema.name} must have a type other than simply just being null`,
+              );
+            default:
+              assertUnreachable(field.subtype);
+          }
+        case 'map':
+        case 'array':
+          ret = sql`${sql.ident(field.name)} text`;
+          break;
+        case 'naturalLanguage':
+          // TODO: ask user to define len params so we know the type here
+          ret = sql`${sql.ident(field.name)} text`;
+          break;
+        case 'enumeration':
+          ret = sql`${sql.ident(field.name)} character varying(255)`;
+          break;
+        case 'timestamp':
+          ret = sql`${sql.ident(field.name)} bigint`;
+          break;
+        default:
+          assertUnreachable(field);
+      }
+
+      if (!field.nullable) {
+        ret = sql`${ret} NOT NULL`;
+      }
+      return ret;
+    });
+
+    if (this.schema.primaryKey) {
+      columnDefs.push(
+        sql`CONSTRAINT ${sql.ident(tableName + '_pkey')} PRIMARY KEY (${sql.ident(
+          this.schema.primaryKey,
+        )})`,
+      );
+    }
+
+    return sql`CREATE TABLE ${sql.ident(
+      this.schema.storage.schema || 'public',
+      tableName,
     )} (${sql.join(columnDefs, ', ')})`.format(formatters[this.schema.storage.engine]).text;
   }
 }

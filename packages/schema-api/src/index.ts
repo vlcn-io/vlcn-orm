@@ -11,7 +11,7 @@ export type ValidationError = {
     | 'duplicate-traits';
 };
 
-export type StorageEngine = 'sqlite'; //| 'postgres'; //| 'mysql' | 'sqlite'; // | maria | neo4j | redis ...
+export type StorageEngine = 'sqlite' | 'postgres'; //| 'mysql' | 'sqlite'; // | maria | neo4j | redis ...
 export type StorageType = 'sql'; // opencypher
 
 export type SchemaFileAst = {
