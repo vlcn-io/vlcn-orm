@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <fa55241f26510b1b3bd2dfb3409e33da>
+// SIGNED-SOURCE: <f914a41196c006461cfe0cfda6b5c5fc>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -16,6 +16,7 @@ import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
 import { Expression } from "@aphro/runtime-ts";
+import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import TodoList from "./TodoList.js";
 import { Data } from "./TodoList.js";
@@ -31,6 +32,10 @@ export default class TodoListQuery extends DerivedQuery<TodoList> {
       QueryFactory.createSourceQueryFor(ctx, spec),
       modelLoad(ctx, spec.createFrom)
     );
+  }
+
+  static empty(ctx: Context) {
+    return new TodoListQuery(ctx, new EmptyQuery(ctx));
   }
 
   protected derive(expression: Expression): TodoListQuery {

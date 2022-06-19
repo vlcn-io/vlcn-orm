@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <8557d9ae11d81d7539c14ef28855ddb6>
+// SIGNED-SOURCE: <807c9ebdfd449182618ca2121ee2d9e5>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -16,6 +16,7 @@ import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
 import { Expression } from "@aphro/runtime-ts";
+import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Todo from "./Todo.js";
 import { Data } from "./Todo.js";
@@ -29,6 +30,10 @@ export default class TodoQuery extends DerivedQuery<Todo> {
       QueryFactory.createSourceQueryFor(ctx, spec),
       modelLoad(ctx, spec.createFrom)
     );
+  }
+
+  static empty(ctx: Context) {
+    return new TodoQuery(ctx, new EmptyQuery(ctx));
   }
 
   protected derive(expression: Expression): TodoQuery {
