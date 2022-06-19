@@ -1,5 +1,13 @@
 # @aphro/integration-tests-ts
 
+## 0.0.13
+
+### Patch Changes
+
+- count/orderBy/take implementation, support for NOT NULL, empty queries
+- Updated dependencies
+  - @aphro/runtime-ts@0.0.8
+
 ## 0.0.12
 
 ### Patch Changes

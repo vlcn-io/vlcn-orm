@@ -1,5 +1,11 @@
 # @aphro/sql-ts
 
+## 0.0.6
+
+### Patch Changes
+
+- count/orderBy/take implementation, support for NOT NULL, empty queries
+
 ## 0.0.5
 
 ### Patch Changes

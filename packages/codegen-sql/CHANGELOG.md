@@ -1,5 +1,17 @@
 # @aphro/codegen-sql
 
+## 0.0.13
+
+### Patch Changes
+
+- count/orderBy/take implementation, support for NOT NULL, empty queries
+- Updated dependencies
+  - @aphro/codegen@0.0.13
+  - @aphro/codegen-api@0.0.11
+  - @aphro/schema@0.0.14
+  - @aphro/schema-api@0.0.11
+  - @aphro/sql-ts@0.0.6
+
 ## 0.0.12
 
 ### Patch Changes

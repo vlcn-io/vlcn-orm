@@ -1,5 +1,15 @@
 # @aphro/todo-mvc
 
+## 1.0.7
+
+### Patch Changes
+
+- count/orderBy/take implementation, support for NOT NULL, empty queries
+- Updated dependencies
+  - @aphro/absurd-sql-connector@0.0.7
+  - @aphro/react@0.0.12
+  - @aphro/runtime-ts@0.0.8
+
 ## 1.0.6
 
 ### Patch Changes

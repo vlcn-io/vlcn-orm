@@ -1,5 +1,11 @@
 # @aphro/parse-ts
 
+## 0.0.5
+
+### Patch Changes
+
+- count/orderBy/take implementation, support for NOT NULL, empty queries
+
 ## 0.0.4
 
 ### Patch Changes

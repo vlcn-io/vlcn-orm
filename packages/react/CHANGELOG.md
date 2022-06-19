@@ -1,5 +1,13 @@
 # @aphro/react
 
+## 0.0.12
+
+### Patch Changes
+
+- count/orderBy/take implementation, support for NOT NULL, empty queries
+- Updated dependencies
+  - @aphro/runtime-ts@0.0.8
+
 ## 0.0.11
 
 ### Patch Changes

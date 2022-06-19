@@ -1,5 +1,18 @@
 # @aphro/runtime-ts
 
+## 0.0.8
+
+### Patch Changes
+
+- count/orderBy/take implementation, support for NOT NULL, empty queries
+- Updated dependencies
+  - @aphro/cache-runtime-ts@0.0.11
+  - @aphro/context-runtime-ts@0.0.11
+  - @aphro/model-runtime-ts@0.0.11
+  - @aphro/mutator-runtime-ts@0.0.12
+  - @aphro/query-runtime-ts@0.0.11
+  - @aphro/sql-ts@0.0.6
+
 ## 0.0.7
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @aphro/graphql-grammar
 
+## 0.0.4
+
+### Patch Changes
+
+- count/orderBy/take implementation, support for NOT NULL, empty queries
+- Updated dependencies
+  - @aphro/grammar-extension-api@0.0.11
+  - @aphro/schema@0.0.14
+  - @aphro/schema-api@0.0.11
+
 ## 0.0.3
 
 ### Patch Changes

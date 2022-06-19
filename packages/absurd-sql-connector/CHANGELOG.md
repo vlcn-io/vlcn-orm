@@ -1,5 +1,14 @@
 # @aphro/absurd-sql
 
+## 0.0.7
+
+### Patch Changes
+
+- count/orderBy/take implementation, support for NOT NULL, empty queries
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.0.11
+  - @aphro/sql-ts@0.0.6
+
 ## 0.0.6
 
 ### Patch Changes

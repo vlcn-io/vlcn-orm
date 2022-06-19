@@ -1,5 +1,13 @@
 # @aphro/monopoly
 
+## 1.0.3
+
+### Patch Changes
+
+- count/orderBy/take implementation, support for NOT NULL, empty queries
+- Updated dependencies
+  - @aphro/runtime-ts@0.0.8
+
 ## 1.0.2
 
 ### Patch Changes

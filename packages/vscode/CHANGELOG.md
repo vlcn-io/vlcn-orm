@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.10
+
+### Patch Changes
+
+- count/orderBy/take implementation, support for NOT NULL, empty queries
+
 ## 0.0.9
 
 ### Patch Changes
