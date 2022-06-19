@@ -763,6 +763,31 @@ importers:
       ts-jest: 28.0.4_khendlpaw4eq6oiaaraksjy7e4
       typescript: 4.7.2
 
+  packages/sqljs-connector:
+    specifiers:
+      '@aphro/context-runtime-ts': workspace:*
+      '@aphro/sql-ts': workspace:*
+      '@aphro/sql.js': ^1.7.0
+      '@babel/core': ^7.17.12
+      '@babel/preset-env': ^7.17.12
+      '@strut/counter': ^0.0.11
+      '@types/jest': ^27.4.1
+      jest: ^28.1.0
+      ts-jest: ^28.0.1
+      typescript: ^4.6.4
+    dependencies:
+      '@aphro/context-runtime-ts': link:../context-runtime-ts
+      '@aphro/sql-ts': link:../sql-ts
+      '@aphro/sql.js': 1.7.0
+      '@strut/counter': 0.0.11
+    devDependencies:
+      '@babel/core': 7.18.5
+      '@babel/preset-env': 7.18.2_@babel+core@7.18.5
+      '@types/jest': 27.5.2
+      jest: 28.1.1
+      ts-jest: 28.0.4_tfnnxxvxccip6ar2adkwbzxfwe
+      typescript: 4.7.3
+
   packages/vscode:
     specifiers: {}
 

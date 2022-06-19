@@ -1,0 +1,37 @@
+{
+  "name": "@aphro/sqljs-connector",
+  "version": "0.0.6",
+  "main": "lib/index.js",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tantaman/aphrodite.git",
+    "directory": "packages/sqljs-connector"
+  },
+  "dependencies": {
+    "@aphro/context-runtime-ts": "workspace:*",
+    "@aphro/sql-ts": "workspace:*",
+    "@aphro/sql.js": "^1.7.0",
+    "@strut/counter": "^0.0.11"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.12",
+    "@babel/preset-env": "^7.17.12",
+    "@types/jest": "^27.4.1",
+    "jest": "^28.1.0",
+    "ts-jest": "^28.0.1",
+    "typescript": "^4.6.4"
+  },
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "build": "tsc --build",
+    "watch": "tsc --build -w",
+    "test": "node ./node_modules/jest/bin/jest.js",
+    "deep-clean": "rm -rf ./lib || true && rm tsconfig.tsbuildinfo || true"
+  },
+  "jest": {
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ]
+  }
+}

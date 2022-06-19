@@ -27,4 +27,5 @@ packages:
   - 'packages/schema'
   - 'packages/schema-api'
   - 'packages/sql-ts'
+  - 'packages/sqljs-connector'
   - 'packages/vscode'
