@@ -3,19 +3,17 @@ import { SID_of } from '@strut/sid';
 import { Context } from './context.js';
 type Disposer = () => void;
 
-export type NodeSpecWithCreate<M extends INode<D>, D extends {}> = {
+export type ModelCreate<M extends IModel<D>, D extends {}> = {
   createFrom(context: Context, data: D): M;
-} & NodeSpec;
+};
 
-export interface INode<T extends {} = Object> {
-  readonly id: SID_of<this>;
+export type NodeSpecWithCreate<M extends INode<D>, D extends {}> = ModelCreate<M, D> & NodeSpec;
+export type JunctionEdgeSpecWithCreate<M extends IEdge<D>, D extends {}> = ModelCreate<M, D> &
+  JunctionEdgeSpec;
+
+export interface IModel<T extends {} = Object> {
   readonly ctx: Context;
-  readonly spec: NodeSpecWithCreate<this, T>;
-
-  subscribe(c: () => void): Disposer;
-  subscribeTo(keys: (keyof T)[], c: () => void): Disposer;
-
-  destroy();
+  readonly spec: ModelCreate<this, T> & (NodeSpec | JunctionEdgeSpec);
 
   // Internal only APIs. Exposed since TS doesn't understand package friends.
   // TODO: Or does it? I can extend a type that exists in a package from another package...
@@ -26,12 +24,16 @@ export interface INode<T extends {} = Object> {
   _isNoop(updates: Partial<T>): boolean;
 }
 
-export interface IEdge<T extends {} = Object> {
-  readonly ctx: Context;
-  readonly spec: JunctionEdgeSpec;
+export interface INode<T extends {} = Object> extends IModel<T> {
+  readonly id: SID_of<this>;
+  readonly spec: NodeSpecWithCreate<this, T>;
 
-  _get<K extends keyof T>(key: K): T[K];
-  _d(): T;
-  _merge(newData: Partial<T>): [Partial<T>, Set<() => void>];
-  _isNoop(updates: Partial<T>): boolean;
+  subscribe(c: () => void): Disposer;
+  subscribeTo(keys: (keyof T)[], c: () => void): Disposer;
+
+  destroy();
+}
+
+export interface IEdge<T extends {} = Object> extends IModel<T> {
+  readonly spec: JunctionEdgeSpecWithCreate<this, T>;
 }
