@@ -3,14 +3,14 @@ import { SID_of } from '@strut/sid';
 import { Context } from './context.js';
 type Disposer = () => void;
 
-export type ModelSpec<M extends IModel<D>, D extends {}> = {
+export type NodeSpecWithCreate<M extends INode<D>, D extends {}> = {
   createFrom(context: Context, data: D): M;
 } & NodeSpec;
 
-export interface IModel<T extends {} = Object> {
+export interface INode<T extends {} = Object> {
   readonly id: SID_of<this>;
   readonly ctx: Context;
-  readonly spec: ModelSpec<this, T>;
+  readonly spec: NodeSpecWithCreate<this, T>;
 
   subscribe(c: () => void): Disposer;
   subscribeTo(keys: (keyof T)[], c: () => void): Disposer;

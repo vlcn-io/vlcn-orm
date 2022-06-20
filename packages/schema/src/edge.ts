@@ -197,7 +197,11 @@ const funcs = {
     edges: { [key: string]: Edge },
   ): EdgeDeclaration | Edge {
     if (e.type === 'edgeReference') {
-      return edges[e.reference];
+      const ret = edges[e.reference];
+      if (ret == null) {
+        throw new Error(`Could not derference edge named "${e.name}" to "${e.reference}"`);
+      }
+      return ret;
     }
 
     return e;

@@ -1,7 +1,7 @@
 import {
   Context,
   Changeset,
-  IModel,
+  INode,
   MutableHeteroModelMap,
   Transaction,
 } from '@aphro/context-runtime-ts';
@@ -9,12 +9,12 @@ import { SID_of } from '@strut/sid';
 import { Task } from './NotifyQueue.js';
 import Persistor from './Persistor.js';
 
-export type CombinedChangesets = Map<SID_of<IModel>, Changeset<IModel>>;
+export type CombinedChangesets = Map<SID_of<INode>, Changeset<INode>>;
 
 export class ChangesetExecutor {
   constructor(
     private ctx: Context,
-    private changesets: readonly Changeset<IModel>[], // private options: CommitOptions = {},
+    private changesets: readonly Changeset<INode>[], // private options: CommitOptions = {},
   ) {}
 
   // Ideally we return the transaction list...
@@ -72,7 +72,7 @@ export class ChangesetExecutor {
     ];
   }
 
-  private processChanges(changeset: Changeset<IModel>): [IModel | null, Set<() => void>] {
+  private processChanges(changeset: Changeset<INode>): [INode | null, Set<() => void>] {
     switch (changeset.type) {
       case 'create': {
         const ret = changeset.spec.createFrom(this.ctx, changeset.updates as any);

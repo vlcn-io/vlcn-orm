@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4e6d75e9952d9527cd91654c1ec296c4>
+// SIGNED-SOURCE: <929a6d26942dede098011437e0cd517e>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -108,17 +108,6 @@ export default class DeckQuery extends DerivedQuery<Deck> {
         spec.outboundEdges.selectedSlide
       ),
       modelLoad(this.ctx, SlideSpec.createFrom)
-    );
-  }
-  queryEditors(): UserQuery {
-    return new UserQuery(
-      this.ctx,
-      QueryFactory.createHopQueryFor(
-        this.ctx,
-        this,
-        spec.outboundEdges.DeckToEditorsEdge
-      ),
-      modelLoad(this.ctx, UserSpec.createFrom)
     );
   }
 

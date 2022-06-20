@@ -1,14 +1,14 @@
 // TODO: this should be in a separate package from the core model code.
 import { useEffect, useReducer, useRef, useState } from 'react';
-import { IModel, Query, UpdateType, LiveResult } from '@aphro/runtime-ts';
+import { INode, Query, UpdateType, LiveResult } from '@aphro/runtime-ts';
 import counter from '@strut/counter';
 
 const count = counter('model-infra/Hooks');
 
-export function useBind<M extends IModel<D>, D>(m: M): void;
-export function useBind<M extends IModel<D>, D>(m: M, keys: (keyof D)[]): void;
+export function useBind<M extends INode<D>, D>(m: M): void;
+export function useBind<M extends INode<D>, D>(m: M, keys: (keyof D)[]): void;
 
-export function useBind<M extends IModel<D>, D>(m: M, keys?: (keyof D)[]): void {
+export function useBind<M extends INode<D>, D>(m: M, keys?: (keyof D)[]): void {
   count.bump('useBind.' + m.constructor.name);
   // TODO swap out to reac18 "useSyncExternalStore"
   // https://reactjs.org/docs/hooks-reference.html#usesyncexternalstore

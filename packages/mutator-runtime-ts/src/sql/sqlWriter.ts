@@ -1,11 +1,11 @@
-import { Context, IModel } from '@aphro/context-runtime-ts';
+import { Context, INode } from '@aphro/context-runtime-ts';
 import { formatters, sql } from '@aphro/sql-ts';
 
 export default {
   // Precondition: already grouped by db & table
   // TODO: Should we grab all by DB so we can do many inserts in 1 statement to the
   // same db?
-  async upsertGroup(ctx: Context, nodes: IModel[]): Promise<void> {
+  async upsertGroup(ctx: Context, nodes: INode[]): Promise<void> {
     const first = nodes[0];
     const spec = first.spec;
     const persist = spec.storage;
@@ -41,7 +41,7 @@ export default {
   },
 
   // Precondition: already grouped by db & table
-  async deleteGroup(ctx: Context, nodes: IModel[]): Promise<void> {
+  async deleteGroup(ctx: Context, nodes: INode[]): Promise<void> {
     const first = nodes[0];
     const spec = first.spec;
     const persist = spec.storage;

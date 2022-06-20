@@ -2,7 +2,7 @@ import { SID_of } from '@strut/sid';
 import { Disposer } from '@strut/events';
 import { Context } from '@aphro/context-runtime-ts';
 import { typedKeys } from '@strut/utils';
-import { IModel, ModelSpec } from '@aphro/context-runtime-ts';
+import { INode, NodeSpecWithCreate } from '@aphro/context-runtime-ts';
 
 export interface HasId {
   readonly id: SID_of<this>;
@@ -12,10 +12,10 @@ export function isHasId(object: any): object is HasId {
   return 'id' in object && typeof object.id === 'string';
 }
 
-export default abstract class Model<T extends {}> implements IModel<T> {
+export default abstract class Model<T extends {}> implements INode<T> {
   readonly ctx: Context;
   abstract readonly id: SID_of<this>;
-  abstract readonly spec: ModelSpec<this, T>;
+  abstract readonly spec: NodeSpecWithCreate<this, T>;
 
   protected data: T;
 

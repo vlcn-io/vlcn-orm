@@ -7,7 +7,7 @@ Require all models to have ids? We could just generate ones...
 */
 
 import { SID_of } from '@strut/sid';
-import { IModel } from '@aphro/context-runtime-ts';
+import { INode } from '@aphro/context-runtime-ts';
 import { isHasId } from './Model.js';
 
 /**
@@ -33,7 +33,7 @@ import { isHasId } from './Model.js';
  * thing to be retrieved via transaction logs -- and the interdependent state of the universe
  * to be rolled back through those same logs.
  */
-export default class ModelMap<K extends IModel<any>, V> {
+export default class ModelMap<K extends INode<any>, V> {
   private internalMap: Map<SID_of<any> | K, [K, V]> = new Map();
 
   set(key: K, value: V) {

@@ -1,11 +1,11 @@
 import { ChangesetExecutor } from './ChangesetExecutor.js';
-import { Context, Changeset, IModel, Transaction } from '@aphro/context-runtime-ts';
+import { Context, Changeset, INode, Transaction } from '@aphro/context-runtime-ts';
 
 type ExtractValue<T extends readonly Changeset<any, any>[]> = {
   [K in keyof T]: T[K] extends Changeset<infer V, infer D> ? V : never;
 };
 
-export function commit<M extends IModel<D>, D>(
+export function commit<M extends INode<D>, D>(
   ctx: Context,
   changesets: Changeset<M>,
 ): [Promise<any>, M];
@@ -43,7 +43,7 @@ type CommitOptions = {
   persistor?: (ctx: Context, tx: Omit<Transaction, 'persistHandle'>) => Promise<[void, void]>;
 };
 
-export function commitExt<M extends IModel<D>, D>(
+export function commitExt<M extends INode<D>, D>(
   opts: CommitOptions,
   changesets: Changeset<M>,
 ): [Promise<any>, M];

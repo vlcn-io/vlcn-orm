@@ -1,4 +1,4 @@
-import { Context, IModel } from '@aphro/context-runtime-ts';
+import { Context, INode } from '@aphro/context-runtime-ts';
 import { ChunkIterable, SyncMappedChunkIterable } from './ChunkIterable';
 import { DerivedExpression } from './Expression';
 

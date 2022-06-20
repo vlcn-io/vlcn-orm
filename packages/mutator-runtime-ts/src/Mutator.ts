@@ -1,6 +1,6 @@
 import {
-  IModel,
-  ModelSpec,
+  INode,
+  NodeSpecWithCreate,
   Changeset,
   CreateChangeset,
   UpdateChangeset,
@@ -8,7 +8,7 @@ import {
   ChangesetOptions,
 } from '@aphro/context-runtime-ts';
 
-export interface IMutationBuilder<M extends IModel<D>, D extends Object> {
+export interface IMutationBuilder<M extends INode<D>, D extends Object> {
   toChangeset(options?: ChangesetOptions): Changeset<M, D>;
   // TODO: remove this once we get mutations generation complete
   // we don't need `set` for `delete`
@@ -16,16 +16,16 @@ export interface IMutationBuilder<M extends IModel<D>, D extends Object> {
   addExtraChangesets(changesets?: Changeset<any, any>[]): this;
 }
 
-export interface ICreateOrUpdateBuilder<M extends IModel<D>, D extends Object>
+export interface ICreateOrUpdateBuilder<M extends INode<D>, D extends Object>
   extends IMutationBuilder<M, D> {
   set(newData: Partial<D>): this;
 }
 
 // TODO: and if we want to enable transactions...
-abstract class MutationBuilder<M extends IModel<D>, D extends Object>
+abstract class MutationBuilder<M extends INode<D>, D extends Object>
   implements IMutationBuilder<M, D>
 {
-  constructor(protected spec: ModelSpec<M, D>, protected data: Partial<D>) {}
+  constructor(protected spec: NodeSpecWithCreate<M, D>, protected data: Partial<D>) {}
   abstract toChangeset(): Changeset<M, D>;
   set(newData: Partial<D>): this {
     throw new Error('You cannot call `set` when deleting something');
@@ -39,7 +39,7 @@ abstract class MutationBuilder<M extends IModel<D>, D extends Object>
   }
 }
 
-abstract class CreateOrUpdateBuilder<M extends IModel<D>, D extends Object> extends MutationBuilder<
+abstract class CreateOrUpdateBuilder<M extends INode<D>, D extends Object> extends MutationBuilder<
   M,
   D
 > {
@@ -54,10 +54,10 @@ abstract class CreateOrUpdateBuilder<M extends IModel<D>, D extends Object> exte
 }
 
 export class CreateMutationBuilder<
-  M extends IModel<D>,
+  M extends INode<D>,
   D extends Object,
 > extends CreateOrUpdateBuilder<M, D> {
-  constructor(spec: ModelSpec<M, D>) {
+  constructor(spec: NodeSpecWithCreate<M, D>) {
     super(spec, {});
   }
 
@@ -75,10 +75,10 @@ export class CreateMutationBuilder<
 }
 
 export class UpdateMutationBuilder<
-  M extends IModel<D>,
+  M extends INode<D>,
   D extends Object,
 > extends CreateOrUpdateBuilder<M, D> {
-  constructor(spec: ModelSpec<M, D>, private model: M) {
+  constructor(spec: NodeSpecWithCreate<M, D>, private model: M) {
     super(spec, {});
   }
 
@@ -93,11 +93,11 @@ export class UpdateMutationBuilder<
   }
 }
 
-export class DeleteMutationBuilder<M extends IModel<D>, D extends Object> extends MutationBuilder<
+export class DeleteMutationBuilder<M extends INode<D>, D extends Object> extends MutationBuilder<
   M,
   D
 > {
-  constructor(spec: ModelSpec<M, D>, private model: M) {
+  constructor(spec: NodeSpecWithCreate<M, D>, private model: M) {
     super(spec, {});
   }
 

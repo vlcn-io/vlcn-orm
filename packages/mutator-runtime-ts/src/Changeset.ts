@@ -1,6 +1,6 @@
 import {
-  IModel,
-  ModelSpec,
+  INode,
+  NodeSpecWithCreate,
   ChangesetOptions,
   CreateChangeset,
   UpdateChangeset,
@@ -8,7 +8,7 @@ import {
 } from '@aphro/context-runtime-ts';
 import { SID_of } from '@strut/sid';
 
-export function updateChangeset<M extends IModel<D>, D>(
+export function updateChangeset<M extends INode<D>, D>(
   updates: D,
   model: M,
   options?: ChangesetOptions,
@@ -23,8 +23,8 @@ export function updateChangeset<M extends IModel<D>, D>(
   };
 }
 
-export function createChangeset<M extends IModel<D>, D>(
-  spec: ModelSpec<M, D>,
+export function createChangeset<M extends INode<D>, D>(
+  spec: NodeSpecWithCreate<M, D>,
   id: SID_of<M>,
   updates: D,
   options?: ChangesetOptions,
@@ -38,7 +38,7 @@ export function createChangeset<M extends IModel<D>, D>(
   };
 }
 
-export function deleteChangeset<M extends IModel<D>, D>(
+export function deleteChangeset<M extends INode<D>, D>(
   model: M,
   options?: ChangesetOptions,
 ): DeleteChangeset<M, D> {
