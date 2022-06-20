@@ -15,10 +15,10 @@ export default class GenTypescriptSpec extends CodegenStep {
     return true;
   }
 
-  private schema: SchemaNode;
+  private schema: SchemaNode | SchemaEdge;
   private edges: { [key: string]: SchemaEdge };
   constructor(opts: {
-    nodeOrEdge: SchemaNode;
+    nodeOrEdge: SchemaNode | SchemaEdge;
     edges: { [key: string]: SchemaEdge };
     dest: string;
   }) {
@@ -39,18 +39,28 @@ ${this.getSpecCode()}
   }
 
   private getSpecCode(): string {
-    return `const spec: NodeSpecWithCreate<${this.schema.name}, Data> = {
+    let primaryKeyCode = '';
+    let cacheKey = '';
+    const nodeOrEdge = this.schema.type === 'node' ? 'Node' : 'Edge';
+    if (this.schema.type === 'node') {
+      primaryKeyCode = `primaryKey: '${this.schema.primaryKey}',`;
+      cacheKey = `data['${this.schema.primaryKey}']`;
+    } else {
+      cacheKey = `data.id1 + '-' + data.id2`;
+    }
+
+    return `const spec: ${nodeOrEdge}SpecWithCreate<${this.schema.name}, Data> = {
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data['${this.schema.primaryKey}']);
+    const existing = ctx.cache.get(${cacheKey});
     if (existing) {
       return existing;
     }
     const result = new ${this.schema.name}(ctx, data);
-    ctx.cache.set(data['${this.schema.primaryKey}'], result);
+    ctx.cache.set(${cacheKey}, result);
     return result;
   },
 
-  primaryKey: '${this.schema.primaryKey}',
+  ${primaryKeyCode}
 
   storage: {
     engine: "${this.schema.storage.engine}",
@@ -71,7 +81,9 @@ export default spec;
   private collectImports(): Import[] {
     return [
       tsImport('{Context}', null, '@aphro/runtime-ts'),
-      tsImport('{NodeSpecWithCreate}', null, '@aphro/runtime-ts'),
+      this.schema.type === 'node'
+        ? tsImport('{NodeSpecWithCreate}', null, '@aphro/runtime-ts')
+        : tsImport('{EdgeSpecWithCreate}', null, '@aphro/runtime-ts'),
       ...this.getEdgeImports(),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
       tsImport('{Data}', null, `./${this.schema.name}.js`),
@@ -84,20 +96,27 @@ export default spec;
   }
 
   private getOutboundEdgeSpecCode(): string {
+    if (this.schema.type === 'standaloneEdge') {
+      return '';
+    }
     return Object.values(this.schema.extensions.outboundEdges?.edges || [])
       .map(edge => edge.name + ': ' + this.getSpecForEdge(edge))
       .join(',\n');
   }
 
   private getSpecForEdge(edge: EdgeDeclaration | EdgeReferenceDeclaration): string {
+    const schema = this.schema;
+    if (schema.type === 'standaloneEdge') {
+      return '';
+    }
     // reference declaration would just reference the generated junction spec
     // and otherwise we declare an inline spec
     const e = edgeFn.dereference(edge, this.edges);
-    const edgeType = edgeFn.outboundEdgeType(this.schema, e);
-    const sourceField = edgeFn.outboundEdgeSourceField(this.schema, e).name;
-    const destField = edgeFn.outboundEdgeDestFieldName(this.schema, e);
+    const edgeType = edgeFn.outboundEdgeType(schema, e);
+    const sourceField = edgeFn.outboundEdgeSourceField(schema, e).name;
+    const destField = edgeFn.outboundEdgeDestFieldName(schema, e);
     const sourceFn = 'get source() { return spec; }';
-    const destType = edgeFn.destModelSpecName(this.schema, e);
+    const destType = edgeFn.destModelSpecName(schema, e);
     const destFn = `get dest() { return ${destType}; }`;
 
     switch (edgeType) {
@@ -137,16 +156,20 @@ export default spec;
   }
 
   private getEdgeImports(): Import[] {
-    const outbound = Object.values(this.schema.extensions.outboundEdges?.edges || {}).filter(
+    const schema = this.schema;
+    if (schema.type === 'standaloneEdge') {
+      return [];
+    }
+    const outbound = Object.values(schema.extensions.outboundEdges?.edges || {}).filter(
       e => e.type === 'edge',
     ) as EdgeDeclaration[];
     return outbound
-      .filter(edge => edgeFn.destModelTypeName(this.schema, edge) !== this.schema.name)
+      .filter(edge => edgeFn.destModelTypeName(schema, edge) !== schema.name)
       .map(edge =>
         tsImport(
           '{default}',
-          `${edgeFn.destModelSpecName(this.schema, edge)}`,
-          `./${edgeFn.destModelSpecName(this.schema, edge)}.js`,
+          `${edgeFn.destModelSpecName(schema, edge)}`,
+          `./${edgeFn.destModelSpecName(schema, edge)}.js`,
         ),
       );
   }

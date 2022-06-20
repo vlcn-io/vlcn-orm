@@ -20,11 +20,11 @@ export default class GenTypescriptQuery extends CodegenStep {
     return schema.type === 'node';
   }
 
-  private schema: SchemaNode;
+  private schema: SchemaNode | SchemaEdge;
   private edges: { [key: string]: SchemaEdge };
 
   constructor(opts: {
-    nodeOrEdge: SchemaNode;
+    nodeOrEdge: SchemaNode | SchemaEdge;
     edges: { [key: string]: SchemaEdge };
     dest: string;
   }) {
@@ -153,6 +153,9 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
   }
 
   private getFromIdMethodCode(): string {
+    if (this.schema.type === 'standaloneEdge') {
+      return '';
+    }
     return `
 static fromId(ctx: Context, id: SID_of<${this.schema.name}>) {
   return this.create(ctx).whereId(P.equals(id));
@@ -161,15 +164,15 @@ static fromId(ctx: Context, id: SID_of<${this.schema.name}>) {
   }
 
   private getFromInboundFieldEdgeMethodsCode(): string {
+    const schema = this.schema;
+    if (schema.type === 'standaloneEdge') {
+      return '';
+    }
     // this would be inbound edges, right?
     // inbound edges to me based on one of my fields.
-    const inbound: EdgeDeclaration[] = Object.values(
-      this.schema.extensions.inboundEdges?.edges || {},
-    )
+    const inbound: EdgeDeclaration[] = Object.values(schema.extensions.inboundEdges?.edges || {})
       .filter(edge => edge.type === 'edge')
-      .filter((edge: EdgeDeclaration) =>
-        edgeFn.isThroughNode(this.schema, edge),
-      ) as EdgeDeclaration[];
+      .filter((edge: EdgeDeclaration) => edgeFn.isThroughNode(schema, edge)) as EdgeDeclaration[];
 
     return inbound.map(this.getFromInboundFieldEdgeMethodCode).join('\n');
   }
@@ -190,28 +193,30 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${field.of}>) {
   }
 
   private getEdgeImports(): Import[] {
-    const inbound = Object.values(this.schema.extensions.inboundEdges?.edges || {}).filter(
+    const schema = this.schema;
+    if (schema.type === 'standaloneEdge') {
+      return [];
+    }
+    const inbound = Object.values(schema.extensions.inboundEdges?.edges || {}).filter(
       e => e.type === 'edge',
     ) as EdgeDeclaration[];
 
-    const outbound = Object.values(this.schema.extensions.outboundEdges?.edges || {}).filter(
+    const outbound = Object.values(schema.extensions.outboundEdges?.edges || {}).filter(
       e => e.type === 'edge',
     ) as EdgeDeclaration[];
 
     return [...inbound, ...outbound]
-      .filter(
-        edge => edgeFn.queryTypeName(this.schema, edge) !== nodeFn.queryTypeName(this.schema.name),
-      )
+      .filter(edge => edgeFn.queryTypeName(schema, edge) !== nodeFn.queryTypeName(this.schema.name))
       .flatMap(edge => [
         tsImport(
           '{default}',
-          `${edgeFn.destModelSpecName(this.schema, edge)}`,
-          `./${edgeFn.destModelSpecName(this.schema, edge)}.js`,
+          `${edgeFn.destModelSpecName(schema, edge)}`,
+          `./${edgeFn.destModelSpecName(schema, edge)}.js`,
         ),
         tsImport(
-          edgeFn.queryTypeName(this.schema, edge),
+          edgeFn.queryTypeName(schema, edge),
           null,
-          `./${edgeFn.queryTypeName(this.schema, edge)}.js`,
+          `./${edgeFn.queryTypeName(schema, edge)}.js`,
         ),
       ]);
 
@@ -226,6 +231,9 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${field.of}>) {
   }
 
   private getHopMethodsCode(): string {
+    if (this.schema.type === 'standaloneEdge') {
+      return '';
+    }
     // hop methods are edges
     // e.g., Deck.querySlides().queryComponents()
     const outbound = Object.values(this.schema.extensions.outboundEdges?.edges || {});
@@ -233,6 +241,9 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${field.of}>) {
   }
 
   private getHopMethod(edge: EdgeDeclaration | EdgeReferenceDeclaration): string {
+    if (this.schema.type === 'standaloneEdge') {
+      return '';
+    }
     const e = edgeFn.dereference(edge, this.edges);
 
     // if (edgeFn.isTo(edge)) {
@@ -249,6 +260,9 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${field.of}>) {
   }
 
   private getHopMethodBody(edge: EdgeDeclaration | SchemaEdge): string {
+    if (this.schema.type === 'standaloneEdge') {
+      return '';
+    }
     return `return new ${edgeFn.queryTypeName(
       this.schema,
       edge,

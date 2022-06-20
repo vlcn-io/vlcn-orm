@@ -10,10 +10,12 @@ export type ModelCreate<M extends IModel<D>, D extends {}> = {
 export type NodeSpecWithCreate<M extends INode<D>, D extends {}> = ModelCreate<M, D> & NodeSpec;
 export type JunctionEdgeSpecWithCreate<M extends IEdge<D>, D extends {}> = ModelCreate<M, D> &
   JunctionEdgeSpec;
+export type ModelSpecWithCreate<M extends IModel<D>, D extends {}> = ModelCreate<M, D> &
+  (NodeSpec | JunctionEdgeSpec);
 
 export interface IModel<T extends {} = Object> {
   readonly ctx: Context;
-  readonly spec: ModelCreate<this, T> & (NodeSpec | JunctionEdgeSpec);
+  readonly spec: ModelSpecWithCreate<this, T>;
 
   // Internal only APIs. Exposed since TS doesn't understand package friends.
   // TODO: Or does it? I can extend a type that exists in a package from another package...

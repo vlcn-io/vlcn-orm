@@ -17,11 +17,11 @@ export default class GenTypescriptModel extends CodegenStep {
     return true;
   }
 
-  private schema: SchemaNode;
+  private readonly schema: SchemaNode | SchemaEdge;
   private edges: { [key: string]: SchemaEdge };
 
   constructor(opts: {
-    nodeOrEdge: SchemaNode;
+    nodeOrEdge: SchemaNode | SchemaEdge;
     edges: { [key: string]: SchemaEdge };
     dest: string;
   }) {
@@ -31,15 +31,16 @@ export default class GenTypescriptModel extends CodegenStep {
   }
 
   async gen(): Promise<CodegenFile> {
+    const baseClass = this.schema.type === 'node' ? 'Node' : 'Edge';
     return new TypescriptFile(
       this.schema.name + '.ts',
       `${importsToString(this.collectImports())}
 
 export type Data = ${this.getDataShapeCode()};
 
-${this.schema.extensions.type?.decorators?.join('\n') || ''}
+${this.schema.type === 'node' ? this.schema.extensions.type?.decorators?.join('\n') || '' : ''}
 export default class ${this.schema.name}
-  extends Node<Data> {
+  extends ${baseClass}<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   ${this.getFieldCode()}
@@ -77,7 +78,7 @@ export default class ${this.schema.name}
         `./${nodeFn.queryTypeName(this.schema.name)}.js`,
       ),
       tsImport('{Context}', null, '@aphro/runtime-ts'),
-      ...(this.schema.extensions.module?.imports.values() || []),
+      ...(this.schema.type === 'node' ? this.schema.extensions.module?.imports.values() || [] : []),
       ...this.getEdgeImports(),
       ...this.getIdFieldImports(),
     ].filter(i => i.name !== this.schema.name);
@@ -90,6 +91,10 @@ export default class ${this.schema.name}
   }
 
   private getEdgeImports(): Import[] {
+    if (this.schema.type === 'standaloneEdge') {
+      return [];
+    }
+
     const ret: Import[] = [];
     for (const edge of nodeFn.allEdges(this.schema)) {
       const e = edgeFn.dereference(edge, this.edges);
@@ -130,6 +135,10 @@ export default class ${this.schema.name}
   }
 
   private getEdgeCode(): string {
+    const schema = this.schema;
+    if (schema.type === 'standaloneEdge') {
+      return '';
+    }
     /*
     outbound edges
     - through a field on self: field edge
@@ -152,7 +161,7 @@ export default class ${this.schema.name}
       - see outbound `to other type`
     */
 
-    return Object.values(this.schema.extensions.outboundEdges?.edges || {})
+    return Object.values(schema.extensions.outboundEdges?.edges || {})
       .map(edge => {
         let emptyReturnCondition = '';
         if (edge.type === 'edge') {
@@ -163,7 +172,7 @@ export default class ${this.schema.name}
             this.schema.fields[column].nullable
           ) {
             emptyReturnCondition = `if (this.${column} == null) {
-              return ${edgeFn.queryTypeName(this.schema, edge)}.empty(this.ctx);
+              return ${edgeFn.queryTypeName(schema, edge)}.empty(this.ctx);
             }`;
           }
         }
@@ -171,19 +180,17 @@ export default class ${this.schema.name}
         const e = edgeFn.dereference(edge, this.edges);
 
         if (e.type === 'standaloneEdge') {
-          return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(this.schema, e)} {
-            return ${nodeFn.queryTypeName(
-              this.schema.name,
-            )}.fromId(this.ctx, this.id).query${upcaseAt(edge.name, 0)}();
+          return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(schema, e)} {
+            return ${nodeFn.queryTypeName(schema.name)}.fromId(this.ctx, this.id).query${upcaseAt(
+            edge.name,
+            0,
+          )}();
           }`;
         }
 
-        return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(this.schema, e)} {
+        return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(schema, e)} {
           ${emptyReturnCondition}
-          return ${edgeFn.queryTypeName(this.schema, e)}.${this.getFromMethodInvocation(
-          'outbound',
-          e,
-        )};
+          return ${edgeFn.queryTypeName(schema, e)}.${this.getFromMethodInvocation('outbound', e)};
         }`;
       })
       .join('\n');
@@ -240,6 +247,9 @@ export default class ${this.schema.name}
   }
 
   private getGenMethodCode(): string {
+    if (this.schema.type === 'standaloneEdge') {
+      return '';
+    }
     return `static async gen(ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name} | null> {
       const existing = ctx.cache.get(id);
       if (existing) {
@@ -250,6 +260,9 @@ export default class ${this.schema.name}
   }
 
   private getGenxMethodCode(): string {
+    if (this.schema.type === 'standaloneEdge') {
+      return '';
+    }
     return `static async genx(ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name}> {
       const existing = ctx.cache.get(id);
       if (existing) {
