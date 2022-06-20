@@ -240,5 +240,5 @@ export default class FooQuery extends DerivedQuery<Foo> {
 });
 
 function genIt(schema: Node) {
-  return new GenTypescriptQuery({ nodeOrEdge: schema, nodes: {}, edges: {}, dest: '' }).gen();
+  return new GenTypescriptQuery({ nodeOrEdge: schema, edges: {}, dest: '' }).gen();
 }

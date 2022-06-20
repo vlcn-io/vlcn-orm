@@ -46,7 +46,7 @@ CREATE TABLE
 });
 
 async function genIt(schema: Node) {
-  return await new GenSqlTableSchema({ nodeOrEdge: schema, nodes: {}, edges: {}, dest: '' }).gen();
+  return await new GenSqlTableSchema({ nodeOrEdge: schema, edges: {}, dest: '' }).gen();
 }
 
 function compileIt(schema: string) {

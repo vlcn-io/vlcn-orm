@@ -228,5 +228,5 @@ export default class Bar extends Model<Data> {
 });
 
 async function genIt(schema: Node) {
-  return await new GenTypescriptModel({ nodeOrEdge: schema, nodes: {}, edges: {}, dest: '' }).gen();
+  return await new GenTypescriptModel({ nodeOrEdge: schema, edges: {}, dest: '' }).gen();
 }

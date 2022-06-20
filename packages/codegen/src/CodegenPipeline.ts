@@ -29,7 +29,6 @@ export default class CodegenPipleine {
                     ? null
                     : new step({
                         nodeOrEdge: schema,
-                        nodes: nodeMap,
                         edges: edgeMap,
                         dest,
                       }).gen()),

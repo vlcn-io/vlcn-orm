@@ -29,12 +29,7 @@ export class GenTypescriptMutationImpls extends CodegenStep {
 
   private schema: Node;
   private dest: string;
-  constructor(opts: {
-    nodeOrEdge: Node;
-    nodes: { [key: string]: Node };
-    edges: { [key: string]: Edge };
-    dest: string;
-  }) {
+  constructor(opts: { nodeOrEdge: Node; edges: { [key: string]: Edge }; dest: string }) {
     super();
     this.schema = opts.nodeOrEdge;
     this.dest = opts.dest;

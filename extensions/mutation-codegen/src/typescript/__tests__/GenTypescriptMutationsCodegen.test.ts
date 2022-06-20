@@ -196,7 +196,6 @@ export default class FooMutations {
 async function genIt(schema: Node) {
   return await new GenTypescriptMutations({
     nodeOrEdge: schema,
-    nodes: {},
     edges: {},
     dest: '',
   }).gen();

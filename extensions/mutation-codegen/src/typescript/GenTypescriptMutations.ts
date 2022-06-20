@@ -22,12 +22,7 @@ export class GenTypescriptMutations extends CodegenStep {
   }
 
   private schema: Node;
-  constructor(opts: {
-    nodeOrEdge: Node;
-    nodes: { [key: string]: Node };
-    edges: { [key: string]: Edge };
-    dest: string;
-  }) {
+  constructor(opts: { nodeOrEdge: Node; edges: { [key: string]: Edge }; dest: string }) {
     super();
     this.schema = opts.nodeOrEdge;
   }

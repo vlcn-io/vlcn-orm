@@ -6,7 +6,6 @@ import { Node, Edge, SchemaFile } from '@aphro/schema-api';
 export type Step = {
   new (opts: {
     nodeOrEdge: Node | Edge;
-    nodes: { [key: string]: Node };
     edges: { [key: string]: Edge };
     dest: string;
   }): CodegenStep;

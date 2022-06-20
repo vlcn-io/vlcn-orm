@@ -49,7 +49,6 @@ export function editImpl(
 async function genIt(schema: Node) {
   return await new GenTypescriptMutationImpls({
     nodeOrEdge: schema,
-    nodes: {},
     edges: {},
     dest: '',
   }).gen();
