@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <c998d6a4f9514a2a85eeaf877e7d4214>
+// SIGNED-SOURCE: <765f099fa6c45cb4a2b362d8371931cf>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@
  */
 import { default as s } from "./ComponentSpec.js";
 import { P } from "@aphro/runtime-ts";
-import { Model } from "@aphro/runtime-ts";
+import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import ComponentQuery from "./ComponentQuery.js";
@@ -21,7 +21,7 @@ export type Data = {
   content: string;
 };
 
-export default class Component extends Model<Data> {
+export default class Component extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {

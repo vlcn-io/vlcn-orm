@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <98d30a1da01c7e1b194a17c2928ceab9>
+// SIGNED-SOURCE: <7fbd77f39f8bbd3492fb36603152f7f1>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@
  */
 import { default as s } from "./TodoListSpec.js";
 import { P } from "@aphro/runtime-ts";
-import { Model } from "@aphro/runtime-ts";
+import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import TodoListQuery from "./TodoListQuery.js";
@@ -21,7 +21,7 @@ export type Data = {
   editing: SID_of<Todo> | null;
 };
 
-export default class TodoList extends Model<Data> {
+export default class TodoList extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {

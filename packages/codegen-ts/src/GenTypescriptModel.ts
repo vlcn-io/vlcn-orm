@@ -39,7 +39,7 @@ export type Data = ${this.getDataShapeCode()};
 
 ${this.schema.extensions.type?.decorators?.join('\n') || ''}
 export default class ${this.schema.name}
-  extends Model<Data> {
+  extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   ${this.getFieldCode()}
@@ -68,7 +68,7 @@ export default class ${this.schema.name}
     return [
       tsImport('{default}', 's', './' + nodeFn.specName(this.schema.name) + '.js'),
       tsImport('{P}', null, '@aphro/runtime-ts'),
-      tsImport('{Model}', null, '@aphro/runtime-ts'),
+      tsImport('{Node}', null, '@aphro/runtime-ts'),
       tsImport('{NodeSpecWithCreate}', null, '@aphro/runtime-ts'),
       tsImport('{SID_of}', null, '@aphro/runtime-ts'),
       tsImport(

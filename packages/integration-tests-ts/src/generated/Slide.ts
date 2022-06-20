@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <ead08df8c73efdb761b49a9c7893cee7>
+// SIGNED-SOURCE: <88f5e8ec541a10248be5d752b02d947a>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@
  */
 import { default as s } from "./SlideSpec.js";
 import { P } from "@aphro/runtime-ts";
-import { Model } from "@aphro/runtime-ts";
+import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import SlideQuery from "./SlideQuery.js";
@@ -22,7 +22,7 @@ export type Data = {
   order: number;
 };
 
-export default class Slide extends Model<Data> {
+export default class Slide extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {

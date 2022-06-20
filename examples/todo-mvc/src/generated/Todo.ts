@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a8eea869a5ecd2e7cd45962040469b22>
+// SIGNED-SOURCE: <989215595ed96bc20cc1d8eea01ef440>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@
  */
 import { default as s } from "./TodoSpec.js";
 import { P } from "@aphro/runtime-ts";
-import { Model } from "@aphro/runtime-ts";
+import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import TodoQuery from "./TodoQuery.js";
@@ -23,7 +23,7 @@ export type Data = {
   completed: number | null;
 };
 
-export default class Todo extends Model<Data> {
+export default class Todo extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
