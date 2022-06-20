@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <31003068194e923d45ad46cee2516e53>
+// SIGNED-SOURCE: <c06952766cdb647d74dea5d002aa3f71>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -64,6 +64,23 @@ const spec: ModelSpec<Deck, Data> = {
       },
       get dest() {
         return SlideSpec;
+      },
+    },
+    editors: {
+      type: "junction",
+      storage: {
+        type: "sql",
+        engine: "sqlite",
+        db: "example",
+        tablish: "decktoeditorsedge",
+      },
+      sourceField: "id",
+      destField: "id",
+      get source() {
+        return spec;
+      },
+      get dest() {
+        return UserSpec;
       },
     },
   },

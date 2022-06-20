@@ -10,9 +10,11 @@ export default class GenTypescriptSpec extends CodegenStep {
   }
 
   private schema: Node;
+  private edges: { [key: string]: Edge };
   constructor(opts: { nodeOrEdge: Node; edges: { [key: string]: Edge }; dest: string }) {
     super();
     this.schema = opts.nodeOrEdge;
+    this.edges = opts.edges;
   }
 
   async gen(): Promise<CodegenFile> {
@@ -80,14 +82,12 @@ export default spec;
   private getSpecForEdge(edge: EdgeDeclaration | EdgeReferenceDeclaration): string {
     // reference declaration would just reference the generated junction spec
     // and otherwise we declare an inline spec
-    if (edge.type === 'edgeReference') {
-      throw new Error('Edge references not yet supported');
-    }
-    const edgeType = edgeFn.outboundEdgeType(this.schema, edge);
-    const sourceField = edgeFn.outboundEdgeSourceField(this.schema, edge).name;
-    const destField = edgeFn.outboundEdgeDestFieldName(this.schema, edge);
+    const e = edgeFn.dereference(edge, this.edges);
+    const edgeType = edgeFn.outboundEdgeType(this.schema, e);
+    const sourceField = edgeFn.outboundEdgeSourceField(this.schema, e).name;
+    const destField = edgeFn.outboundEdgeDestFieldName(this.schema, e);
     const sourceFn = 'get source() { return spec; }';
-    const destType = edgeFn.destModelSpecName(this.schema, edge);
+    const destType = edgeFn.destModelSpecName(this.schema, e);
     const destFn = `get dest() { return ${destType}; }`;
 
     switch (edgeType) {
@@ -100,9 +100,16 @@ export default spec;
           ${destFn},
         }`;
       case 'junction':
+        const storageConfig = edgeFn.storageConfig(e);
+        // return this or import a standalone generated junction edge def?
         return `{
           type: '${edgeType}',
-          storage: {},
+          storage: {
+            type: "${storageConfig.type}",
+            engine: "${storageConfig.engine}",
+            db: "${storageConfig.db}",
+            tablish: "${storageConfig.tablish}",
+          },
           sourceField: '${sourceField}',
           destField: '${destField}',
           ${sourceFn},

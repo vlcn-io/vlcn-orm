@@ -75,6 +75,8 @@ export type EdgeSpec =
   | ({
       type: 'junction';
       storage: StorageConfig;
+      sourceField: string;
+      destField: string;
     } & EdgeSpecBase)
   | ({
       type: 'field';
@@ -116,7 +118,7 @@ export type Edge = {
   type: 'standaloneEdge';
   name: EdgeAst['name'];
   src: NodeReferenceOrQualifiedColumn;
-  dest: NodeReferenceOrQualifiedColumn | null;
+  dest: NodeReferenceOrQualifiedColumn;
   fields: {
     [key: UnqalifiedFieldReference]: Field;
   };
@@ -162,7 +164,7 @@ export type EdgeAst = {
   type: 'edge';
   name: string;
   src: NodeReferenceOrQualifiedColumn;
-  dest: NodeReferenceOrQualifiedColumn | null;
+  dest: NodeReferenceOrQualifiedColumn;
   fields: Field[];
   extensions: EdgeExtension[];
 };

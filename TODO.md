@@ -30,6 +30,7 @@
 - Default to always applying an order by id if no ordering exists -- stable results.
 - map, union, intersect, filter, etc. on QueryBase
 - generated ids are not being converted to hex representations and ints on storage?
+- Support edge queries?? RN we just traverse edges rather than allowing returning of edge data (if it exists).
 
 # Mutator improvements
 - infer what the user wants to write in the manual section and generate that

@@ -163,12 +163,22 @@ export default class ${this.schema.name}
             }`;
           }
         }
+
         const e = edgeFn.dereference(edge, this.edges);
-        return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(this.schema, e)} {\
+
+        if (e.type === 'standaloneEdge') {
+          return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(this.schema, e)} {
+            return ${nodeFn.queryTypeName(
+              this.schema.name,
+            )}.fromId(this.ctx, this.id).query${upcaseAt(edge.name, 0)}();
+          }`;
+        }
+
+        return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(this.schema, e)} {
           ${emptyReturnCondition}
           return ${edgeFn.queryTypeName(this.schema, e)}.${this.getFromMethodInvocation(
           'outbound',
-          edge,
+          e,
         )};
         }`;
       })
