@@ -11,6 +11,7 @@
     { "path": "../model-runtime-ts" },
     { "path": "../mutator-runtime-ts" },
     { "path": "../query-runtime-ts" },
+    { "path": "../migration-runtime-ts" },
     { "path": "../sql-ts" }
   ]
 }

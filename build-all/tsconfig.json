@@ -7,6 +7,7 @@
   "include": ["./src/"],
   "references": [
     { "path": "../packages/absurd-sql-connector" },
+    { "path": "../packages/sqljs-connector" },
     { "path": "../packages/codegen" },
     { "path": "../packages/codegen-api" },
     { "path": "../packages/codegen-cli" },

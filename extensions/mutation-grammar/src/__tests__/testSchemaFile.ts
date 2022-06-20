@@ -22,6 +22,7 @@ export const compiled = {
   edges: {},
   nodes: {
     User: {
+      type: 'node',
       extensions: {
         [name]: {
           name,
