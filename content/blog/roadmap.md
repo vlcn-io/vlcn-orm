@@ -2,7 +2,11 @@
 title: Roadmap
 ---
 
-Concrete roadmap items are below. The larger vision and strategy can be found in [[docs/why:Why Aphrodite?]].
+Concrete roadmap items are below.
+
+The larger vision and strategy can be found in [[docs/why:Why Aphrodite?]].
+
+Broad set of focus areas, from which these items come, are here [[blog/focus-areas]].
 
 ## Current Planned Releases
 

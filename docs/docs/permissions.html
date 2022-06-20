@@ -38,24 +38,24 @@ Extends the Aphrodite SDL with a grammar for defining row,…">
 <p>Under development here: <a href="https://github.com/tantaman/aphrodite/tree/main/extensions/authorization-grammar">https://github.com/tantaman/aphrodite/tree/main/extensions/authorization-grammar</a></p>
 <h1 id="auth-grammar"><a aria-hidden="true" tabindex="-1" href="#auth-grammar"><span class="icon icon-link"></span></a>Auth Grammar</h1>
 <p>Extends the <code>Aphrodite SDL</code> with a grammar for defining row, column and edge level visibility.</p>
-<p>Before:</p>
-<pre><code class="hljs language-yaml"><span class="hljs-string">User</span> <span class="hljs-string">as</span> <span class="hljs-string">Node</span> {
-  <span class="hljs-attr">id:</span> <span class="hljs-string">ID&#x3C;User></span>
-  <span class="hljs-attr">name:</span> <span class="hljs-string">NaturalLanguage</span>
-  <span class="hljs-attr">password:</span> <span class="hljs-string">PBKDF2</span>
+<p><strong>Before:</strong></p>
+<pre><code class="hljs language-typescript"><span class="hljs-title class_">User</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Node</span> {
+  <span class="hljs-attr">id</span>: <span class="hljs-variable constant_">ID</span>&#x3C;<span class="hljs-title class_">User</span>>
+  <span class="hljs-attr">name</span>: <span class="hljs-title class_">NaturalLanguage</span>
+  <span class="hljs-attr">password</span>: <span class="hljs-title class_">PBKDF2</span>
 }
 </code></pre>
-<p>After:</p>
-<pre><code class="hljs language-python">User <span class="hljs-keyword">as</span> Node {
-  <span class="hljs-built_in">id</span>: ID&#x3C;User>
-  name: NaturalLanguage
-  password: PBKDF2 &#x26; Auth { red: [AllowIf((viewer, node) => node.<span class="hljs-built_in">id</span> === viewer.<span class="hljs-built_in">id</span>)] } <span class="hljs-comment"># field level privacy</span>
-} &#x26; Authorization { <span class="hljs-comment"># object level privacy</span>
-  read: [
-    AlwaysAllow <span class="hljs-comment"># everyone can see everyone</span>
+<p><strong>After:</strong></p>
+<pre><code class="hljs language-typescript"><span class="hljs-title class_">User</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Node</span> {
+  <span class="hljs-attr">id</span>: <span class="hljs-variable constant_">ID</span>&#x3C;<span class="hljs-title class_">User</span>>
+  <span class="hljs-attr">name</span>: <span class="hljs-title class_">NaturalLanguage</span>
+  <span class="hljs-attr">password</span>: <span class="hljs-title class_">PBKDF2</span> &#x26; <span class="hljs-title class_">Auth</span> { <span class="hljs-attr">read</span>: [<span class="hljs-title class_">AllowIf</span>(<span class="hljs-function">(<span class="hljs-params">viewer, node</span>) =></span> node.<span class="hljs-property">id</span> === viewer.<span class="hljs-property">id</span>)] } # field level privacy
+} &#x26; <span class="hljs-title class_">Authorization</span> { # <span class="hljs-built_in">object</span> level privacy
+  <span class="hljs-attr">read</span>: [
+    <span class="hljs-title class_">AlwaysAllow</span> # everyone can see everyone
   ]
-  write: [
-    AllowIf((viewer, node) => node.<span class="hljs-built_in">id</span> === viewer.<span class="hljs-built_in">id</span>) <span class="hljs-comment"># only user themselves can update themselves</span>
+  <span class="hljs-attr">write</span>: [
+    <span class="hljs-title class_">AllowIf</span>(<span class="hljs-function">(<span class="hljs-params">viewer, node</span>) =></span> node.<span class="hljs-property">id</span> === viewer.<span class="hljs-property">id</span>) # only user themselves can update themselves
   ]
 }
 </code></pre>

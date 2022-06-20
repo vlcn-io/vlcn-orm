@@ -11,8 +11,8 @@ Under development here: https://github.com/tantaman/aphrodite/tree/main/extensio
 
 Extends the `Aphrodite SDL` with a grammar for defining row, column and edge level visibility.
 
-Before:
-```
+**Before:**
+```typescript
 User as Node {
   id: ID<User>
   name: NaturalLanguage
@@ -20,12 +20,12 @@ User as Node {
 }
 ```
 
-After:
-```
+**After:**
+```typescript
 User as Node {
   id: ID<User>
   name: NaturalLanguage
-  password: PBKDF2 & Auth { red: [AllowIf((viewer, node) => node.id === viewer.id)] } # field level privacy
+  password: PBKDF2 & Auth { read: [AllowIf((viewer, node) => node.id === viewer.id)] } # field level privacy
 } & Authorization { # object level privacy
   read: [
     AlwaysAllow # everyone can see everyone

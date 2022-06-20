@@ -9,55 +9,33 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "?8e01":
+/***/ "?1b0b":
 /*!************************!*\
   !*** crypto (ignored) ***!
   \************************/
 /***/ (() => {
 
-eval("/* (ignored) */\n\n//# sourceURL=webpack://@aphro/todo-mvc/crypto_(ignored)?");
+eval("/* (ignored) */\n\n//# sourceURL=webpack:///crypto_(ignored)?");
 
 /***/ }),
 
-/***/ "?6772":
+/***/ "?13dd":
 /*!********************!*\
   !*** fs (ignored) ***!
   \********************/
 /***/ (() => {
 
-eval("/* (ignored) */\n\n//# sourceURL=webpack://@aphro/todo-mvc/fs_(ignored)?");
+eval("/* (ignored) */\n\n//# sourceURL=webpack:///fs_(ignored)?");
 
 /***/ }),
 
-/***/ "?b168":
+/***/ "?6525":
 /*!**********************!*\
   !*** path (ignored) ***!
   \**********************/
 /***/ (() => {
 
-eval("/* (ignored) */\n\n//# sourceURL=webpack://@aphro/todo-mvc/path_(ignored)?");
-
-/***/ }),
-
-/***/ "../../packages/absurd-sql-connector/lib/pkg.js":
-/*!******************************************************!*\
-  !*** ../../packages/absurd-sql-connector/lib/pkg.js ***!
-  \******************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ('@aphro/absurd-sql');\n//# sourceMappingURL=pkg.js.map\n\n//# sourceURL=webpack://@aphro/todo-mvc/../../packages/absurd-sql-connector/lib/pkg.js?");
-
-/***/ }),
-
-/***/ "../../packages/absurd-sql-connector/lib/worker/worker.js":
-/*!****************************************************************!*\
-  !*** ../../packages/absurd-sql-connector/lib/worker/worker.js ***!
-  \****************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _aphro_sql_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @aphro/sql.js */ \"../../node_modules/.pnpm/@aphro+sql.js@1.7.0/node_modules/@aphro/sql.js/dist/sql-wasm.js\");\n/* harmony import */ var _aphro_absurd_sql__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @aphro/absurd-sql */ \"../../node_modules/.pnpm/@aphro+absurd-sql@0.0.53/node_modules/@aphro/absurd-sql/dist/index.js\");\n/* harmony import */ var _aphro_absurd_sql_dist_indexeddb_backend_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @aphro/absurd-sql/dist/indexeddb-backend.js */ \"../../node_modules/.pnpm/@aphro+absurd-sql@0.0.53/node_modules/@aphro/absurd-sql/dist/indexeddb-backend.js\");\n/* harmony import */ var _pkg_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../pkg.js */ \"../../packages/absurd-sql-connector/lib/pkg.js\");\n\n\n\n\nasync function init() {\n    let SQL = await _aphro_sql_js__WEBPACK_IMPORTED_MODULE_0__({ locateFile: file => file });\n    // let SQL = await initSqlJs({ locateFile: file => '/assets/js/sql.wasm' });\n    let sqlFS = new _aphro_absurd_sql__WEBPACK_IMPORTED_MODULE_1__.SQLiteFS(SQL.FS, new _aphro_absurd_sql_dist_indexeddb_backend_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"]());\n    SQL.register_for_idb(sqlFS);\n    SQL.FS.mkdir('/sql');\n    SQL.FS.mount(sqlFS, {}, '/sql');\n    let db = new SQL.Database('/sql/db.sqlite', { filename: true });\n    db.exec(`\n    PRAGMA page_size=8192;\n    PRAGMA journal_mode=MEMORY;\n  `);\n    self.addEventListener('message', async function ({ data }) {\n        const { pkg, event, id, queryObj } = data;\n        if (pkg !== _pkg_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"]) {\n            return;\n        }\n        if (event !== 'query') {\n            return;\n        }\n        // console.log(queryObj);\n        if (queryObj.bindings) {\n            let stmt;\n            let rows = [];\n            try {\n                stmt = db.prepare(queryObj.sql);\n                stmt.bind(queryObj.bindings);\n                while (stmt.step())\n                    rows.push(stmt.getAsObject());\n            }\n            catch (e) {\n                self.postMessage({\n                    pkg: _pkg_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"],\n                    event: 'query-response',\n                    id,\n                    error: {\n                        message: e.message,\n                    },\n                });\n                return;\n            }\n            finally {\n                if (stmt != null) {\n                    stmt.free();\n                }\n            }\n            self.postMessage({\n                pkg: _pkg_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"],\n                event: 'query-response',\n                id,\n                result: rows,\n            });\n        }\n        else {\n            try {\n                db.exec(queryObj.sql);\n            }\n            catch (e) {\n                self.postMessage({\n                    pkg: _pkg_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"],\n                    event: 'query-response',\n                    id,\n                    error: e,\n                });\n                return;\n            }\n            self.postMessage({\n                pkg: _pkg_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"],\n                event: 'query-response',\n                id,\n                result: [],\n            });\n        }\n    });\n    self.postMessage({\n        pkg: _pkg_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"],\n        event: 'ready',\n    });\n}\ninit();\n//# sourceMappingURL=worker.js.map\n\n//# sourceURL=webpack://@aphro/todo-mvc/../../packages/absurd-sql-connector/lib/worker/worker.js?");
+eval("/* (ignored) */\n\n//# sourceURL=webpack:///path_(ignored)?");
 
 /***/ })
 
@@ -97,7 +75,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _aph
 /******/ 	__webpack_require__.x = () => {
 /******/ 		// Load entry module and return exports
 /******/ 		// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 		var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_pnpm_aphro_absurd-sql_0_0_53_node_modules_aphro_absurd-sql_dist_index_js-19597a"], () => (__webpack_require__("../../packages/absurd-sql-connector/lib/worker/worker.js")))
+/******/ 		var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_pnpm_aphro_absurd-sql-connector_0_0_7_node_modules_aphro_absurd-sql-conn-a4a018"], () => (__webpack_require__("./node_modules/.pnpm/@aphro+absurd-sql-connector@0.0.7/node_modules/@aphro/absurd-sql-connector/lib/worker/worker.js")))
 /******/ 		__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 		return __webpack_exports__;
 /******/ 	};
@@ -233,7 +211,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _aph
 /******/ 		// object to store loaded chunks
 /******/ 		// "1" means "already loaded"
 /******/ 		var installedChunks = {
-/******/ 			"packages_absurd-sql-connector_lib_worker_worker_js": 1
+/******/ 			"_1b0b-_13dd-_6525": 1
 /******/ 		};
 /******/ 		
 /******/ 		// importScripts chunk loading
@@ -258,7 +236,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _aph
 /******/ 			}
 /******/ 		};
 /******/ 		
-/******/ 		var chunkLoadingGlobal = self["webpackChunk_aphro_todo_mvc"] = self["webpackChunk_aphro_todo_mvc"] || [];
+/******/ 		var chunkLoadingGlobal = self["webpackChunk"] = self["webpackChunk"] || [];
 /******/ 		var parentChunkLoadingFunction = chunkLoadingGlobal.push.bind(chunkLoadingGlobal);
 /******/ 		chunkLoadingGlobal.push = installChunk;
 /******/ 		
@@ -271,7 +249,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _aph
 /******/ 	(() => {
 /******/ 		var next = __webpack_require__.x;
 /******/ 		__webpack_require__.x = () => {
-/******/ 			return __webpack_require__.e("vendors-node_modules_pnpm_aphro_absurd-sql_0_0_53_node_modules_aphro_absurd-sql_dist_index_js-19597a").then(next);
+/******/ 			return __webpack_require__.e("vendors-node_modules_pnpm_aphro_absurd-sql-connector_0_0_7_node_modules_aphro_absurd-sql-conn-a4a018").then(next);
 /******/ 		};
 /******/ 	})();
 /******/ 	

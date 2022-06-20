@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Area 1: ORM Table Stakes - Aphrodite</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/tufte.css">
+<link rel="stylesheet" href="/main.css">
+<link rel="stylesheet" href="/docs/index.css">
+
+<meta name="description" content="Draft / wip list of focus areas. Pre-published to allow potential contributors to find areas of potential interest. ORM Table Stakes is about having the &#x22;expected&#x22; features of a data access layer. In addition, users should never be slowed down by the ORM…">
+<meta name="keywords" content="software, schemas, data">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Aphrodite">
+<meta property="og:title" content="Area 1: ORM Table Stakes">
+<meta property="og:description" content="Draft / wip list of focus areas. Pre-published to allow potential contributors to find areas of potential interest. ORM Table Stakes is about having the &#x22;expected&#x22; features of a data access layer. In addition, users should never be slowed down by the ORM…">
+<meta property="og:image" content="https://aphrodite.sh/assets/gods/zeus.png">
+<meta property="og:image:alt" content="Zeus">
+<meta property="og:image:width" content="266">
+<meta property="og:image:height" content="200">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://aphrodite.sh/assets/gods/zeus.png">
+<meta name="twitter:image:alt" content="Zeus">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="6-9 minutes">
+</head>
+<body><aside><div class="center"><a class="home-link" href="/"><div class="god-circle center-block"><div class="god-head god-head-aphrodite"></div></div></a></div></aside><main><article><section>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#area-1-orm-table-stakes">Area 1: ORM Table Stakes</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#area-2-exceeding-orm-expectations">Area 2: Exceeding ORM Expectations</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#area-3-runtime-portability">Area 3: Runtime Portability</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#area-4-production-readiness">Area 4: Production readiness</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#performance-metrics">Performance metrics</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#monitoring">Monitoring</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#property-based-testing">Property Based Testing</a></li></ol></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#area-5-peer-2-peer">Area 5: Peer 2 Peer</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#discovery">Discovery</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#conflict-resolution">Conflict Resolution</a></li></ol></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#area-6-p2p-with-collaboration">Area 6: P2P With Collaboration</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#area-7-speculation">Area 7: Speculation</a></li></ol></nav><p>Draft / wip list of focus areas. Pre-published to allow potential contributors to find areas of potential interest.</p>
+<h1 id="area-1-orm-table-stakes"><a aria-hidden="true" tabindex="-1" href="#area-1-orm-table-stakes"><span class="icon icon-link"></span></a>Area 1: ORM Table Stakes</h1>
+<p>ORM Table Stakes is about having the "expected" features of a data access layer. In addition, users should never be slowed down by the ORM. Hard things are made easy, impossible things are made possible. The ORM always feels like a helper and never a blocker.</p>
+<p><strong>Table stakes / required featuers:</strong></p>
+<ul>
+<li>Querying (join/hop, count, filter, order by, union, map, intersect, filter, where exists, id &#x26; count projections, fetch &#x26; traverse hops)</li>
+<li>Aggregations (group)</li>
+<li>Migrations (versioned schemas, auto-generated alter tables, support for migration scripts)</li>
+<li>Bootstrapping (table creation, migration application)</li>
+<li>Seeding (automatic example data creation based on defined schemas)</li>
+<li>Mutations (batched, transactional)</li>
+</ul>
+<h1 id="area-2-exceeding-orm-expectations"><a aria-hidden="true" tabindex="-1" href="#area-2-exceeding-orm-expectations"><span class="icon icon-link"></span></a>Area 2: Exceeding ORM Expectations</h1>
+<p>ORMs are leaving a bunch of scope on the table in terms of what they can unlock for users. See my draft <a href="https://github.com/tantaman/tantaman.github.io/blob/master/_drafts/2022-01-26-protocol-for-integrations.markdown">protocol for integrations</a> post.
+This focus area is about moving into those and unlocking that value.</p>
+<ul>
+<li>Reactive queries (post)</li>
+<li>Extensions (schema definition language &#x26; codegen can be extended by third parties to support things like GraphQL, Thrift, Block Protocol, Feature Extraction, etc.)</li>
+<li>Object, field &#x26; edge level permissions (post)</li>
+<li>P2P Permissions (see Area 6)</li>
+<li>Semantic types (see "these are not types" post)</li>
+<li>Object binding (post)</li>
+</ul>
+<h1 id="area-3-runtime-portability"><a aria-hidden="true" tabindex="-1" href="#area-3-runtime-portability"><span class="icon icon-link"></span></a>Area 3: Runtime Portability</h1>
+<p>Local-first means that your business logic exists on the client, not the server. Existing on the client means you have multiple platforms and languages to target since users have a myriad of devices -- iOS, Android, Desktop, maybe TVs, edge devices and other things.</p>
+<p>The current proof of concept is implemented in TypeScript. This is a portability barrier for those that want to write fully native (e.g., swift/kotlin) apps. I currently see two options:</p>
+<ol>
+<li>Port all of the runtime components to <code>Rust</code> so we can compile the runtime to native libraries in each target platform</li>
+<li>Do something crazy like writing the runtime in <a href="https://github.com/LingDong-/wax">Wax</a> and cross-compiling to Swift/Kotlin/TypeScript</li>
+</ol>
+<p>I think (1) is the most reasonable, common and battle tested path.</p>
+<h1 id="area-4-production-readiness"><a aria-hidden="true" tabindex="-1" href="#area-4-production-readiness"><span class="icon icon-link"></span></a>Area 4: Production readiness</h1>
+<h2 id="performance-metrics"><a aria-hidden="true" tabindex="-1" href="#performance-metrics"><span class="icon icon-link"></span></a>Performance metrics</h2>
+<p>Worrying about perf is often criticised as a premature optimization but when betting on a framework to do all of your data access -- perf is a relevant first thing to look at. I.e., you don't want to put your entire app on framework X only to discover that your query patterns are not and may not ever be supported in a performant manner.</p>
+<p>We need to figure out:</p>
+<ol>
+<li>How well do Aphrodite read queries perform vs raw SQL?
+<ol>
+<li>We'll have to enumerate all the various query types (filters, pagination, ordering, single hop, multi-hop, etc.) and gather metrics on them.</li>
+</ol>
+</li>
+<li>Writes
+<ol>
+<li>We'll also need to dig into perf of potimistic writes</li>
+</ol>
+</li>
+<li>Batch operations</li>
+<li>How well does it perform in the browser vs other environments?</li>
+</ol>
+<p>This isn't incredibly high priority right now but I think having these numbers will</p>
+<ol>
+<li>help guide development and</li>
+<li>be of interest to potential adopters</li>
+</ol>
+<h2 id="monitoring"><a aria-hidden="true" tabindex="-1" href="#monitoring"><span class="icon icon-link"></span></a>Monitoring</h2>
+<p>Running a system blind / w/o minotring is as bad as never testing the system. You don't <em>really</em> know what is going on or how the system
+behaves under real use cases until your add monitoring. Monitoring in this case being counting of what operations are happening &#x26; how often.
+How big caches become, what the cache hit rate is, runtime exceptions, etc.</p>
+<p>We need to go through each component and figure out what are the important metrics to gather for that component which will tell us whether
+or not it is behaving as expected.</p>
+<h2 id="property-based-testing"><a aria-hidden="true" tabindex="-1" href="#property-based-testing"><span class="icon icon-link"></span></a>Property Based Testing</h2>
+<p>Property based testing is about ensuring certain properties hold rather than testing on specific examples. Some background here: <a href="https://increment.com/testing/in-praise-of-property-based-testing/">https://increment.com/testing/in-praise-of-property-based-testing/</a></p>
+<p>Some test in the codebase are property based using <a href="https://github.com/dubzzz/fast-check">fast-check</a>. More of the query layer, query planner, specAndOpsToSQL, need property based tests to flex all possible inputs in terms of query operators and field types.</p>
+<h1 id="area-5-peer-2-peer"><a aria-hidden="true" tabindex="-1" href="#area-5-peer-2-peer"><span class="icon icon-link"></span></a>Area 5: Peer 2 Peer</h1>
+<p>Local-first vs cloud-centric are two poles on a spectrum. If we go 100% local-first, there's no central server at all and devices update one another in a peer-to-peer fashion.</p>
+<p>The closer to that end we get the more this --</p>
+<ol>
+<li>Reduces cloud costs</li>
+<li>Increases user security as data can be made to never leave their local networks</li>
+<li>Enables leveraging the endless amount of idle compute and storage out there on consumer devices</li>
+<li>Improves longevity of data</li>
+</ol>
+<p>There two problems that need to be solved to make this a reality.</p>
+<h2 id="discovery"><a aria-hidden="true" tabindex="-1" href="#discovery"><span class="icon icon-link"></span></a>Discovery</h2>
+<p>Peers need a way to discover one another and then connect to one another. Traditionally this is done via relay servers (e.g., web RTC).</p>
+<p>Other things that exist in this space and need to be researched:</p>
+<ul>
+<li><a href="https://hypercore-protocol.org/">https://hypercore-protocol.org/</a></li>
+<li><a href="https://matrix.org/">Matrix</a></li>
+<li>Smart contracts?</li>
+</ul>
+<h2 id="conflict-resolution"><a aria-hidden="true" tabindex="-1" href="#conflict-resolution"><span class="icon icon-link"></span></a>Conflict Resolution</h2>
+<p>TODO -- fill this in on the rationale of why we need this and when we'll get here.</p>
+<p><strong>Logical clock basics</strong></p>
+<p>Clocks are needed to give changes a causal or "happens before" relationship. When changes can happen on different peers, physical clocks can no longer do the trick. This is because clock-skew is a very real and common problem -- even on local networks leveraging NTP (<a href="http://www.ntp.org/">http://www.ntp.org/</a>).</p>
+<p>Below are some resources on clocks (todo: document tradeoffs of each) --</p>
+<ul>
+<li><a href="https://martinfowler.com/articles/patterns-of-distributed-systems/lamport-clock.html">Lamport Clock</a></li>
+<li><a href="https://martinfowler.com/articles/patterns-of-distributed-systems/hybrid-clock.html">Hybrid Logical Clock</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Vector_clock#:~:text=A%20vector%20clock%20is%20a,the%20sending%20process&#x27;s%20logical%20clock.">Vector Clock</a></li>
+</ul>
+<p>After we can order events, we need to know how to merge data updates in a way that all peers will converge to the same state. This is where CRDTs come in. If you're familiar with Abstract Algebra -- if a data structure forms a semi-lattic under a join (merge) operation, it is guaranteed to converge. TODO -- flesh this out much more.</p>
+<p><strong>CRDT Basics</strong></p>
+<ul>
+<li><a href="https://bartoszsypytkowski.com/the-state-of-a-state-based-crdts/">https://bartoszsypytkowski.com/the-state-of-a-state-based-crdts/</a></li>
+<li><a href="https://crdt.tech/">https://crdt.tech/</a></li>
+</ul>
+<p><strong>Document based CRDTs</strong></p>
+<ul>
+<li><a href="https://github.com/automerge/automerge">https://github.com/automerge/automerge</a></li>
+<li><a href="https://yjs.dev/">https://yjs.dev/</a>
+<ul>
+<li><a href="https://bartoszsypytkowski.com/yata/">https://bartoszsypytkowski.com/yata/</a></li>
+</ul>
+</li>
+</ul>
+<p><strong>Graph? Based</strong></p>
+<ul>
+<li><a href="https://gun.eco/">https://gun.eco/</a></li>
+</ul>
+<p><strong>Relational CRDTs</strong></p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=DEcwa68f-jY">https://www.youtube.com/watch?v=DEcwa68f-jY</a></li>
+<li><a href="https://munin.uit.no/bitstream/handle/10037/22344/thesis.pdf?sequence=2">https://munin.uit.no/bitstream/handle/10037/22344/thesis.pdf?sequence=2</a></li>
+<li><a href="https://hal.inria.fr/hal-02983557/document">https://hal.inria.fr/hal-02983557/document</a></li>
+<li><a href="https://www.researchgate.net/publication/353813091_Augmenting_SQLite_for_Local-First_Software">https://www.researchgate.net/publication/353813091_Augmenting_SQLite_for_Local-First_Software</a></li>
+</ul>
+<h1 id="area-6-p2p-with-collaboration"><a aria-hidden="true" tabindex="-1" href="#area-6-p2p-with-collaboration"><span class="icon icon-link"></span></a>Area 6: P2P With Collaboration</h1>
+<p>P2P is one thing -- P2P where you can invite collaborators and hide/share different pieces of data with them is another.</p>
+<p>The first thing we need is to provde identity without a central server to verify identity.</p>
+<p>Potential foundations:</p>
+<ul>
+<li><a href="https://ucan.xyz/">User Controller Authorization Networks</a></li>
+<li><a href="https://www.w3.org/TR/did-core/">Decentralized Identifiers</a></li>
+</ul>
+<p>After identity is solved, permission management is the next issue. We'll leverage the <a href="https://www.w3.org/TR/did-core/">permission framework built into the foundation of the ORM</a> from area 2.</p>
+<p>The current hypothesis is that we can handle permissions at the point of replication.</p>
+<p><strong>Example:</strong></p>
+<p>If I share X with read permissions with you then X can be replicated to you from my local app. If I share X with write permissions with you then my local app will apply updates to X that come from you.</p>
+<p>There are some user expectation problems to solve --
+Once you've receive X from me does that then retain my original permissions? Can you change the permissions?</p>
+<p>And then two areas to design for:</p>
+<ol>
+<li>where we trust those that we share our data with</li>
+<li>where we may not trust those that we share our data with</li>
+</ol>
+<p>We'll solve for (1) first.</p>
+<h1 id="area-7-speculation"><a aria-hidden="true" tabindex="-1" href="#area-7-speculation"><span class="icon icon-link"></span></a>Area 7: Speculation</h1>
+<ul>
+<li>Allowing local applications to share data with other local applications
+<ul>
+<li><a href="https://blockprotocol.org/">Block protocol</a> integrations</li>
+<li>The semantic type layer from area 2 becomes important here</li>
+</ul>
+</li>
+</ul>
+<script src="https://www.googletagmanager.com/gtag/js?id=G-QT6QH0ZJQ4" async></script>
+<script src="/ga.js"></script>
+<script src="/assets/god-switcher.js"></script>
+</section></article></main></body>
+</html>

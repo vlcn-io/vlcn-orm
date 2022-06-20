@@ -1,11 +1,12 @@
-
+Draft / wip list of focus areas. Pre-published to allow potential contributors to find areas of potential interest.
 
 # Area 1: ORM Table Stakes
 
 ORM Table Stakes is about having the "expected" features of a data access layer. In addition, users should never be slowed down by the ORM. Hard things are made easy, impossible things are made possible. The ORM always feels like a helper and never a blocker.
 
 **Table stakes / required featuers:**
-- Querying (join, count, filter, order by, union, map, intersect, filter, where exists, id & count projections)
+- Querying (join/hop, count, filter, order by, union, map, intersect, filter, where exists, id & count projections, fetch & traverse hops)
+- Aggregations (group)
 - Migrations (versioned schemas, auto-generated alter tables, support for migration scripts)
 - Bootstrapping (table creation, migration application)
 - Seeding (automatic example data creation based on defined schemas)
@@ -120,7 +121,6 @@ After we can order events, we need to know how to merge data updates in a way th
 * https://munin.uit.no/bitstream/handle/10037/22344/thesis.pdf?sequence=2
 * https://hal.inria.fr/hal-02983557/document
 * https://www.researchgate.net/publication/353813091_Augmenting_SQLite_for_Local-First_Software
-* 
 
 # Area 6: P2P With Collaboration
 
