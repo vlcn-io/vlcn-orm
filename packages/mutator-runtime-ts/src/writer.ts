@@ -1,17 +1,17 @@
-import { Context, INode, DeleteChangeset } from '@aphro/context-runtime-ts';
+import { Context, IModel, DeleteChangeset } from '@aphro/context-runtime-ts';
 import { StorageConfig } from '@aphro/schema-api';
 import sqlWriter from './sql/sqlWriter.js';
 
 export default {
   // TODO: the common case is probably updating a single node
   // for a single engine. Should we optimize for that path instead?
-  async upsertBatch(ctx: Context, nodes: IterableIterator<INode<Object>>): Promise<void> {
+  async upsertBatch(ctx: Context, nodes: IterableIterator<IModel<Object>>): Promise<void> {
     await Promise.all(createAwaitables(ctx, nodes, sqlWriter.upsertGroup));
   },
 
   async deleteBatch(
     ctx: Context,
-    deletes: DeleteChangeset<INode<Object>, Object>[],
+    deletes: DeleteChangeset<IModel<Object>, Object>[],
   ): Promise<void> {
     await Promise.all(
       createAwaitables(
@@ -29,13 +29,13 @@ export default {
 
 function createAwaitables(
   ctx: Context,
-  nodes: IterableIterator<INode<Object>>,
-  sqlOp: (ctx: Context, nodes: INode[]) => Promise<void>,
+  nodes: IterableIterator<IModel<Object>>,
+  sqlOp: (ctx: Context, nodes: IModel[]) => Promise<void>,
 ): Promise<void>[] {
-  const byEngineDbTable: Map<string, INode<Object>[]> = new Map();
+  const byEngineDbTable: Map<string, IModel<Object>[]> = new Map();
   for (const node of nodes) {
     const key = createKey(node.spec.storage);
-    let grouping: INode[] | undefined = byEngineDbTable.get(key);
+    let grouping: IModel[] | undefined = byEngineDbTable.get(key);
     if (grouping == null) {
       grouping = [];
       byEngineDbTable.set(key, grouping);

@@ -18,6 +18,11 @@ export interface IModel<T extends {} = Object> {
   readonly ctx: Context;
   readonly spec: ModelSpecWithCreate<this, T>;
 
+  subscribe(c: () => void): Disposer;
+  subscribeTo(keys: (keyof T)[], c: () => void): Disposer;
+
+  destroy();
+
   // Internal only APIs. Exposed since TS doesn't understand package friends.
   // TODO: Or does it? I can extend a type that exists in a package from another package...
   // So why not do that to make these methods local to the package(s) that need them?
@@ -29,11 +34,6 @@ export interface IModel<T extends {} = Object> {
 
 export interface INode<T extends {} = Object> extends IModel<T> {
   readonly spec: NodeSpecWithCreate<this, T>;
-
-  subscribe(c: () => void): Disposer;
-  subscribeTo(keys: (keyof T)[], c: () => void): Disposer;
-
-  destroy();
 }
 
 export interface IEdge<T extends {} = Object> extends IModel<T> {
