@@ -23,7 +23,7 @@ import * as ts from 'typescript';
  * 3. Only generates those that are new
  */
 export class GenTypescriptMutationImpls extends CodegenStep {
-  static accepts(schema: Node): boolean {
+  static accepts(schema: Node | Edge): boolean {
     return Object.values(schema.extensions.mutations?.mutations || []).length > 0;
   }
 

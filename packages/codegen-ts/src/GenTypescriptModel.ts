@@ -13,7 +13,7 @@ import {
 import { nodeFn, edgeFn, tsImport } from '@aphro/schema';
 
 export default class GenTypescriptModel extends CodegenStep {
-  static accepts(_schema: Node): boolean {
+  static accepts(schema: Node | Edge): boolean {
     return true;
   }
 

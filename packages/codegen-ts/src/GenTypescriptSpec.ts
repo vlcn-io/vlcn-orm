@@ -5,7 +5,7 @@ import { importsToString } from './tsUtils.js';
 import TypescriptFile from './TypescriptFile.js';
 
 export default class GenTypescriptSpec extends CodegenStep {
-  static accepts(_schema: Node): boolean {
+  static accepts(_schema: Node | Edge): boolean {
     return true;
   }
 

@@ -16,7 +16,7 @@ import { importsToString } from './tsUtils.js';
 export default class GenTypescriptQuery extends CodegenStep {
   // This can technicall take a node _or_ an edge.
   // also... should we have access to the entire schema file?
-  static accepts(_schema: Node): boolean {
+  static accepts(_schema: Node | Edge): boolean {
     return true;
   }
 

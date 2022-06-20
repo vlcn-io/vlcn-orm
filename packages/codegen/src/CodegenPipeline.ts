@@ -18,9 +18,10 @@ export default class CodegenPipleine {
   async gen(nodeMap: { [key: string]: Node }, edgeMap: { [key: string]: Edge }, dest: string) {
     const nodes = Object.values(nodeMap);
     const edges = Object.values(edgeMap);
-    let files = (
+
+    const nodeAndEdgeFiles = (
       await Promise.all(
-        nodes.map(
+        [...nodes, ...edges].map(
           async schema =>
             await Promise.all(
               this.steps.map(
@@ -46,10 +47,10 @@ export default class CodegenPipleine {
       )
     ).filter((f): f is CodegenFile => f != null);
 
-    files = files.concat(globalStepFiles);
+    const allFiles = [...nodeAndEdgeFiles, ...globalStepFiles];
 
     await fs.promises.mkdir(dest, { recursive: true });
-    const toWrite = await this.checkHashesAndAddManualCode(dest, files);
+    const toWrite = await this.checkHashesAndAddManualCode(dest, allFiles);
     await Promise.all(
       toWrite.map(async f => await fs.promises.writeFile(toPath(dest, f[0]), f[1])),
     );

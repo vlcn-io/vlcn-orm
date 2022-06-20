@@ -5,7 +5,7 @@ import SqlFile from './SqlFile.js';
 import { sql, formatters, SQLQuery } from '@aphro/sql-ts';
 
 export default class GenSqlTableSchema extends CodegenStep {
-  static accepts(schema: Node): boolean {
+  static accepts(schema: Node | Edge): boolean {
     return schema.storage.type === 'sql';
   }
 
