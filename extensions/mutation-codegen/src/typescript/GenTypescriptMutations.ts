@@ -17,12 +17,12 @@ import { collectImportsForMutations, getArgNameAndType } from './shared.js';
 import { upcaseAt } from '@strut/utils';
 
 export class GenTypescriptMutations extends CodegenStep {
-  static accepts(schema: Node): boolean {
+  static accepts(schema: Node | Edge): boolean {
     return Object.values(schema.extensions.mutations?.mutations || []).length > 0;
   }
 
-  private schema: Node;
-  constructor(opts: { nodeOrEdge: Node; edges: { [key: string]: Edge }; dest: string }) {
+  private schema: Node | Edge;
+  constructor(opts: { nodeOrEdge: Node | Edge; edges: { [key: string]: Edge }; dest: string }) {
     super();
     this.schema = opts.nodeOrEdge;
   }

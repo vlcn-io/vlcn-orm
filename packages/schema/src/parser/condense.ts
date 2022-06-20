@@ -15,6 +15,7 @@ import {
   NodeTraitAst,
   NodeAstCommon,
   ValidationError,
+  EdgeAstExtension,
 } from '@aphro/schema-api';
 import { assertUnreachable } from '@strut/utils';
 
@@ -51,7 +52,10 @@ import { assertUnreachable } from '@strut/utils';
  */
 export default function condense(
   schemaFile: SchemaFileAst,
-  condensors: Map<string | Symbol, (any) => [ValidationError[], NodeExtension]> = new Map(),
+  condensors: Map<
+    string | Symbol,
+    (any) => [ValidationError[], NodeExtension | EdgeExtension]
+  > = new Map(),
 ): [ValidationError[], SchemaFile] {
   function nodeExtensionCondensor(extension: NodeAstExtension): [ValidationError[], NodeExtension] {
     switch (extension.name) {
@@ -85,6 +89,26 @@ export default function condense(
           // @ts-ignore
           throw new Error(`Unable to find condensor for ${extension.name}`);
         }
+        // @ts-ignore
+        return condensor(extension);
+    }
+  }
+
+  function edgeExtensionCondensor(extension: EdgeAstExtension): [ValidationError[], EdgeExtension] {
+    switch (extension?.name) {
+      case 'constrain':
+      case 'index':
+      case 'invert':
+      case 'storage':
+        return [[], extension];
+      default:
+        // @ts-ignore -- TODO: how do we make typescript aware of client extensions to types?
+        const condensor = condensors.get(extension.name);
+        if (!condensor) {
+          // @ts-ignore
+          throw new Error(`Unable to find condensor for ${extension.name}`);
+        }
+        // @ts-ignore
         return condensor(extension);
     }
   }
@@ -111,6 +135,37 @@ export default function condense(
           ...preamble,
           type: engineToType(preamble.engine),
           tablish: (extensions.storage as any)?.tablish || node.name.toLocaleLowerCase(),
+        },
+      },
+    ];
+  }
+
+  function condenseEdge(
+    edge: EdgeAst,
+    preamble: SchemaFileAst['preamble'],
+  ): [ValidationError[], Edge] {
+    const [fieldErrors, fields] = condenseFieldsFor('Edge', edge);
+    const [extensionErrors, extensions] = condenseExtensionsFor(
+      'Edge',
+      edge,
+      edgeExtensionCondensor,
+    );
+
+    return [
+      [...fieldErrors, ...extensionErrors],
+      {
+        type: 'standaloneEdge',
+        name: edge.name,
+        src: edge.src,
+        dest: edge.dest,
+        fields,
+        extensions,
+        storage: {
+          type: engineToType(preamble.engine),
+          engine: preamble.engine,
+          db: preamble.db,
+          // maybe we can figure out how to preseve the discrimnated type
+          tablish: (extensions.storage as any)?.tablish || edge.name.toLocaleLowerCase(),
         },
       },
     ];
@@ -191,33 +246,6 @@ export default function condense(
   ];
 }
 
-function condenseEdge(
-  edge: EdgeAst,
-  preamble: SchemaFileAst['preamble'],
-): [ValidationError[], Edge] {
-  const [fieldErrors, fields] = condenseFieldsFor('Edge', edge);
-  const [extensionErrors, extensions] = condenseExtensionsFor('Edge', edge, edgeExtensionCondensor);
-
-  return [
-    [...fieldErrors, ...extensionErrors],
-    {
-      type: 'standaloneEdge',
-      name: edge.name,
-      src: edge.src,
-      dest: edge.dest,
-      fields,
-      extensions,
-      storage: {
-        type: engineToType(preamble.engine),
-        engine: preamble.engine,
-        db: preamble.db,
-        // maybe we can figure out how to preseve the discrimnated type
-        tablish: (extensions.storage as any)?.tablish || edge.name.toLocaleLowerCase(),
-      },
-    },
-  ];
-}
-
 function condenseFieldsFor(entityType: string, entity: { name: string; fields: Field[] }) {
   return arrayToMap(
     entity.fields,
@@ -256,16 +284,6 @@ function engineToType(engine: StorageEngine): StorageType {
     case 'sqlite':
     case 'postgres':
       return 'sql';
-  }
-}
-
-function edgeExtensionCondensor(extension: EdgeExtension): [ValidationError[], EdgeExtension] {
-  switch (extension.name) {
-    case 'constrain':
-    case 'index':
-    case 'invert':
-    case 'storage':
-      return [[], extension];
   }
 }
 

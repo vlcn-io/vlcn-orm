@@ -1,6 +1,6 @@
 'strict';
 import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
-import { Node } from '@aphro/schema-api';
+import { Edge, Node } from '@aphro/schema-api';
 import { Mutation, MutationArgDef, mutationFn, MutationVerb } from '@aphro/mutation-grammar';
 import { typeDefToTsType, TypescriptFile, importsToString } from '@aphro/codegen-ts';
 // TODO: tsImport should probably go into `codegen-ts`
@@ -8,7 +8,10 @@ import { tsImport, nodeFn } from '@aphro/schema';
 // TODO: Import should probably go into `codegen-api`?
 import { Import } from '@aphro/schema-api';
 
-function collectImportsForArgs(schema: Node, args: { [key: string]: MutationArgDef }): Import[] {
+function collectImportsForArgs(
+  schema: Node | Edge,
+  args: { [key: string]: MutationArgDef },
+): Import[] {
   const fullArgsDefs = Object.values(args).map(a =>
     mutationFn.transformMaybeQuickToFull(schema, a),
   );
@@ -35,14 +38,14 @@ function collectImportsForArgs(schema: Node, args: { [key: string]: MutationArgD
   );
 }
 
-export function collectImportsForMutations(schema: Node): Import[] {
+export function collectImportsForMutations(schema: Node | Edge): Import[] {
   return Object.values(schema.extensions.mutations?.mutations || {}).flatMap(m =>
     collectImportsForArgs(schema, m.args),
   );
 }
 
 export function getArgNameAndType(
-  schema: Node,
+  schema: Node | Edge,
   args: { [key: string]: MutationArgDef },
   desturcture: boolean = true,
 ): [string, string] {

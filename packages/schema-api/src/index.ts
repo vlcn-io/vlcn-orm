@@ -122,9 +122,7 @@ export type Edge = {
   fields: {
     [key: UnqalifiedFieldReference]: Field;
   };
-  extensions: {
-    [Property in EdgeExtension['name']]?: EdgeExtension;
-  };
+  extensions: EdgeExtensions;
   storage: StorageConfig;
 };
 
@@ -158,7 +156,21 @@ export type NodeAstCommon = {
   extensions: NodeAstExtension[];
 };
 
-export type EdgeExtension = Index | Invert | Constrain | Storage;
+export interface EdgeExtensions {
+  index?: Index;
+  invert?: Invert;
+  constrain?: Constrain;
+  storage?: Storage;
+}
+export interface EdgeAstExtensions {
+  index: Index;
+  invert: Invert;
+  storage: Storage;
+  constraint: Constrain;
+}
+
+export type EdgeAstExtension = EdgeAstExtensions[keyof EdgeAstExtensions];
+export type EdgeExtension = Edge['extensions'][keyof Edge['extensions']];
 
 export type EdgeAst = {
   type: 'edge';

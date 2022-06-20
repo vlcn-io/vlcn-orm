@@ -1,7 +1,7 @@
-import { Node } from '@aphro/schema-api';
+import { Edge, Node } from '@aphro/schema-api';
 import { FullArgDef, MutationArgDef } from './index.js';
 
-function transformQuickToFull(node: Node, arg: MutationArgDef): FullArgDef {
+function transformQuickToFull(node: Node | Edge, arg: MutationArgDef): FullArgDef {
   const field = node.fields[arg.name];
   return {
     type: 'full',
@@ -16,7 +16,7 @@ function transformQuickToFull(node: Node, arg: MutationArgDef): FullArgDef {
 }
 
 export const mutationFn = {
-  transformMaybeQuickToFull(node: Node, arg: MutationArgDef): FullArgDef {
+  transformMaybeQuickToFull(node: Node | Edge, arg: MutationArgDef): FullArgDef {
     switch (arg.type) {
       case 'full':
         return arg;

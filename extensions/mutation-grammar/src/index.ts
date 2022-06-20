@@ -13,6 +13,14 @@ declare module '@aphro/schema-api' {
   interface NodeAstExtensions {
     mutations: MutationsAst;
   }
+
+  interface EdgeExtensions {
+    mutations?: Mutations;
+  }
+
+  interface EdgeAstExtensions {
+    mutations?: MutationsAst;
+  }
 }
 
 // enable later extensions to also extend mutations
@@ -67,6 +75,7 @@ const extension: GrammarExtension<MutationsAst, Mutations> = {
   name: 'mutations',
   extends: {
     NodeFunction: 'MutationsFn',
+    EdgeFunction: 'MutationsFn',
   },
 
   grammar(): string {
