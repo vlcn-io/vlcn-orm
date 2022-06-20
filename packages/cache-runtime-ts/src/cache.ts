@@ -72,7 +72,6 @@ export default class Cache {
       this.#gc();
     }
 
-    console.log(id);
     const existing = this.get(id);
     if (existing === node) {
       return;
