@@ -41,6 +41,7 @@ Deck as Node {
   owner: Edge<Deck.ownerId>
   slides: Edge<Slide.deckId>
   selectedSlide: Edge<Deck.selectedSlideId>
+  editors: DeckToEditorsEdge
 } & Mutations {
   create as Create {
     name: NaturalLanguage
@@ -93,4 +94,4 @@ Component as Node {
   delete as Delete {}
 }
 
-# UserToFriends as Edge {}
+DeckToEditorsEdge as Edge<Deck, User> {}
