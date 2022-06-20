@@ -27,9 +27,9 @@ export class GenTypescriptMutationImpls extends CodegenStep {
     return Object.values(schema.extensions.mutations?.mutations || []).length > 0;
   }
 
-  private schema: Node;
+  private schema: Node | Edge;
   private dest: string;
-  constructor(opts: { nodeOrEdge: Node; edges: { [key: string]: Edge }; dest: string }) {
+  constructor(opts: { nodeOrEdge: Node | Edge; edges: { [key: string]: Edge }; dest: string }) {
     super();
     this.schema = opts.nodeOrEdge;
     this.dest = opts.dest;

@@ -9,8 +9,8 @@ export default class GenSqlTableSchema extends CodegenStep {
     return schema.storage.type === 'sql';
   }
 
-  private schema: Node;
-  constructor(opts: { nodeOrEdge: Node; edges: { [key: string]: Edge }; dest: string }) {
+  private schema: Node | Edge;
+  constructor(opts: { nodeOrEdge: Node | Edge; edges: { [key: string]: Edge }; dest: string }) {
     super();
     this.schema = opts.nodeOrEdge;
   }
@@ -104,7 +104,7 @@ export default class GenSqlTableSchema extends CodegenStep {
       return ret;
     });
 
-    if (this.schema.primaryKey) {
+    if (this.schema.type === 'node' && this.schema.primaryKey) {
       columnDefs.push(sql`primary key (${sql.ident(this.schema.primaryKey)})`);
     }
 
@@ -178,7 +178,7 @@ export default class GenSqlTableSchema extends CodegenStep {
       return ret;
     });
 
-    if (this.schema.primaryKey) {
+    if (this.schema.type === 'node' && this.schema.primaryKey) {
       columnDefs.push(
         sql`CONSTRAINT ${sql.ident(tableName + '_pkey')} PRIMARY KEY (${sql.ident(
           this.schema.primaryKey,

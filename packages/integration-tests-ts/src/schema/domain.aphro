@@ -94,7 +94,13 @@ Component as Node {
   delete as Delete {}
 }
 
-DeckToEditorsEdge as Edge<Deck, User> {} & Mutations {
+DeckToEditorsEdge as Edge<Deck, User> {
+  # force user to define these or aut create them?
+  # also -- auto create unique index on `id1,id2` pairing?
+  # and non-unique on id2?
+  id1: ID<Deck>
+  id2: ID<User>
+} & Mutations {
   create as Create {
     src: Deck
     dest: User
