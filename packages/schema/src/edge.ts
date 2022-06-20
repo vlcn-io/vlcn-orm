@@ -6,11 +6,12 @@ import {
   Node,
   EdgeType,
   Field,
+  Edge,
 } from '@aphro/schema-api';
 import nodeFn from './node.js';
 
 const funcs = {
-  queryTypeName(node: Node, edge: EdgeDeclaration | EdgeReferenceDeclaration): string {
+  queryTypeName(node: Node, edge: EdgeDeclaration | Edge): string {
     switch (edge.type) {
       case 'edge':
         // The edge is either through or to the provided node type.
@@ -42,13 +43,13 @@ const funcs = {
 
         // If we're here then we're through or to some other type that isn't our node type.
         return nodeFn.queryTypeName(edge.throughOrTo.type);
-      case 'edgeReference':
+      case 'standaloneEdge':
         return edge.name + 'Query';
     }
   },
 
-  destModelTypeName(src: Node, edge: EdgeDeclaration | EdgeReferenceDeclaration): string {
-    if (edge.type === 'edgeReference') {
+  destModelTypeName(src: Node, edge: EdgeDeclaration | Edge): string {
+    if (edge.type === 'standaloneEdge') {
       throw new Error('Edge references not yet supported. Need to do some condensing');
     }
 
@@ -71,7 +72,7 @@ const funcs = {
     return field.of;
   },
 
-  destModelSpecName(src: Node, edge: EdgeDeclaration | EdgeReferenceDeclaration): string {
+  destModelSpecName(src: Node, edge: EdgeDeclaration | Edge): string {
     return nodeFn.specName(funcs.destModelTypeName(src, edge));
   },
 
@@ -169,6 +170,17 @@ const funcs = {
     throw new Error(
       `Edge ${edge.name} did not map ${edge.throughOrTo.type}:${edge.throughOrTo.column} to an id field. Got ${field.type}`,
     );
+  },
+
+  dereference(
+    e: EdgeDeclaration | EdgeReferenceDeclaration,
+    edges: { [key: string]: Edge },
+  ): EdgeDeclaration | Edge {
+    if (e.type === 'edgeReference') {
+      return edges[e.name];
+    }
+
+    return e;
   },
 };
 

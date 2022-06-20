@@ -113,6 +113,7 @@ export type StorageConfig = {
 }; // | { type: "opencypher" } ...;
 
 export type Edge = {
+  type: 'standaloneEdge';
   name: EdgeAst['name'];
   src: NodeReferenceOrQualifiedColumn;
   dest: NodeReferenceOrQualifiedColumn | null;

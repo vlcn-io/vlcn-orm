@@ -201,6 +201,7 @@ function condenseEdge(
   return [
     [...fieldErrors, ...extensionErrors],
     {
+      type: 'standaloneEdge',
       name: edge.name,
       src: edge.src,
       dest: edge.dest,

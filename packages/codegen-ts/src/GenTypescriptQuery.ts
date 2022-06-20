@@ -21,10 +21,12 @@ export default class GenTypescriptQuery extends CodegenStep {
   }
 
   private schema: Node;
+  private edges: { [key: string]: Edge };
 
   constructor(opts: { nodeOrEdge: Node; edges: { [key: string]: Edge }; dest: string }) {
     super();
     this.schema = opts.nodeOrEdge;
+    this.edges = opts.edges;
   }
 
   // Nit:
@@ -227,27 +229,22 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${field.of}>) {
   }
 
   private getHopMethod(edge: EdgeDeclaration | EdgeReferenceDeclaration): string {
-    if (edge.type === 'edgeReference') {
-      throw new Error('Edge references not yet supported...');
-    }
+    const e = edgeFn.dereference(edge, this.edges);
 
-    let body = '';
-    if (edgeFn.isTo(edge)) {
-      body = this.getHopMethodForJunctionLikeEdge(edge);
-    } else {
-      body = this.getHopMethodForFieldLikeEdge(edge);
-    }
+    // if (edgeFn.isTo(edge)) {
+    //   body = this.getHopMethodForJunctionLikeEdge(edge);
+    // }
 
-    return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(this.schema, edge)} {
-      ${body}
+    return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(this.schema, e)} {
+      ${this.getHopMethodBody(e)}
     }`;
   }
 
-  private getHopMethodForJunctionLikeEdge(edge: EdgeDeclaration): string {
+  private getHopMethodForJunctionLikeEdge(edge: EdgeDeclaration | Edge): string {
     return '';
   }
 
-  private getHopMethodForFieldLikeEdge(edge: EdgeDeclaration): string {
+  private getHopMethodBody(edge: EdgeDeclaration | Edge): string {
     return `return new ${edgeFn.queryTypeName(
       this.schema,
       edge,

@@ -502,6 +502,7 @@ export const schemaFile: SchemaFile = {
   },
   edges: {
     FollowEdge: {
+      type: 'standaloneEdge',
       name: 'FollowEdge',
       src: {
         type: 'Person',

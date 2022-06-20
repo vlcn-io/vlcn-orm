@@ -18,10 +18,12 @@ export default class GenTypescriptModel extends CodegenStep {
   }
 
   private schema: Node;
+  private edges: { [key: string]: Edge };
 
   constructor(opts: { nodeOrEdge: Node; edges: { [key: string]: Edge }; dest: string }) {
     super();
     this.schema = opts.nodeOrEdge;
+    this.edges = opts.edges;
   }
 
   async gen(): Promise<CodegenFile> {
@@ -86,11 +88,12 @@ export default class ${this.schema.name}
   private getEdgeImports(): Import[] {
     const ret: Import[] = [];
     for (const edge of nodeFn.allEdges(this.schema)) {
+      const e = edgeFn.dereference(edge, this.edges);
       ret.push(
         tsImport(
-          edgeFn.queryTypeName(this.schema, edge),
+          edgeFn.queryTypeName(this.schema, e),
           null,
-          './' + edgeFn.queryTypeName(this.schema, edge) + '.js',
+          './' + edgeFn.queryTypeName(this.schema, e) + '.js',
         ),
       );
       if (edge.type === 'edge') {
@@ -160,9 +163,10 @@ export default class ${this.schema.name}
             }`;
           }
         }
-        return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(this.schema, edge)} {\
+        const e = edgeFn.dereference(edge, this.edges);
+        return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(this.schema, e)} {\
           ${emptyReturnCondition}
-          return ${edgeFn.queryTypeName(this.schema, edge)}.${this.getFromMethodInvocation(
+          return ${edgeFn.queryTypeName(this.schema, e)}.${this.getFromMethodInvocation(
           'outbound',
           edge,
         )};
