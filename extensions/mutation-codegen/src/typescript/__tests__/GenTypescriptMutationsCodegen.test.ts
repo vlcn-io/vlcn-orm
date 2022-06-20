@@ -194,7 +194,12 @@ export default class FooMutations {
 // test('ID imports', () => {});
 
 async function genIt(schema: Node) {
-  return await new GenTypescriptMutations(schema, '').gen();
+  return await new GenTypescriptMutations({
+    nodeOrEdge: schema,
+    nodes: {},
+    edges: {},
+    dest: '',
+  }).gen();
 }
 
 function asTsType(prim: PrimitiveSubtype): string {

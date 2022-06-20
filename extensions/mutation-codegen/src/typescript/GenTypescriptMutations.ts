@@ -5,7 +5,7 @@
  */
 
 import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
-import { Node } from '@aphro/schema-api';
+import { Edge, Node } from '@aphro/schema-api';
 import { Mutation, MutationVerb } from '@aphro/mutation-grammar';
 import { TypescriptFile, importsToString } from '@aphro/codegen-ts';
 // TODO: tsImport should probably go into `codegen-ts`
@@ -21,8 +21,15 @@ export class GenTypescriptMutations extends CodegenStep {
     return Object.values(schema.extensions.mutations?.mutations || []).length > 0;
   }
 
-  constructor(private schema: Node, dest: string) {
+  private schema: Node;
+  constructor(opts: {
+    nodeOrEdge: Node;
+    nodes: { [key: string]: Node };
+    edges: { [key: string]: Edge };
+    dest: string;
+  }) {
     super();
+    this.schema = opts.nodeOrEdge;
   }
 
   async gen(): Promise<CodegenFile> {

@@ -1,5 +1,5 @@
 import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
-import { Node } from '@aphro/schema-api';
+import { Edge, Node } from '@aphro/schema-api';
 import { assertUnreachable } from '@strut/utils';
 import SqlFile from './SqlFile.js';
 import { sql, formatters, SQLQuery } from '@aphro/sql-ts';
@@ -9,8 +9,15 @@ export default class GenSqlTableSchema extends CodegenStep {
     return schema.storage.type === 'sql';
   }
 
-  constructor(private schema: Node, dest: string) {
+  private schema: Node;
+  constructor(opts: {
+    nodeOrEdge: Node;
+    nodes: { [key: string]: Node };
+    edges: { [key: string]: Edge };
+    dest: string;
+  }) {
     super();
+    this.schema = opts.nodeOrEdge;
   }
 
   async gen(): Promise<CodegenFile> {

@@ -15,14 +15,24 @@ export default class CodegenPipleine {
     private readonly globalSteps: readonly GlobalStep[],
   ) {}
 
-  async gen(nodes: Node[], edges: Edge[], dest: string) {
+  async gen(nodeMap: { [key: string]: Node }, edgeMap: { [key: string]: Edge }, dest: string) {
+    const nodes = Object.values(nodeMap);
+    const edges = Object.values(edgeMap);
     let files = (
       await Promise.all(
         nodes.map(
           async schema =>
             await Promise.all(
               this.steps.map(
-                async step => await (!step.accepts(schema) ? null : new step(schema, dest).gen()),
+                async step =>
+                  await (!step.accepts(schema)
+                    ? null
+                    : new step({
+                        nodeOrEdge: schema,
+                        nodes: nodeMap,
+                        edges: edgeMap,
+                        dest,
+                      }).gen()),
               ),
             ),
         ),

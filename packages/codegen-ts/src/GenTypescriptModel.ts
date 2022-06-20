@@ -2,7 +2,14 @@ import { asPropertyAccessor, upcaseAt } from '@strut/utils';
 import { fieldToTsType, importsToString } from './tsUtils.js';
 import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
 import TypescriptFile from './TypescriptFile.js';
-import { EdgeDeclaration, EdgeReferenceDeclaration, ID, Import, Node } from '@aphro/schema-api';
+import {
+  Edge,
+  EdgeDeclaration,
+  EdgeReferenceDeclaration,
+  ID,
+  Import,
+  Node,
+} from '@aphro/schema-api';
 import { nodeFn, edgeFn, tsImport } from '@aphro/schema';
 
 export default class GenTypescriptModel extends CodegenStep {
@@ -10,8 +17,16 @@ export default class GenTypescriptModel extends CodegenStep {
     return true;
   }
 
-  constructor(private schema: Node, dest: string) {
+  private schema: Node;
+
+  constructor(opts: {
+    nodeOrEdge: Node;
+    nodes: { [key: string]: Node };
+    edges: { [key: string]: Edge };
+    dest: string;
+  }) {
     super();
+    this.schema = opts.nodeOrEdge;
   }
 
   async gen(): Promise<CodegenFile> {

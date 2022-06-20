@@ -6,7 +6,7 @@ import { CodegenPipeline } from '@aphro/codegen';
 import * as process from 'process';
 import * as path from 'path';
 import { createCompiler, stopsCodegen } from '@aphro/schema';
-import { SchemaFile, ValidationError } from '@aphro/schema-api';
+import { Edge, Node, SchemaFile, ValidationError } from '@aphro/schema-api';
 import chalk from 'chalk';
 
 // TODO: core codegen should not depend on plugins!
@@ -68,15 +68,29 @@ async function run() {
       return;
     }
 
-    const nodeSchemas = errorsAndFiles.flatMap(([_, file]) => Object.values(file.nodes));
+    const nodeSchemas: { [key: string]: Node } = errorsAndFiles.reduce((l, r) => {
+      for (const [key, val] of Object.entries(r[1].nodes)) {
+        if (l[key] != null) {
+          throw new Error(`Node "${key}" was defined twice. Second definition in ${r[2]}`);
+        }
+        l[key] = val;
+      }
+      return l;
+    }, {});
 
-    // edgeSchemas
-
-    // and.. map of all the things that were imported and referenced.
+    const edgeSchemas: { [key: string]: Edge } = errorsAndFiles.reduce((l, r) => {
+      for (const [key, val] of Object.entries(r[1].edges)) {
+        if (l[key] != null) {
+          throw new Error(`Edge "${key}" was defined twice. Second definition in ${r[2]}`);
+        }
+        l[key] = val;
+      }
+      return l;
+    }, {});
 
     // const schemas = schemaModules.map((s) => (<SchemaModule>s).default.get());
     const pipeline = new CodegenPipeline(steps, globalSteps);
-    await pipeline.gen(nodeSchemas, [], genOptions.dest);
+    await pipeline.gen(nodeSchemas, edgeSchemas, genOptions.dest);
 
     return;
   }

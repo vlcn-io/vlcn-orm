@@ -47,7 +47,12 @@ export function editImpl(
 // test('Generating over previously existing file', () => {});
 
 async function genIt(schema: Node) {
-  return await new GenTypescriptMutationImpls(schema, '').gen();
+  return await new GenTypescriptMutationImpls({
+    nodeOrEdge: schema,
+    nodes: {},
+    edges: {},
+    dest: '',
+  }).gen();
 }
 
 function compileIt(schema: string) {

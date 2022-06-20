@@ -8,6 +8,7 @@ import {
   EdgeReferenceDeclaration,
   ID,
   Import,
+  Edge,
 } from '@aphro/schema-api';
 import { nodeFn, edgeFn, tsImport } from '@aphro/schema';
 import { importsToString } from './tsUtils.js';
@@ -19,8 +20,16 @@ export default class GenTypescriptQuery extends CodegenStep {
     return true;
   }
 
-  constructor(private schema: Node, dest: string) {
+  private schema: Node;
+
+  constructor(opts: {
+    nodeOrEdge: Node;
+    nodes: { [key: string]: Node };
+    edges: { [key: string]: Edge };
+    dest: string;
+  }) {
     super();
+    this.schema = opts.nodeOrEdge;
   }
 
   // Nit:
