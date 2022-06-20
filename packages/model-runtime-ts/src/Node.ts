@@ -12,7 +12,7 @@ export function isHasId(object: any): object is HasId {
   return 'id' in object && typeof object.id === 'string';
 }
 
-export default abstract class Model<T extends {}> implements INode<T> {
+export default abstract class Node<T extends {}> implements INode<T> {
   readonly ctx: Context;
   abstract readonly id: SID_of<this>;
   abstract readonly spec: NodeSpecWithCreate<this, T>;

@@ -1,9 +1,9 @@
 import { debugContext } from '@aphro/context-runtime-ts';
 import { viewer } from '@aphro/context-runtime-ts/lib/viewer';
 import { asId } from '@strut/sid';
-import Model from '../Model.js';
+import Node from '../Node.js';
 
-class TestModel extends Model<{ thing: number; foo: number }> {
+class TestModel extends Node<{ thing: number; foo: number }> {
   readonly id = asId<this>('foo');
   readonly spec = {} as any;
 }
