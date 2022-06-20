@@ -73,12 +73,7 @@ type EdgeSpecBase = {
 };
 
 export type EdgeSpec =
-  | ({
-      type: 'junction';
-      storage: StorageConfig;
-      sourceField: string;
-      destField: string;
-    } & EdgeSpecBase)
+  | JunctionEdgeSpec
   | ({
       type: 'field';
       sourceField: string;
@@ -89,6 +84,13 @@ export type EdgeSpec =
       sourceField: string;
       destField: string;
     } & EdgeSpecBase);
+
+export type JunctionEdgeSpec = {
+  type: 'junction';
+  storage: StorageConfig;
+  sourceField: string;
+  destField: string;
+} & EdgeSpecBase;
 
 export type EdgeType = EdgeSpec['type'];
 

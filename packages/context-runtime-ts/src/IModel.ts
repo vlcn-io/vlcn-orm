@@ -1,4 +1,4 @@
-import { NodeSpec } from '@aphro/schema-api';
+import { JunctionEdgeSpec, NodeSpec } from '@aphro/schema-api';
 import { SID_of } from '@strut/sid';
 import { Context } from './context.js';
 type Disposer = () => void;
@@ -20,6 +20,16 @@ export interface IModel<T extends {} = Object> {
   // Internal only APIs. Exposed since TS doesn't understand package friends.
   // TODO: Or does it? I can extend a type that exists in a package from another package...
   // So why not do that to make these methods local to the package(s) that need them?
+  _get<K extends keyof T>(key: K): T[K];
+  _d(): T;
+  _merge(newData: Partial<T>): [Partial<T>, Set<() => void>];
+  _isNoop(updates: Partial<T>): boolean;
+}
+
+export interface IEdge<T extends {} = Object> {
+  readonly ctx: Context;
+  readonly spec: JunctionEdgeSpec;
+
   _get<K extends keyof T>(key: K): T[K];
   _d(): T;
   _merge(newData: Partial<T>): [Partial<T>, Set<() => void>];
