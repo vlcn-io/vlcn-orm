@@ -94,4 +94,9 @@ Component as Node {
   delete as Delete {}
 }
 
-DeckToEditorsEdge as Edge<Deck, User> {}
+DeckToEditorsEdge as Edge<Deck, User> {} & Mutations {
+  create as Create {
+    src: Deck
+    dest: User
+  }
+}

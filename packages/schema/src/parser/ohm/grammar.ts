@@ -111,6 +111,7 @@ const grammarDefinition = String.raw`
   EdgeFunction
   	= IndexFn
     | InvertFn
+    // ExtensionPoint:EdgeFunction
   
   NodeFunction
   	= OutboundEdgesFn
