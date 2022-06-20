@@ -25,10 +25,10 @@ export type SchemaFileAst = {
 
 export type SchemaFile = {
   nodes: {
-    [key: NodeReference]: Node;
+    [key: NodeReference]: SchemaNode;
   };
   edges: {
-    [key: EdgeReference]: Edge;
+    [key: EdgeReference]: SchemaEdge;
   };
 };
 
@@ -50,7 +50,7 @@ export interface NodeAstExtensions {
   traits: Traits;
 }
 
-export type Node = {
+export type SchemaNode = {
   type: 'node';
   name: NodeAst['name'];
   primaryKey: string;
@@ -117,7 +117,7 @@ export type StorageConfig = {
   [key: string]: string; // engine specific extras
 }; // | { type: "opencypher" } ...;
 
-export type Edge = {
+export type SchemaEdge = {
   type: 'standaloneEdge';
   name: EdgeAst['name'];
   src: NodeReferenceOrQualifiedColumn;
@@ -143,7 +143,7 @@ type ComplexField = MapField | ArrayField;
 
 export type Field = NonComplexField | ComplexField;
 export type NodeAstExtension = NodeAstExtensions[keyof NodeAstExtensions];
-export type NodeExtension = Node['extensions'][keyof Node['extensions']];
+export type NodeExtension = SchemaNode['extensions'][keyof SchemaNode['extensions']];
 
 export type NodeAst = {
   type: 'node';
@@ -173,7 +173,7 @@ export interface EdgeAstExtensions {
 }
 
 export type EdgeAstExtension = EdgeAstExtensions[keyof EdgeAstExtensions];
-export type EdgeExtension = Edge['extensions'][keyof Edge['extensions']];
+export type EdgeExtension = SchemaEdge['extensions'][keyof SchemaEdge['extensions']];
 
 export type EdgeAst = {
   type: 'edge';

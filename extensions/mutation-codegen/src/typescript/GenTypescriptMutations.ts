@@ -5,7 +5,7 @@
  */
 
 import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
-import { Edge, Node } from '@aphro/schema-api';
+import { SchemaEdge, SchemaNode } from '@aphro/schema-api';
 import { Mutation, MutationVerb } from '@aphro/mutation-grammar';
 import { TypescriptFile, importsToString } from '@aphro/codegen-ts';
 // TODO: tsImport should probably go into `codegen-ts`
@@ -17,12 +17,16 @@ import { collectImportsForMutations, getArgNameAndType } from './shared.js';
 import { upcaseAt } from '@strut/utils';
 
 export class GenTypescriptMutations extends CodegenStep {
-  static accepts(schema: Node | Edge): boolean {
+  static accepts(schema: SchemaNode | SchemaEdge): boolean {
     return Object.values(schema.extensions.mutations?.mutations || []).length > 0;
   }
 
-  private schema: Node | Edge;
-  constructor(opts: { nodeOrEdge: Node | Edge; edges: { [key: string]: Edge }; dest: string }) {
+  private schema: SchemaNode | SchemaEdge;
+  constructor(opts: {
+    nodeOrEdge: SchemaNode | SchemaEdge;
+    edges: { [key: string]: SchemaEdge };
+    dest: string;
+  }) {
     super();
     this.schema = opts.nodeOrEdge;
   }

@@ -1,6 +1,6 @@
 'strict';
 import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
-import { Edge, Node } from '@aphro/schema-api';
+import { SchemaEdge, SchemaNode } from '@aphro/schema-api';
 import { Mutation, MutationArgDef, mutationFn, MutationVerb } from '@aphro/mutation-grammar';
 import { typeDefToTsType, TypescriptFile, importsToString } from '@aphro/codegen-ts';
 // TODO: tsImport should probably go into `codegen-ts`
@@ -9,7 +9,7 @@ import { tsImport, nodeFn } from '@aphro/schema';
 import { Import } from '@aphro/schema-api';
 
 function collectImportsForArgs(
-  schema: Node | Edge,
+  schema: SchemaNode | SchemaEdge,
   args: { [key: string]: MutationArgDef },
 ): Import[] {
   const fullArgsDefs = Object.values(args).map(a =>
@@ -38,14 +38,14 @@ function collectImportsForArgs(
   );
 }
 
-export function collectImportsForMutations(schema: Node | Edge): Import[] {
+export function collectImportsForMutations(schema: SchemaNode | SchemaEdge): Import[] {
   return Object.values(schema.extensions.mutations?.mutations || {}).flatMap(m =>
     collectImportsForArgs(schema, m.args),
   );
 }
 
 export function getArgNameAndType(
-  schema: Node | Edge,
+  schema: SchemaNode | SchemaEdge,
   args: { [key: string]: MutationArgDef },
   desturcture: boolean = true,
 ): [string, string] {

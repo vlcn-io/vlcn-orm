@@ -1,17 +1,27 @@
 import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
 import { edgeFn, nodeFn, tsImport } from '@aphro/schema';
-import { Edge, EdgeDeclaration, EdgeReferenceDeclaration, Import, Node } from '@aphro/schema-api';
+import {
+  SchemaEdge,
+  EdgeDeclaration,
+  EdgeReferenceDeclaration,
+  Import,
+  SchemaNode,
+} from '@aphro/schema-api';
 import { importsToString } from './tsUtils.js';
 import TypescriptFile from './TypescriptFile.js';
 
 export default class GenTypescriptSpec extends CodegenStep {
-  static accepts(_schema: Node | Edge): boolean {
+  static accepts(_schema: SchemaNode | SchemaEdge): boolean {
     return true;
   }
 
-  private schema: Node;
-  private edges: { [key: string]: Edge };
-  constructor(opts: { nodeOrEdge: Node; edges: { [key: string]: Edge }; dest: string }) {
+  private schema: SchemaNode;
+  private edges: { [key: string]: SchemaEdge };
+  constructor(opts: {
+    nodeOrEdge: SchemaNode;
+    edges: { [key: string]: SchemaEdge };
+    dest: string;
+  }) {
     super();
     this.schema = opts.nodeOrEdge;
     this.edges = opts.edges;

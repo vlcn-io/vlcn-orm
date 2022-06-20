@@ -1,5 +1,5 @@
 import GenTypescriptModel from '../GenTypescriptModel.js';
-import { Node } from '@aphro/schema-api';
+import { SchemaNode } from '@aphro/schema-api';
 import { createCompiler } from '@aphro/schema';
 
 const { compileFromString } = createCompiler();
@@ -227,6 +227,6 @@ export default class Bar extends Model<Data> {
 `);
 });
 
-async function genIt(schema: Node) {
+async function genIt(schema: SchemaNode) {
   return await new GenTypescriptModel({ nodeOrEdge: schema, edges: {}, dest: '' }).gen();
 }

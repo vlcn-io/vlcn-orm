@@ -3,16 +3,16 @@ import {
   EdgeDeclaration,
   EdgeReferenceDeclaration,
   ID,
-  Node,
+  SchemaNode,
   EdgeType,
   Field,
-  Edge,
+  SchemaEdge,
   StorageConfig,
 } from '@aphro/schema-api';
 import nodeFn from './node.js';
 
 const funcs = {
-  queryTypeName(node: Node, edge: EdgeDeclaration | Edge): string {
+  queryTypeName(node: SchemaNode, edge: EdgeDeclaration | SchemaEdge): string {
     switch (edge.type) {
       case 'edge':
         // The edge is either through or to the provided node type.
@@ -50,7 +50,7 @@ const funcs = {
     }
   },
 
-  destModelTypeName(src: Node, edge: EdgeDeclaration | Edge): string {
+  destModelTypeName(src: SchemaNode, edge: EdgeDeclaration | SchemaEdge): string {
     if (edge.type === 'standaloneEdge') {
       return edge.dest.type;
     }
@@ -74,7 +74,7 @@ const funcs = {
     return field.of;
   },
 
-  destModelSpecName(src: Node, edge: EdgeDeclaration | Edge): string {
+  destModelSpecName(src: SchemaNode, edge: EdgeDeclaration | SchemaEdge): string {
     return nodeFn.specName(funcs.destModelTypeName(src, edge));
   },
 
@@ -86,17 +86,17 @@ const funcs = {
     return edge.throughOrTo.column == null;
   },
 
-  isThroughNode(node: Node, edge: EdgeDeclaration): boolean {
+  isThroughNode(node: SchemaNode, edge: EdgeDeclaration): boolean {
     return edge.throughOrTo.type === node.name && edge.throughOrTo.column != null;
   },
 
-  isForeignKeyEdge(node: Node, edge: EdgeDeclaration): boolean {
+  isForeignKeyEdge(node: SchemaNode, edge: EdgeDeclaration): boolean {
     // TODO: technically we should be able to verify that the column does indeed point back to
     // Node type.
     return edge.throughOrTo.type !== node.name && edge.throughOrTo.column != null;
   },
 
-  outboundEdgeType(node: Node, edge: EdgeDeclaration | Edge): EdgeType {
+  outboundEdgeType(node: SchemaNode, edge: EdgeDeclaration | SchemaEdge): EdgeType {
     // What if we're a foreign key to ourselves?
     // Foo.fooId as field edge is to one foo.
     // Foo.fooId as foreign key is Foo tot many foos
@@ -139,7 +139,7 @@ const funcs = {
     return 'junction';
   },
 
-  outboundEdgeSourceField(src: Node, edge: EdgeDeclaration | Edge): Field {
+  outboundEdgeSourceField(src: SchemaNode, edge: EdgeDeclaration | SchemaEdge): Field {
     const type = funcs.outboundEdgeType(src, edge);
     switch (type) {
       case 'junction':
@@ -161,7 +161,7 @@ const funcs = {
     }
   },
 
-  outboundEdgeDestFieldName(src: Node, edge: EdgeDeclaration | Edge): string {
+  outboundEdgeDestFieldName(src: SchemaNode, edge: EdgeDeclaration | SchemaEdge): string {
     const type = funcs.outboundEdgeType(src, edge);
     // TODO: we need access to the destination definitions if we're
     // to look up primary keys.
@@ -181,7 +181,7 @@ const funcs = {
     }
   },
 
-  idField(node: Node, edge: EdgeDeclaration): ID {
+  idField(node: SchemaNode, edge: EdgeDeclaration): ID {
     const field = node.fields[nullthrows(edge.throughOrTo.column)];
     if (field.type === 'id') {
       return field;
@@ -194,8 +194,8 @@ const funcs = {
 
   dereference(
     e: EdgeDeclaration | EdgeReferenceDeclaration,
-    edges: { [key: string]: Edge },
-  ): EdgeDeclaration | Edge {
+    edges: { [key: string]: SchemaEdge },
+  ): EdgeDeclaration | SchemaEdge {
     if (e.type === 'edgeReference') {
       const ret = edges[e.reference];
       if (ret == null) {
@@ -207,7 +207,7 @@ const funcs = {
     return e;
   },
 
-  storageConfig(e: EdgeDeclaration | Edge): StorageConfig {
+  storageConfig(e: EdgeDeclaration | SchemaEdge): StorageConfig {
     if (e.type === 'edge') {
       throw new Error(
         'Standalone storage for edge declarations not yet supported. Use a standalone edge and edge reference for ' +

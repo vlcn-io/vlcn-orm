@@ -3,12 +3,12 @@ import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
 import TypescriptFile from './TypescriptFile.js';
 import {
   Field,
-  Node,
+  SchemaNode,
   EdgeDeclaration,
   EdgeReferenceDeclaration,
   ID,
   Import,
-  Edge,
+  SchemaEdge,
 } from '@aphro/schema-api';
 import { nodeFn, edgeFn, tsImport } from '@aphro/schema';
 import { importsToString } from './tsUtils.js';
@@ -16,14 +16,18 @@ import { importsToString } from './tsUtils.js';
 export default class GenTypescriptQuery extends CodegenStep {
   // This can technicall take a node _or_ an edge.
   // also... should we have access to the entire schema file?
-  static accepts(schema: Node | Edge): boolean {
+  static accepts(schema: SchemaNode | SchemaEdge): boolean {
     return schema.type === 'node';
   }
 
-  private schema: Node;
-  private edges: { [key: string]: Edge };
+  private schema: SchemaNode;
+  private edges: { [key: string]: SchemaEdge };
 
-  constructor(opts: { nodeOrEdge: Node; edges: { [key: string]: Edge }; dest: string }) {
+  constructor(opts: {
+    nodeOrEdge: SchemaNode;
+    edges: { [key: string]: SchemaEdge };
+    dest: string;
+  }) {
     super();
     this.schema = opts.nodeOrEdge;
     this.edges = opts.edges;
@@ -240,11 +244,11 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${field.of}>) {
     }`;
   }
 
-  private getHopMethodForJunctionLikeEdge(edge: EdgeDeclaration | Edge): string {
+  private getHopMethodForJunctionLikeEdge(edge: EdgeDeclaration | SchemaEdge): string {
     return '';
   }
 
-  private getHopMethodBody(edge: EdgeDeclaration | Edge): string {
+  private getHopMethodBody(edge: EdgeDeclaration | SchemaEdge): string {
     return `return new ${edgeFn.queryTypeName(
       this.schema,
       edge,

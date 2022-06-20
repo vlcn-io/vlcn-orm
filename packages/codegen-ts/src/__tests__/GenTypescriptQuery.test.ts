@@ -1,4 +1,4 @@
-import { Node } from '@aphro/schema-api';
+import { SchemaNode } from '@aphro/schema-api';
 import { createCompiler } from '@aphro/schema';
 import GenTypescriptQuery from '../GenTypescriptQuery';
 
@@ -239,6 +239,6 @@ export default class FooQuery extends DerivedQuery<Foo> {
 `);
 });
 
-function genIt(schema: Node) {
+function genIt(schema: SchemaNode) {
   return new GenTypescriptQuery({ nodeOrEdge: schema, edges: {}, dest: '' }).gen();
 }

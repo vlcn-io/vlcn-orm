@@ -1,18 +1,18 @@
 export * from './CodegenFile.js';
 export { default as CodegenStep } from './CodegenStep.js';
 import CodegenStep from './CodegenStep.js';
-import { Node, Edge, SchemaFile } from '@aphro/schema-api';
+import { SchemaNode, SchemaEdge, SchemaFile } from '@aphro/schema-api';
 
 export type Step = {
   new (opts: {
-    nodeOrEdge: Node | Edge;
-    edges: { [key: string]: Edge };
+    nodeOrEdge: SchemaNode | SchemaEdge;
+    edges: { [key: string]: SchemaEdge };
     dest: string;
   }): CodegenStep;
-  accepts: (x: Node | Edge) => boolean;
+  accepts: (x: SchemaNode | SchemaEdge) => boolean;
 };
 
 export type GlobalStep = {
-  new (nodes: Node[], edges: Edge[], dest: string): CodegenStep;
-  accepts: (nodes: Node[], edges: Edge[]) => boolean;
+  new (nodes: SchemaNode[], edges: SchemaEdge[], dest: string): CodegenStep;
+  accepts: (nodes: SchemaNode[], edges: SchemaEdge[]) => boolean;
 };

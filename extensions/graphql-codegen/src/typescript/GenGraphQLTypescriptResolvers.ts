@@ -1,19 +1,23 @@
 import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
 import { importsToString, TypescriptFile } from '@aphro/codegen-ts';
 import { tsImport } from '@aphro/schema';
-import { Node, Edge, Import } from '@aphro/schema-api';
+import { SchemaNode, SchemaEdge, Import } from '@aphro/schema-api';
 import { lowercaseAt } from '@strut/utils';
 import shouldExpose, { exposesRoot } from '../graphql/shouldExpose.js';
 
 export class GenGraphQLTypescriptResolvers extends CodegenStep {
-  private nodesWithRootCalls: Node[];
+  private nodesWithRootCalls: SchemaNode[];
 
-  constructor(private nodes: Node[], private edges: Edge[], private schemaFileName: string) {
+  constructor(
+    private nodes: SchemaNode[],
+    private edges: SchemaEdge[],
+    private schemaFileName: string,
+  ) {
     super();
     this.nodesWithRootCalls = this.nodes.filter(exposesRoot);
   }
 
-  static accepts(nodes: Node[], edges: Edge[]): boolean {
+  static accepts(nodes: SchemaNode[], edges: SchemaEdge[]): boolean {
     return nodes.filter(shouldExpose).length > 0;
   }
 
@@ -43,7 +47,7 @@ export const resolvers = {
     ];
   }
 
-  private getRootQueryCode = (n: Node): string => {
+  private getRootQueryCode = (n: SchemaNode): string => {
     // Will need to inject _our_ context
     // https://www.graphql-yoga.com/tutorial/basic/07-connecting-server-and-database
     return `async ${lowercaseAt(

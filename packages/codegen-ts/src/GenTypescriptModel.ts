@@ -3,24 +3,28 @@ import { fieldToTsType, importsToString } from './tsUtils.js';
 import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
 import TypescriptFile from './TypescriptFile.js';
 import {
-  Edge,
+  SchemaEdge,
   EdgeDeclaration,
   EdgeReferenceDeclaration,
   ID,
   Import,
-  Node,
+  SchemaNode,
 } from '@aphro/schema-api';
 import { nodeFn, edgeFn, tsImport } from '@aphro/schema';
 
 export default class GenTypescriptModel extends CodegenStep {
-  static accepts(schema: Node | Edge): boolean {
+  static accepts(schema: SchemaNode | SchemaEdge): boolean {
     return true;
   }
 
-  private schema: Node;
-  private edges: { [key: string]: Edge };
+  private schema: SchemaNode;
+  private edges: { [key: string]: SchemaEdge };
 
-  constructor(opts: { nodeOrEdge: Node; edges: { [key: string]: Edge }; dest: string }) {
+  constructor(opts: {
+    nodeOrEdge: SchemaNode;
+    edges: { [key: string]: SchemaEdge };
+    dest: string;
+  }) {
     super();
     this.schema = opts.nodeOrEdge;
     this.edges = opts.edges;

@@ -1,7 +1,7 @@
 import { createCompiler } from '@aphro/schema';
 import graphqlExtension from '@aphro/graphql-grammar';
 import { GenGraphQLTypescriptResolvers } from '../GenGraphQLTypescriptResolvers.js';
-import { Edge, Node } from '@aphro/schema-api';
+import { SchemaEdge, SchemaNode } from '@aphro/schema-api';
 
 const grammarExtensions = [graphqlExtension];
 const { compileFromString } = createCompiler({ grammarExtensions });
@@ -51,7 +51,7 @@ export const resolvers = {
 `);
 });
 
-async function genIt(nodes: Node[], edges: Edge[]) {
+async function genIt(nodes: SchemaNode[], edges: SchemaEdge[]) {
   return await new GenGraphQLTypescriptResolvers(nodes, edges, 'domain.aphro').gen();
 }
 

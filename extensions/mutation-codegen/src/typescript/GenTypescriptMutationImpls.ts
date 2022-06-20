@@ -1,5 +1,5 @@
 import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
-import { Edge, Node } from '@aphro/schema-api';
+import { SchemaEdge, SchemaNode } from '@aphro/schema-api';
 import { Mutation } from '@aphro/mutation-grammar';
 import { TypescriptFile, importsToString } from '@aphro/codegen-ts';
 // TODO: tsImport should probably go into `codegen-ts`
@@ -23,13 +23,17 @@ import * as ts from 'typescript';
  * 3. Only generates those that are new
  */
 export class GenTypescriptMutationImpls extends CodegenStep {
-  static accepts(schema: Node | Edge): boolean {
+  static accepts(schema: SchemaNode | SchemaEdge): boolean {
     return Object.values(schema.extensions.mutations?.mutations || []).length > 0;
   }
 
-  private schema: Node | Edge;
+  private schema: SchemaNode | SchemaEdge;
   private dest: string;
-  constructor(opts: { nodeOrEdge: Node | Edge; edges: { [key: string]: Edge }; dest: string }) {
+  constructor(opts: {
+    nodeOrEdge: SchemaNode | SchemaEdge;
+    edges: { [key: string]: SchemaEdge };
+    dest: string;
+  }) {
     super();
     this.schema = opts.nodeOrEdge;
     this.dest = opts.dest;

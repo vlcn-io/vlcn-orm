@@ -1,6 +1,6 @@
 import fc from 'fast-check';
 import { createCompiler } from '@aphro/schema';
-import { Node, primitives, PrimitiveSubtype } from '@aphro/schema-api';
+import { SchemaNode, primitives, PrimitiveSubtype } from '@aphro/schema-api';
 import { GenTypescriptMutations } from '../GenTypescriptMutations';
 import mutationExtension from '@aphro/mutation-grammar';
 import { removeSignature } from '@aphro/codegen';
@@ -193,7 +193,7 @@ export default class FooMutations {
 
 // test('ID imports', () => {});
 
-async function genIt(schema: Node) {
+async function genIt(schema: SchemaNode) {
   return await new GenTypescriptMutations({
     nodeOrEdge: schema,
     edges: {},

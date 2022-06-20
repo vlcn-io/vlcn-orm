@@ -1,5 +1,5 @@
 import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
-import { Node, Edge, Enum } from '@aphro/schema-api';
+import { SchemaNode, SchemaEdge, Enum } from '@aphro/schema-api';
 import { nodeFn } from '@aphro/schema';
 import { gatherReadEdges, gatherReadFields } from './gatherReadFields.js';
 import { inlineEnumName } from './inlineEnumName.js';
@@ -10,11 +10,15 @@ import { lowercaseAt } from '@strut/utils';
 import { connectionName, edgeName } from './connectionName.js';
 
 export class GenGraphQLTypedefs extends CodegenStep {
-  constructor(private nodes: Node[], private edges: Edge[], private schemaFileName: string) {
+  constructor(
+    private nodes: SchemaNode[],
+    private edges: SchemaEdge[],
+    private schemaFileName: string,
+  ) {
     super();
   }
 
-  static accepts(nodes: Node[], edges: Edge[]): boolean {
+  static accepts(nodes: SchemaNode[], edges: SchemaEdge[]): boolean {
     return nodes.filter(shouldExpose).length > 0;
   }
 
@@ -58,7 +62,7 @@ ${this.getRootQueryDefsCode()}
 }`;
   }
 
-  private getRootQueryDefCode(n: Node): string {
+  private getRootQueryDefCode(n: SchemaNode): string {
     return `${lowercaseAt(n.name, 0)}(id: ID!): ${n.name}
   ${lowercaseAt(n.name, 0)}s(ids: [ID!]!): [${n.name}]!`;
   }
@@ -85,13 +89,13 @@ ${this.getRootQueryDefsCode()}
     );
   }
 
-  private getObjectDefCode = (n: Node): string => {
+  private getObjectDefCode = (n: SchemaNode): string => {
     return `type ${n.name} {
   ${this.getFieldDefsCode(n)}
 }`;
   };
 
-  private getFieldDefsCode(n: Node): string {
+  private getFieldDefsCode(n: SchemaNode): string {
     const fields = gatherReadFields(n);
     const edges = gatherReadEdges(n);
     // TODO: throw better errors if selected field does not exist
@@ -111,7 +115,7 @@ ${this.getRootQueryDefsCode()}
   }
 
   // Relay connection spec https://relay.dev/graphql/connections.htm
-  private getConnectionDefsCode(n: Node): string {
+  private getConnectionDefsCode(n: SchemaNode): string {
     // Note: some edges should not return connections.
     // E.g., edges that only return 1 item.
     // These are:

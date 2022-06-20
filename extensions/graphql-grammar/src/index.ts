@@ -1,4 +1,4 @@
-import { Node, SchemaFile, ValidationError } from '@aphro/schema-api';
+import { SchemaNode, SchemaFile, ValidationError } from '@aphro/schema-api';
 import { GrammarExtension } from '@aphro/grammar-extension-api';
 
 export const name = 'graphql';

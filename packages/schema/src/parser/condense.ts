@@ -3,8 +3,8 @@ import {
   EdgeAst,
   NodeAst,
   SchemaFileAst,
-  Edge,
-  Node,
+  SchemaEdge,
+  SchemaNode,
   SchemaFile,
   StorageEngine,
   StorageType,
@@ -116,7 +116,7 @@ export default function condense(
   function condenseNode(
     node: NodeAstCommon,
     preamble: SchemaFileAst['preamble'],
-  ): [ValidationError[], Node] {
+  ): [ValidationError[], SchemaNode] {
     const [fieldErrors, fields] = condenseFieldsFor('Node', node);
     const [extensionErrors, extensions] = condenseExtensionsFor(
       'Node',
@@ -131,7 +131,7 @@ export default function condense(
         name: node.name,
         primaryKey: 'id',
         fields,
-        extensions: extensions as Node['extensions'],
+        extensions: extensions as SchemaNode['extensions'],
         storage: {
           ...preamble,
           type: engineToType(preamble.engine),
@@ -144,7 +144,7 @@ export default function condense(
   function condenseEdge(
     edge: EdgeAst,
     preamble: SchemaFileAst['preamble'],
-  ): [ValidationError[], Edge] {
+  ): [ValidationError[], SchemaEdge] {
     const [fieldErrors, fields] = condenseFieldsFor('Edge', edge);
     const [extensionErrors, extensions] = condenseExtensionsFor(
       'Edge',

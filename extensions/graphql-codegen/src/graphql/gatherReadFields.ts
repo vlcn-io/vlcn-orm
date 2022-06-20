@@ -1,13 +1,19 @@
 import { GraphQL } from '@aphro/graphql-grammar';
-import { Edge, EdgeDeclaration, EdgeReferenceDeclaration, Field, Node } from '@aphro/schema-api';
+import {
+  SchemaEdge,
+  EdgeDeclaration,
+  EdgeReferenceDeclaration,
+  Field,
+  SchemaNode,
+} from '@aphro/schema-api';
 
-export function gatherReadFields(n: Node): Field[] {
+export function gatherReadFields(n: SchemaNode): Field[] {
   return (n.extensions.graphql?.read || [])
     .map(fieldName => n.fields[fieldName])
     .filter(f => f != null);
 }
 
-export function gatherReadEdges(n: Node): (EdgeDeclaration | EdgeReferenceDeclaration)[] {
+export function gatherReadEdges(n: SchemaNode): (EdgeDeclaration | EdgeReferenceDeclaration)[] {
   const edges = n.extensions.outboundEdges?.edges;
   if (edges == null) {
     return [];

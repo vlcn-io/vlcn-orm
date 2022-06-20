@@ -6,7 +6,7 @@ import { CodegenPipeline } from '@aphro/codegen';
 import * as process from 'process';
 import * as path from 'path';
 import { createCompiler, stopsCodegen } from '@aphro/schema';
-import { Edge, Node, SchemaFile, ValidationError } from '@aphro/schema-api';
+import { SchemaEdge, SchemaNode, SchemaFile, ValidationError } from '@aphro/schema-api';
 import chalk from 'chalk';
 
 // TODO: core codegen should not depend on plugins!
@@ -68,7 +68,7 @@ async function run() {
       return;
     }
 
-    const nodeSchemas: { [key: string]: Node } = errorsAndFiles.reduce((l, r) => {
+    const nodeSchemas: { [key: string]: SchemaNode } = errorsAndFiles.reduce((l, r) => {
       for (const [key, val] of Object.entries(r[1].nodes)) {
         if (l[key] != null) {
           throw new Error(`Node "${key}" was defined twice. Second definition in ${r[2]}`);
@@ -78,7 +78,7 @@ async function run() {
       return l;
     }, {});
 
-    const edgeSchemas: { [key: string]: Edge } = errorsAndFiles.reduce((l, r) => {
+    const edgeSchemas: { [key: string]: SchemaEdge } = errorsAndFiles.reduce((l, r) => {
       for (const [key, val] of Object.entries(r[1].edges)) {
         if (l[key] != null) {
           throw new Error(`Edge "${key}" was defined twice. Second definition in ${r[2]}`);

@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Node, Edge } from '@aphro/schema-api';
+import { SchemaNode, SchemaEdge } from '@aphro/schema-api';
 import { CodegenFile, GlobalStep, Step } from '@aphro/codegen-api';
 import {
   checkSignature,
@@ -15,7 +15,11 @@ export default class CodegenPipleine {
     private readonly globalSteps: readonly GlobalStep[],
   ) {}
 
-  async gen(nodeMap: { [key: string]: Node }, edgeMap: { [key: string]: Edge }, dest: string) {
+  async gen(
+    nodeMap: { [key: string]: SchemaNode },
+    edgeMap: { [key: string]: SchemaEdge },
+    dest: string,
+  ) {
     const nodes = Object.values(nodeMap);
     const edges = Object.values(edgeMap);
 

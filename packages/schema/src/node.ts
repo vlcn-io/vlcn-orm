@@ -1,4 +1,4 @@
-import { Enum, Field, ID, Import, Node } from '@aphro/schema-api';
+import { Enum, Field, ID, Import, SchemaNode } from '@aphro/schema-api';
 
 const inboundEdges = {
   isForeignKeyEdge() {},
@@ -19,7 +19,7 @@ const outboundEdges = {
 const fields = {};
 
 export default {
-  allEdges(node: Node) {
+  allEdges(node: SchemaNode) {
     const inboundEdges = Object.values(node.extensions.inboundEdges?.edges || {});
     const outboundEdges = Object.values(node.extensions.outboundEdges?.edges || {});
 
@@ -30,7 +30,7 @@ export default {
     return nodeName + 'Query';
   },
 
-  addModuleImport(node: Node, imp: Import) {
+  addModuleImport(node: SchemaNode, imp: Import) {
     const module = (node.extensions.module = node.extensions.module || {
       name: 'moduleConfig',
       imports: new Map(),
@@ -39,7 +39,7 @@ export default {
     module.imports.set(JSON.stringify(imp), imp);
   },
 
-  decorateType(node: Node, decoration: string) {
+  decorateType(node: SchemaNode, decoration: string) {
     const typeConfig = node.extensions.type || {
       name: 'typeConfig',
       decorators: [],
@@ -48,7 +48,7 @@ export default {
     typeConfig.decorators?.push(decoration);
   },
 
-  primaryKey(node: Node): Field {
+  primaryKey(node: SchemaNode): Field {
     // TODO: support different primary key fields at some point
     return node.fields.id;
   },
@@ -57,7 +57,7 @@ export default {
     return nodeName + 'Spec';
   },
 
-  inlineEnums(node: Node): Enum[] {
+  inlineEnums(node: SchemaNode): Enum[] {
     return Object.values(node.fields).filter((f): f is Enum => f.type === 'enumeration');
   },
 };

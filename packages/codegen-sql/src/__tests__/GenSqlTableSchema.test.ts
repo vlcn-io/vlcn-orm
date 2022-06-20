@@ -1,5 +1,5 @@
 import { createCompiler } from '@aphro/schema';
-import { Node } from '@aphro/schema-api';
+import { SchemaNode } from '@aphro/schema-api';
 import GenSqlTableSchema from '../GenSqlTableSchema';
 
 const { compileFromString } = createCompiler();
@@ -45,7 +45,7 @@ CREATE TABLE
   )`);
 });
 
-async function genIt(schema: Node) {
+async function genIt(schema: SchemaNode) {
   return await new GenSqlTableSchema({ nodeOrEdge: schema, edges: {}, dest: '' }).gen();
 }
 

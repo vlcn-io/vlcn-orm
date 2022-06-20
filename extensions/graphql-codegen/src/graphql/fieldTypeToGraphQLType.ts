@@ -1,11 +1,11 @@
-import { Enum, Field, Node, RemoveNameField } from '@aphro/schema-api';
+import { Enum, Field, SchemaNode, RemoveNameField } from '@aphro/schema-api';
 import { assertUnreachable } from '@strut/utils';
 import { inlineEnumName } from './inlineEnumName.js';
 
 // TODO: Aphrodite must enable computational & storage types + semantic types.
 // Do we really want to get into the semantic type game given people will have different understandings
 // of the semantics? Can people bring their own semantics? Akin to JsonSchema?
-export function fieldTypeToGraphQLType(n: Node, f: RemoveNameField<Field>): string {
+export function fieldTypeToGraphQLType(n: SchemaNode, f: RemoveNameField<Field>): string {
   const type = f.type;
   let ret: string;
   switch (type) {

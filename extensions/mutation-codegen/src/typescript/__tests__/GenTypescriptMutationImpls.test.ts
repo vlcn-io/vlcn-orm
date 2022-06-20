@@ -1,7 +1,7 @@
 import { createCompiler } from '@aphro/schema';
 import mutationExtension from '@aphro/mutation-grammar';
 import { GenTypescriptMutationImpls } from '../GenTypescriptMutationImpls.js';
-import { Node } from '@aphro/schema-api';
+import { SchemaNode } from '@aphro/schema-api';
 
 const grammarExtensions = [mutationExtension];
 const { compileFromString } = createCompiler({ grammarExtensions });
@@ -46,7 +46,7 @@ export function editImpl(
 
 // test('Generating over previously existing file', () => {});
 
-async function genIt(schema: Node) {
+async function genIt(schema: SchemaNode) {
   return await new GenTypescriptMutationImpls({
     nodeOrEdge: schema,
     edges: {},
