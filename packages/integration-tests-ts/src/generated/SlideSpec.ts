@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b2696ed1b0c8bd8f85bc482b31a6b62e>
+// SIGNED-SOURCE: <1f2e1573350d2511d7a01010bc87aa82>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -6,12 +6,12 @@
  * `END-MANUAL-SECTION` markers.
  */
 import { Context } from "@aphro/runtime-ts";
-import { ModelSpec } from "@aphro/runtime-ts";
+import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { default as ComponentSpec } from "./ComponentSpec.js";
 import Slide from "./Slide.js";
 import { Data } from "./Slide.js";
 
-const spec: ModelSpec<Slide, Data> = {
+const spec: NodeSpecWithCreate<Slide, Data> = {
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(data["id"]);
     if (existing) {

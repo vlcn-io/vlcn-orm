@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5936a1a06d3b7a35590fdb7fec6f73ad>
+// SIGNED-SOURCE: <1dc2c08b60f7e7fcb13a985135427a6d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -6,12 +6,12 @@
  * `END-MANUAL-SECTION` markers.
  */
 import { Context } from "@aphro/runtime-ts";
-import { ModelSpec } from "@aphro/runtime-ts";
+import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { default as TodoSpec } from "./TodoSpec.js";
 import TodoList from "./TodoList.js";
 import { Data } from "./TodoList.js";
 
-const spec: ModelSpec<TodoList, Data> = {
+const spec: NodeSpecWithCreate<TodoList, Data> = {
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(data["id"]);
     if (existing) {

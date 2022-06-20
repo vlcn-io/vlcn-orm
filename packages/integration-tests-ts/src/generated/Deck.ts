@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <2e724a08c6dc14b5f60bf9bdc79f2564>
+// SIGNED-SOURCE: <59c29e4162b238f20fa6a6c0bcd6dc53>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -8,7 +8,7 @@
 import { default as s } from "./DeckSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { Model } from "@aphro/runtime-ts";
-import { ModelSpec } from "@aphro/runtime-ts";
+import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import DeckQuery from "./DeckQuery.js";
 import { Context } from "@aphro/runtime-ts";
@@ -27,7 +27,7 @@ export type Data = {
 };
 
 export default class Deck extends Model<Data> {
-  readonly spec = s as ModelSpec<this, Data>;
+  readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
     return this.data.id as SID_of<this>;

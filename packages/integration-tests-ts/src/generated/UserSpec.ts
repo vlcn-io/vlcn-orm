@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <8d686a42b13c176f61d63737e901caba>
+// SIGNED-SOURCE: <d27d7ac7848080203790ba7e0a67af26>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -6,12 +6,12 @@
  * `END-MANUAL-SECTION` markers.
  */
 import { Context } from "@aphro/runtime-ts";
-import { ModelSpec } from "@aphro/runtime-ts";
+import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { default as DeckSpec } from "./DeckSpec.js";
 import User from "./User.js";
 import { Data } from "./User.js";
 
-const spec: ModelSpec<User, Data> = {
+const spec: NodeSpecWithCreate<User, Data> = {
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(data["id"]);
     if (existing) {

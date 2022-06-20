@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <46c20b8dffa04b75c3b21f96800069bb>
+// SIGNED-SOURCE: <383973995d3d9112440fe6413d1c1679>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -8,7 +8,7 @@
 import { default as s } from "./UserSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { Model } from "@aphro/runtime-ts";
-import { ModelSpec } from "@aphro/runtime-ts";
+import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import UserQuery from "./UserQuery.js";
 import { Context } from "@aphro/runtime-ts";
@@ -23,7 +23,7 @@ export type Data = {
 };
 
 export default class User extends Model<Data> {
-  readonly spec = s as ModelSpec<this, Data>;
+  readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
     return this.data.id as SID_of<this>;

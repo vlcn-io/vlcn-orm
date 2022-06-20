@@ -29,7 +29,7 @@ ${this.getSpecCode()}
   }
 
   private getSpecCode(): string {
-    return `const spec: ModelSpec<${this.schema.name}, Data> = {
+    return `const spec: NodeSpecWithCreate<${this.schema.name}, Data> = {
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(data['${this.schema.primaryKey}']);
     if (existing) {
@@ -61,7 +61,7 @@ export default spec;
   private collectImports(): Import[] {
     return [
       tsImport('{Context}', null, '@aphro/runtime-ts'),
-      tsImport('{ModelSpec}', null, '@aphro/runtime-ts'),
+      tsImport('{NodeSpecWithCreate}', null, '@aphro/runtime-ts'),
       ...this.getEdgeImports(),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
       tsImport('{Data}', null, `./${this.schema.name}.js`),
