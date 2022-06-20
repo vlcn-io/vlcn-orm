@@ -2,14 +2,14 @@ import { BaseChunkIterable } from '../ChunkIterable.js';
 import specAndOpsToQuery from './specAndOpsToQuery.js';
 import { HoistedOperations } from './SQLExpression.js';
 import { invariant } from '@strut/utils';
-import { Context, INode } from '@aphro/context-runtime-ts';
-import { NodeSpec } from '@aphro/schema-api';
+import { Context, IModel, INode } from '@aphro/context-runtime-ts';
+import { JunctionEdgeSpec, NodeSpec } from '@aphro/schema-api';
 import { formatters } from '@aphro/sql-ts';
 
-export default class SQLSourceChunkIterable<T extends INode<Object>> extends BaseChunkIterable<T> {
+export default class SQLSourceChunkIterable<T extends IModel<Object>> extends BaseChunkIterable<T> {
   constructor(
     private ctx: Context,
-    private spec: NodeSpec,
+    private spec: NodeSpec | JunctionEdgeSpec,
     private hoistedOperations: HoistedOperations,
   ) {
     super();

@@ -6,9 +6,11 @@ import {
   UpdateChangeset,
   DeleteChangeset,
   ChangesetOptions,
+  IModel,
+  ModelSpecWithCreate,
 } from '@aphro/context-runtime-ts';
 
-export interface IMutationBuilder<M extends INode<D>, D extends Object> {
+export interface IMutationBuilder<M extends IModel<D>, D extends Object> {
   toChangeset(options?: ChangesetOptions): Changeset<M, D>;
   // TODO: remove this once we get mutations generation complete
   // we don't need `set` for `delete`
@@ -16,16 +18,16 @@ export interface IMutationBuilder<M extends INode<D>, D extends Object> {
   addExtraChangesets(changesets?: Changeset<any, any>[]): this;
 }
 
-export interface ICreateOrUpdateBuilder<M extends INode<D>, D extends Object>
+export interface ICreateOrUpdateBuilder<M extends IModel<D>, D extends Object>
   extends IMutationBuilder<M, D> {
   set(newData: Partial<D>): this;
 }
 
 // TODO: and if we want to enable transactions...
-abstract class MutationBuilder<M extends INode<D>, D extends Object>
+abstract class MutationBuilder<M extends IModel<D>, D extends Object>
   implements IMutationBuilder<M, D>
 {
-  constructor(protected spec: NodeSpecWithCreate<M, D>, protected data: Partial<D>) {}
+  constructor(protected spec: ModelSpecWithCreate<M, D>, protected data: Partial<D>) {}
   abstract toChangeset(): Changeset<M, D>;
   set(newData: Partial<D>): this {
     throw new Error('You cannot call `set` when deleting something');
@@ -39,7 +41,7 @@ abstract class MutationBuilder<M extends INode<D>, D extends Object>
   }
 }
 
-abstract class CreateOrUpdateBuilder<M extends INode<D>, D extends Object> extends MutationBuilder<
+abstract class CreateOrUpdateBuilder<M extends IModel<D>, D extends Object> extends MutationBuilder<
   M,
   D
 > {
@@ -54,10 +56,10 @@ abstract class CreateOrUpdateBuilder<M extends INode<D>, D extends Object> exten
 }
 
 export class CreateMutationBuilder<
-  M extends INode<D>,
+  M extends IModel<D>,
   D extends Object,
 > extends CreateOrUpdateBuilder<M, D> {
-  constructor(spec: NodeSpecWithCreate<M, D>) {
+  constructor(spec: ModelSpecWithCreate<M, D>) {
     super(spec, {});
   }
 
@@ -69,16 +71,20 @@ export class CreateMutationBuilder<
       // TODO: this is _not_ guaranteed to be an SID...
       // We either need a validation step to force primary keys to be SIDs
       // or we need to allow non-sids as primary keys
-      id: this.data[this.spec.primaryKey],
+      id:
+        this.spec.type === 'node'
+          ? this.data[this.spec.primaryKey]
+          : // @ts-ignore
+            this.data.id1 + '-' + this.data.id2,
     };
   }
 }
 
 export class UpdateMutationBuilder<
-  M extends INode<D>,
+  M extends IModel<D>,
   D extends Object,
 > extends CreateOrUpdateBuilder<M, D> {
-  constructor(spec: NodeSpecWithCreate<M, D>, private model: M) {
+  constructor(spec: ModelSpecWithCreate<M, D>, private model: M) {
     super(spec, {});
   }
 
@@ -93,11 +99,11 @@ export class UpdateMutationBuilder<
   }
 }
 
-export class DeleteMutationBuilder<M extends INode<D>, D extends Object> extends MutationBuilder<
+export class DeleteMutationBuilder<M extends IModel<D>, D extends Object> extends MutationBuilder<
   M,
   D
 > {
-  constructor(spec: NodeSpecWithCreate<M, D>, private model: M) {
+  constructor(spec: ModelSpecWithCreate<M, D>, private model: M) {
     super(spec, {});
   }
 

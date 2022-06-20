@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a208e4cc28221a65abe3ff8d7429970e>
+// SIGNED-SOURCE: <a12de7c035a82c125d23f5a648222f1c>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -6,11 +6,13 @@
  * `END-MANUAL-SECTION` markers.
  */
 import { Context } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import Component from "./Component.js";
 import { Data } from "./Component.js";
 
 const spec: NodeSpecWithCreate<Component, Data> = {
+  type: "node",
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(data["id"]);
     if (existing) {

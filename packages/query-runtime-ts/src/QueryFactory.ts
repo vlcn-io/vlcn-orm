@@ -1,4 +1,10 @@
-import { Context, INode, NodeSpecWithCreate } from '@aphro/context-runtime-ts';
+import {
+  Context,
+  IModel,
+  INode,
+  ModelSpecWithCreate,
+  NodeSpecWithCreate,
+} from '@aphro/context-runtime-ts';
 import { EdgeSpec } from '@aphro/schema-api';
 import { DerivedQuery, HopQuery, Query } from './Query.js';
 import SQLHopQuery from './sql/SQLHopQuery.js';
@@ -7,9 +13,9 @@ import SQLSourceQuery from './sql/SQLSourceQuery.js';
 // Runtime factory so we can swap to `Wire` when running on a client vs
 // the native platform.
 const factory = {
-  createSourceQueryFor<T extends INode<{}>>(
+  createSourceQueryFor<T extends IModel<{}>>(
     ctx: Context,
-    spec: NodeSpecWithCreate<T, {}>,
+    spec: ModelSpecWithCreate<T, {}>,
   ): Query<T> {
     switch (spec.storage.type) {
       case 'sql':

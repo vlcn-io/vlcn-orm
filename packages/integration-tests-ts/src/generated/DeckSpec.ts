@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <9cf217b2433466c48253c42f4f4dce5c>
+// SIGNED-SOURCE: <21ef504276085256eac228105b746268>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -6,6 +6,7 @@
  * `END-MANUAL-SECTION` markers.
  */
 import { Context } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { default as UserSpec } from "./UserSpec.js";
 import { default as SlideSpec } from "./SlideSpec.js";
@@ -13,6 +14,7 @@ import Deck from "./Deck.js";
 import { Data } from "./Deck.js";
 
 const spec: NodeSpecWithCreate<Deck, Data> = {
+  type: "node",
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(data["id"]);
     if (existing) {
@@ -64,6 +66,23 @@ const spec: NodeSpecWithCreate<Deck, Data> = {
       },
       get dest() {
         return SlideSpec;
+      },
+    },
+    editors: {
+      type: "junction",
+      storage: {
+        type: "sql",
+        engine: "sqlite",
+        db: "example",
+        tablish: "decktoeditorsedge",
+      },
+      sourceField: "id",
+      destField: "id",
+      get source() {
+        return spec;
+      },
+      get dest() {
+        return UserSpec;
       },
     },
   },

@@ -8,12 +8,13 @@ export type ModelCreate<M extends IModel<D>, D extends {}> = {
 };
 
 export type NodeSpecWithCreate<M extends INode<D>, D extends {}> = ModelCreate<M, D> & NodeSpec;
-export type JunctionEdgeSpecWithCreate<M extends IEdge<D>, D extends {}> = ModelCreate<M, D> &
+export type EdgeSpecWithCreate<M extends IEdge<D>, D extends {}> = ModelCreate<M, D> &
   JunctionEdgeSpec;
 export type ModelSpecWithCreate<M extends IModel<D>, D extends {}> = ModelCreate<M, D> &
   (NodeSpec | JunctionEdgeSpec);
 
 export interface IModel<T extends {} = Object> {
+  readonly id: SID_of<this>;
   readonly ctx: Context;
   readonly spec: ModelSpecWithCreate<this, T>;
 
@@ -27,7 +28,6 @@ export interface IModel<T extends {} = Object> {
 }
 
 export interface INode<T extends {} = Object> extends IModel<T> {
-  readonly id: SID_of<this>;
   readonly spec: NodeSpecWithCreate<this, T>;
 
   subscribe(c: () => void): Disposer;
@@ -37,5 +37,5 @@ export interface INode<T extends {} = Object> extends IModel<T> {
 }
 
 export interface IEdge<T extends {} = Object> extends IModel<T> {
-  readonly spec: JunctionEdgeSpecWithCreate<this, T>;
+  readonly spec: EdgeSpecWithCreate<this, T>;
 }

@@ -2,12 +2,15 @@ import { HoistedOperations } from './SQLExpression.js';
 import { after, before, filter, orderBy, take } from '../Expression.js';
 import SQLHopExpression from './SQLHopExpression.js';
 import { ModelFieldGetter } from '../Field.js';
-import { NodeSpec } from '@aphro/schema-api';
+import { JunctionEdgeSpec, NodeSpec } from '@aphro/schema-api';
 import { invariant } from '@strut/utils';
 import { sql, SQLQuery } from '@aphro/sql-ts';
 
 // given a model spec and hoisted operations, return the SQL query
-export default function specAndOpsToQuery(spec: NodeSpec, ops: HoistedOperations): SQLQuery {
+export default function specAndOpsToQuery(
+  spec: NodeSpec | JunctionEdgeSpec,
+  ops: HoistedOperations,
+): SQLQuery {
   const [lastSpec, lastWhat] = getLastSpecAndProjection(spec, ops);
   const projection = (() => {
     switch (lastWhat) {
@@ -16,6 +19,9 @@ export default function specAndOpsToQuery(spec: NodeSpec, ops: HoistedOperations
       case 'edges':
         throw new Error('edge projection not yet supported');
       case 'ids':
+        if (lastSpec.type === 'junction') {
+          throw new Error('id projection not yet supported on junction edges');
+        }
         return sql`${sql.ident(lastSpec.storage.tablish, lastSpec.primaryKey)}`;
       case 'model':
         // TODO: explicitly name the fields so we get the right order!
@@ -46,9 +52,9 @@ export default function specAndOpsToQuery(spec: NodeSpec, ops: HoistedOperations
 }
 
 function getLastSpecAndProjection(
-  spec: NodeSpec,
+  spec: NodeSpec | JunctionEdgeSpec,
   ops: HoistedOperations,
-): [NodeSpec, HoistedOperations['what']] {
+): [NodeSpec | JunctionEdgeSpec, HoistedOperations['what']] {
   const hop = ops.hop;
   if (hop == null) {
     return [spec, ops.what];
@@ -58,7 +64,7 @@ function getLastSpecAndProjection(
 }
 
 function getFilters(
-  spec: NodeSpec,
+  spec: NodeSpec | JunctionEdgeSpec,
   filters?: readonly ReturnType<typeof filter>[],
 ): SQLQuery | null {
   if (!filters || filters.length === 0) {
@@ -71,7 +77,7 @@ function getFilters(
   )}`;
 }
 
-function getFilter(spec: NodeSpec, f: ReturnType<typeof filter>): SQLQuery {
+function getFilter(spec: NodeSpec | JunctionEdgeSpec, f: ReturnType<typeof filter>): SQLQuery {
   const getter = f.getter as ModelFieldGetter<any, any, any>;
   let op: string | null = null;
   const predicate = f.predicate;
@@ -137,14 +143,21 @@ function getBeforeAndAfter(
   return null;
 }
 
-function getOrderBy(spec: NodeSpec, o?: ReturnType<typeof orderBy>): SQLQuery | null {
+function getOrderBy(
+  spec: NodeSpec | JunctionEdgeSpec,
+  o?: ReturnType<typeof orderBy>,
+): SQLQuery | null {
   if (o == null) {
-    return sql`ORDER BY ${sql.ident(spec.primaryKey)} DESC`;
+    if (spec.type == 'node') {
+      return sql`ORDER BY ${sql.ident(spec.primaryKey)} DESC`;
+    } else {
+      return sql`ORDER BY id1, id2 DESC`;
+    }
   }
 
   const getter = o.getter as ModelFieldGetter<any, any, any>;
 
-  if (getter.fieldName === spec.primaryKey) {
+  if (spec.type === 'node' && getter.fieldName === spec.primaryKey) {
     if (o.direction === 'asc') {
       return sql`ORDER BY ${sql.ident(spec.primaryKey)} ASC`;
     } else {
@@ -153,9 +166,17 @@ function getOrderBy(spec: NodeSpec, o?: ReturnType<typeof orderBy>): SQLQuery | 
   }
 
   if (o.direction === 'asc') {
-    return sql`ORDER BY ${sql.value(getter.fieldName)}, ${sql.ident(spec.primaryKey)} ASC`;
+    if (spec.type == 'node') {
+      return sql`ORDER BY ${sql.value(getter.fieldName)}, ${sql.ident(spec.primaryKey)} ASC`;
+    } else {
+      return sql`ORDER BY ${sql.value(getter.fieldName)}, id1, id2 ASC`;
+    }
   } else {
-    return sql`ORDER BY ${sql.value(getter.fieldName)}, ${sql.ident(spec.primaryKey)} DESC`;
+    if (spec.type == 'node') {
+      return sql`ORDER BY ${sql.value(getter.fieldName)}, ${sql.ident(spec.primaryKey)} DESC`;
+    } else {
+      return sql`ORDER BY ${sql.value(getter.fieldName)}, id1, id2 DESC`;
+    }
   }
 }
 
@@ -221,7 +242,11 @@ function getLimit(l?: ReturnType<typeof take>): SQLQuery | null {
  * Limits on non-terminal hops just switch the table from "TABLE_NAME" to "(SELECT * FROM TABLE_NAME LIMIT X) AS TABLE_NAMEss"
  *
  */
-function getHops(hops: SQLQuery[], source: NodeSpec, hop?: SQLHopExpression<any, any>): SQLQuery[] {
+function getHops(
+  hops: SQLQuery[],
+  source: NodeSpec | JunctionEdgeSpec,
+  hop?: SQLHopExpression<any, any>,
+): SQLQuery[] {
   if (!hop) {
     return hops;
   }

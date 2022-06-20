@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <bf933f1989fca7355de05eaefedbf15f>
+// SIGNED-SOURCE: <9576fc719c706aa40e41f90e4d5c7997>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -64,6 +64,9 @@ export default class Deck extends Node<Data> {
       return SlideQuery.empty(this.ctx);
     }
     return SlideQuery.fromId(this.ctx, this.selectedSlideId);
+  }
+  queryEditors(): UserQuery {
+    return DeckQuery.fromId(this.ctx, this.id).queryEditors();
   }
 
   static queryAll(ctx: Context): DeckQuery {

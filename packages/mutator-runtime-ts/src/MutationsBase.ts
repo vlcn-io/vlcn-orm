@@ -1,8 +1,8 @@
 import { IMutationBuilder } from './Mutator.js';
 import { commit } from './commit.js';
-import { Context, Changeset, ChangesetOptions, INode } from '@aphro/context-runtime-ts';
+import { Context, Changeset, ChangesetOptions, IModel } from '@aphro/context-runtime-ts';
 
-export default abstract class MutationsBase<M extends INode<D>, D extends Object> {
+export default abstract class MutationsBase<M extends IModel<D>, D extends Object> {
   readonly ctx: Context;
   constructor(ctx: Context, protected mutator: IMutationBuilder<M, D>) {
     this.ctx = ctx;

@@ -4,13 +4,13 @@ import Plan from '../Plan.js';
 import { ChunkIterable } from '../ChunkIterable.js';
 import HopPlan from '../HopPlan.js';
 import { specToDatasetKey } from '@aphro/model-runtime-ts';
-import { Context, INode } from '@aphro/context-runtime-ts';
+import { Context, IModel, INode } from '@aphro/context-runtime-ts';
 import SQLExpression, { HoistedOperations } from './SQLExpression.js';
-import { NodeSpec } from '@aphro/schema-api';
+import { JunctionEdgeSpec, NodeSpec } from '@aphro/schema-api';
 
 export interface SQLResult {}
 
-export default class SQLSourceExpression<T extends INode<Object>>
+export default class SQLSourceExpression<T extends IModel<Object>>
   extends SQLExpression<T>
   implements SourceExpression<T>
 {
@@ -18,7 +18,7 @@ export default class SQLSourceExpression<T extends INode<Object>>
     ctx: Context,
     // we should take a schema instead of db
     // we'd need the schema to know if we can hoist certain fields or not
-    public readonly spec: NodeSpec,
+    public readonly spec: NodeSpec | JunctionEdgeSpec,
     ops: HoistedOperations,
   ) {
     super(ctx, ops);

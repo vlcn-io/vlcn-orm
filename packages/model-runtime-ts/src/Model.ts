@@ -1,9 +1,11 @@
 import { Context, IModel, ModelCreate } from '@aphro/context-runtime-ts';
 import { JunctionEdgeSpec, NodeSpec } from '@aphro/schema-api';
 import { Disposer } from '@strut/events';
+import { SID_of } from '@strut/sid';
 import { typedKeys } from '@strut/utils';
 
 export default abstract class Model<T extends {}> implements IModel<T> {
+  readonly id: SID_of<this>;
   readonly ctx: Context;
   readonly spec: ModelCreate<this, T> & (NodeSpec | JunctionEdgeSpec);
 

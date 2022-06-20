@@ -1,4 +1,4 @@
-import { Context, INode } from '@aphro/context-runtime-ts';
+import { Context, IModel, INode } from '@aphro/context-runtime-ts';
 import { ChunkIterable, SyncMappedChunkIterable } from './ChunkIterable';
 import { DerivedExpression } from './Expression';
 
@@ -11,7 +11,7 @@ import { DerivedExpression } from './Expression';
  * E.g., If you defined a `Todo` node in your schema then queried all todos,
  * a `ModelLoadExpression` is added to this query to convert the rows to `Todo` instances.
  */
-export default class ModelLoadExpression<TData, TModel extends INode<TData>>
+export default class ModelLoadExpression<TData, TModel extends IModel<TData>>
   implements DerivedExpression<TData, TModel>
 {
   readonly type = 'modelLoad';

@@ -17,7 +17,7 @@ export default class GenTypescriptQuery extends CodegenStep {
   // This can technicall take a node _or_ an edge.
   // also... should we have access to the entire schema file?
   static accepts(schema: SchemaNode | SchemaEdge): boolean {
-    return schema.type === 'node';
+    return true;
   }
 
   private schema: SchemaNode | SchemaEdge;

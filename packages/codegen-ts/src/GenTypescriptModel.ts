@@ -41,7 +41,7 @@ export type Data = ${this.getDataShapeCode()};
 ${this.schema.type === 'node' ? this.schema.extensions.type?.decorators?.join('\n') || '' : ''}
 export default class ${this.schema.name}
   extends ${baseClass}<Data> {
-  readonly spec = s as NodeSpecWithCreate<this, Data>;
+  readonly spec = s as ${baseClass}SpecWithCreate<this, Data>;
 
   ${this.getFieldCode()}
   ${this.getEdgeCode()}
@@ -69,8 +69,12 @@ export default class ${this.schema.name}
     return [
       tsImport('{default}', 's', './' + nodeFn.specName(this.schema.name) + '.js'),
       tsImport('{P}', null, '@aphro/runtime-ts'),
-      tsImport('{Node}', null, '@aphro/runtime-ts'),
-      tsImport('{NodeSpecWithCreate}', null, '@aphro/runtime-ts'),
+      this.schema.type === 'node'
+        ? tsImport('{Node}', null, '@aphro/runtime-ts')
+        : tsImport('{Edge}', null, '@aphro/runtime-ts'),
+      this.schema.type === 'node'
+        ? tsImport('{NodeSpecWithCreate}', null, '@aphro/runtime-ts')
+        : tsImport('{EdgeSpecWithCreate}', null, '@aphro/runtime-ts'),
       tsImport('{SID_of}', null, '@aphro/runtime-ts'),
       tsImport(
         nodeFn.queryTypeName(this.schema.name),

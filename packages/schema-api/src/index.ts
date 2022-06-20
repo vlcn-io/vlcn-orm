@@ -62,14 +62,15 @@ export type SchemaNode = {
 };
 
 export type NodeSpec = {
+  readonly type: 'node';
   readonly primaryKey: string;
   readonly storage: StorageConfig;
   readonly outboundEdges: { [key: string]: EdgeSpec };
 };
 
 type EdgeSpecBase = {
-  source: NodeSpec;
-  dest: NodeSpec;
+  readonly source: NodeSpec;
+  readonly dest: NodeSpec;
 };
 
 export type EdgeSpec =
@@ -86,10 +87,10 @@ export type EdgeSpec =
     } & EdgeSpecBase);
 
 export type JunctionEdgeSpec = {
-  type: 'junction';
-  storage: StorageConfig;
-  sourceField: string;
-  destField: string;
+  readonly type: 'junction';
+  readonly storage: StorageConfig;
+  readonly sourceField: string;
+  readonly destField: string;
 } & EdgeSpecBase;
 
 export type EdgeType = EdgeSpec['type'];

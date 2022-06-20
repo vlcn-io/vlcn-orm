@@ -41,15 +41,23 @@ ${this.getSpecCode()}
   private getSpecCode(): string {
     let primaryKeyCode = '';
     let cacheKey = '';
+    let sourceDestFields = '';
     const nodeOrEdge = this.schema.type === 'node' ? 'Node' : 'Edge';
     if (this.schema.type === 'node') {
       primaryKeyCode = `primaryKey: '${this.schema.primaryKey}',`;
       cacheKey = `data['${this.schema.primaryKey}']`;
     } else {
-      cacheKey = `data.id1 + '-' + data.id2`;
+      cacheKey = `(data.id1 + '-' + data.id2) as SID_of<${this.schema.name}>`;
+      sourceDestFields = `
+        sourceField: "id1",
+        destField: "id2",
+        get source() { return ${nodeFn.specName(this.schema.src.type)}; },
+        get dest() { return ${nodeFn.specName(this.schema.dest.type)}; },
+      `;
     }
 
     return `const spec: ${nodeOrEdge}SpecWithCreate<${this.schema.name}, Data> = {
+      type: '${this.schema.type === 'node' ? 'node' : 'junction'}',
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(${cacheKey});
     if (existing) {
@@ -61,6 +69,7 @@ ${this.getSpecCode()}
   },
 
   ${primaryKeyCode}
+  ${sourceDestFields}
 
   storage: {
     engine: "${this.schema.storage.engine}",
@@ -69,9 +78,7 @@ ${this.getSpecCode()}
     tablish: "${this.schema.storage.tablish}",
   },
 
-  outboundEdges: {
-    ${this.getOutboundEdgeSpecCode()}
-  }
+  ${this.getOutboundEdgeSpecCode()}
 };
 
 export default spec;
@@ -81,6 +88,7 @@ export default spec;
   private collectImports(): Import[] {
     return [
       tsImport('{Context}', null, '@aphro/runtime-ts'),
+      tsImport('{SID_of}', null, '@aphro/runtime-ts'),
       this.schema.type === 'node'
         ? tsImport('{NodeSpecWithCreate}', null, '@aphro/runtime-ts')
         : tsImport('{EdgeSpecWithCreate}', null, '@aphro/runtime-ts'),
@@ -99,9 +107,11 @@ export default spec;
     if (this.schema.type === 'standaloneEdge') {
       return '';
     }
-    return Object.values(this.schema.extensions.outboundEdges?.edges || [])
-      .map(edge => edge.name + ': ' + this.getSpecForEdge(edge))
-      .join(',\n');
+    return `outboundEdges: {
+      ${Object.values(this.schema.extensions.outboundEdges?.edges || [])
+        .map(edge => edge.name + ': ' + this.getSpecForEdge(edge))
+        .join(',\n')}
+      }`;
   }
 
   private getSpecForEdge(edge: EdgeDeclaration | EdgeReferenceDeclaration): string {
@@ -158,7 +168,18 @@ export default spec;
   private getEdgeImports(): Import[] {
     const schema = this.schema;
     if (schema.type === 'standaloneEdge') {
-      return [];
+      return [
+        tsImport(
+          '{default}',
+          nodeFn.specName(schema.src.type),
+          `./${nodeFn.specName(schema.src.type)}.js`,
+        ),
+        tsImport(
+          '{default}',
+          nodeFn.specName(schema.dest.type),
+          `./${nodeFn.specName(schema.dest.type)}.js`,
+        ),
+      ];
     }
     const outbound = Object.values(schema.extensions.outboundEdges?.edges || {}).filter(
       e => e.type === 'edge',

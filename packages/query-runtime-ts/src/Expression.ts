@@ -26,7 +26,7 @@ import P, { Predicate } from './Predicate.js';
 import { FieldGetter } from './Field.js';
 import HopPlan from './HopPlan.js';
 import ModelLoadExpression from './ModelLoadExpression.js';
-import { Context, INode } from '@aphro/context-runtime-ts';
+import { Context, IModel } from '@aphro/context-runtime-ts';
 import CountLoadExpression from './CountLoadExpression.js';
 
 export type ExpressionType =
@@ -163,7 +163,7 @@ export function hop<TIn, TOut>(): HopExpression<TIn, TOut> {
   throw new Error();
 }
 
-export function modelLoad<TData, TModel extends INode<TData>>(
+export function modelLoad<TData, TModel extends IModel<TData>>(
   ctx: Context,
   factory: (ctx: Context, data: TData) => TModel,
 ): ModelLoadExpression<TData, TModel> {
