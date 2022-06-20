@@ -51,6 +51,7 @@ export interface NodeAstExtensions {
 }
 
 export type Node = {
+  type: 'node';
   name: NodeAst['name'];
   primaryKey: string;
   fields: {

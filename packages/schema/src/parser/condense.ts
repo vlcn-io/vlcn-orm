@@ -127,6 +127,7 @@ export default function condense(
     return [
       [...fieldErrors, ...extensionErrors],
       {
+        type: 'node',
         name: node.name,
         primaryKey: 'id',
         fields,

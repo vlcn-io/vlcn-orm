@@ -279,6 +279,7 @@ export const ast: SchemaFileAst = {
 export const schemaFile: SchemaFile = {
   nodes: {
     Person: {
+      type: 'node',
       name: 'Person',
       primaryKey: 'id',
       fields: {
@@ -388,6 +389,7 @@ export const schemaFile: SchemaFile = {
       },
     },
     Wallet: {
+      type: 'node',
       name: 'Wallet',
       primaryKey: 'id',
       fields: {
@@ -420,6 +422,7 @@ export const schemaFile: SchemaFile = {
       },
     },
     Transaction: {
+      type: 'node',
       name: 'Transaction',
       primaryKey: 'id',
       fields: {
@@ -481,6 +484,7 @@ export const schemaFile: SchemaFile = {
       },
     },
     Pig: {
+      type: 'node',
       name: 'Pig',
       primaryKey: 'id',
       fields: {
