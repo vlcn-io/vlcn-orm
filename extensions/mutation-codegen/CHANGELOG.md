@@ -1,5 +1,15 @@
 # @aphro/mutation-codegen
 
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/codegen-ts@0.1.1
+  - @aphro/schema@0.1.1
+  - @aphro/mutation-grammar@0.1.1
+  - @aphro/codegen@0.1.1
+
 ## 0.1.0
 
 ### Minor Changes
