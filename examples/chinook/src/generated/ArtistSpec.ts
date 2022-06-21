@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <db907fda203b30938678b09b71dff69e>
+// SIGNED-SOURCE: <a62f076c53e88c4a1163855f7fa22670>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -8,6 +8,7 @@
 import { Context } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
+import { default as albumSpec } from "./albumSpec.js";
 import Artist from "./Artist.js";
 import { Data } from "./Artist.js";
 
@@ -32,7 +33,19 @@ const spec: NodeSpecWithCreate<Artist, Data> = {
     tablish: "artist",
   },
 
-  outboundEdges: {},
+  outboundEdges: {
+    albums: {
+      type: "foreignKey",
+      sourceField: "id",
+      destField: "artistId",
+      get source() {
+        return spec;
+      },
+      get dest() {
+        return albumSpec;
+      },
+    },
+  },
 };
 
 export default spec;

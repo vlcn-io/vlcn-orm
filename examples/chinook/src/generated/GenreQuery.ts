@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4903d07ceb64a2b952b441c36cc582bb>
+// SIGNED-SOURCE: <c6896c29e348b8ab414627933852dff1>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -21,6 +21,8 @@ import { SID_of } from "@aphro/runtime-ts";
 import Genre from "./Genre.js";
 import { Data } from "./Genre.js";
 import { default as spec } from "./GenreSpec.js";
+import { default as TrackSpec } from "./TrackSpec.js";
+import TrackQuery from "./TrackQuery.js";
 
 export default class GenreQuery extends DerivedQuery<Genre> {
   static create(ctx: Context) {
@@ -52,6 +54,13 @@ export default class GenreQuery extends DerivedQuery<Genre> {
   whereName(p: Predicate<Data["name"]>) {
     return this.derive(
       filter(new ModelFieldGetter<"name", Data, Genre>("name"), p)
+    );
+  }
+  queryTracks(): TrackQuery {
+    return new TrackQuery(
+      this.ctx,
+      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.tracks),
+      modelLoad(this.ctx, TrackSpec.createFrom)
     );
   }
 

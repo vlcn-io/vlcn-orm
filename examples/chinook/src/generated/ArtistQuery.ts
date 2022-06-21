@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <0cd1c5beb38f70a870cba0a9c8e65588>
+// SIGNED-SOURCE: <c118a13705a43cfbfd12ab96310c71d7>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -21,6 +21,8 @@ import { SID_of } from "@aphro/runtime-ts";
 import Artist from "./Artist.js";
 import { Data } from "./Artist.js";
 import { default as spec } from "./ArtistSpec.js";
+import { default as albumSpec } from "./albumSpec.js";
+import albumQuery from "./albumQuery.js";
 
 export default class ArtistQuery extends DerivedQuery<Artist> {
   static create(ctx: Context) {
@@ -52,6 +54,13 @@ export default class ArtistQuery extends DerivedQuery<Artist> {
   whereName(p: Predicate<Data["name"]>) {
     return this.derive(
       filter(new ModelFieldGetter<"name", Data, Artist>("name"), p)
+    );
+  }
+  queryAlbums(): albumQuery {
+    return new albumQuery(
+      this.ctx,
+      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.albums),
+      modelLoad(this.ctx, albumSpec.createFrom)
     );
   }
 

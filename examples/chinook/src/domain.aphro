@@ -15,6 +15,8 @@ Album as Node {
 Artist as Node {
   id: ID<Artist>
   name: string | null
+} & OutboundEdges {
+  albums: Edge<album.artistId>
 }
 
 # TODO: string length options
@@ -62,6 +64,8 @@ Employee as Node {
 Genre as Node {
   id: ID<Genre>
   name: string | null
+} & OutboundEdges {
+  tracks: Edge<Track.genreId>
 }
 
 Invoice as Node {
@@ -86,6 +90,8 @@ InvoiceLine as Node {
   trackId: ID<Track>
   unitPrice: float32
   quantity: int32
+} & OutboundEdges {
+  track: Edge<InvoiceLine.trackId>
 }
 
 MediaType as Node {

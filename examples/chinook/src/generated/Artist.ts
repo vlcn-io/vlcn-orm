@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <355c661d39eb03d961fec6212031d821>
+// SIGNED-SOURCE: <07fc3fad56fa3c7aa926bdb3fa0fe202>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -12,6 +12,8 @@ import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import ArtistQuery from "./ArtistQuery.js";
 import { Context } from "@aphro/runtime-ts";
+import albumQuery from "./albumQuery.js";
+import album from "./album.js";
 
 export type Data = {
   id: SID_of<Artist>;
@@ -27,6 +29,10 @@ export default class Artist extends Node<Data> {
 
   get name(): string | null {
     return this.data.name;
+  }
+
+  queryAlbums(): albumQuery {
+    return albumQuery.create(this.ctx).whereArtistId(P.equals(this.id));
   }
 
   static queryAll(ctx: Context): ArtistQuery {

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <513589e06a52fb2b63c0ef25c9f3f980>
+// SIGNED-SOURCE: <6aa27c03e8a0cefa67657fe6fd6666c1>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -23,6 +23,8 @@ import { Data } from "./InvoiceLine.js";
 import { default as spec } from "./InvoiceLineSpec.js";
 import Invoice from "./Invoice.js";
 import Track from "./Track.js";
+import { default as TrackSpec } from "./TrackSpec.js";
+import TrackQuery from "./TrackQuery.js";
 
 export default class InvoiceLineQuery extends DerivedQuery<InvoiceLine> {
   static create(ctx: Context) {
@@ -78,6 +80,13 @@ export default class InvoiceLineQuery extends DerivedQuery<InvoiceLine> {
   whereQuantity(p: Predicate<Data["quantity"]>) {
     return this.derive(
       filter(new ModelFieldGetter<"quantity", Data, InvoiceLine>("quantity"), p)
+    );
+  }
+  queryTrack(): TrackQuery {
+    return new TrackQuery(
+      this.ctx,
+      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.track),
+      modelLoad(this.ctx, TrackSpec.createFrom)
     );
   }
 

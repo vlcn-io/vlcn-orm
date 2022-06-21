@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <ec55ae29b237a5b8e1cb7874dabf0421>
+// SIGNED-SOURCE: <5d7d57e5f6a9e93187a9dc6924305f80>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -8,6 +8,7 @@
 import { Context } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
+import { default as TrackSpec } from "./TrackSpec.js";
 import Genre from "./Genre.js";
 import { Data } from "./Genre.js";
 
@@ -32,7 +33,19 @@ const spec: NodeSpecWithCreate<Genre, Data> = {
     tablish: "genre",
   },
 
-  outboundEdges: {},
+  outboundEdges: {
+    tracks: {
+      type: "foreignKey",
+      sourceField: "id",
+      destField: "genreId",
+      get source() {
+        return spec;
+      },
+      get dest() {
+        return TrackSpec;
+      },
+    },
+  },
 };
 
 export default spec;

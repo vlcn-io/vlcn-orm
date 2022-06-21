@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <bd1688e2fd0afd1c82ec0ef1aefadc8c>
+// SIGNED-SOURCE: <58a115c690201d94bdcc7a519ec38d44>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -12,6 +12,8 @@ import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import GenreQuery from "./GenreQuery.js";
 import { Context } from "@aphro/runtime-ts";
+import TrackQuery from "./TrackQuery.js";
+import Track from "./Track.js";
 
 export type Data = {
   id: SID_of<Genre>;
@@ -27,6 +29,10 @@ export default class Genre extends Node<Data> {
 
   get name(): string | null {
     return this.data.name;
+  }
+
+  queryTracks(): TrackQuery {
+    return TrackQuery.create(this.ctx).whereGenreId(P.equals(this.id));
   }
 
   static queryAll(ctx: Context): GenreQuery {

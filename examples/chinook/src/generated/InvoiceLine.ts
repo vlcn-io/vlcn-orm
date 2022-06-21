@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <6b193a47b3b5e0584ddf5b2647836045>
+// SIGNED-SOURCE: <6a987d15806caa33f112a409c127f7ee>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -12,6 +12,7 @@ import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import InvoiceLineQuery from "./InvoiceLineQuery.js";
 import { Context } from "@aphro/runtime-ts";
+import TrackQuery from "./TrackQuery.js";
 import Invoice from "./Invoice.js";
 import Track from "./Track.js";
 
@@ -44,6 +45,10 @@ export default class InvoiceLine extends Node<Data> {
 
   get quantity(): number {
     return this.data.quantity;
+  }
+
+  queryTrack(): TrackQuery {
+    return TrackQuery.fromId(this.ctx, this.trackId);
   }
 
   static queryAll(ctx: Context): InvoiceLineQuery {
