@@ -1,0 +1,125 @@
+engine: sqlite
+db: chinook
+
+# TDOO: fk indexing
+# TODO: support col overrides so original chinook schema can remain unchanged
+Album as Node {
+  id: ID<Album>
+  title: string
+  artistId: ID<Artist>
+} & OutboundEdges {
+  artist: Edge<Album.artistId>
+  tracks: Edge<Track.albumId>
+}
+
+Artist as Node {
+  id: ID<Artist>
+  name: string | null
+}
+
+# TODO: string length options
+Customer as Node {
+  id: ID<Customer>
+  firstName: string
+  lastName: string
+  company: string | null
+  address: string | null
+  city: string | null
+  state: string | null
+  country: string | null
+  postalCode: string | null
+  phone: string | null
+  fax: string | null
+  email: string
+  supportRepId: ID<Employee>
+} & OutboundEdges {
+  supportRep: Edge<Customer.supportRepId>
+  invoices: Edge<Invoice.customerId>
+}
+
+# TODO: support Datetime format?
+Employee as Node {
+  id: ID<Employee>
+  lastName: string
+  firstName: string
+  title: string | null
+  reportsToId: ID<Employee> | null
+  birthdate: Timestamp | null
+  hiredate: Timestamp | null
+  address: string | null
+  city: string | null
+  state: string | null
+  country: string | null
+  postalCode: string | null
+  phone: string | null
+  fax: string | null
+  email: string | null
+} & OutboundEdges {
+  reportsTo: Edge<Employee.reportsToId>
+  supports: Edge<Customer.supportRepId>
+}
+
+Genre as Node {
+  id: ID<Genre>
+  name: string | null
+}
+
+Invoice as Node {
+  id: ID<Invoice>
+  customerId: ID<Customer>
+  invoiceDate: Timestamp
+  billingAddress: string | null
+  billingCity: string | null
+  billingState: string | null
+  billingCountry: string | null
+  billingPostalCode: string | null
+  total: float32
+} & OutboundEdges {
+  customer: Edge<Invoice.customerId>
+  lines: Edge<InvoiceLine.invoiceId>
+}
+
+# TODO: Delete constraints or no?
+InvoiceLine as Node {
+  id: ID<InvoiceLine>
+  invoiceId: ID<Invoice>
+  trackId: ID<Track>
+  unitPrice: float32
+  quantity: int32
+}
+
+MediaType as Node {
+  id: ID<MediaType>
+  name: string
+}
+
+Playlist as Node {
+  id: ID<Playlist>
+  name: string
+} & OutboundEdges {
+  tracks: PlaylistTrack
+}
+
+PlaylistTrack as Edge<Playlist, Track> {
+  id1: ID<Playlist>
+  id2: ID<Track>
+}
+
+# TODO invertable junction edges for use here (track -> playlists involved in)
+# TODO: cardinality support
+Track as Node {
+  id: ID<Track>
+  name: string
+  albumId: ID<Album> | null
+  mediaTypeId: ID<MediaType>
+  genreId: ID<Genre> | null
+  composter: string | null
+  milliseconds: int32
+  bytes: int32 | null
+  price: float32
+} & OutboundEdges {
+  album: Edge<Track.albumId>
+  mediaType: Edge<Track.mediaTypeId>
+  genre: Edge<Track.genreId>
+  invoiceLines: Edge<InvoiceLine.trackId>
+}
