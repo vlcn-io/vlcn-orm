@@ -1,5 +1,11 @@
 # @aphro/cache-runtime-ts
 
+## 0.1.2
+
+### Patch Changes
+
+- use build-stable type identifiers
+
 ## 0.1.1
 
 ### Patch Changes

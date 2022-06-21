@@ -1,5 +1,12 @@
 # @aphro/chinook
 
+## 0.1.3
+
+### Patch Changes
+
+- use build-stable type identifiers
+  - @aphro/runtime-ts@0.1.2
+
 ## 0.1.2
 
 ### Patch Changes

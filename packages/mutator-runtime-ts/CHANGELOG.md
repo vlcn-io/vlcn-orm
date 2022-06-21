@@ -1,5 +1,12 @@
 # @aphro/mutator-runtime-ts
 
+## 0.1.2
+
+### Patch Changes
+
+- @aphro/context-runtime-ts@0.1.2
+- @aphro/model-runtime-ts@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes
