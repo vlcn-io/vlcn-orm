@@ -1,5 +1,11 @@
 # @aphro/cache-runtime-ts
 
+## 0.1.1
+
+### Patch Changes
+
+- Cache de-dupes on type name rather than just id -- enables non globally unique ids
+
 ## 0.1.0
 
 ### Minor Changes

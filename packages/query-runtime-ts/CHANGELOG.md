@@ -1,5 +1,12 @@
 # @aphro/query-runtime-ts
 
+## 0.1.1
+
+### Patch Changes
+
+- @aphro/context-runtime-ts@0.1.1
+- @aphro/model-runtime-ts@0.1.1
+
 ## 0.1.0
 
 ### Minor Changes

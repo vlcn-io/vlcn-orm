@@ -1,5 +1,13 @@
 # @aphro/mutator-runtime-ts
 
+## 0.1.1
+
+### Patch Changes
+
+- Cache de-dupes on type name rather than just id -- enables non globally unique ids
+  - @aphro/context-runtime-ts@0.1.1
+  - @aphro/model-runtime-ts@0.1.1
+
 ## 0.1.0
 
 ### Minor Changes
