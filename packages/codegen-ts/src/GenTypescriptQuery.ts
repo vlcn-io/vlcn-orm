@@ -251,7 +251,7 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${field.of}>) {
     // }
 
     return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(this.schema, e)} {
-      ${this.getHopMethodBody(e)}
+      ${this.getHopMethodBody(e, edge)}
     }`;
   }
 
@@ -259,14 +259,17 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${field.of}>) {
     return '';
   }
 
-  private getHopMethodBody(edge: EdgeDeclaration | SchemaEdge): string {
+  private getHopMethodBody(
+    edge: EdgeDeclaration | SchemaEdge,
+    ref: EdgeDeclaration | EdgeReferenceDeclaration,
+  ): string {
     if (this.schema.type === 'standaloneEdge') {
       return '';
     }
     return `return new ${edgeFn.queryTypeName(
       this.schema,
       edge,
-    )}(this.ctx, QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.${edge.name}),
+    )}(this.ctx, QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.${ref.name}),
       modelLoad(this.ctx, ${edgeFn.destModelTypeName(this.schema, edge)}Spec.createFrom),
     );`;
   }

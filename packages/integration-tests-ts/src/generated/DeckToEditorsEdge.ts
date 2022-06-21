@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <ca5a6c5c4533a01a63b554e64a3c4860>
+// SIGNED-SOURCE: <8a688d4f3dce3071a22b764b41ca2c84>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -29,6 +29,10 @@ export default class DeckToEditorsEdge extends Edge<Data> {
 
   get id2(): SID_of<User> {
     return this.data.id2;
+  }
+
+  get id(): SID_of<this> {
+    return (this.data.id1 + "-" + this.data.id2) as SID_of<this>;
   }
 
   static queryAll(ctx: Context): DeckToEditorsEdgeQuery {

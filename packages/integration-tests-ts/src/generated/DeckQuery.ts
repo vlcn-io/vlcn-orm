@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4e6d75e9952d9527cd91654c1ec296c4>
+// SIGNED-SOURCE: <9688764ca0d27db2bdd88817a82ccfe4>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -116,7 +116,7 @@ export default class DeckQuery extends DerivedQuery<Deck> {
       QueryFactory.createHopQueryFor(
         this.ctx,
         this,
-        spec.outboundEdges.DeckToEditorsEdge
+        spec.outboundEdges.editors
       ),
       modelLoad(this.ctx, UserSpec.createFrom)
     );

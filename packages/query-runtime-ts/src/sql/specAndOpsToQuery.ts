@@ -4,7 +4,7 @@ import SQLHopExpression from './SQLHopExpression.js';
 import { ModelFieldGetter } from '../Field.js';
 import { JunctionEdgeSpec, NodeSpec } from '@aphro/schema-api';
 import { invariant } from '@strut/utils';
-import { sql, SQLQuery } from '@aphro/sql-ts';
+import { formatters, sql, SQLQuery } from '@aphro/sql-ts';
 
 // given a model spec and hoisted operations, return the SQL query
 export default function specAndOpsToQuery(
@@ -45,10 +45,11 @@ export default function specAndOpsToQuery(
 
   // nit: this doesn't take into account limits in between hops.
   // SELECT projection FROM table {hops} {filters} {before/after} {orderby} {limit}
-  return sql`SELECT ${projection} FROM ${sql.ident(spec.storage.tablish)} ${sql.join(
+  const s = sql`SELECT ${projection} FROM ${sql.ident(spec.storage.tablish)} ${sql.join(
     hops,
     sql` `,
   )} ${filters} ${beforeAndAfter} ${orderBy} ${limit}`;
+  return s;
 }
 
 function getLastSpecAndProjection(
