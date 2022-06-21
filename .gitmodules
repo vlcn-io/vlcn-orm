@@ -1,0 +1,3 @@
+[submodule "examples/todo-mvc"]
+	path = examples/todo-mvc
+	url = git@github.com:tantaman/aphrodite-browser-starter.git

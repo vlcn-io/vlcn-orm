@@ -14,7 +14,7 @@
     "@strut/events": "^0.0.10",
     "@strut/sid": "^0.0.11",
     "@strut/utils": "^0.0.11",
-    "react": "^18.1.0"
+    "react": "^18.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
