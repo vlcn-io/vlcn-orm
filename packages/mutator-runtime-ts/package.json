@@ -1,6 +1,6 @@
 {
   "name": "@aphro/mutator-runtime-ts",
-  "version": "0.0.12",
+  "version": "0.1.0",
   "main": "lib/index.js",
   "type": "module",
   "repository": {

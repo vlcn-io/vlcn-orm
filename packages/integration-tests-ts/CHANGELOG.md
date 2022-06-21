@@ -1,5 +1,16 @@
 # @aphro/integration-tests-ts
 
+## 0.1.0
+
+### Minor Changes
+
+- Support for standalone / junction edges
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/runtime-ts@0.1.0
+
 ## 0.0.13
 
 ### Patch Changes

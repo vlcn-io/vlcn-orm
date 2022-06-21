@@ -1,5 +1,18 @@
 # @aphro/graphql-grammar
 
+## 0.1.0
+
+### Minor Changes
+
+- Support for standalone / junction edges
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/grammar-extension-api@0.1.0
+  - @aphro/schema@0.1.0
+  - @aphro/schema-api@0.1.0
+
 ## 0.0.4
 
 ### Patch Changes

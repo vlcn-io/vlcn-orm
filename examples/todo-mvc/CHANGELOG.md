@@ -1,5 +1,18 @@
 # @aphro/todo-mvc
 
+## 1.1.0
+
+### Minor Changes
+
+- Support for standalone / junction edges
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/absurd-sql-connector@0.1.0
+  - @aphro/react@0.1.0
+  - @aphro/runtime-ts@0.1.0
+
 ## 1.0.7
 
 ### Patch Changes

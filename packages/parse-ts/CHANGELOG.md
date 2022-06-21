@@ -1,5 +1,11 @@
 # @aphro/parse-ts
 
+## 0.1.0
+
+### Minor Changes
+
+- Support for standalone / junction edges
+
 ## 0.0.5
 
 ### Patch Changes

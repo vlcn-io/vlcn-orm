@@ -1,5 +1,21 @@
 # @aphro/runtime-ts
 
+## 0.1.0
+
+### Minor Changes
+
+- Support for standalone / junction edges
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/cache-runtime-ts@0.1.0
+  - @aphro/context-runtime-ts@0.1.0
+  - @aphro/model-runtime-ts@0.1.0
+  - @aphro/mutator-runtime-ts@0.1.0
+  - @aphro/query-runtime-ts@0.1.0
+  - @aphro/sql-ts@0.1.0
+
 ## 0.0.8
 
 ### Patch Changes

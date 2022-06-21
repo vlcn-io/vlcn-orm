@@ -1,5 +1,16 @@
 # @aphro/grammar-extension-api
 
+## 0.1.0
+
+### Minor Changes
+
+- Support for standalone / junction edges
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/schema-api@0.1.0
+
 ## 0.0.11
 
 ### Patch Changes

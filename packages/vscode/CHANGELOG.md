@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.1.0
+
+### Minor Changes
+
+- Support for standalone / junction edges
+
 ## 0.0.10
 
 ### Patch Changes

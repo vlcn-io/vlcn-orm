@@ -1,5 +1,16 @@
 # @aphro/monopoly
 
+## 1.1.0
+
+### Minor Changes
+
+- Support for standalone / junction edges
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/runtime-ts@0.1.0
+
 ## 1.0.3
 
 ### Patch Changes

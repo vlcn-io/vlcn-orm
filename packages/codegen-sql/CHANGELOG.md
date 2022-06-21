@@ -1,5 +1,20 @@
 # @aphro/codegen-sql
 
+## 0.1.0
+
+### Minor Changes
+
+- Support for standalone / junction edges
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/codegen@0.1.0
+  - @aphro/codegen-api@0.1.0
+  - @aphro/schema@0.1.0
+  - @aphro/schema-api@0.1.0
+  - @aphro/sql-ts@0.1.0
+
 ## 0.0.13
 
 ### Patch Changes

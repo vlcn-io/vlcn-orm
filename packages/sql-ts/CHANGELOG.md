@@ -1,5 +1,11 @@
 # @aphro/sql-ts
 
+## 0.1.0
+
+### Minor Changes
+
+- Support for standalone / junction edges
+
 ## 0.0.6
 
 ### Patch Changes
