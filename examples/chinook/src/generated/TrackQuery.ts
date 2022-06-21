@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <57c4169f4998b79150909c77abd1141b>
+// SIGNED-SOURCE: <b7d713c6882f8c80f78d676c57455e01>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -84,9 +84,9 @@ export default class TrackQuery extends DerivedQuery<Track> {
     );
   }
 
-  whereComposter(p: Predicate<Data["composter"]>) {
+  whereComposer(p: Predicate<Data["composer"]>) {
     return this.derive(
-      filter(new ModelFieldGetter<"composter", Data, Track>("composter"), p)
+      filter(new ModelFieldGetter<"composer", Data, Track>("composer"), p)
     );
   }
 
@@ -105,9 +105,9 @@ export default class TrackQuery extends DerivedQuery<Track> {
     );
   }
 
-  wherePrice(p: Predicate<Data["price"]>) {
+  whereUnitPrice(p: Predicate<Data["unitPrice"]>) {
     return this.derive(
-      filter(new ModelFieldGetter<"price", Data, Track>("price"), p)
+      filter(new ModelFieldGetter<"unitPrice", Data, Track>("unitPrice"), p)
     );
   }
   queryAlbum(): AlbumQuery {
@@ -190,10 +190,10 @@ export default class TrackQuery extends DerivedQuery<Track> {
     );
   }
 
-  orderByComposter(direction: "asc" | "desc" = "asc") {
+  orderByComposer(direction: "asc" | "desc" = "asc") {
     return this.derive(
       orderBy(
-        new ModelFieldGetter<"composter", Data, Track>("composter"),
+        new ModelFieldGetter<"composer", Data, Track>("composer"),
         direction
       )
     );
@@ -214,9 +214,12 @@ export default class TrackQuery extends DerivedQuery<Track> {
     );
   }
 
-  orderByPrice(direction: "asc" | "desc" = "asc") {
+  orderByUnitPrice(direction: "asc" | "desc" = "asc") {
     return this.derive(
-      orderBy(new ModelFieldGetter<"price", Data, Track>("price"), direction)
+      orderBy(
+        new ModelFieldGetter<"unitPrice", Data, Track>("unitPrice"),
+        direction
+      )
     );
   }
 }

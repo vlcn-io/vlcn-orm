@@ -113,10 +113,10 @@ Track as Node {
   albumId: ID<Album> | null
   mediaTypeId: ID<MediaType>
   genreId: ID<Genre> | null
-  composter: string | null
+  composer: string | null
   milliseconds: int32
   bytes: int32 | null
-  price: float32
+  unitPrice: float32
 } & OutboundEdges {
   album: Edge<Track.albumId>
   mediaType: Edge<Track.mediaTypeId>

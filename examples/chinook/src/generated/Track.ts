@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <07a6d433a441d880d94c89c1244a2dd6>
+// SIGNED-SOURCE: <70248e8ef4320a55da1f497ba319efa0>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -27,10 +27,10 @@ export type Data = {
   albumId: SID_of<Album> | null;
   mediaTypeId: SID_of<MediaType>;
   genreId: SID_of<Genre> | null;
-  composter: string | null;
+  composer: string | null;
   milliseconds: number;
   bytes: number | null;
-  price: number;
+  unitPrice: number;
 };
 
 export default class Track extends Node<Data> {
@@ -56,8 +56,8 @@ export default class Track extends Node<Data> {
     return this.data.genreId;
   }
 
-  get composter(): string | null {
-    return this.data.composter;
+  get composer(): string | null {
+    return this.data.composer;
   }
 
   get milliseconds(): number {
@@ -68,8 +68,8 @@ export default class Track extends Node<Data> {
     return this.data.bytes;
   }
 
-  get price(): number {
-    return this.data.price;
+  get unitPrice(): number {
+    return this.data.unitPrice;
   }
 
   queryAlbum(): AlbumQuery {

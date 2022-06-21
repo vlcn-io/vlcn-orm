@@ -1,4 +1,4 @@
--- SIGNED-SOURCE: <ae25748cc6e16cfa98df0f0ae52b585f>
+-- SIGNED-SOURCE: <04d175d2203ff1b10d9c380c39c67691>
 CREATE TABLE
   IF NOT EXISTS "track" (
     "id" bigint NOT NULL,
@@ -6,9 +6,9 @@ CREATE TABLE
     "albumId" bigint,
     "mediaTypeId" bigint NOT NULL,
     "genreId" bigint,
-    "composter" text,
+    "composer" text,
     "milliseconds" int NOT NULL,
     "bytes" int,
-    "price" float NOT NULL,
+    "unitPrice" float NOT NULL,
     primary key ("id")
   )
