@@ -1,0 +1,33 @@
+{
+  "name": "@aphro/chinook",
+  "version": "0.1.0",
+  "main": "lib/index.js",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tantaman/aphrodite.git",
+    "directory": "examples/chinook"
+  },
+  "dependencies": {
+    "@aphro/runtime-ts": "workspace:*"
+  },
+  "devDependencies": {
+    "@aphro/codegen-cli": "workspace:*",
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "@types/jest": "^27.4.1",
+    "jest": "^28.1.0",
+    "typescript": "^4.6.4"
+  },
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "build": "tsc --build",
+    "watch": "tsc --build -w",
+    "deep-clean": "rm -rf ./lib || true && rm tsconfig.tsbuildinfo || true"
+  },
+  "jest": {
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ]
+  }
+}

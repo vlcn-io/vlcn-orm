@@ -1,240 +1,4 @@
-﻿
-/*******************************************************************************
-   Chinook Database - Version 1.4
-   Script: Chinook_Sqlite.sql
-   Description: Creates and populates the Chinook database.
-   DB Server: Sqlite
-   Author: Luis Rocha
-   License: http://www.codeplex.com/ChinookDatabase/license
-********************************************************************************/
-
-/*******************************************************************************
-   Drop Foreign Keys Constraints
-********************************************************************************/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*******************************************************************************
-   Drop Tables
-********************************************************************************/
-DROP TABLE IF EXISTS [album];
-
-DROP TABLE IF EXISTS [artist];
-
-DROP TABLE IF EXISTS [customer];
-
-DROP TABLE IF EXISTS [employee];
-
-DROP TABLE IF EXISTS [genre];
-
-DROP TABLE IF EXISTS [invoice];
-
-DROP TABLE IF EXISTS [invoiceline];
-
-DROP TABLE IF EXISTS [mediatype];
-
-DROP TABLE IF EXISTS [playlist];
-
-DROP TABLE IF EXISTS [playlisttrack];
-
-DROP TABLE IF EXISTS [track];
-
-
-/*******************************************************************************
-   Create Tables
-********************************************************************************/
-CREATE TABLE [album]
-(
-    [albumId] INTEGER  NOT NULL,
-    [title] NVARCHAR(160)  NOT NULL,
-    [artistId] INTEGER  NOT NULL,
-    CONSTRAINT [PK_Album] PRIMARY KEY  ([id]),
-    FOREIGN KEY ([id]) REFERENCES [artist] ([id]) 
-		ON DELETE NO ACTION ON UPDATE NO ACTION
-);
-
-CREATE TABLE [artist]
-(
-    [artistId] INTEGER  NOT NULL,
-    [name] NVARCHAR(120),
-    CONSTRAINT [PK_Artist] PRIMARY KEY  ([id])
-);
-
-CREATE TABLE [customer]
-(
-    [customerId] INTEGER  NOT NULL,
-    [firstName] NVARCHAR(40)  NOT NULL,
-    [lastName] NVARCHAR(20)  NOT NULL,
-    [company] NVARCHAR(80),
-    [address] NVARCHAR(70),
-    [city] NVARCHAR(40),
-    [state] NVARCHAR(40),
-    [country] NVARCHAR(40),
-    [postalCode] NVARCHAR(10),
-    [phone] NVARCHAR(24),
-    [fax] NVARCHAR(24),
-    [email] NVARCHAR(60)  NOT NULL,
-    [supportRepId] INTEGER,
-    CONSTRAINT [PK_Customer] PRIMARY KEY  ([id]),
-    FOREIGN KEY ([supportRepId]) REFERENCES [employee] ([id]) 
-		ON DELETE NO ACTION ON UPDATE NO ACTION
-);
-
-CREATE TABLE [employee]
-(
-    [employeeId] INTEGER  NOT NULL,
-    [lastName] NVARCHAR(20)  NOT NULL,
-    [firstName] NVARCHAR(20)  NOT NULL,
-    [title] NVARCHAR(30),
-    [reportsToId] INTEGER,
-    [birthdate] DATETIME,
-    [hiredate] DATETIME,
-    [address] NVARCHAR(70),
-    [city] NVARCHAR(40),
-    [state] NVARCHAR(40),
-    [country] NVARCHAR(40),
-    [postalCode] NVARCHAR(10),
-    [phone] NVARCHAR(24),
-    [fax] NVARCHAR(24),
-    [email] NVARCHAR(60),
-    CONSTRAINT [PK_Employee] PRIMARY KEY  ([id]),
-    FOREIGN KEY ([reportsToId]) REFERENCES [employee] ([id]) 
-		ON DELETE NO ACTION ON UPDATE NO ACTION
-);
-
-CREATE TABLE [genre]
-(
-    [genreId] INTEGER  NOT NULL,
-    [name] NVARCHAR(120),
-    CONSTRAINT [PK_Genre] PRIMARY KEY  ([id])
-);
-
-CREATE TABLE [invoice]
-(
-    [invoiceId] INTEGER  NOT NULL,
-    [customerId] INTEGER  NOT NULL,
-    [invoiceDate] DATETIME  NOT NULL,
-    [billingAddress] NVARCHAR(70),
-    [billingCity] NVARCHAR(40),
-    [billingState] NVARCHAR(40),
-    [billingCountry] NVARCHAR(40),
-    [billingPostalCode] NVARCHAR(10),
-    [total] NUMERIC(10,2)  NOT NULL,
-    CONSTRAINT [PK_Invoice] PRIMARY KEY  ([id]),
-    FOREIGN KEY ([id]) REFERENCES [customer] ([id]) 
-		ON DELETE NO ACTION ON UPDATE NO ACTION
-);
-
-CREATE TABLE [invoiceline]
-(
-    [invoiceLineId] INTEGER  NOT NULL,
-    [invoiceId] INTEGER  NOT NULL,
-    [trackId] INTEGER  NOT NULL,
-    [unitPrice] NUMERIC(10,2)  NOT NULL,
-    [quantity] INTEGER  NOT NULL,
-    CONSTRAINT [PK_InvoiceLine] PRIMARY KEY  ([id]),
-    FOREIGN KEY ([id]) REFERENCES [invoice] ([id]) 
-		ON DELETE NO ACTION ON UPDATE NO ACTION,
-    FOREIGN KEY ([id]) REFERENCES [track] ([id]) 
-		ON DELETE NO ACTION ON UPDATE NO ACTION
-);
-
-CREATE TABLE [mediatype]
-(
-    [mediaTypeId] INTEGER  NOT NULL,
-    [name] NVARCHAR(120),
-    CONSTRAINT [PK_MediaType] PRIMARY KEY  ([id])
-);
-
-CREATE TABLE [playlist]
-(
-    [playlistId] INTEGER  NOT NULL,
-    [name] NVARCHAR(120),
-    CONSTRAINT [PK_Playlist] PRIMARY KEY  ([id])
-);
-
-CREATE TABLE [playlisttrack]
-(
-    [playlistId] INTEGER  NOT NULL,
-    [trackId] INTEGER  NOT NULL,
-    CONSTRAINT [PK_PlaylistTrack] PRIMARY KEY  ([id], [trackId]),
-    FOREIGN KEY ([id]) REFERENCES [playlist] ([id]) 
-		ON DELETE NO ACTION ON UPDATE NO ACTION,
-    FOREIGN KEY ([id]) REFERENCES [track] ([id]) 
-		ON DELETE NO ACTION ON UPDATE NO ACTION
-);
-
-CREATE TABLE [track]
-(
-    [trackId] INTEGER  NOT NULL,
-    [name] NVARCHAR(200)  NOT NULL,
-    [albumId] INTEGER,
-    [mediaTypeId] INTEGER  NOT NULL,
-    [genreId] INTEGER,
-    [composer] NVARCHAR(220),
-    [milliseconds] INTEGER  NOT NULL,
-    [bytes] INTEGER,
-    [unitPrice] NUMERIC(10,2)  NOT NULL,
-    CONSTRAINT [PK_Track] PRIMARY KEY  ([id]),
-    FOREIGN KEY ([id]) REFERENCES [album] ([id]) 
-		ON DELETE NO ACTION ON UPDATE NO ACTION,
-    FOREIGN KEY ([id]) REFERENCES [genre] ([id]) 
-		ON DELETE NO ACTION ON UPDATE NO ACTION,
-    FOREIGN KEY ([id]) REFERENCES [mediatype] ([id]) 
-		ON DELETE NO ACTION ON UPDATE NO ACTION
-);
-
-
-
-/*******************************************************************************
-   Create Primary Key Unique Indexes
-********************************************************************************/
-
-/*******************************************************************************
-   Create Foreign Keys
-********************************************************************************/
-CREATE INDEX [IFK_AlbumArtistId] ON [album] ([id]);
-
-CREATE INDEX [IFK_CustomerSupportRepId] ON [customer] ([supportRepId]);
-
-CREATE INDEX [IFK_EmployeeReportsTo] ON [employee] ([reportsToId]);
-
-CREATE INDEX [IFK_InvoiceCustomerId] ON [invoice] ([id]);
-
-CREATE INDEX [IFK_InvoiceLineInvoiceId] ON [invoiceline] ([id]);
-
-CREATE INDEX [IFK_InvoiceLineTrackId] ON [invoiceline] ([id]);
-
-CREATE INDEX [IFK_PlaylistTrackTrackId] ON [playlisttrack] ([id]);
-
-CREATE INDEX [IFK_TrackAlbumId] ON [track] ([id]);
-
-CREATE INDEX [IFK_TrackGenreId] ON [track] ([id]);
-
-CREATE INDEX [IFK_TrackMediaTypeId] ON [track] ([id]);
-
-
-/*******************************************************************************
+﻿/*******************************************************************************
    Populate Tables
 ********************************************************************************/
 INSERT INTO [genre] ([id], [name]) VALUES (1, 'Rock');
@@ -4397,14 +4161,14 @@ INSERT INTO [track] ([id], [name], [albumId], [mediaTypeId], [genreId], [compose
 INSERT INTO [track] ([id], [name], [albumId], [mediaTypeId], [genreId], [composer], [milliseconds], [bytes], [unitPrice]) VALUES (3502, 'Quintet for Horn, Violin, 2 Violas, and Cello in E Flat Major, K. 407/386c: III. Allegro', 346, 2, 24, 'Wolfgang Amadeus Mozart', 221331, 3665114, 0.99);
 INSERT INTO [track] ([id], [name], [albumId], [mediaTypeId], [genreId], [composer], [milliseconds], [bytes], [unitPrice]) VALUES (3503, 'Koyaanisqatsi', 347, 2, 10, 'Philip Glass', 206005, 3305164, 0.99);
 
-INSERT INTO [employee] ([id], [lastName], [firstName], [title], [birthdate], [hiredate], [address], [city], [state], [country], [postalCode], [phone], [fax], [email]) VALUES (1, 'Adams', 'Andrew', 'General Manager', '1962-02-18 00:00:00', '2002-08-14 00:00:00', '11120 Jasper Ave NW', 'Edmonton', 'AB', 'Canada', 'T5K 2N1', '+1 (780) 428-9482', '+1 (780) 428-3457', 'andrew@chinookcorp.com');
-INSERT INTO [employee] ([id], [lastName], [firstName], [title], [reportsToId], [birthdate], [hiredate], [address], [city], [state], [country], [postalCode], [phone], [fax], [email]) VALUES (2, 'Edwards', 'Nancy', 'Sales Manager', 1, '1958-12-08 00:00:00', '2002-05-01 00:00:00', '825 8 Ave SW', 'Calgary', 'AB', 'Canada', 'T2P 2T3', '+1 (403) 262-3443', '+1 (403) 262-3322', 'nancy@chinookcorp.com');
-INSERT INTO [employee] ([id], [lastName], [firstName], [title], [reportsToId], [birthdate], [hiredate], [address], [city], [state], [country], [postalCode], [phone], [fax], [email]) VALUES (3, 'Peacock', 'Jane', 'Sales Support Agent', 2, '1973-08-29 00:00:00', '2002-04-01 00:00:00', '1111 6 Ave SW', 'Calgary', 'AB', 'Canada', 'T2P 5M5', '+1 (403) 262-3443', '+1 (403) 262-6712', 'jane@chinookcorp.com');
-INSERT INTO [employee] ([id], [lastName], [firstName], [title], [reportsToId], [birthdate], [hiredate], [address], [city], [state], [country], [postalCode], [phone], [fax], [email]) VALUES (4, 'Park', 'Margaret', 'Sales Support Agent', 2, '1947-09-19 00:00:00', '2003-05-03 00:00:00', '683 10 Street SW', 'Calgary', 'AB', 'Canada', 'T2P 5G3', '+1 (403) 263-4423', '+1 (403) 263-4289', 'margaret@chinookcorp.com');
-INSERT INTO [employee] ([id], [lastName], [firstName], [title], [reportsToId], [birthdate], [hiredate], [address], [city], [state], [country], [postalCode], [phone], [fax], [email]) VALUES (5, 'Johnson', 'Steve', 'Sales Support Agent', 2, '1965-03-03 00:00:00', '2003-10-17 00:00:00', '7727B 41 Ave', 'Calgary', 'AB', 'Canada', 'T3B 1Y7', '1 (780) 836-9987', '1 (780) 836-9543', 'steve@chinookcorp.com');
-INSERT INTO [employee] ([id], [lastName], [firstName], [title], [reportsToId], [birthdate], [hiredate], [address], [city], [state], [country], [postalCode], [phone], [fax], [email]) VALUES (6, 'Mitchell', 'Michael', 'IT Manager', 1, '1973-07-01 00:00:00', '2003-10-17 00:00:00', '5827 Bowness Road NW', 'Calgary', 'AB', 'Canada', 'T3B 0C5', '+1 (403) 246-9887', '+1 (403) 246-9899', 'michael@chinookcorp.com');
-INSERT INTO [employee] ([id], [lastName], [firstName], [title], [reportsToId], [birthdate], [hiredate], [address], [city], [state], [country], [postalCode], [phone], [fax], [email]) VALUES (7, 'King', 'Robert', 'IT Staff', 6, '1970-05-29 00:00:00', '2004-01-02 00:00:00', '590 Columbia Boulevard West', 'Lethbridge', 'AB', 'Canada', 'T1K 5N8', '+1 (403) 456-9986', '+1 (403) 456-8485', 'robert@chinookcorp.com');
-INSERT INTO [employee] ([id], [lastName], [firstName], [title], [reportsToId], [birthdate], [hiredate], [address], [city], [state], [country], [postalCode], [phone], [fax], [email]) VALUES (8, 'Callahan', 'Laura', 'IT Staff', 6, '1968-01-09 00:00:00', '2004-03-04 00:00:00', '923 7 ST NW', 'Lethbridge', 'AB', 'Canada', 'T1H 1Y8', '+1 (403) 467-3351', '+1 (403) 467-8772', 'laura@chinookcorp.com');
+INSERT INTO [employee] ([id], [lastName], [firstName], [title], [birthdate], [hiredate], [address], [city], [state], [country], [postalCode], [phone], [fax], [email]) VALUES (1, 'Adams', 'Andrew', 'General Manager', -248295600000, 1029297600000, '11120 Jasper Ave NW', 'Edmonton', 'AB', 'Canada', 'T5K 2N1', '+1 (780) 428-9482', '+1 (780) 428-3457', 'andrew@chinookcorp.com');
+INSERT INTO [employee] ([id], [lastName], [firstName], [title], [reportsToId], [birthdate], [hiredate], [address], [city], [state], [country], [postalCode], [phone], [fax], [email]) VALUES (2, 'Edwards', 'Nancy', 'Sales Manager', 1, -349210800000, 1020225600000, '825 8 Ave SW', 'Calgary', 'AB', 'Canada', 'T2P 2T3', '+1 (403) 262-3443', '+1 (403) 262-3322', 'nancy@chinookcorp.com');
+INSERT INTO [employee] ([id], [lastName], [firstName], [title], [reportsToId], [birthdate], [hiredate], [address], [city], [state], [country], [postalCode], [phone], [fax], [email]) VALUES (3, 'Peacock', 'Jane', 'Sales Support Agent', 2, 115444800000, 1017637200000, '1111 6 Ave SW', 'Calgary', 'AB', 'Canada', 'T2P 5M5', '+1 (403) 262-3443', '+1 (403) 262-6712', 'jane@chinookcorp.com');
+INSERT INTO [employee] ([id], [lastName], [firstName], [title], [reportsToId], [birthdate], [hiredate], [address], [city], [state], [country], [postalCode], [phone], [fax], [email]) VALUES (4, 'Park', 'Margaret', 'Sales Support Agent', 2, -703281600000, 1051934400000, '683 10 Street SW', 'Calgary', 'AB', 'Canada', 'T2P 5G3', '+1 (403) 263-4423', '+1 (403) 263-4289', 'margaret@chinookcorp.com');
+INSERT INTO [employee] ([id], [lastName], [firstName], [title], [reportsToId], [birthdate], [hiredate], [address], [city], [state], [country], [postalCode], [phone], [fax], [email]) VALUES (5, 'Johnson', 'Steve', 'Sales Support Agent', 2, -152478000000, 1066363200000, '7727B 41 Ave', 'Calgary', 'AB', 'Canada', 'T3B 1Y7', '1 (780) 836-9987', '1 (780) 836-9543', 'steve@chinookcorp.com');
+INSERT INTO [employee] ([id], [lastName], [firstName], [title], [reportsToId], [birthdate], [hiredate], [address], [city], [state], [country], [postalCode], [phone], [fax], [email]) VALUES (6, 'Mitchell', 'Michael', 'IT Manager', 1, 110347200000, 1066363200000, '5827 Bowness Road NW', 'Calgary', 'AB', 'Canada', 'T3B 0C5', '+1 (403) 246-9887', '+1 (403) 246-9899', 'michael@chinookcorp.com');
+INSERT INTO [employee] ([id], [lastName], [firstName], [title], [reportsToId], [birthdate], [hiredate], [address], [city], [state], [country], [postalCode], [phone], [fax], [email]) VALUES (7, 'King', 'Robert', 'IT Staff', 6, 12801600000, 1073019600000, '590 Columbia Boulevard West', 'Lethbridge', 'AB', 'Canada', 'T1K 5N8', '+1 (403) 456-9986', '+1 (403) 456-8485', 'robert@chinookcorp.com');
+INSERT INTO [employee] ([id], [lastName], [firstName], [title], [reportsToId], [birthdate], [hiredate], [address], [city], [state], [country], [postalCode], [phone], [fax], [email]) VALUES (8, 'Callahan', 'Laura', 'IT Staff', 6, -62449200000, 1078376400000, '923 7 ST NW', 'Lethbridge', 'AB', 'Canada', 'T1H 1Y8', '+1 (403) 467-3351', '+1 (403) 467-8772', 'laura@chinookcorp.com');
 
 INSERT INTO [customer] ([id], [firstName], [lastName], [company], [address], [city], [state], [country], [postalCode], [phone], [fax], [email], [supportRepId]) VALUES (1, 'Luís', 'Gonçalves', 'Embraer - Empresa Brasileira de Aeronáutica S.A.', 'Av. Brigadeiro Faria Lima, 2170', 'São José dos Campos', 'SP', 'Brazil', '12227-000', '+55 (12) 3923-5555', '+55 (12) 3923-5566', 'luisg@embraer.com.br', 3);
 INSERT INTO [customer] ([id], [firstName], [lastName], [address], [city], [country], [postalCode], [phone], [email], [supportRepId]) VALUES (2, 'Leonie', 'Köhler', 'Theodor-Heuss-Straße 34', 'Stuttgart', 'Germany', '70174', '+49 0711 2842222', 'leonekohler@surfeu.de', 5);
@@ -4466,418 +4230,418 @@ INSERT INTO [customer] ([id], [firstName], [lastName], [address], [city], [count
 INSERT INTO [customer] ([id], [firstName], [lastName], [address], [city], [country], [postalCode], [phone], [email], [supportRepId]) VALUES (58, 'Manoj', 'Pareek', '12,Community Centre', 'Delhi', 'India', '110017', '+91 0124 39883988', 'manoj.pareek@rediff.com', 3);
 INSERT INTO [customer] ([id], [firstName], [lastName], [address], [city], [country], [postalCode], [phone], [email], [supportRepId]) VALUES (59, 'Puja', 'Srivastava', '3,Raj Bhavan Road', 'Bangalore', 'India', '560001', '+91 080 22289999', 'puja_srivastava@yahoo.in', 3);
 
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (1, 2, '2009-01-01 00:00:00', 'Theodor-Heuss-Straße 34', 'Stuttgart', 'Germany', '70174', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (2, 4, '2009-01-02 00:00:00', 'Ullevålsveien 14', 'Oslo', 'Norway', '0171', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (3, 8, '2009-01-03 00:00:00', 'Grétrystraat 63', 'Brussels', 'Belgium', '1000', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (4, 14, '2009-01-06 00:00:00', '8210 111 ST NW', 'Edmonton', 'AB', 'Canada', 'T6G 2C7', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (5, 23, '2009-01-11 00:00:00', '69 Salem Street', 'Boston', 'MA', 'USA', '2113', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (6, 37, '2009-01-19 00:00:00', 'Berger Straße 10', 'Frankfurt', 'Germany', '60316', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (7, 38, '2009-02-01 00:00:00', 'Barbarossastraße 19', 'Berlin', 'Germany', '10779', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (8, 40, '2009-02-01 00:00:00', '8, Rue Hanovre', 'Paris', 'France', '75002', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (9, 42, '2009-02-02 00:00:00', '9, Place Louis Barthou', 'Bordeaux', 'France', '33000', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [total]) VALUES (10, 46, '2009-02-03 00:00:00', '3 Chatham Street', 'Dublin', 'Dublin', 'Ireland', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (11, 52, '2009-02-06 00:00:00', '202 Hoxton Street', 'London', 'United Kingdom', 'N1 5LH', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (12, 2, '2009-02-11 00:00:00', 'Theodor-Heuss-Straße 34', 'Stuttgart', 'Germany', '70174', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (13, 16, '2009-02-19 00:00:00', '1600 Amphitheatre Parkway', 'Mountain View', 'CA', 'USA', '94043-1351', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (14, 17, '2009-03-04 00:00:00', '1 Microsoft Way', 'Redmond', 'WA', 'USA', '98052-8300', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (15, 19, '2009-03-04 00:00:00', '1 Infinite Loop', 'Cupertino', 'CA', 'USA', '95014', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (16, 21, '2009-03-05 00:00:00', '801 W 4th Street', 'Reno', 'NV', 'USA', '89503', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (17, 25, '2009-03-06 00:00:00', '319 N. Frances Street', 'Madison', 'WI', 'USA', '53703', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (18, 31, '2009-03-09 00:00:00', '194A Chain Lake Drive', 'Halifax', 'NS', 'Canada', 'B3S 1C5', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (19, 40, '2009-03-14 00:00:00', '8, Rue Hanovre', 'Paris', 'France', '75002', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (20, 54, '2009-03-22 00:00:00', '110 Raeburn Pl', 'Edinburgh ', 'United Kingdom', 'EH4 1HH', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (21, 55, '2009-04-04 00:00:00', '421 Bourke Street', 'Sidney', 'NSW', 'Australia', '2010', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (22, 57, '2009-04-04 00:00:00', 'Calle Lira, 198', 'Santiago', 'Chile', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (23, 59, '2009-04-05 00:00:00', '3,Raj Bhavan Road', 'Bangalore', 'India', '560001', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (24, 4, '2009-04-06 00:00:00', 'Ullevålsveien 14', 'Oslo', 'Norway', '0171', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (25, 10, '2009-04-09 00:00:00', 'Rua Dr. Falcão Filho, 155', 'São Paulo', 'SP', 'Brazil', '01007-010', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (26, 19, '2009-04-14 00:00:00', '1 Infinite Loop', 'Cupertino', 'CA', 'USA', '95014', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (27, 33, '2009-04-22 00:00:00', '5112 48 Street', 'Yellowknife', 'NT', 'Canada', 'X1A 1N6', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (28, 34, '2009-05-05 00:00:00', 'Rua da Assunção 53', 'Lisbon', 'Portugal', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (29, 36, '2009-05-05 00:00:00', 'Tauentzienstraße 8', 'Berlin', 'Germany', '10789', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (30, 38, '2009-05-06 00:00:00', 'Barbarossastraße 19', 'Berlin', 'Germany', '10779', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (31, 42, '2009-05-07 00:00:00', '9, Place Louis Barthou', 'Bordeaux', 'France', '33000', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (32, 48, '2009-05-10 00:00:00', 'Lijnbaansgracht 120bg', 'Amsterdam', 'VV', 'Netherlands', '1016', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (33, 57, '2009-05-15 00:00:00', 'Calle Lira, 198', 'Santiago', 'Chile', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (34, 12, '2009-05-23 00:00:00', 'Praça Pio X, 119', 'Rio de Janeiro', 'RJ', 'Brazil', '20040-020', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (35, 13, '2009-06-05 00:00:00', 'Qe 7 Bloco G', 'Brasília', 'DF', 'Brazil', '71020-677', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (36, 15, '2009-06-05 00:00:00', '700 W Pender Street', 'Vancouver', 'BC', 'Canada', 'V6C 1G8', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (37, 17, '2009-06-06 00:00:00', '1 Microsoft Way', 'Redmond', 'WA', 'USA', '98052-8300', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (38, 21, '2009-06-07 00:00:00', '801 W 4th Street', 'Reno', 'NV', 'USA', '89503', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (39, 27, '2009-06-10 00:00:00', '1033 N Park Ave', 'Tucson', 'AZ', 'USA', '85719', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (40, 36, '2009-06-15 00:00:00', 'Tauentzienstraße 8', 'Berlin', 'Germany', '10789', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (41, 50, '2009-06-23 00:00:00', 'C/ San Bernardo 85', 'Madrid', 'Spain', '28015', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (42, 51, '2009-07-06 00:00:00', 'Celsiusg. 9', 'Stockholm', 'Sweden', '11230', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (43, 53, '2009-07-06 00:00:00', '113 Lupus St', 'London', 'United Kingdom', 'SW1V 3EN', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (44, 55, '2009-07-07 00:00:00', '421 Bourke Street', 'Sidney', 'NSW', 'Australia', '2010', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (45, 59, '2009-07-08 00:00:00', '3,Raj Bhavan Road', 'Bangalore', 'India', '560001', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (46, 6, '2009-07-11 00:00:00', 'Rilská 3174/6', 'Prague', 'Czech Republic', '14300', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (47, 15, '2009-07-16 00:00:00', '700 W Pender Street', 'Vancouver', 'BC', 'Canada', 'V6C 1G8', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (48, 29, '2009-07-24 00:00:00', '796 Dundas Street West', 'Toronto', 'ON', 'Canada', 'M6J 1V1', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (49, 30, '2009-08-06 00:00:00', '230 Elgin Street', 'Ottawa', 'ON', 'Canada', 'K2P 1L7', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (50, 32, '2009-08-06 00:00:00', '696 Osborne Street', 'Winnipeg', 'MB', 'Canada', 'R3L 2B9', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (51, 34, '2009-08-07 00:00:00', 'Rua da Assunção 53', 'Lisbon', 'Portugal', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (52, 38, '2009-08-08 00:00:00', 'Barbarossastraße 19', 'Berlin', 'Germany', '10779', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (53, 44, '2009-08-11 00:00:00', 'Porthaninkatu 9', 'Helsinki', 'Finland', '00530', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (54, 53, '2009-08-16 00:00:00', '113 Lupus St', 'London', 'United Kingdom', 'SW1V 3EN', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (55, 8, '2009-08-24 00:00:00', 'Grétrystraat 63', 'Brussels', 'Belgium', '1000', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (56, 9, '2009-09-06 00:00:00', 'Sønder Boulevard 51', 'Copenhagen', 'Denmark', '1720', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (57, 11, '2009-09-06 00:00:00', 'Av. Paulista, 2022', 'São Paulo', 'SP', 'Brazil', '01310-200', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (58, 13, '2009-09-07 00:00:00', 'Qe 7 Bloco G', 'Brasília', 'DF', 'Brazil', '71020-677', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (59, 17, '2009-09-08 00:00:00', '1 Microsoft Way', 'Redmond', 'WA', 'USA', '98052-8300', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (60, 23, '2009-09-11 00:00:00', '69 Salem Street', 'Boston', 'MA', 'USA', '2113', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (61, 32, '2009-09-16 00:00:00', '696 Osborne Street', 'Winnipeg', 'MB', 'Canada', 'R3L 2B9', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [total]) VALUES (62, 46, '2009-09-24 00:00:00', '3 Chatham Street', 'Dublin', 'Dublin', 'Ireland', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (63, 47, '2009-10-07 00:00:00', 'Via Degli Scipioni, 43', 'Rome', 'RM', 'Italy', '00192', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (64, 49, '2009-10-07 00:00:00', 'Ordynacka 10', 'Warsaw', 'Poland', '00-358', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (65, 51, '2009-10-08 00:00:00', 'Celsiusg. 9', 'Stockholm', 'Sweden', '11230', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (66, 55, '2009-10-09 00:00:00', '421 Bourke Street', 'Sidney', 'NSW', 'Australia', '2010', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (67, 2, '2009-10-12 00:00:00', 'Theodor-Heuss-Straße 34', 'Stuttgart', 'Germany', '70174', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (68, 11, '2009-10-17 00:00:00', 'Av. Paulista, 2022', 'São Paulo', 'SP', 'Brazil', '01310-200', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (69, 25, '2009-10-25 00:00:00', '319 N. Frances Street', 'Madison', 'WI', 'USA', '53703', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (70, 26, '2009-11-07 00:00:00', '2211 W Berry Street', 'Fort Worth', 'TX', 'USA', '76110', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (71, 28, '2009-11-07 00:00:00', '302 S 700 E', 'Salt Lake City', 'UT', 'USA', '84102', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (72, 30, '2009-11-08 00:00:00', '230 Elgin Street', 'Ottawa', 'ON', 'Canada', 'K2P 1L7', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (73, 34, '2009-11-09 00:00:00', 'Rua da Assunção 53', 'Lisbon', 'Portugal', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (74, 40, '2009-11-12 00:00:00', '8, Rue Hanovre', 'Paris', 'France', '75002', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (75, 49, '2009-11-17 00:00:00', 'Ordynacka 10', 'Warsaw', 'Poland', '00-358', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (76, 4, '2009-11-25 00:00:00', 'Ullevålsveien 14', 'Oslo', 'Norway', '0171', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (77, 5, '2009-12-08 00:00:00', 'Klanova 9/506', 'Prague', 'Czech Republic', '14700', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (78, 7, '2009-12-08 00:00:00', 'Rotenturmstraße 4, 1010 Innere Stadt', 'Vienne', 'Austria', '1010', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (79, 9, '2009-12-09 00:00:00', 'Sønder Boulevard 51', 'Copenhagen', 'Denmark', '1720', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (80, 13, '2009-12-10 00:00:00', 'Qe 7 Bloco G', 'Brasília', 'DF', 'Brazil', '71020-677', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (81, 19, '2009-12-13 00:00:00', '1 Infinite Loop', 'Cupertino', 'CA', 'USA', '95014', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (82, 28, '2009-12-18 00:00:00', '302 S 700 E', 'Salt Lake City', 'UT', 'USA', '84102', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (83, 42, '2009-12-26 00:00:00', '9, Place Louis Barthou', 'Bordeaux', 'France', '33000', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (84, 43, '2010-01-08 00:00:00', '68, Rue Jouvence', 'Dijon', 'France', '21000', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (85, 45, '2010-01-08 00:00:00', 'Erzsébet krt. 58.', 'Budapest', 'Hungary', 'H-1073', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (86, 47, '2010-01-09 00:00:00', 'Via Degli Scipioni, 43', 'Rome', 'RM', 'Italy', '00192', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (87, 51, '2010-01-10 00:00:00', 'Celsiusg. 9', 'Stockholm', 'Sweden', '11230', 6.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (88, 57, '2010-01-13 00:00:00', 'Calle Lira, 198', 'Santiago', 'Chile', 17.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (89, 7, '2010-01-18 00:00:00', 'Rotenturmstraße 4, 1010 Innere Stadt', 'Vienne', 'Austria', '1010', 18.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (90, 21, '2010-01-26 00:00:00', '801 W 4th Street', 'Reno', 'NV', 'USA', '89503', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (91, 22, '2010-02-08 00:00:00', '120 S Orange Ave', 'Orlando', 'FL', 'USA', '32801', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (92, 24, '2010-02-08 00:00:00', '162 E Superior Street', 'Chicago', 'IL', 'USA', '60611', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (93, 26, '2010-02-09 00:00:00', '2211 W Berry Street', 'Fort Worth', 'TX', 'USA', '76110', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (94, 30, '2010-02-10 00:00:00', '230 Elgin Street', 'Ottawa', 'ON', 'Canada', 'K2P 1L7', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (95, 36, '2010-02-13 00:00:00', 'Tauentzienstraße 8', 'Berlin', 'Germany', '10789', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (96, 45, '2010-02-18 00:00:00', 'Erzsébet krt. 58.', 'Budapest', 'Hungary', 'H-1073', 21.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (97, 59, '2010-02-26 00:00:00', '3,Raj Bhavan Road', 'Bangalore', 'India', '560001', 1.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (98, 1, '2010-03-11 00:00:00', 'Av. Brigadeiro Faria Lima, 2170', 'São José dos Campos', 'SP', 'Brazil', '12227-000', 3.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (99, 3, '2010-03-11 00:00:00', '1498 rue Bélanger', 'Montréal', 'QC', 'Canada', 'H2G 1A7', 3.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (100, 5, '2010-03-12 00:00:00', 'Klanova 9/506', 'Prague', 'Czech Republic', '14700', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (101, 9, '2010-03-13 00:00:00', 'Sønder Boulevard 51', 'Copenhagen', 'Denmark', '1720', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (102, 15, '2010-03-16 00:00:00', '700 W Pender Street', 'Vancouver', 'BC', 'Canada', 'V6C 1G8', 9.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (103, 24, '2010-03-21 00:00:00', '162 E Superior Street', 'Chicago', 'IL', 'USA', '60611', 15.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (104, 38, '2010-03-29 00:00:00', 'Barbarossastraße 19', 'Berlin', 'Germany', '10779', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (105, 39, '2010-04-11 00:00:00', '4, Rue Milton', 'Paris', 'France', '75009', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (106, 41, '2010-04-11 00:00:00', '11, Place Bellecour', 'Lyon', 'France', '69002', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (107, 43, '2010-04-12 00:00:00', '68, Rue Jouvence', 'Dijon', 'France', '21000', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (108, 47, '2010-04-13 00:00:00', 'Via Degli Scipioni, 43', 'Rome', 'RM', 'Italy', '00192', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (109, 53, '2010-04-16 00:00:00', '113 Lupus St', 'London', 'United Kingdom', 'SW1V 3EN', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (110, 3, '2010-04-21 00:00:00', '1498 rue Bélanger', 'Montréal', 'QC', 'Canada', 'H2G 1A7', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (111, 17, '2010-04-29 00:00:00', '1 Microsoft Way', 'Redmond', 'WA', 'USA', '98052-8300', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (112, 18, '2010-05-12 00:00:00', '627 Broadway', 'New York', 'NY', 'USA', '10012-2612', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (113, 20, '2010-05-12 00:00:00', '541 Del Medio Avenue', 'Mountain View', 'CA', 'USA', '94040-111', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (114, 22, '2010-05-13 00:00:00', '120 S Orange Ave', 'Orlando', 'FL', 'USA', '32801', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (115, 26, '2010-05-14 00:00:00', '2211 W Berry Street', 'Fort Worth', 'TX', 'USA', '76110', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (116, 32, '2010-05-17 00:00:00', '696 Osborne Street', 'Winnipeg', 'MB', 'Canada', 'R3L 2B9', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (117, 41, '2010-05-22 00:00:00', '11, Place Bellecour', 'Lyon', 'France', '69002', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (118, 55, '2010-05-30 00:00:00', '421 Bourke Street', 'Sidney', 'NSW', 'Australia', '2010', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (119, 56, '2010-06-12 00:00:00', '307 Macacha Güemes', 'Buenos Aires', 'Argentina', '1106', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (120, 58, '2010-06-12 00:00:00', '12,Community Centre', 'Delhi', 'India', '110017', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (121, 1, '2010-06-13 00:00:00', 'Av. Brigadeiro Faria Lima, 2170', 'São José dos Campos', 'SP', 'Brazil', '12227-000', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (122, 5, '2010-06-14 00:00:00', 'Klanova 9/506', 'Prague', 'Czech Republic', '14700', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (123, 11, '2010-06-17 00:00:00', 'Av. Paulista, 2022', 'São Paulo', 'SP', 'Brazil', '01310-200', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (124, 20, '2010-06-22 00:00:00', '541 Del Medio Avenue', 'Mountain View', 'CA', 'USA', '94040-111', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (125, 34, '2010-06-30 00:00:00', 'Rua da Assunção 53', 'Lisbon', 'Portugal', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (126, 35, '2010-07-13 00:00:00', 'Rua dos Campeões Europeus de Viena, 4350', 'Porto', 'Portugal', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (127, 37, '2010-07-13 00:00:00', 'Berger Straße 10', 'Frankfurt', 'Germany', '60316', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (128, 39, '2010-07-14 00:00:00', '4, Rue Milton', 'Paris', 'France', '75009', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (129, 43, '2010-07-15 00:00:00', '68, Rue Jouvence', 'Dijon', 'France', '21000', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (130, 49, '2010-07-18 00:00:00', 'Ordynacka 10', 'Warsaw', 'Poland', '00-358', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (131, 58, '2010-07-23 00:00:00', '12,Community Centre', 'Delhi', 'India', '110017', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (132, 13, '2010-07-31 00:00:00', 'Qe 7 Bloco G', 'Brasília', 'DF', 'Brazil', '71020-677', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (133, 14, '2010-08-13 00:00:00', '8210 111 ST NW', 'Edmonton', 'AB', 'Canada', 'T6G 2C7', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (134, 16, '2010-08-13 00:00:00', '1600 Amphitheatre Parkway', 'Mountain View', 'CA', 'USA', '94043-1351', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (135, 18, '2010-08-14 00:00:00', '627 Broadway', 'New York', 'NY', 'USA', '10012-2612', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (136, 22, '2010-08-15 00:00:00', '120 S Orange Ave', 'Orlando', 'FL', 'USA', '32801', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (137, 28, '2010-08-18 00:00:00', '302 S 700 E', 'Salt Lake City', 'UT', 'USA', '84102', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (138, 37, '2010-08-23 00:00:00', 'Berger Straße 10', 'Frankfurt', 'Germany', '60316', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (139, 51, '2010-08-31 00:00:00', 'Celsiusg. 9', 'Stockholm', 'Sweden', '11230', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (140, 52, '2010-09-13 00:00:00', '202 Hoxton Street', 'London', 'United Kingdom', 'N1 5LH', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (141, 54, '2010-09-13 00:00:00', '110 Raeburn Pl', 'Edinburgh ', 'United Kingdom', 'EH4 1HH', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (142, 56, '2010-09-14 00:00:00', '307 Macacha Güemes', 'Buenos Aires', 'Argentina', '1106', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (143, 1, '2010-09-15 00:00:00', 'Av. Brigadeiro Faria Lima, 2170', 'São José dos Campos', 'SP', 'Brazil', '12227-000', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (144, 7, '2010-09-18 00:00:00', 'Rotenturmstraße 4, 1010 Innere Stadt', 'Vienne', 'Austria', '1010', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (145, 16, '2010-09-23 00:00:00', '1600 Amphitheatre Parkway', 'Mountain View', 'CA', 'USA', '94043-1351', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (146, 30, '2010-10-01 00:00:00', '230 Elgin Street', 'Ottawa', 'ON', 'Canada', 'K2P 1L7', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (147, 31, '2010-10-14 00:00:00', '194A Chain Lake Drive', 'Halifax', 'NS', 'Canada', 'B3S 1C5', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (148, 33, '2010-10-14 00:00:00', '5112 48 Street', 'Yellowknife', 'NT', 'Canada', 'X1A 1N6', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (149, 35, '2010-10-15 00:00:00', 'Rua dos Campeões Europeus de Viena, 4350', 'Porto', 'Portugal', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (150, 39, '2010-10-16 00:00:00', '4, Rue Milton', 'Paris', 'France', '75009', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (151, 45, '2010-10-19 00:00:00', 'Erzsébet krt. 58.', 'Budapest', 'Hungary', 'H-1073', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (152, 54, '2010-10-24 00:00:00', '110 Raeburn Pl', 'Edinburgh ', 'United Kingdom', 'EH4 1HH', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (153, 9, '2010-11-01 00:00:00', 'Sønder Boulevard 51', 'Copenhagen', 'Denmark', '1720', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (154, 10, '2010-11-14 00:00:00', 'Rua Dr. Falcão Filho, 155', 'São Paulo', 'SP', 'Brazil', '01007-010', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (155, 12, '2010-11-14 00:00:00', 'Praça Pio X, 119', 'Rio de Janeiro', 'RJ', 'Brazil', '20040-020', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (156, 14, '2010-11-15 00:00:00', '8210 111 ST NW', 'Edmonton', 'AB', 'Canada', 'T6G 2C7', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (157, 18, '2010-11-16 00:00:00', '627 Broadway', 'New York', 'NY', 'USA', '10012-2612', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (158, 24, '2010-11-19 00:00:00', '162 E Superior Street', 'Chicago', 'IL', 'USA', '60611', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (159, 33, '2010-11-24 00:00:00', '5112 48 Street', 'Yellowknife', 'NT', 'Canada', 'X1A 1N6', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (160, 47, '2010-12-02 00:00:00', 'Via Degli Scipioni, 43', 'Rome', 'RM', 'Italy', '00192', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (161, 48, '2010-12-15 00:00:00', 'Lijnbaansgracht 120bg', 'Amsterdam', 'VV', 'Netherlands', '1016', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (162, 50, '2010-12-15 00:00:00', 'C/ San Bernardo 85', 'Madrid', 'Spain', '28015', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (163, 52, '2010-12-16 00:00:00', '202 Hoxton Street', 'London', 'United Kingdom', 'N1 5LH', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (164, 56, '2010-12-17 00:00:00', '307 Macacha Güemes', 'Buenos Aires', 'Argentina', '1106', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (165, 3, '2010-12-20 00:00:00', '1498 rue Bélanger', 'Montréal', 'QC', 'Canada', 'H2G 1A7', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (166, 12, '2010-12-25 00:00:00', 'Praça Pio X, 119', 'Rio de Janeiro', 'RJ', 'Brazil', '20040-020', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (167, 26, '2011-01-02 00:00:00', '2211 W Berry Street', 'Fort Worth', 'TX', 'USA', '76110', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (168, 27, '2011-01-15 00:00:00', '1033 N Park Ave', 'Tucson', 'AZ', 'USA', '85719', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (169, 29, '2011-01-15 00:00:00', '796 Dundas Street West', 'Toronto', 'ON', 'Canada', 'M6J 1V1', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (170, 31, '2011-01-16 00:00:00', '194A Chain Lake Drive', 'Halifax', 'NS', 'Canada', 'B3S 1C5', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (171, 35, '2011-01-17 00:00:00', 'Rua dos Campeões Europeus de Viena, 4350', 'Porto', 'Portugal', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (172, 41, '2011-01-20 00:00:00', '11, Place Bellecour', 'Lyon', 'France', '69002', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (173, 50, '2011-01-25 00:00:00', 'C/ San Bernardo 85', 'Madrid', 'Spain', '28015', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (174, 5, '2011-02-02 00:00:00', 'Klanova 9/506', 'Prague', 'Czech Republic', '14700', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (175, 6, '2011-02-15 00:00:00', 'Rilská 3174/6', 'Prague', 'Czech Republic', '14300', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (176, 8, '2011-02-15 00:00:00', 'Grétrystraat 63', 'Brussels', 'Belgium', '1000', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (177, 10, '2011-02-16 00:00:00', 'Rua Dr. Falcão Filho, 155', 'São Paulo', 'SP', 'Brazil', '01007-010', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (178, 14, '2011-02-17 00:00:00', '8210 111 ST NW', 'Edmonton', 'AB', 'Canada', 'T6G 2C7', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (179, 20, '2011-02-20 00:00:00', '541 Del Medio Avenue', 'Mountain View', 'CA', 'USA', '94040-111', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (180, 29, '2011-02-25 00:00:00', '796 Dundas Street West', 'Toronto', 'ON', 'Canada', 'M6J 1V1', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (181, 43, '2011-03-05 00:00:00', '68, Rue Jouvence', 'Dijon', 'France', '21000', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (182, 44, '2011-03-18 00:00:00', 'Porthaninkatu 9', 'Helsinki', 'Finland', '00530', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [total]) VALUES (183, 46, '2011-03-18 00:00:00', '3 Chatham Street', 'Dublin', 'Dublin', 'Ireland', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (184, 48, '2011-03-19 00:00:00', 'Lijnbaansgracht 120bg', 'Amsterdam', 'VV', 'Netherlands', '1016', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (185, 52, '2011-03-20 00:00:00', '202 Hoxton Street', 'London', 'United Kingdom', 'N1 5LH', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (186, 58, '2011-03-23 00:00:00', '12,Community Centre', 'Delhi', 'India', '110017', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (187, 8, '2011-03-28 00:00:00', 'Grétrystraat 63', 'Brussels', 'Belgium', '1000', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (188, 22, '2011-04-05 00:00:00', '120 S Orange Ave', 'Orlando', 'FL', 'USA', '32801', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (189, 23, '2011-04-18 00:00:00', '69 Salem Street', 'Boston', 'MA', 'USA', '2113', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (190, 25, '2011-04-18 00:00:00', '319 N. Frances Street', 'Madison', 'WI', 'USA', '53703', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (191, 27, '2011-04-19 00:00:00', '1033 N Park Ave', 'Tucson', 'AZ', 'USA', '85719', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (192, 31, '2011-04-20 00:00:00', '194A Chain Lake Drive', 'Halifax', 'NS', 'Canada', 'B3S 1C5', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (193, 37, '2011-04-23 00:00:00', 'Berger Straße 10', 'Frankfurt', 'Germany', '60316', 14.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [total]) VALUES (194, 46, '2011-04-28 00:00:00', '3 Chatham Street', 'Dublin', 'Dublin', 'Ireland', 21.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (195, 1, '2011-05-06 00:00:00', 'Av. Brigadeiro Faria Lima, 2170', 'São José dos Campos', 'SP', 'Brazil', '12227-000', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (196, 2, '2011-05-19 00:00:00', 'Theodor-Heuss-Straße 34', 'Stuttgart', 'Germany', '70174', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (197, 4, '2011-05-19 00:00:00', 'Ullevålsveien 14', 'Oslo', 'Norway', '0171', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (198, 6, '2011-05-20 00:00:00', 'Rilská 3174/6', 'Prague', 'Czech Republic', '14300', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (199, 10, '2011-05-21 00:00:00', 'Rua Dr. Falcão Filho, 155', 'São Paulo', 'SP', 'Brazil', '01007-010', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (200, 16, '2011-05-24 00:00:00', '1600 Amphitheatre Parkway', 'Mountain View', 'CA', 'USA', '94043-1351', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (201, 25, '2011-05-29 00:00:00', '319 N. Frances Street', 'Madison', 'WI', 'USA', '53703', 18.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (202, 39, '2011-06-06 00:00:00', '4, Rue Milton', 'Paris', 'France', '75009', 1.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (203, 40, '2011-06-19 00:00:00', '8, Rue Hanovre', 'Paris', 'France', '75002', 2.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (204, 42, '2011-06-19 00:00:00', '9, Place Louis Barthou', 'Bordeaux', 'France', '33000', 3.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (205, 44, '2011-06-20 00:00:00', 'Porthaninkatu 9', 'Helsinki', 'Finland', '00530', 7.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (206, 48, '2011-06-21 00:00:00', 'Lijnbaansgracht 120bg', 'Amsterdam', 'VV', 'Netherlands', '1016', 8.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (207, 54, '2011-06-24 00:00:00', '110 Raeburn Pl', 'Edinburgh ', 'United Kingdom', 'EH4 1HH', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (208, 4, '2011-06-29 00:00:00', 'Ullevålsveien 14', 'Oslo', 'Norway', '0171', 15.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (209, 18, '2011-07-07 00:00:00', '627 Broadway', 'New York', 'NY', 'USA', '10012-2612', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (210, 19, '2011-07-20 00:00:00', '1 Infinite Loop', 'Cupertino', 'CA', 'USA', '95014', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (211, 21, '2011-07-20 00:00:00', '801 W 4th Street', 'Reno', 'NV', 'USA', '89503', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (212, 23, '2011-07-21 00:00:00', '69 Salem Street', 'Boston', 'MA', 'USA', '2113', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (213, 27, '2011-07-22 00:00:00', '1033 N Park Ave', 'Tucson', 'AZ', 'USA', '85719', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (214, 33, '2011-07-25 00:00:00', '5112 48 Street', 'Yellowknife', 'NT', 'Canada', 'X1A 1N6', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (215, 42, '2011-07-30 00:00:00', '9, Place Louis Barthou', 'Bordeaux', 'France', '33000', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (216, 56, '2011-08-07 00:00:00', '307 Macacha Güemes', 'Buenos Aires', 'Argentina', '1106', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (217, 57, '2011-08-20 00:00:00', 'Calle Lira, 198', 'Santiago', 'Chile', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (218, 59, '2011-08-20 00:00:00', '3,Raj Bhavan Road', 'Bangalore', 'India', '560001', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (219, 2, '2011-08-21 00:00:00', 'Theodor-Heuss-Straße 34', 'Stuttgart', 'Germany', '70174', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (220, 6, '2011-08-22 00:00:00', 'Rilská 3174/6', 'Prague', 'Czech Republic', '14300', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (221, 12, '2011-08-25 00:00:00', 'Praça Pio X, 119', 'Rio de Janeiro', 'RJ', 'Brazil', '20040-020', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (222, 21, '2011-08-30 00:00:00', '801 W 4th Street', 'Reno', 'NV', 'USA', '89503', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (223, 35, '2011-09-07 00:00:00', 'Rua dos Campeões Europeus de Viena, 4350', 'Porto', 'Portugal', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (224, 36, '2011-09-20 00:00:00', 'Tauentzienstraße 8', 'Berlin', 'Germany', '10789', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (225, 38, '2011-09-20 00:00:00', 'Barbarossastraße 19', 'Berlin', 'Germany', '10779', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (226, 40, '2011-09-21 00:00:00', '8, Rue Hanovre', 'Paris', 'France', '75002', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (227, 44, '2011-09-22 00:00:00', 'Porthaninkatu 9', 'Helsinki', 'Finland', '00530', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (228, 50, '2011-09-25 00:00:00', 'C/ San Bernardo 85', 'Madrid', 'Spain', '28015', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (229, 59, '2011-09-30 00:00:00', '3,Raj Bhavan Road', 'Bangalore', 'India', '560001', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (230, 14, '2011-10-08 00:00:00', '8210 111 ST NW', 'Edmonton', 'AB', 'Canada', 'T6G 2C7', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (231, 15, '2011-10-21 00:00:00', '700 W Pender Street', 'Vancouver', 'BC', 'Canada', 'V6C 1G8', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (232, 17, '2011-10-21 00:00:00', '1 Microsoft Way', 'Redmond', 'WA', 'USA', '98052-8300', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (233, 19, '2011-10-22 00:00:00', '1 Infinite Loop', 'Cupertino', 'CA', 'USA', '95014', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (234, 23, '2011-10-23 00:00:00', '69 Salem Street', 'Boston', 'MA', 'USA', '2113', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (235, 29, '2011-10-26 00:00:00', '796 Dundas Street West', 'Toronto', 'ON', 'Canada', 'M6J 1V1', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (236, 38, '2011-10-31 00:00:00', 'Barbarossastraße 19', 'Berlin', 'Germany', '10779', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (237, 52, '2011-11-08 00:00:00', '202 Hoxton Street', 'London', 'United Kingdom', 'N1 5LH', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (238, 53, '2011-11-21 00:00:00', '113 Lupus St', 'London', 'United Kingdom', 'SW1V 3EN', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (239, 55, '2011-11-21 00:00:00', '421 Bourke Street', 'Sidney', 'NSW', 'Australia', '2010', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (240, 57, '2011-11-22 00:00:00', 'Calle Lira, 198', 'Santiago', 'Chile', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (241, 2, '2011-11-23 00:00:00', 'Theodor-Heuss-Straße 34', 'Stuttgart', 'Germany', '70174', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (242, 8, '2011-11-26 00:00:00', 'Grétrystraat 63', 'Brussels', 'Belgium', '1000', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (243, 17, '2011-12-01 00:00:00', '1 Microsoft Way', 'Redmond', 'WA', 'USA', '98052-8300', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (244, 31, '2011-12-09 00:00:00', '194A Chain Lake Drive', 'Halifax', 'NS', 'Canada', 'B3S 1C5', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (245, 32, '2011-12-22 00:00:00', '696 Osborne Street', 'Winnipeg', 'MB', 'Canada', 'R3L 2B9', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (246, 34, '2011-12-22 00:00:00', 'Rua da Assunção 53', 'Lisbon', 'Portugal', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (247, 36, '2011-12-23 00:00:00', 'Tauentzienstraße 8', 'Berlin', 'Germany', '10789', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (248, 40, '2011-12-24 00:00:00', '8, Rue Hanovre', 'Paris', 'France', '75002', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [total]) VALUES (249, 46, '2011-12-27 00:00:00', '3 Chatham Street', 'Dublin', 'Dublin', 'Ireland', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (250, 55, '2012-01-01 00:00:00', '421 Bourke Street', 'Sidney', 'NSW', 'Australia', '2010', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (251, 10, '2012-01-09 00:00:00', 'Rua Dr. Falcão Filho, 155', 'São Paulo', 'SP', 'Brazil', '01007-010', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (252, 11, '2012-01-22 00:00:00', 'Av. Paulista, 2022', 'São Paulo', 'SP', 'Brazil', '01310-200', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (253, 13, '2012-01-22 00:00:00', 'Qe 7 Bloco G', 'Brasília', 'DF', 'Brazil', '71020-677', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (254, 15, '2012-01-23 00:00:00', '700 W Pender Street', 'Vancouver', 'BC', 'Canada', 'V6C 1G8', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (255, 19, '2012-01-24 00:00:00', '1 Infinite Loop', 'Cupertino', 'CA', 'USA', '95014', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (256, 25, '2012-01-27 00:00:00', '319 N. Frances Street', 'Madison', 'WI', 'USA', '53703', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (257, 34, '2012-02-01 00:00:00', 'Rua da Assunção 53', 'Lisbon', 'Portugal', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (258, 48, '2012-02-09 00:00:00', 'Lijnbaansgracht 120bg', 'Amsterdam', 'VV', 'Netherlands', '1016', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (259, 49, '2012-02-22 00:00:00', 'Ordynacka 10', 'Warsaw', 'Poland', '00-358', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (260, 51, '2012-02-22 00:00:00', 'Celsiusg. 9', 'Stockholm', 'Sweden', '11230', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (261, 53, '2012-02-23 00:00:00', '113 Lupus St', 'London', 'United Kingdom', 'SW1V 3EN', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (262, 57, '2012-02-24 00:00:00', 'Calle Lira, 198', 'Santiago', 'Chile', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (263, 4, '2012-02-27 00:00:00', 'Ullevålsveien 14', 'Oslo', 'Norway', '0171', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (264, 13, '2012-03-03 00:00:00', 'Qe 7 Bloco G', 'Brasília', 'DF', 'Brazil', '71020-677', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (265, 27, '2012-03-11 00:00:00', '1033 N Park Ave', 'Tucson', 'AZ', 'USA', '85719', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (266, 28, '2012-03-24 00:00:00', '302 S 700 E', 'Salt Lake City', 'UT', 'USA', '84102', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (267, 30, '2012-03-24 00:00:00', '230 Elgin Street', 'Ottawa', 'ON', 'Canada', 'K2P 1L7', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (268, 32, '2012-03-25 00:00:00', '696 Osborne Street', 'Winnipeg', 'MB', 'Canada', 'R3L 2B9', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (269, 36, '2012-03-26 00:00:00', 'Tauentzienstraße 8', 'Berlin', 'Germany', '10789', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (270, 42, '2012-03-29 00:00:00', '9, Place Louis Barthou', 'Bordeaux', 'France', '33000', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (271, 51, '2012-04-03 00:00:00', 'Celsiusg. 9', 'Stockholm', 'Sweden', '11230', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (272, 6, '2012-04-11 00:00:00', 'Rilská 3174/6', 'Prague', 'Czech Republic', '14300', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (273, 7, '2012-04-24 00:00:00', 'Rotenturmstraße 4, 1010 Innere Stadt', 'Vienne', 'Austria', '1010', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (274, 9, '2012-04-24 00:00:00', 'Sønder Boulevard 51', 'Copenhagen', 'Denmark', '1720', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (275, 11, '2012-04-25 00:00:00', 'Av. Paulista, 2022', 'São Paulo', 'SP', 'Brazil', '01310-200', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (276, 15, '2012-04-26 00:00:00', '700 W Pender Street', 'Vancouver', 'BC', 'Canada', 'V6C 1G8', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (277, 21, '2012-04-29 00:00:00', '801 W 4th Street', 'Reno', 'NV', 'USA', '89503', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (278, 30, '2012-05-04 00:00:00', '230 Elgin Street', 'Ottawa', 'ON', 'Canada', 'K2P 1L7', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (279, 44, '2012-05-12 00:00:00', 'Porthaninkatu 9', 'Helsinki', 'Finland', '00530', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (280, 45, '2012-05-25 00:00:00', 'Erzsébet krt. 58.', 'Budapest', 'Hungary', 'H-1073', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (281, 47, '2012-05-25 00:00:00', 'Via Degli Scipioni, 43', 'Rome', 'RM', 'Italy', '00192', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (282, 49, '2012-05-26 00:00:00', 'Ordynacka 10', 'Warsaw', 'Poland', '00-358', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (283, 53, '2012-05-27 00:00:00', '113 Lupus St', 'London', 'United Kingdom', 'SW1V 3EN', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (284, 59, '2012-05-30 00:00:00', '3,Raj Bhavan Road', 'Bangalore', 'India', '560001', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (285, 9, '2012-06-04 00:00:00', 'Sønder Boulevard 51', 'Copenhagen', 'Denmark', '1720', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (286, 23, '2012-06-12 00:00:00', '69 Salem Street', 'Boston', 'MA', 'USA', '2113', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (287, 24, '2012-06-25 00:00:00', '162 E Superior Street', 'Chicago', 'IL', 'USA', '60611', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (288, 26, '2012-06-25 00:00:00', '2211 W Berry Street', 'Fort Worth', 'TX', 'USA', '76110', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (289, 28, '2012-06-26 00:00:00', '302 S 700 E', 'Salt Lake City', 'UT', 'USA', '84102', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (290, 32, '2012-06-27 00:00:00', '696 Osborne Street', 'Winnipeg', 'MB', 'Canada', 'R3L 2B9', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (291, 38, '2012-06-30 00:00:00', 'Barbarossastraße 19', 'Berlin', 'Germany', '10779', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (292, 47, '2012-07-05 00:00:00', 'Via Degli Scipioni, 43', 'Rome', 'RM', 'Italy', '00192', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (293, 2, '2012-07-13 00:00:00', 'Theodor-Heuss-Straße 34', 'Stuttgart', 'Germany', '70174', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (294, 3, '2012-07-26 00:00:00', '1498 rue Bélanger', 'Montréal', 'QC', 'Canada', 'H2G 1A7', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (295, 5, '2012-07-26 00:00:00', 'Klanova 9/506', 'Prague', 'Czech Republic', '14700', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (296, 7, '2012-07-27 00:00:00', 'Rotenturmstraße 4, 1010 Innere Stadt', 'Vienne', 'Austria', '1010', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (297, 11, '2012-07-28 00:00:00', 'Av. Paulista, 2022', 'São Paulo', 'SP', 'Brazil', '01310-200', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (298, 17, '2012-07-31 00:00:00', '1 Microsoft Way', 'Redmond', 'WA', 'USA', '98052-8300', 10.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (299, 26, '2012-08-05 00:00:00', '2211 W Berry Street', 'Fort Worth', 'TX', 'USA', '76110', 23.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (300, 40, '2012-08-13 00:00:00', '8, Rue Hanovre', 'Paris', 'France', '75002', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (301, 41, '2012-08-26 00:00:00', '11, Place Bellecour', 'Lyon', 'France', '69002', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (302, 43, '2012-08-26 00:00:00', '68, Rue Jouvence', 'Dijon', 'France', '21000', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (303, 45, '2012-08-27 00:00:00', 'Erzsébet krt. 58.', 'Budapest', 'Hungary', 'H-1073', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (304, 49, '2012-08-28 00:00:00', 'Ordynacka 10', 'Warsaw', 'Poland', '00-358', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (305, 55, '2012-08-31 00:00:00', '421 Bourke Street', 'Sidney', 'NSW', 'Australia', '2010', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (306, 5, '2012-09-05 00:00:00', 'Klanova 9/506', 'Prague', 'Czech Republic', '14700', 16.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (307, 19, '2012-09-13 00:00:00', '1 Infinite Loop', 'Cupertino', 'CA', 'USA', '95014', 1.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (308, 20, '2012-09-26 00:00:00', '541 Del Medio Avenue', 'Mountain View', 'CA', 'USA', '94040-111', 3.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (309, 22, '2012-09-26 00:00:00', '120 S Orange Ave', 'Orlando', 'FL', 'USA', '32801', 3.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (310, 24, '2012-09-27 00:00:00', '162 E Superior Street', 'Chicago', 'IL', 'USA', '60611', 7.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (311, 28, '2012-09-28 00:00:00', '302 S 700 E', 'Salt Lake City', 'UT', 'USA', '84102', 11.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (312, 34, '2012-10-01 00:00:00', 'Rua da Assunção 53', 'Lisbon', 'Portugal', 10.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (313, 43, '2012-10-06 00:00:00', '68, Rue Jouvence', 'Dijon', 'France', '21000', 16.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (314, 57, '2012-10-14 00:00:00', 'Calle Lira, 198', 'Santiago', 'Chile', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (315, 58, '2012-10-27 00:00:00', '12,Community Centre', 'Delhi', 'India', '110017', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (316, 1, '2012-10-27 00:00:00', 'Av. Brigadeiro Faria Lima, 2170', 'São José dos Campos', 'SP', 'Brazil', '12227-000', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (317, 3, '2012-10-28 00:00:00', '1498 rue Bélanger', 'Montréal', 'QC', 'Canada', 'H2G 1A7', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (318, 7, '2012-10-29 00:00:00', 'Rotenturmstraße 4, 1010 Innere Stadt', 'Vienne', 'Austria', '1010', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (319, 13, '2012-11-01 00:00:00', 'Qe 7 Bloco G', 'Brasília', 'DF', 'Brazil', '71020-677', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (320, 22, '2012-11-06 00:00:00', '120 S Orange Ave', 'Orlando', 'FL', 'USA', '32801', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (321, 36, '2012-11-14 00:00:00', 'Tauentzienstraße 8', 'Berlin', 'Germany', '10789', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (322, 37, '2012-11-27 00:00:00', 'Berger Straße 10', 'Frankfurt', 'Germany', '60316', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (323, 39, '2012-11-27 00:00:00', '4, Rue Milton', 'Paris', 'France', '75009', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (324, 41, '2012-11-28 00:00:00', '11, Place Bellecour', 'Lyon', 'France', '69002', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (325, 45, '2012-11-29 00:00:00', 'Erzsébet krt. 58.', 'Budapest', 'Hungary', 'H-1073', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (326, 51, '2012-12-02 00:00:00', 'Celsiusg. 9', 'Stockholm', 'Sweden', '11230', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (327, 1, '2012-12-07 00:00:00', 'Av. Brigadeiro Faria Lima, 2170', 'São José dos Campos', 'SP', 'Brazil', '12227-000', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (328, 15, '2012-12-15 00:00:00', '700 W Pender Street', 'Vancouver', 'BC', 'Canada', 'V6C 1G8', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (329, 16, '2012-12-28 00:00:00', '1600 Amphitheatre Parkway', 'Mountain View', 'CA', 'USA', '94043-1351', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (330, 18, '2012-12-28 00:00:00', '627 Broadway', 'New York', 'NY', 'USA', '10012-2612', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (331, 20, '2012-12-29 00:00:00', '541 Del Medio Avenue', 'Mountain View', 'CA', 'USA', '94040-111', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (332, 24, '2012-12-30 00:00:00', '162 E Superior Street', 'Chicago', 'IL', 'USA', '60611', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (333, 30, '2013-01-02 00:00:00', '230 Elgin Street', 'Ottawa', 'ON', 'Canada', 'K2P 1L7', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (334, 39, '2013-01-07 00:00:00', '4, Rue Milton', 'Paris', 'France', '75009', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (335, 53, '2013-01-15 00:00:00', '113 Lupus St', 'London', 'United Kingdom', 'SW1V 3EN', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (336, 54, '2013-01-28 00:00:00', '110 Raeburn Pl', 'Edinburgh ', 'United Kingdom', 'EH4 1HH', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (337, 56, '2013-01-28 00:00:00', '307 Macacha Güemes', 'Buenos Aires', 'Argentina', '1106', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (338, 58, '2013-01-29 00:00:00', '12,Community Centre', 'Delhi', 'India', '110017', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (339, 3, '2013-01-30 00:00:00', '1498 rue Bélanger', 'Montréal', 'QC', 'Canada', 'H2G 1A7', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (340, 9, '2013-02-02 00:00:00', 'Sønder Boulevard 51', 'Copenhagen', 'Denmark', '1720', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (341, 18, '2013-02-07 00:00:00', '627 Broadway', 'New York', 'NY', 'USA', '10012-2612', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (342, 32, '2013-02-15 00:00:00', '696 Osborne Street', 'Winnipeg', 'MB', 'Canada', 'R3L 2B9', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (343, 33, '2013-02-28 00:00:00', '5112 48 Street', 'Yellowknife', 'NT', 'Canada', 'X1A 1N6', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (344, 35, '2013-02-28 00:00:00', 'Rua dos Campeões Europeus de Viena, 4350', 'Porto', 'Portugal', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (345, 37, '2013-03-01 00:00:00', 'Berger Straße 10', 'Frankfurt', 'Germany', '60316', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (346, 41, '2013-03-02 00:00:00', '11, Place Bellecour', 'Lyon', 'France', '69002', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (347, 47, '2013-03-05 00:00:00', 'Via Degli Scipioni, 43', 'Rome', 'RM', 'Italy', '00192', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (348, 56, '2013-03-10 00:00:00', '307 Macacha Güemes', 'Buenos Aires', 'Argentina', '1106', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (349, 11, '2013-03-18 00:00:00', 'Av. Paulista, 2022', 'São Paulo', 'SP', 'Brazil', '01310-200', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (350, 12, '2013-03-31 00:00:00', 'Praça Pio X, 119', 'Rio de Janeiro', 'RJ', 'Brazil', '20040-020', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (351, 14, '2013-03-31 00:00:00', '8210 111 ST NW', 'Edmonton', 'AB', 'Canada', 'T6G 2C7', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (352, 16, '2013-04-01 00:00:00', '1600 Amphitheatre Parkway', 'Mountain View', 'CA', 'USA', '94043-1351', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (353, 20, '2013-04-02 00:00:00', '541 Del Medio Avenue', 'Mountain View', 'CA', 'USA', '94040-111', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (354, 26, '2013-04-05 00:00:00', '2211 W Berry Street', 'Fort Worth', 'TX', 'USA', '76110', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (355, 35, '2013-04-10 00:00:00', 'Rua dos Campeões Europeus de Viena, 4350', 'Porto', 'Portugal', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (356, 49, '2013-04-18 00:00:00', 'Ordynacka 10', 'Warsaw', 'Poland', '00-358', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (357, 50, '2013-05-01 00:00:00', 'C/ San Bernardo 85', 'Madrid', 'Spain', '28015', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (358, 52, '2013-05-01 00:00:00', '202 Hoxton Street', 'London', 'United Kingdom', 'N1 5LH', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (359, 54, '2013-05-02 00:00:00', '110 Raeburn Pl', 'Edinburgh ', 'United Kingdom', 'EH4 1HH', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (360, 58, '2013-05-03 00:00:00', '12,Community Centre', 'Delhi', 'India', '110017', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (361, 5, '2013-05-06 00:00:00', 'Klanova 9/506', 'Prague', 'Czech Republic', '14700', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (362, 14, '2013-05-11 00:00:00', '8210 111 ST NW', 'Edmonton', 'AB', 'Canada', 'T6G 2C7', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (363, 28, '2013-05-19 00:00:00', '302 S 700 E', 'Salt Lake City', 'UT', 'USA', '84102', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (364, 29, '2013-06-01 00:00:00', '796 Dundas Street West', 'Toronto', 'ON', 'Canada', 'M6J 1V1', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (365, 31, '2013-06-01 00:00:00', '194A Chain Lake Drive', 'Halifax', 'NS', 'Canada', 'B3S 1C5', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (366, 33, '2013-06-02 00:00:00', '5112 48 Street', 'Yellowknife', 'NT', 'Canada', 'X1A 1N6', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (367, 37, '2013-06-03 00:00:00', 'Berger Straße 10', 'Frankfurt', 'Germany', '60316', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (368, 43, '2013-06-06 00:00:00', '68, Rue Jouvence', 'Dijon', 'France', '21000', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (369, 52, '2013-06-11 00:00:00', '202 Hoxton Street', 'London', 'United Kingdom', 'N1 5LH', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (370, 7, '2013-06-19 00:00:00', 'Rotenturmstraße 4, 1010 Innere Stadt', 'Vienne', 'Austria', '1010', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (371, 8, '2013-07-02 00:00:00', 'Grétrystraat 63', 'Brussels', 'Belgium', '1000', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (372, 10, '2013-07-02 00:00:00', 'Rua Dr. Falcão Filho, 155', 'São Paulo', 'SP', 'Brazil', '01007-010', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (373, 12, '2013-07-03 00:00:00', 'Praça Pio X, 119', 'Rio de Janeiro', 'RJ', 'Brazil', '20040-020', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (374, 16, '2013-07-04 00:00:00', '1600 Amphitheatre Parkway', 'Mountain View', 'CA', 'USA', '94043-1351', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (375, 22, '2013-07-07 00:00:00', '120 S Orange Ave', 'Orlando', 'FL', 'USA', '32801', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (376, 31, '2013-07-12 00:00:00', '194A Chain Lake Drive', 'Halifax', 'NS', 'Canada', 'B3S 1C5', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (377, 45, '2013-07-20 00:00:00', 'Erzsébet krt. 58.', 'Budapest', 'Hungary', 'H-1073', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [total]) VALUES (378, 46, '2013-08-02 00:00:00', '3 Chatham Street', 'Dublin', 'Dublin', 'Ireland', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (379, 48, '2013-08-02 00:00:00', 'Lijnbaansgracht 120bg', 'Amsterdam', 'VV', 'Netherlands', '1016', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (380, 50, '2013-08-03 00:00:00', 'C/ San Bernardo 85', 'Madrid', 'Spain', '28015', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (381, 54, '2013-08-04 00:00:00', '110 Raeburn Pl', 'Edinburgh ', 'United Kingdom', 'EH4 1HH', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (382, 1, '2013-08-07 00:00:00', 'Av. Brigadeiro Faria Lima, 2170', 'São José dos Campos', 'SP', 'Brazil', '12227-000', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (383, 10, '2013-08-12 00:00:00', 'Rua Dr. Falcão Filho, 155', 'São Paulo', 'SP', 'Brazil', '01007-010', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (384, 24, '2013-08-20 00:00:00', '162 E Superior Street', 'Chicago', 'IL', 'USA', '60611', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (385, 25, '2013-09-02 00:00:00', '319 N. Frances Street', 'Madison', 'WI', 'USA', '53703', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (386, 27, '2013-09-02 00:00:00', '1033 N Park Ave', 'Tucson', 'AZ', 'USA', '85719', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (387, 29, '2013-09-03 00:00:00', '796 Dundas Street West', 'Toronto', 'ON', 'Canada', 'M6J 1V1', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (388, 33, '2013-09-04 00:00:00', '5112 48 Street', 'Yellowknife', 'NT', 'Canada', 'X1A 1N6', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (389, 39, '2013-09-07 00:00:00', '4, Rue Milton', 'Paris', 'France', '75009', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (390, 48, '2013-09-12 00:00:00', 'Lijnbaansgracht 120bg', 'Amsterdam', 'VV', 'Netherlands', '1016', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (391, 3, '2013-09-20 00:00:00', '1498 rue Bélanger', 'Montréal', 'QC', 'Canada', 'H2G 1A7', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (392, 4, '2013-10-03 00:00:00', 'Ullevålsveien 14', 'Oslo', 'Norway', '0171', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (393, 6, '2013-10-03 00:00:00', 'Rilská 3174/6', 'Prague', 'Czech Republic', '14300', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (394, 8, '2013-10-04 00:00:00', 'Grétrystraat 63', 'Brussels', 'Belgium', '1000', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (395, 12, '2013-10-05 00:00:00', 'Praça Pio X, 119', 'Rio de Janeiro', 'RJ', 'Brazil', '20040-020', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (396, 18, '2013-10-08 00:00:00', '627 Broadway', 'New York', 'NY', 'USA', '10012-2612', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (397, 27, '2013-10-13 00:00:00', '1033 N Park Ave', 'Tucson', 'AZ', 'USA', '85719', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (398, 41, '2013-10-21 00:00:00', '11, Place Bellecour', 'Lyon', 'France', '69002', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (399, 42, '2013-11-03 00:00:00', '9, Place Louis Barthou', 'Bordeaux', 'France', '33000', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (400, 44, '2013-11-03 00:00:00', 'Porthaninkatu 9', 'Helsinki', 'Finland', '00530', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [total]) VALUES (401, 46, '2013-11-04 00:00:00', '3 Chatham Street', 'Dublin', 'Dublin', 'Ireland', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (402, 50, '2013-11-05 00:00:00', 'C/ San Bernardo 85', 'Madrid', 'Spain', '28015', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (403, 56, '2013-11-08 00:00:00', '307 Macacha Güemes', 'Buenos Aires', 'Argentina', '1106', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (404, 6, '2013-11-13 00:00:00', 'Rilská 3174/6', 'Prague', 'Czech Republic', '14300', 25.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (405, 20, '2013-11-21 00:00:00', '541 Del Medio Avenue', 'Mountain View', 'CA', 'USA', '94040-111', 0.99);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (406, 21, '2013-12-04 00:00:00', '801 W 4th Street', 'Reno', 'NV', 'USA', '89503', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (407, 23, '2013-12-04 00:00:00', '69 Salem Street', 'Boston', 'MA', 'USA', '2113', 1.98);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (408, 25, '2013-12-05 00:00:00', '319 N. Frances Street', 'Madison', 'WI', 'USA', '53703', 3.96);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (409, 29, '2013-12-06 00:00:00', '796 Dundas Street West', 'Toronto', 'ON', 'Canada', 'M6J 1V1', 5.94);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (410, 35, '2013-12-09 00:00:00', 'Rua dos Campeões Europeus de Viena, 4350', 'Porto', 'Portugal', 8.91);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (411, 44, '2013-12-14 00:00:00', 'Porthaninkatu 9', 'Helsinki', 'Finland', '00530', 13.86);
-INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (412, 58, '2013-12-22 00:00:00', '12,Community Centre', 'Delhi', 'India', '110017', 1.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (1, 2, 1230786000000, 'Theodor-Heuss-Straße 34', 'Stuttgart', 'Germany', '70174', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (2, 4, 1230872400000, 'Ullevålsveien 14', 'Oslo', 'Norway', '0171', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (3, 8, 1230958800000, 'Grétrystraat 63', 'Brussels', 'Belgium', '1000', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (4, 14, 1231218000000, '8210 111 ST NW', 'Edmonton', 'AB', 'Canada', 'T6G 2C7', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (5, 23, 1231650000000, '69 Salem Street', 'Boston', 'MA', 'USA', '2113', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (6, 37, 1232341200000, 'Berger Straße 10', 'Frankfurt', 'Germany', '60316', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (7, 38, 1233464400000, 'Barbarossastraße 19', 'Berlin', 'Germany', '10779', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (8, 40, 1233464400000, '8, Rue Hanovre', 'Paris', 'France', '75002', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (9, 42, 1233550800000, '9, Place Louis Barthou', 'Bordeaux', 'France', '33000', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [total]) VALUES (10, 46, 1233637200000, '3 Chatham Street', 'Dublin', 'Dublin', 'Ireland', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (11, 52, 1233896400000, '202 Hoxton Street', 'London', 'United Kingdom', 'N1 5LH', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (12, 2, 1234328400000, 'Theodor-Heuss-Straße 34', 'Stuttgart', 'Germany', '70174', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (13, 16, 1235019600000, '1600 Amphitheatre Parkway', 'Mountain View', 'CA', 'USA', '94043-1351', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (14, 17, 1236142800000, '1 Microsoft Way', 'Redmond', 'WA', 'USA', '98052-8300', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (15, 19, 1236142800000, '1 Infinite Loop', 'Cupertino', 'CA', 'USA', '95014', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (16, 21, 1236229200000, '801 W 4th Street', 'Reno', 'NV', 'USA', '89503', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (17, 25, 1236315600000, '319 N. Frances Street', 'Madison', 'WI', 'USA', '53703', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (18, 31, 1236571200000, '194A Chain Lake Drive', 'Halifax', 'NS', 'Canada', 'B3S 1C5', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (19, 40, 1237003200000, '8, Rue Hanovre', 'Paris', 'France', '75002', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (20, 54, 1237694400000, '110 Raeburn Pl', 'Edinburgh ', 'United Kingdom', 'EH4 1HH', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (21, 55, 1238817600000, '421 Bourke Street', 'Sidney', 'NSW', 'Australia', '2010', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (22, 57, 1238817600000, 'Calle Lira, 198', 'Santiago', 'Chile', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (23, 59, 1238904000000, '3,Raj Bhavan Road', 'Bangalore', 'India', '560001', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (24, 4, 1238990400000, 'Ullevålsveien 14', 'Oslo', 'Norway', '0171', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (25, 10, 1239249600000, 'Rua Dr. Falcão Filho, 155', 'São Paulo', 'SP', 'Brazil', '01007-010', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (26, 19, 1239681600000, '1 Infinite Loop', 'Cupertino', 'CA', 'USA', '95014', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (27, 33, 1240372800000, '5112 48 Street', 'Yellowknife', 'NT', 'Canada', 'X1A 1N6', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (28, 34, 1241496000000, 'Rua da Assunção 53', 'Lisbon', 'Portugal', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (29, 36, 1241496000000, 'Tauentzienstraße 8', 'Berlin', 'Germany', '10789', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (30, 38, 1241582400000, 'Barbarossastraße 19', 'Berlin', 'Germany', '10779', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (31, 42, 1241668800000, '9, Place Louis Barthou', 'Bordeaux', 'France', '33000', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (32, 48, 1241928000000, 'Lijnbaansgracht 120bg', 'Amsterdam', 'VV', 'Netherlands', '1016', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (33, 57, 1242360000000, 'Calle Lira, 198', 'Santiago', 'Chile', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (34, 12, 1243051200000, 'Praça Pio X, 119', 'Rio de Janeiro', 'RJ', 'Brazil', '20040-020', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (35, 13, 1244174400000, 'Qe 7 Bloco G', 'Brasília', 'DF', 'Brazil', '71020-677', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (36, 15, 1244174400000, '700 W Pender Street', 'Vancouver', 'BC', 'Canada', 'V6C 1G8', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (37, 17, 1244260800000, '1 Microsoft Way', 'Redmond', 'WA', 'USA', '98052-8300', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (38, 21, 1244347200000, '801 W 4th Street', 'Reno', 'NV', 'USA', '89503', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (39, 27, 1244606400000, '1033 N Park Ave', 'Tucson', 'AZ', 'USA', '85719', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (40, 36, 1245038400000, 'Tauentzienstraße 8', 'Berlin', 'Germany', '10789', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (41, 50, 1245729600000, 'C/ San Bernardo 85', 'Madrid', 'Spain', '28015', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (42, 51, 1246852800000, 'Celsiusg. 9', 'Stockholm', 'Sweden', '11230', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (43, 53, 1246852800000, '113 Lupus St', 'London', 'United Kingdom', 'SW1V 3EN', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (44, 55, 1246939200000, '421 Bourke Street', 'Sidney', 'NSW', 'Australia', '2010', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (45, 59, 1247025600000, '3,Raj Bhavan Road', 'Bangalore', 'India', '560001', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (46, 6, 1247284800000, 'Rilská 3174/6', 'Prague', 'Czech Republic', '14300', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (47, 15, 1247716800000, '700 W Pender Street', 'Vancouver', 'BC', 'Canada', 'V6C 1G8', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (48, 29, 1248408000000, '796 Dundas Street West', 'Toronto', 'ON', 'Canada', 'M6J 1V1', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (49, 30, 1249531200000, '230 Elgin Street', 'Ottawa', 'ON', 'Canada', 'K2P 1L7', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (50, 32, 1249531200000, '696 Osborne Street', 'Winnipeg', 'MB', 'Canada', 'R3L 2B9', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (51, 34, 1249617600000, 'Rua da Assunção 53', 'Lisbon', 'Portugal', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (52, 38, 1249704000000, 'Barbarossastraße 19', 'Berlin', 'Germany', '10779', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (53, 44, 1249963200000, 'Porthaninkatu 9', 'Helsinki', 'Finland', '00530', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (54, 53, 1250395200000, '113 Lupus St', 'London', 'United Kingdom', 'SW1V 3EN', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (55, 8, 1251086400000, 'Grétrystraat 63', 'Brussels', 'Belgium', '1000', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (56, 9, 1252209600000, 'Sønder Boulevard 51', 'Copenhagen', 'Denmark', '1720', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (57, 11, 1252209600000, 'Av. Paulista, 2022', 'São Paulo', 'SP', 'Brazil', '01310-200', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (58, 13, 1252296000000, 'Qe 7 Bloco G', 'Brasília', 'DF', 'Brazil', '71020-677', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (59, 17, 1252382400000, '1 Microsoft Way', 'Redmond', 'WA', 'USA', '98052-8300', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (60, 23, 1252641600000, '69 Salem Street', 'Boston', 'MA', 'USA', '2113', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (61, 32, 1253073600000, '696 Osborne Street', 'Winnipeg', 'MB', 'Canada', 'R3L 2B9', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [total]) VALUES (62, 46, 1253764800000, '3 Chatham Street', 'Dublin', 'Dublin', 'Ireland', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (63, 47, 1254888000000, 'Via Degli Scipioni, 43', 'Rome', 'RM', 'Italy', '00192', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (64, 49, 1254888000000, 'Ordynacka 10', 'Warsaw', 'Poland', '00-358', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (65, 51, 1254974400000, 'Celsiusg. 9', 'Stockholm', 'Sweden', '11230', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (66, 55, 1255060800000, '421 Bourke Street', 'Sidney', 'NSW', 'Australia', '2010', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (67, 2, 1255320000000, 'Theodor-Heuss-Straße 34', 'Stuttgart', 'Germany', '70174', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (68, 11, 1255752000000, 'Av. Paulista, 2022', 'São Paulo', 'SP', 'Brazil', '01310-200', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (69, 25, 1256443200000, '319 N. Frances Street', 'Madison', 'WI', 'USA', '53703', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (70, 26, 1257570000000, '2211 W Berry Street', 'Fort Worth', 'TX', 'USA', '76110', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (71, 28, 1257570000000, '302 S 700 E', 'Salt Lake City', 'UT', 'USA', '84102', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (72, 30, 1257656400000, '230 Elgin Street', 'Ottawa', 'ON', 'Canada', 'K2P 1L7', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (73, 34, 1257742800000, 'Rua da Assunção 53', 'Lisbon', 'Portugal', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (74, 40, 1258002000000, '8, Rue Hanovre', 'Paris', 'France', '75002', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (75, 49, 1258434000000, 'Ordynacka 10', 'Warsaw', 'Poland', '00-358', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (76, 4, 1259125200000, 'Ullevålsveien 14', 'Oslo', 'Norway', '0171', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (77, 5, 1260248400000, 'Klanova 9/506', 'Prague', 'Czech Republic', '14700', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (78, 7, 1260248400000, 'Rotenturmstraße 4, 1010 Innere Stadt', 'Vienne', 'Austria', '1010', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (79, 9, 1260334800000, 'Sønder Boulevard 51', 'Copenhagen', 'Denmark', '1720', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (80, 13, 1260421200000, 'Qe 7 Bloco G', 'Brasília', 'DF', 'Brazil', '71020-677', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (81, 19, 1260680400000, '1 Infinite Loop', 'Cupertino', 'CA', 'USA', '95014', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (82, 28, 1261112400000, '302 S 700 E', 'Salt Lake City', 'UT', 'USA', '84102', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (83, 42, 1261803600000, '9, Place Louis Barthou', 'Bordeaux', 'France', '33000', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (84, 43, 1262926800000, '68, Rue Jouvence', 'Dijon', 'France', '21000', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (85, 45, 1262926800000, 'Erzsébet krt. 58.', 'Budapest', 'Hungary', 'H-1073', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (86, 47, 1263013200000, 'Via Degli Scipioni, 43', 'Rome', 'RM', 'Italy', '00192', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (87, 51, 1263099600000, 'Celsiusg. 9', 'Stockholm', 'Sweden', '11230', 6.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (88, 57, 1263358800000, 'Calle Lira, 198', 'Santiago', 'Chile', 17.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (89, 7, 1263790800000, 'Rotenturmstraße 4, 1010 Innere Stadt', 'Vienne', 'Austria', '1010', 18.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (90, 21, 1264482000000, '801 W 4th Street', 'Reno', 'NV', 'USA', '89503', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (91, 22, 1265605200000, '120 S Orange Ave', 'Orlando', 'FL', 'USA', '32801', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (92, 24, 1265605200000, '162 E Superior Street', 'Chicago', 'IL', 'USA', '60611', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (93, 26, 1265691600000, '2211 W Berry Street', 'Fort Worth', 'TX', 'USA', '76110', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (94, 30, 1265778000000, '230 Elgin Street', 'Ottawa', 'ON', 'Canada', 'K2P 1L7', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (95, 36, 1266037200000, 'Tauentzienstraße 8', 'Berlin', 'Germany', '10789', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (96, 45, 1266469200000, 'Erzsébet krt. 58.', 'Budapest', 'Hungary', 'H-1073', 21.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (97, 59, 1267160400000, '3,Raj Bhavan Road', 'Bangalore', 'India', '560001', 1.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (98, 1, 1268283600000, 'Av. Brigadeiro Faria Lima, 2170', 'São José dos Campos', 'SP', 'Brazil', '12227-000', 3.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (99, 3, 1268283600000, '1498 rue Bélanger', 'Montréal', 'QC', 'Canada', 'H2G 1A7', 3.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (100, 5, 1268370000000, 'Klanova 9/506', 'Prague', 'Czech Republic', '14700', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (101, 9, 1268456400000, 'Sønder Boulevard 51', 'Copenhagen', 'Denmark', '1720', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (102, 15, 1268712000000, '700 W Pender Street', 'Vancouver', 'BC', 'Canada', 'V6C 1G8', 9.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (103, 24, 1269144000000, '162 E Superior Street', 'Chicago', 'IL', 'USA', '60611', 15.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (104, 38, 1269835200000, 'Barbarossastraße 19', 'Berlin', 'Germany', '10779', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (105, 39, 1270958400000, '4, Rue Milton', 'Paris', 'France', '75009', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (106, 41, 1270958400000, '11, Place Bellecour', 'Lyon', 'France', '69002', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (107, 43, 1271044800000, '68, Rue Jouvence', 'Dijon', 'France', '21000', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (108, 47, 1271131200000, 'Via Degli Scipioni, 43', 'Rome', 'RM', 'Italy', '00192', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (109, 53, 1271390400000, '113 Lupus St', 'London', 'United Kingdom', 'SW1V 3EN', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (110, 3, 1271822400000, '1498 rue Bélanger', 'Montréal', 'QC', 'Canada', 'H2G 1A7', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (111, 17, 1272513600000, '1 Microsoft Way', 'Redmond', 'WA', 'USA', '98052-8300', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (112, 18, 1273636800000, '627 Broadway', 'New York', 'NY', 'USA', '10012-2612', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (113, 20, 1273636800000, '541 Del Medio Avenue', 'Mountain View', 'CA', 'USA', '94040-111', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (114, 22, 1273723200000, '120 S Orange Ave', 'Orlando', 'FL', 'USA', '32801', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (115, 26, 1273809600000, '2211 W Berry Street', 'Fort Worth', 'TX', 'USA', '76110', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (116, 32, 1274068800000, '696 Osborne Street', 'Winnipeg', 'MB', 'Canada', 'R3L 2B9', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (117, 41, 1274500800000, '11, Place Bellecour', 'Lyon', 'France', '69002', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (118, 55, 1275192000000, '421 Bourke Street', 'Sidney', 'NSW', 'Australia', '2010', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (119, 56, 1276315200000, '307 Macacha Güemes', 'Buenos Aires', 'Argentina', '1106', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (120, 58, 1276315200000, '12,Community Centre', 'Delhi', 'India', '110017', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (121, 1, 1276401600000, 'Av. Brigadeiro Faria Lima, 2170', 'São José dos Campos', 'SP', 'Brazil', '12227-000', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (122, 5, 1276488000000, 'Klanova 9/506', 'Prague', 'Czech Republic', '14700', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (123, 11, 1276747200000, 'Av. Paulista, 2022', 'São Paulo', 'SP', 'Brazil', '01310-200', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (124, 20, 1277179200000, '541 Del Medio Avenue', 'Mountain View', 'CA', 'USA', '94040-111', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (125, 34, 1277870400000, 'Rua da Assunção 53', 'Lisbon', 'Portugal', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (126, 35, 1278993600000, 'Rua dos Campeões Europeus de Viena, 4350', 'Porto', 'Portugal', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (127, 37, 1278993600000, 'Berger Straße 10', 'Frankfurt', 'Germany', '60316', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (128, 39, 1279080000000, '4, Rue Milton', 'Paris', 'France', '75009', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (129, 43, 1279166400000, '68, Rue Jouvence', 'Dijon', 'France', '21000', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (130, 49, 1279425600000, 'Ordynacka 10', 'Warsaw', 'Poland', '00-358', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (131, 58, 1279857600000, '12,Community Centre', 'Delhi', 'India', '110017', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (132, 13, 1280548800000, 'Qe 7 Bloco G', 'Brasília', 'DF', 'Brazil', '71020-677', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (133, 14, 1281672000000, '8210 111 ST NW', 'Edmonton', 'AB', 'Canada', 'T6G 2C7', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (134, 16, 1281672000000, '1600 Amphitheatre Parkway', 'Mountain View', 'CA', 'USA', '94043-1351', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (135, 18, 1281758400000, '627 Broadway', 'New York', 'NY', 'USA', '10012-2612', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (136, 22, 1281844800000, '120 S Orange Ave', 'Orlando', 'FL', 'USA', '32801', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (137, 28, 1282104000000, '302 S 700 E', 'Salt Lake City', 'UT', 'USA', '84102', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (138, 37, 1282536000000, 'Berger Straße 10', 'Frankfurt', 'Germany', '60316', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (139, 51, 1283227200000, 'Celsiusg. 9', 'Stockholm', 'Sweden', '11230', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (140, 52, 1284350400000, '202 Hoxton Street', 'London', 'United Kingdom', 'N1 5LH', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (141, 54, 1284350400000, '110 Raeburn Pl', 'Edinburgh ', 'United Kingdom', 'EH4 1HH', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (142, 56, 1284436800000, '307 Macacha Güemes', 'Buenos Aires', 'Argentina', '1106', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (143, 1, 1284523200000, 'Av. Brigadeiro Faria Lima, 2170', 'São José dos Campos', 'SP', 'Brazil', '12227-000', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (144, 7, 1284782400000, 'Rotenturmstraße 4, 1010 Innere Stadt', 'Vienne', 'Austria', '1010', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (145, 16, 1285214400000, '1600 Amphitheatre Parkway', 'Mountain View', 'CA', 'USA', '94043-1351', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (146, 30, 1285905600000, '230 Elgin Street', 'Ottawa', 'ON', 'Canada', 'K2P 1L7', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (147, 31, 1287028800000, '194A Chain Lake Drive', 'Halifax', 'NS', 'Canada', 'B3S 1C5', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (148, 33, 1287028800000, '5112 48 Street', 'Yellowknife', 'NT', 'Canada', 'X1A 1N6', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (149, 35, 1287115200000, 'Rua dos Campeões Europeus de Viena, 4350', 'Porto', 'Portugal', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (150, 39, 1287201600000, '4, Rue Milton', 'Paris', 'France', '75009', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (151, 45, 1287460800000, 'Erzsébet krt. 58.', 'Budapest', 'Hungary', 'H-1073', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (152, 54, 1287892800000, '110 Raeburn Pl', 'Edinburgh ', 'United Kingdom', 'EH4 1HH', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (153, 9, 1288584000000, 'Sønder Boulevard 51', 'Copenhagen', 'Denmark', '1720', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (154, 10, 1289710800000, 'Rua Dr. Falcão Filho, 155', 'São Paulo', 'SP', 'Brazil', '01007-010', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (155, 12, 1289710800000, 'Praça Pio X, 119', 'Rio de Janeiro', 'RJ', 'Brazil', '20040-020', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (156, 14, 1289797200000, '8210 111 ST NW', 'Edmonton', 'AB', 'Canada', 'T6G 2C7', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (157, 18, 1289883600000, '627 Broadway', 'New York', 'NY', 'USA', '10012-2612', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (158, 24, 1290142800000, '162 E Superior Street', 'Chicago', 'IL', 'USA', '60611', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (159, 33, 1290574800000, '5112 48 Street', 'Yellowknife', 'NT', 'Canada', 'X1A 1N6', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (160, 47, 1291266000000, 'Via Degli Scipioni, 43', 'Rome', 'RM', 'Italy', '00192', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (161, 48, 1292389200000, 'Lijnbaansgracht 120bg', 'Amsterdam', 'VV', 'Netherlands', '1016', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (162, 50, 1292389200000, 'C/ San Bernardo 85', 'Madrid', 'Spain', '28015', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (163, 52, 1292475600000, '202 Hoxton Street', 'London', 'United Kingdom', 'N1 5LH', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (164, 56, 1292562000000, '307 Macacha Güemes', 'Buenos Aires', 'Argentina', '1106', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (165, 3, 1292821200000, '1498 rue Bélanger', 'Montréal', 'QC', 'Canada', 'H2G 1A7', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (166, 12, 1293253200000, 'Praça Pio X, 119', 'Rio de Janeiro', 'RJ', 'Brazil', '20040-020', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (167, 26, 1293944400000, '2211 W Berry Street', 'Fort Worth', 'TX', 'USA', '76110', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (168, 27, 1295067600000, '1033 N Park Ave', 'Tucson', 'AZ', 'USA', '85719', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (169, 29, 1295067600000, '796 Dundas Street West', 'Toronto', 'ON', 'Canada', 'M6J 1V1', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (170, 31, 1295154000000, '194A Chain Lake Drive', 'Halifax', 'NS', 'Canada', 'B3S 1C5', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (171, 35, 1295240400000, 'Rua dos Campeões Europeus de Viena, 4350', 'Porto', 'Portugal', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (172, 41, 1295499600000, '11, Place Bellecour', 'Lyon', 'France', '69002', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (173, 50, 1295931600000, 'C/ San Bernardo 85', 'Madrid', 'Spain', '28015', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (174, 5, 1296622800000, 'Klanova 9/506', 'Prague', 'Czech Republic', '14700', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (175, 6, 1297746000000, 'Rilská 3174/6', 'Prague', 'Czech Republic', '14300', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (176, 8, 1297746000000, 'Grétrystraat 63', 'Brussels', 'Belgium', '1000', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (177, 10, 1297832400000, 'Rua Dr. Falcão Filho, 155', 'São Paulo', 'SP', 'Brazil', '01007-010', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (178, 14, 1297918800000, '8210 111 ST NW', 'Edmonton', 'AB', 'Canada', 'T6G 2C7', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (179, 20, 1298178000000, '541 Del Medio Avenue', 'Mountain View', 'CA', 'USA', '94040-111', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (180, 29, 1298610000000, '796 Dundas Street West', 'Toronto', 'ON', 'Canada', 'M6J 1V1', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (181, 43, 1299301200000, '68, Rue Jouvence', 'Dijon', 'France', '21000', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (182, 44, 1300420800000, 'Porthaninkatu 9', 'Helsinki', 'Finland', '00530', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [total]) VALUES (183, 46, 1300420800000, '3 Chatham Street', 'Dublin', 'Dublin', 'Ireland', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (184, 48, 1300507200000, 'Lijnbaansgracht 120bg', 'Amsterdam', 'VV', 'Netherlands', '1016', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (185, 52, 1300593600000, '202 Hoxton Street', 'London', 'United Kingdom', 'N1 5LH', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (186, 58, 1300852800000, '12,Community Centre', 'Delhi', 'India', '110017', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (187, 8, 1301284800000, 'Grétrystraat 63', 'Brussels', 'Belgium', '1000', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (188, 22, 1301976000000, '120 S Orange Ave', 'Orlando', 'FL', 'USA', '32801', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (189, 23, 1303099200000, '69 Salem Street', 'Boston', 'MA', 'USA', '2113', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (190, 25, 1303099200000, '319 N. Frances Street', 'Madison', 'WI', 'USA', '53703', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (191, 27, 1303185600000, '1033 N Park Ave', 'Tucson', 'AZ', 'USA', '85719', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (192, 31, 1303272000000, '194A Chain Lake Drive', 'Halifax', 'NS', 'Canada', 'B3S 1C5', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (193, 37, 1303531200000, 'Berger Straße 10', 'Frankfurt', 'Germany', '60316', 14.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [total]) VALUES (194, 46, 1303963200000, '3 Chatham Street', 'Dublin', 'Dublin', 'Ireland', 21.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (195, 1, 1304654400000, 'Av. Brigadeiro Faria Lima, 2170', 'São José dos Campos', 'SP', 'Brazil', '12227-000', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (196, 2, 1305777600000, 'Theodor-Heuss-Straße 34', 'Stuttgart', 'Germany', '70174', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (197, 4, 1305777600000, 'Ullevålsveien 14', 'Oslo', 'Norway', '0171', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (198, 6, 1305864000000, 'Rilská 3174/6', 'Prague', 'Czech Republic', '14300', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (199, 10, 1305950400000, 'Rua Dr. Falcão Filho, 155', 'São Paulo', 'SP', 'Brazil', '01007-010', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (200, 16, 1306209600000, '1600 Amphitheatre Parkway', 'Mountain View', 'CA', 'USA', '94043-1351', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (201, 25, 1306641600000, '319 N. Frances Street', 'Madison', 'WI', 'USA', '53703', 18.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (202, 39, 1307332800000, '4, Rue Milton', 'Paris', 'France', '75009', 1.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (203, 40, 1308456000000, '8, Rue Hanovre', 'Paris', 'France', '75002', 2.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (204, 42, 1308456000000, '9, Place Louis Barthou', 'Bordeaux', 'France', '33000', 3.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (205, 44, 1308542400000, 'Porthaninkatu 9', 'Helsinki', 'Finland', '00530', 7.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (206, 48, 1308628800000, 'Lijnbaansgracht 120bg', 'Amsterdam', 'VV', 'Netherlands', '1016', 8.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (207, 54, 1308888000000, '110 Raeburn Pl', 'Edinburgh ', 'United Kingdom', 'EH4 1HH', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (208, 4, 1309320000000, 'Ullevålsveien 14', 'Oslo', 'Norway', '0171', 15.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (209, 18, 1310011200000, '627 Broadway', 'New York', 'NY', 'USA', '10012-2612', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (210, 19, 1311134400000, '1 Infinite Loop', 'Cupertino', 'CA', 'USA', '95014', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (211, 21, 1311134400000, '801 W 4th Street', 'Reno', 'NV', 'USA', '89503', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (212, 23, 1311220800000, '69 Salem Street', 'Boston', 'MA', 'USA', '2113', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (213, 27, 1311307200000, '1033 N Park Ave', 'Tucson', 'AZ', 'USA', '85719', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (214, 33, 1311566400000, '5112 48 Street', 'Yellowknife', 'NT', 'Canada', 'X1A 1N6', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (215, 42, 1311998400000, '9, Place Louis Barthou', 'Bordeaux', 'France', '33000', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (216, 56, 1312689600000, '307 Macacha Güemes', 'Buenos Aires', 'Argentina', '1106', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (217, 57, 1313812800000, 'Calle Lira, 198', 'Santiago', 'Chile', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (218, 59, 1313812800000, '3,Raj Bhavan Road', 'Bangalore', 'India', '560001', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (219, 2, 1313899200000, 'Theodor-Heuss-Straße 34', 'Stuttgart', 'Germany', '70174', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (220, 6, 1313985600000, 'Rilská 3174/6', 'Prague', 'Czech Republic', '14300', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (221, 12, 1314244800000, 'Praça Pio X, 119', 'Rio de Janeiro', 'RJ', 'Brazil', '20040-020', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (222, 21, 1314676800000, '801 W 4th Street', 'Reno', 'NV', 'USA', '89503', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (223, 35, 1315368000000, 'Rua dos Campeões Europeus de Viena, 4350', 'Porto', 'Portugal', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (224, 36, 1316491200000, 'Tauentzienstraße 8', 'Berlin', 'Germany', '10789', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (225, 38, 1316491200000, 'Barbarossastraße 19', 'Berlin', 'Germany', '10779', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (226, 40, 1316577600000, '8, Rue Hanovre', 'Paris', 'France', '75002', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (227, 44, 1316664000000, 'Porthaninkatu 9', 'Helsinki', 'Finland', '00530', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (228, 50, 1316923200000, 'C/ San Bernardo 85', 'Madrid', 'Spain', '28015', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (229, 59, 1317355200000, '3,Raj Bhavan Road', 'Bangalore', 'India', '560001', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (230, 14, 1318046400000, '8210 111 ST NW', 'Edmonton', 'AB', 'Canada', 'T6G 2C7', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (231, 15, 1319169600000, '700 W Pender Street', 'Vancouver', 'BC', 'Canada', 'V6C 1G8', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (232, 17, 1319169600000, '1 Microsoft Way', 'Redmond', 'WA', 'USA', '98052-8300', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (233, 19, 1319256000000, '1 Infinite Loop', 'Cupertino', 'CA', 'USA', '95014', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (234, 23, 1319342400000, '69 Salem Street', 'Boston', 'MA', 'USA', '2113', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (235, 29, 1319601600000, '796 Dundas Street West', 'Toronto', 'ON', 'Canada', 'M6J 1V1', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (236, 38, 1320033600000, 'Barbarossastraße 19', 'Berlin', 'Germany', '10779', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (237, 52, 1320728400000, '202 Hoxton Street', 'London', 'United Kingdom', 'N1 5LH', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (238, 53, 1321851600000, '113 Lupus St', 'London', 'United Kingdom', 'SW1V 3EN', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (239, 55, 1321851600000, '421 Bourke Street', 'Sidney', 'NSW', 'Australia', '2010', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (240, 57, 1321938000000, 'Calle Lira, 198', 'Santiago', 'Chile', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (241, 2, 1322024400000, 'Theodor-Heuss-Straße 34', 'Stuttgart', 'Germany', '70174', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (242, 8, 1322283600000, 'Grétrystraat 63', 'Brussels', 'Belgium', '1000', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (243, 17, 1322715600000, '1 Microsoft Way', 'Redmond', 'WA', 'USA', '98052-8300', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (244, 31, 1323406800000, '194A Chain Lake Drive', 'Halifax', 'NS', 'Canada', 'B3S 1C5', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (245, 32, 1324530000000, '696 Osborne Street', 'Winnipeg', 'MB', 'Canada', 'R3L 2B9', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (246, 34, 1324530000000, 'Rua da Assunção 53', 'Lisbon', 'Portugal', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (247, 36, 1324616400000, 'Tauentzienstraße 8', 'Berlin', 'Germany', '10789', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (248, 40, 1324702800000, '8, Rue Hanovre', 'Paris', 'France', '75002', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [total]) VALUES (249, 46, 1324962000000, '3 Chatham Street', 'Dublin', 'Dublin', 'Ireland', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (250, 55, 1325394000000, '421 Bourke Street', 'Sidney', 'NSW', 'Australia', '2010', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (251, 10, 1326085200000, 'Rua Dr. Falcão Filho, 155', 'São Paulo', 'SP', 'Brazil', '01007-010', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (252, 11, 1327208400000, 'Av. Paulista, 2022', 'São Paulo', 'SP', 'Brazil', '01310-200', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (253, 13, 1327208400000, 'Qe 7 Bloco G', 'Brasília', 'DF', 'Brazil', '71020-677', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (254, 15, 1327294800000, '700 W Pender Street', 'Vancouver', 'BC', 'Canada', 'V6C 1G8', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (255, 19, 1327381200000, '1 Infinite Loop', 'Cupertino', 'CA', 'USA', '95014', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (256, 25, 1327640400000, '319 N. Frances Street', 'Madison', 'WI', 'USA', '53703', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (257, 34, 1328072400000, 'Rua da Assunção 53', 'Lisbon', 'Portugal', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (258, 48, 1328763600000, 'Lijnbaansgracht 120bg', 'Amsterdam', 'VV', 'Netherlands', '1016', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (259, 49, 1329886800000, 'Ordynacka 10', 'Warsaw', 'Poland', '00-358', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (260, 51, 1329886800000, 'Celsiusg. 9', 'Stockholm', 'Sweden', '11230', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (261, 53, 1329973200000, '113 Lupus St', 'London', 'United Kingdom', 'SW1V 3EN', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (262, 57, 1330059600000, 'Calle Lira, 198', 'Santiago', 'Chile', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (263, 4, 1330318800000, 'Ullevålsveien 14', 'Oslo', 'Norway', '0171', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (264, 13, 1330750800000, 'Qe 7 Bloco G', 'Brasília', 'DF', 'Brazil', '71020-677', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (265, 27, 1331442000000, '1033 N Park Ave', 'Tucson', 'AZ', 'USA', '85719', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (266, 28, 1332561600000, '302 S 700 E', 'Salt Lake City', 'UT', 'USA', '84102', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (267, 30, 1332561600000, '230 Elgin Street', 'Ottawa', 'ON', 'Canada', 'K2P 1L7', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (268, 32, 1332648000000, '696 Osborne Street', 'Winnipeg', 'MB', 'Canada', 'R3L 2B9', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (269, 36, 1332734400000, 'Tauentzienstraße 8', 'Berlin', 'Germany', '10789', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (270, 42, 1332993600000, '9, Place Louis Barthou', 'Bordeaux', 'France', '33000', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (271, 51, 1333425600000, 'Celsiusg. 9', 'Stockholm', 'Sweden', '11230', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (272, 6, 1334116800000, 'Rilská 3174/6', 'Prague', 'Czech Republic', '14300', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (273, 7, 1335240000000, 'Rotenturmstraße 4, 1010 Innere Stadt', 'Vienne', 'Austria', '1010', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (274, 9, 1335240000000, 'Sønder Boulevard 51', 'Copenhagen', 'Denmark', '1720', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (275, 11, 1335326400000, 'Av. Paulista, 2022', 'São Paulo', 'SP', 'Brazil', '01310-200', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (276, 15, 1335412800000, '700 W Pender Street', 'Vancouver', 'BC', 'Canada', 'V6C 1G8', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (277, 21, 1335672000000, '801 W 4th Street', 'Reno', 'NV', 'USA', '89503', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (278, 30, 1336104000000, '230 Elgin Street', 'Ottawa', 'ON', 'Canada', 'K2P 1L7', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (279, 44, 1336795200000, 'Porthaninkatu 9', 'Helsinki', 'Finland', '00530', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (280, 45, 1337918400000, 'Erzsébet krt. 58.', 'Budapest', 'Hungary', 'H-1073', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (281, 47, 1337918400000, 'Via Degli Scipioni, 43', 'Rome', 'RM', 'Italy', '00192', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (282, 49, 1338004800000, 'Ordynacka 10', 'Warsaw', 'Poland', '00-358', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (283, 53, 1338091200000, '113 Lupus St', 'London', 'United Kingdom', 'SW1V 3EN', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (284, 59, 1338350400000, '3,Raj Bhavan Road', 'Bangalore', 'India', '560001', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (285, 9, 1338782400000, 'Sønder Boulevard 51', 'Copenhagen', 'Denmark', '1720', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (286, 23, 1339473600000, '69 Salem Street', 'Boston', 'MA', 'USA', '2113', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (287, 24, 1340596800000, '162 E Superior Street', 'Chicago', 'IL', 'USA', '60611', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (288, 26, 1340596800000, '2211 W Berry Street', 'Fort Worth', 'TX', 'USA', '76110', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (289, 28, 1340683200000, '302 S 700 E', 'Salt Lake City', 'UT', 'USA', '84102', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (290, 32, 1340769600000, '696 Osborne Street', 'Winnipeg', 'MB', 'Canada', 'R3L 2B9', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (291, 38, 1341028800000, 'Barbarossastraße 19', 'Berlin', 'Germany', '10779', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (292, 47, 1341460800000, 'Via Degli Scipioni, 43', 'Rome', 'RM', 'Italy', '00192', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (293, 2, 1342152000000, 'Theodor-Heuss-Straße 34', 'Stuttgart', 'Germany', '70174', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (294, 3, 1343275200000, '1498 rue Bélanger', 'Montréal', 'QC', 'Canada', 'H2G 1A7', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (295, 5, 1343275200000, 'Klanova 9/506', 'Prague', 'Czech Republic', '14700', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (296, 7, 1343361600000, 'Rotenturmstraße 4, 1010 Innere Stadt', 'Vienne', 'Austria', '1010', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (297, 11, 1343448000000, 'Av. Paulista, 2022', 'São Paulo', 'SP', 'Brazil', '01310-200', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (298, 17, 1343707200000, '1 Microsoft Way', 'Redmond', 'WA', 'USA', '98052-8300', 10.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (299, 26, 1344139200000, '2211 W Berry Street', 'Fort Worth', 'TX', 'USA', '76110', 23.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (300, 40, 1344830400000, '8, Rue Hanovre', 'Paris', 'France', '75002', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (301, 41, 1345953600000, '11, Place Bellecour', 'Lyon', 'France', '69002', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (302, 43, 1345953600000, '68, Rue Jouvence', 'Dijon', 'France', '21000', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (303, 45, 1346040000000, 'Erzsébet krt. 58.', 'Budapest', 'Hungary', 'H-1073', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (304, 49, 1346126400000, 'Ordynacka 10', 'Warsaw', 'Poland', '00-358', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (305, 55, 1346385600000, '421 Bourke Street', 'Sidney', 'NSW', 'Australia', '2010', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (306, 5, 1346817600000, 'Klanova 9/506', 'Prague', 'Czech Republic', '14700', 16.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (307, 19, 1347508800000, '1 Infinite Loop', 'Cupertino', 'CA', 'USA', '95014', 1.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (308, 20, 1348632000000, '541 Del Medio Avenue', 'Mountain View', 'CA', 'USA', '94040-111', 3.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (309, 22, 1348632000000, '120 S Orange Ave', 'Orlando', 'FL', 'USA', '32801', 3.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (310, 24, 1348718400000, '162 E Superior Street', 'Chicago', 'IL', 'USA', '60611', 7.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (311, 28, 1348804800000, '302 S 700 E', 'Salt Lake City', 'UT', 'USA', '84102', 11.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (312, 34, 1349064000000, 'Rua da Assunção 53', 'Lisbon', 'Portugal', 10.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (313, 43, 1349496000000, '68, Rue Jouvence', 'Dijon', 'France', '21000', 16.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (314, 57, 1350187200000, 'Calle Lira, 198', 'Santiago', 'Chile', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (315, 58, 1351310400000, '12,Community Centre', 'Delhi', 'India', '110017', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (316, 1, 1351310400000, 'Av. Brigadeiro Faria Lima, 2170', 'São José dos Campos', 'SP', 'Brazil', '12227-000', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (317, 3, 1351396800000, '1498 rue Bélanger', 'Montréal', 'QC', 'Canada', 'H2G 1A7', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (318, 7, 1351483200000, 'Rotenturmstraße 4, 1010 Innere Stadt', 'Vienne', 'Austria', '1010', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (319, 13, 1351742400000, 'Qe 7 Bloco G', 'Brasília', 'DF', 'Brazil', '71020-677', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (320, 22, 1352178000000, '120 S Orange Ave', 'Orlando', 'FL', 'USA', '32801', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (321, 36, 1352869200000, 'Tauentzienstraße 8', 'Berlin', 'Germany', '10789', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (322, 37, 1353992400000, 'Berger Straße 10', 'Frankfurt', 'Germany', '60316', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (323, 39, 1353992400000, '4, Rue Milton', 'Paris', 'France', '75009', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (324, 41, 1354078800000, '11, Place Bellecour', 'Lyon', 'France', '69002', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (325, 45, 1354165200000, 'Erzsébet krt. 58.', 'Budapest', 'Hungary', 'H-1073', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (326, 51, 1354424400000, 'Celsiusg. 9', 'Stockholm', 'Sweden', '11230', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (327, 1, 1354856400000, 'Av. Brigadeiro Faria Lima, 2170', 'São José dos Campos', 'SP', 'Brazil', '12227-000', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (328, 15, 1355547600000, '700 W Pender Street', 'Vancouver', 'BC', 'Canada', 'V6C 1G8', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (329, 16, 1356670800000, '1600 Amphitheatre Parkway', 'Mountain View', 'CA', 'USA', '94043-1351', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (330, 18, 1356670800000, '627 Broadway', 'New York', 'NY', 'USA', '10012-2612', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (331, 20, 1356757200000, '541 Del Medio Avenue', 'Mountain View', 'CA', 'USA', '94040-111', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (332, 24, 1356843600000, '162 E Superior Street', 'Chicago', 'IL', 'USA', '60611', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (333, 30, 1357102800000, '230 Elgin Street', 'Ottawa', 'ON', 'Canada', 'K2P 1L7', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (334, 39, 1357534800000, '4, Rue Milton', 'Paris', 'France', '75009', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (335, 53, 1358226000000, '113 Lupus St', 'London', 'United Kingdom', 'SW1V 3EN', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (336, 54, 1359349200000, '110 Raeburn Pl', 'Edinburgh ', 'United Kingdom', 'EH4 1HH', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (337, 56, 1359349200000, '307 Macacha Güemes', 'Buenos Aires', 'Argentina', '1106', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (338, 58, 1359435600000, '12,Community Centre', 'Delhi', 'India', '110017', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (339, 3, 1359522000000, '1498 rue Bélanger', 'Montréal', 'QC', 'Canada', 'H2G 1A7', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (340, 9, 1359781200000, 'Sønder Boulevard 51', 'Copenhagen', 'Denmark', '1720', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (341, 18, 1360213200000, '627 Broadway', 'New York', 'NY', 'USA', '10012-2612', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (342, 32, 1360904400000, '696 Osborne Street', 'Winnipeg', 'MB', 'Canada', 'R3L 2B9', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (343, 33, 1362027600000, '5112 48 Street', 'Yellowknife', 'NT', 'Canada', 'X1A 1N6', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (344, 35, 1362027600000, 'Rua dos Campeões Europeus de Viena, 4350', 'Porto', 'Portugal', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (345, 37, 1362114000000, 'Berger Straße 10', 'Frankfurt', 'Germany', '60316', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (346, 41, 1362200400000, '11, Place Bellecour', 'Lyon', 'France', '69002', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (347, 47, 1362459600000, 'Via Degli Scipioni, 43', 'Rome', 'RM', 'Italy', '00192', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (348, 56, 1362891600000, '307 Macacha Güemes', 'Buenos Aires', 'Argentina', '1106', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (349, 11, 1363579200000, 'Av. Paulista, 2022', 'São Paulo', 'SP', 'Brazil', '01310-200', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (350, 12, 1364702400000, 'Praça Pio X, 119', 'Rio de Janeiro', 'RJ', 'Brazil', '20040-020', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (351, 14, 1364702400000, '8210 111 ST NW', 'Edmonton', 'AB', 'Canada', 'T6G 2C7', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (352, 16, 1364788800000, '1600 Amphitheatre Parkway', 'Mountain View', 'CA', 'USA', '94043-1351', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (353, 20, 1364875200000, '541 Del Medio Avenue', 'Mountain View', 'CA', 'USA', '94040-111', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (354, 26, 1365134400000, '2211 W Berry Street', 'Fort Worth', 'TX', 'USA', '76110', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (355, 35, 1365566400000, 'Rua dos Campeões Europeus de Viena, 4350', 'Porto', 'Portugal', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (356, 49, 1366257600000, 'Ordynacka 10', 'Warsaw', 'Poland', '00-358', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (357, 50, 1367380800000, 'C/ San Bernardo 85', 'Madrid', 'Spain', '28015', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (358, 52, 1367380800000, '202 Hoxton Street', 'London', 'United Kingdom', 'N1 5LH', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (359, 54, 1367467200000, '110 Raeburn Pl', 'Edinburgh ', 'United Kingdom', 'EH4 1HH', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (360, 58, 1367553600000, '12,Community Centre', 'Delhi', 'India', '110017', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (361, 5, 1367812800000, 'Klanova 9/506', 'Prague', 'Czech Republic', '14700', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (362, 14, 1368244800000, '8210 111 ST NW', 'Edmonton', 'AB', 'Canada', 'T6G 2C7', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (363, 28, 1368936000000, '302 S 700 E', 'Salt Lake City', 'UT', 'USA', '84102', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (364, 29, 1370059200000, '796 Dundas Street West', 'Toronto', 'ON', 'Canada', 'M6J 1V1', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (365, 31, 1370059200000, '194A Chain Lake Drive', 'Halifax', 'NS', 'Canada', 'B3S 1C5', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (366, 33, 1370145600000, '5112 48 Street', 'Yellowknife', 'NT', 'Canada', 'X1A 1N6', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (367, 37, 1370232000000, 'Berger Straße 10', 'Frankfurt', 'Germany', '60316', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (368, 43, 1370491200000, '68, Rue Jouvence', 'Dijon', 'France', '21000', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (369, 52, 1370923200000, '202 Hoxton Street', 'London', 'United Kingdom', 'N1 5LH', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (370, 7, 1371614400000, 'Rotenturmstraße 4, 1010 Innere Stadt', 'Vienne', 'Austria', '1010', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (371, 8, 1372737600000, 'Grétrystraat 63', 'Brussels', 'Belgium', '1000', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (372, 10, 1372737600000, 'Rua Dr. Falcão Filho, 155', 'São Paulo', 'SP', 'Brazil', '01007-010', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (373, 12, 1372824000000, 'Praça Pio X, 119', 'Rio de Janeiro', 'RJ', 'Brazil', '20040-020', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (374, 16, 1372910400000, '1600 Amphitheatre Parkway', 'Mountain View', 'CA', 'USA', '94043-1351', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (375, 22, 1373169600000, '120 S Orange Ave', 'Orlando', 'FL', 'USA', '32801', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (376, 31, 1373601600000, '194A Chain Lake Drive', 'Halifax', 'NS', 'Canada', 'B3S 1C5', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (377, 45, 1374292800000, 'Erzsébet krt. 58.', 'Budapest', 'Hungary', 'H-1073', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [total]) VALUES (378, 46, 1375416000000, '3 Chatham Street', 'Dublin', 'Dublin', 'Ireland', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (379, 48, 1375416000000, 'Lijnbaansgracht 120bg', 'Amsterdam', 'VV', 'Netherlands', '1016', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (380, 50, 1375502400000, 'C/ San Bernardo 85', 'Madrid', 'Spain', '28015', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (381, 54, 1375588800000, '110 Raeburn Pl', 'Edinburgh ', 'United Kingdom', 'EH4 1HH', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (382, 1, 1375848000000, 'Av. Brigadeiro Faria Lima, 2170', 'São José dos Campos', 'SP', 'Brazil', '12227-000', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (383, 10, 1376280000000, 'Rua Dr. Falcão Filho, 155', 'São Paulo', 'SP', 'Brazil', '01007-010', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (384, 24, 1376971200000, '162 E Superior Street', 'Chicago', 'IL', 'USA', '60611', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (385, 25, 1378094400000, '319 N. Frances Street', 'Madison', 'WI', 'USA', '53703', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (386, 27, 1378094400000, '1033 N Park Ave', 'Tucson', 'AZ', 'USA', '85719', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (387, 29, 1378180800000, '796 Dundas Street West', 'Toronto', 'ON', 'Canada', 'M6J 1V1', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (388, 33, 1378267200000, '5112 48 Street', 'Yellowknife', 'NT', 'Canada', 'X1A 1N6', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (389, 39, 1378526400000, '4, Rue Milton', 'Paris', 'France', '75009', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (390, 48, 1378958400000, 'Lijnbaansgracht 120bg', 'Amsterdam', 'VV', 'Netherlands', '1016', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (391, 3, 1379649600000, '1498 rue Bélanger', 'Montréal', 'QC', 'Canada', 'H2G 1A7', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (392, 4, 1380772800000, 'Ullevålsveien 14', 'Oslo', 'Norway', '0171', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (393, 6, 1380772800000, 'Rilská 3174/6', 'Prague', 'Czech Republic', '14300', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (394, 8, 1380859200000, 'Grétrystraat 63', 'Brussels', 'Belgium', '1000', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (395, 12, 1380945600000, 'Praça Pio X, 119', 'Rio de Janeiro', 'RJ', 'Brazil', '20040-020', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (396, 18, 1381204800000, '627 Broadway', 'New York', 'NY', 'USA', '10012-2612', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (397, 27, 1381636800000, '1033 N Park Ave', 'Tucson', 'AZ', 'USA', '85719', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (398, 41, 1382328000000, '11, Place Bellecour', 'Lyon', 'France', '69002', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (399, 42, 1383451200000, '9, Place Louis Barthou', 'Bordeaux', 'France', '33000', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (400, 44, 1383451200000, 'Porthaninkatu 9', 'Helsinki', 'Finland', '00530', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [total]) VALUES (401, 46, 1383541200000, '3 Chatham Street', 'Dublin', 'Dublin', 'Ireland', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (402, 50, 1383627600000, 'C/ San Bernardo 85', 'Madrid', 'Spain', '28015', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (403, 56, 1383886800000, '307 Macacha Güemes', 'Buenos Aires', 'Argentina', '1106', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (404, 6, 1384318800000, 'Rilská 3174/6', 'Prague', 'Czech Republic', '14300', 25.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (405, 20, 1385010000000, '541 Del Medio Avenue', 'Mountain View', 'CA', 'USA', '94040-111', 0.99);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (406, 21, 1386133200000, '801 W 4th Street', 'Reno', 'NV', 'USA', '89503', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (407, 23, 1386133200000, '69 Salem Street', 'Boston', 'MA', 'USA', '2113', 1.98);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (408, 25, 1386219600000, '319 N. Frances Street', 'Madison', 'WI', 'USA', '53703', 3.96);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingState], [billingCountry], [billingPostalCode], [total]) VALUES (409, 29, 1386306000000, '796 Dundas Street West', 'Toronto', 'ON', 'Canada', 'M6J 1V1', 5.94);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [total]) VALUES (410, 35, 1386565200000, 'Rua dos Campeões Europeus de Viena, 4350', 'Porto', 'Portugal', 8.91);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (411, 44, 1386997200000, 'Porthaninkatu 9', 'Helsinki', 'Finland', '00530', 13.86);
+INSERT INTO [invoice] ([id], [customerId], [invoiceDate], [billingAddress], [billingCity], [billingCountry], [billingPostalCode], [total]) VALUES (412, 58, 1387688400000, '12,Community Centre', 'Delhi', 'India', '110017', 1.99);
 
 INSERT INTO [invoiceline] ([id], [invoiceId], [trackId], [unitPrice], [quantity]) VALUES (1, 1, 2, 0.99, 1);
 INSERT INTO [invoiceline] ([id], [invoiceId], [trackId], [unitPrice], [quantity]) VALUES (2, 1, 4, 0.99, 1);
@@ -15854,5 +15618,6 @@ INSERT INTO [playlisttrack] ([id1], [id2]) VALUES (17, 2095);
 INSERT INTO [playlisttrack] ([id1], [id2]) VALUES (17, 2096);
 INSERT INTO [playlisttrack] ([id1], [id2]) VALUES (17, 3290);
 INSERT INTO [playlisttrack] ([id1], [id2]) VALUES (18, 597);
+
 
 
