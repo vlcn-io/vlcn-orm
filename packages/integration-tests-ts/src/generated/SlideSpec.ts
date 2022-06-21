@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <82d3344e0a53e07604aeebe5723bb8a6>
+// SIGNED-SOURCE: <bdf995138db318da92644c633fb15026>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -15,7 +15,7 @@ import { Data } from "./Slide.js";
 const spec: NodeSpecWithCreate<Slide, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data["id"]);
+    const existing = ctx.cache.get(data["id"], "Slide");
     if (existing) {
       return existing;
     }

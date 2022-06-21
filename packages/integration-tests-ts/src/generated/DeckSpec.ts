@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <21ef504276085256eac228105b746268>
+// SIGNED-SOURCE: <477e91130415470f6336dd6cd7edbe7c>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -16,7 +16,7 @@ import { Data } from "./Deck.js";
 const spec: NodeSpecWithCreate<Deck, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data["id"]);
+    const existing = ctx.cache.get(data["id"], "Deck");
     if (existing) {
       return existing;
     }

@@ -59,7 +59,7 @@ ${this.getSpecCode()}
     return `const spec: ${nodeOrEdge}SpecWithCreate<${this.schema.name}, Data> = {
       type: '${this.schema.type === 'node' ? 'node' : 'junction'}',
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(${cacheKey});
+    const existing = ctx.cache.get(${cacheKey}, "${this.schema.name}");
     if (existing) {
       return existing;
     }

@@ -20,7 +20,7 @@ test('get should always return what was just set', () => {
       let casted = asId<TestModel>(id);
       const model = new TestModel(casted);
       cache.set(casted, model);
-      expect(cache.get(casted)).toBe(model);
+      expect(cache.get(casted, model.constructor.name)).toBe(model);
     }),
   );
 });
@@ -40,8 +40,8 @@ test('remove', () => {
   const id = asId<TestModel>('z');
   const model = new TestModel(id);
   cache.set(id, model);
-  cache.remove(id);
-  expect(cache.get(id)).toBe(null);
+  cache.remove(id, model.constructor.name);
+  expect(cache.get(id, model.constructor.name)).toBe(null);
 });
 
 test('destruct', () => {
@@ -50,7 +50,7 @@ test('destruct', () => {
   const model = new TestModel(id);
   cache.set(id, model);
   cache.clear();
-  expect(cache.get(id)).toBe(null);
+  expect(cache.get(id, model.constructor.name)).toBe(null);
 });
 
 // test garbage collect?

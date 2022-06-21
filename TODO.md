@@ -31,6 +31,7 @@
 - map, union, intersect, filter, etc. on QueryBase
 - generated ids are not being converted to hex representations and ints on storage?
 - Support edge queries?? RN we just traverse edges rather than allowing returning of edge data (if it exists).
+- typename and package scoped id suffix for caching? E.g., if someone wants auto-incr (not globally unique) primary keys
 
 # Mutator improvements
 - infer what the user wants to write in the manual section and generate that

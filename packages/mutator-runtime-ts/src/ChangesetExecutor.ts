@@ -85,7 +85,7 @@ export class ChangesetExecutor {
         return [changeset.model, notifs];
       }
       case 'delete': {
-        this.ctx.cache.remove(changeset.id);
+        this.ctx.cache.remove(changeset.id, changeset.model.constructor.name);
         const node = changeset.model;
         // TODO: delete notifications?
         node.destroy();

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a12de7c035a82c125d23f5a648222f1c>
+// SIGNED-SOURCE: <d0f6d488d4500979cfc11a2a0853eb1c>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -14,7 +14,7 @@ import { Data } from "./Component.js";
 const spec: NodeSpecWithCreate<Component, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data["id"]);
+    const existing = ctx.cache.get(data["id"], "Component");
     if (existing) {
       return existing;
     }

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <88f5e8ec541a10248be5d752b02d947a>
+// SIGNED-SOURCE: <2669126c97aeecc2783045e51cf6c83c>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -46,7 +46,7 @@ export default class Slide extends Node<Data> {
   }
 
   static async genx(ctx: Context, id: SID_of<Slide>): Promise<Slide> {
-    const existing = ctx.cache.get(id);
+    const existing = ctx.cache.get(id, "Slide");
     if (existing) {
       return existing;
     }
@@ -54,7 +54,7 @@ export default class Slide extends Node<Data> {
   }
 
   static async gen(ctx: Context, id: SID_of<Slide>): Promise<Slide | null> {
-    const existing = ctx.cache.get(id);
+    const existing = ctx.cache.get(id, "Slide");
     if (existing) {
       return existing;
     }

@@ -52,8 +52,9 @@ export default class Cache {
     }
   }
 
-  get<T extends Object>(id: SID_of<T>): T | null {
-    const ref = this.#cache.get(id);
+  get<T extends Object>(id: SID_of<T>, typename: string): T | null {
+    const idconcat = concatId(id, typename);
+    const ref = this.#cache.get(idconcat as SID_of<T>);
     if (ref == null) {
       return null;
     }
@@ -72,7 +73,7 @@ export default class Cache {
       this.#gc();
     }
 
-    const existing = this.get(id);
+    const existing = this.get(id, node.constructor.name);
     if (existing === node) {
       return;
     }
@@ -82,16 +83,17 @@ export default class Cache {
     invariant(existing == null, 'Trying to reset something in the cache to a different instance');
 
     const ref = new WeakRef(node);
-    this.#cache.set(id, ref);
+    this.#cache.set(concatId(id, node.constructor.name), ref);
   }
 
-  remove<T extends Object>(id: SID_of<T>): T | null {
-    const ref = this.#cache.get(id);
+  remove<T extends Object>(id: SID_of<T>, typename: string): T | null {
+    let idconcat = concatId(id, typename);
+    const ref = this.#cache.get(idconcat);
     if (ref == null) {
       return null;
     }
 
-    this.#cache.delete(id);
+    this.#cache.delete(idconcat);
 
     const thing = ref.deref();
     if (thing == null) {
@@ -104,4 +106,8 @@ export default class Cache {
   clear() {
     this.#cache.clear();
   }
+}
+
+function concatId<T>(id: SID_of<T>, typename: string) {
+  return (id + '-' + typename) as SID_of<T>;
 }

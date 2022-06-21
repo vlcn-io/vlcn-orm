@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <241a17f1c89f7a2a6ecd73cf078f331c>
+// SIGNED-SOURCE: <f94de69dc69172d7659454e771da8b0d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -50,7 +50,7 @@ export default class User extends Node<Data> {
   }
 
   static async genx(ctx: Context, id: SID_of<User>): Promise<User> {
-    const existing = ctx.cache.get(id);
+    const existing = ctx.cache.get(id, "User");
     if (existing) {
       return existing;
     }
@@ -58,7 +58,7 @@ export default class User extends Node<Data> {
   }
 
   static async gen(ctx: Context, id: SID_of<User>): Promise<User | null> {
-    const existing = ctx.cache.get(id);
+    const existing = ctx.cache.get(id, "User");
     if (existing) {
       return existing;
     }
