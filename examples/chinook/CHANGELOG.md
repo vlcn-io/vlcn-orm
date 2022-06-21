@@ -1,5 +1,11 @@
 # @aphro/chinook
 
+## 0.1.4
+
+### Patch Changes
+
+- add missing edges
+
 ## 0.1.3
 
 ### Patch Changes
