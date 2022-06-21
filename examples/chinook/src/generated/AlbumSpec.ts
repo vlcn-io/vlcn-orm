@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <bb6f23173772714ebc5c9a623743fc58>
+// SIGNED-SOURCE: <6995714dd9c499789b1b4d9f4c30f31e>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -16,7 +16,7 @@ import { Data } from "./Album.js";
 const spec: NodeSpecWithCreate<Album, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data["id"], "Album");
+    const existing = ctx.cache.get(data["id"], Album.name);
     if (existing) {
       return existing;
     }

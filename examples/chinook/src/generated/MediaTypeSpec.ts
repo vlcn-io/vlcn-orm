@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <68ddaf491f53c15e704eee7e5349604c>
+// SIGNED-SOURCE: <fde8859e1510fef30c4034e153391e65>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -14,7 +14,7 @@ import { Data } from "./MediaType.js";
 const spec: NodeSpecWithCreate<MediaType, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data["id"], "MediaType");
+    const existing = ctx.cache.get(data["id"], MediaType.name);
     if (existing) {
       return existing;
     }

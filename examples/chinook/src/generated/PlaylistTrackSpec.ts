@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4c7cd6cdf6d89d9329dce79dc2a12121>
+// SIGNED-SOURCE: <7195756dc9bf604f0fe659047505ffd2>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,7 +18,7 @@ const spec: EdgeSpecWithCreate<PlaylistTrack, Data> = {
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(
       (data.id1 + "-" + data.id2) as SID_of<PlaylistTrack>,
-      "PlaylistTrack"
+      PlaylistTrack.name
     );
     if (existing) {
       return existing;

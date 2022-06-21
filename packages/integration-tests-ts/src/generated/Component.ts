@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <697e8d3ec86f64c75bebf2c1648be183>
+// SIGNED-SOURCE: <50d811e3fcc7184ac6a5a6b5677fe778>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -45,7 +45,7 @@ export default class Component extends Node<Data> {
   }
 
   static async genx(ctx: Context, id: SID_of<Component>): Promise<Component> {
-    const existing = ctx.cache.get(id, "Component");
+    const existing = ctx.cache.get(id, Component.name);
     if (existing) {
       return existing;
     }
@@ -56,7 +56,7 @@ export default class Component extends Node<Data> {
     ctx: Context,
     id: SID_of<Component>
   ): Promise<Component | null> {
-    const existing = ctx.cache.get(id, "Component");
+    const existing = ctx.cache.get(id, Component.name);
     if (existing) {
       return existing;
     }

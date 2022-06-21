@@ -80,7 +80,10 @@ export default class Cache {
     // This is important given only one instance of an object with a given id should ever exist
     // (well based on privacy constraints -- but cache privacy should be managed up a layer via different cache instances per viewer)
     // If someone has created a new instance then they're invalidating references that exist elsewhere.
-    invariant(existing == null, 'Trying to reset something in the cache to a different instance');
+    invariant(
+      existing == null,
+      `Trying to reset something in the cache to a different instance. ID: ${id}, CTOR: ${node.constructor.name}.`,
+    );
 
     const ref = new WeakRef(node);
     this.#cache.set(concatId(id, node.constructor.name), ref);

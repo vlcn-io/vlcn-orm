@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <326ba9d59f4189968ed02a0cb2231084>
+// SIGNED-SOURCE: <f6caccc64dd75d31d0942659fc9e2b3b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -74,7 +74,7 @@ export default class Deck extends Node<Data> {
   }
 
   static async genx(ctx: Context, id: SID_of<Deck>): Promise<Deck> {
-    const existing = ctx.cache.get(id, "Deck");
+    const existing = ctx.cache.get(id, Deck.name);
     if (existing) {
       return existing;
     }
@@ -82,7 +82,7 @@ export default class Deck extends Node<Data> {
   }
 
   static async gen(ctx: Context, id: SID_of<Deck>): Promise<Deck | null> {
-    const existing = ctx.cache.get(id, "Deck");
+    const existing = ctx.cache.get(id, Deck.name);
     if (existing) {
       return existing;
     }

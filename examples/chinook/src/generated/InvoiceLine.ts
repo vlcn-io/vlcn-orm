@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <06d7b7e35391ce8ce8eda795edf84330>
+// SIGNED-SOURCE: <6b193a47b3b5e0584ddf5b2647836045>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -54,7 +54,7 @@ export default class InvoiceLine extends Node<Data> {
     ctx: Context,
     id: SID_of<InvoiceLine>
   ): Promise<InvoiceLine> {
-    const existing = ctx.cache.get(id, "InvoiceLine");
+    const existing = ctx.cache.get(id, InvoiceLine.name);
     if (existing) {
       return existing;
     }
@@ -65,7 +65,7 @@ export default class InvoiceLine extends Node<Data> {
     ctx: Context,
     id: SID_of<InvoiceLine>
   ): Promise<InvoiceLine | null> {
-    const existing = ctx.cache.get(id, "InvoiceLine");
+    const existing = ctx.cache.get(id, InvoiceLine.name);
     if (existing) {
       return existing;
     }

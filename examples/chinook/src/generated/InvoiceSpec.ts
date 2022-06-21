@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <84fb6fffe2f54f9db25f5a84a5f072c9>
+// SIGNED-SOURCE: <bd76be6443c362c8c5512466ee4ed53e>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -16,7 +16,7 @@ import { Data } from "./Invoice.js";
 const spec: NodeSpecWithCreate<Invoice, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data["id"], "Invoice");
+    const existing = ctx.cache.get(data["id"], Invoice.name);
     if (existing) {
       return existing;
     }

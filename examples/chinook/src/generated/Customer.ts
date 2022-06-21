@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <ff56abfd7e9ca3949a59189eae10e6f8>
+// SIGNED-SOURCE: <7057afe7526f5f6c1b3aee9c31b894ae>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -100,7 +100,7 @@ export default class Customer extends Node<Data> {
   }
 
   static async genx(ctx: Context, id: SID_of<Customer>): Promise<Customer> {
-    const existing = ctx.cache.get(id, "Customer");
+    const existing = ctx.cache.get(id, Customer.name);
     if (existing) {
       return existing;
     }
@@ -111,7 +111,7 @@ export default class Customer extends Node<Data> {
     ctx: Context,
     id: SID_of<Customer>
   ): Promise<Customer | null> {
-    const existing = ctx.cache.get(id, "Customer");
+    const existing = ctx.cache.get(id, Customer.name);
     if (existing) {
       return existing;
     }

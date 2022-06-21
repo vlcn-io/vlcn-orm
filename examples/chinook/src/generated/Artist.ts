@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <6af4bd65e0320cece058071fd577e8b0>
+// SIGNED-SOURCE: <355c661d39eb03d961fec6212031d821>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -34,7 +34,7 @@ export default class Artist extends Node<Data> {
   }
 
   static async genx(ctx: Context, id: SID_of<Artist>): Promise<Artist> {
-    const existing = ctx.cache.get(id, "Artist");
+    const existing = ctx.cache.get(id, Artist.name);
     if (existing) {
       return existing;
     }
@@ -42,7 +42,7 @@ export default class Artist extends Node<Data> {
   }
 
   static async gen(ctx: Context, id: SID_of<Artist>): Promise<Artist | null> {
-    const existing = ctx.cache.get(id, "Artist");
+    const existing = ctx.cache.get(id, Artist.name);
     if (existing) {
       return existing;
     }

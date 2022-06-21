@@ -261,7 +261,7 @@ export default class ${this.schema.name}
       return '';
     }
     return `static async gen(ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name} | null> {
-      const existing = ctx.cache.get(id, "${this.schema.name}");
+      const existing = ctx.cache.get(id, ${this.schema.name}.name);
       if (existing) {
         return existing;
       }
@@ -274,7 +274,7 @@ export default class ${this.schema.name}
       return '';
     }
     return `static async genx(ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name}> {
-      const existing = ctx.cache.get(id, "${this.schema.name}");
+      const existing = ctx.cache.get(id, ${this.schema.name}.name);
       if (existing) {
         return existing;
       }
