@@ -1,0 +1,113 @@
+// SIGNED-SOURCE: <07a6d433a441d880d94c89c1244a2dd6>
+/**
+ * AUTO-GENERATED FILE
+ * Do not modify. Update your schema and re-generate for changes.
+ * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
+ * `END-MANUAL-SECTION` markers.
+ */
+import { default as s } from "./TrackSpec.js";
+import { P } from "@aphro/runtime-ts";
+import { Node } from "@aphro/runtime-ts";
+import { NodeSpecWithCreate } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
+import TrackQuery from "./TrackQuery.js";
+import { Context } from "@aphro/runtime-ts";
+import AlbumQuery from "./AlbumQuery.js";
+import MediaTypeQuery from "./MediaTypeQuery.js";
+import GenreQuery from "./GenreQuery.js";
+import InvoiceLineQuery from "./InvoiceLineQuery.js";
+import InvoiceLine from "./InvoiceLine.js";
+import Album from "./Album.js";
+import MediaType from "./MediaType.js";
+import Genre from "./Genre.js";
+
+export type Data = {
+  id: SID_of<Track>;
+  name: string;
+  albumId: SID_of<Album> | null;
+  mediaTypeId: SID_of<MediaType>;
+  genreId: SID_of<Genre> | null;
+  composter: string | null;
+  milliseconds: number;
+  bytes: number | null;
+  price: number;
+};
+
+export default class Track extends Node<Data> {
+  readonly spec = s as NodeSpecWithCreate<this, Data>;
+
+  get id(): SID_of<this> {
+    return this.data.id as SID_of<this>;
+  }
+
+  get name(): string {
+    return this.data.name;
+  }
+
+  get albumId(): SID_of<Album> | null {
+    return this.data.albumId;
+  }
+
+  get mediaTypeId(): SID_of<MediaType> {
+    return this.data.mediaTypeId;
+  }
+
+  get genreId(): SID_of<Genre> | null {
+    return this.data.genreId;
+  }
+
+  get composter(): string | null {
+    return this.data.composter;
+  }
+
+  get milliseconds(): number {
+    return this.data.milliseconds;
+  }
+
+  get bytes(): number | null {
+    return this.data.bytes;
+  }
+
+  get price(): number {
+    return this.data.price;
+  }
+
+  queryAlbum(): AlbumQuery {
+    if (this.albumId == null) {
+      return AlbumQuery.empty(this.ctx);
+    }
+    return AlbumQuery.fromId(this.ctx, this.albumId);
+  }
+  queryMediaType(): MediaTypeQuery {
+    return MediaTypeQuery.fromId(this.ctx, this.mediaTypeId);
+  }
+  queryGenre(): GenreQuery {
+    if (this.genreId == null) {
+      return GenreQuery.empty(this.ctx);
+    }
+    return GenreQuery.fromId(this.ctx, this.genreId);
+  }
+  queryInvoiceLines(): InvoiceLineQuery {
+    return InvoiceLineQuery.create(this.ctx).whereTrackId(P.equals(this.id));
+  }
+
+  static queryAll(ctx: Context): TrackQuery {
+    return TrackQuery.create(ctx);
+  }
+
+  static async genx(ctx: Context, id: SID_of<Track>): Promise<Track> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
+  }
+
+  static async gen(ctx: Context, id: SID_of<Track>): Promise<Track | null> {
+    const existing = ctx.cache.get(id);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
+  }
+}

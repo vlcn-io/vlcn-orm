@@ -52,7 +52,7 @@ ${this.getSpecCode()}
         sourceField: "id1",
         destField: "id2",
         get source() { return ${nodeFn.specName(this.schema.src.type)}; },
-        get dest() { return ${nodeFn.specName(this.schema.dest.type)}; },
+        get dest() { return ${nodeFn.specName(this.schema.dest.type, this.schema.name)}; },
       `;
     }
 
@@ -181,9 +181,9 @@ export default spec;
         ),
       ];
     }
-    const outbound = Object.values(schema.extensions.outboundEdges?.edges || {}).filter(
-      e => e.type === 'edge',
-    ) as EdgeDeclaration[];
+    const outbound = Object.values(schema.extensions.outboundEdges?.edges || {}).map(e =>
+      edgeFn.dereference(e, this.edges),
+    );
     return outbound
       .filter(edge => edgeFn.destModelTypeName(schema, edge) !== schema.name)
       .map(edge =>

@@ -270,7 +270,7 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${field.of}>) {
       this.schema,
       edge,
     )}(this.ctx, QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.${ref.name}),
-      modelLoad(this.ctx, ${edgeFn.destModelTypeName(this.schema, edge)}Spec.createFrom),
+      modelLoad(this.ctx, ${edgeFn.destModelSpecName(this.schema, edge)}.createFrom),
     );`;
   }
 

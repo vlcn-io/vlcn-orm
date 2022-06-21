@@ -75,7 +75,7 @@ const funcs = {
   },
 
   destModelSpecName(src: SchemaNode, edge: EdgeDeclaration | SchemaEdge): string {
-    return nodeFn.specName(funcs.destModelTypeName(src, edge));
+    return nodeFn.specName(funcs.destModelTypeName(src, edge), src.name);
   },
 
   isThrough(edge: EdgeDeclaration): boolean {

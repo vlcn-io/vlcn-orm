@@ -53,7 +53,10 @@ export default {
     return node.fields.id;
   },
 
-  specName(nodeName: string): string {
+  specName(nodeName: string, srcName?: string): string {
+    if (srcName === nodeName) {
+      return 'spec';
+    }
     return nodeName + 'Spec';
   },
 
