@@ -197,13 +197,13 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${field.of}>) {
     if (schema.type === 'standaloneEdge') {
       return [];
     }
-    const inbound = Object.values(schema.extensions.inboundEdges?.edges || {}).filter(
-      e => e.type === 'edge',
-    ) as EdgeDeclaration[];
+    const inbound = Object.values(schema.extensions.inboundEdges?.edges || {}).map(e =>
+      edgeFn.dereference(e, this.edges),
+    );
 
-    const outbound = Object.values(schema.extensions.outboundEdges?.edges || {}).filter(
-      e => e.type === 'edge',
-    ) as EdgeDeclaration[];
+    const outbound = Object.values(schema.extensions.outboundEdges?.edges || {}).map(e =>
+      edgeFn.dereference(e, this.edges),
+    );
 
     return [...inbound, ...outbound]
       .filter(edge => edgeFn.queryTypeName(schema, edge) !== nodeFn.queryTypeName(this.schema.name))
