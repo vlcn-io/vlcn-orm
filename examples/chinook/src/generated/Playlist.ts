@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <c3d6b7da18dc5cc13829817dfa83a4db>
+// SIGNED-SOURCE: <128f671ba086bb845bd0ecff65a262bb>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -39,7 +39,7 @@ export default class Playlist extends Node<Data> {
   }
 
   static async genx(ctx: Context, id: SID_of<Playlist>): Promise<Playlist> {
-    const existing = ctx.cache.get(id);
+    const existing = ctx.cache.get(id, "Playlist");
     if (existing) {
       return existing;
     }
@@ -50,7 +50,7 @@ export default class Playlist extends Node<Data> {
     ctx: Context,
     id: SID_of<Playlist>
   ): Promise<Playlist | null> {
-    const existing = ctx.cache.get(id);
+    const existing = ctx.cache.get(id, "Playlist");
     if (existing) {
       return existing;
     }

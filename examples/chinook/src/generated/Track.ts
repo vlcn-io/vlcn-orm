@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <70248e8ef4320a55da1f497ba319efa0>
+// SIGNED-SOURCE: <6d3f7ed549acf0b692cb640ed6ecdfb0>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -96,7 +96,7 @@ export default class Track extends Node<Data> {
   }
 
   static async genx(ctx: Context, id: SID_of<Track>): Promise<Track> {
-    const existing = ctx.cache.get(id);
+    const existing = ctx.cache.get(id, "Track");
     if (existing) {
       return existing;
     }
@@ -104,7 +104,7 @@ export default class Track extends Node<Data> {
   }
 
   static async gen(ctx: Context, id: SID_of<Track>): Promise<Track | null> {
-    const existing = ctx.cache.get(id);
+    const existing = ctx.cache.get(id, "Track");
     if (existing) {
       return existing;
     }

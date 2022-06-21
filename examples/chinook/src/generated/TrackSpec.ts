@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <7938f81f6287b1168829ba08844d0162>
+// SIGNED-SOURCE: <eb76e631aec9a05f9155747c71716156>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,7 +18,7 @@ import { Data } from "./Track.js";
 const spec: NodeSpecWithCreate<Track, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data["id"]);
+    const existing = ctx.cache.get(data["id"], "Track");
     if (existing) {
       return existing;
     }

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <fe24a26702fcba486ad45dd8577a7951>
+// SIGNED-SOURCE: <21bf801200062b46a42383b2452ddcf9>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -80,7 +80,7 @@ export default class Invoice extends Node<Data> {
   }
 
   static async genx(ctx: Context, id: SID_of<Invoice>): Promise<Invoice> {
-    const existing = ctx.cache.get(id);
+    const existing = ctx.cache.get(id, "Invoice");
     if (existing) {
       return existing;
     }
@@ -88,7 +88,7 @@ export default class Invoice extends Node<Data> {
   }
 
   static async gen(ctx: Context, id: SID_of<Invoice>): Promise<Invoice | null> {
-    const existing = ctx.cache.get(id);
+    const existing = ctx.cache.get(id, "Invoice");
     if (existing) {
       return existing;
     }

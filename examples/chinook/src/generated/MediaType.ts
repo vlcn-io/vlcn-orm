@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4d7e2794bd25253bec34267fe1d6ea97>
+// SIGNED-SOURCE: <6d4266ca55432fb57f4b4e657b4dbb5e>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -34,7 +34,7 @@ export default class MediaType extends Node<Data> {
   }
 
   static async genx(ctx: Context, id: SID_of<MediaType>): Promise<MediaType> {
-    const existing = ctx.cache.get(id);
+    const existing = ctx.cache.get(id, "MediaType");
     if (existing) {
       return existing;
     }
@@ -45,7 +45,7 @@ export default class MediaType extends Node<Data> {
     ctx: Context,
     id: SID_of<MediaType>
   ): Promise<MediaType | null> {
-    const existing = ctx.cache.get(id);
+    const existing = ctx.cache.get(id, "MediaType");
     if (existing) {
       return existing;
     }
