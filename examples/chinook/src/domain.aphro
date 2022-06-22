@@ -92,6 +92,7 @@ InvoiceLine as Node {
   quantity: int32
 } & OutboundEdges {
   track: Edge<InvoiceLine.trackId>
+  invoice: Edge<InvoiceLine.invoiceId>
 }
 
 MediaType as Node {

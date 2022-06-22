@@ -14,13 +14,21 @@ import initSqlJs from '@aphro/sql.js';
  *
  * @returns DBResolver
  */
-export async function openDbAndCreateResolver(): Promise<DBResolver> {
-  const SQL = await initSqlJs({
+export async function openDbAndCreateResolver(file?: string): Promise<DBResolver> {
+  const sqlPromise = initSqlJs({
     locateFile: file => {
       return 'https://esm.sh/@aphro/sql.js/dist/sql-wasm.wasm';
     },
   });
+  let dataPromise: Promise<ArrayBuffer> | null = null;
+  if (file != null) {
+    dataPromise = fetch(file).then(res => res.arrayBuffer());
+  }
+  const [SQL, buf] = await Promise.all([sqlPromise, dataPromise]);
 
+  if (buf != null) {
+    return basicResolver(new Connection(new SQL.Database(new Uint8Array(buf))));
+  }
   return basicResolver(new Connection(new SQL.Database()));
 }
 
