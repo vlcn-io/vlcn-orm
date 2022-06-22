@@ -1,5 +1,11 @@
 # @aphro/react
 
+## 0.1.3
+
+### Patch Changes
+
+- update sqljs-connector to handle loading a sqlite db from storage
+
 ## 0.1.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @aphro/chinook
 
+## 0.1.5
+
+### Patch Changes
+
+- update sqljs-connector to handle loading a sqlite db from storage
+
 ## 0.1.4
 
 ### Patch Changes
