@@ -1,12 +1,12 @@
 {
-  "name": "@aphro/model-runtime-ts",
+  "name": "@aphro/migration-runtime-ts",
   "version": "0.0.8",
   "main": "lib/index.js",
   "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/tantaman/aphrodite.git",
-    "directory": "packages/model-runtime-ts"
+    "directory": "packages/migration-runtime-ts"
   },
   "dependencies": {
     "@strut/utils": "^0.0.11"
