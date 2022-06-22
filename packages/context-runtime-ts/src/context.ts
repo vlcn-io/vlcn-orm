@@ -1,6 +1,6 @@
 import { Viewer } from './viewer.js';
 import { DBResolver } from './DBResolver.js';
-import { printResolver } from './resolvers.js';
+import { noopResolver, printResolver } from './resolvers.js';
 import Cache from '@aphro/cache-runtime-ts';
 import TransactionLog from './transactionLog.js';
 
@@ -38,6 +38,10 @@ export default function context(
 
 export function debugContext(viewer: Viewer): Context {
   return context(viewer, printResolver, new Cache());
+}
+
+export function noopDebugContext(viewer: Viewer): Context {
+  return context(viewer, noopResolver, new Cache());
 }
 
 export function newFrom(oldContext: Context, newValues: Partial<Context>): Context {
