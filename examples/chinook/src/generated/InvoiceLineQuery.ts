@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <6aa27c03e8a0cefa67657fe6fd6666c1>
+// SIGNED-SOURCE: <269394359acecafb6f4e7b1a18d7ceba>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -25,6 +25,8 @@ import Invoice from "./Invoice.js";
 import Track from "./Track.js";
 import { default as TrackSpec } from "./TrackSpec.js";
 import TrackQuery from "./TrackQuery.js";
+import { default as InvoiceSpec } from "./InvoiceSpec.js";
+import InvoiceQuery from "./InvoiceQuery.js";
 
 export default class InvoiceLineQuery extends DerivedQuery<InvoiceLine> {
   static create(ctx: Context) {
@@ -87,6 +89,17 @@ export default class InvoiceLineQuery extends DerivedQuery<InvoiceLine> {
       this.ctx,
       QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.track),
       modelLoad(this.ctx, TrackSpec.createFrom)
+    );
+  }
+  queryInvoice(): InvoiceQuery {
+    return new InvoiceQuery(
+      this.ctx,
+      QueryFactory.createHopQueryFor(
+        this.ctx,
+        this,
+        spec.outboundEdges.invoice
+      ),
+      modelLoad(this.ctx, InvoiceSpec.createFrom)
     );
   }
 

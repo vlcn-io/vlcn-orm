@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <65c8cfb1a3f3932cf2e59d806ac6bca0>
+// SIGNED-SOURCE: <3086330d2dd6a380bb556a7018391dd1>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,6 +9,7 @@ import { Context } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { default as TrackSpec } from "./TrackSpec.js";
+import { default as InvoiceSpec } from "./InvoiceSpec.js";
 import InvoiceLine from "./InvoiceLine.js";
 import { Data } from "./InvoiceLine.js";
 
@@ -43,6 +44,17 @@ const spec: NodeSpecWithCreate<InvoiceLine, Data> = {
       },
       get dest() {
         return TrackSpec;
+      },
+    },
+    invoice: {
+      type: "field",
+      sourceField: "invoiceId",
+      destField: "id",
+      get source() {
+        return spec;
+      },
+      get dest() {
+        return InvoiceSpec;
       },
     },
   },
