@@ -1,5 +1,5 @@
 import { Context, Transaction } from '@aphro/context-runtime-ts';
-import { specToDatasetKey } from '@aphro/model-runtime-ts';
+import { observe, specToDatasetKey } from '@aphro/model-runtime-ts';
 import { assertUnreachable } from '@strut/utils';
 import { IPlan } from '../Plan.js';
 import { Query, UpdateType } from '../Query.js';
@@ -39,11 +39,14 @@ export default class LiveResult<T> {
   #optimizedQueryPlan: IPlan;
   #implicatedDatasets: Set<string>;
   #on: UpdateType;
+  #generatorChange: (x: T[]) => T[];
 
   #disposables: (() => void)[] = [];
 
   // Exposed to allow tests to await results before exiting.
   __currentHandle: Promise<unknown>;
+
+  readonly generator: ReturnType<typeof observe<T[]>>;
 
   constructor(ctx: Context, on: UpdateType, query: Query<T>) {
     this.#on = on;
@@ -60,6 +63,11 @@ export default class LiveResult<T> {
         }
       }),
     );
+
+    this.generator = observe((change: (x: T[]) => T[]) => {
+      this.#generatorChange = change;
+      return () => this.free();
+    });
 
     // We invoke this in order to kick off the initial query.
     this.__currentHandle = this.#react();
@@ -111,6 +119,7 @@ export default class LiveResult<T> {
 
   #notify = (result: T[]) => {
     this.#latest = result;
+    this.#generatorChange(result);
     for (const s of this.#subscribers) {
       s(result);
     }
@@ -119,12 +128,25 @@ export default class LiveResult<T> {
   };
 
   subscribe(subscriber: (data: T[]) => void) {
+    if (this.#disposables.length === 0) {
+      throw new Error(
+        'You are subscribing to a disposed live result. ' +
+          'Live results are diposed either when someone frees them or auto-disposed when their subscriber count drops to 0. ' +
+          'If you are removing then adding a subscriber a good workaround is to add the new subscriber _before_ removing the old one. ' +
+          ' This behavior exists to prevent memory leaks.',
+      );
+    }
     this.#subscribers.add(subscriber);
     return () => this.unsubscribe(subscriber);
   }
 
   unsubscribe(subscriber: (data: T[]) => void) {
     this.#subscribers.delete(subscriber);
+    // Intentionally auto-free when there are no more
+    // subscribers.
+    if (this.#subscribers.size === 0) {
+      this.free();
+    }
   }
 
   free() {

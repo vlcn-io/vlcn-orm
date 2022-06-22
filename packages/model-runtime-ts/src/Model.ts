@@ -3,6 +3,7 @@ import { JunctionEdgeSpec, NodeSpec } from '@aphro/schema-api';
 import { Disposer } from '@strut/events';
 import { SID_of } from '@strut/sid';
 import { typedKeys } from '@strut/utils';
+import observe from './observe.js';
 
 export default abstract class Model<T extends {}> implements IModel<T> {
   abstract readonly id: SID_of<this>;
@@ -14,9 +15,18 @@ export default abstract class Model<T extends {}> implements IModel<T> {
   private subscriptions: Set<() => void> = new Set();
   private keyedSubscriptions: Map<keyof T, Set<() => void>> = new Map();
 
+  #generatorChange: (x: this) => this;
+  #generator: ReturnType<typeof observe>;
+  #generatorUsed: boolean = false;
+
   constructor(ctx: Context, data: T) {
     this.ctx = ctx;
     this.data = Object.freeze(data);
+
+    this.#generator = observe((change: (x: this) => this) => {
+      this.#generatorChange = change;
+      return null;
+    });
   }
 
   subscribe(c: () => void): Disposer {
@@ -85,6 +95,9 @@ export default abstract class Model<T extends {}> implements IModel<T> {
     if (changedKeys && this.keyedSubscriptions.size > 0) {
       this.gatherKeyedNotifications(changedKeys, notifications);
     }
+    if (this.#generatorUsed) {
+      notifications.add(() => this.#generatorChange(this));
+    }
     return notifications;
   }
 
@@ -101,5 +114,10 @@ export default abstract class Model<T extends {}> implements IModel<T> {
         }
       }
     }
+  }
+
+  get generator() {
+    this.#generatorUsed = true;
+    return this.#generator;
   }
 }

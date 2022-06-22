@@ -44,8 +44,6 @@ test('queryAll subscription', async () => {
   expect(wasNotified).toBe(true);
   wasNotified = false;
 
-  disposer();
-
   // Test that we get notified when a user in the returned set is modified
   // See "Reactivity Thoughts" in "TODO.md"
   liveResult.subscribe(users => {
@@ -53,6 +51,8 @@ test('queryAll subscription', async () => {
     const names = users.map(u => u.name);
     expect(names).toContain('mutated name');
   });
+
+  disposer();
 
   [persistHandle] = UserMutations.rename(nullthrows(liveResult.latest)[0], {
     name: 'mutated name',
@@ -71,6 +71,15 @@ test('queryAll subscription', async () => {
   // - no-op mutations do not trigger live queries
   //  - we should also check this in mutator tests to ensure persist never happens for no-ops
   //  - and model observers are not notified on no-ops
+});
+
+test('reactivity via generator', async () => {
+  const liveResult = User.queryAll(ctx).live(UpdateType.ANY);
+  const g = liveResult.generator;
+
+  await liveResult.__currentHandle;
+  let result = await g.next().value;
+  expect(result.length).toBeGreaterThan(0);
 });
 
 test('Filtered query subscription', async () => {});
