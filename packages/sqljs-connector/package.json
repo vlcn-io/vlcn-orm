@@ -1,6 +1,6 @@
 {
   "name": "@aphro/sqljs-connector",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "lib/index.js",
   "type": "module",
   "repository": {

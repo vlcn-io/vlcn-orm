@@ -1,5 +1,14 @@
 # @aphro/query-runtime-ts
 
+## 0.1.3
+
+### Patch Changes
+
+- enable reactivity via generators if desired, add better postgres support and bugfixes for mealfave
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.1.3
+  - @aphro/model-runtime-ts@0.1.3
+
 ## 0.1.2
 
 ### Patch Changes

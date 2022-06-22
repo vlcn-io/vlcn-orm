@@ -1,5 +1,11 @@
 # @aphro/codegen-sql
 
+## 0.1.2
+
+### Patch Changes
+
+- enable reactivity via generators if desired, add better postgres support and bugfixes for mealfave
+
 ## 0.1.1
 
 ### Patch Changes

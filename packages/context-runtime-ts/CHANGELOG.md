@@ -1,5 +1,11 @@
 # @aphro/context-runtime-ts
 
+## 0.1.3
+
+### Patch Changes
+
+- enable reactivity via generators if desired, add better postgres support and bugfixes for mealfave
+
 ## 0.1.2
 
 ### Patch Changes
