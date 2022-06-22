@@ -190,7 +190,7 @@ export default class GenSqlTableSchema extends CodegenStep {
       );
     }
 
-    return sql`CREATE TABLE ${sql.ident(
+    return sql`CREATE TABLE IF NOT EXISTS ${sql.ident(
       this.schema.storage.schema || 'public',
       tableName,
     )} (${sql.join(columnDefs, ', ')})`.format(formatters[this.schema.storage.engine]).text;

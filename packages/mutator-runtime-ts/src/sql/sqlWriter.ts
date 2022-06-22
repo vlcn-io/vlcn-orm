@@ -1,5 +1,5 @@
 import { Context, INode } from '@aphro/context-runtime-ts';
-import { formatters, sql } from '@aphro/sql-ts';
+import { formatters, sql, SQLQuery } from '@aphro/sql-ts';
 
 export default {
   // Precondition: already grouped by db & table
@@ -27,10 +27,24 @@ export default {
           ', ',
         )})`,
     );
-    const query = sql`INSERT OR REPLACE INTO ${sql.ident(spec.storage.tablish)} (${sql.join(
-      cols.map(c => sql.ident(c)),
-      ', ',
-    )}) VALUES ${sql.join(rows, ', ')}`;
+
+    let query: SQLQuery;
+    if (persist.engine === 'sqlite') {
+      query = sql`INSERT OR REPLACE INTO ${sql.ident(spec.storage.tablish)} (${sql.join(
+        cols.map(c => sql.ident(c)),
+        ', ',
+      )}) VALUES ${sql.join(rows, ', ')}`;
+    } else {
+      query = sql`INSERT INTO ${sql.ident(spec.storage.tablish)} (${sql.join(
+        cols.map(c => sql.ident(c)),
+        ', ',
+      )}) VALUES ${sql.join(rows, ', ')} ON CONFLCIT (${sql.ident(
+        spec.primaryKey,
+      )}) DO UPDATE SET ${sql.join(
+        cols.map(c => sql`${sql.ident(c)} = EXCLUDED.${sql.ident(c)}`),
+        ', ',
+      )}`;
+    }
 
     // console.log(query);
     // console.log(nodes.map(n => Object.values(n._d())));

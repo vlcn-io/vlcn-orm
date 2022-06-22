@@ -10,6 +10,15 @@ Album as Node {
 } & OutboundEdges {
   artist: Edge<Album.artistId>
   tracks: Edge<Track.albumId>
+} & Mutations {
+  retitle as Update {
+    title
+  }
+
+  create as Create {
+    title
+    artist: Artist
+  }
 }
 
 Artist as Node {
@@ -17,6 +26,14 @@ Artist as Node {
   name: string | null
 } & OutboundEdges {
   albums: Edge<album.artistId>
+} & Mutations {
+  create as Create {
+    name
+  }
+
+  rename as Update {
+    name
+  }
 }
 
 # TODO: string length options
@@ -37,6 +54,10 @@ Customer as Node {
 } & OutboundEdges {
   supportRep: Edge<Customer.supportRepId>
   invoices: Edge<Invoice.customerId>
+} & Mutations {
+  create as Create {
+    
+  }
 }
 
 # TODO: support Datetime format?
