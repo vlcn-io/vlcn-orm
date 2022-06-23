@@ -13,7 +13,7 @@ beforeAll(async () => {
 test('OrderBy', async () => {
   const [persistHandle] = commit(
     ctx,
-    [1, 2, 3, 4].map(i => UserMutations.create(ctx, { name: 'U' + i }).toChangeset()),
+    [4, 3, 2, 1].map(i => UserMutations.create(ctx, { name: 'U' + i }).toChangeset()),
   );
   await persistHandle;
 

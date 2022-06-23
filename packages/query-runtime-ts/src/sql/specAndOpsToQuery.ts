@@ -152,7 +152,7 @@ function getOrderBy(
     if (spec.type == 'node') {
       return sql`ORDER BY ${sql.ident(spec.primaryKey)} DESC`;
     } else {
-      return sql`ORDER BY id1, id2 DESC`;
+      return sql`ORDER BY id1 DESC, id2 DESC`;
     }
   }
 
@@ -168,15 +168,15 @@ function getOrderBy(
 
   if (o.direction === 'asc') {
     if (spec.type == 'node') {
-      return sql`ORDER BY ${sql.value(getter.fieldName)}, ${sql.ident(spec.primaryKey)} ASC`;
+      return sql`ORDER BY ${sql.ident(getter.fieldName)} ASC, ${sql.ident(spec.primaryKey)} DESC`;
     } else {
-      return sql`ORDER BY ${sql.value(getter.fieldName)}, id1, id2 ASC`;
+      return sql`ORDER BY ${sql.ident(getter.fieldName)} ASC, id1 DESC, id2 DESC`;
     }
   } else {
     if (spec.type == 'node') {
-      return sql`ORDER BY ${sql.value(getter.fieldName)}, ${sql.ident(spec.primaryKey)} DESC`;
+      return sql`ORDER BY ${sql.ident(getter.fieldName)} DESC, ${sql.ident(spec.primaryKey)} DESC`;
     } else {
-      return sql`ORDER BY ${sql.value(getter.fieldName)}, id1, id2 DESC`;
+      return sql`ORDER BY ${sql.ident(getter.fieldName)} DESC, id1 DESC, id2 DESC`;
     }
   }
 }
