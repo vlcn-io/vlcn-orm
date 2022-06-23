@@ -668,27 +668,17 @@ importers:
 
   packages/react:
     specifiers:
-      '@aphro/runtime-ts': workspace:*
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
       '@strut/counter': ^0.0.11
-      '@strut/events': ^0.0.10
-      '@strut/sid': ^0.0.11
-      '@strut/utils': ^0.0.11
       '@types/jest': ^27.4.1
       '@types/react': ^18.0.10
       '@typescript-eslint/typescript-estree': ^5.22.0
       jest: ^28.1.0
-      react: ^18.2.0
       ts-jest: ^28.0.1
       typescript: ^4.6.4
     dependencies:
-      '@aphro/runtime-ts': link:../runtime-ts
       '@strut/counter': 0.0.11
-      '@strut/events': 0.0.10
-      '@strut/sid': 0.0.11
-      '@strut/utils': 0.0.11
-      react: 18.2.0
     devDependencies:
       '@babel/core': 7.18.2
       '@babel/preset-env': 7.18.2_@babel+core@7.18.2
@@ -1021,7 +1011,7 @@ packages:
       '@babel/helper-compilation-targets': 7.18.2_@babel+core@7.18.2
       '@babel/helper-module-imports': 7.16.7
       '@babel/helper-plugin-utils': 7.17.12
-      '@babel/traverse': 7.18.2
+      '@babel/traverse': 7.18.5
       debug: 4.3.4
       lodash.debounce: 4.0.8
       resolve: 1.22.0
