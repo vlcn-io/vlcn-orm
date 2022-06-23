@@ -25,6 +25,11 @@ function collectImportsForArgs(
               tsImport('{Data}', td.name + 'Data', `./${td.name}.js`),
             ];
           } else if (typeof td.name !== 'string') {
+            if (td.name == null) {
+              throw new Error(
+                `Bad arg type def received from ${schema.name} ${JSON.stringify(td)}`,
+              );
+            }
             if (td.name.type === 'id') {
               return [tsImport(td.name.of, null, `./${td.name.of}.js`)];
             }
