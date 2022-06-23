@@ -46,7 +46,7 @@ export default function specAndOpsToQuery(
   const orderBy =
     lastWhat === 'count'
       ? sql.__dangerous__rawValue('')
-      : getOrderBy(spec, ops.orderBy) || sql.__dangerous__rawValue('');
+      : getOrderBy(spec, ops.hop, ops.orderBy) || sql.__dangerous__rawValue('');
   // `applyHops` takes limits into account given they change the nature of the join to a sub-select
   const limit = getLimit(ops.limit) || sql.__dangerous__rawValue('');
 
@@ -177,8 +177,11 @@ function getBeforeAndAfter(
 
 function getOrderBy(
   spec: NodeSpec | JunctionEdgeSpec,
+  hop?: SQLHopExpression<any, any>,
   o?: ReturnType<typeof orderBy>,
 ): SQLQuery | null {
+  // TODO: make this mirror filter by returning an array of queries
+  // to which we can add the filters from other hops
   if (o == null) {
     if (spec.type == 'node') {
       return sql`ORDER BY ${sql.ident(spec.storage.tablish, spec.primaryKey)} DESC`;
@@ -328,3 +331,9 @@ function getHops(
       return getHops(hops, edge.dest, ops.hop);
   }
 }
+
+/**
+ * TODO:
+ * - whereQueryExists
+ * - aggregations (e.g., group by)
+ */
