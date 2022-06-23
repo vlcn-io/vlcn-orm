@@ -1,6 +1,6 @@
 {
   "name": "@aphro/react",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "main": "lib/index.js",
   "type": "module",
   "repository": {
@@ -12,7 +12,7 @@
     "@strut/counter": "^0.0.11"
   },
   "peerDependencies": {
-    "react": "~18.0.0",
+    "react": "^18.0.0",
     "@aphro/runtime-ts": "~0.1.4"
   },
   "devDependencies": {
