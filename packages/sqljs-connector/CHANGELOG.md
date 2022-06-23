@@ -1,5 +1,12 @@
 # @aphro/sqljs-connector
 
+## 0.1.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.1.4
+
 ## 0.1.4
 
 ### Patch Changes

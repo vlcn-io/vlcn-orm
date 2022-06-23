@@ -1,5 +1,11 @@
 # @aphro/cache-runtime-ts
 
+## 0.1.3
+
+### Patch Changes
+
+- update sid dependency
+
 ## 0.1.2
 
 ### Patch Changes

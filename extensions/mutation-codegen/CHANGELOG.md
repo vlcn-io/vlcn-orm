@@ -1,5 +1,13 @@
 # @aphro/mutation-codegen
 
+## 0.1.4
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/codegen@0.1.2
+  - @aphro/codegen-ts@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes
