@@ -136,6 +136,28 @@ function getFilter(spec: NodeSpec | JunctionEdgeSpec, f: ReturnType<typeof filte
         ',',
       )})`;
     }
+    case 'endsWith': {
+      // TODO: handle if string has % in it :/
+      // can set an excape char: LIKE ? ESCAPE '\'
+      return sql`${sql.ident(spec.storage.tablish, getter.fieldName)} LIKE ${sql.value(
+        '%' + f.predicate.value,
+      )}`;
+    }
+    case 'startsWith': {
+      return sql`${sql.ident(spec.storage.tablish, getter.fieldName)} LIKE ${sql.value(
+        f.predicate.value + '%',
+      )}`;
+    }
+    case 'containsString': {
+      return sql`${sql.ident(spec.storage.tablish, getter.fieldName)} LIKE ${sql.value(
+        '%' + f.predicate.value + '%',
+      )}`;
+    }
+    case 'excludesString': {
+      return sql`${sql.ident(spec.storage.tablish, getter.fieldName)} NOT LIKE ${sql.value(
+        '%' + f.predicate.value + '%',
+      )}`;
+    }
   }
 
   return sql`${sql.ident(spec.storage.tablish, getter.fieldName)} ${sql.__dangerous__rawValue(

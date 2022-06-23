@@ -21,7 +21,11 @@ export type Predicate<Tv> =
   | LessThanOrEqual<Tv>
   | GreaterThanOrEqual<Tv>
   | In<Tv>
-  | NotIn<Tv>;
+  | NotIn<Tv>
+  | StartsWith
+  | EndsWith
+  | ContainsString
+  | ExcludesString;
 
 export class Equal<Tv> {
   constructor(public readonly value: Tv) {}
@@ -127,6 +131,59 @@ export class NotIn<Tv> {
   }
 }
 
+export class StartsWith {
+  constructor(public readonly value: string) {}
+  readonly type = 'startsWith';
+
+  call(what: string): boolean {
+    return what.startsWith(this.value);
+  }
+
+  // TODO: invert should be `does not start with` not `ends with`
+  invert(): EndsWith {
+    return new EndsWith(this.value);
+  }
+}
+
+export class EndsWith {
+  constructor(public readonly value: string) {}
+  readonly type = 'endsWith';
+
+  call(what: string): boolean {
+    return what.endsWith(this.value);
+  }
+
+  invert(): StartsWith {
+    return new StartsWith(this.value);
+  }
+}
+
+export class ContainsString {
+  constructor(public readonly value: string) {}
+  readonly type = 'containsString';
+
+  call(what: string): boolean {
+    return what.indexOf(this.value) !== -1;
+  }
+
+  invert(): ExcludesString {
+    return new ExcludesString(this.value);
+  }
+}
+
+export class ExcludesString {
+  constructor(public readonly value: string) {}
+  readonly type = 'excludesString';
+
+  call(what: string): boolean {
+    return what.indexOf(this.value) === -1;
+  }
+
+  invert(): ContainsString {
+    return new ContainsString(this.value);
+  }
+}
+
 const P = {
   equals<Tv>(value: Tv) {
     return new Equal(value);
@@ -158,6 +215,23 @@ const P = {
 
   notIn<Tv>(value: Set<Tv>) {
     return new NotIn(value);
+  },
+
+  startsWith(value: string) {
+    return new StartsWith(value);
+  },
+
+  endsWith(value: string) {
+    return new StartsWith(value);
+  },
+
+  // TODO: just contains and polymorphism based on provided type?
+  containsString(value: string) {
+    return new ContainsString(value);
+  },
+
+  excludesString(value: string) {
+    return new ExcludesString(value);
   },
 };
 

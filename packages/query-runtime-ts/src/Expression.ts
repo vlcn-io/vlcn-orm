@@ -114,6 +114,8 @@ export function filter<Tm, Tv>(
     getter,
     predicate,
     chainAfter(iterable) {
+      // TODO:
+      // @ts-ignore
       return iterable.filter(m => predicate.call(getter.get(m)));
     },
   };
