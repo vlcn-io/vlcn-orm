@@ -73,9 +73,9 @@ importers:
   examples/todo-mvc:
     specifiers:
       '@aphro/absurd-sql-connector': ^0.1.0
-      '@aphro/codegen-cli': ^0.1.0
-      '@aphro/react': ^0.1.0
-      '@aphro/runtime-ts': ^0.1.0
+      '@aphro/codegen-cli': ^0.1.4
+      '@aphro/react': ^0.1.7
+      '@aphro/runtime-ts': ^0.1.4
       '@types/react': ^18.0.14
       html-webpack-plugin: ^5.5.0
       raw-loader: ^4.0.2
