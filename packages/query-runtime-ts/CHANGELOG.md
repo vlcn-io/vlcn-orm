@@ -1,5 +1,11 @@
 # @aphro/query-runtime-ts
 
+## 0.1.4
+
+### Patch Changes
+
+- Fix filters for mulit-hop, fix order-by, enable partial string matching filters
+
 ## 0.1.3
 
 ### Patch Changes

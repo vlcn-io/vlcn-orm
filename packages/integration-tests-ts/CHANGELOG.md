@@ -1,5 +1,12 @@
 # @aphro/integration-tests-ts
 
+## 0.1.4
+
+### Patch Changes
+
+- Fix filters for mulit-hop, fix order-by, enable partial string matching filters
+  - @aphro/runtime-ts@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes
