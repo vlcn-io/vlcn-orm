@@ -39,7 +39,10 @@ export default function specAndOpsToQuery(
   // should also grab before/afters from the hops
   const beforeAndAfter = getBeforeAndAfter(ops.before, ops.after) || sql.__dangerous__rawValue('');
   // should also grab order bys from the hops and apply in-order of the hops
-  const orderBy = getOrderBy(spec, ops.orderBy) || sql.__dangerous__rawValue('');
+  const orderBy =
+    lastWhat === 'count'
+      ? sql.__dangerous__rawValue('')
+      : getOrderBy(spec, ops.orderBy) || sql.__dangerous__rawValue('');
   // `applyHops` takes limits into account given they change the nature of the join to a sub-select
   const limit = getLimit(ops.limit) || sql.__dangerous__rawValue('');
 

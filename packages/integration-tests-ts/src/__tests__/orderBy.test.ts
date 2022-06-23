@@ -1,9 +1,7 @@
-import { context, Context, viewer, Cache, asId, commit, P } from '@aphro/runtime-ts';
+import { context, Context, viewer, Cache, asId } from '@aphro/runtime-ts';
 import { destroyDb, initDb } from './testBase.js';
-import UserMutations from '../generated/UserMutations';
 import User from '../generated/User.js';
-import DeckMutations from '../generated/DeckMutations.js';
-import SlideMutations from '../generated/SlideMutations.js';
+import createGraph from './createGraph.js';
 
 let ctx: Context;
 const cache = new Cache();
@@ -11,21 +9,7 @@ beforeAll(async () => {
   const resolver = await initDb();
   ctx = context(viewer(asId('me')), resolver, cache);
 
-  const usersCs = [4, 3, 2, 1].map(i => UserMutations.create(ctx, { name: 'U' + i }).toChangeset());
-  const deckCs = DeckMutations.create(ctx, {
-    name: 'Deck 1',
-    owner: usersCs[0],
-    selectedSlide: null,
-  }).toChangeset();
-  const ordering = [4, 3, 2, 1];
-  const slidesCs = ordering.map(o =>
-    SlideMutations.create(ctx, {
-      deck: deckCs,
-      order: o,
-    }).toChangeset(),
-  );
-  const [persistHandle] = commit(ctx, ...usersCs, deckCs, ...slidesCs);
-  await persistHandle;
+  await createGraph(ctx);
 });
 
 test('OrderBy', async () => {
