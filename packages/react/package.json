@@ -1,6 +1,6 @@
 {
   "name": "@aphro/react",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": "lib/index.js",
   "type": "module",
   "repository": {
@@ -13,13 +13,14 @@
   },
   "peerDependencies": {
     "react": "~18.0.0",
-    "@aphro/runtime-ts": "~workspace:*"
+    "@aphro/runtime-ts": "~0.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
     "@types/jest": "^27.4.1",
     "@types/react": "^18.0.10",
+    "@aphro/runtime-ts": "workspace:*",
     "@typescript-eslint/typescript-estree": "^5.22.0",
     "jest": "^28.1.0",
     "ts-jest": "^28.0.1",

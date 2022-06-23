@@ -668,6 +668,7 @@ importers:
 
   packages/react:
     specifiers:
+      '@aphro/runtime-ts': workspace:*
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
       '@strut/counter': ^0.0.11
@@ -680,6 +681,7 @@ importers:
     dependencies:
       '@strut/counter': 0.0.11
     devDependencies:
+      '@aphro/runtime-ts': link:../runtime-ts
       '@babel/core': 7.18.2
       '@babel/preset-env': 7.18.2_@babel+core@7.18.2
       '@types/jest': 27.5.2

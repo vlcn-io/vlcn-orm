@@ -1,5 +1,11 @@
 # @aphro/react
 
+## 0.1.6
+
+### Patch Changes
+
+- incorporate react and aphro as peers
+
 ## 0.1.5
 
 ### Patch Changes
