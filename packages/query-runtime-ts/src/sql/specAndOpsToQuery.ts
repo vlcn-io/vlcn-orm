@@ -150,7 +150,7 @@ function getOrderBy(
 ): SQLQuery | null {
   if (o == null) {
     if (spec.type == 'node') {
-      return sql`ORDER BY ${sql.ident(spec.primaryKey)} DESC`;
+      return sql`ORDER BY ${sql.ident(spec.storage.tablish, spec.primaryKey)} DESC`;
     } else {
       return sql`ORDER BY id1 DESC, id2 DESC`;
     }
@@ -160,23 +160,35 @@ function getOrderBy(
 
   if (spec.type === 'node' && getter.fieldName === spec.primaryKey) {
     if (o.direction === 'asc') {
-      return sql`ORDER BY ${sql.ident(spec.primaryKey)} ASC`;
+      return sql`ORDER BY ${sql.ident(spec.storage.tablish, spec.primaryKey)} ASC`;
     } else {
-      return sql`ORDER BY ${sql.ident(spec.primaryKey)} DESC`;
+      return sql`ORDER BY ${sql.ident(spec.storage.tablish, spec.primaryKey)} DESC`;
     }
   }
 
   if (o.direction === 'asc') {
     if (spec.type == 'node') {
-      return sql`ORDER BY ${sql.ident(getter.fieldName)} ASC, ${sql.ident(spec.primaryKey)} DESC`;
+      return sql`ORDER BY ${sql.ident(spec.storage.tablish, getter.fieldName)} ASC, ${sql.ident(
+        spec.storage.tablish,
+        spec.primaryKey,
+      )} DESC`;
     } else {
-      return sql`ORDER BY ${sql.ident(getter.fieldName)} ASC, id1 DESC, id2 DESC`;
+      return sql`ORDER BY ${sql.ident(spec.storage.tablish, getter.fieldName)} ASC, ${sql.ident(
+        spec.storage.tablish,
+        'id1',
+      )} DESC, ${sql.ident(spec.storage.tablish, 'id2')} DESC`;
     }
   } else {
     if (spec.type == 'node') {
-      return sql`ORDER BY ${sql.ident(getter.fieldName)} DESC, ${sql.ident(spec.primaryKey)} DESC`;
+      return sql`ORDER BY ${sql.ident(spec.storage.tablish, getter.fieldName)} DESC, ${sql.ident(
+        spec.storage.tablish,
+        spec.primaryKey,
+      )} DESC`;
     } else {
-      return sql`ORDER BY ${sql.ident(getter.fieldName)} DESC, id1 DESC, id2 DESC`;
+      return sql`ORDER BY ${sql.ident(spec.storage.tablish, getter.fieldName)} DESC, ${sql.ident(
+        spec.storage.tablish,
+        'id1',
+      )} DESC, ${sql.ident(spec.storage.tablish, 'id2')} DESC`;
     }
   }
 }
