@@ -1,11 +1,12 @@
-import { CreateArgs } from "./EmployeeMutations.js";
-import { Changeset } from "@aphro/runtime-ts";
-import { Data } from "./Employee.js";
-import Employee from "./Employee.js";
-import { IMutationBuilder } from "@aphro/runtime-ts";
+import { CreateArgs } from './EmployeeMutations.js';
+import { Changeset } from '@aphro/runtime-ts';
+import { Data } from './Employee.js';
+import Employee from './Employee.js';
+import { IMutationBuilder, sid } from '@aphro/runtime-ts';
+import deviceId from '../deviceId.js';
 
 export function createImpl(
-  mutator: Omit<IMutationBuilder<Employee, Data>, "toChangeset">,
+  mutator: Omit<IMutationBuilder<Employee, Data>, 'toChangeset'>,
   {
     lastName,
     firstName,
@@ -21,13 +22,23 @@ export function createImpl(
     phone,
     fax,
     email,
-  }: CreateArgs
+  }: CreateArgs,
 ): void | Changeset<any>[] {
-  // Use the provided mutator to make your desired changes.
-  // e.g., mutator.set({name: "Foo" });
-  // You do not need to return anything from this method. The mutator will track your changes.
-  // If you do return changesets, those changesets will be applied in addition to the changes made to the mutator.
-  throw new Error(
-    "You must implement the mutation create for schema Employee in EmployeeMutationsImpl.ts"
-  );
+  mutator.set({
+    id: sid(deviceId),
+    lastName,
+    firstName,
+    title,
+    reportsToId: reportsTo?.id,
+    birthdate,
+    hiredate,
+    address,
+    city,
+    state,
+    country,
+    postalCode,
+    phone,
+    fax,
+    email,
+  });
 }

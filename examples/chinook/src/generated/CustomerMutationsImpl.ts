@@ -1,18 +1,19 @@
-import { CreateArgs } from "./CustomerMutations.js";
-import { Changeset } from "@aphro/runtime-ts";
-import { Data } from "./Customer.js";
-import Customer from "./Customer.js";
-import { IMutationBuilder } from "@aphro/runtime-ts";
+import { CreateArgs } from './CustomerMutations.js';
+import { Changeset } from '@aphro/runtime-ts';
+import { Data } from './Customer.js';
+import Customer from './Customer.js';
+import { IMutationBuilder, sid } from '@aphro/runtime-ts';
+import deviceId from '../deviceId.js';
 
 export function createImpl(
-  mutator: Omit<IMutationBuilder<Customer, Data>, "toChangeset">,
-  { firstName, lastName, email, supportRep }: CreateArgs
+  mutator: Omit<IMutationBuilder<Customer, Data>, 'toChangeset'>,
+  { firstName, lastName, email, supportRep }: CreateArgs,
 ): void | Changeset<any>[] {
-  // Use the provided mutator to make your desired changes.
-  // e.g., mutator.set({name: "Foo" });
-  // You do not need to return anything from this method. The mutator will track your changes.
-  // If you do return changesets, those changesets will be applied in addition to the changes made to the mutator.
-  throw new Error(
-    "You must implement the mutation create for schema Customer in CustomerMutationsImpl.ts"
-  );
+  mutator.set({
+    id: sid(deviceId),
+    firstName,
+    lastName,
+    email,
+    supportRepId: supportRep.id,
+  });
 }
