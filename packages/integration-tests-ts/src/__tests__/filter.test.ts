@@ -2,6 +2,7 @@ import { context, Context, viewer, Cache, asId, commit, P } from '@aphro/runtime
 import { destroyDb, initDb } from './testBase.js';
 import UserMutations from '../generated/UserMutations';
 import User from '../generated/User.js';
+import createGraph from './createGraph.js';
 
 // TODO: figure out how we can migrate all this to property based test (e.g., fast check)
 // e.g., apply all predicates
@@ -12,15 +13,11 @@ const cache = new Cache();
 beforeAll(async () => {
   const resolver = await initDb();
   ctx = context(viewer(asId('me')), resolver, cache);
+
+  await createGraph(ctx);
 });
 
 test('filter', async () => {
-  const [persistHandle] = commit(
-    ctx,
-    [1, 2, 3, 4].map(i => UserMutations.create(ctx, { name: 'U' + i }).toChangeset()),
-  );
-  await persistHandle;
-
   await Promise.all(
     [1, 2, 3, 4].map(async i => {
       const u = await User.queryAll(ctx)
@@ -29,6 +26,13 @@ test('filter', async () => {
       expect(u.name).toEqual('U' + i);
     }),
   );
+});
+
+test('filters against multi-hops', async () => {
+  const user = await User.queryAll(ctx).whereName(P.equals('U4')).genxOnlyValue();
+  const slide3 = await user.queryDecks().querySlides().whereOrder(P.equals(3)).genxOnlyValue();
+
+  expect(slide3.order).toBe(3);
 });
 
 test('filters on model fields are optimized', async () => {

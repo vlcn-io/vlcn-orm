@@ -34,11 +34,15 @@ export default function specAndOpsToQuery(
   // Given filters, limits, orders, etc. occur at the end of a SQL statement
   const hops = getHops([], spec, ops.hop);
 
-  // applyFilters needs to also grab filters from the hops
-  const filters = getFilters(spec, ops.filters) || sql.__dangerous__rawValue('');
+  // applyFilters needs to also grab filters from the hoisted hops
+  const filterList = getFilters(spec, ops.hop, ops.filters);
+  const filters =
+    filterList.length === 0
+      ? sql.__dangerous__rawValue('')
+      : sql`WHERE ${sql.join(filterList, ' AND ')}`;
   // should also grab before/afters from the hops
   const beforeAndAfter = getBeforeAndAfter(ops.before, ops.after) || sql.__dangerous__rawValue('');
-  // should also grab order bys from the hops and apply in-order of the hops
+  // should also grab order bys from the hops and apply in-order of the hoisted hops
   const orderBy =
     lastWhat === 'count'
       ? sql.__dangerous__rawValue('')
@@ -69,16 +73,18 @@ function getLastSpecAndProjection(
 
 function getFilters(
   spec: NodeSpec | JunctionEdgeSpec,
+  hop?: SQLHopExpression<any, any>,
   filters?: readonly ReturnType<typeof filter>[],
-): SQLQuery | null {
+): SQLQuery[] {
+  let hopFilters: SQLQuery[] = [];
+  if (hop != null) {
+    hopFilters = getFilters(hop.destSpec, hop.ops.hop, hop.ops.filters);
+  }
   if (!filters || filters.length === 0) {
-    return null;
+    return hopFilters;
   }
 
-  return sql`WHERE ${sql.join(
-    filters.map(f => getFilter(spec, f)),
-    ' AND ',
-  )}`;
+  return hopFilters.concat(filters.map(f => getFilter(spec, f)));
 }
 
 function getFilter(spec: NodeSpec | JunctionEdgeSpec, f: ReturnType<typeof filter>): SQLQuery {
