@@ -1,5 +1,4 @@
-# http://aphrodite.sh/
-
+[website](http://aphrodite.sh/) | [discord](https://discord.gg/vMrwc3sc)
 
 `Aphrodite` is a schema layer whose first goal is to make [P2P](https://en.wikipedia.org/wiki/Peer-to-peer) & [Local-First](https://www.inkandswitch.com/local-first/) software as easy to develop as traditional client-server software.
 
