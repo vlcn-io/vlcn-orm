@@ -1,4 +1,4 @@
-import { Context, IModel, INode } from '@aphro/context-runtime-ts';
+import { Context, IModel, INode, SQLResolvedDB } from '@aphro/context-runtime-ts';
 import { formatters, sql, SQLQuery } from '@aphro/sql-ts';
 
 function buildUpsertSql<T>(ctx: Context, nodes: IModel<T>[]) {
@@ -53,7 +53,8 @@ export default {
     const first = nodes[0];
     const spec = first.spec;
     const persist = spec.storage;
-    const db = ctx.dbResolver.engine(persist.engine).db(persist.db);
+    // TODO: generic on `spec` so we know we're SQL here?
+    const db = ctx.dbResolver.engine(persist.engine).db(persist.db) as SQLResolvedDB;
     // console.log(query);
     // console.log(nodes.map(n => Object.values(n._d())));
     await db.query(
@@ -70,7 +71,7 @@ export default {
     const spec = first.spec;
     const persist = spec.storage;
 
-    const db = ctx.dbResolver.engine(persist.engine).db(persist.db);
+    const db = ctx.dbResolver.engine(persist.engine).db(persist.db) as SQLResolvedDB;
 
     const query = sql`DELETE FROM ${sql.ident(persist.tablish)} WHERE ${sql.ident(
       spec.type === 'node' ? spec.primaryKey : 'id1id2',

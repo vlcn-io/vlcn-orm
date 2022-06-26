@@ -11,8 +11,8 @@ export type ValidationError = {
     | 'duplicate-traits';
 };
 
-export type StorageEngine = 'sqlite' | 'postgres'; //| 'mysql' | 'sqlite'; // | maria | neo4j | redis ...
-export type StorageType = 'sql'; // opencypher
+export type StorageEngine = 'sqlite' | 'postgres' | 'memory';
+export type StorageType = 'sql' | 'memory';
 
 export type SchemaFileAst = {
   preamble: {
@@ -111,7 +111,7 @@ export type Import = {
 };
 
 export type StorageConfig = {
-  type: 'sql'; // | cypher | gremlin | ...
+  type: StorageType;
   db: string;
   tablish: string;
   engine: StorageEngine;

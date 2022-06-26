@@ -74,12 +74,18 @@ test('queryAll subscription', async () => {
 });
 
 test('reactivity via generator', async () => {
-  const liveResult = User.queryAll(ctx).live(UpdateType.ANY);
+  const liveResult = User.queryAll(ctx).whereName(P.startsWith('user')).live(UpdateType.ANY);
   const g = liveResult.generator;
 
   await liveResult.__currentHandle;
-  let result = await g.next().value;
+  const result = await g.next().value;
   expect(result.length).toBeGreaterThan(0);
+
+  const [handle] = UserMutations.rename(result[0], { name: '---' }).save();
+  await handle;
+
+  const newResult = await g.next().value;
+  expect(newResult.length).toBeGreaterThan(0);
 });
 
 test('Filtered query subscription', async () => {});

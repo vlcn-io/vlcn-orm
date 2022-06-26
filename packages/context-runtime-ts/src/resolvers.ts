@@ -37,12 +37,13 @@ function spyProxy(spy: (...args: any[]) => any) {
   return new Proxy({}, objProxyDef);
 }
 
-export function basicResolver<E extends StorageEngine>(resolved: EngineToResolved[E]): DBResolver {
+export function basicResolver<X extends StorageEngine>(resolved: EngineToResolved[X]): DBResolver {
   return {
-    engine(e: StorageEngine) {
+    engine<E extends StorageEngine>(e: E) {
       return {
         db(db: string) {
-          return resolved;
+          // TOOD: some sort of invariant to ensure E === X?
+          return resolved as unknown as EngineToResolved[E];
         },
       };
     },

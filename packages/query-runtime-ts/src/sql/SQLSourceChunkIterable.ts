@@ -2,9 +2,8 @@ import { BaseChunkIterable } from '../ChunkIterable.js';
 import specAndOpsToQuery from './specAndOpsToQuery.js';
 import { HoistedOperations } from './SQLExpression.js';
 import { invariant } from '@strut/utils';
-import { Context, IModel, INode } from '@aphro/context-runtime-ts';
+import { Context, IModel, SQLResolvedDB } from '@aphro/context-runtime-ts';
 import { JunctionEdgeSpec, NodeSpec } from '@aphro/schema-api';
-import { formatters } from '@aphro/sql-ts';
 
 export default class SQLSourceChunkIterable<T extends IModel<Object>> extends BaseChunkIterable<T> {
   constructor(
@@ -25,7 +24,7 @@ export default class SQLSourceChunkIterable<T extends IModel<Object>> extends Ba
     // also -- should we chunk it at all?
     const resolvedDb = this.ctx.dbResolver
       .engine(this.spec.storage.engine)
-      .db(this.spec.storage.db);
+      .db(this.spec.storage.db) as SQLResolvedDB;
     const sql = specAndOpsToQuery(this.spec, this.hoistedOperations);
     yield await resolvedDb.query(sql);
   }

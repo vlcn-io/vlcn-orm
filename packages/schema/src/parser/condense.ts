@@ -285,6 +285,8 @@ function engineToType(engine: StorageEngine): StorageType {
     case 'sqlite':
     case 'postgres':
       return 'sql';
+    case 'memory':
+      return 'memory';
   }
 }
 
