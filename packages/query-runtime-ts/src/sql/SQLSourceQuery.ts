@@ -1,10 +1,4 @@
-import {
-  Context,
-  IModel,
-  INode,
-  ModelSpecWithCreate,
-  NodeSpecWithCreate,
-} from '@aphro/context-runtime-ts';
+import { Context, IModel, ModelSpecWithCreate } from '@aphro/context-runtime-ts';
 import { SourceQuery } from '../Query.js';
 import SQLSourceExpression from './SQLSourceExpression.js';
 

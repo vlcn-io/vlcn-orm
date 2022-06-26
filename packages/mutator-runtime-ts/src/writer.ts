@@ -1,5 +1,6 @@
 import { Context, IModel, DeleteChangeset } from '@aphro/context-runtime-ts';
 import { StorageConfig } from '@aphro/schema-api';
+import { assertUnreachable } from '@strut/utils';
 import sqlWriter from './sql/sqlWriter.js';
 
 export default {
@@ -50,6 +51,11 @@ function createAwaitables(
       case 'sql':
         writes.push(sqlOp(ctx, group));
         break;
+      case 'memory':
+        // TODO: push writes... need to fixup that sqlOps
+        break;
+      default:
+        assertUnreachable(type);
     }
   }
 

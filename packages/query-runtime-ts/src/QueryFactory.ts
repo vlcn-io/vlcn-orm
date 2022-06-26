@@ -6,6 +6,7 @@ import {
   NodeSpecWithCreate,
 } from '@aphro/context-runtime-ts';
 import { EdgeSpec } from '@aphro/schema-api';
+import MemorySourceQuery from './memory/MemorySourceQuery.js';
 import { DerivedQuery, HopQuery, Query } from './Query.js';
 import SQLHopQuery from './sql/SQLHopQuery.js';
 import SQLSourceQuery from './sql/SQLSourceQuery.js';
@@ -20,6 +21,8 @@ const factory = {
     switch (spec.storage.type) {
       case 'sql':
         return new SQLSourceQuery(ctx, spec);
+      case 'memory':
+        return new MemorySourceQuery(ctx, spec);
       default:
         throw new Error(spec.storage.type + ' is not yet supported');
     }

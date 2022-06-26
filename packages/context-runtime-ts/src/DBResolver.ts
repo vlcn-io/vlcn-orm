@@ -29,15 +29,23 @@ type OtherResolvedDB = {
   dispose(): void;
 };
 
+export type MemoryReadQuery = {
+  type: 'read';
+  tablish: string;
+  // undefined --> all
+  // [] --> none
+  // [id, ...]  --> specific ids
+  roots?: SID_of<any>[];
+};
+
+export type MemoryWriteQuery = {
+  type: 'write';
+  op: 'delete' | 'create' | 'update';
+};
+
+export type MemoryQuery = MemoryReadQuery | MemoryWriteQuery;
+
 export type MemoryResolvedDB = {
-  /**
-   * Exec the start point of an in-memory query.
-   * All further filters are handled by chunk-iterable framework.
-   * TODO: blog post on this.
-   * @param tablish the table in which the root nodes reside
-   * @param roots the nodes that start the query. undefined -> all of
-   * a given type. empty [] -> none / empty query.
-   */
-  query(tablish: string, roots?: SID_of<any>[]): Promise<any[]>;
+  query(q: MemoryQuery): Promise<any[]>;
   dispose(): void;
 };
