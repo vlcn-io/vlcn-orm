@@ -41,7 +41,7 @@ export type MemoryReadQuery = {
 
 export type MemoryWriteQuery = {
   type: 'write';
-  op: 'delete' | 'create' | 'update';
+  op: 'delete' | 'upsert';
   tablish: string;
   models: IModel<any>[];
 };

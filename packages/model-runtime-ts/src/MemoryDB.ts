@@ -5,7 +5,7 @@ import { SID_of } from '@strut/sid';
  * Holds all in-memory nodes in-memory.
  */
 export default class MemoryDB {
-  private collections: Map<string, { [key: SID_of<any>]: any }>;
+  private collections: Map<string, { [key: SID_of<any>]: any }> = new Map();
 
   async query(q: MemoryQuery): Promise<any[]> {
     switch (q.type) {
@@ -30,16 +30,21 @@ export default class MemoryDB {
   }
 
   async write(q: MemoryWriteQuery): Promise<any[]> {
-    const collection = this.collections.get(q.tablish);
-    if (collection == null) {
-      return [];
+    const c = this.collections.get(q.tablish);
+    let collection: { [key: SID_of<any>]: any };
+    // To make the type checker happy
+    if (c == null) {
+      collection = {};
+      this.collections.set(q.tablish, collection);
+    } else {
+      collection = c;
     }
+
     switch (q.op) {
       case 'delete':
         q.models.forEach(m => delete collection[m.id]);
         return [];
-      case 'create':
-      case 'update':
+      case 'upsert':
         q.models.forEach(m => (collection[m.id] = m));
         return Object.values(q.models);
     }

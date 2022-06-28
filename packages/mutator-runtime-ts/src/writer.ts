@@ -1,13 +1,16 @@
 import { Context, IModel, DeleteChangeset } from '@aphro/context-runtime-ts';
 import { StorageConfig } from '@aphro/schema-api';
 import { assertUnreachable } from '@strut/utils';
+import memoryWriter from './memoryWriter.js';
 import sqlWriter from './sql/sqlWriter.js';
 
 export default {
   // TODO: the common case is probably updating a single node
   // for a single engine. Should we optimize for that path instead?
   async upsertBatch(ctx: Context, nodes: IterableIterator<IModel<Object>>): Promise<void> {
-    await Promise.all(createAwaitables(ctx, nodes, sqlWriter.upsertGroup));
+    await Promise.all(
+      createAwaitables(ctx, nodes, sqlWriter.upsertGroup, memoryWriter.upsertGroup),
+    );
   },
 
   async deleteBatch(
@@ -23,6 +26,7 @@ export default {
           }
         })(),
         sqlWriter.deleteGroup,
+        memoryWriter.deleteGroup,
       ),
     );
   },
@@ -32,6 +36,7 @@ function createAwaitables(
   ctx: Context,
   nodes: IterableIterator<IModel<Object>>,
   sqlOp: (ctx: Context, nodes: IModel[]) => Promise<void>,
+  memoryOp: (ctx: Context, nodes: IModel[]) => Promise<void>,
 ): Promise<void>[] {
   const byEngineDbTable: Map<string, IModel<Object>[]> = new Map();
   for (const node of nodes) {
@@ -52,7 +57,7 @@ function createAwaitables(
         writes.push(sqlOp(ctx, group));
         break;
       case 'memory':
-        // TODO: push writes... need to fixup that sqlOps
+        writes.push(memoryOp(ctx, group));
         break;
       default:
         assertUnreachable(type);

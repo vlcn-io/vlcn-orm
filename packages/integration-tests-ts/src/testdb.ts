@@ -10,11 +10,14 @@ function memDb() {
   return new MemoryDB();
 }
 
-let db: ReturnType<typeof sqlDb> | null = null;
-let mDb: ReturnType<typeof memDb> | null = null;
+let sqlConnection: ReturnType<typeof sqlDb> | null = null;
+let memoryConnection: ReturnType<typeof memDb> | null = null;
 function createResolver(): DBResolver {
-  if (db == null) {
-    db = sqlDb();
+  if (sqlConnection == null) {
+    sqlConnection = sqlDb();
+  }
+  if (memoryConnection == null) {
+    memoryConnection = memDb();
   }
 
   return {
@@ -25,13 +28,13 @@ function createResolver(): DBResolver {
         case 'sqlite':
           return {
             db(db: string) {
-              return sqlDb;
+              return sqlConnection;
             },
           };
         case 'memory':
           return {
             db(db: string) {
-              return memDb;
+              return memoryConnection;
             },
           };
       }
