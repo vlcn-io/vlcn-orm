@@ -1,7 +1,10 @@
 import { context, Context, viewer, Cache, asId, commit, P } from '@aphro/runtime-ts';
 import { destroyDb, initDb } from './testBase.js';
-import UserMutations from '../generated/UserMutations';
+import UserMutations from '../generated/UserMutations.js';
 import User from '../generated/User.js';
+
+import { default as MemoryUser } from '../generated-memory/User.js';
+import { default as MemoryUserMutations } from '../generated-memory/UserMutations.js';
 
 let ctx: Context;
 const cache = new Cache();
@@ -11,14 +14,8 @@ beforeAll(async () => {
 });
 
 test('Take', async () => {
-  const [persistHandle] = commit(
-    ctx,
-    [1, 2, 3, 4].map(i => UserMutations.create(ctx, { name: 'U' + i }).toChangeset()),
-  );
-  await persistHandle;
-
-  const two = await User.queryAll(ctx).take(2).gen();
-  expect(two.length).toEqual(2);
+  await testTake(User, UserMutations);
+  await testTake(MemoryUser, MemoryUserMutations);
 });
 
 test('Take is optimized', async () => {
@@ -30,3 +27,17 @@ test('Take is optimized', async () => {
 afterAll(async () => {
   await destroyDb();
 });
+
+async function testTake(
+  Model: typeof User | typeof MemoryUser,
+  Mutations: typeof UserMutations | typeof MemoryUserMutations,
+): Promise<void> {
+  const [persistHandle] = commit(
+    ctx,
+    [1, 2, 3, 4].map(i => Mutations.create(ctx, { name: 'U' + i }).toChangeset()),
+  );
+  await persistHandle;
+
+  const two = await Model.queryAll(ctx).take(2).gen();
+  expect(two.length).toEqual(2);
+}

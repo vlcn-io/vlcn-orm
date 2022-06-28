@@ -1,18 +1,42 @@
 import { nullthrows } from '@strut/utils';
-import { basicResolver, DBResolver, SQLQuery } from '@aphro/runtime-ts';
+import { basicResolver, DBResolver, MemoryDB, SQLQuery } from '@aphro/runtime-ts';
 import connect from '@databases/sqlite';
 
-function createDb() {
+function sqlDb() {
   return connect();
 }
 
-let db: ReturnType<typeof createDb> | null = null;
+function memDb() {
+  return new MemoryDB();
+}
+
+let db: ReturnType<typeof sqlDb> | null = null;
+let mDb: ReturnType<typeof memDb> | null = null;
 function createResolver(): DBResolver {
   if (db == null) {
-    db = createDb();
+    db = sqlDb();
   }
 
-  return basicResolver(db);
+  return {
+    // TODO
+    // @ts-ignore
+    engine(e: 'sqlite' | 'memory') {
+      switch (e) {
+        case 'sqlite':
+          return {
+            db(db: string) {
+              return sqlDb;
+            },
+          };
+        case 'memory':
+          return {
+            db(db: string) {
+              return memDb;
+            },
+          };
+      }
+    },
+  };
 }
 
 export const resolver = createResolver();
