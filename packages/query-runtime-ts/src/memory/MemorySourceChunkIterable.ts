@@ -1,15 +1,7 @@
 import { BaseChunkIterable } from '../ChunkIterable.js';
 import { invariant } from '@strut/utils';
-import {
-  Context,
-  IModel,
-  MemoryQuery,
-  MemoryReadQuery,
-  MemoryResolvedDB,
-  SQLResolvedDB,
-} from '@aphro/context-runtime-ts';
+import { Context, IModel, MemoryReadQuery, MemoryResolvedDB } from '@aphro/context-runtime-ts';
 import { JunctionEdgeSpec, NodeSpec } from '@aphro/schema-api';
-import { SID_of } from '@strut/sid';
 
 export default class MemorySourceChunkIterable<
   T extends IModel<Object>,

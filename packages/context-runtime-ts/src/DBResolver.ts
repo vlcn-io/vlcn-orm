@@ -1,6 +1,7 @@
 import { StorageEngine } from '@aphro/schema-api';
 import { SQLQuery } from '@aphro/sql-ts';
 import { SID_of } from '@strut/sid';
+import { IModel } from './INode';
 
 export type EngineToResolved = {
   sqlite: SQLResolvedDB;
@@ -41,6 +42,8 @@ export type MemoryReadQuery = {
 export type MemoryWriteQuery = {
   type: 'write';
   op: 'delete' | 'create' | 'update';
+  tablish: string;
+  models: IModel<any>[];
 };
 
 export type MemoryQuery = MemoryReadQuery | MemoryWriteQuery;
