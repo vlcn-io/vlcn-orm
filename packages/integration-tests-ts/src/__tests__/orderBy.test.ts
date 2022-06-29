@@ -3,6 +3,8 @@ import { destroyDb, initDb } from './testBase.js';
 import User from '../generated/User.js';
 import createGraph from './createGraph.js';
 
+import { default as MemoryUser } from '../generated-memory/User.js';
+
 let ctx: Context;
 const cache = new Cache();
 beforeAll(async () => {
@@ -13,12 +15,16 @@ beforeAll(async () => {
 });
 
 test('OrderBy', async () => {
-  let users = await User.queryAll(ctx).orderByName().gen();
+  await Promise.all([testOrderBy(User), testOrderBy(MemoryUser)]);
+});
+
+async function testOrderBy(Model: typeof User | typeof MemoryUser) {
+  let users = await Model.queryAll(ctx).orderByName().gen();
   expect(users.map(u => u.name)).toEqual([1, 2, 3, 4].map(i => 'U' + i));
 
-  users = await User.queryAll(ctx).orderByName('desc').gen();
+  users = await Model.queryAll(ctx).orderByName('desc').gen();
   expect(users.map(u => u.name)).toEqual([4, 3, 2, 1].map(i => 'U' + i));
-});
+}
 
 // TODO: implement multi-hop order by
 // test('multi hop order by', async () => {
