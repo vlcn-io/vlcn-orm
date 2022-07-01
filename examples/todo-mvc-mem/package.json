@@ -1,0 +1,31 @@
+{
+  "name": "@aphro/todo-mvc-mem",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "serve": "webpack serve",
+    "build": "webpack",
+    "aphro": "aphro gen ./src/domain.aphro --dest ./src/generated",
+    "clean": "rm -rf dist",
+    "ts-build": "tsc"
+  },
+  "dependencies": {
+    "@aphro/react": "^0.1.7",
+    "@aphro/runtime-ts": "^0.1.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@aphro/codegen-cli": "^0.1.5",
+    "@types/react": "^18.0.14",
+    "html-webpack-plugin": "^5.5.0",
+    "raw-loader": "^4.0.2",
+    "resolve-typescript-plugin": "^1.2.0",
+    "ts-loader": "^9.3.0",
+    "typescript": "^4.7.4",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.2"
+  }
+}

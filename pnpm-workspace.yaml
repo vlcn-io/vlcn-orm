@@ -3,6 +3,7 @@ packages:
   - 'examples/monopoly'
   - 'examples/todo-mvc'
   - 'examples/chinook'
+  - 'examples/todo-mvc-mem'
   - 'extensions/authorization-grammar'
   - 'extensions/graphql-codegen'
   - 'extensions/graphql-grammar'

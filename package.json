@@ -17,5 +17,8 @@
     "test": "turbo run test",
     "todos": "leasot '**/*.ts' --ignore '**/node_modules'",
     "preinstall": "npx only-allow pnpm"
+  },
+  "dependencies": {
+    "react": "^18.2.0"
   }
 }
