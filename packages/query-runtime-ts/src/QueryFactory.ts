@@ -6,7 +6,9 @@ import {
   NodeSpecWithCreate,
 } from '@aphro/context-runtime-ts';
 import { EdgeSpec } from '@aphro/schema-api';
+import { assertUnreachable } from '@strut/utils';
 import MemorySourceQuery from './memory/MemorySourceQuery.js';
+import MemoryHopQuery from './memory/MemoryHopQuery.js';
 import { DerivedQuery, HopQuery, Query } from './Query.js';
 import SQLHopQuery from './sql/SQLHopQuery.js';
 import SQLSourceQuery from './sql/SQLSourceQuery.js';
@@ -34,12 +36,14 @@ const factory = {
     priorQuery: DerivedQuery<any>,
     edge: EdgeSpec,
   ): HopQuery<any, any> {
-    // SQLHopQuery and so on
-    if (edge.dest.storage.type === 'sql') {
-      return SQLHopQuery.create(ctx, priorQuery, edge);
+    const type = edge.dest.storage.type;
+    switch (type) {
+      case 'sql':
+        return SQLHopQuery.create(ctx, priorQuery, edge);
+      case 'memory':
+        return MemoryHopQuery.create(ctx, priorQuery, edge);
     }
-
-    throw new Error('Unimplemented hop');
+    assertUnreachable(type);
   },
 };
 

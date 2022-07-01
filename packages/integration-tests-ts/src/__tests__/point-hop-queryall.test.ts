@@ -5,6 +5,11 @@ import User from '../generated/User.js';
 import DeckMutations from '../generated/DeckMutations.js';
 import SlideMutations from '../generated/SlideMutations.js';
 import ComponentMutations from '../generated/ComponentMutations.js';
+import { default as UserMem } from '../generated-memory/User.js';
+import { default as UserMutationsMem } from '../generated-memory/UserMutations.js';
+import { default as DeckMutationsMem } from '../generated-memory/DeckMutations.js';
+import { default as SlideMutationsMem } from '../generated-memory/SlideMutations.js';
+import { default as ComponentMutationsMem } from '../generated-memory/ComponentMutations.js';
 
 let ctx: Context;
 const cache = new Cache();
@@ -17,18 +22,35 @@ test('Point queries', async () => {
   const [persistHandle, user] = UserMutations.create(ctx, { name: 'Bill' }).save();
   await persistHandle;
 
-  // TODO: add a `first` method
-  // TODO: add a `gen` method to just load via id
-  const users = await User.queryAll(ctx).whereId(P.equals(user.id)).gen();
+  const reloadedUser = await User.genx(ctx, user.id);
 
   // user query for created user should be fulfilled from the cache
-  expect(users[0]).toEqual(user);
+  expect(reloadedUser).toEqual(user);
+});
+
+test('Query that traverses edges', async () => {
+  await Promise.all([
+    testQueryThatTraversesEdges(UserMutations, DeckMutations, SlideMutations, ComponentMutations),
+    testQueryThatTraversesEdges(
+      UserMutationsMem,
+      DeckMutationsMem,
+      SlideMutationsMem,
+      ComponentMutationsMem,
+    ),
+  ]);
 });
 
 test('Query all', async () => {
+  await Promise.all([testQueryAll(User, UserMutations), testQueryAll(UserMem, UserMutationsMem)]);
+});
+
+async function testQueryAll(
+  Model: typeof User | typeof UserMem,
+  Mutations: typeof UserMutations | typeof UserMutationsMem,
+): Promise<void> {
   const suffixes = [0, 1, 2, 3, 4];
   const changesets = suffixes.map(i =>
-    UserMutations.create(ctx, {
+    Mutations.create(ctx, {
       name: 'user' + i,
     }).toChangeset(),
   );
@@ -36,30 +58,38 @@ test('Query all', async () => {
   const [persistHandle, optimistic] = commit(ctx, changesets);
   await persistHandle;
 
-  const users = await User.queryAll(ctx).gen();
+  const users = await Model.queryAll(ctx).gen();
   const names = users.map(u => u.name);
 
   suffixes.forEach(i => {
     expect(names).toContain('user' + i);
   });
-});
+}
 
-test('Query that traverses edges', async () => {
-  const userCs = UserMutations.create(ctx, {
+async function testQueryThatTraversesEdges(
+  UsrMutations: typeof UserMutations | typeof UserMutationsMem,
+  DckMutations: typeof DeckMutations | typeof DeckMutationsMem,
+  SldMutations: typeof SlideMutations | typeof SlideMutationsMem,
+  CmpMutations: typeof ComponentMutations | typeof ComponentMutationsMem,
+): Promise<void> {
+  const userCs = UsrMutations.create(ctx, {
     name: 'Bob',
   }).toChangeset();
-  const deckCs = DeckMutations.create(ctx, {
+  const deckCs = DckMutations.create(ctx, {
     name: 'Preso',
+    // @ts-ignore
     owner: userCs,
     selectedSlide: null, // TODO: enable ref to slide somehow...
   }).toChangeset();
-  const slideCs = SlideMutations.create(ctx, {
+  const slideCs = SldMutations.create(ctx, {
     order: 0,
+    // @ts-ignore
     deck: deckCs,
   }).toChangeset();
-  const componentCs = ComponentMutations.create(ctx, {
+  const componentCs = CmpMutations.create(ctx, {
     content: 'Welcome!',
     subtype: 'Text',
+    // @ts-ignore
     slide: slideCs,
   }).toChangeset();
   const [persistHandle, user, component, slide, deck] = commit(
@@ -77,7 +107,7 @@ test('Query that traverses edges', async () => {
   expect(components.map(c => c.id)).toEqual([component.id]);
   // The returned component should match the optimistic component / be the cached thing.
   expect(components).toEqual([component]);
-});
+}
 
 afterAll(async () => {
   await destroyDb();
