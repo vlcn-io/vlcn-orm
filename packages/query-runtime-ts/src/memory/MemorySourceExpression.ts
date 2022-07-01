@@ -31,7 +31,13 @@ export default class MemorySourceExpression<T extends IModel<Object>>
     // We'd need to hoist roots. That's about it...
     // We could not even hoist and rely on later expressions
     // const [hoistedExpressions, remainingExpressions] = this.hoist(plan, nextHop);
-    return new Plan(new MemorySourceExpression(this.ctx, this.spec, this.ops), plan.derivations);
+    let derivs = [...plan.derivations];
+    if (nextHop) {
+      derivs.push(nextHop.hop);
+      derivs = derivs.concat(nextHop.derivations);
+    }
+    return new Plan(new MemorySourceExpression(this.ctx, this.spec, this.ops), derivs);
+    // return plan;
   }
 
   get iterable(): ChunkIterable<T> {

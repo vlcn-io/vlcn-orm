@@ -1,4 +1,4 @@
-import { Context } from '@aphro/context-runtime-ts';
+import { Context, IModel } from '@aphro/context-runtime-ts';
 import { specToDatasetKey } from '@aphro/model-runtime-ts';
 import { EdgeSpec } from '@aphro/schema-api';
 import { ChunkIterable } from '../ChunkIterable.js';
@@ -8,7 +8,9 @@ import { IPlan } from '../Plan.js';
 import MemoryHopChunkIterable from './MemoryHopChunkIterable.js';
 import { HoistedOperations } from './MemorySourceExpression.js';
 
-export default class MemoryHopExpression<TIn, TOut> implements HopExpression<TIn, TOut> {
+export default class MemoryHopExpression<TIn extends IModel, TOut>
+  implements HopExpression<TIn, TOut>
+{
   constructor(
     public readonly ctx: Context,
     public readonly edge: EdgeSpec,
@@ -28,9 +30,13 @@ export default class MemoryHopExpression<TIn, TOut> implements HopExpression<TIn
   optimize(sourcePlan: IPlan, plan: HopPlan, nextHop?: HopPlan): HopPlan {
     // TODO: commonize with `MemorySourceExpression`
     // const [hoistedExpressions, remainingExpressions] = this.hoist(plan, nextHop);
-    return new HopPlan(sourcePlan, new MemoryHopExpression(this.ctx, this.edge, this.ops), [
-      ...plan.derivations,
-    ]);
+    let derivs = [...plan.derivations];
+    if (nextHop) {
+      derivs.push(nextHop.hop);
+      derivs = derivs.concat(nextHop.derivations);
+    }
+    return new HopPlan(sourcePlan, new MemoryHopExpression(this.ctx, this.edge, this.ops), derivs);
+    // return plan;
   }
 
   type: 'hop' = 'hop';

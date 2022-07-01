@@ -28,14 +28,7 @@ test('Point queries', async () => {
   expect(reloadedUser).toEqual(user);
 });
 
-test('Query all', async () => {
-  await Promise.all([testQueryAll(User, UserMutations), testQueryAll(UserMem, UserMutationsMem)]);
-});
-
-async function testQueryAll(
-  Model: typeof User | typeof UserMem,
-  Mutations: typeof UserMutations | typeof UserMutationsMem,
-): Promise<void> {
+test('Query that traverses edges', async () => {
   await Promise.all([
     testQueryThatTraversesEdges(UserMutations, DeckMutations, SlideMutations, ComponentMutations),
     testQueryThatTraversesEdges(
@@ -45,6 +38,16 @@ async function testQueryAll(
       ComponentMutationsMem,
     ),
   ]);
+});
+
+test('Query all', async () => {
+  await Promise.all([testQueryAll(User, UserMutations), testQueryAll(UserMem, UserMutationsMem)]);
+});
+
+async function testQueryAll(
+  Model: typeof User | typeof UserMem,
+  Mutations: typeof UserMutations | typeof UserMutationsMem,
+): Promise<void> {
   const suffixes = [0, 1, 2, 3, 4];
   const changesets = suffixes.map(i =>
     Mutations.create(ctx, {

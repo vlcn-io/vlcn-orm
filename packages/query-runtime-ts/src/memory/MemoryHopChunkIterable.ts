@@ -1,9 +1,12 @@
-import { Context, MemoryResolvedDB } from '@aphro/context-runtime-ts';
+import { Context, IModel, MemoryResolvedDB } from '@aphro/context-runtime-ts';
 import { EdgeSpec } from '@aphro/schema-api';
 import { BaseChunkIterable, ChunkIterable } from '../ChunkIterable.js';
 import { HoistedOperations } from './MemorySourceExpression.js';
 
-export default class MemoryHopChunkIterable<TIn, TOut> extends BaseChunkIterable<TOut> {
+export default class MemoryHopChunkIterable<
+  TIn extends IModel,
+  TOut,
+> extends BaseChunkIterable<TOut> {
   constructor(
     private readonly ctx: Context,
     private readonly edge: EdgeSpec,
@@ -26,7 +29,7 @@ export default class MemoryHopChunkIterable<TIn, TOut> extends BaseChunkIterable
           yield await db.query({
             type: 'read',
             tablish: this.edge.dest.storage.tablish,
-            roots: chunk.map(c => c[this.edge.sourceField]),
+            roots: chunk.map(c => c._d()[this.edge.sourceField]),
           });
           break;
         case 'foreignKey':
@@ -35,8 +38,10 @@ export default class MemoryHopChunkIterable<TIn, TOut> extends BaseChunkIterable
             type: 'read',
             tablish: this.edge.dest.storage.tablish,
           });
-          const chunkPrimaryKeys = new Set([chunk.map(c => c[this.edge.source.primaryKey])]);
-          yield all.filter(x => chunkPrimaryKeys.has(x[this.edge.destField]));
+          const chunkPrimaryKeys = new Set(chunk.map(c => c._d()[this.edge.source.primaryKey]));
+          yield all.filter(x => {
+            return chunkPrimaryKeys.has(x._d()[this.edge.destField]);
+          });
           break;
         case 'junction':
           throw new Error('Junction memory hops not yet implemented');
