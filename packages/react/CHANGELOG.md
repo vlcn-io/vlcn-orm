@@ -1,5 +1,13 @@
 # @aphro/react
 
+## 0.1.8
+
+### Patch Changes
+
+- in-memory model support
+- Updated dependencies
+  - @aphro/runtime-ts@0.1.6
+
 ## 0.1.6
 
 ### Patch Changes

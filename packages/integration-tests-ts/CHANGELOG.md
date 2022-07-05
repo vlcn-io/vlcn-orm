@@ -1,5 +1,13 @@
 # @aphro/integration-tests-ts
 
+## 0.1.6
+
+### Patch Changes
+
+- in-memory model support
+- Updated dependencies
+  - @aphro/runtime-ts@0.1.6
+
 ## 0.1.5
 
 ### Patch Changes

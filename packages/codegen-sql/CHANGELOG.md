@@ -1,5 +1,17 @@
 # @aphro/codegen-sql
 
+## 0.1.4
+
+### Patch Changes
+
+- in-memory model support
+- Updated dependencies
+  - @aphro/codegen@0.1.3
+  - @aphro/codegen-api@0.1.1
+  - @aphro/schema@0.1.2
+  - @aphro/schema-api@0.1.1
+  - @aphro/sql-ts@0.1.1
+
 ## 0.1.3
 
 ### Patch Changes

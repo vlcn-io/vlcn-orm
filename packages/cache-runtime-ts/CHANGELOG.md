@@ -1,5 +1,11 @@
 # @aphro/cache-runtime-ts
 
+## 0.1.4
+
+### Patch Changes
+
+- in-memory model support
+
 ## 0.1.3
 
 ### Patch Changes

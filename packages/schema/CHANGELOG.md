@@ -1,5 +1,15 @@
 # @aphro/schema
 
+## 0.1.2
+
+### Patch Changes
+
+- in-memory model support
+- Updated dependencies
+  - @aphro/codegen-api@0.1.1
+  - @aphro/grammar-extension-api@0.1.1
+  - @aphro/schema-api@0.1.1
+
 ## 0.1.1
 
 ### Patch Changes

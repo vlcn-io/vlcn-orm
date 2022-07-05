@@ -1,5 +1,14 @@
 # @aphro/sqljs-connector
 
+## 0.1.6
+
+### Patch Changes
+
+- in-memory model support
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.1.5
+  - @aphro/sql-ts@0.1.1
+
 ## 0.1.5
 
 ### Patch Changes

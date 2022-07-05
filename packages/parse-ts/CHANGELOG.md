@@ -1,5 +1,11 @@
 # @aphro/parse-ts
 
+## 0.1.1
+
+### Patch Changes
+
+- in-memory model support
+
 ## 0.1.0
 
 ### Minor Changes

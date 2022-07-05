@@ -1,5 +1,16 @@
 # @aphro/query-runtime-ts
 
+## 0.1.6
+
+### Patch Changes
+
+- in-memory model support
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.1.5
+  - @aphro/model-runtime-ts@0.1.5
+  - @aphro/schema-api@0.1.1
+  - @aphro/sql-ts@0.1.1
+
 ## 0.1.5
 
 ### Patch Changes
