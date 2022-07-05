@@ -50,7 +50,8 @@ export type Expression =
   | ReturnType<typeof hop>
   | ReturnType<typeof modelLoad>
   | ReturnType<typeof count>
-  | CountLoadExpression<any>;
+  | CountLoadExpression<any>
+  | ReturnType<typeof map>;
 /*
 declare module '@mono/model/query' {
   interface Expressions<ReturnType> {
@@ -102,11 +103,11 @@ export function after<T>(
 // Needs to be more robust as we need to know if field and value are hoistable to the backend.
 // So this should be some spec that references the schema in some way.
 export function filter<Tm, Tv>(
-  getter: FieldGetter<Tm, Tv>,
+  getter: FieldGetter<Tm, Tv> | null,
   predicate: Predicate<Tv>,
 ): {
   type: 'filter';
-  getter: FieldGetter<Tm, Tv>;
+  getter: FieldGetter<Tm, Tv> | null;
   predicate: Predicate<Tv>;
 } & DerivedExpression<Tm, Tm> {
   return {
@@ -116,12 +117,19 @@ export function filter<Tm, Tv>(
     chainAfter(iterable) {
       // TODO:
       // @ts-ignore
-      return iterable.filter(m => predicate.call(getter.get(m)));
+      return iterable.filter(m => predicate.call(getter == null ? m : getter.get(m)));
     },
   };
 }
 
-export function map<T, R>() {}
+export function map<T, R>(fn: (f: T) => R): { type: 'map' } & DerivedExpression<T, R> {
+  return {
+    type: 'map',
+    chainAfter(iterable) {
+      return iterable.map(fn);
+    },
+  };
+}
 
 export function orderBy<Tm, Tv>(
   getter: FieldGetter<Tm, Tv>,

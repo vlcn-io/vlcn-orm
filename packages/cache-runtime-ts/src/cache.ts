@@ -111,6 +111,8 @@ export default class Cache {
   }
 }
 
+// TODO: this should take into account engine and db too...
+// could have duplicative type names. E.g., `User` generated for `Memory` and `SQL` storage.
 function concatId<T>(id: SID_of<T>, typename: string) {
   return (id + '-' + typename) as SID_of<T>;
 }

@@ -25,7 +25,8 @@ export type Predicate<Tv> =
   | StartsWith
   | EndsWith
   | ContainsString
-  | ExcludesString;
+  | ExcludesString
+  | Lambda<Tv>;
 
 export class Equal<Tv> {
   constructor(public readonly value: Tv) {}
@@ -184,6 +185,15 @@ export class ExcludesString {
   }
 }
 
+export class Lambda<Tv> {
+  readonly type = 'lambda';
+  constructor(public readonly value: (m: Tv) => boolean) {}
+
+  call(what: Tv): boolean {
+    return this.value(what);
+  }
+}
+
 const P = {
   equals<Tv>(value: Tv) {
     return new Equal(value);
@@ -232,6 +242,10 @@ const P = {
 
   excludesString(value: string) {
     return new ExcludesString(value);
+  },
+
+  lambda<Tv>(fn: (v: Tv) => boolean) {
+    return new Lambda(fn);
   },
 };
 

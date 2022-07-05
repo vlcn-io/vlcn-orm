@@ -158,6 +158,10 @@ function getFilter(spec: NodeSpec | JunctionEdgeSpec, f: ReturnType<typeof filte
         '%' + f.predicate.value + '%',
       )}`;
     }
+    case 'lambda':
+      throw new Error(
+        `Lambdas cannot be optimized to SQL! This expression should not have been hoisted for ${spec.storage.tablish}, ${getter.fieldName}`,
+      );
   }
 
   return sql`${sql.ident(spec.storage.tablish, getter.fieldName)} ${sql.__dangerous__rawValue(

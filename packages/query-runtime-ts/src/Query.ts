@@ -4,12 +4,15 @@ import {
   count,
   EmptySourceExpression,
   Expression,
+  filter,
   HopExpression,
+  map,
   SourceExpression,
 } from './Expression.js';
 import HopPlan from './HopPlan.js';
 import LiveResult from './live/LiveResult.js';
 import Plan, { IPlan } from './Plan.js';
+import P from './Predicate.js';
 
 export enum UpdateType {
   CREATE = 1,
@@ -34,7 +37,7 @@ export interface Query<T> {
 
   // map<R>(fn: (t: T) => R): Query<R>;
   // flatMap<R>(fn: (t: T) => R[]): Query<R>;
-  // filter(fn: (t: T) => boolean): Query<T>;
+  // whereLambda(fn: (t: T) => boolean): Query<T>;
   // take(n: number): Query<T>;
   // after(cursor: Cursor<T>): Query<T>
   count(): IterableDerivedQuery<number>;
@@ -86,10 +89,6 @@ abstract class BaseQuery<T> implements Query<T> {
 
   // map<R>(fn: (t: T) => R): Query<R> {
   //   return
-  // }
-
-  // filter(fn: (t: T) => boolean): Query<T> {
-
   // }
 
   abstract plan(): IPlan;
@@ -153,7 +152,7 @@ export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
   }
 
   /**
-   * This needs to match the constructor (sand priorQuery which is `this`) and serves the same purpose.
+   * This needs to match the constructor (sans priorQuery which is `this`) and serves the same purpose.
    * 1. TypeScript does not allow `ConsistentConstruct`
    * 2. TypeScript does not allow abstract static methods
    * 3. TypeScript does not allow `new self()` to instantiate
@@ -163,7 +162,18 @@ export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
    *
    * `derive` is used for lambda filters
    */
-  protected abstract derive(expression: Expression): ThisType<TOut>;
+  protected abstract derive(expression: Expression);
+
+  where(fn: (t: TOut) => boolean): this {
+    return this.derive(filter<TOut, TOut>(null, P.lambda(fn)));
+  }
+
+  map<TMapped>(fn: (t: TOut) => TMapped): DerivedQuery<TMapped> {
+    return this.derive(map(fn));
+  }
+
+  // union(): ThisType<TOut> {
+  // }
 
   plan() {
     const plan = this.#priorQuery.plan();
@@ -179,36 +189,18 @@ export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
   }
 }
 
-/*
-Derived query example:
-SlideQuery extends DerivedQuery {
-  static create() {
-    return new SlideQuery(
-      Factory.createSourceQueryFor(schema) // e.g., new SQLSourceQuery(),
-      // convert raw db result into model load.
-      // we'd want to move this expression to the end in plan optimizaiton.
-      new ModelLoadExpression(schema),
-    );
-  }
-
-  whereName(predicate: Predicate) {
-    return new SlideQuery(
-      this, // the prior query
-      new ModelFilterExpression(field, predicate)
-    );
-  }
-}
-*/
-
 export class IterableDerivedQuery<TOut> extends DerivedQuery<TOut> {
   constructor(ctx: Context, priorQuery: Query<any>, expression: Expression) {
     super(ctx, priorQuery, expression);
   }
 
-  protected derive<TNOut>(expression: Expression): ThisType<TNOut> {
+  protected derive<TNOut>(expression: Expression): IterableDerivedQuery<TNOut> {
     return new IterableDerivedQuery(this.ctx, this, expression);
   }
 }
+
+// and regular old IterableQuery to allow making anything
+// into a query
 
 export class EmptyQuery extends SourceQuery<void> {
   constructor(ctx: Context) {
