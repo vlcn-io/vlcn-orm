@@ -52,17 +52,15 @@ Bar as Node {
 test('Generating an ID only model', async () => {
   const contents = (await genIt(compileFromString(IDOnlySchema)[1].nodes.IDOnly)).contents;
   expect(contents).toEqual(
-    `// SIGNED-SOURCE: <9861e185b20ac274b19c5501e4f1c8a8>
+    `// SIGNED-SOURCE: <338a975f9a6acdf98380ffc57d15f3b5>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
- * \`END-MANUAL-SECTION\` markers.
  */
 import { default as s } from "./IDOnlySpec.js";
 import { P } from "@aphro/runtime-ts";
-import { Model } from "@aphro/runtime-ts";
-import { ModelSpec } from "@aphro/runtime-ts";
+import { Node } from "@aphro/runtime-ts";
+import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import IDOnlyQuery from "./IDOnlyQuery.js";
 import { Context } from "@aphro/runtime-ts";
@@ -71,8 +69,8 @@ export type Data = {
   id: SID_of<IDOnly>;
 };
 
-export default class IDOnly extends Model<Data> {
-  readonly spec = s as ModelSpec<this, Data>;
+export default class IDOnly extends Node<Data> {
+  readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
     return this.data.id as SID_of<this>;
@@ -80,6 +78,22 @@ export default class IDOnly extends Model<Data> {
 
   static queryAll(ctx: Context): IDOnlyQuery {
     return IDOnlyQuery.create(ctx);
+  }
+
+  static async genx(ctx: Context, id: SID_of<IDOnly>): Promise<IDOnly> {
+    const existing = ctx.cache.get(id, IDOnly.name);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
+  }
+
+  static async gen(ctx: Context, id: SID_of<IDOnly>): Promise<IDOnly | null> {
+    const existing = ctx.cache.get(id, IDOnly.name);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }
 `,
@@ -89,17 +103,15 @@ export default class IDOnly extends Model<Data> {
 test('Generating all primitive fields', async () => {
   const contents = (await genIt(compileFromString(PrimitiveFieldsSchema)[1].nodes.PrimitiveFields))
     .contents;
-  expect(contents).toEqual(`// SIGNED-SOURCE: <e583b47a1583268c8aa0964a729316f9>
+  expect(contents).toEqual(`// SIGNED-SOURCE: <7edf90969f8ae86f181726ebe66004cb>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
- * \`END-MANUAL-SECTION\` markers.
  */
 import { default as s } from "./PrimitiveFieldsSpec.js";
 import { P } from "@aphro/runtime-ts";
-import { Model } from "@aphro/runtime-ts";
-import { ModelSpec } from "@aphro/runtime-ts";
+import { Node } from "@aphro/runtime-ts";
+import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import PrimitiveFieldsQuery from "./PrimitiveFieldsQuery.js";
 import { Context } from "@aphro/runtime-ts";
@@ -114,8 +126,8 @@ export type Data = {
   mrString: string;
 };
 
-export default class PrimitiveFields extends Model<Data> {
-  readonly spec = s as ModelSpec<this, Data>;
+export default class PrimitiveFields extends Node<Data> {
+  readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
     return this.data.id as SID_of<this>;
@@ -148,23 +160,43 @@ export default class PrimitiveFields extends Model<Data> {
   static queryAll(ctx: Context): PrimitiveFieldsQuery {
     return PrimitiveFieldsQuery.create(ctx);
   }
+
+  static async genx(
+    ctx: Context,
+    id: SID_of<PrimitiveFields>
+  ): Promise<PrimitiveFields> {
+    const existing = ctx.cache.get(id, PrimitiveFields.name);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
+  }
+
+  static async gen(
+    ctx: Context,
+    id: SID_of<PrimitiveFields>
+  ): Promise<PrimitiveFields | null> {
+    const existing = ctx.cache.get(id, PrimitiveFields.name);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
+  }
 }
 `);
 });
 
 test('Outbound field edge', async () => {
   const contents = (await genIt(compileFromString(OutboundFieldEdgeSchema)[1].nodes.Foo)).contents;
-  expect(contents).toEqual(`// SIGNED-SOURCE: <793e13323fd680b424978b6281588c57>
+  expect(contents).toEqual(`// SIGNED-SOURCE: <7d755e0e9a49ec79ee29735ede4d2358>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
- * \`END-MANUAL-SECTION\` markers.
  */
 import { default as s } from "./FooSpec.js";
 import { P } from "@aphro/runtime-ts";
-import { Model } from "@aphro/runtime-ts";
-import { ModelSpec } from "@aphro/runtime-ts";
+import { Node } from "@aphro/runtime-ts";
+import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import FooQuery from "./FooQuery.js";
 import { Context } from "@aphro/runtime-ts";
@@ -173,8 +205,8 @@ export type Data = {
   fooId: SID_of<Foo>;
 };
 
-export default class Foo extends Model<Data> {
-  readonly spec = s as ModelSpec<this, Data>;
+export default class Foo extends Node<Data> {
+  readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get fooId(): SID_of<Foo> {
     return this.data.fooId;
@@ -187,6 +219,22 @@ export default class Foo extends Model<Data> {
   static queryAll(ctx: Context): FooQuery {
     return FooQuery.create(ctx);
   }
+
+  static async genx(ctx: Context, id: SID_of<Foo>): Promise<Foo> {
+    const existing = ctx.cache.get(id, Foo.name);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
+  }
+
+  static async gen(ctx: Context, id: SID_of<Foo>): Promise<Foo | null> {
+    const existing = ctx.cache.get(id, Foo.name);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
+  }
 }
 `);
 });
@@ -194,17 +242,15 @@ export default class Foo extends Model<Data> {
 test('Outbound foreign key edge', async () => {
   const contents = (await genIt(compileFromString(OutboundForeignKeyEdgeSchema)[1].nodes.Bar))
     .contents;
-  expect(contents).toEqual(`// SIGNED-SOURCE: <0486be955fd7838bad16f029bfc448b8>
+  expect(contents).toEqual(`// SIGNED-SOURCE: <2469baddaf1594f234f2dbe51a9d7c26>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
- * \`END-MANUAL-SECTION\` markers.
  */
 import { default as s } from "./BarSpec.js";
 import { P } from "@aphro/runtime-ts";
-import { Model } from "@aphro/runtime-ts";
-import { ModelSpec } from "@aphro/runtime-ts";
+import { Node } from "@aphro/runtime-ts";
+import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import BarQuery from "./BarQuery.js";
 import { Context } from "@aphro/runtime-ts";
@@ -213,8 +259,8 @@ import Foo from "./Foo.js";
 
 export type Data = {};
 
-export default class Bar extends Model<Data> {
-  readonly spec = s as ModelSpec<this, Data>;
+export default class Bar extends Node<Data> {
+  readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   queryFoos(): FooQuery {
     return FooQuery.create(this.ctx).whereBarId(P.equals(this.id));
@@ -222,6 +268,22 @@ export default class Bar extends Model<Data> {
 
   static queryAll(ctx: Context): BarQuery {
     return BarQuery.create(ctx);
+  }
+
+  static async genx(ctx: Context, id: SID_of<Bar>): Promise<Bar> {
+    const existing = ctx.cache.get(id, Bar.name);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
+  }
+
+  static async gen(ctx: Context, id: SID_of<Bar>): Promise<Bar | null> {
+    const existing = ctx.cache.get(id, Bar.name);
+    if (existing) {
+      return existing;
+    }
+    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }
 `);
