@@ -35,7 +35,7 @@ test('set should throw if we set an existing entry to a new instance', () => {
   expect(() => cache.set(id, model)).not.toThrow();
 });
 
-test('remove', () => {
+test('items are removed', () => {
   const cache = new Cache();
   const id = asId<TestModel>('z');
   const model = new TestModel(id);

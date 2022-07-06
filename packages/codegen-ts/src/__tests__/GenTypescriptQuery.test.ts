@@ -92,12 +92,10 @@ test('NoEdgesSchema', async () => {
 
   // TODO: remove unneeded imports
   // Validation should require that a primary key field exists
-  expect(contents).toEqual(`// SIGNED-SOURCE: <4e728ed8200ff078b3a0647288b7650b>
+  expect(contents).toEqual(`// SIGNED-SOURCE: <43c96899fca8194e72cda371e1eac8d7>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
- * \`END-MANUAL-SECTION\` markers.
  */
 import { Context } from "@aphro/runtime-ts";
 import { DerivedQuery } from "@aphro/runtime-ts";
@@ -105,8 +103,12 @@ import { QueryFactory } from "@aphro/runtime-ts";
 import { modelLoad } from "@aphro/runtime-ts";
 import { filter } from "@aphro/runtime-ts";
 import { Predicate } from "@aphro/runtime-ts";
+import { take } from "@aphro/runtime-ts";
+import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
+import { Expression } from "@aphro/runtime-ts";
+import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Foo from "./Foo.js";
 import { Data } from "./Foo.js";
@@ -121,8 +123,20 @@ export default class FooQuery extends DerivedQuery<Foo> {
     );
   }
 
+  static empty(ctx: Context) {
+    return new FooQuery(ctx, new EmptyQuery(ctx));
+  }
+
+  protected derive(expression: Expression): FooQuery {
+    return new FooQuery(this.ctx, this, expression);
+  }
+
   static fromId(ctx: Context, id: SID_of<Foo>) {
     return this.create(ctx).whereId(P.equals(id));
+  }
+
+  take(n: number) {
+    return new FooQuery(this.ctx, this, take(n));
   }
 }
 `);
@@ -132,15 +146,10 @@ test('OutboundEdgeViaFieldSchema', async () => {
   const contents = (await genIt(compileFromString(OutboundEdgeViaFieldSchema)[1].nodes.Foo))
     .contents;
 
-  // TODO: queryBar is wrong as it needs a `where` statement applied
-  // to understand _how_ we're hopping.
-  // queryBar().whereId(P.equals(this.barId));
-  expect(contents).toEqual(`// SIGNED-SOURCE: <397635a282c249258a02c22c2b4d096c>
+  expect(contents).toEqual(`// SIGNED-SOURCE: <7e7f913eb59c1dfa562fd2d7171dcd4f>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
- * \`END-MANUAL-SECTION\` markers.
  */
 import { Context } from "@aphro/runtime-ts";
 import { DerivedQuery } from "@aphro/runtime-ts";
@@ -148,8 +157,12 @@ import { QueryFactory } from "@aphro/runtime-ts";
 import { modelLoad } from "@aphro/runtime-ts";
 import { filter } from "@aphro/runtime-ts";
 import { Predicate } from "@aphro/runtime-ts";
+import { take } from "@aphro/runtime-ts";
+import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
+import { Expression } from "@aphro/runtime-ts";
+import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Foo from "./Foo.js";
 import { Data } from "./Foo.js";
@@ -167,14 +180,20 @@ export default class FooQuery extends DerivedQuery<Foo> {
     );
   }
 
+  static empty(ctx: Context) {
+    return new FooQuery(ctx, new EmptyQuery(ctx));
+  }
+
+  protected derive(expression: Expression): FooQuery {
+    return new FooQuery(this.ctx, this, expression);
+  }
+
   static fromId(ctx: Context, id: SID_of<Foo>) {
     return this.create(ctx).whereId(P.equals(id));
   }
 
   whereBarId(p: Predicate<Data["barId"]>) {
-    return new FooQuery(
-      this.ctx,
-      this,
+    return this.derive(
       filter(new ModelFieldGetter<"barId", Data, Foo>("barId"), p)
     );
   }
@@ -185,6 +204,16 @@ export default class FooQuery extends DerivedQuery<Foo> {
       modelLoad(this.ctx, BarSpec.createFrom)
     );
   }
+
+  take(n: number) {
+    return new FooQuery(this.ctx, this, take(n));
+  }
+
+  orderByBarId(direction: "asc" | "desc" = "asc") {
+    return this.derive(
+      orderBy(new ModelFieldGetter<"barId", Data, Foo>("barId"), direction)
+    );
+  }
 }
 `);
 });
@@ -193,12 +222,10 @@ test('OutboundThroughForeignFieldSchema', async () => {
   const contents = (await genIt(compileFromString(OutboundThroughForeignFieldSchema)[1].nodes.Foo))
     .contents;
 
-  expect(contents).toEqual(`// SIGNED-SOURCE: <9755b571c0f183ddb0df7509e94d4ae8>
+  expect(contents).toEqual(`// SIGNED-SOURCE: <5819b0d1d3776480cdbc5d046094b46f>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
- * \`END-MANUAL-SECTION\` markers.
  */
 import { Context } from "@aphro/runtime-ts";
 import { DerivedQuery } from "@aphro/runtime-ts";
@@ -206,8 +233,12 @@ import { QueryFactory } from "@aphro/runtime-ts";
 import { modelLoad } from "@aphro/runtime-ts";
 import { filter } from "@aphro/runtime-ts";
 import { Predicate } from "@aphro/runtime-ts";
+import { take } from "@aphro/runtime-ts";
+import { orderBy } from "@aphro/runtime-ts";
 import { P } from "@aphro/runtime-ts";
 import { ModelFieldGetter } from "@aphro/runtime-ts";
+import { Expression } from "@aphro/runtime-ts";
+import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Foo from "./Foo.js";
 import { Data } from "./Foo.js";
@@ -224,6 +255,14 @@ export default class FooQuery extends DerivedQuery<Foo> {
     );
   }
 
+  static empty(ctx: Context) {
+    return new FooQuery(ctx, new EmptyQuery(ctx));
+  }
+
+  protected derive(expression: Expression): FooQuery {
+    return new FooQuery(this.ctx, this, expression);
+  }
+
   static fromId(ctx: Context, id: SID_of<Foo>) {
     return this.create(ctx).whereId(P.equals(id));
   }
@@ -234,6 +273,10 @@ export default class FooQuery extends DerivedQuery<Foo> {
       QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.bars),
       modelLoad(this.ctx, BarSpec.createFrom)
     );
+  }
+
+  take(n: number) {
+    return new FooQuery(this.ctx, this, take(n));
   }
 }
 `);

@@ -1,6 +1,6 @@
 // The cache is to ensure only 1 instance of a given node is ever loaded at once.
 // All aspects of the application will always see the exact same version
-// of a given node at all times.
+// of a given node of a given identity at all times.
 //
 // Query is returning a node? Return the cached version.
 // Genning a node? check the cache.
