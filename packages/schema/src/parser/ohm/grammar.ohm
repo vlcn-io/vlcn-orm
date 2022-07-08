@@ -7,7 +7,8 @@ Aphro {
     | "" -- empty
   
   Property
-  	= propertyKey name
+  	= propertyKey name -- primitive
+    | propertyKey "{" PropertyList "}" -- complex
   
   propertyKey
   	= name ":"
@@ -22,7 +23,7 @@ Aphro {
     | "" -- empty
   
   Node
-  	= name "as" "Node" NodeFields NodeFunctions
+  	= name "as" ("Node" | "UnreplicatedEphemeralNode" | "UnreplicatedNode" | "EphemeralNode") NodeFields NodeFunctions
   
   Edge
   	= name "as" "Edge" "<" name "," name ">" NodeFields EdgeFunctions

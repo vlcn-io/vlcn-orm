@@ -145,12 +145,12 @@ export function createParser(config: Config = {}) {
         type: 'timestamp',
       };
     },
-    CurrencyField(_, _lAngle, denomination, _rAngle) {
-      return {
-        type: 'currency',
-        denomination: denomination.toAst(),
-      };
-    },
+    // CurrencyField(_, _lAngle, denomination, _rAngle) {
+    //   return {
+    //     type: 'currency',
+    //     denomination: denomination.toAst(),
+    //   };
+    // },
     PrimitiveField(subtype) {
       return {
         type: 'primitive',

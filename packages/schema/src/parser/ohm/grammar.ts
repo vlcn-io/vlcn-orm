@@ -12,7 +12,8 @@ const grammarDefinition = String.raw`
     | "" -- empty
   
   Property
-  	= propertyKey name
+  	= propertyKey name -- primitive
+    | propertyKey "{" PropertyList "}" -- complex
   
   propertyKey
   	= name ":"
@@ -27,7 +28,7 @@ const grammarDefinition = String.raw`
     | "" -- empty
   
   Node
-  	= name "as" "Node" NodeFields NodeFunctions
+  	= name "as" ("Node" | "UnreplicatedEphemeralNode" | "UnreplicatedNode" | "EphemeralNode") NodeFields NodeFunctions
   
   Edge
   	= name "as" "Edge" "<" name "," name ">" NodeFields EdgeFunctions
@@ -53,7 +54,6 @@ const grammarDefinition = String.raw`
     | NaturalLanguageField
     | EnumField
     | TimeField
-    | CurrencyField
     | PrimitiveField
     | BitmaskField
   
@@ -79,9 +79,6 @@ const grammarDefinition = String.raw`
   
   TimeField
   	= "Timestamp"
-  
-  CurrencyField
-  	= "Currency" "<" name ">"
   
   PrimitiveField
   	= "bool"

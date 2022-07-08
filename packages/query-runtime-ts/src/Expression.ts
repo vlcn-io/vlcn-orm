@@ -63,7 +63,9 @@ export type Expression = // union of the mapping of return types of the members 
 // maybe something like: https://github.com/ueberdosis/tiptap/blob/main/packages/core/src/types.ts#L197
 */
 
-export function take<T>(num: number): {
+export function take<T>(
+  num: number,
+): {
   type: 'take';
   num: number;
 } & DerivedExpression<T, T> {

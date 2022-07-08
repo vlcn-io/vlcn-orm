@@ -15,7 +15,6 @@ export type ModelSpecWithCreate<M extends IModel<D>, D extends {}> = ModelCreate
 
 export interface IModel<T extends {} = Object> {
   readonly id: SID_of<this>;
-  readonly ctx: Context;
   readonly spec: ModelSpecWithCreate<this, T>;
 
   subscribe(c: () => void): Disposer;

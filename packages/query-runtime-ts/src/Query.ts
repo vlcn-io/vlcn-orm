@@ -142,7 +142,7 @@ export abstract class HopQuery<TIn, TOut> extends BaseQuery<TOut> {
 }
 
 export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
-  #priorQuery: Query<TOut>;
+  #priorQuery: Query<any>;
   #expression?: Expression;
 
   constructor(ctx: Context, priorQuery: Query<any>, expression?: Expression) {
@@ -174,6 +174,7 @@ export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
 
   // union(): ThisType<TOut> {
   // }
+  // intersect, concat, etc.
 
   plan() {
     const plan = this.#priorQuery.plan();

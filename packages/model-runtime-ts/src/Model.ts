@@ -7,9 +7,9 @@ import observe from './observe.js';
 
 export default abstract class Model<T extends {}> implements IModel<T> {
   abstract readonly id: SID_of<this>;
-  readonly ctx: Context;
-  readonly spec: ModelCreate<this, T> & (NodeSpec | JunctionEdgeSpec);
+  abstract readonly spec: ModelCreate<this, T> & (NodeSpec | JunctionEdgeSpec);
 
+  readonly ctx: Context;
   protected data: T;
 
   private subscriptions: Set<() => void> = new Set();
@@ -121,3 +121,20 @@ export default abstract class Model<T extends {}> implements IModel<T> {
     return this.#generator;
   }
 }
+
+// export class PrivateEphemeralNode<T extends { id: SID_of<any> }> extends Model<T> {
+//   get id(): SID_of<this> {
+//     return this.data.id;
+//   }
+
+//   spec(): ModelCreate<this, T> & NodeSpec {
+//     const self = this;
+//     return {
+//       type: 'node',
+//       primaryKey: 'id',
+//       createFrom(ctx: Context, data: T) {
+//         self.
+//       },
+//     };
+//   }
+// }
