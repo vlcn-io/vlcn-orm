@@ -17,6 +17,7 @@ import {
   ValidationError,
   EdgeAstExtension,
   StorageConfig,
+  FieldDeclaration,
 } from '@aphro/schema-api';
 import { assertUnreachable } from '@strut/utils';
 
@@ -263,7 +264,10 @@ export default function condense(
   ];
 }
 
-function condenseFieldsFor(entityType: string, entity: { name: string; fields: Field[] }) {
+function condenseFieldsFor(
+  entityType: string,
+  entity: { name: string; fields: FieldDeclaration[] },
+) {
   return arrayToMap(
     entity.fields,
     f => f.name,
