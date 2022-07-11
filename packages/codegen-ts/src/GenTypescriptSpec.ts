@@ -59,13 +59,7 @@ ${this.getSpecCode()}
     return `const spec: ${nodeOrEdge}SpecWithCreate<${this.schema.name}, Data> = {
       type: '${this.schema.type === 'node' ? 'node' : 'junction'}',
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(${cacheKey}, ${this.schema.name}.name);
-    if (existing) {
-      return existing;
-    }
-    const result = new ${this.schema.name}(ctx, data);
-    ctx.cache.set(${cacheKey}, result);
-    return result;
+    ${this.getCreateFromBody(cacheKey)}
   },
 
   ${primaryKeyCode}
@@ -83,6 +77,20 @@ ${this.getSpecCode()}
 
 export default spec;
 `;
+  }
+
+  private getCreateFromBody(cacheKey: string): string {
+    if (this.schema.storage.type === 'ephemeral') {
+      return `new ${this.schema.name}(ctx, data);`;
+    }
+
+    return `const existing = ctx.cache.get(${cacheKey}, ${this.schema.name}.name);
+    if (existing) {
+      return existing;
+    }
+    const result = new ${this.schema.name}(ctx, data);
+    ctx.cache.set(${cacheKey}, result);
+    return result;`;
   }
 
   private collectImports(): Import[] {
