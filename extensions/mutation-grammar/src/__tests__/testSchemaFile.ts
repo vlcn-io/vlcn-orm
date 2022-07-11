@@ -42,12 +42,12 @@ export const compiled = {
         },
       },
       fields: {
-        id: { name: 'id', of: 'User', type: 'id' },
-        name: { name: 'name', type: 'naturalLanguage' },
+        id: { name: 'id', type: [{ of: 'User', type: 'id' }] },
+        name: { name: 'name', type: [{ type: 'naturalLanguage' }] },
       },
       name: 'User',
       primaryKey: 'id',
-      storage: { db: 'test', engine: 'sqlite', tablish: 'user', type: 'sql' },
+      storage: { db: 'test', engine: 'sqlite', tablish: 'user', type: 'sql', name: 'storage' },
     },
   },
 };

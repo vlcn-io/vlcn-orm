@@ -61,14 +61,7 @@ export function typeDefToTsType(def: TypeAtom[]): string {
       if (typeof a === 'string') {
         return a + ` | Changeset<${a}, ${a}Data>`;
       }
-      switch (a.type) {
-        case 'union':
-          return '|';
-        case 'intersection':
-          return '&';
-        case 'primitive':
-          return a.subtype;
-      }
+      return atomToTsType(a);
     })
     .join(' ');
 }
