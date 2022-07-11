@@ -22,6 +22,22 @@ export default {
       return t.type !== 'intersection' && t.type !== 'union';
     });
   },
+  removeNull(t: readonly TypeAtom[]): readonly TypeAtom[] {
+    const nullIndex = t.findIndex(t => {
+      if (typeof t !== 'string') {
+        return t.type === 'primitive' && t.subtype === 'null';
+      }
+    });
+    if (nullIndex < 0) {
+      return t;
+    }
+
+    if (nullIndex === 0) {
+      return t.slice(2);
+    } else {
+      return [...t.slice(0, nullIndex - 1), ...t.slice(nullIndex + 1)];
+    }
+  },
   pullNullType(f: FieldDeclaration): TypeAtom | undefined {
     return f.type.filter(t => {
       if (typeof t === 'string') {

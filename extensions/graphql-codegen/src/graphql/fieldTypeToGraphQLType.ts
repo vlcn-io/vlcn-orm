@@ -1,3 +1,4 @@
+import { fieldFn } from '@aphro/schema';
 import {
   Enum,
   Field,
@@ -16,10 +17,18 @@ export function fieldTypeToGraphQLType(
   n: SchemaNode,
   f: RemoveNameField<FieldDeclaration>,
 ): string {
-  const type = f.type.filter(t => t !== 'null');
+  let type = fieldFn.removeNull(f.type);
   const nullable = type.length !== f.type.length;
 
-  return type.map(a => atomToGraphQLType(n, f, a) + (!nullable ? '!' : '')).join(' ');
+  return type
+    .map(
+      a =>
+        atomToGraphQLType(n, f, a) +
+        (!nullable && typeof a !== 'string' && a.type !== 'intersection' && a.type !== 'union'
+          ? '!'
+          : ''),
+    )
+    .join(' ');
 }
 
 function atomToGraphQLType(
@@ -63,11 +72,7 @@ function atomToGraphQLType(
         case 'int64':
           return 'String';
         case 'null':
-          throw new Error(
-            `Cannot represent only null in GraphQL for field ${
-              (f as FieldDeclaration).name
-            } of node ${n.name}`,
-          );
+          return 'null';
         case 'string':
           return 'String';
         case 'uint32':

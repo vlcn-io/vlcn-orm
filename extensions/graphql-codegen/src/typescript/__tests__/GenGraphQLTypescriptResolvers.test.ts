@@ -25,25 +25,29 @@ test('Basic schema test', async () => {
   const edges = Object.values(compiled.edges);
 
   const resolvers = await genIt(nodes, edges);
-  expect(resolvers.contents).toEqual(`// SIGNED-SOURCE: <df2c2729676fa46901bb04791bd3c73b>
+  expect(resolvers.contents).toEqual(`// SIGNED-SOURCE: <36385f753d282c42e89d5592b09a30aa>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
- * \`END-MANUAL-SECTION\` markers.
  */
 import Foo from "./Foo.js";
 import { Context } from "@aphro/runtime-ts";
+import { P } from "@aphro/runtime-ts";
 
 export const resolvers = {
   Query: {
-    async foo(parent, args, ctx: { aphrodite: Context }, info): Foo {
+    async foo(parent, args, ctx: { aphrodite: Context }, info): Promise<Foo> {
       return await Foo.genOnly(ctx.aphrodite, args.id);
     },
 
-    async foos(parent, args, ctx: { aphrodite: Context }, info): Foo[] {
+    async foos(
+      parent,
+      args,
+      ctx: { aphrodite: Context },
+      info
+    ): Promise<Foo[]> {
       return await Foo.queryAll(ctx.aphrodite)
-        .whereId(P.in(new Set(ctx.ids)))
+        .whereId(P.in(new Set(args.ids)))
         .gen();
     },
   },

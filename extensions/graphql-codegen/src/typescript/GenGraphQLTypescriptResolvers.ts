@@ -54,7 +54,7 @@ export const resolvers = {
       n.name,
       0,
     )}(parent, args, ctx: {aphrodite: Context}, info): Promise<${n.name}> {
-      return await ${n.name}.gen(ctx.aphrodite, args.id);
+      return await ${n.name}.genOnly(ctx.aphrodite, args.id);
     },
     
     async ${lowercaseAt(n.name, 0)}s(parent, args, ctx: {aphrodite: Context}, info): Promise<${
