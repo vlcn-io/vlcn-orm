@@ -281,10 +281,7 @@ export function createParser(config: Config = {}) {
         {
           type: 'union',
         },
-        {
-          type: 'type',
-          name: name.toAst(),
-        },
+        name.toAst(),
       ]);
     },
     TypeExpression_intersection(list, _intersection, name) {
@@ -292,19 +289,11 @@ export function createParser(config: Config = {}) {
         {
           type: 'intersection',
         },
-        {
-          type: 'type',
-          name: name.toAst(),
-        },
+        name.toAst(),
       ]);
     },
     TypeExpression_single(name) {
-      return [
-        {
-          type: 'type',
-          name: name.toAst(),
-        },
-      ];
+      return [name.toAst()];
     },
     ...extendedSemantics(config),
   });

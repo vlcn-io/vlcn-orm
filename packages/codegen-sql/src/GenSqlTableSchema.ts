@@ -3,6 +3,7 @@ import { FieldDeclaration, SchemaEdge, SchemaNode, TypeAtom } from '@aphro/schem
 import { assertUnreachable } from '@strut/utils';
 import SqlFile from './SqlFile.js';
 import { sql, formatters, SQLQuery } from '@aphro/sql-ts';
+import { fieldFn } from '@aphro/schema';
 
 export default class GenSqlTableSchema extends CodegenStep {
   static accepts(schema: SchemaNode | SchemaEdge): boolean {
@@ -237,12 +238,8 @@ function extractTypeAtomsForSQL(field: FieldDeclaration): [TypeAtom, boolean] {
     return [type[0], false];
   }
 
-  const nullType = type.filter(atom => atom === 'null')[0];
-  const itemType = type.filter(
-    atom =>
-      (typeof atom === 'string' && atom !== 'null') ||
-      (typeof atom !== 'string' && atom.type !== 'union'),
-  )[0];
+  const nullType = fieldFn.pullNullType(field);
+  const itemType = fieldFn.pullNamedTypesExcludingNull(field)[0];
 
   if (type.length > 3) {
     throw new Error(
