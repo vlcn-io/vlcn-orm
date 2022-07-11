@@ -1,5 +1,15 @@
 # @aphro/schema
 
+## 0.1.3
+
+### Patch Changes
+
+- allow ephemeral nodes. allow type expressions for fields.
+- Updated dependencies
+  - @aphro/codegen-api@0.1.2
+  - @aphro/grammar-extension-api@0.1.2
+  - @aphro/schema-api@0.1.2
+
 ## 0.1.2
 
 ### Patch Changes

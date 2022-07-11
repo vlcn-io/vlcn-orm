@@ -1,5 +1,18 @@
 # @aphro/runtime-ts
 
+## 0.1.7
+
+### Patch Changes
+
+- allow ephemeral nodes. allow type expressions for fields.
+- Updated dependencies
+  - @aphro/cache-runtime-ts@0.1.5
+  - @aphro/context-runtime-ts@0.1.6
+  - @aphro/model-runtime-ts@0.1.6
+  - @aphro/mutator-runtime-ts@0.1.6
+  - @aphro/query-runtime-ts@0.1.7
+  - @aphro/sql-ts@0.1.2
+
 ## 0.1.6
 
 ### Patch Changes

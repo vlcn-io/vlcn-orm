@@ -1,5 +1,11 @@
 # @aphro/build-all
 
+## 0.1.2
+
+### Patch Changes
+
+- allow ephemeral nodes. allow type expressions for fields.
+
 ## 0.1.1
 
 ### Patch Changes

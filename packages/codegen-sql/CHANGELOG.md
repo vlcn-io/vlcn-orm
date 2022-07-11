@@ -1,5 +1,17 @@
 # @aphro/codegen-sql
 
+## 0.1.5
+
+### Patch Changes
+
+- allow ephemeral nodes. allow type expressions for fields.
+- Updated dependencies
+  - @aphro/codegen@0.1.4
+  - @aphro/codegen-api@0.1.2
+  - @aphro/schema@0.1.3
+  - @aphro/schema-api@0.1.2
+  - @aphro/sql-ts@0.1.2
+
 ## 0.1.4
 
 ### Patch Changes

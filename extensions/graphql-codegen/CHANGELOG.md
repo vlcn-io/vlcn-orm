@@ -1,5 +1,18 @@
 # @aphro/graphql-codegen
 
+## 0.1.6
+
+### Patch Changes
+
+- allow ephemeral nodes. allow type expressions for fields.
+- Updated dependencies
+  - @aphro/graphql-grammar@0.1.3
+  - @aphro/codegen@0.1.4
+  - @aphro/codegen-api@0.1.2
+  - @aphro/codegen-ts@0.1.6
+  - @aphro/schema@0.1.3
+  - @aphro/schema-api@0.1.2
+
 ## 0.1.5
 
 ### Patch Changes

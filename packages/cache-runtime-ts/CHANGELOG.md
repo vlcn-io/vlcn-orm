@@ -1,5 +1,11 @@
 # @aphro/cache-runtime-ts
 
+## 0.1.5
+
+### Patch Changes
+
+- allow ephemeral nodes. allow type expressions for fields.
+
 ## 0.1.4
 
 ### Patch Changes

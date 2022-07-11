@@ -1,5 +1,13 @@
 # @aphro/integration-tests-ts
 
+## 0.1.7
+
+### Patch Changes
+
+- allow ephemeral nodes. allow type expressions for fields.
+- Updated dependencies
+  - @aphro/runtime-ts@0.1.7
+
 ## 0.1.6
 
 ### Patch Changes
