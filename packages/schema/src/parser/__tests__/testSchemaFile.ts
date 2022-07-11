@@ -93,7 +93,7 @@ export const ast: SchemaFileAst = {
           type: [
             {
               type: 'id',
-              of: 'wallet',
+              of: 'Wallet',
             },
           ],
         },
@@ -337,7 +337,13 @@ export const ast: SchemaFileAst = {
             {
               type: 'primitive',
               subtype: 'string',
-              nullable: true,
+            },
+            {
+              type: 'union',
+            },
+            {
+              type: 'primitive',
+              subtype: 'null',
             },
           ],
         },
@@ -366,6 +372,30 @@ export const ast: SchemaFileAst = {
 
 export const schemaFile: SchemaFile = {
   nodes: {
+    Fig: {
+      extensions: {},
+      fields: {
+        wig: {
+          name: 'wig',
+          type: [
+            {
+              subtype: 'string',
+              type: 'primitive',
+            },
+          ],
+        },
+      },
+      name: 'Fig',
+      primaryKey: 'id',
+      storage: {
+        db: '--',
+        engine: 'ephemeral',
+        name: 'storage',
+        tablish: 'ephemeral',
+        type: 'ephemeral',
+      },
+      type: 'node',
+    },
     Person: {
       type: 'node',
       name: 'Person',
@@ -590,7 +620,11 @@ export const schemaFile: SchemaFile = {
       fields: {
         optional: {
           name: 'optional',
-          type: [{ nullable: true, subtype: 'string', type: 'primitive' }],
+          type: [
+            { subtype: 'string', type: 'primitive' },
+            { type: 'union' },
+            { type: 'primitive', subtype: 'null' },
+          ],
         },
       },
       extensions: {},

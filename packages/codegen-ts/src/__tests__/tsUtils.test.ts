@@ -6,4 +6,21 @@ test('field to ts type', () => {
       type: ['null'],
     }),
   ).toEqual('null');
+
+  expect(
+    fieldToTsType({
+      type: [
+        {
+          type: 'primitive',
+          subtype: 'null',
+        },
+      ],
+    }),
+  ).toEqual('null');
+
+  expect(
+    fieldToTsType({
+      type: ['Foo'],
+    }),
+  ).toEqual('Foo');
 });
