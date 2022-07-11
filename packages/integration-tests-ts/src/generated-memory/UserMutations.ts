@@ -1,9 +1,7 @@
-// SIGNED-SOURCE: <d1d345241f4a6d63e26c839775b1cf64>
+// SIGNED-SOURCE: <d6b6766c76095bd05755121555153aba>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
 import * as impls from "./UserMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";

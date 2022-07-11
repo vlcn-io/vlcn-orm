@@ -1,9 +1,7 @@
-// SIGNED-SOURCE: <50d811e3fcc7184ac6a5a6b5677fe778>
+// SIGNED-SOURCE: <915d5a5a09d644c9e9fcde3a714e3ffb>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
 import { default as s } from "./ComponentSpec.js";
 import { P } from "@aphro/runtime-ts";
