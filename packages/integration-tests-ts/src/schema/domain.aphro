@@ -106,3 +106,29 @@ DeckToEditorsEdge as Edge<Deck, User> {
     dest: User
   }
 }
+
+AppState as UnmanagedNode {
+  id: ID<AppState>
+  identity: Identity
+  openDeckId: ID<Deck> | null
+} & Mutations {
+  create as Create {
+    identity
+    openDeckId
+  }
+
+  openDeck as Update {
+    openDeck: ID<Deck>
+  }
+}
+
+Identity as UnmanagedNode {
+  id: ID<Identity>
+  identifier: string
+  token: string
+} & Mutations {
+  create as Create {
+    identifier
+    token
+  }
+}

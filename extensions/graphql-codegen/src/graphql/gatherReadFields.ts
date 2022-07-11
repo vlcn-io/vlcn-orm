@@ -5,9 +5,10 @@ import {
   EdgeReferenceDeclaration,
   Field,
   SchemaNode,
+  FieldDeclaration,
 } from '@aphro/schema-api';
 
-export function gatherReadFields(n: SchemaNode): Field[] {
+export function gatherReadFields(n: SchemaNode): FieldDeclaration[] {
   return (n.extensions.graphql?.read || [])
     .map(fieldName => n.fields[fieldName])
     .filter(f => f != null);

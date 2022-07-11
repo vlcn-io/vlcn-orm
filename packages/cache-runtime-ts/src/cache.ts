@@ -106,6 +106,10 @@ export default class Cache {
     return thing as T;
   }
 
+  get size(): number {
+    return this.#cache.size;
+  }
+
   clear() {
     this.#cache.clear();
   }

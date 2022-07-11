@@ -1,9 +1,7 @@
-// SIGNED-SOURCE: <f6caccc64dd75d31d0942659fc9e2b3b>
+// SIGNED-SOURCE: <07ece9ca20a6c04efafb5ce474c8d2e9>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
 import { default as s } from "./DeckSpec.js";
 import { P } from "@aphro/runtime-ts";

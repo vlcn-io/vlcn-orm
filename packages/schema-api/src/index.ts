@@ -59,7 +59,7 @@ export type SchemaNode = {
   name: NodeAst['name'];
   primaryKey: string;
   fields: {
-    [key: UnqalifiedFieldReference]: Field;
+    [key: UnqalifiedFieldReference]: FieldDeclaration;
   };
   extensions: NodeExtensions;
   storage: StorageConfig;
@@ -68,7 +68,7 @@ export type SchemaNode = {
 export type NodeSpec = {
   readonly type: 'node';
   readonly primaryKey: string;
-  readonly storage: StorageConfig;
+  readonly storage: RemoveNameField<StorageConfig>;
   readonly outboundEdges: { [key: string]: EdgeSpec };
 };
 
@@ -92,7 +92,7 @@ export type EdgeSpec =
 
 export type JunctionEdgeSpec = {
   readonly type: 'junction';
-  readonly storage: StorageConfig;
+  readonly storage: RemoveNameField<StorageConfig>;
   readonly sourceField: string;
   readonly destField: string;
 } & EdgeSpecBase;
@@ -135,7 +135,7 @@ export type SchemaEdge = {
   src: NodeReferenceOrQualifiedColumn;
   dest: NodeReferenceOrQualifiedColumn;
   fields: {
-    [key: UnqalifiedFieldReference]: Field;
+    [key: UnqalifiedFieldReference]: FieldDeclaration;
   };
   extensions: EdgeExtensions;
   storage: StorageConfig;
@@ -156,6 +156,11 @@ type ComplexField = MapField | ArrayField;
 export type Field = NonComplexField | ComplexField;
 export type NodeAstExtension = NodeAstExtensions[keyof NodeAstExtensions];
 export type NodeExtension = SchemaNode['extensions'][keyof SchemaNode['extensions']];
+export type FieldDeclaration = {
+  name: string;
+  type: TypeAtom[];
+  decorators?: string[];
+};
 
 export type NodeAst = {
   type: 'node';
@@ -168,7 +173,7 @@ export type NodeTraitAst = {
 
 export type NodeAstCommon = {
   name: string;
-  fields: Field[];
+  fields: FieldDeclaration[];
   extensions: NodeAstExtension[];
 };
 
@@ -195,7 +200,7 @@ export type EdgeAst = {
   name: string;
   src: NodeReferenceOrQualifiedColumn;
   dest: NodeReferenceOrQualifiedColumn;
-  fields: Field[];
+  fields: FieldDeclaration[];
   extensions: EdgeExtension[];
 };
 
@@ -230,7 +235,6 @@ type MaybeDecoratored = {
 };
 
 type FieldBase = {
-  decorators?: string[];
   description?: string;
   nullable?: boolean;
 };
@@ -327,15 +331,11 @@ type Traits = {
 };
 
 export type TypeAtom =
-  | {
-      type: 'type';
-      name: RemoveNameField<Field> | string;
-    }
+  | RemoveNameField<Field> | string
   | {
       type: 'intersection';
     }
-  | { type: 'union' }
-  | { type: 'primitive'; subtype: PrimitiveSubtype };
+  | { type: 'union' };
 
 type Unique = {
   name: string;

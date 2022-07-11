@@ -92,24 +92,9 @@ export function createParser(config: Config = {}) {
     // This hack is here because we're re-writing field types soon with the introduction of
     // semantic types.
     FieldDeclaration(key, type) {
-      const typeExpr = type.toAst();
-      let pulledType = typeExpr[0].name;
-      if (typeExpr.length > 1) {
-        if (typeExpr[1].type !== 'union') {
-          throw new Error('Field types can only be unioned at this time');
-        }
-        if (typeExpr[0].name.subtype === 'null') {
-          pulledType = typeExpr[2].name;
-        } else if (typeExpr[2].name.subtype === 'null') {
-          pulledType = typeExpr[0].name;
-        } else {
-          throw new Error('Field types can only be a unioned with null at this time');
-        }
-        pulledType.nullable = true;
-      }
       return {
         name: key.toAst(),
-        ...pulledType,
+        type: type.toAst(),
       };
     },
     FieldType(type) {
@@ -296,10 +281,7 @@ export function createParser(config: Config = {}) {
         {
           type: 'union',
         },
-        {
-          type: 'type',
-          name: name.toAst(),
-        },
+        name.toAst(),
       ]);
     },
     TypeExpression_intersection(list, _intersection, name) {
@@ -307,19 +289,11 @@ export function createParser(config: Config = {}) {
         {
           type: 'intersection',
         },
-        {
-          type: 'type',
-          name: name.toAst(),
-        },
+        name.toAst(),
       ]);
     },
     TypeExpression_single(name) {
-      return [
-        {
-          type: 'type',
-          name: name.toAst(),
-        },
-      ];
+      return [name.toAst()];
     },
     ...extendedSemantics(config),
   });

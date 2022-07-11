@@ -25,12 +25,9 @@ test('All primitive field references can be used as inputs', async () => {
         (await genIt(compileFromString(schema)[1].nodes.Foo)).contents,
         algolTemplates,
       );
-
       expect(contents).toEqual(`/**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
- * \`END-MANUAL-SECTION\` markers.
  */
 import * as impls from "./FooMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
@@ -87,8 +84,6 @@ test('All primitive types can be used as custom inputs', async () => {
       expect(contents).toEqual(`/**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
- * \`END-MANUAL-SECTION\` markers.
  */
 import * as impls from "./FooMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
@@ -149,8 +144,6 @@ test('Node type names can be used as inputs', async () => {
         expect(contents).toEqual(`/**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated \`BEGIN-MANUAL-SECTION\` and
- * \`END-MANUAL-SECTION\` markers.
  */
 import * as impls from "./FooMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
@@ -191,7 +184,7 @@ export default class FooMutations {
   );
 });
 
-// test('ID imports', () => {});
+test('ID imports', () => {});
 
 async function genIt(schema: SchemaNode) {
   return await new GenTypescriptMutations({

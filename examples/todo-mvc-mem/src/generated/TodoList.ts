@@ -1,9 +1,7 @@
-// SIGNED-SOURCE: <7eb8895932236e9340d600e2613a9eda>
+// SIGNED-SOURCE: <da41ec58381f403991225469b4857585>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
 import { default as s } from "./TodoListSpec.js";
 import { P } from "@aphro/runtime-ts";

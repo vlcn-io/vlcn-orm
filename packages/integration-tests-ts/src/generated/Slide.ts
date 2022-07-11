@@ -1,9 +1,7 @@
-// SIGNED-SOURCE: <36b8a7b50770b47bd31856fd9c24cac0>
+// SIGNED-SOURCE: <35b6df889661bea6cad6febffddfd909>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
 import { default as s } from "./SlideSpec.js";
 import { P } from "@aphro/runtime-ts";

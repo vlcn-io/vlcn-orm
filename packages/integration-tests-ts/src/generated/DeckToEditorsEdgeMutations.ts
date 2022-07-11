@@ -1,9 +1,7 @@
-// SIGNED-SOURCE: <f9acc7c78af16eba14ec4b12b12c2b75>
+// SIGNED-SOURCE: <280f65c2b8f333da12183104b49ccaf1>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
 import * as impls from "./DeckToEditorsEdgeMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";

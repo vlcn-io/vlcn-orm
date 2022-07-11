@@ -1,11 +1,21 @@
 import { StorageEngine, StorageType } from '@aphro/schema-api';
 import { DBResolver, EngineToResolved, ResolvedDB } from './DBResolver.js';
 
-export const printResolver: DBResolver = spyResolver(function () {
+export const printResolver: DBResolver = spyResolver(function() {
   console.log(arguments);
 });
 
 export const noopResolver: DBResolver = spyResolver(() => {});
+
+export const noStorageResolver: DBResolver = {
+  engine(engine: StorageEngine) {
+    return {
+      db(db: string) {
+        return {} as any;
+      },
+    };
+  },
+};
 
 export function spyResolver(spy: (...args: any) => any): DBResolver {
   return {
@@ -43,7 +53,7 @@ export function basicResolver<X extends StorageEngine>(resolved: EngineToResolve
       return {
         db(db: string) {
           // TOOD: some sort of invariant to ensure E === X?
-          return resolved as unknown as EngineToResolved[E];
+          return (resolved as unknown) as EngineToResolved[E];
         },
       };
     },

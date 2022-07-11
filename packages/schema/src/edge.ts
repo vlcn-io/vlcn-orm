@@ -8,8 +8,10 @@ import {
   Field,
   SchemaEdge,
   StorageConfig,
+  FieldDeclaration,
 } from '@aphro/schema-api';
 import nodeFn from './node.js';
+import fieldFn from './field.js';
 
 const funcs = {
   queryTypeName(node: SchemaNode, edge: EdgeDeclaration | SchemaEdge): string {
@@ -33,13 +35,14 @@ const funcs = {
           // Going through some id on ourself to some other thing (or even back to ourself)
           const throughField = node.fields[column];
           // if we're going _through_ a field, it must be an ID field.
-          if (throughField.type !== 'id') {
+          const throughId = fieldFn.getOnlyId(throughField);
+          if (throughId == null) {
             throw new Error(
               `Cannot query through non-id field ${column} for edge ${edge.name} in node ${node.name}`,
             );
           }
 
-          return throughField.of + 'Query';
+          return throughId.of + 'Query';
         }
 
         // If we're here then we're through or to some other type that isn't our node type.
@@ -65,13 +68,14 @@ const funcs = {
     }
 
     const field = src.fields[column];
-    if (field.type != 'id') {
+    const throughId = fieldFn.getOnlyId(field);
+    if (throughId == null) {
       throw new Error(
         `Cannot query through non-id field ${column} for edge ${edge.name} in node ${src.name}`,
       );
     }
 
-    return field.of;
+    return throughId.of;
   },
 
   destModelSpecName(src: SchemaNode, edge: EdgeDeclaration | SchemaEdge): string {
@@ -139,7 +143,7 @@ const funcs = {
     return 'junction';
   },
 
-  outboundEdgeSourceField(src: SchemaNode, edge: EdgeDeclaration | SchemaEdge): Field {
+  outboundEdgeSourceField(src: SchemaNode, edge: EdgeDeclaration | SchemaEdge): FieldDeclaration {
     const type = funcs.outboundEdgeType(src, edge);
     switch (type) {
       case 'junction':
@@ -183,8 +187,9 @@ const funcs = {
 
   idField(node: SchemaNode, edge: EdgeDeclaration): ID {
     const field = node.fields[nullthrows(edge.throughOrTo.column)];
-    if (field.type === 'id') {
-      return field;
+    const idType = fieldFn.getOnlyId(field);
+    if (idType != null) {
+      return idType;
     }
 
     throw new Error(

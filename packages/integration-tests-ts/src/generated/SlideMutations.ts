@@ -1,9 +1,7 @@
-// SIGNED-SOURCE: <2b9f58e529eadc77febc3d69a24f83bd>
+// SIGNED-SOURCE: <46b33352feab8cd15a2b52a423c583c3>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
 import * as impls from "./SlideMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";

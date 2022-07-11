@@ -1,5 +1,5 @@
 import { Context, IModel, DeleteChangeset } from '@aphro/context-runtime-ts';
-import { StorageConfig } from '@aphro/schema-api';
+import { RemoveNameField, StorageConfig } from '@aphro/schema-api';
 import { assertUnreachable } from '@strut/utils';
 import memoryWriter from './memoryWriter.js';
 import sqlWriter from './sql/sqlWriter.js';
@@ -70,6 +70,6 @@ function createAwaitables(
   return writes;
 }
 
-function createKey(persistConfig: StorageConfig): string {
+function createKey(persistConfig: RemoveNameField<StorageConfig>): string {
   return persistConfig.engine + '-' + persistConfig.db + '-' + persistConfig.tablish;
 }

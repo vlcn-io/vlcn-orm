@@ -57,6 +57,7 @@
   - TypedPipe
 
 # Top:
+- Data loader integration for trivial n+1 resolution
 - Ordering of properties on reads and writes (values statement write the right cols, returned rows map to right json keys)
 - Migration error messages
 - @databases, postgres

@@ -10,7 +10,7 @@ import {
   Import,
   SchemaNode,
 } from '@aphro/schema-api';
-import { nodeFn, edgeFn, tsImport } from '@aphro/schema';
+import { nodeFn, edgeFn, tsImport, fieldFn } from '@aphro/schema';
 
 export default class GenTypescriptModel extends CodegenStep {
   static accepts(schema: SchemaNode | SchemaEdge): boolean {
@@ -76,22 +76,37 @@ export default class ${this.schema.name}
         ? tsImport('{NodeSpecWithCreate}', null, '@aphro/runtime-ts')
         : tsImport('{EdgeSpecWithCreate}', null, '@aphro/runtime-ts'),
       tsImport('{SID_of}', null, '@aphro/runtime-ts'),
-      tsImport(
-        nodeFn.queryTypeName(this.schema.name),
-        null,
-        `./${nodeFn.queryTypeName(this.schema.name)}.js`,
-      ),
+      ...(this.schema.storage.type !== 'ephemeral'
+        ? [
+            tsImport(
+              nodeFn.queryTypeName(this.schema.name),
+              null,
+              `./${nodeFn.queryTypeName(this.schema.name)}.js`,
+            ),
+          ]
+        : []),
       tsImport('{Context}', null, '@aphro/runtime-ts'),
       ...(this.schema.type === 'node' ? this.schema.extensions.module?.imports.values() || [] : []),
       ...this.getEdgeImports(),
       ...this.getIdFieldImports(),
+      ...this.getNestedTypeImports(),
     ].filter(i => i.name !== this.schema.name);
   }
 
   private getIdFieldImports(): Import[] {
-    const idFields = Object.values(this.schema.fields).filter(f => f.type === 'id') as ID[];
+    const idFields = Object.values(this.schema.fields)
+      .flatMap(f => f.type)
+      .filter((f): f is ID => typeof f !== 'string' && f.type === 'id');
 
     return idFields.map(f => tsImport(f.of, null, './' + f.of + '.js'));
+  }
+
+  private getNestedTypeImports(): Import[] {
+    const typeFields = Object.values(this.schema.fields)
+      .flatMap(f => f.type)
+      .filter((f): f is string => typeof f === 'string');
+
+    return typeFields.map(f => tsImport(f, null, './' + f + '.js'));
   }
 
   private getEdgeImports(): Import[] {
@@ -179,7 +194,7 @@ export default class ${this.schema.name}
           if (
             column != null &&
             edge.throughOrTo.type === this.schema.name &&
-            this.schema.fields[column].nullable
+            fieldFn.isNullable(this.schema.fields[column])
           ) {
             emptyReturnCondition = `if (this.${column} == null) {
               return ${edgeFn.queryTypeName(schema, edge)}.empty(this.ctx);
@@ -251,13 +266,16 @@ export default class ${this.schema.name}
   }
 
   private getQueryAllMethodCode(): string {
+    if (this.schema.storage.type === 'ephemeral') {
+      return '';
+    }
     return `static queryAll(ctx: Context): ${nodeFn.queryTypeName(this.schema.name)} {
       return ${nodeFn.queryTypeName(this.schema.name)}.create(ctx);
     }`;
   }
 
   private getGenMethodCode(): string {
-    if (this.schema.type === 'standaloneEdge') {
+    if (this.schema.type === 'standaloneEdge' || this.schema.storage.type === 'ephemeral') {
       return '';
     }
     return `static async gen(ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name} | null> {
@@ -270,7 +288,7 @@ export default class ${this.schema.name}
   }
 
   private getGenxMethodCode(): string {
-    if (this.schema.type === 'standaloneEdge') {
+    if (this.schema.type === 'standaloneEdge' || this.schema.storage.type === 'ephemeral') {
       return '';
     }
     return `static async genx(ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name}> {

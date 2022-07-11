@@ -18,25 +18,10 @@ function collectImportsForArgs(
   return fullArgsDefs.flatMap(a =>
     a.typeDef
       .flatMap(td => {
-        if (td.type === 'type') {
-          if (typeof td.name === 'string' && td.name !== 'null') {
-            return [
-              tsImport(td.name, null, `./${td.name}.js`),
-              tsImport('{Data}', td.name + 'Data', `./${td.name}.js`),
-            ];
-          } else if (typeof td.name !== 'string') {
-            if (td.name == null) {
-              throw new Error(
-                `Bad arg type def received from ${schema.name} ${JSON.stringify(td)}`,
-              );
-            }
-            if (td.name.type === 'id') {
-              return [tsImport(td.name.of, null, `./${td.name.of}.js`)];
-            }
-            // else if (td.name.type === 'array') {
-            // } else if (td.name.type === 'map') {
-            // }
-          }
+        if (typeof td === 'string') {
+          return [tsImport(td, null, `./${td}.js`), tsImport('{Data}', td + 'Data', `./${td}.js`)];
+        } else if (td.type === 'id') {
+          return [tsImport(td.of, null, `./${td.of}.js`)];
         }
       })
       .filter((td): td is Import => td != null),

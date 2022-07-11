@@ -1,9 +1,7 @@
-// SIGNED-SOURCE: <8a688d4f3dce3071a22b764b41ca2c84>
+// SIGNED-SOURCE: <54cc13029e7eb0eb50ca7a53b84aeca5>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
 import { default as s } from "./DeckToEditorsEdgeSpec.js";
 import { P } from "@aphro/runtime-ts";

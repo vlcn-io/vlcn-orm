@@ -1,4 +1,4 @@
-import { Enum, Field, ID, Import, SchemaNode } from '@aphro/schema-api';
+import { Enum, Field, FieldDeclaration, ID, Import, SchemaNode } from '@aphro/schema-api';
 
 const inboundEdges = {
   isForeignKeyEdge() {},
@@ -48,7 +48,7 @@ export default {
     typeConfig.decorators?.push(decoration);
   },
 
-  primaryKey(node: SchemaNode): Field {
+  primaryKey(node: SchemaNode): FieldDeclaration {
     // TODO: support different primary key fields at some point
     return node.fields.id;
   },
@@ -61,6 +61,8 @@ export default {
   },
 
   inlineEnums(node: SchemaNode): Enum[] {
-    return Object.values(node.fields).filter((f): f is Enum => f.type === 'enumeration');
+    return Object.values(node.fields)
+      .flatMap(f => f.type)
+      .filter((f): f is Enum => typeof f !== 'string' && f.type === 'enumeration');
   },
 };

@@ -90,6 +90,7 @@ const grammarDefinition = String.raw`
     | "uint64"
     | "string"
     | "null"
+    | "any"
   
   ArrayField
   	= "Array" "<" FieldType ">"

@@ -1,24 +1,22 @@
-// SIGNED-SOURCE: <2b9f58e529eadc77febc3d69a24f83bd>
+// SIGNED-SOURCE: <46b33352feab8cd15a2b52a423c583c3>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
-import * as impls from './SlideMutationsImpl.js';
-import { ICreateOrUpdateBuilder } from '@aphro/runtime-ts';
-import { Context } from '@aphro/runtime-ts';
-import { MutationsBase } from '@aphro/runtime-ts';
-import Slide from './Slide.js';
-import { default as spec } from './SlideSpec.js';
-import { Data } from './Slide.js';
-import { UpdateMutationBuilder } from '@aphro/runtime-ts';
-import { CreateMutationBuilder } from '@aphro/runtime-ts';
-import { DeleteMutationBuilder } from '@aphro/runtime-ts';
-import { SID_of } from '@aphro/runtime-ts';
-import { Changeset } from '@aphro/runtime-ts';
-import Deck from './Deck.js';
-import { Data as DeckData } from './Deck.js';
+import * as impls from "./SlideMutationsImpl.js";
+import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
+import { Context } from "@aphro/runtime-ts";
+import { MutationsBase } from "@aphro/runtime-ts";
+import Slide from "./Slide.js";
+import { default as spec } from "./SlideSpec.js";
+import { Data } from "./Slide.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { SID_of } from "@aphro/runtime-ts";
+import { Changeset } from "@aphro/runtime-ts";
+import Deck from "./Deck.js";
+import { Data as DeckData } from "./Deck.js";
 
 export type CreateArgs = {
   deck: Deck | Changeset<Deck, DeckData>;
@@ -57,9 +55,15 @@ export default class SlideMutations {
     return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
   }
   static reorder(model: Slide, args: ReorderArgs): Mutations {
-    return new Mutations(model.ctx, new UpdateMutationBuilder(spec, model)).reorder(args);
+    return new Mutations(
+      model.ctx,
+      new UpdateMutationBuilder(spec, model)
+    ).reorder(args);
   }
   static delete(model: Slide, args: DeleteArgs): Mutations {
-    return new Mutations(model.ctx, new DeleteMutationBuilder(spec, model)).delete(args);
+    return new Mutations(
+      model.ctx,
+      new DeleteMutationBuilder(spec, model)
+    ).delete(args);
   }
 }

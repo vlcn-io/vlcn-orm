@@ -72,28 +72,48 @@ export const ast: SchemaFileAst = {
       name: 'Person',
       fields: [
         {
-          type: 'id',
           name: 'id',
-          of: 'Person',
+          type: [
+            {
+              type: 'id',
+              of: 'Person',
+            },
+          ],
         },
         {
           name: 'name',
-          type: 'naturalLanguage',
+          type: [
+            {
+              type: 'naturalLanguage',
+            },
+          ],
         },
         {
           name: 'walletId',
-          type: 'id',
-          of: 'Wallet',
+          type: [
+            {
+              type: 'id',
+              of: 'Wallet',
+            },
+          ],
         },
         {
           name: 'thing1',
-          type: 'primitive',
-          subtype: 'string',
+          type: [
+            {
+              type: 'primitive',
+              subtype: 'string',
+            },
+          ],
         },
         {
           name: 'thing2',
-          type: 'primitive',
-          subtype: 'string',
+          type: [
+            {
+              type: 'primitive',
+              subtype: 'string',
+            },
+          ],
         },
       ],
       extensions: [
@@ -181,8 +201,12 @@ export const ast: SchemaFileAst = {
       name: 'FollowEdge',
       fields: [
         {
-          type: 'timestamp',
           name: 'when',
+          type: [
+            {
+              type: 'timestamp',
+            },
+          ],
         },
       ],
       extensions: [
@@ -199,22 +223,33 @@ export const ast: SchemaFileAst = {
       fields: [
         {
           name: 'id',
-          type: 'id',
-          of: 'Wallet',
+          type: [
+            {
+              type: 'id',
+              of: 'Wallet',
+            },
+          ],
         },
         {
           name: 'balance',
-          type: 'primitive',
-          subtype: 'float32',
+          type: [{ type: 'primitive', subtype: 'float32' }],
         },
         {
           name: 'status',
-          type: 'enumeration',
-          keys: ['Active', 'Locked'],
+          type: [
+            {
+              type: 'enumeration',
+              keys: ['Active', 'Locked'],
+            },
+          ],
         },
         {
           name: 'alias',
-          type: 'naturalLanguage',
+          type: [
+            {
+              type: 'naturalLanguage',
+            },
+          ],
         },
       ],
       extensions: [],
@@ -226,51 +261,67 @@ export const ast: SchemaFileAst = {
       fields: [
         {
           name: 'id',
-          type: 'id',
-          of: 'Transaction',
+          type: [
+            {
+              type: 'id',
+              of: 'Transaction',
+            },
+          ],
         },
         {
           name: 'time',
-          type: 'timestamp',
+          type: [{ type: 'timestamp' }],
         },
         {
           name: 'blob',
-          type: 'map',
-          keys: {
-            type: 'primitive',
-            subtype: 'string',
-          },
-          values: {
-            type: 'primitive',
-            subtype: 'string',
-          },
+          type: [
+            {
+              type: 'map',
+              keys: {
+                type: 'primitive',
+                subtype: 'string',
+              },
+              values: {
+                type: 'primitive',
+                subtype: 'string',
+              },
+            },
+          ],
         },
         {
           name: 'blobOfBlob',
-          type: 'map',
-          keys: {
-            type: 'primitive',
-            subtype: 'string',
-          },
-          values: {
-            type: 'map',
-            keys: {
-              type: 'primitive',
-              subtype: 'string',
+          type: [
+            {
+              type: 'map',
+              keys: {
+                type: 'primitive',
+                subtype: 'string',
+              },
+              values: {
+                type: 'map',
+                keys: {
+                  type: 'primitive',
+                  subtype: 'string',
+                },
+                values: {
+                  type: 'primitive',
+                  subtype: 'string',
+                },
+              },
             },
-            values: {
-              type: 'primitive',
-              subtype: 'string',
-            },
-          },
+          ],
         },
         {
           name: 'list',
-          type: 'array',
-          values: {
-            type: 'primitive',
-            subtype: 'string',
-          },
+          type: [
+            {
+              type: 'array',
+              values: {
+                type: 'primitive',
+                subtype: 'string',
+              },
+            },
+          ],
         },
       ],
       extensions: [],
@@ -282,9 +333,19 @@ export const ast: SchemaFileAst = {
       fields: [
         {
           name: 'optional',
-          type: 'primitive',
-          subtype: 'string',
-          nullable: true,
+          type: [
+            {
+              type: 'primitive',
+              subtype: 'string',
+            },
+            {
+              type: 'union',
+            },
+            {
+              type: 'primitive',
+              subtype: 'null',
+            },
+          ],
         },
       ],
       extensions: [],
@@ -296,8 +357,12 @@ export const ast: SchemaFileAst = {
       fields: [
         {
           name: 'wig',
-          type: 'primitive',
-          subtype: 'string',
+          type: [
+            {
+              type: 'primitive',
+              subtype: 'string',
+            },
+          ],
         },
       ],
       extensions: [],
@@ -307,34 +372,59 @@ export const ast: SchemaFileAst = {
 
 export const schemaFile: SchemaFile = {
   nodes: {
+    Fig: {
+      extensions: {},
+      fields: {
+        wig: {
+          name: 'wig',
+          type: [
+            {
+              subtype: 'string',
+              type: 'primitive',
+            },
+          ],
+        },
+      },
+      name: 'Fig',
+      primaryKey: 'id',
+      storage: {
+        db: '--',
+        engine: 'ephemeral',
+        name: 'storage',
+        tablish: 'ephemeral',
+        type: 'ephemeral',
+      },
+      type: 'node',
+    },
     Person: {
       type: 'node',
       name: 'Person',
       primaryKey: 'id',
       fields: {
         id: {
-          type: 'id',
           name: 'id',
-          of: 'Person',
+          type: [
+            {
+              type: 'id',
+              of: 'Person',
+            },
+          ],
         },
         name: {
           name: 'name',
-          type: 'naturalLanguage',
+          type: [{ type: 'naturalLanguage' }],
         },
         walletId: {
           name: 'walletId',
-          type: 'id',
-          of: 'Wallet',
+          type: [{ type: 'id', of: 'Wallet' }],
         },
         thing1: {
           name: 'thing1',
-          type: 'primitive',
-          subtype: 'string',
+          type: [{ type: 'primitive', subtype: 'string' }],
         },
         thing2: {
           name: 'thing2',
-          type: 'primitive',
-          subtype: 'string',
+          type: [{ type: 'primitive', subtype: 'string' }],
         },
       },
       extensions: {
@@ -425,22 +515,19 @@ export const schemaFile: SchemaFile = {
       fields: {
         id: {
           name: 'id',
-          type: 'id',
-          of: 'Wallet',
+          type: [{ type: 'id', of: 'Wallet' }],
         },
         balance: {
           name: 'balance',
-          type: 'primitive',
-          subtype: 'float32',
+          type: [{ type: 'primitive', subtype: 'float32' }],
         },
         status: {
           name: 'status',
-          type: 'enumeration',
-          keys: ['Active', 'Locked'],
+          type: [{ type: 'enumeration', keys: ['Active', 'Locked'] }],
         },
         alias: {
           name: 'alias',
-          type: 'naturalLanguage',
+          type: [{ type: 'naturalLanguage' }],
         },
       },
       extensions: {},
@@ -459,51 +546,62 @@ export const schemaFile: SchemaFile = {
       fields: {
         id: {
           name: 'id',
-          type: 'id',
-          of: 'Transaction',
+          type: [{ type: 'id', of: 'Transaction' }],
         },
         time: {
           name: 'time',
-          type: 'timestamp',
+          type: [{ type: 'timestamp' }],
         },
         blob: {
           name: 'blob',
-          type: 'map',
-          keys: {
-            type: 'primitive',
-            subtype: 'string',
-          },
-          values: {
-            type: 'primitive',
-            subtype: 'string',
-          },
+          type: [
+            {
+              type: 'map',
+              keys: {
+                type: 'primitive',
+                subtype: 'string',
+              },
+              values: {
+                type: 'primitive',
+                subtype: 'string',
+              },
+            },
+          ],
         },
         blobOfBlob: {
           name: 'blobOfBlob',
-          type: 'map',
-          keys: {
-            type: 'primitive',
-            subtype: 'string',
-          },
-          values: {
-            type: 'map',
-            keys: {
-              type: 'primitive',
-              subtype: 'string',
+          type: [
+            {
+              type: 'map',
+              keys: {
+                type: 'primitive',
+                subtype: 'string',
+              },
+              values: {
+                type: 'map',
+                keys: {
+                  type: 'primitive',
+                  subtype: 'string',
+                },
+                values: {
+                  type: 'primitive',
+                  subtype: 'string',
+                },
+              },
             },
-            values: {
-              type: 'primitive',
-              subtype: 'string',
-            },
-          },
+          ],
         },
         list: {
           name: 'list',
-          type: 'array',
-          values: {
-            type: 'primitive',
-            subtype: 'string',
-          },
+          type: [
+            {
+              type: 'array',
+              values: {
+                type: 'primitive',
+                subtype: 'string',
+              },
+            },
+          ],
         },
       },
       extensions: {},
@@ -522,9 +620,11 @@ export const schemaFile: SchemaFile = {
       fields: {
         optional: {
           name: 'optional',
-          nullable: true,
-          subtype: 'string',
-          type: 'primitive',
+          type: [
+            { subtype: 'string', type: 'primitive' },
+            { type: 'union' },
+            { type: 'primitive', subtype: 'null' },
+          ],
         },
       },
       extensions: {},
@@ -549,8 +649,8 @@ export const schemaFile: SchemaFile = {
       },
       fields: {
         when: {
-          type: 'timestamp',
           name: 'when',
+          type: [{ type: 'timestamp' }],
         },
       },
       extensions: {
