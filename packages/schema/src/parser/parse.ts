@@ -32,8 +32,11 @@ export function createParser(config: Config = {}) {
     PropertyList_empty(_) {
       return [];
     },
-    Property(key, name) {
+    Property_primitive(key, name) {
       return [{ key: key.toAst(), name: name.toAst() }];
+    },
+    Property_complex(key, _, list, __) {
+      return [{ key: key.toAst(), value: list.toAst() }];
     },
     propertyKey(key, _colon) {
       return key.toAst();
