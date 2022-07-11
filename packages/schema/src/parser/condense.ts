@@ -16,6 +16,7 @@ import {
   NodeAstCommon,
   ValidationError,
   EdgeAstExtension,
+  StorageConfig,
 } from '@aphro/schema-api';
 import { assertUnreachable } from '@strut/utils';
 
@@ -124,6 +125,8 @@ export default function condense(
       nodeExtensionCondensor,
     );
 
+    const storageExtension = (extensions.storage as undefined | StorageConfig) || {};
+
     return [
       [...fieldErrors, ...extensionErrors],
       {
@@ -133,9 +136,12 @@ export default function condense(
         fields,
         extensions: extensions as SchemaNode['extensions'],
         storage: {
-          ...preamble,
+          name: 'storage',
+          db: preamble.db,
+          engine: preamble.engine,
           type: engineToType(preamble.engine),
           tablish: (extensions.storage as any)?.tablish || node.name.toLocaleLowerCase(),
+          ...storageExtension,
         },
       },
     ];
@@ -162,6 +168,7 @@ export default function condense(
         fields,
         extensions,
         storage: {
+          name: 'storage',
           type: engineToType(preamble.engine),
           engine: preamble.engine,
           db: preamble.db,

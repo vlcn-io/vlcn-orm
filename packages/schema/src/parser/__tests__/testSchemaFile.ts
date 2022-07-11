@@ -3,6 +3,10 @@ import { InboundEdgesAst, SchemaFile, SchemaFileAst } from '@aphro/schema-api';
 export const contents = `
 engine: sqlite
 db: test
+complex: {
+  a: b
+  c: d
+}
 
 Person as Node {
   id: ID<Person>
@@ -52,6 +56,10 @@ export const ast: SchemaFileAst = {
   preamble: {
     engine: 'sqlite',
     db: 'test',
+    complex: {
+      a: 'b',
+      c: 'd',
+    },
   },
   entities: [
     {
@@ -382,6 +390,7 @@ export const schemaFile: SchemaFile = {
         },
       },
       storage: {
+        name: 'storage',
         type: 'sql',
         engine: 'sqlite',
         db: 'test',
@@ -415,6 +424,7 @@ export const schemaFile: SchemaFile = {
       },
       extensions: {},
       storage: {
+        name: 'storage',
         type: 'sql',
         engine: 'sqlite',
         db: 'test',
@@ -477,6 +487,7 @@ export const schemaFile: SchemaFile = {
       },
       extensions: {},
       storage: {
+        name: 'storage',
         type: 'sql',
         engine: 'sqlite',
         db: 'test',
@@ -497,6 +508,7 @@ export const schemaFile: SchemaFile = {
       },
       extensions: {},
       storage: {
+        name: 'storage',
         type: 'sql',
         engine: 'sqlite',
         db: 'test',
@@ -527,6 +539,7 @@ export const schemaFile: SchemaFile = {
         },
       },
       storage: {
+        name: 'storage',
         type: 'sql',
         engine: 'sqlite',
         db: 'test',

@@ -19,7 +19,7 @@ export function createParser(config: Config = {}) {
     Main(preamble, entities) {
       return {
         preamble: preamble.toAst().reduce((l, r) => {
-          l[r.key] = r.name;
+          l[r.key] = r.value;
           return l;
         }, {}),
         entities: entities.toAst(),
@@ -33,10 +33,14 @@ export function createParser(config: Config = {}) {
       return [];
     },
     Property_primitive(key, name) {
-      return [{ key: key.toAst(), name: name.toAst() }];
+      return [{ key: key.toAst(), value: name.toAst() }];
     },
     Property_complex(key, _, list, __) {
-      return [{ key: key.toAst(), value: list.toAst() }];
+      const value = list.toAst().reduce((l, r) => {
+        l[r.key] = r.value;
+        return l;
+      }, {});
+      return [{ key: key.toAst(), value }];
     },
     propertyKey(key, _colon) {
       return key.toAst();

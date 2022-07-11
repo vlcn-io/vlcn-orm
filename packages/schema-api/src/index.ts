@@ -18,7 +18,7 @@ export type SchemaFileAst = {
   preamble: {
     engine: StorageEngine;
     db: string;
-    [key: string]: string; // other engine-specific values
+    [key: string]: Object | string; // other engine-specific values
   };
   entities: (NodeAst | EdgeAst | NodeTraitAst)[];
 };
@@ -36,7 +36,7 @@ export interface NodeExtensions {
   outboundEdges?: OutboundEdges;
   inboundEdges?: InboundEdges;
   index?: Index;
-  storage?: Storage;
+  storage?: StorageConfig;
   type?: TypeConfig;
   module?: ModuleConfig;
   traits?: Traits;
@@ -46,7 +46,7 @@ export interface NodeAstExtensions {
   outboundEdges: OutboundEdgesAst;
   inboundEdges: InboundEdgesAst;
   index: Index;
-  storage: Storage;
+  storage: StorageConfig;
   traits: Traits;
 }
 
@@ -111,6 +111,7 @@ export type Import = {
 };
 
 export type StorageConfig = {
+  name: 'storage';
   type: StorageType;
   db: string;
   tablish: string;
@@ -164,12 +165,12 @@ export interface EdgeExtensions {
   index?: Index;
   invert?: Invert;
   constrain?: Constrain;
-  storage?: Storage;
+  storage?: StorageConfig;
 }
 export interface EdgeAstExtensions {
   index: Index;
   invert: Invert;
-  storage: Storage;
+  storage: StorageConfig;
   constraint: Constrain;
 }
 
@@ -322,14 +323,6 @@ export type TypeAtom =
     }
   | { type: 'union' }
   | { type: 'primitive'; subtype: PrimitiveSubtype };
-
-type Storage = {
-  name: 'storage';
-  type?: StorageType;
-  engine: StorageEngine;
-  db?: string;
-  table?: string;
-};
 
 type Unique = {
   name: string;
