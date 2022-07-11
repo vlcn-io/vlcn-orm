@@ -7,6 +7,8 @@ export type EngineToResolved = {
   sqlite: SQLResolvedDB;
   postgres: SQLResolvedDB;
   memory: MemoryResolvedDB;
+  // ephermal models should never hit the resolver
+  ephemeral: ThrowsDB;
 };
 
 export interface DBResolver {
@@ -50,5 +52,10 @@ export type MemoryQuery = MemoryReadQuery | MemoryWriteQuery;
 
 export type MemoryResolvedDB = {
   query(q: MemoryQuery): Promise<any[]>;
+  dispose(): void;
+};
+
+export type ThrowsDB = {
+  query(q: any): Promise<any>;
   dispose(): void;
 };

@@ -42,6 +42,8 @@ const factory = {
         return SQLHopQuery.create(ctx, priorQuery, edge);
       case 'memory':
         return MemoryHopQuery.create(ctx, priorQuery, edge);
+      case 'ephemeral':
+        throw new Error(`Hops for ${type} are not implemented yet`);
     }
     assertUnreachable(type);
   },

@@ -30,8 +30,10 @@ export default class GenSqlTableSchema extends CodegenStep {
         str = this.getPostgresString();
         break;
       case 'memory':
+      case 'ephemeral':
         throw new Error(
-          'Memory only storage does not and should not try to generate SQL table schemas for model ' +
+          engine +
+            ' storage does not and should not try to generate SQL table schemas for model ' +
             this.schema.name,
         );
       default:

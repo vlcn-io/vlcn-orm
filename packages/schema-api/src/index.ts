@@ -11,8 +11,10 @@ export type ValidationError = {
     | 'duplicate-traits';
 };
 
-export type StorageEngine = 'sqlite' | 'postgres' | 'memory';
-export type StorageType = 'sql' | 'memory';
+// "memory" nodes get stored into an in-memory DB and never cleared until they are deleted.
+// "ephemeral" nodes are in-memory only as well but not stored anywhere.
+export type StorageEngine = 'sqlite' | 'postgres' | 'memory' | 'ephemeral';
+export type StorageType = 'sql' | 'memory' | 'ephemeral';
 
 export type SchemaFileAst = {
   preamble: {
@@ -37,6 +39,7 @@ export interface NodeExtensions {
   inboundEdges?: InboundEdges;
   index?: Index;
   storage?: StorageConfig;
+  replication?: ReplicationConfig;
   type?: TypeConfig;
   module?: ModuleConfig;
   traits?: Traits;
@@ -47,6 +50,7 @@ export interface NodeAstExtensions {
   inboundEdges: InboundEdgesAst;
   index: Index;
   storage: StorageConfig;
+  replication: ReplicationConfig;
   traits: Traits;
 }
 
@@ -119,6 +123,12 @@ export type StorageConfig = {
   [key: string]: string; // engine specific extras
 }; // | { type: "opencypher" } ...;
 
+export type ReplicationConfig = {
+  name: 'replication';
+  replicated: boolean;
+  // other replication settings
+};
+
 export type SchemaEdge = {
   type: 'standaloneEdge';
   name: EdgeAst['name'];
@@ -166,12 +176,14 @@ export interface EdgeExtensions {
   invert?: Invert;
   constrain?: Constrain;
   storage?: StorageConfig;
+  replication?: ReplicationConfig;
 }
 export interface EdgeAstExtensions {
   index: Index;
   invert: Invert;
   storage: StorageConfig;
   constraint: Constrain;
+  replication: ReplicationConfig;
 }
 
 export type EdgeAstExtension = EdgeAstExtensions[keyof EdgeAstExtensions];

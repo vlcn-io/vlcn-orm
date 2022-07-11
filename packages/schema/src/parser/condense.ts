@@ -294,6 +294,8 @@ function engineToType(engine: StorageEngine): StorageType {
       return 'sql';
     case 'memory':
       return 'memory';
+    case 'ephemeral':
+      return 'ephemeral';
   }
 }
 

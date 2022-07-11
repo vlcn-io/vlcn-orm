@@ -20,7 +20,7 @@ export default {
     await Promise.all(
       createAwaitables(
         ctx,
-        (function* () {
+        (function*() {
           for (const cs of deletes) {
             yield cs.model;
           }
@@ -58,6 +58,9 @@ function createAwaitables(
         break;
       case 'memory':
         writes.push(memoryOp(ctx, group));
+        break;
+      case 'ephemeral':
+        throw new Error(`${type} should not write to any storage layers`);
         break;
       default:
         assertUnreachable(type);
