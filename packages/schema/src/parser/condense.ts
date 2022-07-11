@@ -115,7 +115,7 @@ export default function condense(
   }
 
   function condenseNode(
-    node: NodeAstCommon,
+    node: NodeAst | NodeTraitAst,
     preamble: SchemaFileAst['preamble'],
   ): [ValidationError[], SchemaNode] {
     const [fieldErrors, fields] = condenseFieldsFor('Node', node);
@@ -125,7 +125,16 @@ export default function condense(
       nodeExtensionCondensor,
     );
 
-    const storageExtension = (extensions.storage as undefined | StorageConfig) || {};
+    let storageExtension = (extensions.storage as undefined | StorageConfig) || {};
+    if (node.type === 'node' && node.as === 'UnmanagedNode') {
+      storageExtension = {
+        name: 'storage',
+        db: '--',
+        engine: 'ephemeral',
+        type: 'ephemeral',
+        tablish: 'ephemeral',
+      };
+    }
 
     return [
       [...fieldErrors, ...extensionErrors],

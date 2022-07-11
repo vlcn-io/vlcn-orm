@@ -159,6 +159,7 @@ export type NodeExtension = SchemaNode['extensions'][keyof SchemaNode['extension
 
 export type NodeAst = {
   type: 'node';
+  as: 'Node' | 'UnmanagedNode'
 } & NodeAstCommon;
 
 export type NodeTraitAst = {

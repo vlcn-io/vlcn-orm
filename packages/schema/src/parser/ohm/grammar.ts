@@ -28,7 +28,7 @@ const grammarDefinition = String.raw`
     | "" -- empty
   
   Node
-  	= name "as" ("Node" | "UnreplicatedEphemeralNode" | "UnreplicatedNode" | "EphemeralNode") NodeFields NodeFunctions
+  	= name "as" ("Node" | "UnmanagedNode") NodeFields NodeFunctions
   
   Edge
   	= name "as" "Edge" "<" name "," name ">" NodeFields EdgeFunctions

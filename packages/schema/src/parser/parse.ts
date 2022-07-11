@@ -52,9 +52,10 @@ export function createParser(config: Config = {}) {
     Entities_edge: list,
     Entities_trait: list,
     Entities_empty: listInit,
-    Node(name, _as, _node, fields, functions) {
+    Node(name, _as, shorthand, fields, functions) {
       return {
         type: 'node',
+        as: shorthand.sourceString,
         name: name.toAst(),
         fields: fields.toAst(),
         extensions: functions.toAst(),

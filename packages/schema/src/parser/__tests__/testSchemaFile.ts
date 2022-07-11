@@ -50,6 +50,10 @@ Transaction as Node {
 Pig as Node {
   optional: string | null
 }
+
+Fig as UnmanagedNode {
+  wig: string
+}
 `;
 
 export const ast: SchemaFileAst = {
@@ -64,6 +68,7 @@ export const ast: SchemaFileAst = {
   entities: [
     {
       type: 'node',
+      as: 'Node',
       name: 'Person',
       fields: [
         {
@@ -189,6 +194,7 @@ export const ast: SchemaFileAst = {
     },
     {
       type: 'node',
+      as: 'Node',
       name: 'Wallet',
       fields: [
         {
@@ -215,6 +221,7 @@ export const ast: SchemaFileAst = {
     },
     {
       type: 'node',
+      as: 'Node',
       name: 'Transaction',
       fields: [
         {
@@ -270,6 +277,7 @@ export const ast: SchemaFileAst = {
     },
     {
       type: 'node',
+      as: 'Node',
       name: 'Pig',
       fields: [
         {
@@ -277,6 +285,19 @@ export const ast: SchemaFileAst = {
           type: 'primitive',
           subtype: 'string',
           nullable: true,
+        },
+      ],
+      extensions: [],
+    },
+    {
+      type: 'node',
+      as: 'UnmanagedNode',
+      name: 'Fig',
+      fields: [
+        {
+          name: 'wig',
+          type: 'primitive',
+          subtype: 'string',
         },
       ],
       extensions: [],
