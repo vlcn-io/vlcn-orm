@@ -1,79 +1,89 @@
-import { Enum, Field, SchemaNode, RemoveNameField } from '@aphro/schema-api';
+import {
+  Enum,
+  Field,
+  SchemaNode,
+  RemoveNameField,
+  FieldDeclaration,
+  TypeAtom,
+} from '@aphro/schema-api';
 import { assertUnreachable } from '@strut/utils';
 import { inlineEnumName } from './inlineEnumName.js';
 
 // TODO: Aphrodite must enable computational & storage types + semantic types.
 // Do we really want to get into the semantic type game given people will have different understandings
 // of the semantics? Can people bring their own semantics? Akin to JsonSchema?
-export function fieldTypeToGraphQLType(n: SchemaNode, f: RemoveNameField<Field>): string {
-  const type = f.type;
+export function fieldTypeToGraphQLType(
+  n: SchemaNode,
+  f: RemoveNameField<FieldDeclaration>,
+): string {
+  const type = f.type.filter(t => t !== 'null');
+  const nullable = type.length !== f.type.length;
+
+  return type.map(a => atomToGraphQLType(n, f, a) + (!nullable ? '!' : '')).join(' ');
+}
+
+function atomToGraphQLType(
+  n: SchemaNode,
+  f: RemoveNameField<FieldDeclaration>,
+  type: TypeAtom,
+): string {
   let ret: string;
-  switch (type) {
+  if (typeof type === 'string') {
+    return type;
+  }
+  const kind = type.type;
+  switch (kind) {
     case 'array':
-      ret = `[${fieldTypeToGraphQLType(n, f.values)}]`;
-      break;
+      return `[${atomToGraphQLType(n, f, type.values)}]`;
     case 'enumeration':
       // TODO o boi... enums inline in array will break all the things.
-      ret = inlineEnumName(n, f as Enum);
-      break;
+      return inlineEnumName(n, type as Enum);
     case 'id':
-      ret = 'ID';
-      break;
+      return 'ID';
     case 'map':
       throw new Error(
-        `Map can not yet be exposed to GraphQL for field ${(f as Field).name} of node ${n.name}`,
+        `Map can not yet be exposed to GraphQL for field ${(f as FieldDeclaration).name} of node ${
+          n.name
+        }`,
       );
     case 'naturalLanguage':
-      ret = 'String';
-      break;
+      return 'String';
     case 'timestamp':
       // given GraphQL ints are short
-      ret = 'String';
-      break;
+      return 'String';
     case 'primitive':
-      switch (f.subtype) {
+      switch (type.subtype) {
         case 'bool':
-          ret = 'Boolean';
-          break;
+          return 'Boolean';
         case 'float32':
         case 'float64':
-          ret = 'Float';
-          break;
+          return 'Float';
         case 'int32':
-          ret = 'Int';
-          break;
+          return 'Int';
         case 'int64':
-          ret = 'String';
-          break;
+          return 'String';
         case 'null':
           throw new Error(
-            `Cannot represent only null in GraphQL for field ${(f as Field).name} of node ${
-              n.name
-            }`,
+            `Cannot represent only null in GraphQL for field ${
+              (f as FieldDeclaration).name
+            } of node ${n.name}`,
           );
         case 'string':
-          ret = 'String';
-          break;
+          return 'String';
         case 'uint32':
-          ret = 'Int';
-          break;
+          return 'Int';
         case 'uint64':
-          ret = 'String';
-          break;
+          return 'String';
         case 'any':
-          ret = 'String';
-          break;
+          return 'String';
         default:
-          assertUnreachable(f.subtype);
+          assertUnreachable(type.subtype);
       }
-      break;
+    case 'union':
+      return '|';
+    case 'intersection':
+      return '&';
     default:
-      assertUnreachable(type);
+      assertUnreachable(kind);
   }
-
-  if (!f.nullable) {
-    ret = ret + '!';
-  }
-
-  return ret;
 }

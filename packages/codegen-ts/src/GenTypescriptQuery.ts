@@ -9,6 +9,7 @@ import {
   ID,
   Import,
   SchemaEdge,
+  FieldDeclaration,
 } from '@aphro/schema-api';
 import { nodeFn, edgeFn, tsImport } from '@aphro/schema';
 import { importsToString } from './tsUtils.js';
@@ -122,7 +123,7 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
     return ret.join('\n');
   }
 
-  private getFilterMethodBody(field: Field): string {
+  private getFilterMethodBody(field: FieldDeclaration): string {
     return `return this.derive(
       filter(
         new ModelFieldGetter<"${field.name}", Data, ${this.schema.name}>("${field.name}"),
@@ -143,7 +144,7 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
     return ret.join('\n');
   }
 
-  private getOrderByMethodBody(field: Field): string {
+  private getOrderByMethodBody(field: FieldDeclaration): string {
     return `return this.derive(
       orderBy(
         new ModelFieldGetter<"${field.name}", Data, ${this.schema.name}>("${field.name}"),
@@ -181,12 +182,17 @@ static fromId(ctx: Context, id: SID_of<${this.schema.name}>) {
     const column = nullthrows(edge.throughOrTo.column);
     const field = this.schema.fields[column];
 
-    if (field.type !== 'id') {
+    const idParts = field.type.filter((f): f is ID => typeof f !== 'string' && f.type === 'id');
+    if (idParts.length === 0) {
       throw new Error('fields edges must refer to id fields');
+    } else if (idParts.length > 1) {
+      throw new Error(
+        `unioning of ids for edges is not yet supported. Processing field ${field.name}`,
+      );
     }
 
     return `
-static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${field.of}>) {
+static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${idParts[0].of}>) {
   return this.create(ctx).where${upcaseAt(field.name, 0)}(P.equals(id));
 }
 `;
@@ -224,8 +230,9 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${field.of}>) {
   }
 
   private getIdFieldImports(): Import[] {
-    // TODO: fix all these cases on filter(s)
-    const idFields = Object.values(this.schema.fields).filter(f => f.type === 'id') as ID[];
+    const idFields = Object.values(this.schema.fields)
+      .flatMap(f => f.type)
+      .filter((f): f is ID => typeof f !== 'string' && f.type === 'id');
 
     return idFields.map(f => tsImport(f.of, null, './' + f.of + '.js'));
   }

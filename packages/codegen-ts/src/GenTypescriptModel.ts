@@ -10,7 +10,7 @@ import {
   Import,
   SchemaNode,
 } from '@aphro/schema-api';
-import { nodeFn, edgeFn, tsImport } from '@aphro/schema';
+import { nodeFn, edgeFn, tsImport, fieldFn } from '@aphro/schema';
 
 export default class GenTypescriptModel extends CodegenStep {
   static accepts(schema: SchemaNode | SchemaEdge): boolean {
@@ -89,7 +89,9 @@ export default class ${this.schema.name}
   }
 
   private getIdFieldImports(): Import[] {
-    const idFields = Object.values(this.schema.fields).filter(f => f.type === 'id') as ID[];
+    const idFields = Object.values(this.schema.fields)
+      .flatMap(f => f.type)
+      .filter((f): f is ID => typeof f !== 'string' && f.type === 'id');
 
     return idFields.map(f => tsImport(f.of, null, './' + f.of + '.js'));
   }
@@ -179,7 +181,7 @@ export default class ${this.schema.name}
           if (
             column != null &&
             edge.throughOrTo.type === this.schema.name &&
-            this.schema.fields[column].nullable
+            fieldFn.isNullable(this.schema.fields[column])
           ) {
             emptyReturnCondition = `if (this.${column} == null) {
               return ${edgeFn.queryTypeName(schema, edge)}.empty(this.ctx);

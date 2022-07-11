@@ -1,54 +1,66 @@
-import { Field, Import, RemoveNameField, TypeAtom } from '@aphro/schema-api';
+import { Field, FieldDeclaration, Import, RemoveNameField, TypeAtom } from '@aphro/schema-api';
 import { uniqueImports } from '@aphro/codegen';
 import { assertUnreachable } from '@strut/utils';
 
-export function fieldToTsType(field: RemoveNameField<Field>): string {
-  let suffix = '';
-  if (field.nullable) {
-    suffix = ' | null';
+export function fieldToTsType(field: RemoveNameField<FieldDeclaration>): string {
+  return field.type.map(t => atomToTsType(t)).join(' ');
+}
+
+export function atomToTsType(a: TypeAtom): string {
+  if (typeof a === 'string') {
+    return a;
   }
-  switch (field.type) {
+
+  const kind = a.type;
+  switch (kind) {
     case 'id':
-      return `SID_of<${field.of}>` + suffix;
+      return `SID_of<${a.of}>`;
     case 'naturalLanguage':
-      return 'string' + suffix;
+      return 'string';
     case 'enumeration':
-      return field.keys.map(k => `'${k}'`).join('|');
+      return a.keys.map(k => `'${k}'`).join('|');
     case 'timestamp':
-      return 'number' + suffix;
+      return 'number';
     case 'primitive':
-      switch (field.subtype) {
+      switch (a.subtype) {
         case 'bool':
-          return 'boolean' + suffix;
+          return 'boolean';
         case 'int32':
         case 'float32':
         case 'uint32':
-          return 'number' + suffix;
+          return 'number';
         // since JS can't represent 64 bit numbers -- 53 bits is js max int.
         case 'int64':
         case 'float64':
         case 'uint64':
         case 'string':
-          return 'string' + suffix;
+          return 'string';
         case 'null':
           return 'null';
         case 'any':
           return 'any';
         default:
-          assertUnreachable(field.subtype);
+          assertUnreachable(a.subtype);
       }
     case 'map':
-      return `ReadonlyMap<${fieldToTsType(field.keys)}, ${fieldToTsType(field.values)}>` + suffix;
+      return `ReadonlyMap<${atomToTsType(a.keys)}, ${atomToTsType(a.values)}>`;
+    case 'array':
+      return `readonly ${atomToTsType(a.values)}[]`;
+    case 'intersection':
+      return '&';
+    case 'union':
+      return '|';
+    default:
+      assertUnreachable(kind);
   }
-
-  throw new Error(
-    `Cannot convert from ${field.type} of ${JSON.stringify(field)} to a typescript type`,
-  );
 }
 
 export function typeDefToTsType(def: TypeAtom[]): string {
   return def
     .map(a => {
+      if (typeof a === 'string') {
+        return a + ` | Changeset<${a}, ${a}Data>`;
+      }
       switch (a.type) {
         case 'union':
           return '|';
@@ -56,11 +68,6 @@ export function typeDefToTsType(def: TypeAtom[]): string {
           return '&';
         case 'primitive':
           return a.subtype;
-        case 'type':
-          if (typeof a.name === 'string') {
-            return a.name + ` | Changeset<${a.name}, ${a.name}Data>`;
-          }
-          return fieldToTsType(a.name);
       }
     })
     .join(' ');

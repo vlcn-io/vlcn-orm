@@ -159,6 +159,7 @@ export type NodeExtension = SchemaNode['extensions'][keyof SchemaNode['extension
 export type FieldDeclaration = {
   name: string;
   type: TypeAtom[];
+  decorators?: string[];
 };
 
 export type NodeAst = {
@@ -234,7 +235,6 @@ type MaybeDecoratored = {
 };
 
 type FieldBase = {
-  decorators?: string[];
   description?: string;
   nullable?: boolean;
 };
