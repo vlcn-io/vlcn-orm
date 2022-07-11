@@ -23,6 +23,9 @@ export default class Persistor {
     const collectedDeletes: DeleteChangeset<IModel, Object>[] = [];
     const collectedCreatesOrUpdates: Map<SID_of<IModel>, IModel> = new Map();
     tx.changes.forEach((value, key) => {
+      if (value.spec.storage.type === 'ephemeral') {
+        return;
+      }
       if (value.type === 'delete') {
         collectedDeletes.push(value);
         return;

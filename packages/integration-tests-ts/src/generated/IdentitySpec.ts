@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <008dc1297e671b6d791f9a59811d4bd2>
+// SIGNED-SOURCE: <4160ac8a2de7c7ae4c3e22f97d6323c3>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -12,7 +12,7 @@ import { Data } from "./Identity.js";
 const spec: NodeSpecWithCreate<Identity, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
-    new Identity(ctx, data);
+    return new Identity(ctx, data);
   },
 
   primaryKey: "id",

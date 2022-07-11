@@ -76,7 +76,6 @@ export class ChangesetExecutor {
     switch (changeset.type) {
       case 'create': {
         const ret = changeset.spec.createFrom(this.ctx, changeset.updates as any);
-        this.ctx.cache.set(ret.id, ret);
         const [_, notifs] = ret._merge(changeset.updates);
         return [ret, notifs];
       }

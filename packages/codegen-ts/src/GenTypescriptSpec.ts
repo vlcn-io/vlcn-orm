@@ -81,7 +81,7 @@ export default spec;
 
   private getCreateFromBody(cacheKey: string): string {
     if (this.schema.storage.type === 'ephemeral') {
-      return `new ${this.schema.name}(ctx, data);`;
+      return `return new ${this.schema.name}(ctx, data);`;
     }
 
     return `const existing = ctx.cache.get(${cacheKey}, ${this.schema.name}.name);

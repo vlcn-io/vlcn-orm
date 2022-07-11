@@ -19,6 +19,7 @@
     "@aphro/codegen-cli": "workspace:*",
     "@babel/core": "^7.17.12",
     "@babel/preset-env": "^7.17.12",
+    "@jest/globals": "^28.1.2",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.31",
     "jest": "^28.1.0",

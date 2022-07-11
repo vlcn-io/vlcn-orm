@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b0b5badac07154c312eacd3dadaa79cd>
+// SIGNED-SOURCE: <7e2ccbc5be2225ac8cd1a119ca3a7265>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -12,7 +12,7 @@ import { Data } from "./AppState.js";
 const spec: NodeSpecWithCreate<AppState, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
-    new AppState(ctx, data);
+    return new AppState(ctx, data);
   },
 
   primaryKey: "id",

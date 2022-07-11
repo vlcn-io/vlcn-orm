@@ -498,6 +498,7 @@ importers:
       '@babel/core': ^7.17.12
       '@babel/preset-env': ^7.17.12
       '@databases/sqlite': ^3.0.0
+      '@jest/globals': ^28.1.2
       '@strut/utils': ^0.0.11
       '@types/jest': ^27.4.1
       '@types/node': ^17.0.31
@@ -514,6 +515,7 @@ importers:
       '@aphro/codegen-cli': link:../codegen-cli
       '@babel/core': 7.18.2
       '@babel/preset-env': 7.18.2_@babel+core@7.18.2
+      '@jest/globals': 28.1.2
       '@types/jest': 27.5.2
       '@types/node': 17.0.31
       jest: 28.1.0_@types+node@17.0.31
@@ -3429,7 +3431,7 @@ packages:
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
       '@jest/fake-timers': 28.1.0
-      '@jest/types': 28.1.0
+      '@jest/types': 28.1.1
       '@types/node': 17.0.31
       jest-mock: 28.1.0
     dev: true
@@ -3468,16 +3470,6 @@ packages:
       jest-get-type: 28.0.2
     dev: true
 
-  /@jest/expect/28.1.0:
-    resolution: {integrity: sha512-be9ETznPLaHOmeJqzYNIXv1ADEzENuQonIoobzThOYPuK/6GhrWNIJDVTgBLCrz3Am73PyEU2urQClZp0hLTtA==}
-    engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
-    dependencies:
-      expect: 28.1.0
-      jest-snapshot: 28.1.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /@jest/expect/28.1.2:
     resolution: {integrity: sha512-HBzyZBeFBiOelNbBKN0pilWbbrGvwDUwAqMC46NVJmWm8AVkuE58NbG1s7DR4cxFt4U5cVLxofAoHxgvC5MyOw==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
@@ -3492,7 +3484,7 @@ packages:
     resolution: {integrity: sha512-Xqsf/6VLeAAq78+GNPzI7FZQRf5cCHj1qgQxCjws9n8rKw8r1UYoeaALwBvyuzOkpU3c1I6emeMySPa96rxtIg==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
-      '@jest/types': 28.1.0
+      '@jest/types': 28.1.1
       '@sinonjs/fake-timers': 9.1.2
       '@types/node': 17.0.31
       jest-message-util: 28.1.0
@@ -3522,17 +3514,6 @@ packages:
       jest-message-util: 28.1.1
       jest-mock: 28.1.1
       jest-util: 28.1.1
-    dev: true
-
-  /@jest/globals/28.1.0:
-    resolution: {integrity: sha512-3m7sTg52OTQR6dPhsEQSxAvU+LOBbMivZBwOvKEZ+Rb+GyxVnXi9HKgOTYkx/S99T8yvh17U4tNNJPIEQmtwYw==}
-    engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
-    dependencies:
-      '@jest/environment': 28.1.0
-      '@jest/expect': 28.1.0
-      '@jest/types': 28.1.0
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /@jest/globals/28.1.2:
@@ -6803,10 +6784,10 @@ packages:
     resolution: {integrity: sha512-rNYfqfLC0L0zQKRKsg4n4J+W1A2fbyGH7Ss/kDIocp9KXD9iaL111glsLu7+Z7FHuZxwzInMDXq+N1ZIBkI/TQ==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
-      '@jest/environment': 28.1.0
-      '@jest/expect': 28.1.0
+      '@jest/environment': 28.1.2
+      '@jest/expect': 28.1.2
       '@jest/test-result': 28.1.0
-      '@jest/types': 28.1.0
+      '@jest/types': 28.1.1
       '@types/node': 17.0.31
       chalk: 4.1.2
       co: 4.6.0
@@ -7167,7 +7148,7 @@ packages:
     resolution: {integrity: sha512-a/XX02xF5NTspceMpHujmOexvJ4GftpYXqr6HhhmKmExtMXsyIN/fvanQlt/BcgFoRKN4OCXxLQKth9/n6OPFg==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
-      '@jest/types': 28.1.0
+      '@jest/types': 28.1.1
       chalk: 4.1.2
       jest-get-type: 28.0.2
       jest-util: 28.1.0
@@ -7189,9 +7170,9 @@ packages:
     resolution: {integrity: sha512-gBLZNiyrPw9CSMlTXF1yJhaBgWDPVvH0Pq6bOEwGMXaYNzhzhw2kA/OijNF8egbCgDS0/veRv97249x2CX+udQ==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
-      '@jest/environment': 28.1.0
+      '@jest/environment': 28.1.2
       '@jest/fake-timers': 28.1.0
-      '@jest/types': 28.1.0
+      '@jest/types': 28.1.1
       '@types/node': 17.0.31
       jest-mock: 28.1.0
       jest-util: 28.1.0
@@ -7337,7 +7318,7 @@ packages:
     resolution: {integrity: sha512-H7BrhggNn77WhdL7O1apG0Q/iwl0Bdd5E1ydhCJzL3oBLh/UYxAwR3EJLsBZ9XA3ZU4PA3UNw4tQjduBTCTmLw==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
-      '@jest/types': 28.1.0
+      '@jest/types': 28.1.1
       '@types/node': 17.0.31
     dev: true
 
@@ -7492,7 +7473,7 @@ packages:
     dependencies:
       '@jest/environment': 28.1.0
       '@jest/fake-timers': 28.1.0
-      '@jest/globals': 28.1.0
+      '@jest/globals': 28.1.2
       '@jest/source-map': 28.0.2
       '@jest/test-result': 28.1.0
       '@jest/transform': 28.1.0
@@ -9810,7 +9791,7 @@ packages:
       '@babel/core': 7.18.2
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 28.1.0
+      jest: 28.1.0_@types+node@17.0.31
       jest-util: 28.1.0
       json5: 2.2.1
       lodash.memoize: 4.1.2
