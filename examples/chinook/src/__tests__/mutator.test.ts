@@ -16,3 +16,5 @@ const ctx = setup();
 //   }).save();
 //   await handle;
 // });
+
+test('prevent clobbering db and uncomment above test', () => {});
