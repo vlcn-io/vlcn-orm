@@ -15,7 +15,7 @@
     "@aphro/sql-ts": "workspace:*",
     "@strut/counter": "^0.0.11",
     "@strut/sid": "0.1.1",
-    "@strut/utils": "^0.0.11"
+    "@strut/utils": "^0.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",

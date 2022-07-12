@@ -23,7 +23,7 @@
     "@aphro/schema": "workspace:*",
     "@aphro/schema-api": "workspace:*",
     "@strut/counter": "^0.0.11",
-    "@strut/utils": "^0.0.11",
+    "@strut/utils": "^0.1.0",
     "chalk": "^5.0.1",
     "command-line-args": "^5.2.1",
     "command-line-usage": "^6.1.3",

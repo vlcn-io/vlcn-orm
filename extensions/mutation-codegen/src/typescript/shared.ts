@@ -22,6 +22,10 @@ function collectImportsForArgs(
           return [tsImport(td, null, `./${td}.js`), tsImport('{Data}', td + 'Data', `./${td}.js`)];
         } else if (td.type === 'id') {
           return [tsImport(td.of, null, `./${td.of}.js`)];
+        } else if (td.type === 'array' || td.type === 'map') {
+          if (typeof td.values === 'string') {
+            return [tsImport(td.values, null, `./${td.values}.js`)];
+          }
         }
       })
       .filter((td): td is Import => td != null),

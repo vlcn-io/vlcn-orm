@@ -15,7 +15,7 @@
     "@aphro/schema-api": "workspace:*",
     "@aphro/sql-ts": "workspace:*",
     "@strut/counter": "^0.0.11",
-    "@strut/utils": "^0.0.11",
+    "@strut/utils": "^0.1.0",
     "sql-formatter": "6.1.1"
   },
   "devDependencies": {
