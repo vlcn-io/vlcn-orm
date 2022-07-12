@@ -13,8 +13,8 @@
     "@aphro/model-runtime-ts": "workspace:*",
     "@aphro/schema-api": "workspace:*",
     "@aphro/sql-ts": "workspace:*",
-    "@strut/sid": "0.1.1",
-    "@strut/utils": "^0.1.0"
+    "@strut/sid": "^0.1.2",
+    "@strut/utils": "^0.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.18.5",

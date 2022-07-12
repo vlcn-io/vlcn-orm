@@ -12,7 +12,7 @@
   "dependencies": {
     "@aphro/runtime-ts": "workspace:*",
     "@databases/sqlite": "^3.0.0",
-    "@strut/utils": "^0.1.0",
+    "@strut/utils": "^0.1.1",
     "sqlite3": "^5.0.8"
   },
   "devDependencies": {

@@ -26,13 +26,15 @@ export default class GenTypescriptModelManualMethodsClass extends CodegenStep {
       `import ${this.schema.name} from './${this.schema.name}.js'
 
 export interface ManualMethods {
-  /*
+  example()
+}
+
+export manualMethods: ManualMethods = {
   example(this: ${this.schema.name}) {
-    // Note: "this" is a "fake" parameter used to set the type of "this"
+    // Note: "this" (above) is a "fake" parameter used to set the type of "this"
     // https://www.typescriptlang.org/docs/handbook/2/functions.html#declaring-this-in-a-function
   }
-  */
-}
+};
       `,
       true,
     );

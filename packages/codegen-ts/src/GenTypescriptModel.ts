@@ -39,7 +39,7 @@ export default class GenTypescriptModel extends CodegenStep {
 export type Data = ${this.getDataShapeCode()};
 
 ${this.schema.type === 'node' ? this.schema.extensions.type?.decorators?.join('\n') || '' : ''}
-export default class ${this.schema.name}
+class ${this.schema.name}
   extends ${baseClass}<Data> {
   readonly spec = s as ${baseClass}SpecWithCreate<this, Data>;
 
@@ -52,6 +52,10 @@ export default class ${this.schema.name}
 
   ${this.getGenMethodCode()}
 }
+
+interface ${this.schema.name} extends ManualMethods {}
+applyMixins(${this.schema.name}, [manualMethods]);
+export default ${this.schema.name};
 `,
     );
   }
@@ -67,8 +71,10 @@ export default class ${this.schema.name}
 
   private collectImports(): Import[] {
     return [
+      tsImport('{applyMixins}', null, '@aphro/runtime-ts'),
       tsImport('{default}', 's', './' + nodeFn.specName(this.schema.name) + '.js'),
       tsImport('{P}', null, '@aphro/runtime-ts'),
+      tsImport('{ManualMethods, manualMethods}', null, `./${this.schema.name}ManualMethods.js`),
       this.schema.type === 'node'
         ? tsImport('{Node}', null, '@aphro/runtime-ts')
         : tsImport('{Edge}', null, '@aphro/runtime-ts'),

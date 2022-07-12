@@ -14,7 +14,7 @@
     "@aphro/schema": "workspace:*",
     "@aphro/schema-api": "workspace:*",
     "@strut/counter": "^0.0.11",
-    "@strut/utils": "^0.1.0",
+    "@strut/utils": "^0.1.1",
     "md5": "^2.3.0",
     "prettier": "^2.5.1"
   },

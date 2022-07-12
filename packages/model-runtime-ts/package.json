@@ -13,8 +13,8 @@
     "@aphro/schema-api": "workspace:*",
     "@strut/counter": "^0.0.11",
     "@strut/events": "^0.0.10",
-    "@strut/sid": "0.1.1",
-    "@strut/utils": "^0.1.0"
+    "@strut/sid": "^0.1.2",
+    "@strut/utils": "^0.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",

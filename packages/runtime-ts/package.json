@@ -15,7 +15,8 @@
     "@aphro/mutator-runtime-ts": "workspace:*",
     "@aphro/query-runtime-ts": "workspace:*",
     "@aphro/sql-ts": "workspace:*",
-    "@strut/sid": "0.1.1"
+    "@strut/sid": "^0.1.2",
+    "@strut/utils": "^0.1.1"
   },
   "devDependencies": {
     "typescript": "^4.6.4"
