@@ -1,5 +1,13 @@
 # @aphro/model-runtime-ts
 
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/schema-api@0.1.3
+  - @aphro/context-runtime-ts@0.1.7
+
 ## 0.1.6
 
 ### Patch Changes

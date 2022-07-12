@@ -1,5 +1,11 @@
 # @aphro/monopoly
 
+## 1.1.8
+
+### Patch Changes
+
+- @aphro/runtime-ts@0.1.8
+
 ## 1.1.7
 
 ### Patch Changes

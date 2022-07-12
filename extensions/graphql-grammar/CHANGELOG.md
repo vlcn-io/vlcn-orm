@@ -1,5 +1,14 @@
 # @aphro/graphql-grammar
 
+## 0.1.4
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/schema@0.1.4
+  - @aphro/schema-api@0.1.3
+  - @aphro/grammar-extension-api@0.1.3
+
 ## 0.1.3
 
 ### Patch Changes

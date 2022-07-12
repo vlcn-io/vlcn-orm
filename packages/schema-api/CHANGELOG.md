@@ -1,5 +1,11 @@
 # @aphro/schema-api
 
+## 0.1.3
+
+### Patch Changes
+
+- enable nested collections of nodes
+
 ## 0.1.2
 
 ### Patch Changes

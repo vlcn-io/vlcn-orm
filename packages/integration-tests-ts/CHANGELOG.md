@@ -1,5 +1,12 @@
 # @aphro/integration-tests-ts
 
+## 0.1.8
+
+### Patch Changes
+
+- enable nested collections of nodes
+  - @aphro/runtime-ts@0.1.8
+
 ## 0.1.7
 
 ### Patch Changes

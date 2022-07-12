@@ -1,5 +1,15 @@
 # @aphro/schema
 
+## 0.1.4
+
+### Patch Changes
+
+- enable nested collections of nodes
+- Updated dependencies
+  - @aphro/schema-api@0.1.3
+  - @aphro/codegen-api@0.1.3
+  - @aphro/grammar-extension-api@0.1.3
+
 ## 0.1.3
 
 ### Patch Changes

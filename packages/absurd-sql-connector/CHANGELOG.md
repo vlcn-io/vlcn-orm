@@ -1,5 +1,11 @@
 # @aphro/absurd-sql
 
+## 0.1.7
+
+### Patch Changes
+
+- @aphro/context-runtime-ts@0.1.7
+
 ## 0.1.6
 
 ### Patch Changes

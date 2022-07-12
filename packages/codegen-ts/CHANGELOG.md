@@ -1,5 +1,16 @@
 # @aphro/codegen-ts
 
+## 0.1.7
+
+### Patch Changes
+
+- enable nested collections of nodes
+- Updated dependencies
+  - @aphro/schema@0.1.4
+  - @aphro/schema-api@0.1.3
+  - @aphro/codegen@0.1.5
+  - @aphro/codegen-api@0.1.3
+
 ## 0.1.6
 
 ### Patch Changes
