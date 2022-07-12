@@ -111,6 +111,7 @@ AppState as UnmanagedNode {
   id: ID<AppState>
   identity: Identity
   openDeckId: ID<Deck> | null
+  copiedComponents: Array<Component>
 } & Mutations {
   create as Create {
     identity

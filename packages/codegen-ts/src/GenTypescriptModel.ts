@@ -103,8 +103,21 @@ export default class ${this.schema.name}
 
   private getNestedTypeImports(): Import[] {
     const typeFields = Object.values(this.schema.fields)
-      .flatMap(f => f.type)
-      .filter((f): f is string => typeof f === 'string');
+      .flatMap(f =>
+        f.type.map(t => {
+          if (typeof t === 'string') {
+            return t;
+          }
+
+          // TODO: technically we need to recurse into array and map structures to pull imports
+          if (t.type === 'array' || t.type === 'map') {
+            if (typeof t.values === 'string') {
+              return t.values;
+            }
+          }
+        }),
+      )
+      .filter((f): f is string => f != null);
 
     return typeFields.map(f => tsImport(f, null, './' + f + '.js'));
   }

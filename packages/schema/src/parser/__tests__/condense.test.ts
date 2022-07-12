@@ -134,3 +134,29 @@ Bar as Edge<Foo, Foo> {
   // we still return data, even when we have errors.
   expect(condensed.edges['Bar'].fields['bar']).not.toBeUndefined();
 });
+
+test('Array of nodes', () => {
+  const ast = parseString(`
+engine: postgres
+db: test
+Bar as Node {
+  bars: Array<Bar>
+}
+`);
+
+  const [errors, condensed] = condense(ast);
+  expect(errors.length).toBe(0);
+  expect(condensed).toEqual({
+    nodes: {
+      Bar: {
+        type: 'node',
+        name: 'Bar',
+        primaryKey: 'id',
+        fields: { bars: { name: 'bars', type: [{ type: 'array', values: 'Bar' }] } },
+        extensions: {},
+        storage: { name: 'storage', db: 'test', engine: 'postgres', type: 'sql', tablish: 'bar' },
+      },
+    },
+    edges: {},
+  });
+});

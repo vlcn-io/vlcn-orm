@@ -93,7 +93,7 @@ const grammarDefinition = String.raw`
     | "any"
   
   ArrayField
-  	= "Array" "<" FieldType ">"
+  	= "Array" "<" (FieldType | name) ">"
   
   MapField
   	= "Map" "<" NonCompositeFieldType "," FieldType ">"

@@ -293,7 +293,7 @@ type ArrayField = {
   name: string;
   type: 'array';
   // Ideally we use `Omit` on name but see https://github.com/microsoft/TypeScript/issues/31501
-  values: RemoveNameField<Field>;
+  values: RemoveNameField<Field> | string;
 } & FieldBase;
 
 export type OutboundEdgesAst = {
