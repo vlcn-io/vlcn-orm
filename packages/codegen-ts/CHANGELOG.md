@@ -1,5 +1,11 @@
 # @aphro/codegen-ts
 
+## 0.1.8
+
+### Patch Changes
+
+- fix array of enumerations
+
 ## 0.1.7
 
 ### Patch Changes
