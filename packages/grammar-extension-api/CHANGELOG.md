@@ -1,5 +1,13 @@
 # @aphro/grammar-extension-api
 
+## 0.1.4
+
+### Patch Changes
+
+- update dependency on strut/utils, enable manual methods for models
+- Updated dependencies
+  - @aphro/schema-api@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes

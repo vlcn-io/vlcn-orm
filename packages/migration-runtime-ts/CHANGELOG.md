@@ -1,5 +1,11 @@
 # @aphro/migration-runtime-ts
 
+## 0.0.12
+
+### Patch Changes
+
+- update dependency on strut/utils, enable manual methods for models
+
 ## 0.0.11
 
 ### Patch Changes

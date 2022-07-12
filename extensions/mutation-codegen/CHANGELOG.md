@@ -1,5 +1,19 @@
 # @aphro/mutation-codegen
 
+## 0.1.9
+
+### Patch Changes
+
+- update dependency on strut/utils, enable manual methods for models
+- Updated dependencies
+  - @aphro/mutation-grammar@0.1.5
+  - @aphro/codegen@0.1.6
+  - @aphro/codegen-api@0.1.4
+  - @aphro/codegen-ts@0.1.9
+  - @aphro/parse-ts@0.1.3
+  - @aphro/schema@0.1.5
+  - @aphro/schema-api@0.1.4
+
 ## 0.1.8
 
 ### Patch Changes

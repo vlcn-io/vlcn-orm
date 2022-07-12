@@ -1,5 +1,11 @@
 # @aphro/cache-runtime-ts
 
+## 0.1.6
+
+### Patch Changes
+
+- update dependency on strut/utils, enable manual methods for models
+
 ## 0.1.5
 
 ### Patch Changes

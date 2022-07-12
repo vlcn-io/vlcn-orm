@@ -1,5 +1,11 @@
 # @aphro/authorization-grammar
 
+## 0.1.3
+
+### Patch Changes
+
+- update dependency on strut/utils, enable manual methods for models
+
 ## 0.1.2
 
 ### Patch Changes

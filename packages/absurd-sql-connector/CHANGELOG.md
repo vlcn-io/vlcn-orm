@@ -1,5 +1,14 @@
 # @aphro/absurd-sql
 
+## 0.1.8
+
+### Patch Changes
+
+- update dependency on strut/utils, enable manual methods for models
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.1.8
+  - @aphro/sql-ts@0.1.3
+
 ## 0.1.7
 
 ### Patch Changes

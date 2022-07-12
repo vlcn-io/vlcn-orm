@@ -1,5 +1,13 @@
 # @aphro/monopoly
 
+## 1.1.9
+
+### Patch Changes
+
+- update dependency on strut/utils, enable manual methods for models
+- Updated dependencies
+  - @aphro/runtime-ts@0.1.9
+
 ## 1.1.8
 
 ### Patch Changes

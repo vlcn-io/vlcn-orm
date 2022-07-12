@@ -1,5 +1,13 @@
 # @aphro/chinook
 
+## 0.1.14
+
+### Patch Changes
+
+- update dependency on strut/utils, enable manual methods for models
+- Updated dependencies
+  - @aphro/runtime-ts@0.1.9
+
 ## 0.1.13
 
 ### Patch Changes
