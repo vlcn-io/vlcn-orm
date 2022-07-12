@@ -1,10 +1,12 @@
-// SIGNED-SOURCE: <b2e231be19c8f1531620746e20f9710b>
+// SIGNED-SOURCE: <9f40d9a00e8389342dc03d62ea08dcf2>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./TodoSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./TodoManualMethods.js";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -19,7 +21,7 @@ export type Data = {
   completed: boolean;
 };
 
-export default class Todo extends Node<Data> {
+class Todo extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -58,3 +60,7 @@ export default class Todo extends Node<Data> {
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }
+
+interface Todo extends ManualMethods {}
+applyMixins(Todo, [manualMethods]);
+export default Todo;
