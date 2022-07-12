@@ -15,7 +15,12 @@ import graphqlExtension from '@aphro/graphql-grammar';
 import { GenTypescriptMutationImpls, GenTypescriptMutations } from '@aphro/mutation-codegen';
 import { GlobalStep, Step } from '@aphro/codegen-api';
 
-import { GenTypescriptModel, GenTypescriptQuery, GenTypescriptSpec } from '@aphro/codegen-ts';
+import {
+  GenTypescriptModel,
+  GenTypescriptModelManualMethodsClass,
+  GenTypescriptQuery,
+  GenTypescriptSpec,
+} from '@aphro/codegen-ts';
 import { GenSqlTableSchema } from '@aphro/codegen-sql';
 import { GenGraphQLTypedefs, GenGraphQLTypescriptResolvers } from '@aphro/graphql-codegen';
 
@@ -23,6 +28,7 @@ const grammarExtensions = [mutationExtension, graphqlExtension];
 
 const steps: readonly Step[] = [
   GenTypescriptModel,
+  GenTypescriptModelManualMethodsClass,
   GenTypescriptQuery,
   GenTypescriptSpec,
   GenTypescriptMutations,
