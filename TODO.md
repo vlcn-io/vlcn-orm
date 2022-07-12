@@ -6,6 +6,8 @@
 - Absurd SQL debug extension (e.g., inspect tables)
 
 # API Problems
+- Enable sets (not just maps or arrays)
+- readonly enumerations of arrays...
 - Using mutations within mutations and gathering all changesets together while still allowing chaining
 - Reading already queried edges
   - Sync if it is fulfilled? Still async but have a query cache?

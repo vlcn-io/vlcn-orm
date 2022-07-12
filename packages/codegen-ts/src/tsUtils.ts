@@ -45,7 +45,7 @@ export function atomToTsType(a: TypeAtom): string {
     case 'map':
       return `ReadonlyMap<${atomToTsType(a.keys)}, ${atomToTsType(a.values)}>`;
     case 'array':
-      return `readonly ${atomToTsType(a.values)}[]`;
+      return `readonly (${atomToTsType(a.values)})[]`;
     case 'intersection':
       return '&';
     case 'union':
