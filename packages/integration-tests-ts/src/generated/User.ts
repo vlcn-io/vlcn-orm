@@ -1,10 +1,12 @@
-// SIGNED-SOURCE: <22eac86f03cecd763415f9085eb8a8ce>
+// SIGNED-SOURCE: <ec03167ae7779939921160533b66a147>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./UserSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./UserManualMethods.js";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -20,7 +22,7 @@ export type Data = {
   modified: number;
 };
 
-export default class User extends Node<Data> {
+class User extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -63,3 +65,7 @@ export default class User extends Node<Data> {
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }
+
+interface User extends ManualMethods {}
+applyMixins(User, [manualMethods]);
+export default User;

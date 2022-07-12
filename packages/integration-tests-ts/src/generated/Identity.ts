@@ -1,10 +1,12 @@
-// SIGNED-SOURCE: <f442736b1168a185bf12cc2928b16bf9>
+// SIGNED-SOURCE: <a4758e97c2ac34e08814fd20ba027025>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./IdentitySpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./IdentityManualMethods.js";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -16,7 +18,7 @@ export type Data = {
   token: string;
 };
 
-export default class Identity extends Node<Data> {
+class Identity extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -31,3 +33,7 @@ export default class Identity extends Node<Data> {
     return this.data.token;
   }
 }
+
+interface Identity extends ManualMethods {}
+applyMixins(Identity, [manualMethods]);
+export default Identity;

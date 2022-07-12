@@ -1,10 +1,12 @@
-// SIGNED-SOURCE: <915d5a5a09d644c9e9fcde3a714e3ffb>
+// SIGNED-SOURCE: <1be99bc5c9c2a98231e29f533266120b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./ComponentSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./ComponentManualMethods.js";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -19,7 +21,7 @@ export type Data = {
   content: string;
 };
 
-export default class Component extends Node<Data> {
+class Component extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -61,3 +63,7 @@ export default class Component extends Node<Data> {
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }
+
+interface Component extends ManualMethods {}
+applyMixins(Component, [manualMethods]);
+export default Component;

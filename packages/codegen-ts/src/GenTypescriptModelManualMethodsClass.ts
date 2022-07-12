@@ -4,7 +4,7 @@ import TypescriptFile from './TypescriptFile.js';
 
 export default class GenTypescriptModelManualMethodsClass extends CodegenStep {
   static accepts(schema: SchemaNode | SchemaEdge): boolean {
-    return schema.type === 'node';
+    return true;
   }
 
   private readonly schema: SchemaNode | SchemaEdge;
@@ -26,14 +26,14 @@ export default class GenTypescriptModelManualMethodsClass extends CodegenStep {
       `import ${this.schema.name} from './${this.schema.name}.js'
 
 export interface ManualMethods {
-  example()
+  // example(): void;
 }
 
-export manualMethods: ManualMethods = {
-  example(this: ${this.schema.name}) {
+export const manualMethods: ManualMethods = {
+  // example(this: ${this.schema.name}): void {
     // Note: "this" (above) is a "fake" parameter used to set the type of "this"
     // https://www.typescriptlang.org/docs/handbook/2/functions.html#declaring-this-in-a-function
-  }
+  // }
 };
       `,
       true,

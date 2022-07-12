@@ -1,10 +1,12 @@
-// SIGNED-SOURCE: <07ece9ca20a6c04efafb5ce474c8d2e9>
+// SIGNED-SOURCE: <53aecc9d949eb27ab2d00225ca155939>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./DeckSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./DeckManualMethods.js";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -24,7 +26,7 @@ export type Data = {
   selectedSlideId: SID_of<Slide> | null;
 };
 
-export default class Deck extends Node<Data> {
+class Deck extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -87,3 +89,7 @@ export default class Deck extends Node<Data> {
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }
+
+interface Deck extends ManualMethods {}
+applyMixins(Deck, [manualMethods]);
+export default Deck;

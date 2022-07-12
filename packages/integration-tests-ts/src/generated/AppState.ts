@@ -1,10 +1,12 @@
-// SIGNED-SOURCE: <65764a353ad3194f110bfcf09dcd69b1>
+// SIGNED-SOURCE: <dcdb7db991153e727790f135f5fd1b5b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./AppStateSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./AppStateManualMethods.js";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -20,7 +22,7 @@ export type Data = {
   copiedComponents: readonly Component[];
 };
 
-export default class AppState extends Node<Data> {
+class AppState extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -39,3 +41,7 @@ export default class AppState extends Node<Data> {
     return this.data.copiedComponents;
   }
 }
+
+interface AppState extends ManualMethods {}
+applyMixins(AppState, [manualMethods]);
+export default AppState;

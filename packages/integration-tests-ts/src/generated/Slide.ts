@@ -1,10 +1,12 @@
-// SIGNED-SOURCE: <35b6df889661bea6cad6febffddfd909>
+// SIGNED-SOURCE: <df53721f3ccd3596ebd197e0c5b25304>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./SlideSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./SlideManualMethods.js";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -20,7 +22,7 @@ export type Data = {
   order: number;
 };
 
-export default class Slide extends Node<Data> {
+class Slide extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -59,3 +61,7 @@ export default class Slide extends Node<Data> {
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }
+
+interface Slide extends ManualMethods {}
+applyMixins(Slide, [manualMethods]);
+export default Slide;

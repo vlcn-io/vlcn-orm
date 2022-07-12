@@ -1,10 +1,15 @@
-// SIGNED-SOURCE: <54cc13029e7eb0eb50ca7a53b84aeca5>
+// SIGNED-SOURCE: <7beec8f988a44a7983a7a9d14dbeb4ff>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./DeckToEditorsEdgeSpec.js";
 import { P } from "@aphro/runtime-ts";
+import {
+  ManualMethods,
+  manualMethods,
+} from "./DeckToEditorsEdgeManualMethods.js";
 import { Edge } from "@aphro/runtime-ts";
 import { EdgeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -18,7 +23,7 @@ export type Data = {
   id2: SID_of<User>;
 };
 
-export default class DeckToEditorsEdge extends Edge<Data> {
+class DeckToEditorsEdge extends Edge<Data> {
   readonly spec = s as EdgeSpecWithCreate<this, Data>;
 
   get id1(): SID_of<Deck> {
@@ -37,3 +42,7 @@ export default class DeckToEditorsEdge extends Edge<Data> {
     return DeckToEditorsEdgeQuery.create(ctx);
   }
 }
+
+interface DeckToEditorsEdge extends ManualMethods {}
+applyMixins(DeckToEditorsEdge, [manualMethods]);
+export default DeckToEditorsEdge;
