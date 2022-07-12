@@ -1,5 +1,12 @@
 # @aphro/chinook
 
+## 0.1.15
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/runtime-ts@0.1.10
+
 ## 0.1.14
 
 ### Patch Changes

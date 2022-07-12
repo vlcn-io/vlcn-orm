@@ -1,5 +1,11 @@
 # @aphro/runtime-ts
 
+## 0.1.10
+
+### Patch Changes
+
+- publish rebuild
+
 ## 0.1.9
 
 ### Patch Changes
