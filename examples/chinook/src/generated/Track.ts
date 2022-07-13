@@ -1,12 +1,12 @@
-// SIGNED-SOURCE: <74bc4e673a6a7c4d43de0401605baa95>
+// SIGNED-SOURCE: <77096989fd9ada3873dee43c337c68b4>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./TrackSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./TrackManualMethods.js";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -33,7 +33,7 @@ export type Data = {
   unitPrice: number;
 };
 
-export default class Track extends Node<Data> {
+class Track extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -111,3 +111,7 @@ export default class Track extends Node<Data> {
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }
+
+interface Track extends ManualMethods {}
+applyMixins(Track, [manualMethods]);
+export default Track;

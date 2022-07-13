@@ -1,12 +1,12 @@
-// SIGNED-SOURCE: <65f18375510d5578561763807a1d7a94>
+// SIGNED-SOURCE: <11ff0da2ef6db6225f0e474303c9ce2a>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./PlaylistTrackSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./PlaylistTrackManualMethods.js";
 import { Edge } from "@aphro/runtime-ts";
 import { EdgeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -20,7 +20,7 @@ export type Data = {
   id2: SID_of<Track>;
 };
 
-export default class PlaylistTrack extends Edge<Data> {
+class PlaylistTrack extends Edge<Data> {
   readonly spec = s as EdgeSpecWithCreate<this, Data>;
 
   get id1(): SID_of<Playlist> {
@@ -39,3 +39,7 @@ export default class PlaylistTrack extends Edge<Data> {
     return PlaylistTrackQuery.create(ctx);
   }
 }
+
+interface PlaylistTrack extends ManualMethods {}
+applyMixins(PlaylistTrack, [manualMethods]);
+export default PlaylistTrack;

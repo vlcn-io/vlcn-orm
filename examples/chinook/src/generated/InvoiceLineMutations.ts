@@ -1,9 +1,7 @@
-// SIGNED-SOURCE: <135293ebd157357b646ff17c4f9dc97d>
+// SIGNED-SOURCE: <d73be2cfe18b948ba47ab2a2eebdb71b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
 import * as impls from "./InvoiceLineMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
@@ -45,6 +43,8 @@ class Mutations extends MutationsBase<InvoiceLine, Data> {
 
 export default class InvoiceLineMutations {
   static create(ctx: Context, args: CreateArgs): Mutations {
-    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
+    return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
+      args
+    );
   }
 }

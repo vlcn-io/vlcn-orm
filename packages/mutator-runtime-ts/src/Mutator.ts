@@ -8,9 +8,13 @@ import {
   ChangesetOptions,
   IModel,
   ModelSpecWithCreate,
+  Context,
 } from '@aphro/context-runtime-ts';
+import { commit } from './commit.js';
 
 export interface IMutationBuilder<M extends IModel<D>, D extends Object> {
+  readonly ctx: Context;
+
   toChangeset(options?: ChangesetOptions): Changeset<M, D>;
   // TODO: remove this once we get mutations generation complete
   // we don't need `set` for `delete`
@@ -27,17 +31,35 @@ export interface ICreateOrUpdateBuilder<M extends IModel<D>, D extends Object>
 abstract class MutationBuilder<M extends IModel<D>, D extends Object>
   implements IMutationBuilder<M, D>
 {
-  constructor(protected spec: ModelSpecWithCreate<M, D>, protected data: Partial<D>) {}
+  constructor(
+    public readonly ctx: Context,
+    protected spec: ModelSpecWithCreate<M, D>,
+    protected data: Partial<D>,
+  ) {}
+
   abstract toChangeset(): Changeset<M, D>;
+
   set(newData: Partial<D>): this {
     throw new Error('You cannot call `set` when deleting something');
   }
+
   addExtraChangesets(changesets?: Changeset<any, any>[]): this {
     if (changesets == null) {
       return this;
     }
     throw new Error('Using mutators within mutators is not yet supported. Coming soon!');
     return this;
+  }
+
+  /**
+   * Models are updated immediately in-memory. A promise is returned
+   * to allow waiting on the underlying data store to finish persisting.
+   *
+   * @returns a promise that represents the write to the underlying data store
+   */
+  save(): Promise<void> {
+    const cs = this.toChangeset();
+    return commit(this.ctx, cs)[0];
   }
 }
 
@@ -59,8 +81,8 @@ export class CreateMutationBuilder<
   M extends IModel<D>,
   D extends Object,
 > extends CreateOrUpdateBuilder<M, D> {
-  constructor(spec: ModelSpecWithCreate<M, D>) {
-    super(spec, {});
+  constructor(ctx: Context, spec: ModelSpecWithCreate<M, D>) {
+    super(ctx, spec, {});
   }
 
   toChangeset(): CreateChangeset<M, D> {
@@ -84,8 +106,8 @@ export class UpdateMutationBuilder<
   M extends IModel<D>,
   D extends Object,
 > extends CreateOrUpdateBuilder<M, D> {
-  constructor(spec: ModelSpecWithCreate<M, D>, private model: M) {
-    super(spec, {});
+  constructor(ctx: Context, spec: ModelSpecWithCreate<M, D>, private model: M) {
+    super(ctx, spec, {});
   }
 
   toChangeset(): UpdateChangeset<M, D> {
@@ -103,8 +125,8 @@ export class DeleteMutationBuilder<M extends IModel<D>, D extends Object> extend
   M,
   D
 > {
-  constructor(spec: ModelSpecWithCreate<M, D>, private model: M) {
-    super(spec, {});
+  constructor(ctx: Context, spec: ModelSpecWithCreate<M, D>, private model: M) {
+    super(ctx, spec, {});
   }
 
   toChangeset(): DeleteChangeset<M, D> {

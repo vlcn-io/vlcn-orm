@@ -22,7 +22,7 @@ beforeAll(async () => {
 test('Creating models via mutators', () => {
   // TODO: create simple API for people that want to use mutation builders directly?
   // create(spec, updates).toChangeset/.commit | Or force everyone onto generated Mutations?
-  const cs = new CreateMutationBuilder(spec)
+  const cs = new CreateMutationBuilder(ctx, spec)
     .set({
       id: sid(device),
       created: Date.now(),
@@ -39,7 +39,7 @@ test('Creating models via mutators', () => {
 
 test('Optimstic read after create', async () => {
   const creationTime = Date.now();
-  const cs = new CreateMutationBuilder(spec)
+  const cs = new CreateMutationBuilder(ctx, spec)
     .set({
       id: sid(device),
       created: creationTime,
@@ -59,7 +59,7 @@ test('Optimstic read after create', async () => {
 
 test('Reading the created item after create', async () => {
   const creationTime = Date.now();
-  const cs = new CreateMutationBuilder(spec)
+  const cs = new CreateMutationBuilder(ctx, spec)
     .set({
       id: sid(device),
       created: creationTime,

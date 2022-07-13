@@ -1,14 +1,14 @@
-import { CreateArgs } from './GenreMutations.js';
-import { RenameArgs } from './GenreMutations.js';
-import { Changeset } from '@aphro/runtime-ts';
-import { Data } from './Genre.js';
-import Genre from './Genre.js';
-import { IMutationBuilder, sid } from '@aphro/runtime-ts';
-import deviceId from '../deviceId.js';
+import { CreateArgs } from "./GenreMutations.js";
+import { RenameArgs } from "./GenreMutations.js";
+import { Changeset } from "@aphro/runtime-ts";
+import { Data } from "./Genre.js";
+import Genre from "./Genre.js";
+import { IMutationBuilder, sid } from "@aphro/runtime-ts";
+import deviceId from "../deviceId.js";
 
 export function createImpl(
-  mutator: Omit<IMutationBuilder<Genre, Data>, 'toChangeset'>,
-  { name }: CreateArgs,
+  mutator: Omit<IMutationBuilder<Genre, Data>, "toChangeset">,
+  { name }: CreateArgs
 ): void | Changeset<any>[] {
   mutator.set({
     id: sid(deviceId),
@@ -17,8 +17,8 @@ export function createImpl(
 }
 
 export function renameImpl(
-  mutator: Omit<IMutationBuilder<Genre, Data>, 'toChangeset'>,
-  { name }: RenameArgs,
+  mutator: Omit<IMutationBuilder<Genre, Data>, "toChangeset">,
+  { name }: RenameArgs
 ): void | Changeset<any>[] {
   mutator.set({
     name,

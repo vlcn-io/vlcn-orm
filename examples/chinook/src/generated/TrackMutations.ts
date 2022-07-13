@@ -1,9 +1,7 @@
-// SIGNED-SOURCE: <2f64a2d7b946b3d5194c5ac4b9d5246b>
+// SIGNED-SOURCE: <6a180652db1a041fb76f25c5ab33923c>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
 import * as impls from "./TrackMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
@@ -48,6 +46,8 @@ class Mutations extends MutationsBase<Track, Data> {
 
 export default class TrackMutations {
   static create(ctx: Context, args: CreateArgs): Mutations {
-    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
+    return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
+      args
+    );
   }
 }

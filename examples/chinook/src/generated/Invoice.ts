@@ -1,12 +1,12 @@
-// SIGNED-SOURCE: <abff6cd8cc04e976b6779c4006bb8912>
+// SIGNED-SOURCE: <b0f79a30bdd7eca9ba048ff70b8c9363>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./InvoiceSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./InvoiceManualMethods.js";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -29,7 +29,7 @@ export type Data = {
   total: number;
 };
 
-export default class Invoice extends Node<Data> {
+class Invoice extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -95,3 +95,7 @@ export default class Invoice extends Node<Data> {
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }
+
+interface Invoice extends ManualMethods {}
+applyMixins(Invoice, [manualMethods]);
+export default Invoice;

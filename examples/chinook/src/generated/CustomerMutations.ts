@@ -1,9 +1,7 @@
-// SIGNED-SOURCE: <f361acfacebdbda4b98b0775cf59fb82>
+// SIGNED-SOURCE: <c2080d865ac0ceb42b168935b13d8a03>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
 import * as impls from "./CustomerMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
@@ -40,6 +38,8 @@ class Mutations extends MutationsBase<Customer, Data> {
 
 export default class CustomerMutations {
   static create(ctx: Context, args: CreateArgs): Mutations {
-    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
+    return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
+      args
+    );
   }
 }

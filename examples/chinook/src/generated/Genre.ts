@@ -1,12 +1,12 @@
-// SIGNED-SOURCE: <58a115c690201d94bdcc7a519ec38d44>
+// SIGNED-SOURCE: <1606b3f3a582cc7c81af4797872879a8>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./GenreSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./GenreManualMethods.js";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -20,7 +20,7 @@ export type Data = {
   name: string | null;
 };
 
-export default class Genre extends Node<Data> {
+class Genre extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -55,3 +55,7 @@ export default class Genre extends Node<Data> {
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }
+
+interface Genre extends ManualMethods {}
+applyMixins(Genre, [manualMethods]);
+export default Genre;

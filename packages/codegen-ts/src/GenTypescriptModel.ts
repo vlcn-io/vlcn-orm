@@ -60,6 +60,16 @@ export default ${this.schema.name};
     );
   }
 
+  /*
+  ${this.getUpdateMethodCode()}
+
+  ${this.getCreateMethodCode()}
+
+  update(data: Partial<Data>) {
+    return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
+  }
+  */
+
   private getDataShapeCode(): string {
     const fieldProps = Object.values(this.schema.fields).map(
       field => `${asPropertyAccessor(field.name)}: ${fieldToTsType(field)}`,

@@ -1,12 +1,12 @@
-// SIGNED-SOURCE: <25b632aa27465db9fbad7f97bbd5fac2>
+// SIGNED-SOURCE: <91c1c83f79f8892ba12990145d451d48>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./AlbumSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./AlbumManualMethods.js";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -23,7 +23,7 @@ export type Data = {
   artistId: SID_of<Artist>;
 };
 
-export default class Album extends Node<Data> {
+class Album extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -65,3 +65,7 @@ export default class Album extends Node<Data> {
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }
+
+interface Album extends ManualMethods {}
+applyMixins(Album, [manualMethods]);
+export default Album;

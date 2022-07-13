@@ -1,12 +1,12 @@
-// SIGNED-SOURCE: <709dbfe586818c8d31f509e199e5bd3c>
+// SIGNED-SOURCE: <013f2b6f1eeb5991d404e5a150261361>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./InvoiceLineSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./InvoiceLineManualMethods.js";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -25,7 +25,7 @@ export type Data = {
   quantity: number;
 };
 
-export default class InvoiceLine extends Node<Data> {
+class InvoiceLine extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -81,3 +81,7 @@ export default class InvoiceLine extends Node<Data> {
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }
+
+interface InvoiceLine extends ManualMethods {}
+applyMixins(InvoiceLine, [manualMethods]);
+export default InvoiceLine;

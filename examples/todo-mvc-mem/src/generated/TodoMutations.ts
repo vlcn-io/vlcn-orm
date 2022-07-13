@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <ad2d2697dd0d37a1c18cd675a6cbae4b>
+// SIGNED-SOURCE: <b6f6fecf6f2e4fba529e61fdf40cbd2e>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -56,25 +56,27 @@ class Mutations extends MutationsBase<Todo, Data> {
 
 export default class TodoMutations {
   static create(ctx: Context, args: CreateArgs): Mutations {
-    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
+    return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
+      args
+    );
   }
   static setComplete(model: Todo, args: SetCompleteArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new UpdateMutationBuilder(spec, model)
+      new UpdateMutationBuilder(model.ctx, spec, model)
     ).setComplete(args);
   }
 
   static changeText(model: Todo, args: ChangeTextArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new UpdateMutationBuilder(spec, model)
+      new UpdateMutationBuilder(model.ctx, spec, model)
     ).changeText(args);
   }
   static delete(model: Todo, args: DeleteArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new DeleteMutationBuilder(spec, model)
+      new DeleteMutationBuilder(model.ctx, spec, model)
     ).delete(args);
   }
 }

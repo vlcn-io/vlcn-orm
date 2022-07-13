@@ -1,12 +1,12 @@
-// SIGNED-SOURCE: <67b66c2bb690ca47d89f316f9c16af3a>
+// SIGNED-SOURCE: <1306eab2e762e028615dc77cdf0444a4>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./PlaylistSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./PlaylistManualMethods.js";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -19,7 +19,7 @@ export type Data = {
   name: string;
 };
 
-export default class Playlist extends Node<Data> {
+class Playlist extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -57,3 +57,7 @@ export default class Playlist extends Node<Data> {
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
 }
+
+interface Playlist extends ManualMethods {}
+applyMixins(Playlist, [manualMethods]);
+export default Playlist;

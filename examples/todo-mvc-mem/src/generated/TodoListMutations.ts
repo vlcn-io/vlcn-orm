@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <6e53ebf908d6356fb32657c6245c7423>
+// SIGNED-SOURCE: <51e70b2a81aae64961ebd25f908ded4a>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -48,19 +48,21 @@ class Mutations extends MutationsBase<TodoList, Data> {
 
 export default class TodoListMutations {
   static create(ctx: Context, args: CreateArgs): Mutations {
-    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
+    return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
+      args
+    );
   }
   static filter(model: TodoList, args: FilterArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new UpdateMutationBuilder(spec, model)
+      new UpdateMutationBuilder(model.ctx, spec, model)
     ).filter(args);
   }
 
   static edit(model: TodoList, args: EditArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new UpdateMutationBuilder(spec, model)
+      new UpdateMutationBuilder(model.ctx, spec, model)
     ).edit(args);
   }
 }
