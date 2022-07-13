@@ -75,9 +75,9 @@ importers:
 
   examples/todo-mvc-mem:
     specifiers:
-      '@aphro/codegen-cli': ^0.1.7
-      '@aphro/react': ^0.1.9
-      '@aphro/runtime-ts': ^0.1.7
+      '@aphro/codegen-cli': workspace:*
+      '@aphro/react': workspace:*
+      '@aphro/runtime-ts': workspace:*
       '@types/react': ^18.0.14
       html-webpack-plugin: ^5.5.0
       raw-loader: ^4.0.2
