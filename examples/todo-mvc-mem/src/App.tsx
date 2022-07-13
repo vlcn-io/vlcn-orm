@@ -186,11 +186,11 @@ export default function App({ list }: { list: TodoList }) {
   let toggleAllCheck;
 
   useBind(list, ['filter', 'editing']);
-  const [activeTodos, completeTodos, allTodos] = unwraps(
-    useQuery(UpdateType.ANY, () => list.queryTodos().whereCompleted(P.equals(false)), []),
-    useQuery(UpdateType.ANY, () => list.queryTodos().whereCompleted(P.equals(true)), []),
-    useQuery(UpdateType.CREATE_OR_DELETE, () => list.queryTodos(), []),
-  );
+  const [activeTodos, completeTodos, allTodos] = [
+    useQuery(() => list.queryTodos().whereCompleted(P.equals(false)), []),
+    useQuery(() => list.queryTodos().whereCompleted(P.equals(true)), []),
+    useQuery(() => list.queryTodos(), [], UpdateType.CREATE_OR_DELETE),
+  ];
 
   const remaining = activeTodos.length;
   let todos =

@@ -6,6 +6,9 @@
 - Absurd SQL debug extension (e.g., inspect tables)
 
 # API Problems
+- just basic `update`, `create` and `delete` to not require mutations defined on schema
+- `update` / etc. can have `cs` variants that return a cs rather than immediately saving
+- `cs` and `optimistic` variants so you don't have to deal with a returned tuple
 - Enable sets (not just maps or arrays)
 - readonly enumerations of arrays...
 - Using mutations within mutations and gathering all changesets together while still allowing chaining
