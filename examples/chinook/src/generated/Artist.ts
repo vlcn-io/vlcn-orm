@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <d8614ac6963a81de065c365327bb3076>
+// SIGNED-SOURCE: <f75fe4f3fcbbbf41939b7941725781bf>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,6 +7,9 @@ import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./ArtistSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { ManualMethods, manualMethods } from "./ArtistManualMethods.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -53,6 +56,20 @@ class Artist extends Node<Data> {
       return existing;
     }
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
+  }
+
+  update(data: Partial<Data>) {
+    return new UpdateMutationBuilder(this.ctx, this.spec, this)
+      .set(data)
+      .toChangeset();
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
+  }
+
+  delete() {
+    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
   }
 }
 
