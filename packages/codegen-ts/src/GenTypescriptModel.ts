@@ -51,6 +51,12 @@ class ${this.schema.name}
   ${this.getGenxMethodCode()}
 
   ${this.getGenMethodCode()}
+
+  ${this.getUpdateMethodCode()}
+
+  ${this.getCreateMethodCode()}
+
+  ${this.getDeleteMethodCode()}
 }
 
 interface ${this.schema.name} extends ManualMethods {}
@@ -58,6 +64,24 @@ applyMixins(${this.schema.name}, [manualMethods]);
 export default ${this.schema.name};
 `,
     );
+  }
+
+  private getUpdateMethodCode(): string {
+    return `update(data: Partial<Data>) {
+      return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data).toChangeset();
+    }`;
+  }
+
+  private getCreateMethodCode(): string {
+    return `static create(ctx: Context, data: Partial<Data>) {
+      return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
+    }`;
+  }
+
+  private getDeleteMethodCode(): string {
+    return `delete() {
+      return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+    }`;
   }
 
   private getDataShapeCode(): string {
@@ -75,6 +99,9 @@ export default ${this.schema.name};
       tsImport('{default}', 's', './' + nodeFn.specName(this.schema.name) + '.js'),
       tsImport('{P}', null, '@aphro/runtime-ts'),
       tsImport('{ManualMethods, manualMethods}', null, `./${this.schema.name}ManualMethods.js`),
+      tsImport('{UpdateMutationBuilder}', null, '@aphro/runtime-ts'),
+      tsImport('{CreateMutationBuilder}', null, '@aphro/runtime-ts'),
+      tsImport('{DeleteMutationBuilder}', null, '@aphro/runtime-ts'),
       this.schema.type === 'node'
         ? tsImport('{Node}', null, '@aphro/runtime-ts')
         : tsImport('{Edge}', null, '@aphro/runtime-ts'),

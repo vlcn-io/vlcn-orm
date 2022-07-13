@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a4758e97c2ac34e08814fd20ba027025>
+// SIGNED-SOURCE: <34363f31dc1f7d90dc92e68a299a771b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,6 +7,9 @@ import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./IdentitySpec.js";
 import { P } from "@aphro/runtime-ts";
 import { ManualMethods, manualMethods } from "./IdentityManualMethods.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -31,6 +34,20 @@ class Identity extends Node<Data> {
 
   get token(): string {
     return this.data.token;
+  }
+
+  update(data: Partial<Data>) {
+    return new UpdateMutationBuilder(this.ctx, this.spec, this)
+      .set(data)
+      .toChangeset();
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
+  }
+
+  delete() {
+    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
   }
 }
 

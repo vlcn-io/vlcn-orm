@@ -1,12 +1,15 @@
-// SIGNED-SOURCE: <65f18375510d5578561763807a1d7a94>
+// SIGNED-SOURCE: <97fcafa8fc67c015144730f58cdc492b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./PlaylistTrackSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./PlaylistTrackManualMethods.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { Edge } from "@aphro/runtime-ts";
 import { EdgeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -20,7 +23,7 @@ export type Data = {
   id2: SID_of<Track>;
 };
 
-export default class PlaylistTrack extends Edge<Data> {
+class PlaylistTrack extends Edge<Data> {
   readonly spec = s as EdgeSpecWithCreate<this, Data>;
 
   get id1(): SID_of<Playlist> {
@@ -38,4 +41,22 @@ export default class PlaylistTrack extends Edge<Data> {
   static queryAll(ctx: Context): PlaylistTrackQuery {
     return PlaylistTrackQuery.create(ctx);
   }
+
+  update(data: Partial<Data>) {
+    return new UpdateMutationBuilder(this.ctx, this.spec, this)
+      .set(data)
+      .toChangeset();
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
+  }
+
+  delete() {
+    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+  }
 }
+
+interface PlaylistTrack extends ManualMethods {}
+applyMixins(PlaylistTrack, [manualMethods]);
+export default PlaylistTrack;

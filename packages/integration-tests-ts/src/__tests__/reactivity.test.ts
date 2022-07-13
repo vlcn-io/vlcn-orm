@@ -22,8 +22,7 @@ test('queryAll subscription', async () => {
     }).toChangeset(),
   );
 
-  let [persistHandle] = commit(ctx, changesets);
-  await persistHandle;
+  await commit(ctx, changesets);
 
   // Set up our live query
   const liveResult = User.queryAll(ctx).live(UpdateType.ANY);
@@ -54,10 +53,9 @@ test('queryAll subscription', async () => {
 
   disposer();
 
-  [persistHandle] = UserMutations.rename(nullthrows(liveResult.latest)[0], {
+  await UserMutations.rename(nullthrows(liveResult.latest)[0], {
     name: 'mutated name',
   }).save();
-  await persistHandle;
 
   await liveResult.__currentHandle;
   expect(wasNotified).toBe(true);
@@ -81,8 +79,7 @@ test('reactivity via generator', async () => {
   const result = await g.next().value;
   expect(result.length).toBeGreaterThan(0);
 
-  const [handle] = UserMutations.rename(result[0], { name: '---' }).save();
-  await handle;
+  await UserMutations.rename(result[0], { name: '---' }).save();
 
   const newResult = await g.next().value;
   expect(newResult.length).toBeGreaterThan(0);

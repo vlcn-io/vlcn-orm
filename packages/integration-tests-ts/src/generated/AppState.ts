@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <dcdb7db991153e727790f135f5fd1b5b>
+// SIGNED-SOURCE: <406291dc48a83da27cfe15b52761d54a>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,6 +7,9 @@ import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./AppStateSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { ManualMethods, manualMethods } from "./AppStateManualMethods.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -39,6 +42,20 @@ class AppState extends Node<Data> {
 
   get copiedComponents(): readonly Component[] {
     return this.data.copiedComponents;
+  }
+
+  update(data: Partial<Data>) {
+    return new UpdateMutationBuilder(this.ctx, this.spec, this)
+      .set(data)
+      .toChangeset();
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
+  }
+
+  delete() {
+    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
   }
 }
 

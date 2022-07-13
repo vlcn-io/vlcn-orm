@@ -1,12 +1,15 @@
-// SIGNED-SOURCE: <85e03c4ea7d2b15bce411919ff272f21>
+// SIGNED-SOURCE: <11af8b2b18e5a6c9da4d3fbba7891d77>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./EmployeeSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./EmployeeManualMethods.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -33,7 +36,7 @@ export type Data = {
   email: string | null;
 };
 
-export default class Employee extends Node<Data> {
+class Employee extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -128,4 +131,22 @@ export default class Employee extends Node<Data> {
     }
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
+
+  update(data: Partial<Data>) {
+    return new UpdateMutationBuilder(this.ctx, this.spec, this)
+      .set(data)
+      .toChangeset();
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
+  }
+
+  delete() {
+    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+  }
 }
+
+interface Employee extends ManualMethods {}
+applyMixins(Employee, [manualMethods]);
+export default Employee;

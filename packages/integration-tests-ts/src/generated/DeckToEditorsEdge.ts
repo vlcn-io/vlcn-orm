@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <7beec8f988a44a7983a7a9d14dbeb4ff>
+// SIGNED-SOURCE: <c82ca08744a08ecc9e0caf82f65c6198>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -10,6 +10,9 @@ import {
   ManualMethods,
   manualMethods,
 } from "./DeckToEditorsEdgeManualMethods.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { Edge } from "@aphro/runtime-ts";
 import { EdgeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -40,6 +43,20 @@ class DeckToEditorsEdge extends Edge<Data> {
 
   static queryAll(ctx: Context): DeckToEditorsEdgeQuery {
     return DeckToEditorsEdgeQuery.create(ctx);
+  }
+
+  update(data: Partial<Data>) {
+    return new UpdateMutationBuilder(this.ctx, this.spec, this)
+      .set(data)
+      .toChangeset();
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
+  }
+
+  delete() {
+    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
   }
 }
 

@@ -1,12 +1,15 @@
-// SIGNED-SOURCE: <07fc3fad56fa3c7aa926bdb3fa0fe202>
+// SIGNED-SOURCE: <f75fe4f3fcbbbf41939b7941725781bf>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./ArtistSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./ArtistManualMethods.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -20,7 +23,7 @@ export type Data = {
   name: string | null;
 };
 
-export default class Artist extends Node<Data> {
+class Artist extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -54,4 +57,22 @@ export default class Artist extends Node<Data> {
     }
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
+
+  update(data: Partial<Data>) {
+    return new UpdateMutationBuilder(this.ctx, this.spec, this)
+      .set(data)
+      .toChangeset();
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
+  }
+
+  delete() {
+    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+  }
 }
+
+interface Artist extends ManualMethods {}
+applyMixins(Artist, [manualMethods]);
+export default Artist;

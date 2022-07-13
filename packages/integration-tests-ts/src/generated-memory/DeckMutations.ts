@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <203f97701c7216617fe4b4e3ba095394>
+// SIGNED-SOURCE: <d0015fd647c335589b4daaedd7148e4e>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -65,25 +65,27 @@ class Mutations extends MutationsBase<Deck, Data> {
 
 export default class DeckMutations {
   static create(ctx: Context, args: CreateArgs): Mutations {
-    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
+    return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
+      args
+    );
   }
   static selectSlide(model: Deck, args: SelectSlideArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new UpdateMutationBuilder(spec, model)
+      new UpdateMutationBuilder(model.ctx, spec, model)
     ).selectSlide(args);
   }
 
   static rename(model: Deck, args: RenameArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new UpdateMutationBuilder(spec, model)
+      new UpdateMutationBuilder(model.ctx, spec, model)
     ).rename(args);
   }
   static delete(model: Deck, args: DeleteArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new DeleteMutationBuilder(spec, model)
+      new DeleteMutationBuilder(model.ctx, spec, model)
     ).delete(args);
   }
 }

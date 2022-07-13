@@ -1,9 +1,7 @@
-// SIGNED-SOURCE: <c05ea804d93b4ab308c3a1c277b81602>
+// SIGNED-SOURCE: <8c0f3794476292498b916b3a83193647>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
 import * as impls from "./AlbumMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
@@ -46,12 +44,14 @@ class Mutations extends MutationsBase<Album, Data> {
 
 export default class AlbumMutations {
   static create(ctx: Context, args: CreateArgs): Mutations {
-    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
+    return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
+      args
+    );
   }
   static retitle(model: Album, args: RetitleArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new UpdateMutationBuilder(spec, model)
+      new UpdateMutationBuilder(model.ctx, spec, model)
     ).retitle(args);
   }
 }

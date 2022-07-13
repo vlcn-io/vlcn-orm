@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <d6b6766c76095bd05755121555153aba>
+// SIGNED-SOURCE: <2bb7082c89a4b9ce70de829554493f4b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -47,18 +47,20 @@ class Mutations extends MutationsBase<User, Data> {
 
 export default class UserMutations {
   static create(ctx: Context, args: CreateArgs): Mutations {
-    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
+    return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
+      args
+    );
   }
   static rename(model: User, args: RenameArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new UpdateMutationBuilder(spec, model)
+      new UpdateMutationBuilder(model.ctx, spec, model)
     ).rename(args);
   }
   static delete(model: User, args: DeleteArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new DeleteMutationBuilder(spec, model)
+      new DeleteMutationBuilder(model.ctx, spec, model)
     ).delete(args);
   }
 }

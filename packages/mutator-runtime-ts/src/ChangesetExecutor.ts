@@ -4,6 +4,7 @@ import {
   MutableHeteroModelMap,
   Transaction,
   IModel,
+  UpdateChangeset,
 } from '@aphro/context-runtime-ts';
 import { SID_of } from '@strut/sid';
 import { Task } from './NotifyQueue.js';
@@ -131,7 +132,7 @@ export class ChangesetExecutor {
         spec: changeset.model.spec,
         model: changeset.model,
         id: changeset.id,
-      });
+      } as UpdateChangeset<any, any>);
     }
 
     return merged;

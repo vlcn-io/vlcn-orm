@@ -1,12 +1,15 @@
-// SIGNED-SOURCE: <74bc4e673a6a7c4d43de0401605baa95>
+// SIGNED-SOURCE: <2d430ecc60dcdef36f27d20c251489b7>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
+import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./TrackSpec.js";
 import { P } from "@aphro/runtime-ts";
+import { ManualMethods, manualMethods } from "./TrackManualMethods.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -33,7 +36,7 @@ export type Data = {
   unitPrice: number;
 };
 
-export default class Track extends Node<Data> {
+class Track extends Node<Data> {
   readonly spec = s as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -110,4 +113,22 @@ export default class Track extends Node<Data> {
     }
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
   }
+
+  update(data: Partial<Data>) {
+    return new UpdateMutationBuilder(this.ctx, this.spec, this)
+      .set(data)
+      .toChangeset();
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
+  }
+
+  delete() {
+    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+  }
 }
+
+interface Track extends ManualMethods {}
+applyMixins(Track, [manualMethods]);
+export default Track;

@@ -102,15 +102,15 @@ ${this.getCode()}
     switch (verb) {
       case 'create':
         return `static ${m.name}(ctx: Context, args: ${nameCased}Args): Mutations {
-          return new Mutations(ctx, new CreateMutationBuilder(spec)).${m.name}(args)
+          return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).${m.name}(args)
         }`;
       case 'update':
         return `static ${m.name}(model: ${this.schema.name}, args: ${nameCased}Args): Mutations {
-          return new Mutations(model.ctx, new UpdateMutationBuilder(spec, model)).${m.name}(args)
+          return new Mutations(model.ctx, new UpdateMutationBuilder(model.ctx, spec, model)).${m.name}(args)
         }`;
       case 'delete':
         return `static ${m.name}(model: ${this.schema.name}, args: ${nameCased}Args): Mutations {
-          return new Mutations(model.ctx, new DeleteMutationBuilder(spec, model)).${m.name}(args)
+          return new Mutations(model.ctx, new DeleteMutationBuilder(model.ctx, spec, model)).${m.name}(args)
         }`;
     }
   }

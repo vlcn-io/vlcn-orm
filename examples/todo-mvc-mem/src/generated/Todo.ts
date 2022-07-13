@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <9f40d9a00e8389342dc03d62ea08dcf2>
+// SIGNED-SOURCE: <3ddc5d103a2e46b083d8beb0ea3d3929>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,6 +7,9 @@ import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./TodoSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { ManualMethods, manualMethods } from "./TodoManualMethods.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -58,6 +61,20 @@ class Todo extends Node<Data> {
       return existing;
     }
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
+  }
+
+  update(data: Partial<Data>) {
+    return new UpdateMutationBuilder(this.ctx, this.spec, this)
+      .set(data)
+      .toChangeset();
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
+  }
+
+  delete() {
+    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
   }
 }
 

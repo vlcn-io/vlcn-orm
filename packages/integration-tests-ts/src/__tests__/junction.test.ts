@@ -45,13 +45,11 @@ beforeAll(async () => {
     }).toChangeset(),
   );
 
-  const [persistHandle, u1, u2, u3, u4, d] = commit(ctx, ...userCs, deckCs, ...editorCs);
+  const [u1, u2, u3, u4, d] = await commit(ctx, ...userCs, deckCs, ...editorCs);
 
   owner = u1 as User;
   deck = d as Deck;
   editors = [u2, u3, u4] as User[];
-
-  await persistHandle;
 });
 
 test('link up a slide deck and users through a junction edge and query', async () => {

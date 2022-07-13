@@ -19,8 +19,7 @@ beforeAll(async () => {
 });
 
 test('Point queries', async () => {
-  const [persistHandle, user] = UserMutations.create(ctx, { name: 'Bill' }).save();
-  await persistHandle;
+  const user = await UserMutations.create(ctx, { name: 'Bill' }).save();
 
   const reloadedUser = await User.genx(ctx, user.id);
 
@@ -55,8 +54,7 @@ async function testQueryAll(
     }).toChangeset(),
   );
 
-  const [persistHandle, optimistic] = commit(ctx, changesets);
-  await persistHandle;
+  await commit(ctx, changesets);
 
   const users = await Model.queryAll(ctx).gen();
   const names = users.map(u => u.name);
@@ -92,14 +90,7 @@ async function testQueryThatTraversesEdges(
     // @ts-ignore
     slide: slideCs,
   }).toChangeset();
-  const [persistHandle, user, component, slide, deck] = commit(
-    ctx,
-    userCs,
-    componentCs,
-    slideCs,
-    deckCs,
-  );
-  await persistHandle;
+  const [user, component, slide, deck] = await commit(ctx, userCs, componentCs, slideCs, deckCs);
 
   const components = await user.queryDecks().querySlides().queryComponents().gen();
 

@@ -1,9 +1,7 @@
-// SIGNED-SOURCE: <5a63e85c992ebf5140c31d3b2d05d072>
+// SIGNED-SOURCE: <4032494330996395b6262f82925f95e6>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
- * For partially generated files, place modifications between the generated `BEGIN-MANUAL-SECTION` and
- * `END-MANUAL-SECTION` markers.
  */
 import * as impls from "./MediaTypeMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
@@ -41,12 +39,14 @@ class Mutations extends MutationsBase<MediaType, Data> {
 
 export default class MediaTypeMutations {
   static create(ctx: Context, args: CreateArgs): Mutations {
-    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
+    return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
+      args
+    );
   }
   static rename(model: MediaType, args: RenameArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new UpdateMutationBuilder(spec, model)
+      new UpdateMutationBuilder(model.ctx, spec, model)
     ).rename(args);
   }
 }

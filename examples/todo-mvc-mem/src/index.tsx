@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { anonymous, basicResolver, MemoryDB, sql } from '@aphro/runtime-ts';
+import { anonymous, basicResolver, MemoryDB, sid } from '@aphro/runtime-ts';
 import { context, Context } from '@aphro/runtime-ts';
 import App from './App.js';
 import TodoList from './generated/TodoList.js';
-import TodoListMutations from './generated/TodoListMutations.js';
 
 const ctx = context(anonymous(), basicResolver(new MemoryDB()));
 start(ctx);
@@ -13,8 +12,11 @@ start(ctx);
 async function bootstrap(ctx: Context): Promise<TodoList> {
   let list = await TodoList.queryAll(ctx).genOnlyValue();
   if (list == null) {
-    const result = TodoListMutations.create(ctx, {}).save();
-    list = result[1];
+    list = TodoList.create(ctx, {
+      id: sid('aaaa'),
+      filter: 'all',
+      editing: null,
+    }).save().optimistic;
   }
 
   return list;

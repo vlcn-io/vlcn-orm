@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <46b33352feab8cd15a2b52a423c583c3>
+// SIGNED-SOURCE: <0fe5be59d27e560353be4f6cb329c94f>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -52,18 +52,20 @@ class Mutations extends MutationsBase<Slide, Data> {
 
 export default class SlideMutations {
   static create(ctx: Context, args: CreateArgs): Mutations {
-    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
+    return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
+      args
+    );
   }
   static reorder(model: Slide, args: ReorderArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new UpdateMutationBuilder(spec, model)
+      new UpdateMutationBuilder(model.ctx, spec, model)
     ).reorder(args);
   }
   static delete(model: Slide, args: DeleteArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new DeleteMutationBuilder(spec, model)
+      new DeleteMutationBuilder(model.ctx, spec, model)
     ).delete(args);
   }
 }

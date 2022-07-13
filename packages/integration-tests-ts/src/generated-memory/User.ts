@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <ec03167ae7779939921160533b66a147>
+// SIGNED-SOURCE: <c102548353198a50f911deb39760915d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,6 +7,9 @@ import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./UserSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { ManualMethods, manualMethods } from "./UserManualMethods.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -63,6 +66,20 @@ class User extends Node<Data> {
       return existing;
     }
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
+  }
+
+  update(data: Partial<Data>) {
+    return new UpdateMutationBuilder(this.ctx, this.spec, this)
+      .set(data)
+      .toChangeset();
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
+  }
+
+  delete() {
+    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
   }
 }
 

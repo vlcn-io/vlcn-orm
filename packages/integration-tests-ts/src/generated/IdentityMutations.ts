@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <16204e20ebb32ac67728ac6fc82b72bb>
+// SIGNED-SOURCE: <5bf094b4c34f32ded6c6c13c1c9a5951>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -31,6 +31,8 @@ class Mutations extends MutationsBase<Identity, Data> {
 
 export default class IdentityMutations {
   static create(ctx: Context, args: CreateArgs): Mutations {
-    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
+    return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
+      args
+    );
   }
 }

@@ -57,7 +57,9 @@ class Mutations extends MutationsBase<Foo, Data> {
 
 export default class FooMutations {
   static create(ctx: Context, args: CreateArgs): Mutations {
-    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
+    return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
+      args
+    );
   }
 }
 `);
@@ -113,7 +115,9 @@ class Mutations extends MutationsBase<Foo, Data> {
 
 export default class FooMutations {
   static create(ctx: Context, args: CreateArgs): Mutations {
-    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
+    return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
+      args
+    );
   }
 }
 `);
@@ -175,7 +179,9 @@ class Mutations extends MutationsBase<Foo, Data> {
 
 export default class FooMutations {
   static create(ctx: Context, args: CreateArgs): Mutations {
-    return new Mutations(ctx, new CreateMutationBuilder(spec)).create(args);
+    return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
+      args
+    );
   }
 }
 `);
@@ -184,7 +190,7 @@ export default class FooMutations {
   );
 });
 
-test('ID imports', () => {});
+// test('ID imports', () => {});
 
 async function genIt(schema: SchemaNode) {
   return await new GenTypescriptMutations({

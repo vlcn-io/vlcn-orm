@@ -23,42 +23,42 @@ beforeAll(async () => {
 });
 
 test('Ephemeral nodes are not added to the cache on create', () => {
-  const [_, identity] = IdentityMutations.create(ctx, {
+  IdentityMutations.create(ctx, {
     identifier: 'foo@foo.com',
     token: 'sdfsdfds',
-  }).save();
+  }).save().optimistic;
 
   expect(cache.size).toBe(0);
 });
 
 test('Ephemeral nodes are not added to the cache on update', () => {
-  let [_, identity] = IdentityMutations.create(ctx, {
+  const identity = IdentityMutations.create(ctx, {
     identifier: 'foo@foo.com',
     token: 'sdfsdfds',
-  }).save();
+  }).save().optimistic;
 
-  let [__, appState] = AppStateMutations.create(ctx, {
+  let appState = AppStateMutations.create(ctx, {
     identity: identity,
     openDeckId: asId('a'),
-  }).save();
+  }).save().optimistic;
 
   expect(cache.size).toBe(0);
 
-  [__, appState] = AppStateMutations.openDeck(appState, { openDeck: asId('b') }).save();
+  appState = AppStateMutations.openDeck(appState, { openDeck: asId('b') }).save().optimistic;
 
   expect(cache.size).toBe(0);
 });
 
 test('Changes to ephemeral nodes can be observed', () => {
-  let [_, identity] = IdentityMutations.create(ctx, {
+  let identity = IdentityMutations.create(ctx, {
     identifier: 'foo@foo.com',
     token: 'sdfsdfds',
-  }).save();
+  }).save().optimistic;
 
-  let [__, appState] = AppStateMutations.create(ctx, {
+  let appState = AppStateMutations.create(ctx, {
     identity: identity,
     openDeckId: asId('a'),
-  }).save();
+  }).save().optimistic;
 
   let notified = false;
   appState.subscribeTo(['openDeckId'], () => {
