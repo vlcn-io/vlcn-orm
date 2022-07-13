@@ -1,5 +1,16 @@
 # @aphro/mutation-codegen
 
+## 0.2.0
+
+### Minor Changes
+
+- simplify mutations, simplify hooks
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/codegen-ts@0.2.0
+
 ## 0.1.9
 
 ### Patch Changes

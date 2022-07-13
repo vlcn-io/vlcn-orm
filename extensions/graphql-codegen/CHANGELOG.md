@@ -1,5 +1,12 @@
 # @aphro/graphql-codegen
 
+## 0.1.10
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/codegen-ts@0.2.0
+
 ## 0.1.9
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @aphro/mutator-runtime-ts
 
+## 0.2.0
+
+### Minor Changes
+
+- simplify mutations, simplify hooks
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.2.0
+  - @aphro/model-runtime-ts@0.1.9
+
 ## 0.1.8
 
 ### Patch Changes

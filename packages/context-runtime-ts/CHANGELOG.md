@@ -1,5 +1,11 @@
 # @aphro/context-runtime-ts
 
+## 0.2.0
+
+### Minor Changes
+
+- simplify mutations, simplify hooks
+
 ## 0.1.8
 
 ### Patch Changes

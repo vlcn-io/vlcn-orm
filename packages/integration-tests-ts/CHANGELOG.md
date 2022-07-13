@@ -1,5 +1,15 @@
 # @aphro/integration-tests-ts
 
+## 0.2.0
+
+### Minor Changes
+
+- simplify mutations, simplify hooks
+
+### Patch Changes
+
+- @aphro/runtime-ts@0.1.11
+
 ## 0.1.10
 
 ### Patch Changes

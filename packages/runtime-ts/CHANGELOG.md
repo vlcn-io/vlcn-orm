@@ -1,5 +1,15 @@
 # @aphro/runtime-ts
 
+## 0.1.11
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.2.0
+  - @aphro/mutator-runtime-ts@0.2.0
+  - @aphro/model-runtime-ts@0.1.9
+  - @aphro/query-runtime-ts@0.1.10
+
 ## 0.1.10
 
 ### Patch Changes
