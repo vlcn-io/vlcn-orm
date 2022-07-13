@@ -25,46 +25,22 @@ export function useBind<M extends INode<D>, D>(m: M, keys?: (keyof D)[]): void {
   }, [m]);
 }
 
-export type UseQueryData<T> =
-  | {
-      status: 'loading';
-    }
-  | {
-      status: 'ready';
-      data: T[];
-    }
-  | {
-      status: 'error';
-      error: Error;
-    };
-
+export type UseQueryData<T> = {
+  loading: boolean;
+  error?: Error;
+  data: T[];
+};
 type QueryReturnType<Q> = Q extends Query<infer M> ? M : any;
 
 export function useQuery<Q extends Query<QueryReturnType<Q>>>(
   queryProvider: () => Q,
-  deps: any[],
-  on: UpdateType = UpdateType.ANY,
-): QueryReturnType<Q>[] {
-  const data = useQueryVerbose(queryProvider, deps, on);
-  if (data.status === 'error') {
-    throw data.error;
-  }
-
-  if (data.status === 'loading') {
-    return [];
-  }
-
-  return data.data;
-}
-
-export function useQueryVerbose<Q extends Query<QueryReturnType<Q>>>(
-  queryProvider: () => Q,
-  deps: any[],
+  deps: any[] = [],
   on: UpdateType = UpdateType.ANY,
 ): UseQueryData<QueryReturnType<Q>> {
   const currentLiveResult = useRef<LiveResult<QueryReturnType<Q>> | null>(null);
   const [result, setResult] = useState<UseQueryData<QueryReturnType<Q>>>({
-    status: 'loading',
+    loading: true,
+    data: [],
   });
 
   useEffect(() => {
@@ -81,7 +57,7 @@ export function useQueryVerbose<Q extends Query<QueryReturnType<Q>>>(
       }
 
       setResult({
-        status: 'ready',
+        loading: false,
         data,
       });
     });
@@ -92,20 +68,20 @@ export function useQueryVerbose<Q extends Query<QueryReturnType<Q>>>(
   return result;
 }
 
-export function useQuerySuspense<Q extends Query<QueryReturnType<Q>>>(
-  queryProvider: () => Q,
-  deps: any[],
-  on: UpdateType = UpdateType.ANY,
-): QueryReturnType<Q>[] {
-  const data = useQueryVerbose(queryProvider, deps, on);
-  if (data.status === 'error') {
-    throw data.error;
-  }
+// export function useQuerySuspense<Q extends Query<QueryReturnType<Q>>>(
+//   queryProvider: () => Q,
+//   deps: any[],
+//   on: UpdateType = UpdateType.ANY,
+// ): QueryReturnType<Q>[] {
+//   const data = useQueryVerbose(queryProvider, deps, on);
+//   if (data.status === 'error') {
+//     throw data.error;
+//   }
 
-  // TODO: Make this suspense friendly?
-  if (data.status === 'loading') {
-    throw 'loading';
-  }
+//   // TODO: Make this suspense friendly?
+//   if (data.status === 'loading') {
+//     throw 'loading';
+//   }
 
-  return data.data;
-}
+//   return data.data;
+// }

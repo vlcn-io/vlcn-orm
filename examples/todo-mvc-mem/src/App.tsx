@@ -1,7 +1,7 @@
 import Todo from './generated/Todo.js';
 import * as React from 'react';
 import { useState, useCallback, memo } from 'react';
-import { unwraps, useBind, useQuery } from '@aphro/react';
+import { useBind, useQuery } from '@aphro/react';
 import { commit, P, UpdateType, sid } from '@aphro/runtime-ts';
 import TodoList, { Data } from './generated/TodoList.js';
 
@@ -182,11 +182,9 @@ export default function App({ list }: { list: TodoList }) {
   let toggleAllCheck;
 
   useBind(list, ['filter', 'editing']);
-  const [activeTodos, completeTodos, allTodos] = [
-    useQuery(() => list.queryTodos().whereCompleted(P.equals(false)), []),
-    useQuery(() => list.queryTodos().whereCompleted(P.equals(true)), []),
-    useQuery(() => list.queryTodos(), [], UpdateType.CREATE_OR_DELETE),
-  ];
+  const activeTodos = useQuery(() => list.queryTodos().whereCompleted(P.equals(false))).data;
+  const completeTodos = useQuery(() => list.queryTodos().whereCompleted(P.equals(true))).data;
+  const allTodos = useQuery(() => list.queryTodos(), [], UpdateType.CREATE_OR_DELETE).data;
 
   const remaining = activeTodos.length;
   let todos =
