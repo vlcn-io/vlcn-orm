@@ -1,24 +1,28 @@
 import { ChangesetExecutor } from './ChangesetExecutor.js';
 import { Context, Changeset, IModel, Transaction } from '@aphro/context-runtime-ts';
+import CommitPromise from './CommitPromise.js';
 
 type ExtractValue<T extends readonly Changeset<any, any>[]> = {
   [K in keyof T]: T[K] extends Changeset<infer V, infer D> ? V : never;
 };
 
-export function commit<M extends IModel<D>, D>(ctx: Context, changesets: Changeset<M>): Promise<M>;
+export function commit<M extends IModel<D>, D>(
+  ctx: Context,
+  changesets: Changeset<M>,
+): CommitPromise<M>;
 export function commit<T extends ReadonlyArray<Changeset<any, any>>>(
   ctx: Context,
   changesets: T,
-): Promise<[...ExtractValue<T>]>;
+): CommitPromise<[...ExtractValue<T>]>;
 export function commit<T extends ReadonlyArray<Changeset<any, any>>>(
   ctx: Context,
   ...changesets: T
-): Promise<[...ExtractValue<T>]>;
+): CommitPromise<[...ExtractValue<T>]>;
 
 export function commit<T extends readonly Changeset<any, any>[]>(
   ctx: Context,
   ...changesets: T
-): Promise<[...ExtractValue<T>]> {
+): CommitPromise<[...ExtractValue<T>]> {
   // Handle overloads.
   let singular = false;
   if (Array.isArray(changesets[0])) {
@@ -32,13 +36,24 @@ export function commit<T extends readonly Changeset<any, any>[]>(
 
   const transaction = new ChangesetExecutor(ctx, changesets).execute();
 
-  return transaction.persistHandle.then(() => {
-    const ret = changesets.map(cs => transaction.nodes.get(cs.id));
-    if (singular) {
-      return ret[0];
-    }
-    return ret;
-  }) as any;
+  const optimistic = changesets.map(cs => transaction.nodes.get(cs.id));
+  let result;
+  if (singular) {
+    result = optimistic[0];
+  } else {
+    result = optimistic;
+  }
+  const ret = new CommitPromise((resolve, reject) => {
+    transaction.persistHandle.then(
+      () =>
+        // explain why we can use `optimistic` results here
+        resolve(result),
+      reject,
+    );
+  });
+  ret.__setOptimisticResult(result);
+
+  return ret as any;
 }
 
 // TODO: we need to re-enable optimistic updates + delayed persists.

@@ -22,96 +22,83 @@ beforeAll(async () => {
   ctx = context(viewer(asId('me')), resolver, new Cache());
 });
 
-// test('Creating models via mutators', () => {
-//   // TODO: create simple API for people that want to use mutation builders directly?
-//   // create(spec, updates).toChangeset/.commit | Or force everyone onto generated Mutations?
-//   const cs = new CreateMutationBuilder(ctx, spec)
-//     .set({
-//       id: sid(device),
-//       created: Date.now(),
-//       modified: Date.now(),
-//       name: 'Bart',
-//     })
-//     .toChangeset();
+test('Creating models via mutators', () => {
+  // TODO: create simple API for people that want to use mutation builders directly?
+  // create(spec, updates).toChangeset/.commit | Or force everyone onto generated Mutations?
+  const cs = new CreateMutationBuilder(ctx, spec)
+    .set({
+      id: sid(device),
+      created: Date.now(),
+      modified: Date.now(),
+      name: 'Bart',
+    })
+    .toChangeset();
 
-//   expect(async () => {
-//     const [persist, optimistic] = commit(ctx, [cs]);
-//     await persist;
-//   }).not.toThrow();
-// });
+  expect(async () => {
+    await commit(ctx, [cs]);
+  }).not.toThrow();
+});
 
-// test('Optimstic read after create', async () => {
-//   const creationTime = Date.now();
-//   const cs = new CreateMutationBuilder(ctx, spec)
-//     .set({
-//       id: sid(device),
-//       created: creationTime,
-//       modified: creationTime,
-//       name: 'Bart',
-//     })
-//     .toChangeset();
-
-//   const [persist, user] = commit(ctx, [cs]);
-
-//   expect(user.name).toEqual('Bart');
-//   expect(user.created).toEqual(creationTime);
-//   expect(user.modified).toEqual(creationTime);
-
-//   await persist;
-// });
-
-// test('Reading the created item after create', async () => {
-//   const creationTime = Date.now();
-//   const cs = new CreateMutationBuilder(ctx, spec)
-//     .set({
-//       id: sid(device),
-//       created: creationTime,
-//       modified: creationTime,
-//       name: 'Bart',
-//     })
-//     .toChangeset();
-
-//   const [persist, optimistic] = commit(ctx, [cs]);
-//   await persist;
-
-//   // TODO: generate static User.queryAll method
-//   let users = await UserQuery.create(ctx).gen();
-//   expect(users).toContain(optimistic);
-
-//   ctx.cache.clear();
-//   users = await UserQuery.create(ctx).gen();
-//   expect(users.map(u => u.id)).toContain(cs.id);
-//   expect(users).not.toContain(optimistic);
-// });
-
-// test('shorthand create', async () => {
-//   const creationTime = Date.now();
-//   for (let i = 0; i < 100; ++i) {
-//     const id = sid(device);
-//     const user = new CreateMutationBuilder(ctx, spec)
-//       .set({
-//         id: id as SID_of<User>,
-//         created: creationTime,
-//         modified: creationTime,
-//         name: 'Bart',
-//       })
-//       .save();
-
-//     expect(user.id).toBe(id);
-//   }
-// });
-
-test('shorthand update', async () => {
+test('Optimstic read after create', async () => {
   const creationTime = Date.now();
-
-  const x = await new CreateMutationBuilder(ctx, spec)
+  const cs = new CreateMutationBuilder(ctx, spec)
     .set({
       id: sid(device),
       created: creationTime,
       modified: creationTime,
       name: 'Bart',
     })
-    .save();
+    .toChangeset();
+
+  const user = await commit(ctx, cs);
+
+  expect(user.name).toEqual('Bart');
+  expect(user.created).toEqual(creationTime);
+  expect(user.modified).toEqual(creationTime);
+});
+
+test('Reading the created item after create', async () => {
+  const creationTime = Date.now();
+  const cs = new CreateMutationBuilder(ctx, spec)
+    .set({
+      id: sid(device),
+      created: creationTime,
+      modified: creationTime,
+      name: 'Bart',
+    })
+    .toChangeset();
+
+  const user = await commit(ctx, cs);
+
+  // TODO: generate static User.queryAll method
+  let users = await UserQuery.create(ctx).gen();
+  expect(users).toContain(user);
+
+  ctx.cache.clear();
+  users = await UserQuery.create(ctx).gen();
+  expect(users.map(u => u.id)).toContain(cs.id);
+  expect(users).not.toContain(user);
+});
+
+test('shorthand create', async () => {
+  const creationTime = Date.now();
+  for (let i = 0; i < 100; ++i) {
+    const id = sid(device);
+    const user = new CreateMutationBuilder(ctx, spec)
+      .set({
+        id: id as SID_of<User>,
+        created: creationTime,
+        modified: creationTime,
+        name: 'Bart',
+      })
+      .save().optimistic;
+
+    expect(user.id).toBe(id);
+  }
+});
+
+test('shorthand update', async () => {
+  const creationTime = Date.now();
 
   const createdUsers = await Promise.all(
     Array.from({ length: 100 }).map(_ =>

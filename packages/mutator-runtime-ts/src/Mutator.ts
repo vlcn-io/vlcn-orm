@@ -11,6 +11,7 @@ import {
   Context,
 } from '@aphro/context-runtime-ts';
 import { commit } from './commit.js';
+import CommitPromise from './CommitPromise.js';
 
 export interface IMutationBuilder<M extends IModel<D>, D extends Object> {
   readonly ctx: Context;
@@ -57,7 +58,7 @@ abstract class MutationBuilder<M extends IModel<D>, D extends Object>
    *
    * @returns reference to the model
    */
-  save(): Promise<M> {
+  save(): CommitPromise<M> {
     const cs = this.toChangeset();
     return commit(this.ctx, cs);
   }

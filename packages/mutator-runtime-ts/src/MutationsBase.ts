@@ -1,6 +1,7 @@
 import { IMutationBuilder } from './Mutator.js';
 import { commit } from './commit.js';
 import { Context, Changeset, ChangesetOptions, IModel } from '@aphro/context-runtime-ts';
+import CommitPromise from './CommitPromise.js';
 
 export default abstract class MutationsBase<M extends IModel<D>, D extends Object> {
   readonly ctx: Context;
@@ -8,7 +9,7 @@ export default abstract class MutationsBase<M extends IModel<D>, D extends Objec
     this.ctx = ctx;
   }
 
-  save(): Promise<M> {
+  save(): CommitPromise<M> {
     const cs = this.mutator.toChangeset();
     return commit(this.ctx, cs);
   }
