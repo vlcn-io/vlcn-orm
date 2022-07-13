@@ -11,6 +11,7 @@ export default class TypescriptFile implements CodegenFile {
     public readonly name: string,
     contents: string,
     public readonly isUnsigned: boolean = false,
+    public readonly nochange: boolean = false,
   ) {
     this.#contents = contents;
   }

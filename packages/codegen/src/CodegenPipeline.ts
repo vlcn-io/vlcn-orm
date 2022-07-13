@@ -51,7 +51,7 @@ export default class CodegenPipleine {
       )
     ).filter((f): f is CodegenFile => f != null);
 
-    const allFiles = [...nodeAndEdgeFiles, ...globalStepFiles];
+    const allFiles = [...nodeAndEdgeFiles, ...globalStepFiles].filter(f => f.nochange !== true);
 
     await fs.promises.mkdir(dest, { recursive: true });
     const toWrite = await this.checkHashesAndAddManualCode(dest, allFiles);

@@ -229,7 +229,6 @@ importers:
   packages/absurd-sql-connector:
     specifiers:
       '@aphro/absurd-sql': ^0.0.53
-      '@aphro/context-runtime-ts': workspace:*
       '@aphro/sql-ts': workspace:*
       '@aphro/sql.js': ^1.7.0
       '@babel/core': ^7.17.12
@@ -241,7 +240,6 @@ importers:
       typescript: ^4.6.4
     dependencies:
       '@aphro/absurd-sql': 0.0.53
-      '@aphro/context-runtime-ts': link:../context-runtime-ts
       '@aphro/sql-ts': link:../sql-ts
       '@aphro/sql.js': 1.7.0
       '@strut/counter': 0.0.11
@@ -429,6 +427,7 @@ importers:
       '@strut/counter': ^0.0.11
       '@strut/utils': ^0.1.1
       '@types/jest': ^27.4.1
+      '@types/node': ^17.0.31
       '@types/prettier': ^2.6.0
       '@typescript-eslint/typescript-estree': ^5.22.0
       jest: ^28.1.0
@@ -449,9 +448,10 @@ importers:
       '@babel/core': 7.18.2
       '@babel/preset-env': 7.18.2_@babel+core@7.18.2
       '@types/jest': 27.5.2
+      '@types/node': 17.0.31
       '@types/prettier': 2.6.3
       '@typescript-eslint/typescript-estree': 5.27.1_typescript@4.7.2
-      jest: 28.1.0
+      jest: 28.1.0_@types+node@17.0.31
       ts-jest: 28.0.4_khendlpaw4eq6oiaaraksjy7e4
       typescript: 4.7.2
 
@@ -9797,7 +9797,7 @@ packages:
       '@babel/core': 7.18.2
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 28.1.0
+      jest: 28.1.0_@types+node@17.0.31
       jest-util: 28.1.0
       json5: 2.2.1
       lodash.memoize: 4.1.2
