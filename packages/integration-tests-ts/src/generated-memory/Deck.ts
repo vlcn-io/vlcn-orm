@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <53aecc9d949eb27ab2d00225ca155939>
+// SIGNED-SOURCE: <675891e81d94d9c965b4c5e3ca770efb>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,6 +7,7 @@ import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./DeckSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { ManualMethods, manualMethods } from "./DeckManualMethods.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -87,6 +88,10 @@ class Deck extends Node<Data> {
       return existing;
     }
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
+  }
+
+  update(data: Partial<Data>) {
+    return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
   }
 }
 

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <1be99bc5c9c2a98231e29f533266120b>
+// SIGNED-SOURCE: <96f3fb7dbf254a812b91952ae09e5a31>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,6 +7,7 @@ import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./ComponentSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { ManualMethods, manualMethods } from "./ComponentManualMethods.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -61,6 +62,10 @@ class Component extends Node<Data> {
       return existing;
     }
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
+  }
+
+  update(data: Partial<Data>) {
+    return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
   }
 }
 

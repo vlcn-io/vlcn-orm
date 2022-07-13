@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <df53721f3ccd3596ebd197e0c5b25304>
+// SIGNED-SOURCE: <4ca5c376d1f5bbd547c7a9be4db31b2c>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,6 +7,7 @@ import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./SlideSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { ManualMethods, manualMethods } from "./SlideManualMethods.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -59,6 +60,10 @@ class Slide extends Node<Data> {
       return existing;
     }
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
+  }
+
+  update(data: Partial<Data>) {
+    return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
   }
 }
 

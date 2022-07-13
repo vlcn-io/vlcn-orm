@@ -17,6 +17,7 @@ const spec: NodeSpecWithCreate<User, Data> = {
     if (existing) {
       return existing;
     }
+    
     const result = new User(ctx, data);
     ctx.cache.set(data["id"], result);
     return result;

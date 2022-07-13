@@ -52,14 +52,19 @@ abstract class MutationBuilder<M extends IModel<D>, D extends Object>
   }
 
   /**
-   * Models are updated immediately in-memory. A promise is returned
-   * to allow waiting on the underlying data store to finish persisting.
+   * Models are updated immediately in-memory. A reference to the model
+   * is returned for the case of creates.
    *
-   * @returns a promise that represents the write to the underlying data store
+   * @returns reference to the model
    */
-  save(): Promise<void> {
+  save(): M {
     const cs = this.toChangeset();
-    return commit(this.ctx, cs)[0];
+    return commit(this.ctx, cs)[1];
+  }
+
+  saveAwait(): [Promise<void>, M] {
+    const cs = this.toChangeset();
+    return commit(this.ctx, cs);
   }
 }
 
