@@ -80,6 +80,7 @@ test('Reading the created item after create', async () => {
   expect(users).not.toContain(user);
 });
 
+// Shorthand create not yet generated as static method on types
 test('shorthand create', async () => {
   const creationTime = Date.now();
   for (let i = 0; i < 100; ++i) {

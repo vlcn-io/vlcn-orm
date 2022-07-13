@@ -6,21 +6,6 @@ Todo as Node {
   listId: ID<TodoList>
   text: string
   completed: bool
-} & Mutations {
-  create as Create {
-    text
-    listId
-  }
-
-  setComplete as Update {
-    completed: bool
-  }
-
-  changeText as Update {
-    text
-  }
-
-  delete as Delete {}
 }
 
 TodoList as Node {
@@ -29,14 +14,4 @@ TodoList as Node {
   editing: ID<Todo> | null
 } & OutboundEdges {
   todos: Edge<Todo.listId>
-} & Mutations {
-  create as Create {}
-
-  filter as Update {
-    filter
-  }
-
-  edit as Update {
-    editing
-  }
 }

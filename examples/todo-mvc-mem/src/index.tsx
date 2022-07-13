@@ -13,8 +13,7 @@ start(ctx);
 async function bootstrap(ctx: Context): Promise<TodoList> {
   let list = await TodoList.queryAll(ctx).genOnlyValue();
   if (list == null) {
-    const result = TodoListMutations.create(ctx, {}).save();
-    list = result[1];
+    list = TodoListMutations.create(ctx, {}).save().optimistic;
   }
 
   return list;

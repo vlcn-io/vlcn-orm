@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <d3255b1df32d51bb9f9b29de2cd60d92>
+// SIGNED-SOURCE: <942e1038a5f528cd900aca61f7178c03>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,6 +7,7 @@ import { applyMixins } from "@aphro/runtime-ts";
 import { default as s } from "./TodoListSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { ManualMethods, manualMethods } from "./TodoListManualMethods.js";
+import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -61,6 +62,10 @@ class TodoList extends Node<Data> {
       return existing;
     }
     return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
+  }
+
+  update(data: Partial<Data>) {
+    return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
   }
 }
 
