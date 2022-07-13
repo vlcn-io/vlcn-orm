@@ -80,19 +80,16 @@ test('Reading the created item after create', async () => {
   expect(users).not.toContain(user);
 });
 
-// Shorthand create not yet generated as static method on types
 test('shorthand create', async () => {
   const creationTime = Date.now();
   for (let i = 0; i < 100; ++i) {
     const id = sid(device);
-    const user = new CreateMutationBuilder(ctx, spec)
-      .set({
-        id: id as SID_of<User>,
-        created: creationTime,
-        modified: creationTime,
-        name: 'Bart',
-      })
-      .save().optimistic;
+    const user = User.create(ctx, {
+      id: id as SID_of<User>,
+      created: creationTime,
+      modified: creationTime,
+      name: 'Bart',
+    }).save().optimistic;
 
     expect(user.id).toBe(id);
   }
@@ -103,14 +100,12 @@ test('shorthand update', async () => {
 
   const createdUsers = await Promise.all(
     Array.from({ length: 100 }).map(_ =>
-      new CreateMutationBuilder(ctx, spec)
-        .set({
-          id: sid(device),
-          created: creationTime,
-          modified: creationTime,
-          name: 'Bart',
-        })
-        .save(),
+      User.create(ctx, {
+        id: sid(device),
+        created: creationTime,
+        modified: creationTime,
+        name: 'Bart',
+      }).save(),
     ),
   );
 

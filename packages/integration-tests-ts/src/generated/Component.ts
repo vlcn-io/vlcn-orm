@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <96f3fb7dbf254a812b91952ae09e5a31>
+// SIGNED-SOURCE: <e8a105499951b0d90d9a89acbc6dc99d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -8,6 +8,7 @@ import { default as s } from "./ComponentSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { ManualMethods, manualMethods } from "./ComponentManualMethods.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -66,6 +67,10 @@ class Component extends Node<Data> {
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return new CreateMutationBuilder(ctx, s).set(data);
   }
 }
 

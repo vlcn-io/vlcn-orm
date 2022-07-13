@@ -53,6 +53,8 @@ class ${this.schema.name}
   ${this.getGenMethodCode()}
 
   ${this.getUpdateMethodCode()}
+
+  ${this.getCreateMethodCode()}
 }
 
 interface ${this.schema.name} extends ManualMethods {}
@@ -65,6 +67,12 @@ export default ${this.schema.name};
   private getUpdateMethodCode(): string {
     return `update(data: Partial<Data>) {
       return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
+    }`;
+  }
+
+  private getCreateMethodCode(): string {
+    return `static create(ctx: Context, data: Partial<Data>) {
+      return new CreateMutationBuilder(ctx, s).set(data);
     }`;
   }
 
@@ -84,6 +92,7 @@ export default ${this.schema.name};
       tsImport('{P}', null, '@aphro/runtime-ts'),
       tsImport('{ManualMethods, manualMethods}', null, `./${this.schema.name}ManualMethods.js`),
       tsImport('{UpdateMutationBuilder}', null, '@aphro/runtime-ts'),
+      tsImport('{CreateMutationBuilder}', null, '@aphro/runtime-ts'),
       this.schema.type === 'node'
         ? tsImport('{Node}', null, '@aphro/runtime-ts')
         : tsImport('{Edge}', null, '@aphro/runtime-ts'),

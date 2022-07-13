@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <be3cf7605754b02a9d0910287eb7338b>
+// SIGNED-SOURCE: <0c6e365a659216233e40bdaa173f8df8>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -8,6 +8,7 @@ import { default as s } from "./TodoSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { ManualMethods, manualMethods } from "./TodoManualMethods.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -63,6 +64,10 @@ class Todo extends Node<Data> {
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return new CreateMutationBuilder(ctx, s).set(data);
   }
 }
 

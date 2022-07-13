@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <e258a7f445e8e936b3630a7f2a510dcd>
+// SIGNED-SOURCE: <93a3b42c1f857dfa8bac32fd97aa4a85>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -8,6 +8,7 @@ import { default as s } from "./IdentitySpec.js";
 import { P } from "@aphro/runtime-ts";
 import { ManualMethods, manualMethods } from "./IdentityManualMethods.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -36,6 +37,10 @@ class Identity extends Node<Data> {
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return new CreateMutationBuilder(ctx, s).set(data);
   }
 }
 

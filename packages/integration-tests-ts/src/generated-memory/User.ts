@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <123d5efa0f506488c5c515f2c4aec7c6>
+// SIGNED-SOURCE: <365d4eb8d7c3f3b22074d3e6b6b91cff>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -8,6 +8,7 @@ import { default as s } from "./UserSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { ManualMethods, manualMethods } from "./UserManualMethods.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -68,6 +69,10 @@ class User extends Node<Data> {
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return new CreateMutationBuilder(ctx, s).set(data);
   }
 }
 

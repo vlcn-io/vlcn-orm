@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4ca5c376d1f5bbd547c7a9be4db31b2c>
+// SIGNED-SOURCE: <da611dd7dd2b430288aeb56b443482c6>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -8,6 +8,7 @@ import { default as s } from "./SlideSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { ManualMethods, manualMethods } from "./SlideManualMethods.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -64,6 +65,10 @@ class Slide extends Node<Data> {
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return new CreateMutationBuilder(ctx, s).set(data);
   }
 }
 

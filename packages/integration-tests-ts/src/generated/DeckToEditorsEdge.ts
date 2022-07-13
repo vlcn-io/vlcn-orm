@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <f5fd7df6b85418216ce013384495150c>
+// SIGNED-SOURCE: <ae52b6ee0b17bbff6358122a58e336cc>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -11,6 +11,7 @@ import {
   manualMethods,
 } from "./DeckToEditorsEdgeManualMethods.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
+import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { Edge } from "@aphro/runtime-ts";
 import { EdgeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -45,6 +46,10 @@ class DeckToEditorsEdge extends Edge<Data> {
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return new CreateMutationBuilder(ctx, s).set(data);
   }
 }
 
