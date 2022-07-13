@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <ee699e5964b2aa8311b29fdf557fb8ba>
+// SIGNED-SOURCE: <406291dc48a83da27cfe15b52761d54a>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -45,15 +45,17 @@ class AppState extends Node<Data> {
   }
 
   update(data: Partial<Data>) {
-    return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
+    return new UpdateMutationBuilder(this.ctx, this.spec, this)
+      .set(data)
+      .toChangeset();
   }
 
   static create(ctx: Context, data: Partial<Data>) {
-    return new CreateMutationBuilder(ctx, s).set(data);
+    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this);
+    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
   }
 }
 

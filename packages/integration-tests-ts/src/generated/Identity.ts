@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4dd50769ccd27a8740c7a4cee5c05dc7>
+// SIGNED-SOURCE: <34363f31dc1f7d90dc92e68a299a771b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -37,15 +37,17 @@ class Identity extends Node<Data> {
   }
 
   update(data: Partial<Data>) {
-    return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
+    return new UpdateMutationBuilder(this.ctx, this.spec, this)
+      .set(data)
+      .toChangeset();
   }
 
   static create(ctx: Context, data: Partial<Data>) {
-    return new CreateMutationBuilder(ctx, s).set(data);
+    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this);
+    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
   }
 }
 

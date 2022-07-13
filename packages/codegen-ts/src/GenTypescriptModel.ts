@@ -68,19 +68,19 @@ export default ${this.schema.name};
 
   private getUpdateMethodCode(): string {
     return `update(data: Partial<Data>) {
-      return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
+      return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data).toChangeset();
     }`;
   }
 
   private getCreateMethodCode(): string {
     return `static create(ctx: Context, data: Partial<Data>) {
-      return new CreateMutationBuilder(ctx, s).set(data);
+      return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
     }`;
   }
 
   private getDeleteMethodCode(): string {
     return `delete() {
-      return new DeleteMutationBuilder(this.ctx, s, this);
+      return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
     }`;
   }
 

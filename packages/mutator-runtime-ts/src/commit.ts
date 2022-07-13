@@ -1,6 +1,5 @@
 import { ChangesetExecutor } from './ChangesetExecutor.js';
-import { Context, Changeset, IModel, Transaction } from '@aphro/context-runtime-ts';
-import CommitPromise from './CommitPromise.js';
+import { Context, Changeset, IModel, Transaction, CommitPromise } from '@aphro/context-runtime-ts';
 
 type ExtractValue<T extends readonly Changeset<any, any>[]> = {
   [K in keyof T]: T[K] extends Changeset<infer V, infer D> ? V : never;
@@ -12,11 +11,11 @@ export function commit<M extends IModel<D>, D>(
 ): CommitPromise<M>;
 export function commit<T extends ReadonlyArray<Changeset<any, any>>>(
   ctx: Context,
-  changesets: T,
+  ...changesets: T
 ): CommitPromise<[...ExtractValue<T>]>;
 export function commit<T extends ReadonlyArray<Changeset<any, any>>>(
   ctx: Context,
-  ...changesets: T
+  changesets: T,
 ): CommitPromise<[...ExtractValue<T>]>;
 
 export function commit<T extends readonly Changeset<any, any>[]>(

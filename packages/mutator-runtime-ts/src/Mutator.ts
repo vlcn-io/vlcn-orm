@@ -9,9 +9,9 @@ import {
   IModel,
   ModelSpecWithCreate,
   Context,
+  CommitPromise,
 } from '@aphro/context-runtime-ts';
 import { commit } from './commit.js';
-import CommitPromise from './CommitPromise.js';
 
 export interface IMutationBuilder<M extends IModel<D>, D extends Object> {
   readonly ctx: Context;
@@ -28,6 +28,10 @@ export interface ICreateOrUpdateBuilder<M extends IModel<D>, D extends Object>
   set(newData: Partial<D>): this;
 }
 
+export type Savable<M> = {
+  save(): CommitPromise<M>;
+};
+
 // TODO: and if we want to enable transactions...
 abstract class MutationBuilder<M extends IModel<D>, D extends Object>
   implements IMutationBuilder<M, D>
@@ -38,7 +42,17 @@ abstract class MutationBuilder<M extends IModel<D>, D extends Object>
     protected data: Partial<D>,
   ) {}
 
-  abstract toChangeset(): Changeset<M, D>;
+  toChangeset(): Changeset<M, D> {
+    // & Savable<M> {
+    const cs = this.toChangesetImpl();
+    (cs as CreateChangeset<M, D> & Savable<M>).save = () => {
+      return commit(this.ctx, cs as Changeset<M, D>);
+    };
+
+    return cs as Changeset<M, D>;
+  }
+
+  protected abstract toChangesetImpl(): Omit<Changeset<M, D>, 'save'>;
 
   set(newData: Partial<D>): this {
     throw new Error('You cannot call `set` when deleting something');
@@ -59,8 +73,7 @@ abstract class MutationBuilder<M extends IModel<D>, D extends Object>
    * @returns reference to the model
    */
   save(): CommitPromise<M> {
-    const cs = this.toChangeset();
-    return commit(this.ctx, cs);
+    return this.toChangeset().save();
   }
 }
 
@@ -86,7 +99,7 @@ export class CreateMutationBuilder<
     super(ctx, spec, {});
   }
 
-  toChangeset(): CreateChangeset<M, D> {
+  toChangesetImpl(): Omit<CreateChangeset<M, D>, 'save'> {
     return {
       type: 'create',
       updates: this.data,
@@ -111,7 +124,7 @@ export class UpdateMutationBuilder<
     super(ctx, spec, {});
   }
 
-  toChangeset(): UpdateChangeset<M, D> {
+  toChangesetImpl(): Omit<UpdateChangeset<M, D>, 'save'> {
     return {
       type: 'update',
       updates: this.data,
@@ -130,7 +143,7 @@ export class DeleteMutationBuilder<M extends IModel<D>, D extends Object> extend
     super(ctx, spec, {});
   }
 
-  toChangeset(): DeleteChangeset<M, D> {
+  toChangesetImpl(): Omit<DeleteChangeset<M, D>, 'save'> {
     return {
       type: 'delete',
       model: this.model,

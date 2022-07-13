@@ -1,4 +1,5 @@
 import { SID_of } from '@strut/sid';
+import CommitPromise from './CommitPromise.js';
 import { IModel, ModelSpecWithCreate, NodeSpecWithCreate } from './INode.js';
 
 export type ChangesetOptions = {
@@ -16,6 +17,7 @@ export type CreateChangeset<M extends IModel<D>, D> = {
   spec: ModelSpecWithCreate<M, D>;
   options?: ChangesetOptions;
   id: SID_of<M>;
+  save(): CommitPromise<M>;
 };
 
 export type UpdateChangeset<M extends IModel<D>, D> = {
@@ -25,6 +27,7 @@ export type UpdateChangeset<M extends IModel<D>, D> = {
   model: M;
   options?: ChangesetOptions;
   id: SID_of<M>;
+  save(): CommitPromise<M>;
 };
 
 export type DeleteChangeset<M extends IModel<D>, D> = {
@@ -33,4 +36,5 @@ export type DeleteChangeset<M extends IModel<D>, D> = {
   spec: ModelSpecWithCreate<M, D>;
   options?: ChangesetOptions;
   id: SID_of<M>;
+  save(): CommitPromise<M>;
 };

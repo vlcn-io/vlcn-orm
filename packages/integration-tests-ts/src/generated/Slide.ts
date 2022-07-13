@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <8d615e99950e021760f9fdae5960628e>
+// SIGNED-SOURCE: <b55010bf4a3bdad507fb2cce19e45a62>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -65,15 +65,17 @@ class Slide extends Node<Data> {
   }
 
   update(data: Partial<Data>) {
-    return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
+    return new UpdateMutationBuilder(this.ctx, this.spec, this)
+      .set(data)
+      .toChangeset();
   }
 
   static create(ctx: Context, data: Partial<Data>) {
-    return new CreateMutationBuilder(ctx, s).set(data);
+    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this);
+    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
   }
 }
 

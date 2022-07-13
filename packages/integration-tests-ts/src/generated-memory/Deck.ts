@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4eb0cc27f90e89c4afa22ca598582a2c>
+// SIGNED-SOURCE: <e22b5b735651c821caf3639e5fbb48bb>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -93,15 +93,17 @@ class Deck extends Node<Data> {
   }
 
   update(data: Partial<Data>) {
-    return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
+    return new UpdateMutationBuilder(this.ctx, this.spec, this)
+      .set(data)
+      .toChangeset();
   }
 
   static create(ctx: Context, data: Partial<Data>) {
-    return new CreateMutationBuilder(ctx, s).set(data);
+    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this);
+    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
   }
 }
 

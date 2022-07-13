@@ -152,7 +152,7 @@ export default function App({ list }: { list: TodoList }) {
   const clearCompleted = () =>
     commit(
       list.ctx,
-      completeTodos.map(t => t.delete().toChangeset()),
+      completeTodos.map(t => t.delete()),
     );
   const startEditing = useCallback(
     (todo: Todo) => list.update({ editing: todo.id }).save(),
@@ -160,11 +160,7 @@ export default function App({ list }: { list: TodoList }) {
   );
   const saveTodo = useCallback(
     (todo: Todo, text: string) => {
-      commit(
-        list.ctx,
-        todo.update({ text: text }).toChangeset(),
-        list.update({ editing: null }).toChangeset(),
-      );
+      commit(list.ctx, todo.update({ text: text }), list.update({ editing: null }));
     },
     [list],
   );
@@ -173,13 +169,13 @@ export default function App({ list }: { list: TodoList }) {
       // uncomplete all
       commit(
         list.ctx,
-        completeTodos.map(t => t.update({ completed: false }).toChangeset()),
+        completeTodos.map(t => t.update({ completed: false })),
       );
     } else {
       // complete all
       commit(
         list.ctx,
-        activeTodos.map(t => t.update({ completed: true }).toChangeset()),
+        activeTodos.map(t => t.update({ completed: true })),
       );
     }
   };

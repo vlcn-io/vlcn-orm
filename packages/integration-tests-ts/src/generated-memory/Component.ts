@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b6acbfd0e7fb511a7a2c83b24c0930b7>
+// SIGNED-SOURCE: <8ba729faaf5525158d3fad2c6e095c73>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -67,15 +67,17 @@ class Component extends Node<Data> {
   }
 
   update(data: Partial<Data>) {
-    return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data);
+    return new UpdateMutationBuilder(this.ctx, this.spec, this)
+      .set(data)
+      .toChangeset();
   }
 
   static create(ctx: Context, data: Partial<Data>) {
-    return new CreateMutationBuilder(ctx, s).set(data);
+    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this);
+    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
   }
 }
 
