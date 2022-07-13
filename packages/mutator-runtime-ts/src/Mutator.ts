@@ -57,12 +57,7 @@ abstract class MutationBuilder<M extends IModel<D>, D extends Object>
    *
    * @returns reference to the model
    */
-  save(): M {
-    const cs = this.toChangeset();
-    return commit(this.ctx, cs)[1];
-  }
-
-  saveAwait(): [Promise<void>, M] {
+  save(): Promise<M> {
     const cs = this.toChangeset();
     return commit(this.ctx, cs);
   }

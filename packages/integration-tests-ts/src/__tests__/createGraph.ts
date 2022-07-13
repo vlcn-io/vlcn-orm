@@ -48,6 +48,5 @@ async function createGraphParametrized<T extends Mutations>(ctx: Context, mutati
       order: o,
     }).toChangeset(),
   );
-  const [persistHandle] = commit(ctx, ...usersCs, deckCs, ...slidesCs);
-  await persistHandle;
+  await commit(ctx, ...usersCs, deckCs, ...slidesCs);
 }

@@ -5,30 +5,40 @@ type ExtractValue<T extends readonly Changeset<any, any>[]> = {
   [K in keyof T]: T[K] extends Changeset<infer V, infer D> ? V : never;
 };
 
-export function commit<M extends IModel<D>, D>(
-  ctx: Context,
-  changesets: Changeset<M>,
-): [Promise<any>, M];
+export function commit<M extends IModel<D>, D>(ctx: Context, changesets: Changeset<M>): Promise<M>;
 export function commit<T extends ReadonlyArray<Changeset<any, any>>>(
   ctx: Context,
   changesets: T,
-): [Promise<any>, ...ExtractValue<T>];
+): Promise<[...ExtractValue<T>]>;
 export function commit<T extends ReadonlyArray<Changeset<any, any>>>(
   ctx: Context,
   ...changesets: T
-): [Promise<any>, ...ExtractValue<T>];
+): Promise<[...ExtractValue<T>]>;
 
 export function commit<T extends readonly Changeset<any, any>[]>(
   ctx: Context,
   ...changesets: T
-): [Promise<any>, ...ExtractValue<T>] {
+): Promise<[...ExtractValue<T>]> {
   // Handle overloads.
+  let singular = false;
   if (Array.isArray(changesets[0])) {
+    // The user called commit like: commit(ctx, [cs1, ...]);
     changesets = changesets[0] as any;
+  } else if (changesets.length === 1) {
+    // The user called commit like: commit(ctx, cs1);
+    singular = true;
   }
+  // else -- the user called commit like: commit(ctx, cs1, cs2, ...);
+
   const transaction = new ChangesetExecutor(ctx, changesets).execute();
 
-  return [transaction.persistHandle, ...changesets.map(cs => transaction.nodes.get(cs.id))] as any;
+  return transaction.persistHandle.then(() => {
+    const ret = changesets.map(cs => transaction.nodes.get(cs.id));
+    if (singular) {
+      return ret[0];
+    }
+    return ret;
+  }) as any;
 }
 
 // TODO: we need to re-enable optimistic updates + delayed persists.
@@ -43,22 +53,22 @@ type CommitOptions = {
   persistor?: (ctx: Context, tx: Omit<Transaction, 'persistHandle'>) => Promise<[void, void]>;
 };
 
-export function commitExt<M extends IModel<D>, D>(
-  opts: CommitOptions,
-  changesets: Changeset<M>,
-): [Promise<any>, M];
-export function commitExt<T extends ReadonlyArray<Changeset<any, any>>>(
-  opts: CommitOptions,
-  changesets: T,
-): [Promise<any>, ...ExtractValue<T>];
-export function commitExt<T extends ReadonlyArray<Changeset<any, any>>>(
-  opts: CommitOptions,
-  ...changesets: T
-): [Promise<any>, ...ExtractValue<T>];
+// export function commitExt<M extends IModel<D>, D>(
+//   opts: CommitOptions,
+//   changesets: Changeset<M>,
+// ): [Promise<any>, M];
+// export function commitExt<T extends ReadonlyArray<Changeset<any, any>>>(
+//   opts: CommitOptions,
+//   changesets: T,
+// ): [Promise<any>, ...ExtractValue<T>];
+// export function commitExt<T extends ReadonlyArray<Changeset<any, any>>>(
+//   opts: CommitOptions,
+//   ...changesets: T
+// ): [Promise<any>, ...ExtractValue<T>];
 
-export function commitExt<T extends readonly Changeset<any, any>[]>(
-  opts: CommitOptions,
-  ...changesets: T
-): [Promise<any>, ...ExtractValue<T>] {
-  throw new Error();
-}
+// export function commitExt<T extends readonly Changeset<any, any>[]>(
+//   opts: CommitOptions,
+//   ...changesets: T
+// ): [Promise<any>, ...ExtractValue<T>] {
+//   throw new Error();
+// }

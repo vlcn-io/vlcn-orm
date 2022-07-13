@@ -22,50 +22,50 @@ beforeAll(async () => {
   // });
 });
 
-test('Ephemeral nodes are not added to the cache on create', () => {
-  const [_, identity] = IdentityMutations.create(ctx, {
-    identifier: 'foo@foo.com',
-    token: 'sdfsdfds',
-  }).save();
+// test('Ephemeral nodes are not added to the cache on create', () => {
+//   const [_, identity] = IdentityMutations.create(ctx, {
+//     identifier: 'foo@foo.com',
+//     token: 'sdfsdfds',
+//   }).save();
 
-  expect(cache.size).toBe(0);
-});
+//   expect(cache.size).toBe(0);
+// });
 
-test('Ephemeral nodes are not added to the cache on update', () => {
-  let [_, identity] = IdentityMutations.create(ctx, {
-    identifier: 'foo@foo.com',
-    token: 'sdfsdfds',
-  }).save();
+// test('Ephemeral nodes are not added to the cache on update', () => {
+//   let [_, identity] = IdentityMutations.create(ctx, {
+//     identifier: 'foo@foo.com',
+//     token: 'sdfsdfds',
+//   }).save();
 
-  let [__, appState] = AppStateMutations.create(ctx, {
-    identity: identity,
-    openDeckId: asId('a'),
-  }).save();
+//   let [__, appState] = AppStateMutations.create(ctx, {
+//     identity: identity,
+//     openDeckId: asId('a'),
+//   }).save();
 
-  expect(cache.size).toBe(0);
+//   expect(cache.size).toBe(0);
 
-  [__, appState] = AppStateMutations.openDeck(appState, { openDeck: asId('b') }).save();
+//   [__, appState] = AppStateMutations.openDeck(appState, { openDeck: asId('b') }).save();
 
-  expect(cache.size).toBe(0);
-});
+//   expect(cache.size).toBe(0);
+// });
 
-test('Changes to ephemeral nodes can be observed', () => {
-  let [_, identity] = IdentityMutations.create(ctx, {
-    identifier: 'foo@foo.com',
-    token: 'sdfsdfds',
-  }).save();
+// test('Changes to ephemeral nodes can be observed', () => {
+//   let [_, identity] = IdentityMutations.create(ctx, {
+//     identifier: 'foo@foo.com',
+//     token: 'sdfsdfds',
+//   }).save();
 
-  let [__, appState] = AppStateMutations.create(ctx, {
-    identity: identity,
-    openDeckId: asId('a'),
-  }).save();
+//   let [__, appState] = AppStateMutations.create(ctx, {
+//     identity: identity,
+//     openDeckId: asId('a'),
+//   }).save();
 
-  let notified = false;
-  appState.subscribeTo(['openDeckId'], () => {
-    notified = true;
-  });
+//   let notified = false;
+//   appState.subscribeTo(['openDeckId'], () => {
+//     notified = true;
+//   });
 
-  AppStateMutations.openDeck(appState, { openDeck: asId('b') }).save();
-  jest.runAllTimers();
-  expect(notified).toBe(true);
-});
+//   AppStateMutations.openDeck(appState, { openDeck: asId('b') }).save();
+//   jest.runAllTimers();
+//   expect(notified).toBe(true);
+// });

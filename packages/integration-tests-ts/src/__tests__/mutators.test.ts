@@ -103,57 +103,62 @@ beforeAll(async () => {
 
 test('shorthand update', async () => {
   const creationTime = Date.now();
-  const createResults: [Promise<void>, User][] = [];
-  for (let i = 0; i < 100; ++i) {
-    const id = sid(device);
-    createResults.push(
+
+  const x = await new CreateMutationBuilder(ctx, spec)
+    .set({
+      id: sid(device),
+      created: creationTime,
+      modified: creationTime,
+      name: 'Bart',
+    })
+    .save();
+
+  const createdUsers = await Promise.all(
+    Array.from({ length: 100 }).map(_ =>
       new CreateMutationBuilder(ctx, spec)
         .set({
-          id: id as SID_of<User>,
+          id: sid(device),
           created: creationTime,
           modified: creationTime,
           name: 'Bart',
         })
-        .saveAwait(),
-    );
-  }
+        .save(),
+    ),
+  );
 
-  const users = createResults.map(c => c[1]);
-  await Promise.all(createResults.map(cr => cr[0]));
+  // console.log(createdUsers);
 
   // TODO: In practice we should batch into changesets.
   // Well... actually... in practice we can use `dataLoader` to collect
   // all writes into a single batch (https://github.com/graphql/dataloader).
   // This'll protect the developer from using inefficient patterns and hide the need to know about
   // batching changesets altogether.
-  const results = users.map((u, i) =>
-    u
-      .update({
-        name: 'shorthand-update-' + i,
-      })
-      .saveAwait(),
+  const updatedUsers = await Promise.all(
+    createdUsers.map((u, i) =>
+      u
+        .update({
+          name: 'shorthand-update-' + i,
+        })
+        .save(),
+    ),
   );
 
-  results.forEach((r, i) => expect(r[1].name).toBe('shorthand-update-' + i));
+  updatedUsers.forEach((u, i) => expect(u.name).toBe('shorthand-update-' + i));
 
-  // TODO: sqlite doesn't seem to always finish writing after awaiting all promises 🤔
-  await Promise.all(results.map(r => r[0]));
-
-  expect(results.map(r => r[1])).toEqual(users);
+  // They should both be fulfilled from the cache and thus be the same instances
+  expect(updatedUsers).toEqual(createdUsers);
 
   // TODO: we should nuke the db between tests so this only contains rows for our test
   let queriedUsers = await User.queryAll(ctx).whereName(P.startsWith('shorthand-update-')).gen();
 
-  console.log(users.length);
-  console.log(queriedUsers.length);
   // queries should returned cached users if they exists -- which they do since we just created what we're querying for.
-  users.forEach(u => expect(queriedUsers).toContain(u));
+  updatedUsers.forEach(u => expect(queriedUsers).toContain(u));
 
   ctx.cache.clear();
   // // Since we nuked the cache the instances returned from the db should be _new_ user instances
   // // that do not match what we have loaded
   queriedUsers = await User.queryAll(ctx).whereName(P.startsWith('shorthand-update-')).gen();
-  users.forEach(u => expect(queriedUsers).not.toContain(u));
+  updatedUsers.forEach(u => expect(queriedUsers).not.toContain(u));
 });
 
 afterAll(async () => {

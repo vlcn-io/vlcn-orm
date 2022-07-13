@@ -20,12 +20,10 @@ test('Creating models via declared mutations', async () => {
     selectedSlide: null,
   }).toChangeset();
 
-  const [persist, user, deck] = commit(ctx, [userChangeset, deckChangeset]);
+  const [user, deck] = await commit(ctx, [userChangeset, deckChangeset]);
 
   expect(deck.name).toEqual('First Presentation');
   expect(user.name).toEqual('Bill');
-
-  await persist;
 });
 
 afterAll(async () => {

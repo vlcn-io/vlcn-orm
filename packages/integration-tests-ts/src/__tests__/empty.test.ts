@@ -12,11 +12,10 @@ beforeAll(async () => {
 });
 
 test('Empty query with operations applied is still empty!', async () => {
-  const [persistHandle] = commit(
+  await commit(
     ctx,
     [1, 2, 3, 4].map(i => UserMutations.create(ctx, { name: 'U' + i }).toChangeset()),
   );
-  await persistHandle;
 
   const noUsers = await UserQuery.empty(ctx).gen();
   expect(noUsers.length).toEqual(0);

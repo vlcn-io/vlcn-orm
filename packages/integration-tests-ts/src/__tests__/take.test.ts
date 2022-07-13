@@ -32,11 +32,10 @@ async function testTake(
   Model: typeof User | typeof MemoryUser,
   Mutations: typeof UserMutations | typeof MemoryUserMutations,
 ): Promise<void> {
-  const [persistHandle] = commit(
+  await commit(
     ctx,
     [1, 2, 3, 4].map(i => Mutations.create(ctx, { name: 'U' + i }).toChangeset()),
   );
-  await persistHandle;
 
   const two = await Model.queryAll(ctx).take(2).gen();
   expect(two.length).toEqual(2);
