@@ -55,6 +55,8 @@ class ${this.schema.name}
   ${this.getUpdateMethodCode()}
 
   ${this.getCreateMethodCode()}
+
+  ${this.getDeleteMethodCode()}
 }
 
 interface ${this.schema.name} extends ManualMethods {}
@@ -76,6 +78,12 @@ export default ${this.schema.name};
     }`;
   }
 
+  private getDeleteMethodCode(): string {
+    return `delete() {
+      return new DeleteMutationBuilder(this.ctx, s, this);
+    }`;
+  }
+
   private getDataShapeCode(): string {
     const fieldProps = Object.values(this.schema.fields).map(
       field => `${asPropertyAccessor(field.name)}: ${fieldToTsType(field)}`,
@@ -93,6 +101,7 @@ export default ${this.schema.name};
       tsImport('{ManualMethods, manualMethods}', null, `./${this.schema.name}ManualMethods.js`),
       tsImport('{UpdateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{CreateMutationBuilder}', null, '@aphro/runtime-ts'),
+      tsImport('{DeleteMutationBuilder}', null, '@aphro/runtime-ts'),
       this.schema.type === 'node'
         ? tsImport('{Node}', null, '@aphro/runtime-ts')
         : tsImport('{Edge}', null, '@aphro/runtime-ts'),

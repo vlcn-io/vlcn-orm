@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <64820fc13405735debfe75d7c8d189c7>
+// SIGNED-SOURCE: <ee699e5964b2aa8311b29fdf557fb8ba>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,6 +9,7 @@ import { P } from "@aphro/runtime-ts";
 import { ManualMethods, manualMethods } from "./AppStateManualMethods.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
+import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -49,6 +50,10 @@ class AppState extends Node<Data> {
 
   static create(ctx: Context, data: Partial<Data>) {
     return new CreateMutationBuilder(ctx, s).set(data);
+  }
+
+  delete() {
+    return new DeleteMutationBuilder(this.ctx, s, this);
   }
 }
 
