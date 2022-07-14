@@ -8,8 +8,8 @@ The larger vision and strategy can be found in [[docs/why:Why Aphrodite?]].
 
 Broad set of focus areas, from which these items come, are here [[blog/focus-areas]].
 
-> Currently building a set of applications the use Aphrodite in order to make the API less verbose and understand
-> various real-world use cases. Release will come post completion of these apps.
+> Dates may slip. We're currently building a set of applications that use Aphrodite in order to make the API less verbose and to deeply understand
+> various real-world use cases.
 
 ## Current Planned Releases
 
