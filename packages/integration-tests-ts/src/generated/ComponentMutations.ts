@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4ec8af26875b313644f469916bb7ac35>
+// SIGNED-SOURCE: <0f7b0b9c06814d1494ddce0f7041232b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,14 +9,14 @@ import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
 import Component from "./Component.js";
 import { default as spec } from "./ComponentSpec.js";
-import { Data } from "./Component.js";
+import { Data } from "./ComponentBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import { Changeset } from "@aphro/runtime-ts";
 import Slide from "./Slide.js";
-import { Data as SlideData } from "./Slide.js";
+import { Data as SlideData } from "./SlideBase.js";
 
 export type CreateArgs = {
   subtype: "Text" | "Embed";

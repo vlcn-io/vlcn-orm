@@ -1,6 +1,6 @@
 import { CreateArgs } from "./DeckToEditorsEdgeMutations.js";
 import { Changeset } from "@aphro/runtime-ts";
-import { Data } from "./DeckToEditorsEdge.js";
+import { Data } from "./DeckToEditorsEdgeBase.js";
 import DeckToEditorsEdge from "./DeckToEditorsEdge.js";
 import { IMutationBuilder } from "@aphro/runtime-ts";
 

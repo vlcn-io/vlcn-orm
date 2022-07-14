@@ -104,7 +104,7 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
       ].map(i => tsImport(`{${i}}`, null, '@aphro/runtime-ts')),
       tsImport('{SID_of}', null, '@aphro/runtime-ts'),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
-      tsImport('{Data}', null, `./${this.schema.name}.js`),
+      tsImport('{Data}', null, `./${this.schema.name}Base.js`),
       tsImport('{default}', 'spec', `./${nodeFn.specName(this.schema.name)}.js`),
       ...this.getIdFieldImports(),
       ...this.getEdgeImports(),

@@ -95,7 +95,7 @@ ${this.getCode([])}
     return [
       ...this.importArgTypes(),
       tsImport('{Changeset}', null, '@aphro/runtime-ts'),
-      tsImport('{Data}', null, `./${this.schema.name}.js`),
+      tsImport('{Data}', null, `./${this.schema.name}Base.js`),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
       tsImport('{IMutationBuilder}', null, '@aphro/runtime-ts'),
     ];

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <679485f41c631e78386e1d317c8c737d>
+// SIGNED-SOURCE: <c5bc9f6f772c3f8cb2e4992b504f4f49>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -17,7 +17,7 @@ import { Expression } from "@aphro/runtime-ts";
 import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import User from "./User.js";
-import { Data } from "./User.js";
+import { Data } from "./UserBase.js";
 import { default as spec } from "./UserSpec.js";
 import { default as DeckSpec } from "./DeckSpec.js";
 import DeckQuery from "./DeckQuery.js";

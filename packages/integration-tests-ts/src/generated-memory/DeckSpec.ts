@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <df4fe513ebeb998cab35f4aa8b413ea1>
+// SIGNED-SOURCE: <a64fff3d44ba81d2129ca0d613c8e10f>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,7 +9,7 @@ import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { default as UserSpec } from "./UserSpec.js";
 import { default as SlideSpec } from "./SlideSpec.js";
 import Deck from "./Deck.js";
-import { Data } from "./Deck.js";
+import { Data } from "./DeckBase.js";
 
 const spec: NodeSpecWithCreate<Deck, Data> = {
   type: "node",

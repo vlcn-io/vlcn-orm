@@ -33,13 +33,13 @@ export default class GenTypescriptModel extends CodegenStep {
   async gen(): Promise<CodegenFile> {
     const baseClass = this.schema.type === 'node' ? 'Node' : 'Edge';
     return new TypescriptFile(
-      this.schema.name + '.ts',
+      this.schema.name + 'Base.ts',
       `${importsToString(this.collectImports())}
 
 export type Data = ${this.getDataShapeCode()};
 
 ${this.schema.type === 'node' ? this.schema.extensions.type?.decorators?.join('\n') || '' : ''}
-class ${this.schema.name}
+export default abstract class ${this.schema.name}Base
   extends ${baseClass}<Data> {
   readonly spec = s as ${baseClass}SpecWithCreate<this, Data>;
 
@@ -58,10 +58,6 @@ class ${this.schema.name}
 
   ${this.getDeleteMethodCode()}
 }
-
-interface ${this.schema.name} extends ManualMethods {}
-applyMixins(${this.schema.name}, [manualMethods]);
-export default ${this.schema.name};
 `,
     );
   }
@@ -95,10 +91,9 @@ export default ${this.schema.name};
 
   private collectImports(): Import[] {
     return [
-      tsImport('{applyMixins}', null, '@aphro/runtime-ts'),
+      tsImport(this.schema.name, null, `./${this.schema.name}.js`),
       tsImport('{default}', 's', './' + nodeFn.specName(this.schema.name) + '.js'),
       tsImport('{P}', null, '@aphro/runtime-ts'),
-      tsImport('{ManualMethods, manualMethods}', null, `./${this.schema.name}ManualMethods.js`),
       tsImport('{UpdateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{CreateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{DeleteMutationBuilder}', null, '@aphro/runtime-ts'),
@@ -123,7 +118,7 @@ export default ${this.schema.name};
       ...this.getEdgeImports(),
       ...this.getIdFieldImports(),
       ...this.getNestedTypeImports(),
-    ].filter(i => i.name !== this.schema.name);
+    ].filter(i => i.name !== this.schema.name + 'Base');
   }
 
   private getIdFieldImports(): Import[] {

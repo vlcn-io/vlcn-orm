@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <ce5189fbb7b0586242ea0cfee4866c3d>
+// SIGNED-SOURCE: <b369be7fba6c7ca64e724f9cf69d1b51>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -17,7 +17,7 @@ import { Expression } from "@aphro/runtime-ts";
 import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Slide from "./Slide.js";
-import { Data } from "./Slide.js";
+import { Data } from "./SlideBase.js";
 import { default as spec } from "./SlideSpec.js";
 import Deck from "./Deck.js";
 import { default as ComponentSpec } from "./ComponentSpec.js";

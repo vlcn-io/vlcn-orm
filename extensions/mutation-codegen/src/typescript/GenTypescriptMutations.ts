@@ -80,7 +80,7 @@ ${this.getCode()}
       tsImport('{MutationsBase}', null, '@aphro/runtime-ts'),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
       tsImport('{default}', 'spec', `./${nodeFn.specName(this.schema.name)}.js`),
-      tsImport('{Data}', null, `./${this.schema.name}.js`),
+      tsImport('{Data}', null, `./${this.schema.name}Base.js`),
       tsImport('{UpdateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{CreateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{DeleteMutationBuilder}', null, '@aphro/runtime-ts'),

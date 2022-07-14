@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <cc7990ed04a96cd2b856e0832be43725>
+// SIGNED-SOURCE: <b5bfe8af81e34d19f2b8049ba2c5a501>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,14 +9,14 @@ import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
 import AppState from "./AppState.js";
 import { default as spec } from "./AppStateSpec.js";
-import { Data } from "./AppState.js";
+import { Data } from "./AppStateBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import { Changeset } from "@aphro/runtime-ts";
 import Identity from "./Identity.js";
-import { Data as IdentityData } from "./Identity.js";
+import { Data as IdentityData } from "./IdentityBase.js";
 import Deck from "./Deck.js";
 
 export type CreateArgs = {

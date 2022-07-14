@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5c11abcc5f4c442a10436012ab92fa01>
+// SIGNED-SOURCE: <32f467c347441d8baedebb4f27ea300a>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -8,7 +8,7 @@ import { SID_of } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { default as ComponentSpec } from "./ComponentSpec.js";
 import Slide from "./Slide.js";
-import { Data } from "./Slide.js";
+import { Data } from "./SlideBase.js";
 
 const spec: NodeSpecWithCreate<Slide, Data> = {
   type: "node",

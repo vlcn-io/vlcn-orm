@@ -25,7 +25,7 @@ export default class GenTypescriptModelManualMethodsClass extends CodegenStep {
   }
 
   async gen(): Promise<CodegenFile> {
-    const filename = this.schema.name + 'ManualMethods.ts';
+    const filename = this.schema.name + '.ts';
     let exists = false;
     try {
       await fs.promises.access(path.join(this.dest, filename));
@@ -37,18 +37,12 @@ export default class GenTypescriptModelManualMethodsClass extends CodegenStep {
 
     return new TypescriptFile(
       filename,
-      `import ${this.schema.name} from './${this.schema.name}.js'
+      `import ${this.schema.name}Base from './${this.schema.name}Base.js';
+      export {Data} from './${this.schema.name}Base.js';
 
-export interface ManualMethods {
-  // example(): void;
+export default class ${this.schema.name} extends ${this.schema.name}Base {
+  // insert any manual method you may have here
 }
-
-export const manualMethods: ManualMethods = {
-  // example(this: ${this.schema.name}): void {
-    // Note: "this" (above) is a "fake" parameter used to set the type of "this"
-    // https://www.typescriptlang.org/docs/handbook/2/functions.html#declaring-this-in-a-function
-  // }
-};
       `,
       true,
     );

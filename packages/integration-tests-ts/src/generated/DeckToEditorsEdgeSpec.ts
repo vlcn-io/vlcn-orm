@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <d4df3b47235b498a20c93d44df58e228>
+// SIGNED-SOURCE: <9d9f69cf6c91cc741b2b2c5c300ef22d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,7 +9,7 @@ import { EdgeSpecWithCreate } from "@aphro/runtime-ts";
 import { default as DeckSpec } from "./DeckSpec.js";
 import { default as UserSpec } from "./UserSpec.js";
 import DeckToEditorsEdge from "./DeckToEditorsEdge.js";
-import { Data } from "./DeckToEditorsEdge.js";
+import { Data } from "./DeckToEditorsEdgeBase.js";
 
 const spec: EdgeSpecWithCreate<DeckToEditorsEdge, Data> = {
   type: "junction",

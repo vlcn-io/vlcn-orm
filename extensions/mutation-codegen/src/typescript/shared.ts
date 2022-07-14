@@ -19,7 +19,10 @@ function collectImportsForArgs(
     a.typeDef
       .flatMap(td => {
         if (typeof td === 'string') {
-          return [tsImport(td, null, `./${td}.js`), tsImport('{Data}', td + 'Data', `./${td}.js`)];
+          return [
+            tsImport(td, null, `./${td}.js`),
+            tsImport('{Data}', td + 'Data', `./${td}Base.js`),
+          ];
         } else if (td.type === 'id') {
           return [tsImport(td.of, null, `./${td.of}.js`)];
         } else if (td.type === 'array' || td.type === 'map') {

@@ -102,7 +102,7 @@ export default spec;
         : tsImport('{EdgeSpecWithCreate}', null, '@aphro/runtime-ts'),
       ...this.getEdgeImports(),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
-      tsImport('{Data}', null, `./${this.schema.name}.js`),
+      tsImport('{Data}', null, `./${this.schema.name}Base.js`),
       tsImport(
         '{default}',
         nodeFn.specName(this.schema.name),

@@ -1,7 +1,7 @@
 import { CreateArgs } from "./ComponentMutations.js";
 import { DeleteArgs } from "./ComponentMutations.js";
 import { Changeset, sid } from "@aphro/runtime-ts";
-import { Data } from "./Component.js";
+import { Data } from "./ComponentBase.js";
 import Component from "./Component.js";
 import { IMutationBuilder } from "@aphro/runtime-ts";
 

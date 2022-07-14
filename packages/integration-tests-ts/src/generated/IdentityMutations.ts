@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5bf094b4c34f32ded6c6c13c1c9a5951>
+// SIGNED-SOURCE: <8fd9133e5d85ba60bc5037cbf5fe197b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,7 +9,7 @@ import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
 import Identity from "./Identity.js";
 import { default as spec } from "./IdentitySpec.js";
-import { Data } from "./Identity.js";
+import { Data } from "./IdentityBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
