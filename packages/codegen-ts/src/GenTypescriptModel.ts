@@ -41,7 +41,7 @@ export type Data = ${this.getDataShapeCode()};
 ${this.schema.type === 'node' ? this.schema.extensions.type?.decorators?.join('\n') || '' : ''}
 export default abstract class ${this.schema.name}Base
   extends ${baseClass}<Data> {
-  readonly spec = s as ${baseClass}SpecWithCreate<this, Data>;
+  readonly spec = s as unknown as ${baseClass}SpecWithCreate<this, Data>;
 
   ${this.getFieldCode()}
   ${this.getEdgeCode()}
@@ -76,7 +76,7 @@ export default abstract class ${this.schema.name}Base
 
   private getDeleteMethodCode(): string {
     return `delete() {
-      return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+      return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
     }`;
   }
 
@@ -180,7 +180,7 @@ export default abstract class ${this.schema.name}Base
       if (field.name === 'id') {
         return `${field.decorators?.join('\n') || ''}
             get ${field.name}(): SID_of<this> {
-              return this.data.${field.name} as SID_of<this>;
+              return this.data.${field.name} as unknown as SID_of<this>;
             }
           `;
       }

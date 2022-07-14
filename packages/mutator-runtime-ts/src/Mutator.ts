@@ -28,10 +28,6 @@ export interface ICreateOrUpdateBuilder<M extends IModel<D>, D extends Object>
   set(newData: Partial<D>): this;
 }
 
-export type Savable<M> = {
-  save(): CommitPromise<M>;
-};
-
 // TODO: and if we want to enable transactions...
 abstract class MutationBuilder<M extends IModel<D>, D extends Object>
   implements IMutationBuilder<M, D>
@@ -43,16 +39,18 @@ abstract class MutationBuilder<M extends IModel<D>, D extends Object>
   ) {}
 
   toChangeset(): Changeset<M, D> {
-    // & Savable<M> {
     const cs = this.toChangesetImpl();
-    (cs as CreateChangeset<M, D> & Savable<M>).save = () => {
+    (cs as CreateChangeset<M, D>).save = () => {
       return commit(this.ctx, cs as Changeset<M, D>);
+    };
+    (cs as CreateChangeset<M, D>).save0 = () => {
+      return commit(this.ctx, cs as Changeset<M, D>).optimistic;
     };
 
     return cs as Changeset<M, D>;
   }
 
-  protected abstract toChangesetImpl(): Omit<Changeset<M, D>, 'save'>;
+  protected abstract toChangesetImpl(): Omit<Changeset<M, D>, 'save' | 'save0'>;
 
   set(newData: Partial<D>): this {
     throw new Error('You cannot call `set` when deleting something');
@@ -99,7 +97,7 @@ export class CreateMutationBuilder<
     super(ctx, spec, {});
   }
 
-  toChangesetImpl(): Omit<CreateChangeset<M, D>, 'save'> {
+  toChangesetImpl(): Omit<CreateChangeset<M, D>, 'save' | 'save0'> {
     return {
       type: 'create',
       updates: this.data,
@@ -124,7 +122,7 @@ export class UpdateMutationBuilder<
     super(ctx, spec, {});
   }
 
-  toChangesetImpl(): Omit<UpdateChangeset<M, D>, 'save'> {
+  toChangesetImpl(): Omit<UpdateChangeset<M, D>, 'save' | 'save0'> {
     return {
       type: 'update',
       updates: this.data,
@@ -143,7 +141,7 @@ export class DeleteMutationBuilder<M extends IModel<D>, D extends Object> extend
     super(ctx, spec, {});
   }
 
-  toChangesetImpl(): Omit<DeleteChangeset<M, D>, 'save'> {
+  toChangesetImpl(): Omit<DeleteChangeset<M, D>, 'save' | 'save0'> {
     return {
       type: 'delete',
       model: this.model,

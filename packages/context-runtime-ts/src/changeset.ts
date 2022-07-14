@@ -18,6 +18,7 @@ export type CreateChangeset<M extends IModel<D>, D> = {
   options?: ChangesetOptions;
   id: SID_of<M>;
   save(): CommitPromise<M>;
+  save0(): M;
 };
 
 export type UpdateChangeset<M extends IModel<D>, D> = {
@@ -28,6 +29,7 @@ export type UpdateChangeset<M extends IModel<D>, D> = {
   options?: ChangesetOptions;
   id: SID_of<M>;
   save(): CommitPromise<M>;
+  save0(): M;
 };
 
 export type DeleteChangeset<M extends IModel<D>, D> = {
@@ -37,4 +39,5 @@ export type DeleteChangeset<M extends IModel<D>, D> = {
   options?: ChangesetOptions;
   id: SID_of<M>;
   save(): CommitPromise<M>;
+  save0(): M;
 };
