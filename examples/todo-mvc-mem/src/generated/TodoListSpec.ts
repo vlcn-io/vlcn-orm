@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4a8da814d86916b8b9abc8c77cc54751>
+// SIGNED-SOURCE: <8277004ad1a64270bc2459bd9ef03a30>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -8,7 +8,7 @@ import { SID_of } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { default as TodoSpec } from "./TodoSpec.js";
 import TodoList from "./TodoList.js";
-import { Data } from "./TodoList.js";
+import { Data } from "./TodoListBase.js";
 
 const spec: NodeSpecWithCreate<TodoList, Data> = {
   type: "node",

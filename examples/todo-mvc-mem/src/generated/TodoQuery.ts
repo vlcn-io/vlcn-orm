@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <9f0b4cd96c93b5643a5621e6085db0d6>
+// SIGNED-SOURCE: <b7b83314197acadc619239f2d9014166>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -17,7 +17,7 @@ import { Expression } from "@aphro/runtime-ts";
 import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Todo from "./Todo.js";
-import { Data } from "./Todo.js";
+import { Data } from "./TodoBase.js";
 import { default as spec } from "./TodoSpec.js";
 import TodoList from "./TodoList.js";
 
