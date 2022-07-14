@@ -4,7 +4,7 @@ Draft / wip list of focus areas. Pre-published to allow potential contributors t
 
 ORM Table Stakes is about having the "expected" features of a data access layer. In addition, users should never be slowed down by the ORM. Hard things are made easy, impossible things are made possible. The ORM always feels like a helper and never a blocker.
 
-**Table stakes / required featuers:**
+**Table stakes / required features:**
 - Querying (join/hop, count, filter, order by, union, map, intersect, filter, where exists, id & count projections, fetch & traverse hops)
 - Aggregations (group)
 - Migrations (versioned schemas, auto-generated alter tables, support for migration scripts)

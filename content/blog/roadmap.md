@@ -8,9 +8,12 @@ The larger vision and strategy can be found in [[docs/why:Why Aphrodite?]].
 
 Broad set of focus areas, from which these items come, are here [[blog/focus-areas]].
 
+> Currently building a set of applications the use Aphrodite in order to make the API less verbose and understand
+> various real-world use cases. Release will come post completion of these apps.
+
 ## Current Planned Releases
 
-1. MVP 📦 - End of June / early July 2022
+1. MVP 📦 - July 2022
 2. Alpha 💪 - Sep. 2022
 3. Beta 🤦‍♂️ - Oct. 2022
 4. RC1 🧚‍♀️ - Nov. 2022
