@@ -39,6 +39,7 @@ export default class GenTypescriptModel extends CodegenStep {
 export type Data = ${this.getDataShapeCode()};
 
 ${this.schema.type === 'node' ? this.schema.extensions.type?.decorators?.join('\n') || '' : ''}
+// @Sealed(${this.schema.name})
 export default abstract class ${this.schema.name}Base
   extends ${baseClass}<Data> {
   readonly spec = s as unknown as ${baseClass}SpecWithCreate<this, Data>;
@@ -247,10 +248,9 @@ export default abstract class ${this.schema.name}Base
 
         if (e.type === 'standaloneEdge') {
           return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(schema, e)} {
-            return ${nodeFn.queryTypeName(schema.name)}.fromId(this.ctx, this.id).query${upcaseAt(
-            edge.name,
-            0,
-          )}();
+            return ${nodeFn.queryTypeName(
+              schema.name,
+            )}.fromId(this.ctx, this.id as any).query${upcaseAt(edge.name, 0)}();
           }`;
         }
 
@@ -297,12 +297,12 @@ export default abstract class ${this.schema.name}Base
 
         // through a field on some other type is a foreign key edge
         // we're thus qurying that type based on some column rather than its id
-        return `create(this.ctx).where${upcaseAt(column, 0)}(P.equals(this.id))`;
+        return `create(this.ctx).where${upcaseAt(column, 0)}(P.equals(this.id as any))`;
       case 'edgeReference':
         // if (edge.inverted) {
         //   return "fromDst";
         // }
-        return 'fromSrc(this.ctx, this.id)';
+        return 'fromSrc(this.ctx, this.id as any)';
     }
   }
 

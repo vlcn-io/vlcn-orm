@@ -15,8 +15,11 @@ export default abstract class MutationsBase<M extends IModel<D>, D extends Objec
   }
 
   save(): CommitPromise<M> {
-    const cs = this.mutator.toChangeset();
-    return commit(this.ctx, cs);
+    return this.mutator.toChangeset().save();
+  }
+
+  save0(): M {
+    return this.mutator.toChangeset().save0();
   }
 
   // TODO: saveAndReturn ...
