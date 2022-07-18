@@ -23,7 +23,6 @@ class TestSourcePlan implements IPlan {
 }
 
 class TestHopExpression implements HopExpression<any, any> {
-  key = 'test-hop';
   chainAfter(iterable: ChunkIterable<any>): ChunkIterable<any> {
     return emptyChunkIterable;
   }

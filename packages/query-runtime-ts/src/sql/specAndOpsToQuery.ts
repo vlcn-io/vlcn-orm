@@ -159,7 +159,6 @@ function getFilter(spec: NodeSpec | JunctionEdgeSpec, f: ReturnType<typeof filte
       )}`;
     }
     case 'lambda':
-    case 'asyncLambda':
       throw new Error(
         `Lambdas cannot be optimized to SQL! This expression should not have been hoisted for ${spec.storage.tablish}, ${getter.fieldName}`,
       );

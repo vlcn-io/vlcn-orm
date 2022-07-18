@@ -24,10 +24,6 @@ export default class SQLSourceExpression<T extends IModel<Object>>
     super(ctx, ops);
   }
 
-  get key(): string {
-    return '';
-  }
-
   optimize(plan: Plan, nextHop?: HopPlan): Plan {
     const [hoistedExpressions, remainingExpressions] = this.hoist(plan, nextHop);
     return new Plan(

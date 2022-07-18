@@ -26,8 +26,7 @@ export type Predicate<Tv> =
   | EndsWith
   | ContainsString
   | ExcludesString
-  | Lambda<Tv>
-  | AsyncLambda<Tv>;
+  | Lambda<Tv>;
 
 export class Equal<Tv> {
   constructor(public readonly value: Tv) {}
@@ -195,15 +194,6 @@ export class Lambda<Tv> {
   }
 }
 
-export class AsyncLambda<Tv> {
-  readonly type = 'asyncLambda';
-  constructor(public readonly value: (m: Tv) => Promise<boolean>) {}
-
-  call(what: Tv): Promise<boolean> {
-    return this.value(what);
-  }
-}
-
 const P = {
   equals<Tv>(value: Tv) {
     return new Equal(value);
@@ -256,10 +246,6 @@ const P = {
 
   lambda<Tv>(fn: (v: Tv) => boolean) {
     return new Lambda(fn);
-  },
-
-  asyncLambda<Tv>(fn: (v: Tv) => Promise<boolean>) {
-    return new AsyncLambda(fn);
   },
 };
 

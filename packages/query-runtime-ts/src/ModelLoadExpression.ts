@@ -15,7 +15,6 @@ export default class ModelLoadExpression<TData, TModel extends IModel<TData>>
   implements DerivedExpression<TData, TModel>
 {
   readonly type = 'modelLoad';
-  readonly key = 'model-load';
   constructor(private ctx: Context, private factory: (ctx: Context, data: TData) => TModel) {}
 
   chainAfter(iterable: ChunkIterable<TData>) {
