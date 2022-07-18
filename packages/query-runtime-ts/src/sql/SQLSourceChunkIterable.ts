@@ -5,6 +5,7 @@ import { invariant } from '@strut/utils';
 import { Context, IModel, SQLResolvedDB } from '@aphro/context-runtime-ts';
 import { JunctionEdgeSpec, NodeSpec } from '@aphro/schema-api';
 import { ModelFieldGetter } from '../Field.js';
+import { SID_of } from '@strut/sid';
 
 export default class SQLSourceChunkIterable<T extends IModel<Object>> extends BaseChunkIterable<T> {
   constructor(
@@ -27,10 +28,23 @@ export default class SQLSourceChunkIterable<T extends IModel<Object>> extends Ba
       .engine(this.spec.storage.engine)
       .db(this.spec.storage.db) as SQLResolvedDB;
 
-    // const directLoad = this.isDirectLoad();
-    // if (directLoad !== null) {
-    //   this.ctx.cache.get(directLoad, )
-    // }
+    if (this.hoistedOperations.limit && this.hoistedOperations.limit.num < 1) {
+      yield [];
+      return;
+    }
+
+    const directLoad = this.isDirectLoad();
+    if (directLoad !== null) {
+      const cached = this.ctx.cache.get(
+        directLoad,
+        this.spec.storage.db,
+        this.spec.storage.tablish,
+      );
+      if (cached != null) {
+        yield [cached];
+        return;
+      }
+    }
 
     const sql = specAndOpsToQuery(this.spec, this.hoistedOperations);
     yield await resolvedDb.query(sql);
@@ -39,9 +53,12 @@ export default class SQLSourceChunkIterable<T extends IModel<Object>> extends Ba
   /**
    * A direct load is when we are loading nodes directly by ID and performing no other operations.
    * These queries can be resolved directly from the key-value cache
+   *
+   * isDirectLoad optimization can likely happen in the planning layer.
+   * Being here, each data source would have to implement similar logic.
    * @returns
    */
-  private isDirectLoad(): string | null {
+  private isDirectLoad(): SID_of<any> | null {
     const spec = this.spec;
     if (
       spec.type !== 'node' ||
@@ -76,6 +93,6 @@ export default class SQLSourceChunkIterable<T extends IModel<Object>> extends Ba
       return null;
     }
 
-    return filter.predicate.value as string;
+    return filter.predicate.value as SID_of<any>;
   }
 }

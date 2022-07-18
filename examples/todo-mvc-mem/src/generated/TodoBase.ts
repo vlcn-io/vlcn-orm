@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <090eaf82c74b93ae5ab8476c8ecc7511>
+// SIGNED-SOURCE: <b32b71936059aca518eb5a47650cb484>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -23,11 +23,12 @@ export type Data = {
   completed: boolean;
 };
 
+// @Sealed(Todo)
 export default abstract class TodoBase extends Node<Data> {
-  readonly spec = s as NodeSpecWithCreate<this, Data>;
+  readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
-    return this.data.id as SID_of<this>;
+    return this.data.id as unknown as SID_of<this>;
   }
 
   get listId(): SID_of<TodoList> {
@@ -47,7 +48,7 @@ export default abstract class TodoBase extends Node<Data> {
   }
 
   static async genx(ctx: Context, id: SID_of<Todo>): Promise<Todo> {
-    const existing = ctx.cache.get(id, Todo.name);
+    const existing = ctx.cache.get(id, "todomvc", "todo");
     if (existing) {
       return existing;
     }
@@ -55,7 +56,7 @@ export default abstract class TodoBase extends Node<Data> {
   }
 
   static async gen(ctx: Context, id: SID_of<Todo>): Promise<Todo | null> {
-    const existing = ctx.cache.get(id, Todo.name);
+    const existing = ctx.cache.get(id, "todomvc", "todo");
     if (existing) {
       return existing;
     }
@@ -73,6 +74,6 @@ export default abstract class TodoBase extends Node<Data> {
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+    return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
   }
 }

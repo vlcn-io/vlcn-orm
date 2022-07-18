@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <8277004ad1a64270bc2459bd9ef03a30>
+// SIGNED-SOURCE: <2372fac5d2212910aba9ff3019e9c0d2>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -13,12 +13,12 @@ import { Data } from "./TodoListBase.js";
 const spec: NodeSpecWithCreate<TodoList, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data["id"], TodoList.name);
+    const existing = ctx.cache.get(data["id"], "todomvc", "todolist");
     if (existing) {
       return existing;
     }
     const result = new TodoList(ctx, data);
-    ctx.cache.set(data["id"], result);
+    ctx.cache.set(data["id"], result, "todomvc", "todolist");
     return result;
   },
 

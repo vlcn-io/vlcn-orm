@@ -644,6 +644,7 @@ importers:
 
   packages/query-runtime-ts:
     specifiers:
+      '@aphro/cache-runtime-ts': workspace:*
       '@aphro/context-runtime-ts': workspace:*
       '@aphro/model-runtime-ts': workspace:*
       '@aphro/schema-api': workspace:*
@@ -660,6 +661,7 @@ importers:
       ts-jest: ^28.0.1
       typescript: ^4.6.4
     dependencies:
+      '@aphro/cache-runtime-ts': link:../cache-runtime-ts
       '@aphro/context-runtime-ts': link:../context-runtime-ts
       '@aphro/model-runtime-ts': link:../model-runtime-ts
       '@aphro/schema-api': link:../schema-api
@@ -9830,7 +9832,7 @@ packages:
       '@babel/core': 7.18.5
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 28.1.1_@types+node@17.0.31
+      jest: 28.1.1
       jest-util: 28.1.0
       json5: 2.2.1
       lodash.memoize: 4.1.2

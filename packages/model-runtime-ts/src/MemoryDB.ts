@@ -1,5 +1,6 @@
 import type { MemoryQuery, MemoryReadQuery, MemoryWriteQuery } from '@aphro/context-runtime-ts';
 import { SID_of } from '@strut/sid';
+import { assertUnreachable } from '@strut/utils';
 
 /**
  * Holds all in-memory nodes in-memory.
@@ -8,11 +9,14 @@ export default class MemoryDB {
   private collections: Map<string, { [key: SID_of<any>]: any }> = new Map();
 
   async query(q: MemoryQuery): Promise<any[]> {
-    switch (q.type) {
+    const type = q.type;
+    switch (type) {
       case 'read':
         return await this.read(q);
       case 'write':
         return await this.write(q);
+      default:
+        assertUnreachable(type);
     }
   }
 

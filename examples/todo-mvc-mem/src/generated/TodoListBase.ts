@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <dfaa5a97b88e49429411a5b71b0c5544>
+// SIGNED-SOURCE: <8dd821efbbb29eeb2248e7d18a7cf046>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -23,11 +23,12 @@ export type Data = {
   editing: SID_of<Todo> | null;
 };
 
+// @Sealed(TodoList)
 export default abstract class TodoListBase extends Node<Data> {
-  readonly spec = s as NodeSpecWithCreate<this, Data>;
+  readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
-    return this.data.id as SID_of<this>;
+    return this.data.id as unknown as SID_of<this>;
   }
 
   get filter(): "all" | "active" | "completed" {
@@ -39,7 +40,7 @@ export default abstract class TodoListBase extends Node<Data> {
   }
 
   queryTodos(): TodoQuery {
-    return TodoQuery.create(this.ctx).whereListId(P.equals(this.id));
+    return TodoQuery.create(this.ctx).whereListId(P.equals(this.id as any));
   }
 
   static queryAll(ctx: Context): TodoListQuery {
@@ -47,7 +48,7 @@ export default abstract class TodoListBase extends Node<Data> {
   }
 
   static async genx(ctx: Context, id: SID_of<TodoList>): Promise<TodoList> {
-    const existing = ctx.cache.get(id, TodoList.name);
+    const existing = ctx.cache.get(id, "todomvc", "todolist");
     if (existing) {
       return existing;
     }
@@ -58,7 +59,7 @@ export default abstract class TodoListBase extends Node<Data> {
     ctx: Context,
     id: SID_of<TodoList>
   ): Promise<TodoList | null> {
-    const existing = ctx.cache.get(id, TodoList.name);
+    const existing = ctx.cache.get(id, "todomvc", "todolist");
     if (existing) {
       return existing;
     }
@@ -76,6 +77,6 @@ export default abstract class TodoListBase extends Node<Data> {
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+    return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
   }
 }
