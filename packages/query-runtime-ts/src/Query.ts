@@ -5,8 +5,10 @@ import {
   EmptySourceExpression,
   Expression,
   filter,
+  filterAsync,
   HopExpression,
   map,
+  mapAsync,
   SourceExpression,
 } from './Expression.js';
 import HopPlan from './HopPlan.js';
@@ -164,12 +166,27 @@ export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
    */
   protected abstract derive(expression: Expression);
 
+  /**
+   * Be careful when using lambdas to filter/map/order.
+   * Lambdas can't be run in the database and requires pulling all matched
+   * records by the query into the application to perform filtering.
+   * @param fn
+   * @returns
+   */
   where(fn: (t: TOut) => boolean): this {
     return this.derive(filter<TOut, TOut>(null, P.lambda(fn)));
   }
 
+  whereAsync(fn: (t: TOut) => Promise<boolean>): this {
+    return this.derive(filterAsync<TOut, TOut>(null, P.asyncLambda(fn)));
+  }
+
   map<TMapped>(fn: (t: TOut) => TMapped): DerivedQuery<TMapped> {
     return this.derive(map(fn));
+  }
+
+  mapAsync<TMapped>(fn: (t: TOut) => Promise<TMapped>): DerivedQuery<TMapped> {
+    return this.derive(mapAsync(fn));
   }
 
   // union(): ThisType<TOut> {

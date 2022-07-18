@@ -34,24 +34,29 @@ export type ExpressionType =
   | 'before'
   | 'after'
   | 'filter'
+  | 'filterAsync'
   | 'orderBy'
   | 'hop'
   | 'modelLoad'
   | 'count'
   | 'countLoad'
-  | 'map';
+  | 'map'
+  | 'mapAsync';
+
 export type Direction = 'asc' | 'desc';
 export type Expression =
   | ReturnType<typeof take>
   | ReturnType<typeof before>
   | ReturnType<typeof after>
   | ReturnType<typeof filter>
+  | ReturnType<typeof filterAsync>
   | ReturnType<typeof orderBy>
   | ReturnType<typeof hop>
   | ReturnType<typeof modelLoad>
   | ReturnType<typeof count>
   | CountLoadExpression<any>
-  | ReturnType<typeof map>;
+  | ReturnType<typeof map>
+  | ReturnType<typeof mapAsync>;
 /*
 declare module '@mono/model/query' {
   interface Expressions<ReturnType> {
@@ -63,9 +68,7 @@ export type Expression = // union of the mapping of return types of the members 
 // maybe something like: https://github.com/ueberdosis/tiptap/blob/main/packages/core/src/types.ts#L197
 */
 
-export function take<T>(
-  num: number,
-): {
+export function take<T>(num: number): {
   type: 'take';
   num: number;
 } & DerivedExpression<T, T> {
@@ -124,11 +127,42 @@ export function filter<Tm, Tv>(
   };
 }
 
+export function filterAsync<Tm, Tv>(
+  getter: FieldGetter<Tm, Tv> | null,
+  predicate: Predicate<Tv>,
+): {
+  type: 'filterAsync';
+  getter: FieldGetter<Tm, Tv> | null;
+  predicate: Predicate<Tv>;
+} & DerivedExpression<Tm, Tm> {
+  return {
+    type: 'filterAsync',
+    getter,
+    predicate,
+    chainAfter(iterable) {
+      // TODO:
+      // @ts-ignore
+      return iterable.filterAsync(m => predicate.call(getter == null ? m : getter.get(m)));
+    },
+  };
+}
+
 export function map<T, R>(fn: (f: T) => R): { type: 'map' } & DerivedExpression<T, R> {
   return {
     type: 'map',
     chainAfter(iterable) {
       return iterable.map(fn);
+    },
+  };
+}
+
+export function mapAsync<T, R>(
+  fn: (f: T) => Promise<R>,
+): { type: 'mapAsync' } & DerivedExpression<T, R> {
+  return {
+    type: 'mapAsync',
+    chainAfter(iterable) {
+      return iterable.mapAsync(fn);
     },
   };
 }
