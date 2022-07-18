@@ -23,7 +23,7 @@
 import Plan, { IPlan } from './Plan.js';
 import { ChunkIterable, StaticSourceChunkIterable, TakeChunkIterable } from './ChunkIterable.js';
 import P, { Predicate } from './Predicate.js';
-import { FieldGetter } from './Field.js';
+import { FieldGetter, ModelFieldGetter } from './Field.js';
 import HopPlan from './HopPlan.js';
 import ModelLoadExpression from './ModelLoadExpression.js';
 import { Context, IModel } from '@aphro/context-runtime-ts';
@@ -63,14 +63,13 @@ export type Expression = // union of the mapping of return types of the members 
 // maybe something like: https://github.com/ueberdosis/tiptap/blob/main/packages/core/src/types.ts#L197
 */
 
-export function take<T>(
-  num: number,
-): {
+export function take<T>(num: number): {
   type: 'take';
   num: number;
 } & DerivedExpression<T, T> {
   return {
     type: 'take',
+    key: 'take-' + num,
     num,
     chainAfter(iterable) {
       return new TakeChunkIterable(iterable, num);
@@ -83,6 +82,7 @@ export function before<T>(
 ): { type: 'before'; cursor: string } & DerivedExpression<T, T> {
   return {
     type: 'before',
+    key: 'before-' + cursor,
     cursor,
     chainAfter(_) {
       throw new Error('Cursor must be consumed in plan optimization');
@@ -95,6 +95,7 @@ export function after<T>(
 ): { type: 'after'; cursor: string } & DerivedExpression<T, T> {
   return {
     type: 'after',
+    key: 'after-' + cursor,
     cursor,
     chainAfter(_) {
       throw new Error('Cursor must be consumed in plan optimization');
@@ -112,8 +113,19 @@ export function filter<Tm, Tv>(
   getter: FieldGetter<Tm, Tv> | null;
   predicate: Predicate<Tv>;
 } & DerivedExpression<Tm, Tm> {
+  // We can't reliable determine that the cached result is correct if the user is providing lambdas
+  let key: string | null = null;
+  if (
+    getter instanceof ModelFieldGetter &&
+    predicate.type !== 'lambda' &&
+    predicate.type !== 'asyncLambda'
+  ) {
+    key = getter.fieldName + '-' + predicate.type + '-' + hashCode(predicate.value + '');
+  }
+
   return {
     type: 'filter',
+    key,
     getter,
     predicate,
     chainAfter(iterable) {
@@ -127,6 +139,8 @@ export function filter<Tm, Tv>(
 export function map<T, R>(fn: (f: T) => R): { type: 'map' } & DerivedExpression<T, R> {
   return {
     type: 'map',
+    // refuse to cache given we don't know if `map` has changed since it can capture variables?
+    key: null,
     chainAfter(iterable) {
       return iterable.map(fn);
     },
@@ -142,6 +156,7 @@ export function orderBy<Tm, Tv>(
 > {
   return {
     type: 'orderBy',
+    key: 'orderBy-' + getter.key + '-' + direction,
     getter,
     direction,
     chainAfter(iterable) {
@@ -165,6 +180,7 @@ export function orderBy<Tm, Tv>(
 export function count<Tm>(): { type: 'count' } & DerivedExpression<Tm, number> {
   return {
     type: 'count',
+    key: 'count',
     chainAfter(iterable) {
       return iterable.count();
     },
@@ -195,18 +211,29 @@ export function modelLoad<TData, TModel extends IModel<TData>>(
 // Should have a predicate class
 // That we can determine if hoistable or not
 
-export interface SourceExpression<TOut> {
+export interface IExpression {
+  // The key is used to construct a cache key for a query plan.
+  // The idea here is that we can return results for queries we've seen before.
+  // If there were 0 writes between running of the query, we can return the result
+  // confidently.
+  // If there were writes, we can return the result as a "stale" result.
+  // If there were updates (no inserts or deletes) but this is a 1-hop query we can
+  // return the query confidently after re-applying filters in-memory
+  readonly key: string | null;
+}
+
+export interface SourceExpression<TOut> extends IExpression {
   readonly iterable: ChunkIterable<TOut>;
   optimize(plan: Plan, nextHop?: HopPlan): Plan;
   implicatedDataset(): string;
 }
 
-export interface DerivedExpression<TIn, TOut> {
+export interface DerivedExpression<TIn, TOut> extends IExpression {
   chainAfter(iterable: ChunkIterable<TIn>): ChunkIterable<TOut>;
   type: ExpressionType;
 }
 
-export interface HopExpression<TIn, TOut> {
+export interface HopExpression<TIn, TOut> extends IExpression {
   chainAfter(iterable: ChunkIterable<TIn>): ChunkIterable<TOut>;
   /**
    * Optimizes the current plan (plan) and folds in the nxet hop (nextHop) if possible.
@@ -217,6 +244,7 @@ export interface HopExpression<TIn, TOut> {
 }
 
 export class EmptySourceExpression implements SourceExpression<void> {
+  readonly key = 'empty-source-expression';
   optimize(plan: Plan, nextHop?: HopPlan): Plan {
     return new Plan(new EmptySourceExpression(), []);
   }
@@ -228,4 +256,17 @@ export class EmptySourceExpression implements SourceExpression<void> {
   get iterable(): ChunkIterable<void> {
     return new StaticSourceChunkIterable([]);
   }
+}
+
+function hashCode(string: string | Set<any>) {
+  if (string instanceof Set) {
+    string = [...string].toString();
+  }
+  var hash = 0;
+  for (var i = 0; i < string.length; i++) {
+    var code = string.charCodeAt(i);
+    hash = (hash << 5) - hash + code;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return hash;
 }

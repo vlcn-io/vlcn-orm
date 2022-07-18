@@ -1,6 +1,7 @@
 import { IModel, INode } from '@aphro/context-runtime-ts';
 
 export interface FieldGetter<Tm, Tv> {
+  readonly key: string;
   readonly get: (Tm) => Tv;
 }
 
@@ -18,7 +19,10 @@ export interface FieldGetter<Tm, Tv> {
 export class ModelFieldGetter<Tk extends keyof Td, Td, Tm extends IModel<Td>>
   implements FieldGetter<Tm, Td[Tk]>
 {
-  constructor(public readonly fieldName: Tk) {}
+  readonly key: string;
+  constructor(public readonly fieldName: Tk) {
+    this.key = fieldName as string;
+  }
 
   get(model: Tm): Td[Tk] {
     return model._get(this.fieldName);
