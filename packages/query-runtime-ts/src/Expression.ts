@@ -36,6 +36,7 @@ export type ExpressionType =
   | 'filter'
   | 'filterAsync'
   | 'orderBy'
+  | 'orderByLambda'
   | 'hop'
   | 'modelLoad'
   | 'count'
@@ -51,6 +52,7 @@ export type Expression =
   | ReturnType<typeof filter>
   | ReturnType<typeof filterAsync>
   | ReturnType<typeof orderBy>
+  | ReturnType<typeof orderByLambda>
   | ReturnType<typeof hop>
   | ReturnType<typeof modelLoad>
   | ReturnType<typeof count>
@@ -192,6 +194,17 @@ export function orderBy<Tm, Tv>(
         }
         return direction === 'asc' ? -1 : 1;
       });
+    },
+  };
+}
+
+export function orderByLambda<Tm>(fn: (l: Tm, r: Tm) => number): {
+  type: 'orderByLambda';
+} & DerivedExpression<Tm, Tm> {
+  return {
+    type: 'orderByLambda',
+    chainAfter(iterable) {
+      return iterable.orderBy(fn);
     },
   };
 }

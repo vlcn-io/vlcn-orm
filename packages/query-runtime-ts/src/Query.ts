@@ -9,6 +9,8 @@ import {
   HopExpression,
   map,
   mapAsync,
+  orderBy,
+  orderByLambda,
   SourceExpression,
 } from './Expression.js';
 import HopPlan from './HopPlan.js';
@@ -187,6 +189,10 @@ export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
 
   mapAsync<TMapped>(fn: (t: TOut) => Promise<TMapped>): DerivedQuery<TMapped> {
     return this.derive(mapAsync(fn));
+  }
+
+  orerBy(fn: (l: TOut, r: TOut) => number): this {
+    return this.derive(orderByLambda(fn));
   }
 
   // union(): ThisType<TOut> {

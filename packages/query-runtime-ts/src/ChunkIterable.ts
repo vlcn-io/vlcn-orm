@@ -17,6 +17,7 @@ export interface ChunkIterable<T> {
   filter(fn: (x: T) => boolean): ChunkIterable<T>;
   filterAsync(fn: (x: T) => Promise<boolean>): ChunkIterable<T>;
   orderBy(fn: (l: T, r: T) => number): ChunkIterable<T>;
+  // orderByAsync(fn: (l: T, r: T) => Promise<number>): ChunkIterable<T>;
   take(n: number): ChunkIterable<T>;
   count(): ChunkIterable<number>;
 }
