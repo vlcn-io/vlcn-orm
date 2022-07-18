@@ -84,12 +84,12 @@ export default spec;
       return `return new ${this.schema.name}(ctx, data);`;
     }
 
-    return `const existing = ctx.cache.get(${cacheKey}, ${this.schema.name}.name);
+    return `const existing = ctx.cache.get(${cacheKey}, "${this.schema.storage.db}", "${this.schema.storage.tablish}");
     if (existing) {
       return existing;
     }
     const result = new ${this.schema.name}(ctx, data);
-    ctx.cache.set(${cacheKey}, result);
+    ctx.cache.set(${cacheKey}, result, "${this.schema.storage.db}", "${this.schema.storage.tablish}");
     return result;`;
   }
 

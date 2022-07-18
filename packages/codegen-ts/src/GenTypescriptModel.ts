@@ -320,7 +320,7 @@ export default abstract class ${this.schema.name}Base
       return '';
     }
     return `static async gen(ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name} | null> {
-      const existing = ctx.cache.get(id, ${this.schema.name}.name);
+      const existing = ctx.cache.get(id, "${this.schema.storage.db}", "${this.schema.storage.tablish}");
       if (existing) {
         return existing;
       }
@@ -333,7 +333,7 @@ export default abstract class ${this.schema.name}Base
       return '';
     }
     return `static async genx(ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name}> {
-      const existing = ctx.cache.get(id, ${this.schema.name}.name);
+      const existing = ctx.cache.get(id, "${this.schema.storage.db}", "${this.schema.storage.tablish}");
       if (existing) {
         return existing;
       }

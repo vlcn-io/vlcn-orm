@@ -52,8 +52,8 @@ export default class Cache {
     }
   }
 
-  get<T extends Object>(id: SID_of<T>, typename: string): T | null {
-    const idconcat = concatId(id, typename);
+  get<T extends Object>(id: SID_of<T>, db: string, tablish: string): T | null {
+    const idconcat = concatId(id, db, tablish);
     const ref = this.#cache.get(idconcat as SID_of<T>);
     if (ref == null) {
       return null;
@@ -67,13 +67,13 @@ export default class Cache {
     return thing as T;
   }
 
-  set<T extends Object>(id: SID_of<T>, node: T): void {
+  set<T extends Object>(id: SID_of<T>, node: T, db: string, tablish: string): void {
     ++this.#setCount;
     if (this.#setCount > 1000) {
       this.#gc();
     }
 
-    const existing = this.get(id, node.constructor.name);
+    const existing = this.get(id, db, tablish);
     if (existing === node) {
       return;
     }
@@ -86,11 +86,11 @@ export default class Cache {
     );
 
     const ref = new WeakRef(node);
-    this.#cache.set(concatId(id, node.constructor.name), ref);
+    this.#cache.set(concatId(id, db, tablish), ref);
   }
 
-  remove<T extends Object>(id: SID_of<T>, typename: string): T | null {
-    let idconcat = concatId(id, typename);
+  remove<T extends Object>(id: SID_of<T>, db: string, tablish: string): T | null {
+    let idconcat = concatId(id, db, tablish);
     const ref = this.#cache.get(idconcat);
     if (ref == null) {
       return null;
@@ -117,6 +117,6 @@ export default class Cache {
 
 // TODO: this should take into account engine and db too...
 // could have duplicative type names. E.g., `User` generated for `Memory` and `SQL` storage.
-function concatId<T>(id: SID_of<T>, typename: string) {
-  return (id + '-' + typename) as SID_of<T>;
+function concatId<T>(id: SID_of<T>, db: string, tablish: string) {
+  return (id + '-' + db + '-' + tablish) as SID_of<T>;
 }

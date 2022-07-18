@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <1ea3cec3b4bd8a502ead64a2105b936d>
+// SIGNED-SOURCE: <15e058762c14fb4843927247515f65ff>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -28,11 +28,12 @@ export type Data = {
   selectedSlideId: SID_of<Slide> | null;
 };
 
+// @Sealed(Deck)
 export default abstract class DeckBase extends Node<Data> {
-  readonly spec = s as NodeSpecWithCreate<this, Data>;
+  readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
-    return this.data.id as SID_of<this>;
+    return this.data.id as unknown as SID_of<this>;
   }
 
   get name(): string {
@@ -59,7 +60,7 @@ export default abstract class DeckBase extends Node<Data> {
     return UserQuery.fromId(this.ctx, this.ownerId);
   }
   querySlides(): SlideQuery {
-    return SlideQuery.create(this.ctx).whereDeckId(P.equals(this.id));
+    return SlideQuery.create(this.ctx).whereDeckId(P.equals(this.id as any));
   }
   querySelectedSlide(): SlideQuery {
     if (this.selectedSlideId == null) {
@@ -68,7 +69,7 @@ export default abstract class DeckBase extends Node<Data> {
     return SlideQuery.fromId(this.ctx, this.selectedSlideId);
   }
   queryEditors(): UserQuery {
-    return DeckQuery.fromId(this.ctx, this.id).queryEditors();
+    return DeckQuery.fromId(this.ctx, this.id as any).queryEditors();
   }
 
   static queryAll(ctx: Context): DeckQuery {
@@ -76,7 +77,7 @@ export default abstract class DeckBase extends Node<Data> {
   }
 
   static async genx(ctx: Context, id: SID_of<Deck>): Promise<Deck> {
-    const existing = ctx.cache.get(id, Deck.name);
+    const existing = ctx.cache.get(id, "none", "deck");
     if (existing) {
       return existing;
     }
@@ -84,7 +85,7 @@ export default abstract class DeckBase extends Node<Data> {
   }
 
   static async gen(ctx: Context, id: SID_of<Deck>): Promise<Deck | null> {
-    const existing = ctx.cache.get(id, Deck.name);
+    const existing = ctx.cache.get(id, "none", "deck");
     if (existing) {
       return existing;
     }
@@ -102,6 +103,6 @@ export default abstract class DeckBase extends Node<Data> {
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+    return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
   }
 }

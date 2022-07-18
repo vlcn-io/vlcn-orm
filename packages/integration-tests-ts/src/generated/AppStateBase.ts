@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <759cb77334d5c0bdbed4ee8ea3276810>
+// SIGNED-SOURCE: <2b3aa28305441fe5b013c4f3c4659295>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -24,11 +24,12 @@ export type Data = {
   copiedComponents: readonly Component[];
 };
 
+// @Sealed(AppState)
 export default abstract class AppStateBase extends Node<Data> {
-  readonly spec = s as NodeSpecWithCreate<this, Data>;
+  readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
-    return this.data.id as SID_of<this>;
+    return this.data.id as unknown as SID_of<this>;
   }
 
   get identity(): Identity {
@@ -54,6 +55,6 @@ export default abstract class AppStateBase extends Node<Data> {
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+    return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
   }
 }

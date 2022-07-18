@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <ee0c4983ab0a8738668c5b0e42742347>
+// SIGNED-SOURCE: <9e5e5a5211f781ec2de65dba42a42998>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -13,12 +13,12 @@ import { Data } from "./UserBase.js";
 const spec: NodeSpecWithCreate<User, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data["id"], User.name);
+    const existing = ctx.cache.get(data["id"], "example", "user");
     if (existing) {
       return existing;
     }
     const result = new User(ctx, data);
-    ctx.cache.set(data["id"], result);
+    ctx.cache.set(data["id"], result, "example", "user");
     return result;
   },
 

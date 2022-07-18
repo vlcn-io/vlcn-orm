@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <3f279a9554f30e10c7be1e867cde73f3>
+// SIGNED-SOURCE: <7c5ea9309b25f08ad08d484a62474a48>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -22,8 +22,9 @@ export type Data = {
   id2: SID_of<User>;
 };
 
+// @Sealed(DeckToEditorsEdge)
 export default abstract class DeckToEditorsEdgeBase extends Edge<Data> {
-  readonly spec = s as EdgeSpecWithCreate<this, Data>;
+  readonly spec = s as unknown as EdgeSpecWithCreate<this, Data>;
 
   get id1(): SID_of<Deck> {
     return this.data.id1;
@@ -52,6 +53,6 @@ export default abstract class DeckToEditorsEdgeBase extends Edge<Data> {
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+    return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
   }
 }

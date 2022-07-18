@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <702c830658eaea90c6ba2ca00d9cc33b>
+// SIGNED-SOURCE: <07e2e050039dc07fd46aba5ff727baf7>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -24,11 +24,12 @@ export type Data = {
   modified: number;
 };
 
+// @Sealed(User)
 export default abstract class UserBase extends Node<Data> {
-  readonly spec = s as NodeSpecWithCreate<this, Data>;
+  readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
-    return this.data.id as SID_of<this>;
+    return this.data.id as unknown as SID_of<this>;
   }
 
   get name(): string {
@@ -44,7 +45,7 @@ export default abstract class UserBase extends Node<Data> {
   }
 
   queryDecks(): DeckQuery {
-    return DeckQuery.create(this.ctx).whereOwnerId(P.equals(this.id));
+    return DeckQuery.create(this.ctx).whereOwnerId(P.equals(this.id as any));
   }
 
   static queryAll(ctx: Context): UserQuery {
@@ -52,7 +53,7 @@ export default abstract class UserBase extends Node<Data> {
   }
 
   static async genx(ctx: Context, id: SID_of<User>): Promise<User> {
-    const existing = ctx.cache.get(id, User.name);
+    const existing = ctx.cache.get(id, "none", "user");
     if (existing) {
       return existing;
     }
@@ -60,7 +61,7 @@ export default abstract class UserBase extends Node<Data> {
   }
 
   static async gen(ctx: Context, id: SID_of<User>): Promise<User | null> {
-    const existing = ctx.cache.get(id, User.name);
+    const existing = ctx.cache.get(id, "none", "user");
     if (existing) {
       return existing;
     }
@@ -78,6 +79,6 @@ export default abstract class UserBase extends Node<Data> {
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+    return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
   }
 }

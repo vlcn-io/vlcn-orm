@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <d45ad566adc59978a10ca02998e3350c>
+// SIGNED-SOURCE: <f56ce4d2d04ba2a9432fba1a55d8e050>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -20,11 +20,12 @@ export type Data = {
   token: string;
 };
 
+// @Sealed(Identity)
 export default abstract class IdentityBase extends Node<Data> {
-  readonly spec = s as NodeSpecWithCreate<this, Data>;
+  readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
-    return this.data.id as SID_of<this>;
+    return this.data.id as unknown as SID_of<this>;
   }
 
   get identifier(): string {
@@ -46,6 +47,6 @@ export default abstract class IdentityBase extends Node<Data> {
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+    return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
   }
 }

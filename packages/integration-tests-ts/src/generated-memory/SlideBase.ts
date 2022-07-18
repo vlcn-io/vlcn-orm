@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <980c9427865f9c90bd7747ce19ae4ee2>
+// SIGNED-SOURCE: <acfd4f7cbc0094713d1f75687100b1af>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -24,11 +24,12 @@ export type Data = {
   order: number;
 };
 
+// @Sealed(Slide)
 export default abstract class SlideBase extends Node<Data> {
-  readonly spec = s as NodeSpecWithCreate<this, Data>;
+  readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
-    return this.data.id as SID_of<this>;
+    return this.data.id as unknown as SID_of<this>;
   }
 
   get deckId(): SID_of<Deck> {
@@ -40,7 +41,9 @@ export default abstract class SlideBase extends Node<Data> {
   }
 
   queryComponents(): ComponentQuery {
-    return ComponentQuery.create(this.ctx).whereSlideId(P.equals(this.id));
+    return ComponentQuery.create(this.ctx).whereSlideId(
+      P.equals(this.id as any)
+    );
   }
 
   static queryAll(ctx: Context): SlideQuery {
@@ -48,7 +51,7 @@ export default abstract class SlideBase extends Node<Data> {
   }
 
   static async genx(ctx: Context, id: SID_of<Slide>): Promise<Slide> {
-    const existing = ctx.cache.get(id, Slide.name);
+    const existing = ctx.cache.get(id, "none", "slide");
     if (existing) {
       return existing;
     }
@@ -56,7 +59,7 @@ export default abstract class SlideBase extends Node<Data> {
   }
 
   static async gen(ctx: Context, id: SID_of<Slide>): Promise<Slide | null> {
-    const existing = ctx.cache.get(id, Slide.name);
+    const existing = ctx.cache.get(id, "none", "slide");
     if (existing) {
       return existing;
     }
@@ -74,6 +77,6 @@ export default abstract class SlideBase extends Node<Data> {
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+    return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
   }
 }

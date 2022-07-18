@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <cc980046d658550e48deafa6ce003744>
+// SIGNED-SOURCE: <1cbee4a7b20a8d688738c2343d2eebe4>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -12,12 +12,12 @@ import { Data } from "./ComponentBase.js";
 const spec: NodeSpecWithCreate<Component, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data["id"], Component.name);
+    const existing = ctx.cache.get(data["id"], "none", "component");
     if (existing) {
       return existing;
     }
     const result = new Component(ctx, data);
-    ctx.cache.set(data["id"], result);
+    ctx.cache.set(data["id"], result, "none", "component");
     return result;
   },
 

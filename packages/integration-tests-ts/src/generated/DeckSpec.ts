@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <afdf04cc762d1d8b5e8737f98d42465b>
+// SIGNED-SOURCE: <7e5c32a1abef46d4f83ed841ce7942ce>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -14,12 +14,12 @@ import { Data } from "./DeckBase.js";
 const spec: NodeSpecWithCreate<Deck, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data["id"], Deck.name);
+    const existing = ctx.cache.get(data["id"], "example", "deck");
     if (existing) {
       return existing;
     }
     const result = new Deck(ctx, data);
-    ctx.cache.set(data["id"], result);
+    ctx.cache.set(data["id"], result, "example", "deck");
     return result;
   },
 

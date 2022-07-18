@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <c163ef3ab25ba1b893b611fb12f02ad0>
+// SIGNED-SOURCE: <ef6957b8f70e2d3af15de310e7f9a775>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -23,11 +23,12 @@ export type Data = {
   content: string;
 };
 
+// @Sealed(Component)
 export default abstract class ComponentBase extends Node<Data> {
-  readonly spec = s as NodeSpecWithCreate<this, Data>;
+  readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
-    return this.data.id as SID_of<this>;
+    return this.data.id as unknown as SID_of<this>;
   }
 
   get subtype(): "Text" | "Embed" {
@@ -47,7 +48,7 @@ export default abstract class ComponentBase extends Node<Data> {
   }
 
   static async genx(ctx: Context, id: SID_of<Component>): Promise<Component> {
-    const existing = ctx.cache.get(id, Component.name);
+    const existing = ctx.cache.get(id, "none", "component");
     if (existing) {
       return existing;
     }
@@ -58,7 +59,7 @@ export default abstract class ComponentBase extends Node<Data> {
     ctx: Context,
     id: SID_of<Component>
   ): Promise<Component | null> {
-    const existing = ctx.cache.get(id, Component.name);
+    const existing = ctx.cache.get(id, "none", "component");
     if (existing) {
       return existing;
     }
@@ -76,6 +77,6 @@ export default abstract class ComponentBase extends Node<Data> {
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+    return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
   }
 }

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <9d9f69cf6c91cc741b2b2c5c300ef22d>
+// SIGNED-SOURCE: <a6341539b7884fdf02b538ec514c4904>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -16,7 +16,8 @@ const spec: EdgeSpecWithCreate<DeckToEditorsEdge, Data> = {
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(
       (data.id1 + "-" + data.id2) as SID_of<DeckToEditorsEdge>,
-      DeckToEditorsEdge.name
+      "example",
+      "decktoeditorsedge"
     );
     if (existing) {
       return existing;
@@ -24,7 +25,9 @@ const spec: EdgeSpecWithCreate<DeckToEditorsEdge, Data> = {
     const result = new DeckToEditorsEdge(ctx, data);
     ctx.cache.set(
       (data.id1 + "-" + data.id2) as SID_of<DeckToEditorsEdge>,
-      result
+      result,
+      "example",
+      "decktoeditorsedge"
     );
     return result;
   },

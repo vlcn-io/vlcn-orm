@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <200d3e62f185461a13454d6350044bec>
+// SIGNED-SOURCE: <273e42a99e997d459cf4ea144cdaf802>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -13,12 +13,12 @@ import { Data } from "./SlideBase.js";
 const spec: NodeSpecWithCreate<Slide, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data["id"], Slide.name);
+    const existing = ctx.cache.get(data["id"], "none", "slide");
     if (existing) {
       return existing;
     }
     const result = new Slide(ctx, data);
-    ctx.cache.set(data["id"], result);
+    ctx.cache.set(data["id"], result, "none", "slide");
     return result;
   },
 
