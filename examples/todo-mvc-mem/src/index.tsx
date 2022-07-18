@@ -7,6 +7,8 @@ import App from './App.js';
 import TodoList from './generated/TodoList.js';
 
 const ctx = context(anonymous(), basicResolver(new MemoryDB()));
+(window as any).TodoList = TodoList;
+(window as any).ctx = ctx;
 start(ctx);
 
 async function bootstrap(ctx: Context): Promise<TodoList> {

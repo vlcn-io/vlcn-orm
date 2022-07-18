@@ -33,7 +33,7 @@ export default class Connection {
 
   constructor() {
     counter.bump('create');
-    this.#worker = new Worker(new URL('../worker/worker.js', import.meta.url));
+    this.#worker = new Worker(new URL('../worker/worker.js', import.meta.url), { type: 'module' });
     initBackend(this.#worker);
 
     this.ready = new Promise(resolve => {

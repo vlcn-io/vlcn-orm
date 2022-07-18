@@ -9,7 +9,11 @@ import thisPackage from '../pkg.js';
  * for query events from `connection.ts`.
  */
 async function init() {
-  let SQL = await initSqlJs({ locateFile: file => file });
+  let SQL = await initSqlJs({
+    locateFile: file => {
+      return file;
+    },
+  });
   // let SQL = await initSqlJs({ locateFile: file => '/assets/js/sql.wasm' });
   let sqlFS = new SQLiteFS(SQL.FS, new IndexedDBBackend());
   SQL.register_for_idb(sqlFS);

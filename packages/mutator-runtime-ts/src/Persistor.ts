@@ -6,20 +6,30 @@ import { Context, IModel, DeleteChangeset, Transaction } from '@aphro/context-ru
 export default class Persistor {
   constructor(private context: Context) {}
 
-  private write(
+  private async write(
     collectedDeletes: DeleteChangeset<IModel, Object>[],
     collectedCreatesOrUpdates: Map<SID_of<IModel>, IModel>,
-  ) {
+  ): Promise<[void, void]> {
     // TODO: start trnsaction
     // TODO: commit transaction
-    return Promise.all([
-      writer.deleteBatch(this.context, collectedDeletes),
-      writer.upsertBatch(this.context, collectedCreatesOrUpdates.values()),
-    ]);
+    try {
+      // we need to disaggregate by db here.
+      // so we can do tx per db.
+      // await writer.startTransaction();
+      const ret = await Promise.all([
+        writer.deleteBatch(this.context, collectedDeletes),
+        writer.upsertBatch(this.context, collectedCreatesOrUpdates.values()),
+      ]);
+      // await writer.commitTransaction();
+      return ret;
+    } catch (e) {
+      // await writer.rollbackTransaction();
+      throw e;
+    }
   }
 
   // TODO: all of this batching is likely premature optmization
-  persist(tx: Omit<Transaction, 'persistHandle'>): Promise<[void, void]> {
+  async persist(tx: Omit<Transaction, 'persistHandle'>): Promise<[void, void]> {
     const collectedDeletes: DeleteChangeset<IModel, Object>[] = [];
     const collectedCreatesOrUpdates: Map<SID_of<IModel>, IModel> = new Map();
     tx.changes.forEach((value, key) => {
@@ -34,6 +44,6 @@ export default class Persistor {
       collectedCreatesOrUpdates.set(key, nullthrows(tx.nodes.get(key)));
     });
 
-    return this.write(collectedDeletes, collectedCreatesOrUpdates);
+    return await this.write(collectedDeletes, collectedCreatesOrUpdates);
   }
 }
