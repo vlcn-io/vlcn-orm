@@ -39,6 +39,11 @@
  * unmounted and remounted after changing one another's data. The app dev can fix this by not unmounting?
  *
  * Eventually move the knowledge of what is cached to the sqlite proxy? so we don't return cached rows? meh. so premature.
+ *
+ * Won't we need to identify the cache key at the plan level?
+ * So we can return an optimistic payload there...
+ * If we're deep into the source iterable we can't return an optimistic payload.
+ *   An optimistic payload while at the same time re-issuing the query...
  */
 
 import { SID_of } from '@strut/sid';
