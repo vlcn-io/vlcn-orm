@@ -33,6 +33,9 @@ export default class SQLSourceChunkIterable<T extends IModel<Object>> extends Ba
       return;
     }
 
+    // One may wonder how `directLoad` doesn't break follow-on expressions.
+    // 1. all follow on expressions _must_ come after a modelLoad
+    // 2. modelLoad checks the cache which can be checked wither either a `Model` or `Data` instance
     const directLoad = this.isDirectLoad();
     if (directLoad !== null) {
       const cached = this.ctx.cache.get(
