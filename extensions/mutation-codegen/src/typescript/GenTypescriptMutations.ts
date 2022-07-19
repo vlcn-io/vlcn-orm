@@ -75,7 +75,7 @@ ${this.getCode()}
 
   private collectImports(): Import[] {
     return [
-      tsImport('*', 'impls', `./${this.schema.name}MutationsImpl.js`),
+      tsImport('*', 'impls', `../${this.schema.name}MutationsImpl.js`),
       tsImport('{ICreateOrUpdateBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{Context}', null, '@aphro/runtime-ts'),
       tsImport('{MutationsBase}', null, '@aphro/runtime-ts'),

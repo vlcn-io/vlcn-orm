@@ -1,9 +1,10 @@
-import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
+import { CodegenFile, CodegenStep, generatedDir } from '@aphro/codegen-api';
 import { FieldDeclaration, SchemaEdge, SchemaNode, TypeAtom } from '@aphro/schema-api';
 import { assertUnreachable } from '@strut/utils';
 import SqlFile from './SqlFile.js';
 import { sql, formatters, SQLQuery } from '@aphro/sql-ts';
 import { fieldFn } from '@aphro/schema';
+import * as path from 'path';
 
 export default class GenSqlTableSchema extends CodegenStep {
   static accepts(schema: SchemaNode | SchemaEdge): boolean {
@@ -42,7 +43,7 @@ export default class GenSqlTableSchema extends CodegenStep {
     }
 
     return new SqlFile(
-      `${this.schema.name}.${this.schema.storage.engine}.sql`,
+      path.join(generatedDir, `${this.schema.name}.${this.schema.storage.engine}.sql`),
       str,
       this.schema.storage.engine,
     );

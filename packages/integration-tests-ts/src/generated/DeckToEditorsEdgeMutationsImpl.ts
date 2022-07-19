@@ -1,4 +1,4 @@
-import { CreateArgs } from "./DeckToEditorsEdgeMutations.js";
+import { CreateArgs } from "./generated/DeckToEditorsEdgeMutations.js";
 import { Changeset } from "@aphro/runtime-ts";
 import { Data } from "./DeckToEditorsEdge.js";
 import DeckToEditorsEdge from "./DeckToEditorsEdge.js";

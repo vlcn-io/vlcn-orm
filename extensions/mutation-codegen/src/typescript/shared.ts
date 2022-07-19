@@ -20,14 +20,14 @@ function collectImportsForArgs(
       .flatMap(td => {
         if (typeof td === 'string') {
           return [
-            tsImport(td, null, `./${td}.js`),
+            tsImport(td, null, `../${td}.js`),
             tsImport('{Data}', td + 'Data', `./${td}Base.js`),
           ];
         } else if (td.type === 'id') {
           return [tsImport(td.of, null, `./${td.of}.js`)];
         } else if (td.type === 'array' || td.type === 'map') {
           if (typeof td.values === 'string') {
-            return [tsImport(td.values, null, `./${td.values}.js`)];
+            return [tsImport(td.values, null, `../${td.values}.js`)];
           }
         }
       })

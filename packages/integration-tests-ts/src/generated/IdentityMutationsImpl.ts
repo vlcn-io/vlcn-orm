@@ -1,6 +1,6 @@
-import { CreateArgs } from "./IdentityMutations.js";
+import { CreateArgs } from "./generated/IdentityMutations.js";
 import { Changeset, sid } from "@aphro/runtime-ts";
-import { Data } from "./IdentityBase.js";
+import { Data } from "./generated/IdentityBase.js";
 import Identity from "./Identity.js";
 import { IMutationBuilder } from "@aphro/runtime-ts";
 

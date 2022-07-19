@@ -1,4 +1,4 @@
-import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
+import { CodegenStep, CodegenFile, generatedDir } from '@aphro/codegen-api';
 import { SchemaEdge, SchemaNode } from '@aphro/schema-api';
 import { Mutation } from '@aphro/mutation-grammar';
 import { TypescriptFile, importsToString } from '@aphro/codegen-ts';
@@ -95,7 +95,7 @@ ${this.getCode([])}
     return [
       ...this.importArgTypes(),
       tsImport('{Changeset}', null, '@aphro/runtime-ts'),
-      tsImport('{Data}', null, `./${this.schema.name}Base.js`),
+      tsImport('{Data}', null, `./${this.schema.name}.js`),
       tsImport(this.schema.name, null, `./${this.schema.name}.js`),
       tsImport('{IMutationBuilder}', null, '@aphro/runtime-ts'),
     ];
@@ -104,7 +104,7 @@ ${this.getCode([])}
   private importArgTypes(): Import[] {
     return Object.values(this.schema.extensions.mutations?.mutations || {}).map(m => {
       const typeName = upcaseAt(m.name, 0) + 'Args';
-      return tsImport(`{${typeName}}`, null, `./${this.schema.name}Mutations.js`);
+      return tsImport(`{${typeName}}`, null, `./${generatedDir}/${this.schema.name}Mutations.js`);
     });
   }
 }

@@ -1,6 +1,6 @@
-import { CreateArgs } from "./SlideMutations.js";
-import { ReorderArgs } from "./SlideMutations.js";
-import { DeleteArgs } from "./SlideMutations.js";
+import { CreateArgs } from "./generated/SlideMutations.js";
+import { ReorderArgs } from "./generated/SlideMutations.js";
+import { DeleteArgs } from "./generated/SlideMutations.js";
 import { Changeset, sid } from "@aphro/runtime-ts";
 import { Data } from "./Slide.js";
 import Slide from "./Slide.js";

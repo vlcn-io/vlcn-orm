@@ -128,7 +128,7 @@ export default abstract class ${this.schema.name}Base
       .flatMap(f => f.type)
       .filter((f): f is ID => typeof f !== 'string' && f.type === 'id');
 
-    return idFields.map(f => tsImport(f.of, null, './' + f.of + '.js'));
+    return idFields.map(f => tsImport(f.of, null, '../' + f.of + '.js'));
   }
 
   private getNestedTypeImports(): Import[] {
@@ -149,7 +149,7 @@ export default abstract class ${this.schema.name}Base
       )
       .filter((f): f is string => f != null);
 
-    return typeFields.map(f => tsImport(f, null, './' + f + '.js'));
+    return typeFields.map(f => tsImport(f, null, '../' + f + '.js'));
   }
 
   private getEdgeImports(): Import[] {
@@ -169,7 +169,7 @@ export default abstract class ${this.schema.name}Base
       );
       if (edge.type === 'edge') {
         if (edge.throughOrTo.type !== this.schema.name) {
-          ret.push(tsImport(edge.throughOrTo.type, null, './' + edge.throughOrTo.type + '.js'));
+          ret.push(tsImport(edge.throughOrTo.type, null, '../' + edge.throughOrTo.type + '.js'));
         }
       }
     }

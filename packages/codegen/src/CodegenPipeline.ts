@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { SchemaNode, SchemaEdge } from '@aphro/schema-api';
-import { CodegenFile, GlobalStep, Step } from '@aphro/codegen-api';
+import { CodegenFile, generatedDir, GlobalStep, Step } from '@aphro/codegen-api';
 import {
   checkSignature,
   insertManualSections,
@@ -53,7 +53,7 @@ export default class CodegenPipleine {
 
     const allFiles = [...nodeAndEdgeFiles, ...globalStepFiles].filter(f => f.nochange !== true);
 
-    await fs.promises.mkdir(dest, { recursive: true });
+    await fs.promises.mkdir(path.join(dest, generatedDir), { recursive: true });
     const toWrite = await this.checkHashesAndAddManualCode(dest, allFiles);
     await Promise.all(
       toWrite.map(async f => await fs.promises.writeFile(toPath(dest, f[0]), f[1])),

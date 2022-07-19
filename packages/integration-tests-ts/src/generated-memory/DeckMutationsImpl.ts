@@ -1,7 +1,7 @@
-import { CreateArgs } from "./DeckMutations.js";
-import { SelectSlideArgs } from "./DeckMutations.js";
-import { RenameArgs } from "./DeckMutations.js";
-import { DeleteArgs } from "./DeckMutations.js";
+import { CreateArgs } from "./generated/DeckMutations.js";
+import { SelectSlideArgs } from "./generated/DeckMutations.js";
+import { RenameArgs } from "./generated/DeckMutations.js";
+import { DeleteArgs } from "./generated/DeckMutations.js";
 import { Changeset, sid } from "@aphro/runtime-ts";
 import { Data } from "./Deck.js";
 import Deck from "./Deck.js";

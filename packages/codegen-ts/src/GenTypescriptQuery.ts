@@ -235,7 +235,7 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${idParts[0].of}>) {
       .flatMap(f => f.type)
       .filter((f): f is ID => typeof f !== 'string' && f.type === 'id');
 
-    return idFields.map(f => tsImport(f.of, null, './' + f.of + '.js'));
+    return idFields.map(f => tsImport(f.of, null, '../' + f.of + '.js'));
   }
 
   private getHopMethodsCode(): string {

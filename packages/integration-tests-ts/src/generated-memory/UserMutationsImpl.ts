@@ -1,6 +1,6 @@
-import { CreateArgs } from "./UserMutations.js";
-import { RenameArgs } from "./UserMutations.js";
-import { DeleteArgs } from "./UserMutations.js";
+import { CreateArgs } from "./generated/UserMutations.js";
+import { RenameArgs } from "./generated/UserMutations.js";
+import { DeleteArgs } from "./generated/UserMutations.js";
 import { Changeset, sid } from "@aphro/runtime-ts";
 import { Data } from "./User.js";
 import User from "./User.js";
