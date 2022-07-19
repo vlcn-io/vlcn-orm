@@ -1,10 +1,10 @@
-// SIGNED-SOURCE: <8dd821efbbb29eeb2248e7d18a7cf046>
+// SIGNED-SOURCE: <3287b30b26cf56939522d40940e33ed0>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
-import TodoList from "./TodoList.js";
-import { default as s } from "./TodoListSpec.js";
+import Todo from "../Todo.js";
+import { default as s } from "./TodoSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
@@ -12,54 +12,51 @@ import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
-import TodoListQuery from "./TodoListQuery.js";
-import { Context } from "@aphro/runtime-ts";
 import TodoQuery from "./TodoQuery.js";
-import Todo from "./Todo.js";
+import { Context } from "@aphro/runtime-ts";
+import TodoList from "../TodoList.js";
 
 export type Data = {
-  id: SID_of<TodoList>;
-  filter: "all" | "active" | "completed";
-  editing: SID_of<Todo> | null;
+  id: SID_of<Todo>;
+  listId: SID_of<TodoList>;
+  text: string;
+  completed: boolean;
 };
 
-// @Sealed(TodoList)
-export default abstract class TodoListBase extends Node<Data> {
+// @Sealed(Todo)
+export default abstract class TodoBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;
   }
 
-  get filter(): "all" | "active" | "completed" {
-    return this.data.filter;
+  get listId(): SID_of<TodoList> {
+    return this.data.listId;
   }
 
-  get editing(): SID_of<Todo> | null {
-    return this.data.editing;
+  get text(): string {
+    return this.data.text;
   }
 
-  queryTodos(): TodoQuery {
-    return TodoQuery.create(this.ctx).whereListId(P.equals(this.id as any));
+  get completed(): boolean {
+    return this.data.completed;
   }
 
-  static queryAll(ctx: Context): TodoListQuery {
-    return TodoListQuery.create(ctx);
+  static queryAll(ctx: Context): TodoQuery {
+    return TodoQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<TodoList>): Promise<TodoList> {
-    const existing = ctx.cache.get(id, "todomvc", "todolist");
+  static async genx(ctx: Context, id: SID_of<Todo>): Promise<Todo> {
+    const existing = ctx.cache.get(id, "todomvc", "todo");
     if (existing) {
       return existing;
     }
     return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
   }
 
-  static async gen(
-    ctx: Context,
-    id: SID_of<TodoList>
-  ): Promise<TodoList | null> {
-    const existing = ctx.cache.get(id, "todomvc", "todolist");
+  static async gen(ctx: Context, id: SID_of<Todo>): Promise<Todo | null> {
+    const existing = ctx.cache.get(id, "todomvc", "todo");
     if (existing) {
       return existing;
     }
