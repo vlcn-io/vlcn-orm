@@ -1,6 +1,6 @@
 import { asId, Cache, context, Context, noStorageResolver, viewer } from '@aphro/runtime-ts';
-import AppStateMutations from '../generated/AppStateMutations';
-import IdentityMutations from '../generated/IdentityMutations';
+import AppStateMutations from '../generated/generated/AppStateMutations';
+import IdentityMutations from '../generated/generated/IdentityMutations';
 import { jest } from '@jest/globals';
 
 jest.useFakeTimers();

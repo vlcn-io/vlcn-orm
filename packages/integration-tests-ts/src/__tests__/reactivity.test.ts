@@ -1,6 +1,6 @@
 import { context, Context, viewer, Cache, asId, commit, P } from '@aphro/runtime-ts';
 import { destroyDb, initDb } from './testBase.js';
-import UserMutations from '../generated/UserMutations';
+import UserMutations from '../generated/generated/UserMutations';
 import User from '../generated/User.js';
 import { nullthrows } from '@strut/utils';
 import { UpdateType } from '@aphro/runtime-ts';

@@ -24,7 +24,7 @@ function collectImportsForArgs(
             tsImport('{Data}', td + 'Data', `./${td}Base.js`),
           ];
         } else if (td.type === 'id') {
-          return [tsImport(td.of, null, `./${td.of}.js`)];
+          return [tsImport(td.of, null, `../${td.of}.js`)];
         } else if (td.type === 'array' || td.type === 'map') {
           if (typeof td.values === 'string') {
             return [tsImport(td.values, null, `../${td.values}.js`)];

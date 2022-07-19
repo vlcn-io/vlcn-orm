@@ -1,11 +1,11 @@
 import { commit, Context, P } from '@aphro/runtime-ts';
-import { default as UserMutationsSQL } from '../generated/UserMutations';
-import { default as DeckMutationsSQL } from '../generated/DeckMutations.js';
-import { default as SlideMutationsSQL } from '../generated/SlideMutations.js';
+import { default as UserMutationsSQL } from '../generated/generated/UserMutations';
+import { default as DeckMutationsSQL } from '../generated/generated/DeckMutations.js';
+import { default as SlideMutationsSQL } from '../generated/generated/SlideMutations.js';
 
-import { default as UserMutationsMem } from '../generated-memory/UserMutations.js';
-import { default as DeckMutationsMem } from '../generated-memory/DeckMutations.js';
-import { default as SlideMutationsMem } from '../generated-memory/SlideMutations.js';
+import { default as UserMutationsMem } from '../generated-memory/generated/UserMutations.js';
+import { default as DeckMutationsMem } from '../generated-memory/generated/DeckMutations.js';
+import { default as SlideMutationsMem } from '../generated-memory/generated/SlideMutations.js';
 
 export default async function createGraph(ctx: Context) {
   await Promise.all([

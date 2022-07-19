@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <25929f16b6d38afd451f17c1949cbe5a>
+// SIGNED-SOURCE: <722727da7b9f50fc19a1c6ac41f0098c>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -17,7 +17,7 @@ import { SID_of } from "@aphro/runtime-ts";
 import { Changeset } from "@aphro/runtime-ts";
 import Identity from "../Identity.js";
 import { Data as IdentityData } from "./IdentityBase.js";
-import Deck from "./Deck.js";
+import Deck from "../Deck.js";
 
 export type CreateArgs = {
   identity: Identity | Changeset<Identity, IdentityData>;
