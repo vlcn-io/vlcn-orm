@@ -5,7 +5,7 @@ import {
   Changeset,
   ChangesetOptions,
   IModel,
-  CommitPromise,
+  OptimisticPromise,
 } from '@aphro/context-runtime-ts';
 
 export default abstract class MutationsBase<M extends IModel<D>, D extends Object> {
@@ -14,7 +14,7 @@ export default abstract class MutationsBase<M extends IModel<D>, D extends Objec
     this.ctx = ctx;
   }
 
-  save(): CommitPromise<M> {
+  save(): OptimisticPromise<M> {
     return this.mutator.toChangeset().save();
   }
 

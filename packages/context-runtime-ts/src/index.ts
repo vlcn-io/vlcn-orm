@@ -7,4 +7,4 @@ export * from './changeset.js';
 export * from './INode.js';
 export { default as HeteroModelMap, MutableHeteroModelMap } from './HeteroModelMap.js';
 export * from './transaction.js';
-export { default as CommitPromise } from './CommitPromise.js';
+export { default as OptimisticPromise } from './OptimisticPromise.js';

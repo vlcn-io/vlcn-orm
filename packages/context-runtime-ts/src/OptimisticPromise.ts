@@ -1,4 +1,4 @@
-export default class CommitPromise<T> extends Promise<T> {
+export default class OptimisticPromise<T> extends Promise<T> {
   #optimistic: T;
 
   get optimistic(): T {

@@ -9,7 +9,7 @@ import {
   IModel,
   ModelSpecWithCreate,
   Context,
-  CommitPromise,
+  OptimisticPromise,
 } from '@aphro/context-runtime-ts';
 import { commit } from './commit.js';
 
@@ -70,7 +70,7 @@ abstract class MutationBuilder<M extends IModel<D>, D extends Object>
    *
    * @returns reference to the model
    */
-  save(): CommitPromise<M> {
+  save(): OptimisticPromise<M> {
     return this.toChangeset().save();
   }
 }

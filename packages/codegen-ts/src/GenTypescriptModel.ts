@@ -1,6 +1,6 @@
 import { asPropertyAccessor, upcaseAt } from '@strut/utils';
 import { fieldToTsType, importsToString } from './tsUtils.js';
-import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
+import { CodegenFile, CodegenStep, generatedDir } from '@aphro/codegen-api';
 import TypescriptFile from './TypescriptFile.js';
 import {
   SchemaEdge,
@@ -11,6 +11,7 @@ import {
   SchemaNode,
 } from '@aphro/schema-api';
 import { nodeFn, edgeFn, tsImport, fieldFn } from '@aphro/schema';
+import * as path from 'path';
 
 export default class GenTypescriptModel extends CodegenStep {
   static accepts(schema: SchemaNode | SchemaEdge): boolean {
@@ -33,7 +34,7 @@ export default class GenTypescriptModel extends CodegenStep {
   async gen(): Promise<CodegenFile> {
     const baseClass = this.schema.type === 'node' ? 'Node' : 'Edge';
     return new TypescriptFile(
-      this.schema.name + 'Base.ts',
+      path.join(generatedDir, this.schema.name + 'Base.ts'),
       `${importsToString(this.collectImports())}
 
 export type Data = ${this.getDataShapeCode()};
@@ -92,7 +93,7 @@ export default abstract class ${this.schema.name}Base
 
   private collectImports(): Import[] {
     return [
-      tsImport(this.schema.name, null, `./${this.schema.name}.js`),
+      tsImport(this.schema.name, null, `../${this.schema.name}.js`),
       tsImport('{default}', 's', './' + nodeFn.specName(this.schema.name) + '.js'),
       tsImport('{P}', null, '@aphro/runtime-ts'),
       tsImport('{UpdateMutationBuilder}', null, '@aphro/runtime-ts'),

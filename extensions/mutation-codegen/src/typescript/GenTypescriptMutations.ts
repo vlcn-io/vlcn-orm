@@ -4,7 +4,7 @@
  * Espeically in the face of rich clients and write through caching...
  */
 
-import { CodegenStep, CodegenFile } from '@aphro/codegen-api';
+import { CodegenStep, CodegenFile, generatedDir } from '@aphro/codegen-api';
 import { SchemaEdge, SchemaNode } from '@aphro/schema-api';
 import { Mutation, MutationVerb } from '@aphro/mutation-grammar';
 import { TypescriptFile, importsToString } from '@aphro/codegen-ts';
@@ -15,6 +15,7 @@ import { Import } from '@aphro/schema-api';
 
 import { collectImportsForMutations, getArgNameAndType } from './shared.js';
 import { upcaseAt } from '@strut/utils';
+import * as path from 'path';
 
 export class GenTypescriptMutations extends CodegenStep {
   static accepts(schema: SchemaNode | SchemaEdge): boolean {
@@ -33,7 +34,7 @@ export class GenTypescriptMutations extends CodegenStep {
 
   async gen(): Promise<CodegenFile> {
     return new TypescriptFile(
-      this.schema.name + 'Mutations.ts',
+      path.join(generatedDir, this.schema.name + 'Mutations.ts'),
       `${importsToString(this.collectImports())}
 
 ${this.getCode()}
@@ -78,7 +79,7 @@ ${this.getCode()}
       tsImport('{ICreateOrUpdateBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{Context}', null, '@aphro/runtime-ts'),
       tsImport('{MutationsBase}', null, '@aphro/runtime-ts'),
-      tsImport(this.schema.name, null, `./${this.schema.name}.js`),
+      tsImport(this.schema.name, null, `../${this.schema.name}.js`),
       tsImport('{default}', 'spec', `./${nodeFn.specName(this.schema.name)}.js`),
       tsImport('{Data}', null, `./${this.schema.name}Base.js`),
       tsImport('{UpdateMutationBuilder}', null, '@aphro/runtime-ts'),

@@ -1,5 +1,11 @@
 import { ChangesetExecutor } from './ChangesetExecutor.js';
-import { Context, Changeset, IModel, Transaction, CommitPromise } from '@aphro/context-runtime-ts';
+import {
+  Context,
+  Changeset,
+  IModel,
+  Transaction,
+  OptimisticPromise,
+} from '@aphro/context-runtime-ts';
 
 type ExtractValue<T extends readonly Changeset<any, any>[]> = {
   [K in keyof T]: T[K] extends Changeset<infer V, infer D> ? V : never;
@@ -8,20 +14,20 @@ type ExtractValue<T extends readonly Changeset<any, any>[]> = {
 export function commit<M extends IModel<D>, D>(
   ctx: Context,
   changesets: Changeset<M>,
-): CommitPromise<M>;
+): OptimisticPromise<M>;
 export function commit<T extends ReadonlyArray<Changeset<any, any>>>(
   ctx: Context,
   ...changesets: T
-): CommitPromise<[...ExtractValue<T>]>;
+): OptimisticPromise<[...ExtractValue<T>]>;
 export function commit<T extends ReadonlyArray<Changeset<any, any>>>(
   ctx: Context,
   changesets: T,
-): CommitPromise<[...ExtractValue<T>]>;
+): OptimisticPromise<[...ExtractValue<T>]>;
 
 export function commit<T extends readonly Changeset<any, any>[]>(
   ctx: Context,
   ...changesets: T
-): CommitPromise<[...ExtractValue<T>]> {
+): OptimisticPromise<[...ExtractValue<T>]> {
   // Handle overloads.
   let singular = false;
   if (Array.isArray(changesets[0])) {
@@ -42,7 +48,7 @@ export function commit<T extends readonly Changeset<any, any>[]>(
   } else {
     result = optimistic;
   }
-  const ret = new CommitPromise((resolve, reject) => {
+  const ret = new OptimisticPromise((resolve, reject) => {
     transaction.persistHandle.then(
       () =>
         // explain why we can use `optimistic` results here

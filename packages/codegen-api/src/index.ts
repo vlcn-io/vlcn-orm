@@ -16,3 +16,5 @@ export type GlobalStep = {
   new (nodes: SchemaNode[], edges: SchemaEdge[], dest: string): CodegenStep;
   accepts: (nodes: SchemaNode[], edges: SchemaEdge[]) => boolean;
 };
+
+export const generatedDir = 'generated';

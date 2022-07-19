@@ -1,5 +1,5 @@
 import { nullthrows, upcaseAt } from '@strut/utils';
-import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
+import { CodegenFile, CodegenStep, generatedDir } from '@aphro/codegen-api';
 import TypescriptFile from './TypescriptFile.js';
 import {
   Field,
@@ -13,6 +13,7 @@ import {
 } from '@aphro/schema-api';
 import { nodeFn, edgeFn, tsImport } from '@aphro/schema';
 import { importsToString } from './tsUtils.js';
+import * as path from 'path';
 
 export default class GenTypescriptQuery extends CodegenStep {
   // This can technicall take a node _or_ an edge.
@@ -42,7 +43,7 @@ export default class GenTypescriptQuery extends CodegenStep {
   async gen(): Promise<CodegenFile> {
     const imports = this.collectImports();
     return new TypescriptFile(
-      nodeFn.queryTypeName(this.schema.name) + '.ts',
+      path.join(generatedDir, nodeFn.queryTypeName(this.schema.name) + '.ts'),
       `${importsToString(imports)}
 
 export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQuery<${
@@ -103,7 +104,7 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
         'EmptyQuery',
       ].map(i => tsImport(`{${i}}`, null, '@aphro/runtime-ts')),
       tsImport('{SID_of}', null, '@aphro/runtime-ts'),
-      tsImport(this.schema.name, null, `./${this.schema.name}.js`),
+      tsImport(this.schema.name, null, `../${this.schema.name}.js`),
       tsImport('{Data}', null, `./${this.schema.name}Base.js`),
       tsImport('{default}', 'spec', `./${nodeFn.specName(this.schema.name)}.js`),
       ...this.getIdFieldImports(),

@@ -1,4 +1,4 @@
-import { CodegenFile, CodegenStep } from '@aphro/codegen-api';
+import { CodegenFile, CodegenStep, generatedDir } from '@aphro/codegen-api';
 import { edgeFn, nodeFn, tsImport } from '@aphro/schema';
 import {
   SchemaEdge,
@@ -7,6 +7,7 @@ import {
   Import,
   SchemaNode,
 } from '@aphro/schema-api';
+import * as path from 'path';
 import { importsToString } from './tsUtils.js';
 import TypescriptFile from './TypescriptFile.js';
 
@@ -30,7 +31,7 @@ export default class GenTypescriptSpec extends CodegenStep {
   async gen(): Promise<CodegenFile> {
     const imports = this.collectImports();
     return new TypescriptFile(
-      this.schema.name + 'Spec.ts',
+      path.join(generatedDir, this.schema.name + 'Spec.ts'),
       `${importsToString(imports)}
 
 ${this.getSpecCode()}
@@ -101,7 +102,7 @@ export default spec;
         ? tsImport('{NodeSpecWithCreate}', null, '@aphro/runtime-ts')
         : tsImport('{EdgeSpecWithCreate}', null, '@aphro/runtime-ts'),
       ...this.getEdgeImports(),
-      tsImport(this.schema.name, null, `./${this.schema.name}.js`),
+      tsImport(this.schema.name, null, `../${this.schema.name}.js`),
       tsImport('{Data}', null, `./${this.schema.name}Base.js`),
       tsImport(
         '{default}',
