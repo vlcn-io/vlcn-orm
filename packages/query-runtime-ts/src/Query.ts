@@ -191,7 +191,7 @@ export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
     return this.derive(mapAsync(fn));
   }
 
-  orerBy(fn: (l: TOut, r: TOut) => number): this {
+  orderBy(fn: (l: TOut, r: TOut) => number): this {
     return this.derive(orderByLambda(fn));
   }
 

@@ -97,7 +97,7 @@ export class MappedChunkIterable<TIn, TOut> extends BaseChunkIterable<TOut> {
 
   async *[Symbol.asyncIterator](): AsyncIterator<readonly TOut[]> {
     for await (const chunk of this.source) {
-      yield Promise.all(chunk.map(this.fn));
+      yield await Promise.all(chunk.map(this.fn));
     }
   }
 }
@@ -121,7 +121,7 @@ export class FilteredChunkIterable<T> extends BaseChunkIterable<T> {
 
   async *[Symbol.asyncIterator](): AsyncIterator<readonly T[]> {
     for await (const chunk of this.source) {
-      const filterResults = Promise.all(chunk.map(this.fn));
+      const filterResults = await Promise.all(chunk.map(this.fn));
       const filteredChunk: T[] = [];
       for (let i = 0; i < chunk.length; ++i) {
         if (filterResults[i]) {
