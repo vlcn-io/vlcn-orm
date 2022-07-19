@@ -19,7 +19,7 @@ export default function observe<T>(initialize: (change: (x: T) => T) => null | (
 
   const ret = {
     [Symbol.iterator]: () => ret,
-    throw: () => ({ done: true, value }),
+    throw: () => (dispose != null && dispose(), { done: true, value }),
     return: () => (dispose != null && dispose(), { done: true, value }),
     next,
   } as const;
