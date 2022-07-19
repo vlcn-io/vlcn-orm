@@ -1,5 +1,5 @@
-import { CreateArgs } from "./GenreMutations.js";
-import { RenameArgs } from "./GenreMutations.js";
+import { CreateArgs } from "./generated/GenreMutations.js";
+import { RenameArgs } from "./generated/GenreMutations.js";
 import { Changeset } from "@aphro/runtime-ts";
 import { Data } from "./Genre.js";
 import Genre from "./Genre.js";

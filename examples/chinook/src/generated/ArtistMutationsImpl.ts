@@ -1,5 +1,5 @@
-import { CreateArgs } from "./ArtistMutations.js";
-import { RenameArgs } from "./ArtistMutations.js";
+import { CreateArgs } from "./generated/ArtistMutations.js";
+import { RenameArgs } from "./generated/ArtistMutations.js";
 import { Changeset } from "@aphro/runtime-ts";
 import { Data } from "./Artist.js";
 import Artist from "./Artist.js";

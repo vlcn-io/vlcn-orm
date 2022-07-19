@@ -1,6 +1,6 @@
-import CustomerMutations from '../generated/CustomerMutations';
+// import CustomerMutations from '../generated/CustomerMutations';
 import Employee from '../generated/Employee';
-import EmployeeMutations from '../generated/EmployeeMutations';
+// import EmployeeMutations from '../generated/EmployeeMutations';
 import setup from './setup';
 
 // Oof... we should make an in-memory copy the the db

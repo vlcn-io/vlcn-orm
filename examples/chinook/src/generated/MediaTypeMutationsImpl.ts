@@ -1,5 +1,5 @@
-import { CreateArgs } from "./MediaTypeMutations.js";
-import { RenameArgs } from "./MediaTypeMutations.js";
+import { CreateArgs } from "./generated/MediaTypeMutations.js";
+import { RenameArgs } from "./generated/MediaTypeMutations.js";
 import { Changeset } from "@aphro/runtime-ts";
 import { Data } from "./MediaType.js";
 import MediaType from "./MediaType.js";

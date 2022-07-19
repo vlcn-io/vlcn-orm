@@ -1,5 +1,5 @@
-import { CreateArgs } from "./PlaylistMutations.js";
-import { RenameArgs } from "./PlaylistMutations.js";
+import { CreateArgs } from "./generated/PlaylistMutations.js";
+import { RenameArgs } from "./generated/PlaylistMutations.js";
 import { Changeset } from "@aphro/runtime-ts";
 import { Data } from "./Playlist.js";
 import Playlist from "./Playlist.js";

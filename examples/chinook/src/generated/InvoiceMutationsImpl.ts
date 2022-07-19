@@ -1,4 +1,4 @@
-import { CreateArgs } from "./InvoiceMutations.js";
+import { CreateArgs } from "./generated/InvoiceMutations.js";
 import { Changeset } from "@aphro/runtime-ts";
 import { Data } from "./Invoice.js";
 import Invoice from "./Invoice.js";
