@@ -17,6 +17,9 @@ export default class SQLSourceChunkIterable<T extends IModel<Object>> extends Ba
     invariant(this.spec.storage.type === 'sql', 'SQL source used for non-SQL model!');
   }
 
+  // TODO: Should you even do direct load check here?
+  // or should you just generate edge methods that check the cache and return a querified object if it is there?
+  // also -- won't this be superseded by the query cache?
   async *[Symbol.asyncIterator](): AsyncIterator<readonly T[]> {
     // TODO: stronger types one day
     // e.g., exec should by parametrized and checked against T somehow.

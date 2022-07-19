@@ -21,6 +21,24 @@
  * "stale" applies to all other cases.
  *
  * So maybe we always return "stale" but "stale" with "optimistic nodes"
+ *
+ * Note: technically we don't need to invoke the query cache if the result is still "live"
+ * as we can directly populate live results and not re-query.
+ * ^- we can still populate the cache for live ones.
+ * ^- just live ones would never re-issue a query while they're live given they're updated in-app
+ * ^- they should update their cached data tho
+ *
+ * Ok. So "currently live" queries will handle updating themselves which is good b/c they hold the plan(s).
+ * They'll also update query cache for their queries
+ *
+ * Query cache will do no such "optimistic updating" of itself. Why?
+ * because the cached queries may not be in use by the app so optimistically updating a bunch
+ * of discarded queries is a waste of cycles.
+ *
+ * ^ That approach can cause problems for screen transitions where the components of the screen are often
+ * unmounted and remounted after changing one another's data. The app dev can fix this by not unmounting?
+ *
+ * Eventually move the knowledge of what is cached to the sqlite proxy? so we don't return cached rows? meh. so premature.
  */
 
 import { SID_of } from '@strut/sid';
