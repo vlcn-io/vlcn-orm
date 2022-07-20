@@ -14,6 +14,7 @@
   },
   "scripts": {
     "build": "cd build-all && pnpm build",
+    "deep-clean": "turbo run deep-clean",
     "test": "turbo run test",
     "todos": "leasot '**/*.ts' --ignore '**/node_modules'",
     "preinstall": "npx only-allow pnpm"
