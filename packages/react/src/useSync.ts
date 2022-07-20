@@ -7,7 +7,9 @@ type Resolution<T> = {
 };
 
 // TODO: update to use eager promises.
-export default function useSyncify<T>(fn: () => Promise<T>, deps: any[] = []): Resolution<T> {
+// Note -- could you technically unify `useSync` and `useQuery`?
+// Probably... if `query->gen` did caching....
+export default function useSync<T>(fn: () => Promise<T>, deps: any[] = []): Resolution<T> {
   const [resolution, setResolution] = useState<Resolution<T>>({
     loading: true,
   });
