@@ -1,5 +1,14 @@
 # @aphro/codegen-ts
 
+## 0.3.1
+
+### Patch Changes
+
+- fixup bad spec imports when edges go to self
+- Updated dependencies
+  - @aphro/schema@0.2.1
+  - @aphro/codegen@0.2.1
+
 ## 0.3.0
 
 ### Minor Changes

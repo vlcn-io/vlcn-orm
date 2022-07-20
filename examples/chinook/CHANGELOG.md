@@ -1,5 +1,11 @@
 # @aphro/chinook
 
+## 0.2.1
+
+### Patch Changes
+
+- fixup bad spec imports when edges go to self
+
 ## 0.2.0
 
 ### Minor Changes
