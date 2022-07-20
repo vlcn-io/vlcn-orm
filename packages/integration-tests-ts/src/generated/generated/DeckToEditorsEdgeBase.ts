@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <06a0a127adeb3e3f5259b4c94d698004>
+// SIGNED-SOURCE: <fb296fbc8d3a98e950e24e158ae76870>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,6 +9,7 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { OptimisticPromise } from "@aphro/runtime-ts";
 import { Edge } from "@aphro/runtime-ts";
 import { EdgeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";

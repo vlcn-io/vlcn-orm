@@ -1,4 +1,5 @@
 import { Enum, Field, FieldDeclaration, ID, Import, SchemaNode } from '@aphro/schema-api';
+import fieldFn from './field.js';
 
 const inboundEdges = {
   isForeignKeyEdge() {},
@@ -64,5 +65,9 @@ export default {
     return Object.values(node.fields)
       .flatMap(f => f.type)
       .filter((f): f is Enum => typeof f !== 'string' && f.type === 'enumeration');
+  },
+
+  isRequiredField(node: SchemaNode, field: string): boolean {
+    return !fieldFn.isNullable(node.fields[field]);
   },
 };

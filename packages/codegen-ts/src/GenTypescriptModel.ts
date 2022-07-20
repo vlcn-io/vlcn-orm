@@ -1,4 +1,4 @@
-import { asPropertyAccessor, upcaseAt } from '@strut/utils';
+import { asPropertyAccessor, nullthrows, upcaseAt } from '@strut/utils';
 import { fieldToTsType, importsToString } from './tsUtils.js';
 import { CodegenFile, CodegenStep, generatedDir } from '@aphro/codegen-api';
 import TypescriptFile from './TypescriptFile.js';
@@ -47,6 +47,8 @@ export default abstract class ${this.schema.name}Base
 
   ${this.getFieldCode()}
   ${this.getEdgeCode()}
+
+  ${this.getOneToOneGenCode()}
 
   ${this.getQueryAllMethodCode()}
 
@@ -99,6 +101,7 @@ export default abstract class ${this.schema.name}Base
       tsImport('{UpdateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{CreateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{DeleteMutationBuilder}', null, '@aphro/runtime-ts'),
+      tsImport('{OptimisticPromise}', null, '@aphro/runtime-ts'),
       this.schema.type === 'node'
         ? tsImport('{Node}', null, '@aphro/runtime-ts')
         : tsImport('{Edge}', null, '@aphro/runtime-ts'),
@@ -170,6 +173,9 @@ export default abstract class ${this.schema.name}Base
       if (edge.type === 'edge') {
         if (edge.throughOrTo.type !== this.schema.name) {
           ret.push(tsImport(edge.throughOrTo.type, null, '../' + edge.throughOrTo.type + '.js'));
+        } else {
+          const destSpec = edgeFn.destModelSpecName(this.schema, edge);
+          ret.push(tsImport(destSpec, null, './' + destSpec + '.js'));
         }
       }
     }
@@ -263,6 +269,36 @@ export default abstract class ${this.schema.name}Base
       .join('\n');
 
     // TODO: static inbound edge defs
+  }
+
+  private getOneToOneGenCode(): string {
+    const schema = this.schema;
+    if (schema.type === 'standaloneEdge') {
+      return '';
+    }
+
+    return Object.values(schema.extensions.outboundEdges?.edges || {})
+      .filter((e): e is EdgeDeclaration => edgeFn.isFieldEdge(schema, e))
+      .map(e => {
+        const required = edgeFn.isRequiredFieldEdge(schema, e);
+        const destTypeName = edgeFn.destModelTypeName(schema, e);
+        const returnType = `${destTypeName}${required ? '' : '| null'}`;
+
+        return `gen${upcaseAt(e.name, 0)}(): OptimisticPromise<${returnType}> {
+          const existing = this.ctx.cache.get(this.${
+            e.throughOrTo.column
+          }, ${destTypeName}Spec.storage.db, ${destTypeName}Spec.storage.tablish);
+          if (existing != null) {
+            const ret = new OptimisticPromise<${returnType}>((resolve) => resolve(existing));
+            ret.__setOptimisticResult(existing);
+            return ret;
+          }
+          return new OptimisticPromise((resolve, reject) => this.query${upcaseAt(e.name, 0)}().gen${
+          required ? 'x' : ''
+        }OnlyValue().then(resolve, reject));
+        }`;
+      })
+      .join('\n\n');
   }
 
   // inbound edges would be static methods

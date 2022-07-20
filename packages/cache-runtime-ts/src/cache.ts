@@ -52,7 +52,10 @@ export default class Cache {
     }
   }
 
-  get<T extends Object>(id: SID_of<T>, db: string, tablish: string): T | null {
+  get<T extends Object>(id: SID_of<T> | null, db: string, tablish: string): T | null {
+    if (id == null) {
+      return null;
+    }
     const idconcat = concatId(id, db, tablish);
     const ref = this.#cache.get(idconcat as SID_of<T>);
     if (ref == null) {

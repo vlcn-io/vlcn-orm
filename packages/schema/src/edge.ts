@@ -100,6 +100,23 @@ const funcs = {
     return edge.throughOrTo.type !== node.name && edge.throughOrTo.column != null;
   },
 
+  isFieldEdge(node: SchemaNode, edge: EdgeDeclaration | EdgeReferenceDeclaration): boolean {
+    // Standalone edges, when referred to by a node, are not field edges.
+    if (edge.type === 'edgeReference') {
+      return false;
+    }
+
+    return edge.throughOrTo.type === node.name && edge.throughOrTo.column != null;
+  },
+
+  isRequiredFieldEdge(node: SchemaNode, edge: EdgeDeclaration | EdgeReferenceDeclaration): boolean {
+    if (edge.type === 'edgeReference') {
+      return false;
+    }
+
+    return nodeFn.isRequiredField(node, nullthrows(edge.throughOrTo.column));
+  },
+
   outboundEdgeType(node: SchemaNode, edge: EdgeDeclaration | SchemaEdge): EdgeType {
     // What if we're a foreign key to ourselves?
     // Foo.fooId as field edge is to one foo.

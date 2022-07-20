@@ -39,6 +39,19 @@ const steps: readonly Step[] = [
 const globalSteps: readonly GlobalStep[] = [GenGraphQLTypedefs, GenGraphQLTypescriptResolvers];
 
 async function run() {
+  let color = chalk.blue;
+  console.log(
+    color(
+      `Note: if you've migrated from v < 0.3 to v >= 0.3 you'll notice changes in codegen.
+
+1. Fully generated files have moved to a \`generated\` subdirectory
+2. Files that allow manual modification are in the root output dir
+
+You'll want to delete all previously generated code if this is your first time on v0.3 or greater.
+`,
+    ),
+  );
+
   const mainDefinitions = [{ name: 'gen', defaultOption: true }];
   const mainOptions = commandLineArgs(mainDefinitions, {
     stopAtFirstUnknown: true,
