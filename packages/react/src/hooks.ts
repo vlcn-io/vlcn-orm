@@ -55,7 +55,6 @@ export function useQuery<Q extends Query<QueryReturnType<Q>>>(
     if (key != null) {
       const cached = cache.get(key);
       if (cached != null) {
-        console.log('cached');
         result = {
           // We set loading to true given the cached
           // value can be stale.
