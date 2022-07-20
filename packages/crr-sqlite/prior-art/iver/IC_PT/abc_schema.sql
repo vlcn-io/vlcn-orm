@@ -1,0 +1,21 @@
+
+DROP TABLE IF EXISTS a;
+CREATE TABLE a (
+  uuid blob PRIMARY KEY,
+  b blob,
+  FOREIGN KEY(b) REFERENCES b(uuid)
+);
+
+DROP TABLE IF EXISTS b;
+CREATE TABLE b(
+  uuid blob PRIMARY KEY,
+  c blob,
+  FOREIGN KEY(c) REFERENCES c(uuid)
+);
+
+DROP TABLE IF EXISTS c;
+CREATE TABLE c(
+  uuid blob PRIMARY KEY,
+  a blob,
+  FOREIGN KEY(a) REFERENCES a(uuid)
+);
