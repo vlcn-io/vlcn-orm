@@ -34,7 +34,7 @@ type QueryReturnType<Q> = Q extends Query<infer M> ? M : any;
 
 export type UseQueryOptions = {
   // If you want to limit what sorts of updates will cause the live query to re-fire
-  on: UpdateType;
+  on?: UpdateType;
   // If you want to cache the results of the query.
   // This'll allow components to unmount and remount without losing previously queried state.
   // Should we just compute the key for them?
@@ -44,18 +44,41 @@ export type UseQueryOptions = {
 export function useQuery<Q extends Query<QueryReturnType<Q>>>(
   queryProvider: () => Q,
   deps: any[] = [],
-  { on = UpdateType.ANY, key }: UseQueryOptions,
+  { on, key }: UseQueryOptions = {},
 ): UseQueryData<QueryReturnType<Q>> {
   const currentLiveResult = useRef<LiveResult<QueryReturnType<Q>> | null>(null);
-  const [result, setResult] = useState<UseQueryData<QueryReturnType<Q>>>({
-    loading: true,
-    data: [],
+  let [result, setResult] = useState<UseQueryData<QueryReturnType<Q>>>(() => {
+    let result: UseQueryData<QueryReturnType<Q>> = {
+      loading: true,
+      data: [],
+    };
+    if (key != null) {
+      const cached = cache.get(key);
+      if (cached != null) {
+        console.log('cached');
+        result = {
+          // We set loading to true given the cached
+          // value can be stale.
+          // Note: we can make futher refinements to `LiveResult` where the cached
+          // value would not be stale. E.g., applying expressions of the live result
+          // to all creates, deletes and modifications of nodes
+          // and adding or rejecting them to the live result based on the result
+          // of the expressions.
+          //
+          // caveats exists here where joins or multi-hops cannot be done in this way
+          // since the traversed-through nodes are not in application memory
+          loading: true,
+          data: cached,
+        };
+      }
+    }
+    return result;
   });
 
   useEffect(() => {
     count.bump('useQuery.useEffect');
     const q = queryProvider();
-    const liveResult = q.live(on);
+    const liveResult = q.live(on || UpdateType.ANY);
     currentLiveResult.current = liveResult;
     liveResult.subscribe((data: QueryReturnType<Q>[]) => {
       // this can mismatch if this is an old subscriber from a prior run
@@ -69,32 +92,18 @@ export function useQuery<Q extends Query<QueryReturnType<Q>>>(
         loading: false,
         data,
       });
+      if (key != null) {
+        cache.set(key, data);
+      }
     });
 
     // has data from a prior run?
     if (liveResult.latest != null) {
-      setResult({
+      result = {
         loading: true,
         data: liveResult.latest,
-      });
-    } else if (key != null) {
-      const cached = cache.get(key);
-      if (cached != null) {
-        setResult({
-          // We set loading to true given the cached
-          // value can be stale.
-          // Note: we can make futher refinements to `LiveResult` where the cached
-          // value would not be stale. E.g., applying expressions of the live result
-          // to all creates, deletes and modifications of nodes
-          // and adding or rejecting them to the live result based on the result
-          // of the expressions.
-          //
-          // caveats exists here where joins or multi-hops cannot be done in this way
-          // since the traversed-through nodes are not in application memory
-          loading: true,
-          data: cached,
-        });
-      }
+      };
+      setResult(result);
     }
 
     return () => liveResult.free();
