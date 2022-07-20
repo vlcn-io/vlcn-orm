@@ -17,6 +17,10 @@ class TestSourcePlan implements IPlan {
     return emptyChunkIterable;
   }
 
+  async gen(): Promise<any[]> {
+    return [];
+  }
+
   optimize(nextHop?: HopPlan): IPlan {
     return this;
   }

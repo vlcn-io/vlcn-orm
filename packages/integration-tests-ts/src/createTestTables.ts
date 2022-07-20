@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default async function createTestTables() {
-  const generatedDir = path.join(__dirname, '..', 'src', 'generated');
+  const generatedDir = path.join(__dirname, '..', 'src', 'generated', 'generated');
   const schemaPaths = fs.readdirSync(generatedDir).filter(name => name.endsWith('.sqlite.sql'));
 
   const schemas = schemaPaths.map(s => sql.file(path.join(generatedDir, s)));

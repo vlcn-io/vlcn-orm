@@ -103,14 +103,17 @@ export function useQuery<Q extends Query<QueryReturnType<Q>>>(
   return result;
 }
 
-const max_cache_size = 100;
-
 // exported for testing. Not exported from the package (index.ts), however.
 export class QueryCache {
   #map: Map<string, any[]> = new Map();
+  #maxSize: number;
+
+  constructor(maxSize: number) {
+    this.#maxSize = maxSize;
+  }
 
   set(key: string, data: any[]): void {
-    if (this.#map.size >= max_cache_size) {
+    if (this.#map.size >= this.#maxSize) {
       const rmKey = this.#map.keys().next().value;
       this.#map.delete(rmKey);
     }
@@ -121,9 +124,13 @@ export class QueryCache {
   get(key: string): any[] | undefined {
     return this.#map.get(key);
   }
+
+  get size() {
+    return this.#map.size;
+  }
 }
 
-const cache = new QueryCache();
+const cache = new QueryCache(100);
 
 // export function useQuerySuspense<Q extends Query<QueryReturnType<Q>>>(
 //   queryProvider: () => Q,
