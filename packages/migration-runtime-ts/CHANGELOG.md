@@ -1,5 +1,11 @@
 # @aphro/migration-runtime-ts
 
+## 0.1.0
+
+### Minor Changes
+
+- Simplify manual files, change output dir for generated code, allow caching in live queries, simplify 1 to 1 edge fetches
+
 ## 0.0.12
 
 ### Patch Changes

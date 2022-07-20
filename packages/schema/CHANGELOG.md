@@ -1,5 +1,18 @@
 # @aphro/schema
 
+## 0.2.0
+
+### Minor Changes
+
+- Simplify manual files, change output dir for generated code, allow caching in live queries, simplify 1 to 1 edge fetches
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/codegen-api@0.2.0
+  - @aphro/grammar-extension-api@0.2.0
+  - @aphro/schema-api@0.2.0
+
 ## 0.1.5
 
 ### Patch Changes

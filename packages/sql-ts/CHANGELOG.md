@@ -1,5 +1,11 @@
 # @aphro/sql-ts
 
+## 0.2.0
+
+### Minor Changes
+
+- Simplify manual files, change output dir for generated code, allow caching in live queries, simplify 1 to 1 edge fetches
+
 ## 0.1.3
 
 ### Patch Changes

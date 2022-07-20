@@ -1,5 +1,21 @@
 # @aphro/runtime-ts
 
+## 0.3.0
+
+### Minor Changes
+
+- Simplify manual files, change output dir for generated code, allow caching in live queries, simplify 1 to 1 edge fetches
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/cache-runtime-ts@0.2.0
+  - @aphro/context-runtime-ts@0.3.0
+  - @aphro/model-runtime-ts@0.2.0
+  - @aphro/mutator-runtime-ts@0.3.0
+  - @aphro/query-runtime-ts@0.2.0
+  - @aphro/sql-ts@0.2.0
+
 ## 0.1.11
 
 ### Patch Changes

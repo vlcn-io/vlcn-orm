@@ -1,5 +1,22 @@
 # @aphro/mutation-codegen
 
+## 0.3.0
+
+### Minor Changes
+
+- Simplify manual files, change output dir for generated code, allow caching in live queries, simplify 1 to 1 edge fetches
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/mutation-grammar@0.2.0
+  - @aphro/codegen@0.2.0
+  - @aphro/codegen-api@0.2.0
+  - @aphro/codegen-ts@0.3.0
+  - @aphro/parse-ts@0.2.0
+  - @aphro/schema@0.2.0
+  - @aphro/schema-api@0.2.0
+
 ## 0.2.0
 
 ### Minor Changes
