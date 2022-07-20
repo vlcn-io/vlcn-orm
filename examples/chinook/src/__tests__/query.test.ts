@@ -10,7 +10,7 @@ test('Query random things', async () => {
   const artists = await Artist.queryAll(ctx).gen();
   const albums = await Album.queryAll(ctx).gen();
 
-  await Employee.queryAll(ctx).gen();
-  await Artist.queryAll(ctx).gen();
-  await Album.queryAll(ctx).gen();
+  expect((await Employee.queryAll(ctx).gen()).length).toBeGreaterThan(0);
+  expect((await Artist.queryAll(ctx).gen()).length).toBeGreaterThan(0);
+  expect((await Album.queryAll(ctx).gen()).length).toBeGreaterThan(0);
 });
