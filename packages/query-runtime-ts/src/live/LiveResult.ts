@@ -108,13 +108,8 @@ export default class LiveResult<T> {
     return this.#genReact().then(this.#notify);
   };
 
-  async #genReact(): Promise<T[]> {
-    let results: T[] = [];
-    for await (const chunk of this.#optimizedQueryPlan.iterable) {
-      results = results.concat(chunk);
-    }
-
-    return results;
+  #genReact(): Promise<T[]> {
+    return this.#optimizedQueryPlan.gen();
   }
 
   #notify = (result: T[]) => {

@@ -14,6 +14,7 @@ export interface IPlan {
   get iterable(): ChunkIterable<any>;
   addDerivation(expression?: Expression): this;
   optimize(nextHop?: HopPlan): IPlan;
+  gen(): Promise<any[]>;
 }
 
 export default class Plan implements IPlan {
@@ -28,6 +29,15 @@ export default class Plan implements IPlan {
       (iterable, expression) => expression.chainAfter(iterable),
       iterable,
     );
+  }
+
+  async gen(): Promise<any[]> /* final TOut[] */ {
+    let results: any[] = [];
+    for await (const chunk of this.iterable) {
+      results = results.concat(chunk);
+    }
+
+    return results;
   }
 
   addDerivation(expression?: Expression): this {

@@ -35,6 +35,15 @@ export default class HopPlan implements IPlan {
     return this.derivs.reduce((iterable, expression) => expression.chainAfter(iterable), iterable);
   }
 
+  async gen(): Promise<any[]> {
+    let results: any[] = [];
+    for await (const chunk of this.iterable) {
+      results = results.concat(chunk);
+    }
+
+    return results;
+  }
+
   addDerivation(expression?: Expression): this {
     if (!expression) {
       return this;

@@ -57,14 +57,7 @@ abstract class BaseQuery<T> implements Query<T> {
   }
 
   async gen(): Promise<T[]> {
-    const plan = this.plan().optimize();
-
-    let results: T[] = [];
-    for await (const chunk of plan.iterable) {
-      results = results.concat(chunk);
-    }
-
-    return results;
+    return await this.plan().optimize().gen();
   }
 
   async genOnlyValue(): Promise<T | null> {
