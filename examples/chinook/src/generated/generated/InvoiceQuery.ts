@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <cf884545384b07d71bc7e658730f32f8>
+// SIGNED-SOURCE: <b9827fb8aabb60eed2097a29656bb5e4>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,19 +18,19 @@ import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Invoice from "../Invoice.js";
 import { Data } from "./InvoiceBase.js";
-import { default as spec } from "./InvoiceSpec.js";
+import InvoiceSpec from "./InvoiceSpec.js";
 import Customer from "../Customer.js";
-import { default as CustomerSpec } from "./CustomerSpec.js";
+import CustomerSpec from "./CustomerSpec.js";
 import CustomerQuery from "./CustomerQuery.js";
-import { default as InvoiceLineSpec } from "./InvoiceLineSpec.js";
+import InvoiceLineSpec from "./InvoiceLineSpec.js";
 import InvoiceLineQuery from "./InvoiceLineQuery.js";
 
 export default class InvoiceQuery extends DerivedQuery<Invoice> {
   static create(ctx: Context) {
     return new InvoiceQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, InvoiceSpec),
+      modelLoad(ctx, InvoiceSpec.createFrom)
     );
   }
 
@@ -125,7 +125,7 @@ export default class InvoiceQuery extends DerivedQuery<Invoice> {
       QueryFactory.createHopQueryFor(
         this.ctx,
         this,
-        spec.outboundEdges.customer
+        InvoiceSpec.outboundEdges.customer
       ),
       modelLoad(this.ctx, CustomerSpec.createFrom)
     );
@@ -133,7 +133,11 @@ export default class InvoiceQuery extends DerivedQuery<Invoice> {
   queryLines(): InvoiceLineQuery {
     return new InvoiceLineQuery(
       this.ctx,
-      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.lines),
+      QueryFactory.createHopQueryFor(
+        this.ctx,
+        this,
+        InvoiceSpec.outboundEdges.lines
+      ),
       modelLoad(this.ctx, InvoiceLineSpec.createFrom)
     );
   }

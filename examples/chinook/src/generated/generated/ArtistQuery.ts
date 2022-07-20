@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <82c9658bf55bc9ddea1bc9e930b8d349>
+// SIGNED-SOURCE: <f98ca8495e10d43d589a9882ca63b8bf>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,16 +18,16 @@ import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Artist from "../Artist.js";
 import { Data } from "./ArtistBase.js";
-import { default as spec } from "./ArtistSpec.js";
-import { default as albumSpec } from "./albumSpec.js";
+import ArtistSpec from "./ArtistSpec.js";
+import albumSpec from "./albumSpec.js";
 import albumQuery from "./albumQuery.js";
 
 export default class ArtistQuery extends DerivedQuery<Artist> {
   static create(ctx: Context) {
     return new ArtistQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, ArtistSpec),
+      modelLoad(ctx, ArtistSpec.createFrom)
     );
   }
 
@@ -57,7 +57,11 @@ export default class ArtistQuery extends DerivedQuery<Artist> {
   queryAlbums(): albumQuery {
     return new albumQuery(
       this.ctx,
-      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.albums),
+      QueryFactory.createHopQueryFor(
+        this.ctx,
+        this,
+        ArtistSpec.outboundEdges.albums
+      ),
       modelLoad(this.ctx, albumSpec.createFrom)
     );
   }

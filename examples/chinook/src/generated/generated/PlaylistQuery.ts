@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <39cd3d4e37c9de0372acbb2aba43f9b4>
+// SIGNED-SOURCE: <7d64f135dc2728402f3eccffb95e77f8>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,16 +18,16 @@ import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Playlist from "../Playlist.js";
 import { Data } from "./PlaylistBase.js";
-import { default as spec } from "./PlaylistSpec.js";
-import { default as TrackSpec } from "./TrackSpec.js";
+import PlaylistSpec from "./PlaylistSpec.js";
+import TrackSpec from "./TrackSpec.js";
 import TrackQuery from "./TrackQuery.js";
 
 export default class PlaylistQuery extends DerivedQuery<Playlist> {
   static create(ctx: Context) {
     return new PlaylistQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, PlaylistSpec),
+      modelLoad(ctx, PlaylistSpec.createFrom)
     );
   }
 
@@ -57,7 +57,11 @@ export default class PlaylistQuery extends DerivedQuery<Playlist> {
   queryTracks(): TrackQuery {
     return new TrackQuery(
       this.ctx,
-      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.tracks),
+      QueryFactory.createHopQueryFor(
+        this.ctx,
+        this,
+        PlaylistSpec.outboundEdges.tracks
+      ),
       modelLoad(this.ctx, TrackSpec.createFrom)
     );
   }

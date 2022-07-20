@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <25119818a86c2b4545a003dca40be0ad>
+// SIGNED-SOURCE: <3a6533023036985d9dab09f1065daeb8>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -13,7 +13,7 @@ import { default as InvoiceLineSpec } from "./InvoiceLineSpec.js";
 import Track from "../Track.js";
 import { Data } from "./TrackBase.js";
 
-const spec: NodeSpecWithCreate<Track, Data> = {
+const TrackSpec: NodeSpecWithCreate<Track, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(data["id"], "chinook", "track");
@@ -40,7 +40,7 @@ const spec: NodeSpecWithCreate<Track, Data> = {
       sourceField: "albumId",
       destField: "id",
       get source() {
-        return spec;
+        return TrackSpec;
       },
       get dest() {
         return AlbumSpec;
@@ -51,7 +51,7 @@ const spec: NodeSpecWithCreate<Track, Data> = {
       sourceField: "mediaTypeId",
       destField: "id",
       get source() {
-        return spec;
+        return TrackSpec;
       },
       get dest() {
         return MediaTypeSpec;
@@ -62,7 +62,7 @@ const spec: NodeSpecWithCreate<Track, Data> = {
       sourceField: "genreId",
       destField: "id",
       get source() {
-        return spec;
+        return TrackSpec;
       },
       get dest() {
         return GenreSpec;
@@ -73,7 +73,7 @@ const spec: NodeSpecWithCreate<Track, Data> = {
       sourceField: "id",
       destField: "trackId",
       get source() {
-        return spec;
+        return TrackSpec;
       },
       get dest() {
         return InvoiceLineSpec;
@@ -82,4 +82,4 @@ const spec: NodeSpecWithCreate<Track, Data> = {
   },
 };
 
-export default spec;
+export default TrackSpec;

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <790038bb9b253ae0e2e7eb885dca5cd3>
+// SIGNED-SOURCE: <25eae544fca0bec5ae63b2ab95ff5cf5>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,12 +9,14 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { OptimisticPromise } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import InvoiceQuery from "./InvoiceQuery.js";
 import { Context } from "@aphro/runtime-ts";
 import CustomerQuery from "./CustomerQuery.js";
+import CustomerSpec from "./CustomerSpec.js";
 import InvoiceLineQuery from "./InvoiceLineQuery.js";
 import InvoiceLine from "../InvoiceLine.js";
 import Customer from "../Customer.js";
@@ -77,6 +79,24 @@ export default abstract class InvoiceBase extends Node<Data> {
   queryLines(): InvoiceLineQuery {
     return InvoiceLineQuery.create(this.ctx).whereInvoiceId(
       P.equals(this.id as any)
+    );
+  }
+
+  genCustomer(): OptimisticPromise<Customer> {
+    const existing = this.ctx.cache.get(
+      this.customerId,
+      CustomerSpec.storage.db,
+      CustomerSpec.storage.tablish
+    );
+    if (existing != null) {
+      const ret = new OptimisticPromise<Customer>((resolve) =>
+        resolve(existing)
+      );
+      ret.__setOptimisticResult(existing);
+      return ret;
+    }
+    return new OptimisticPromise((resolve, reject) =>
+      this.queryCustomer().genxOnlyValue().then(resolve, reject)
     );
   }
 

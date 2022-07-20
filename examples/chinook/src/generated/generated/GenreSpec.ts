@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a25b2b67f4c69d2ef535547874e4460c>
+// SIGNED-SOURCE: <59ff2d3dc1df94e7f4ca16fad9132829>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -10,7 +10,7 @@ import { default as TrackSpec } from "./TrackSpec.js";
 import Genre from "../Genre.js";
 import { Data } from "./GenreBase.js";
 
-const spec: NodeSpecWithCreate<Genre, Data> = {
+const GenreSpec: NodeSpecWithCreate<Genre, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(data["id"], "chinook", "genre");
@@ -37,7 +37,7 @@ const spec: NodeSpecWithCreate<Genre, Data> = {
       sourceField: "id",
       destField: "genreId",
       get source() {
-        return spec;
+        return GenreSpec;
       },
       get dest() {
         return TrackSpec;
@@ -46,4 +46,4 @@ const spec: NodeSpecWithCreate<Genre, Data> = {
   },
 };
 
-export default spec;
+export default GenreSpec;

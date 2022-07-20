@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <e47679797bd5716b1da9dcc461caa771>
+// SIGNED-SOURCE: <033573c76d765822a1e832ec7709052a>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,16 +18,16 @@ import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Employee from "../Employee.js";
 import { Data } from "./EmployeeBase.js";
-import { default as spec } from "./EmployeeSpec.js";
-import { default as CustomerSpec } from "./CustomerSpec.js";
+import EmployeeSpec from "./EmployeeSpec.js";
+import CustomerSpec from "./CustomerSpec.js";
 import CustomerQuery from "./CustomerQuery.js";
 
 export default class EmployeeQuery extends DerivedQuery<Employee> {
   static create(ctx: Context) {
     return new EmployeeQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, EmployeeSpec),
+      modelLoad(ctx, EmployeeSpec.createFrom)
     );
   }
 
@@ -144,9 +144,9 @@ export default class EmployeeQuery extends DerivedQuery<Employee> {
       QueryFactory.createHopQueryFor(
         this.ctx,
         this,
-        spec.outboundEdges.reportsTo
+        EmployeeSpec.outboundEdges.reportsTo
       ),
-      modelLoad(this.ctx, spec.createFrom)
+      modelLoad(this.ctx, EmployeeSpec.createFrom)
     );
   }
   querySupports(): CustomerQuery {
@@ -155,7 +155,7 @@ export default class EmployeeQuery extends DerivedQuery<Employee> {
       QueryFactory.createHopQueryFor(
         this.ctx,
         this,
-        spec.outboundEdges.supports
+        EmployeeSpec.outboundEdges.supports
       ),
       modelLoad(this.ctx, CustomerSpec.createFrom)
     );

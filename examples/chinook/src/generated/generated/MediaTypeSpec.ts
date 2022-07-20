@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <0f85bd67ea404fa8e429c240731880fe>
+// SIGNED-SOURCE: <4d2c0bbb11ff734ede68007dc1c4c155>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,7 +9,7 @@ import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import MediaType from "../MediaType.js";
 import { Data } from "./MediaTypeBase.js";
 
-const spec: NodeSpecWithCreate<MediaType, Data> = {
+const MediaTypeSpec: NodeSpecWithCreate<MediaType, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(data["id"], "chinook", "mediatype");
@@ -33,4 +33,4 @@ const spec: NodeSpecWithCreate<MediaType, Data> = {
   outboundEdges: {},
 };
 
-export default spec;
+export default MediaTypeSpec;

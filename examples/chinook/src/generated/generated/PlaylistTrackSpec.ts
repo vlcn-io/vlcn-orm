@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <76dbca78391c9287161065b3f9e78548>
+// SIGNED-SOURCE: <aee5aaa64c4635b5f15cb6301f84f420>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -11,7 +11,7 @@ import { default as TrackSpec } from "./TrackSpec.js";
 import PlaylistTrack from "../PlaylistTrack.js";
 import { Data } from "./PlaylistTrackBase.js";
 
-const spec: EdgeSpecWithCreate<PlaylistTrack, Data> = {
+const PlaylistTrackSpec: EdgeSpecWithCreate<PlaylistTrack, Data> = {
   type: "junction",
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(
@@ -49,4 +49,4 @@ const spec: EdgeSpecWithCreate<PlaylistTrack, Data> = {
   },
 };
 
-export default spec;
+export default PlaylistTrackSpec;

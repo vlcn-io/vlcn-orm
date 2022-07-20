@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <09176a62b3e41f95ca5d62642a6c2f60>
+// SIGNED-SOURCE: <cb12f99597624c29a0a239beb404b0e1>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,14 +9,18 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { OptimisticPromise } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import TrackQuery from "./TrackQuery.js";
 import { Context } from "@aphro/runtime-ts";
 import AlbumQuery from "./AlbumQuery.js";
+import AlbumSpec from "./AlbumSpec.js";
 import MediaTypeQuery from "./MediaTypeQuery.js";
+import MediaTypeSpec from "./MediaTypeSpec.js";
 import GenreQuery from "./GenreQuery.js";
+import GenreSpec from "./GenreSpec.js";
 import InvoiceLineQuery from "./InvoiceLineQuery.js";
 import InvoiceLine from "../InvoiceLine.js";
 import Album from "../Album.js";
@@ -93,6 +97,60 @@ export default abstract class TrackBase extends Node<Data> {
   queryInvoiceLines(): InvoiceLineQuery {
     return InvoiceLineQuery.create(this.ctx).whereTrackId(
       P.equals(this.id as any)
+    );
+  }
+
+  genAlbum(): OptimisticPromise<Album | null> {
+    const existing = this.ctx.cache.get(
+      this.albumId,
+      AlbumSpec.storage.db,
+      AlbumSpec.storage.tablish
+    );
+    if (existing != null) {
+      const ret = new OptimisticPromise<Album | null>((resolve) =>
+        resolve(existing)
+      );
+      ret.__setOptimisticResult(existing);
+      return ret;
+    }
+    return new OptimisticPromise((resolve, reject) =>
+      this.queryAlbum().genOnlyValue().then(resolve, reject)
+    );
+  }
+
+  genMediaType(): OptimisticPromise<MediaType> {
+    const existing = this.ctx.cache.get(
+      this.mediaTypeId,
+      MediaTypeSpec.storage.db,
+      MediaTypeSpec.storage.tablish
+    );
+    if (existing != null) {
+      const ret = new OptimisticPromise<MediaType>((resolve) =>
+        resolve(existing)
+      );
+      ret.__setOptimisticResult(existing);
+      return ret;
+    }
+    return new OptimisticPromise((resolve, reject) =>
+      this.queryMediaType().genxOnlyValue().then(resolve, reject)
+    );
+  }
+
+  genGenre(): OptimisticPromise<Genre | null> {
+    const existing = this.ctx.cache.get(
+      this.genreId,
+      GenreSpec.storage.db,
+      GenreSpec.storage.tablish
+    );
+    if (existing != null) {
+      const ret = new OptimisticPromise<Genre | null>((resolve) =>
+        resolve(existing)
+      );
+      ret.__setOptimisticResult(existing);
+      return ret;
+    }
+    return new OptimisticPromise((resolve, reject) =>
+      this.queryGenre().genOnlyValue().then(resolve, reject)
     );
   }
 

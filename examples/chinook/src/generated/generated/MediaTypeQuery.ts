@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <f484afc154411c8c2d462aa6c219d4fd>
+// SIGNED-SOURCE: <a51ab40a3b490ac9605480a6c379a31d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,14 +18,14 @@ import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import MediaType from "../MediaType.js";
 import { Data } from "./MediaTypeBase.js";
-import { default as spec } from "./MediaTypeSpec.js";
+import MediaTypeSpec from "./MediaTypeSpec.js";
 
 export default class MediaTypeQuery extends DerivedQuery<MediaType> {
   static create(ctx: Context) {
     return new MediaTypeQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, MediaTypeSpec),
+      modelLoad(ctx, MediaTypeSpec.createFrom)
     );
   }
 

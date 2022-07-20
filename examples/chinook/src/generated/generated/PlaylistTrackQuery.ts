@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <36688cdd91aba0d613d5135d0e4f5859>
+// SIGNED-SOURCE: <a684435d035bea0204c94f6c2c52466f>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,7 +18,7 @@ import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import PlaylistTrack from "../PlaylistTrack.js";
 import { Data } from "./PlaylistTrackBase.js";
-import { default as spec } from "./PlaylistTrackSpec.js";
+import PlaylistTrackSpec from "./PlaylistTrackSpec.js";
 import Playlist from "../Playlist.js";
 import Track from "../Track.js";
 
@@ -26,8 +26,8 @@ export default class PlaylistTrackQuery extends DerivedQuery<PlaylistTrack> {
   static create(ctx: Context) {
     return new PlaylistTrackQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, PlaylistTrackSpec),
+      modelLoad(ctx, PlaylistTrackSpec.createFrom)
     );
   }
 

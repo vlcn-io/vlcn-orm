@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <77cf3dcd5ad51190a28c87a4d3c7083e>
+// SIGNED-SOURCE: <c7d4761a6a874be8f5e4419aeb60939d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,20 +18,20 @@ import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import InvoiceLine from "../InvoiceLine.js";
 import { Data } from "./InvoiceLineBase.js";
-import { default as spec } from "./InvoiceLineSpec.js";
+import InvoiceLineSpec from "./InvoiceLineSpec.js";
 import Invoice from "../Invoice.js";
 import Track from "../Track.js";
-import { default as TrackSpec } from "./TrackSpec.js";
+import TrackSpec from "./TrackSpec.js";
 import TrackQuery from "./TrackQuery.js";
-import { default as InvoiceSpec } from "./InvoiceSpec.js";
+import InvoiceSpec from "./InvoiceSpec.js";
 import InvoiceQuery from "./InvoiceQuery.js";
 
 export default class InvoiceLineQuery extends DerivedQuery<InvoiceLine> {
   static create(ctx: Context) {
     return new InvoiceLineQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, InvoiceLineSpec),
+      modelLoad(ctx, InvoiceLineSpec.createFrom)
     );
   }
 
@@ -85,7 +85,11 @@ export default class InvoiceLineQuery extends DerivedQuery<InvoiceLine> {
   queryTrack(): TrackQuery {
     return new TrackQuery(
       this.ctx,
-      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.track),
+      QueryFactory.createHopQueryFor(
+        this.ctx,
+        this,
+        InvoiceLineSpec.outboundEdges.track
+      ),
       modelLoad(this.ctx, TrackSpec.createFrom)
     );
   }
@@ -95,7 +99,7 @@ export default class InvoiceLineQuery extends DerivedQuery<InvoiceLine> {
       QueryFactory.createHopQueryFor(
         this.ctx,
         this,
-        spec.outboundEdges.invoice
+        InvoiceLineSpec.outboundEdges.invoice
       ),
       modelLoad(this.ctx, InvoiceSpec.createFrom)
     );

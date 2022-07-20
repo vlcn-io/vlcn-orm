@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a2ad1575440d23178c5fc3e0d32f6e9f>
+// SIGNED-SOURCE: <214bcde6568df7552363bcca6a9127a9>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -11,7 +11,7 @@ import { default as TrackSpec } from "./TrackSpec.js";
 import Album from "../Album.js";
 import { Data } from "./AlbumBase.js";
 
-const spec: NodeSpecWithCreate<Album, Data> = {
+const AlbumSpec: NodeSpecWithCreate<Album, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(data["id"], "chinook", "album");
@@ -38,7 +38,7 @@ const spec: NodeSpecWithCreate<Album, Data> = {
       sourceField: "artistId",
       destField: "id",
       get source() {
-        return spec;
+        return AlbumSpec;
       },
       get dest() {
         return ArtistSpec;
@@ -49,7 +49,7 @@ const spec: NodeSpecWithCreate<Album, Data> = {
       sourceField: "id",
       destField: "albumId",
       get source() {
-        return spec;
+        return AlbumSpec;
       },
       get dest() {
         return TrackSpec;
@@ -58,4 +58,4 @@ const spec: NodeSpecWithCreate<Album, Data> = {
   },
 };
 
-export default spec;
+export default AlbumSpec;

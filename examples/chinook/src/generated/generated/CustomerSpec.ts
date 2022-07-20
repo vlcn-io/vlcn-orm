@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <d89c9a80eea4dcbb81956dfc6f784e4f>
+// SIGNED-SOURCE: <346c5e26c0cb707fe263f6565b3b4217>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -11,7 +11,7 @@ import { default as InvoiceSpec } from "./InvoiceSpec.js";
 import Customer from "../Customer.js";
 import { Data } from "./CustomerBase.js";
 
-const spec: NodeSpecWithCreate<Customer, Data> = {
+const CustomerSpec: NodeSpecWithCreate<Customer, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(data["id"], "chinook", "customer");
@@ -38,7 +38,7 @@ const spec: NodeSpecWithCreate<Customer, Data> = {
       sourceField: "supportRepId",
       destField: "id",
       get source() {
-        return spec;
+        return CustomerSpec;
       },
       get dest() {
         return EmployeeSpec;
@@ -49,7 +49,7 @@ const spec: NodeSpecWithCreate<Customer, Data> = {
       sourceField: "id",
       destField: "customerId",
       get source() {
-        return spec;
+        return CustomerSpec;
       },
       get dest() {
         return InvoiceSpec;
@@ -58,4 +58,4 @@ const spec: NodeSpecWithCreate<Customer, Data> = {
   },
 };
 
-export default spec;
+export default CustomerSpec;

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <9ccb2b17640ba9ec3ed2af965999d173>
+// SIGNED-SOURCE: <6de2b4c2cbece563061e5731f660c5d7>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,25 +18,25 @@ import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Track from "../Track.js";
 import { Data } from "./TrackBase.js";
-import { default as spec } from "./TrackSpec.js";
+import TrackSpec from "./TrackSpec.js";
 import Album from "../Album.js";
 import MediaType from "../MediaType.js";
 import Genre from "../Genre.js";
-import { default as AlbumSpec } from "./AlbumSpec.js";
+import AlbumSpec from "./AlbumSpec.js";
 import AlbumQuery from "./AlbumQuery.js";
-import { default as MediaTypeSpec } from "./MediaTypeSpec.js";
+import MediaTypeSpec from "./MediaTypeSpec.js";
 import MediaTypeQuery from "./MediaTypeQuery.js";
-import { default as GenreSpec } from "./GenreSpec.js";
+import GenreSpec from "./GenreSpec.js";
 import GenreQuery from "./GenreQuery.js";
-import { default as InvoiceLineSpec } from "./InvoiceLineSpec.js";
+import InvoiceLineSpec from "./InvoiceLineSpec.js";
 import InvoiceLineQuery from "./InvoiceLineQuery.js";
 
 export default class TrackQuery extends DerivedQuery<Track> {
   static create(ctx: Context) {
     return new TrackQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, TrackSpec),
+      modelLoad(ctx, TrackSpec.createFrom)
     );
   }
 
@@ -111,7 +111,11 @@ export default class TrackQuery extends DerivedQuery<Track> {
   queryAlbum(): AlbumQuery {
     return new AlbumQuery(
       this.ctx,
-      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.album),
+      QueryFactory.createHopQueryFor(
+        this.ctx,
+        this,
+        TrackSpec.outboundEdges.album
+      ),
       modelLoad(this.ctx, AlbumSpec.createFrom)
     );
   }
@@ -121,7 +125,7 @@ export default class TrackQuery extends DerivedQuery<Track> {
       QueryFactory.createHopQueryFor(
         this.ctx,
         this,
-        spec.outboundEdges.mediaType
+        TrackSpec.outboundEdges.mediaType
       ),
       modelLoad(this.ctx, MediaTypeSpec.createFrom)
     );
@@ -129,7 +133,11 @@ export default class TrackQuery extends DerivedQuery<Track> {
   queryGenre(): GenreQuery {
     return new GenreQuery(
       this.ctx,
-      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.genre),
+      QueryFactory.createHopQueryFor(
+        this.ctx,
+        this,
+        TrackSpec.outboundEdges.genre
+      ),
       modelLoad(this.ctx, GenreSpec.createFrom)
     );
   }
@@ -139,7 +147,7 @@ export default class TrackQuery extends DerivedQuery<Track> {
       QueryFactory.createHopQueryFor(
         this.ctx,
         this,
-        spec.outboundEdges.invoiceLines
+        TrackSpec.outboundEdges.invoiceLines
       ),
       modelLoad(this.ctx, InvoiceLineSpec.createFrom)
     );

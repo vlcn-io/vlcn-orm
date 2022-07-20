@@ -34,11 +34,11 @@ Versioned mode works by having a version in the schema file.
 
 Any time the version jumps the next codegen run will generate a migration script placeholder. This'll have generate alter statements within but also allow the author to insert their own logic. E.g., to map old columns to new.
 
-# Logging
+## Logging
 
 We need to get data back about failed migrations from our clients. Is this opt-in? Do we create a package that can be included to gather error data and ship it back home?
 
-# CRDTs
+## CRDTs
 
 We need to consider how we'll handle tables that are replicated p2p in the face of migrations.
 1. We could stop clients from participating in the network until they've upgraded to the version of the most up to date client...
@@ -52,4 +52,6 @@ Probably go with (1) for the MVP. (1) still has clock and versioning issues thou
 6. clock push
 7. Row level vs column level resolution
 
+## Prior art
 
+https://github.com/groue/GRDB.swift/blob/master/README.md (see their migrations syntax and handling -- pretty nice)

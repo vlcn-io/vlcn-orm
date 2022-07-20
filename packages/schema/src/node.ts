@@ -55,9 +55,6 @@ export default {
   },
 
   specName(nodeName: string, srcName?: string): string {
-    if (srcName === nodeName) {
-      return 'spec';
-    }
     return nodeName + 'Spec';
   },
 

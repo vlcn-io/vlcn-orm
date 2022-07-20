@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4fb425a94e95423d93366dd6a80daa92>
+// SIGNED-SOURCE: <2f780a8db2848dadd0b05260fcdb91f8>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,19 +18,19 @@ import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Album from "../Album.js";
 import { Data } from "./AlbumBase.js";
-import { default as spec } from "./AlbumSpec.js";
+import AlbumSpec from "./AlbumSpec.js";
 import Artist from "../Artist.js";
-import { default as ArtistSpec } from "./ArtistSpec.js";
+import ArtistSpec from "./ArtistSpec.js";
 import ArtistQuery from "./ArtistQuery.js";
-import { default as TrackSpec } from "./TrackSpec.js";
+import TrackSpec from "./TrackSpec.js";
 import TrackQuery from "./TrackQuery.js";
 
 export default class AlbumQuery extends DerivedQuery<Album> {
   static create(ctx: Context) {
     return new AlbumQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, AlbumSpec),
+      modelLoad(ctx, AlbumSpec.createFrom)
     );
   }
 
@@ -66,14 +66,22 @@ export default class AlbumQuery extends DerivedQuery<Album> {
   queryArtist(): ArtistQuery {
     return new ArtistQuery(
       this.ctx,
-      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.artist),
+      QueryFactory.createHopQueryFor(
+        this.ctx,
+        this,
+        AlbumSpec.outboundEdges.artist
+      ),
       modelLoad(this.ctx, ArtistSpec.createFrom)
     );
   }
   queryTracks(): TrackQuery {
     return new TrackQuery(
       this.ctx,
-      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.tracks),
+      QueryFactory.createHopQueryFor(
+        this.ctx,
+        this,
+        AlbumSpec.outboundEdges.tracks
+      ),
       modelLoad(this.ctx, TrackSpec.createFrom)
     );
   }

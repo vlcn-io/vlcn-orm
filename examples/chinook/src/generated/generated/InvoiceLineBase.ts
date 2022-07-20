@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <06b67b3d733a82b2fda31561e66e2a0a>
+// SIGNED-SOURCE: <9e6e4172dfc3d4f711a7d663831bdd52>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,13 +9,16 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { OptimisticPromise } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import InvoiceLineQuery from "./InvoiceLineQuery.js";
 import { Context } from "@aphro/runtime-ts";
 import TrackQuery from "./TrackQuery.js";
+import TrackSpec from "./TrackSpec.js";
 import InvoiceQuery from "./InvoiceQuery.js";
+import InvoiceSpec from "./InvoiceSpec.js";
 import Invoice from "../Invoice.js";
 import Track from "../Track.js";
 
@@ -56,6 +59,40 @@ export default abstract class InvoiceLineBase extends Node<Data> {
   }
   queryInvoice(): InvoiceQuery {
     return InvoiceQuery.fromId(this.ctx, this.invoiceId);
+  }
+
+  genTrack(): OptimisticPromise<Track> {
+    const existing = this.ctx.cache.get(
+      this.trackId,
+      TrackSpec.storage.db,
+      TrackSpec.storage.tablish
+    );
+    if (existing != null) {
+      const ret = new OptimisticPromise<Track>((resolve) => resolve(existing));
+      ret.__setOptimisticResult(existing);
+      return ret;
+    }
+    return new OptimisticPromise((resolve, reject) =>
+      this.queryTrack().genxOnlyValue().then(resolve, reject)
+    );
+  }
+
+  genInvoice(): OptimisticPromise<Invoice> {
+    const existing = this.ctx.cache.get(
+      this.invoiceId,
+      InvoiceSpec.storage.db,
+      InvoiceSpec.storage.tablish
+    );
+    if (existing != null) {
+      const ret = new OptimisticPromise<Invoice>((resolve) =>
+        resolve(existing)
+      );
+      ret.__setOptimisticResult(existing);
+      return ret;
+    }
+    return new OptimisticPromise((resolve, reject) =>
+      this.queryInvoice().genxOnlyValue().then(resolve, reject)
+    );
   }
 
   static queryAll(ctx: Context): InvoiceLineQuery {

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <aae04e1647d826874155dca53ef6f7b9>
+// SIGNED-SOURCE: <70e39bd3a38ecea41ae51406ae28705f>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -10,7 +10,7 @@ import { default as CustomerSpec } from "./CustomerSpec.js";
 import Employee from "../Employee.js";
 import { Data } from "./EmployeeBase.js";
 
-const spec: NodeSpecWithCreate<Employee, Data> = {
+const EmployeeSpec: NodeSpecWithCreate<Employee, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(data["id"], "chinook", "employee");
@@ -37,10 +37,10 @@ const spec: NodeSpecWithCreate<Employee, Data> = {
       sourceField: "reportsToId",
       destField: "id",
       get source() {
-        return spec;
+        return EmployeeSpec;
       },
       get dest() {
-        return spec;
+        return EmployeeSpec;
       },
     },
     supports: {
@@ -48,7 +48,7 @@ const spec: NodeSpecWithCreate<Employee, Data> = {
       sourceField: "id",
       destField: "supportRepId",
       get source() {
-        return spec;
+        return EmployeeSpec;
       },
       get dest() {
         return CustomerSpec;
@@ -57,4 +57,4 @@ const spec: NodeSpecWithCreate<Employee, Data> = {
   },
 };
 
-export default spec;
+export default EmployeeSpec;

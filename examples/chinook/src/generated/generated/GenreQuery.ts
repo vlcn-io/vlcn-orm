@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <d3f12b59698b3facafb4eab81c503fe2>
+// SIGNED-SOURCE: <1805ee269926a0d30835ba20e8d23399>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,16 +18,16 @@ import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Genre from "../Genre.js";
 import { Data } from "./GenreBase.js";
-import { default as spec } from "./GenreSpec.js";
-import { default as TrackSpec } from "./TrackSpec.js";
+import GenreSpec from "./GenreSpec.js";
+import TrackSpec from "./TrackSpec.js";
 import TrackQuery from "./TrackQuery.js";
 
 export default class GenreQuery extends DerivedQuery<Genre> {
   static create(ctx: Context) {
     return new GenreQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, GenreSpec),
+      modelLoad(ctx, GenreSpec.createFrom)
     );
   }
 
@@ -57,7 +57,11 @@ export default class GenreQuery extends DerivedQuery<Genre> {
   queryTracks(): TrackQuery {
     return new TrackQuery(
       this.ctx,
-      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.tracks),
+      QueryFactory.createHopQueryFor(
+        this.ctx,
+        this,
+        GenreSpec.outboundEdges.tracks
+      ),
       modelLoad(this.ctx, TrackSpec.createFrom)
     );
   }

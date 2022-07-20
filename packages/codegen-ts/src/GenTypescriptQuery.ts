@@ -52,8 +52,8 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
   static create(ctx: Context) {
     return new ${nodeFn.queryTypeName(this.schema.name)}(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom),
+      QueryFactory.createSourceQueryFor(ctx, ${nodeFn.specName(this.schema.name)}),
+      modelLoad(ctx, ${nodeFn.specName(this.schema.name)}.createFrom),
     );
   }
 
@@ -106,7 +106,11 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
       tsImport('{SID_of}', null, '@aphro/runtime-ts'),
       tsImport(this.schema.name, null, `../${this.schema.name}.js`),
       tsImport('{Data}', null, `./${this.schema.name}Base.js`),
-      tsImport('{default}', 'spec', `./${nodeFn.specName(this.schema.name)}.js`),
+      tsImport(
+        nodeFn.specName(this.schema.name),
+        null,
+        `./${nodeFn.specName(this.schema.name)}.js`,
+      ),
       ...this.getIdFieldImports(),
       ...this.getEdgeImports(),
     ];
@@ -216,8 +220,8 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${idParts[0].of}>) {
       .filter(edge => edgeFn.queryTypeName(schema, edge) !== nodeFn.queryTypeName(this.schema.name))
       .flatMap(edge => [
         tsImport(
-          '{default}',
-          `${edgeFn.destModelSpecName(schema, edge)}`,
+          edgeFn.destModelSpecName(schema, edge),
+          null,
           `./${edgeFn.destModelSpecName(schema, edge)}.js`,
         ),
         tsImport(
@@ -277,7 +281,9 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${idParts[0].of}>) {
     return `return new ${edgeFn.queryTypeName(
       this.schema,
       edge,
-    )}(this.ctx, QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.${ref.name}),
+    )}(this.ctx, QueryFactory.createHopQueryFor(this.ctx, this, ${nodeFn.specName(
+      this.schema.name,
+    )}.outboundEdges.${ref.name}),
       modelLoad(this.ctx, ${edgeFn.destModelSpecName(this.schema, edge)}.createFrom),
     );`;
   }

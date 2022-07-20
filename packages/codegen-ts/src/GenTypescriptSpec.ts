@@ -57,7 +57,9 @@ ${this.getSpecCode()}
       `;
     }
 
-    return `const spec: ${nodeOrEdge}SpecWithCreate<${this.schema.name}, Data> = {
+    return `const ${nodeFn.specName(this.schema.name)}: ${nodeOrEdge}SpecWithCreate<${
+      this.schema.name
+    }, Data> = {
       type: '${this.schema.type === 'node' ? 'node' : 'junction'}',
   createFrom(ctx: Context, data: Data) {
     ${this.getCreateFromBody(cacheKey)}
@@ -76,7 +78,7 @@ ${this.getSpecCode()}
   ${this.getOutboundEdgeSpecCode()}
 };
 
-export default spec;
+export default ${nodeFn.specName(this.schema.name)};
 `;
   }
 
@@ -134,7 +136,7 @@ export default spec;
     const edgeType = edgeFn.outboundEdgeType(schema, e);
     const sourceField = edgeFn.outboundEdgeSourceField(schema, e).name;
     const destField = edgeFn.outboundEdgeDestFieldName(schema, e);
-    const sourceFn = 'get source() { return spec; }';
+    const sourceFn = `get source() { return ${nodeFn.specName(this.schema.name)}; }`;
     const destType = edgeFn.destModelSpecName(schema, e);
     const destFn = `get dest() { return ${destType}; }`;
 
