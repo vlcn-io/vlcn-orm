@@ -32,10 +32,19 @@ export type UseQueryData<T> = {
 };
 type QueryReturnType<Q> = Q extends Query<infer M> ? M : any;
 
+export type UseQueryOptions = {
+  // If you want to limit what sorts of updates will cause the live query to re-fire
+  on: UpdateType;
+  // If you want to cache the results of the query.
+  // This'll allow components to unmount and remount without losing previously queried state.
+  // Should we just compute the key for them?
+  // We can given the declarative nature of the queries...
+  key?: string;
+};
 export function useQuery<Q extends Query<QueryReturnType<Q>>>(
   queryProvider: () => Q,
   deps: any[] = [],
-  on: UpdateType = UpdateType.ANY,
+  { on = UpdateType.ANY, key }: UseQueryOptions,
 ): UseQueryData<QueryReturnType<Q>> {
   const currentLiveResult = useRef<LiveResult<QueryReturnType<Q>> | null>(null);
   const [result, setResult] = useState<UseQueryData<QueryReturnType<Q>>>({
@@ -62,11 +71,59 @@ export function useQuery<Q extends Query<QueryReturnType<Q>>>(
       });
     });
 
+    // has data from a prior run?
+    if (liveResult.latest != null) {
+      setResult({
+        loading: true,
+        data: liveResult.latest,
+      });
+    } else if (key != null) {
+      const cached = cache.get(key);
+      if (cached != null) {
+        setResult({
+          // We set loading to true given the cached
+          // value can be stale.
+          // Note: we can make futher refinements to `LiveResult` where the cached
+          // value would not be stale. E.g., applying expressions of the live result
+          // to all creates, deletes and modifications of nodes
+          // and adding or rejecting them to the live result based on the result
+          // of the expressions.
+          //
+          // caveats exists here where joins or multi-hops cannot be done in this way
+          // since the traversed-through nodes are not in application memory
+          loading: true,
+          data: cached,
+        });
+      }
+    }
+
     return () => liveResult.free();
   }, deps);
 
   return result;
 }
+
+const max_cache_size = 100;
+
+// exported for testing. Not exported from the package (index.ts), however.
+export class QueryCache {
+  #map: Map<string, any[]> = new Map();
+
+  set(key: string, data: any[]): void {
+    if (this.#map.size >= max_cache_size) {
+      const rmKey = this.#map.keys().next().value;
+      this.#map.delete(rmKey);
+    }
+
+    this.#map.set(key, data);
+  }
+
+  get(key: string): any[] | undefined {
+    return this.#map.get(key);
+  }
+}
+
+const cache = new QueryCache();
 
 // export function useQuerySuspense<Q extends Query<QueryReturnType<Q>>>(
 //   queryProvider: () => Q,
