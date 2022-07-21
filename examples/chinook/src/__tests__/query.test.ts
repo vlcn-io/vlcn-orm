@@ -6,11 +6,15 @@ import setup from './setup';
 const ctx = setup();
 
 test('Query random things', async () => {
-  const employees = await Employee.queryAll(ctx).gen();
-  const artists = await Artist.queryAll(ctx).gen();
-  const albums = await Album.queryAll(ctx).gen();
+  const [managers, artists, albums, supported] = await Promise.all([
+    Employee.queryAll(ctx).queryReportsTo().gen(),
+    Artist.queryAll(ctx).gen(),
+    Album.queryAll(ctx).gen(),
+    Employee.queryAll(ctx).querySupports().gen(),
+  ]);
 
-  expect((await Employee.queryAll(ctx).gen()).length).toBeGreaterThan(0);
-  expect((await Artist.queryAll(ctx).gen()).length).toBeGreaterThan(0);
-  expect((await Album.queryAll(ctx).gen()).length).toBeGreaterThan(0);
+  expect(managers.length).toBeGreaterThan(0);
+  expect(artists.length).toBeGreaterThan(0);
+  expect(albums.length).toBeGreaterThan(0);
+  expect(supported.length).toBeGreaterThan(0);
 });
