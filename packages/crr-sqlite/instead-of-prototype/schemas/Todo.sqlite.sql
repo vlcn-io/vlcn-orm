@@ -23,7 +23,7 @@ CREATE TABLE
     "completed" boolean NOT NULL,
     "completed_v" integer DEFAULT 0,
     "crr_cl" integer DEFAULT 1,
-    "crr_db_v" integer NOT NULL
+    "crr_db_v" integer NOT NULL,
     primary key ("id")
   );
 
@@ -63,7 +63,7 @@ BEGIN
     "completed" = EXCLUDED."completed",
     "completed_v" = CASE WHEN EXCLUDED."completed" != "completed" THEN "completed_v" + 1 ELSE "completed_v" END,
     "crr_cl" = "crr_cl" + 1,
-    "crr_db_v" = EXCLUDED."crr_db_v"
+    "crr_db_v" = EXCLUDED."crr_db_v";
 END;
 
 CREATE TRIGGER IF NOT EXISTS "update_todo_trig"
@@ -73,5 +73,19 @@ BEGIN
 
   UPDATE "todo_crr" SET
     "listId" = NEW."listId",
-    "listId_v" = CASE WHEN EXCLUDED.""
+    "listId_v" = CASE WHEN OLD."listId" != NEW."listId" THEN "listId_v" + 1 ELSE "listId_v" END,
+    "text" = NEW."text",
+    "text_v" = CASE WHEN OLD."text" != NEW."text" THEN "text_v" + 1 ELSE "text_v" END,
+    "completed" = NEW."completed",
+    "completed_v" = CASE WHEN OLD."completed" != NEW."completed" THEN "completed_v" + 1 ELSE "completed_v" END,
+    "crr_db_v" = (SELECT "version" FROM "crr_db_version")
+  WHERE "id" = NEW."id";
+END;
+
+CREATE TRIGGER IF NOT EXISTS "delete_todo_trig"
+  INSTEAD OF DELETE ON "todo"
+BEGIN
+  UPDATE "crr_db_version" SET "version" = "version" + 1;
+
+  UPDATE "todo_crr" SET "crr_cl" = "crr_cl" + 1 WHERE "id" = OLD."id";
 END;
