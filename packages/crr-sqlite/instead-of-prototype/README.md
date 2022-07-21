@@ -135,19 +135,7 @@ B merges with A in the same way.
 
 After merging with one another, they update their knowledge of one another's db versions.
 
-Note: this merging can be further limited to query slices requested by A or B rather than the entire dataset.
-
-Simple as taking thing with highest clock value. But what rows shall we take?
-
-We always must compute the delta of our db from someone else's db.
-But the entire delta or only delta on requested items? Requested slices...
-
-We can have a clock table to help us understand the time of each peer that we've last synced from.
-
-Table that maps:
-peer id -> peer clock
-
-"total peer clock"
+Note: this merging can be further limited to query slices requested by A or B rather than the entire dataset. (link to your posts on distributed queries).
 
 A column on each row that maps to the DB version. Ala datomic.
 
@@ -192,3 +180,23 @@ Point A to D
 
 Me:
 Point A to E
+
+
+# How to Merge...
+
+Merge layer should interact directly with the base tables.
+
+It takes a set of incoming changes and applies merge logic against each row from that set in a single transaction.
+^-- single transaction bit for the case we ever want to go back and try preserving invariants.
+
+Now we could...
+1. Create a merge view
+2. Put trigger logic to do merging whenever someone inserts against the merge view.
+
+Base tables never get deletes.
+Only ever inserts and updates.
+
+We can collapse everything down to an upsert.
+
+Creates new row fine on one path.
+Updates existing row based on conflict resolution strategy on other path.
