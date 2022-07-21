@@ -62,7 +62,8 @@ CREATE TABLE "track_crr" (
   "crr_bytes" integer,
   "unitPrice" float NOT NULL,
   "crr_unitPrice" integer,
-  "crr_cl" integer DEFAULT 1
+  "crr_cl" integer DEFAULT 1,
+  "crr_db_version" integer NOT NULL
   primary key ("id")
 );
 ```
@@ -70,10 +71,12 @@ CREATE TABLE "track_crr" (
 The base crr table matches the normal schema except that:
 1. Each column has an associated logic clock to turn that column into a LWW
 2. A "causal length" or "crr_cl" column is added to determine deletion status of the row.
+3. crr_db_version -- this is a value that is incremented with every to the db. It represents the global version of the database
+  and can be used by peers to figure out how to sync with one another.
 
 The application atop the CRR-modified sqlite only interacts with the views and thus sees no modification to its domain model.
 
-# Insert, Update, Delete
+# Local Insert, Update, Delete
 
 Rows in views cannot be inserted, updated or deleted unless we register `INSTEAD OF` triggers for those operations.
 
@@ -86,11 +89,12 @@ Insert trigger:
 CREATE TRIGGER "insert_track_trig"
   INSTEAD OF INSERT ON "track"
 BEGIN
-  -- this might be an "undelete" so we need an update clause
-
-  -- otherwise it is a normal insert
-
-  -- could we `insert into x on duplicate key update` ? to prevent the double querying?
+  -- on conflict clause since this could be an undelete and the crr tables has all previously deleted rows
+  INSERT INTO "track_crr" (...) VALUES ... ON CONFLICT ("id") DO UPDATE SET
+    "name" = EXCLUDED.name,
+    "crr_name" = EXCLUDED.crr_name + 1,
+    ...
+    "crr_cl" = "crr_cl" + 1
 END;
 ```
 
@@ -99,9 +103,13 @@ Update trigger:
 CREATE TRIGGER "update_track_trig"
   INSTEAD OF UPDATE ON "track"
 BEGIN
+  UPDATE "crr_db_version" SET "version" = "version" + 1;
+
+  UPDATE "crr_track" 
   SET "name" = NEW.name,
-  "crr_name" = CASE WHEN OLD.name != NEW.name THEN logical_time() ELSE "crr_name" END,
+  "crr_name" = CASE WHEN OLD.name != NEW.name THEN crr_name + 1 ELSE "crr_name" END,
   ...
+  "crr_db_version" = (SELECT * FROM "crr_db_version")
   WHERE "id" = OLD.id
 END;
 ```
@@ -111,20 +119,37 @@ Delete trigger:
 CREATE TRIGGER "delete_track_trig"
   INSTEAD OF DELETE ON "track"
 BEGIN
+-- just increment the cl for the row by 1
+  UPDATE "crr_track"
+  SET crr_cl = crr_cl + 1
+  WHERE "id" = OLD.id
 END;
 ```
 
-# Logical Time
-- Hybrid logical?
-- Lamport?
-
-If lamport, don't get logical time but increment existing time.
-Also need to break ties? Look @ shelf implementation...
-Ties are broken based on... value?
-
 # Merging
 
-Simple as taking thing with highest clock value.
+A wants to merge with B.
+
+Have A grab all items from B where the db version of B is greater than what A knows to be the last known db version of B.
+B merges with A in the same way.
+
+After merging with one another, they update their knowledge of one another's db versions.
+
+Note: this merging can be further limited to query slices requested by A or B rather than the entire dataset.
+
+Simple as taking thing with highest clock value. But what rows shall we take?
+
+We always must compute the delta of our db from someone else's db.
+But the entire delta or only delta on requested items? Requested slices...
+
+We can have a clock table to help us understand the time of each peer that we've last synced from.
+
+Table that maps:
+peer id -> peer clock
+
+"total peer clock"
+
+A column on each row that maps to the DB version. Ala datomic.
 
 # Relational Invariants
 - Uniqueness constraints
