@@ -1,6 +1,7 @@
 /* Schemas and initalization to support simulated nano-second time and
     uphold local ordering of events*/
 
+-- just register a function to act as time
 DROP TABLE IF EXISTS nano_time;
 CREATE TABLE nano_time(
   id integer PRIMARY KEY CHECK(id = 1),

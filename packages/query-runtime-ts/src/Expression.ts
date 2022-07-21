@@ -129,6 +129,8 @@ export function filter<Tm, Tv>(
   };
 }
 
+export function exists() {}
+
 export function filterAsync<Tm, Tv>(
   getter: FieldGetter<Tm, Tv> | null,
   predicate: Predicate<Tv>,

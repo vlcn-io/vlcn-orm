@@ -22,6 +22,8 @@ async function init() {
   SQL.FS.mount(sqlFS, {}, '/sql');
 
   let db = new SQL.Database('/sql/db.sqlite', { filename: true });
+  // see https://github.com/trong-orm/trong-orm/discussions/35 for more discussion
+  // TODO: use default journal mode instead?
   db.exec(`
     PRAGMA page_size=8192;
     PRAGMA journal_mode=MEMORY;
