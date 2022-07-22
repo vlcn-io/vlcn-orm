@@ -13,7 +13,10 @@ export function deltaQuery(table: string, vectorClock: { [key: string]: number }
 }
 
 export function currentClockQuery(table: string): SQLQuery {
-  return sql`SELECT "vc_peerId" as peerId, max("vc_version") as version FROM ${sql.ident(
+  // TODO: need to use the forked version of sqlite3 to fix this cast:
+  // https://github.com/TryGhost/node-sqlite3/issues/922
+  // fork: https://github.com/juanrgm/node-sqlite3/tree/int64-support
+  return sql`SELECT cast("vc_peerId" as varchar) as peerId, max("vc_version") as version FROM ${sql.ident(
     tableName(table),
   )}
   GROUP BY "vc_peerId"`;
