@@ -112,7 +112,8 @@ BEGIN
     "completed",
     "completed_v",
     "crr_cl",
-    "crr_db_v"
+    "crr_db_v",
+    "crr_update_src"
   ) VALUES (
     NEW."id",
     NEW."listId",
@@ -122,7 +123,8 @@ BEGIN
     NEW."completed",
     NEW."completed_v",
     NEW."crr_cl",
-    NEW."crr_db_v"
+    NEW."crr_db_v",
+    1
   ) ON CONFLICT ("id") DO UPDATE SET
     "listId" = CASE
       WHEN EXCLUDED."listId_v" > "listId_v" THEN EXCLUDED."listId"
@@ -139,7 +141,7 @@ BEGIN
     END,
     "text" = CASE
       WHEN EXCLUDED."text_v" > "text_v" THEN EXCLUDED."text"
-      WHEN EXLCUDED."text_v" = "text_v" THEN
+      WHEN EXCLUDED."text_v" = "text_v" THEN
         CASE
           WHEN EXCLUDED."text" > "text" THEN EXCLUDED."text"
           ELSE "text"
@@ -151,7 +153,7 @@ BEGIN
       ELSE "text_v"
     END,
     "completed" = CASE
-      WHEN EXCLUDED."completed_v" > "compelted_v" THEN EXCLUDED."completed"
+      WHEN EXCLUDED."completed_v" > "completed_v" THEN EXCLUDED."completed"
       WHEN EXCLUDED."completed_v" = "completed_v" THEN
         CASE
           WHEN EXCLUDED."completed" > "completed" THEN EXCLUDED."completed"
@@ -167,7 +169,8 @@ BEGIN
       WHEN EXCLUDED."crr_cl" > "crr_cl" THEN EXCLUDED."crr_cl"
       ELSE "crr_cl"
     END,
-    "crr_db_v" = "crr_db_v";
+    "crr_db_v" = "crr_db_v",
+    "crr_update_src" = 1;
 
 -- note: updating the db version is problematic when receiving replicated changes.
 -- On the one hand, it should not increment otherwise it'll make a peer re-sync the changes it just synced.
