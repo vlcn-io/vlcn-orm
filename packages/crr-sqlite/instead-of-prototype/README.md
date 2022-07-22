@@ -200,3 +200,15 @@ We can collapse everything down to an upsert.
 
 Creates new row fine on one path.
 Updates existing row based on conflict resolution strategy on other path.
+
+## DB Vector Clock
+
+A single vector clock exists for the entire DB to aid in merging peers.
+
+Whenever a row is insert/update/deleted on a DB, that DB increments its version.
+The current version is encoded into the database's vector clock.
+The row that was updated is associated with the value of the vector clock at the time of write.
+
+row_id, cols -> foreign_row_id, peer_id, version
+
+If the update comes from a peer, the peer entries in the vector clock are updated.

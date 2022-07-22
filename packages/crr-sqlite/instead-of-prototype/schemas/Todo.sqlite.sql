@@ -43,7 +43,6 @@ BEGIN
     "completed",
     "completed_v",
     "crr_cl",
-    "crr_db_v"
   ) VALUES (
     NEW."id",
     NEW."listId",
@@ -52,8 +51,7 @@ BEGIN
     0,
     NEW."completed",
     0,
-    1,
-    (SELECT "version" FROM "crr_db_version")
+    1
   ) ON CONFLICT ("id") DO UPDATE SET
     "listId" = EXCLUDED."listId",
     "listId_v" = CASE WHEN EXCLUDED."listId" != "listId" THEN "listId_v" + 1 ELSE "listId_v" END,
@@ -62,8 +60,12 @@ BEGIN
     "completed" = EXCLUDED."completed",
     "completed_v" = CASE WHEN EXCLUDED."completed" != "completed" THEN "completed_v" + 1 ELSE "completed_v" END,
     "crr_cl" = CASE WHEN "crr_cl" % 2 = 0 THEN "crr_cl" + 1 ELSE "crr_cl" END,
-    "crr_db_v" = EXCLUDED."crr_db_v",
     "crr_update_src" = 0;
+  
+  INSERT INTO "todo_vector_clocks" ("vc_peerId", "vc_version", "vc_todoId")
+    VALUES ((SELECT "id" FROM "crr_peer_id"), (SELECT "version" FROM "crr_db_version"), NEW."id")
+    ON CONFLICT ("vc_peerId", "vc_todoId") DO UPDATE SET
+      "vc_version" = EXCLUDED."vc_version";
 END;
 
 CREATE TRIGGER IF NOT EXISTS "update_todo_trig"
@@ -79,9 +81,12 @@ BEGIN
     "text_v" = CASE WHEN OLD."text" != NEW."text" THEN "text_v" + 1 ELSE "text_v" END,
     "completed" = NEW."completed",
     "completed_v" = CASE WHEN OLD."completed" != NEW."completed" THEN "completed_v" + 1 ELSE "completed_v" END,
-    "crr_db_v" = (SELECT "version" FROM "crr_db_version"),
     "crr_update_src" = 0
   WHERE "id" = NEW."id";
+
+  UPDATE "todo_vector_clocks" SET
+    "vc_version" = (SELECT "version" FROM "crr_db_version")
+  WHERE "vc_peerId" = (SELECT "id" FROM "crr_peer_id") AND "vc_todoId" = NEW."id";
 END;
 
 CREATE TRIGGER IF NOT EXISTS "delete_todo_trig"
@@ -90,6 +95,10 @@ BEGIN
   UPDATE "crr_db_version" SET "version" = "version" + 1;
 
   UPDATE "todo_crr" SET "crr_cl" = "crr_cl" + 1, "crr_update_src" = 0 WHERE "id" = OLD."id";
+
+  UPDATE "todo_vector_clocks" SET
+    "vc_version" = (SELECT "version" FROM "crr_db_version")
+  WHERE "vc_peerId" = (SELECT "id" FROM "crr_peer_id") AND "vc_todoId" = OLD."id";
 END;
 
 CREATE VIEW
@@ -118,7 +127,6 @@ BEGIN
     "completed",
     "completed_v",
     "crr_cl",
-    "crr_db_v",
     "crr_update_src"
   ) VALUES (
     NEW."id",
@@ -129,7 +137,6 @@ BEGIN
     NEW."completed",
     NEW."completed_v",
     NEW."crr_cl",
-    NEW."crr_db_v",
     1
   ) ON CONFLICT ("id") DO UPDATE SET
     "listId" = CASE
@@ -175,8 +182,15 @@ BEGIN
       WHEN EXCLUDED."crr_cl" > "crr_cl" THEN EXCLUDED."crr_cl"
       ELSE "crr_cl"
     END,
-    "crr_db_v" = "crr_db_v",
     "crr_update_src" = 1;
+
+  INSERT INTO "todo_vector_clocks" (
+    "vc_peerId",
+    "vc_version",
+    "vc_todoId"
+  ) SELECT "key" as "vc_peerId", "value" as "vc_version", NEW."id" FROM json_each(NEW.vector_clock)
+  ON CONFLICT ("vc_peerId", "vc_todoId") DO UPDATE SET
+    "vc_version" = CASE WHEN EXCLUDED."vc_version" > "vc_version" THEN EXCLUDED."vc_version" ELSE "vc_version" END;
 END;
 
 CREATE TABLE 
