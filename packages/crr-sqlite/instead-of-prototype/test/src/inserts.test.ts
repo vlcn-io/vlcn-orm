@@ -9,23 +9,21 @@ beforeAll(async () => {
 
 let id = 0;
 test('Inserting many todos', async () => {
-  const ret = await db.query(sql`SELECT * FROM crr_db_version`);
-  console.log(ret);
-  // fc.assert(
-  //   fc.asyncProperty(fc.integer(), fc.string(), fc.boolean(), async (listId, text, completed) => {
-  //     // we're really just testing that nothing throws.
-  //     let threw = false;
-  //     try {
-  //       await db.query(createInsert(++id, listId, text, completed));
-  //     } catch (e) {
-  //       threw = true;
-  //       console.error(e);
-  //       throw e;
-  //     } finally {
-  //       expect(threw).toBe(false);
-  //     }
-  //   }),
-  // );
+  fc.assert(
+    fc.asyncProperty(fc.integer(), fc.string(), fc.boolean(), async (listId, text, completed) => {
+      // we're really just testing that nothing throws.
+      let threw = false;
+      try {
+        await db.query(createInsert(++id, listId, text, completed));
+      } catch (e) {
+        threw = true;
+        console.error(e);
+        throw e;
+      } finally {
+        expect(threw).toBe(false);
+      }
+    }),
+  );
 });
 
 function createInsert(id, listId, text, completed) {
