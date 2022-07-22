@@ -1,8 +1,12 @@
 CREATE VIEW
   IF NOT EXISTS "todo_patch" AS SELECT 
-    "todo_patch".*,
-    json_group_object("vc_peerId", "vc_version") as vector_clock
+    "todo_crr"."id",
+    "todo_crr"."listId",
+    "todo_crr"."list_v",
+    "todo_crr"."text",
+    "todo_crr"."text_v",
+    "todo_crr"."completed",
+    "todo_crr"."completed_v",
+    "todo_crr"."crr_cl",
+    "vector_clock" as "vector_clock"
   FROM "todo_crr"
-  JOIN "todo_vector_clocks" ON
-    "todo_vector_clocks"."vc_peerId" = (SELECT "id" FROM "crr_peer_id") AND
-    "todo_vector_clocks"."vc_todoId" = "todo_crr"."id";
