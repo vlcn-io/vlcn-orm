@@ -73,7 +73,7 @@ BEGIN
     "vc_peerId",
     "vc_version",
     "vc_todoId"
-  ) SELECT "key" as "vc_peerId", "value" as "vc_version", NEW."id" FROM json_each(NEW.vector_clock)
+  ) SELECT "key" as "vc_peerId", "value" as "vc_version", NEW."id" FROM json_each(NEW.vector_clock) WHERE true
   ON CONFLICT ("vc_peerId", "vc_todoId") DO UPDATE SET
     "vc_version" = CASE WHEN EXCLUDED."vc_version" > "vc_version" THEN EXCLUDED."vc_version" ELSE "vc_version" END;
 END;

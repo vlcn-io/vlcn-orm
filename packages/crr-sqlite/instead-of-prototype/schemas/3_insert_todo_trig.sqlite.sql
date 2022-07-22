@@ -14,7 +14,7 @@ BEGIN
     "text_v",
     "completed",
     "completed_v",
-    "crr_cl",
+    "crr_cl"
   ) VALUES (
     NEW."id",
     NEW."listId",
