@@ -114,16 +114,22 @@ test('Discovering deltas between diverging datasets', async () => {
   expect(combinedClock).toEqual(cClock);
 
   // recompute deltas in all directions. There should be no deltas.
-  // [abDeltas, bcDeltas, acDeltas, baDeltas, cbDeltas, caDeltas] = await Promise.all([
-  //   dbA.query(deltaQuery('todo', combinedClock)),
-  //   dbB.query(deltaQuery('todo', combinedClock)),
-  //   dbA.query(deltaQuery('todo', combinedClock)),
-  //   dbB.query(deltaQuery('todo', combinedClock)),
-  //   dbC.query(deltaQuery('todo', combinedClock)),
-  //   dbC.query(deltaQuery('todo', combinedClock)),
-  // ]);
+  [abDeltas, bcDeltas, acDeltas, baDeltas, cbDeltas, caDeltas] = await Promise.all([
+    dbA.query(deltaQuery('todo', bClock)),
+    dbB.query(deltaQuery('todo', cClock)),
+    dbA.query(deltaQuery('todo', cClock)),
+    dbB.query(deltaQuery('todo', aClock)),
+    dbC.query(deltaQuery('todo', bClock)),
+    dbC.query(deltaQuery('todo', aClock)),
+  ]);
 
-  // expect(abDeltas.length).toBe(0);
+  console.log(abDeltas);
+
+  // ok, now that dbs are identical, start editing them to diverge
+  // edit todo-1 on A, replicate it to B the replicate it to C
+  // after all these replications, db states should match.
+
+  expect(abDeltas.length).toBe(0);
 
   // Make changes on A
   // Merge them into B

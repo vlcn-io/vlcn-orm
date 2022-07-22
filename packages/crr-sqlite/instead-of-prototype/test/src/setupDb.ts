@@ -7,8 +7,8 @@ const sqliteFormat: FormatConfig = {
   formatValue: value => ({ placeholder: '?', value }),
 };
 
-export default async function setupDb(): Promise<DatabaseConnection> {
-  const db = connect();
+export default async function setupDb(file?: string): Promise<DatabaseConnection> {
+  const db = connect(file);
 
   // Process schemas serially. Some depend on one another
   // and not a big enough deal to parallelize those that do not.

@@ -3,14 +3,17 @@ import sql, { SQLQuery } from '@databases/sql';
 // Returns primary keys of changed items, and their clocks, wrt the provided clock.
 export function deltaQuery(table: string, vectorClock: { [key: string]: number }): SQLQuery {
   return sql`SELECT ${sql.ident(
-    tableName(table),
+    clockTableName(table),
     idName(table),
   )} as id, json_group_object("vc_peerId", "vc_version") as clock FROM ${sql.ident(
-    tableName(table),
+    clockTableName(table),
   )} LEFT JOIN json_each(${JSON.stringify(vectorClock)}) as provided_clock ON
-  provided_clock."key" = ${(sql.ident(tableName(table)), 'vc_peerId')} AND
-  provided_clock."value" = ${sql.ident(tableName(table), 'vc_version')}
-  GROUP BY ${sql.ident(tableName(table), idName(table))}`;
+  provided_clock."key" = ${(sql.ident(clockTableName(table)), 'vc_peerId')}
+  WHERE provided_clock."value" < ${sql.ident(
+    clockTableName(table),
+    'vc_version',
+  )} OR provided_clock."key" IS NULL
+  GROUP BY ${sql.ident(clockTableName(table), idName(table))}`;
 }
 
 export function currentClockQuery(table: string): SQLQuery {
@@ -18,7 +21,7 @@ export function currentClockQuery(table: string): SQLQuery {
   // https://github.com/TryGhost/node-sqlite3/issues/922
   // fork: https://github.com/juanrgm/node-sqlite3/tree/int64-support
   return sql`SELECT cast("vc_peerId" as varchar) as peerId, max("vc_version") as version FROM ${sql.ident(
-    tableName(table),
+    clockTableName(table),
   )}
   GROUP BY "vc_peerId"`;
 }
@@ -49,7 +52,7 @@ export function patchQuery(
   )}`;
 }
 
-function tableName(table: string) {
+function clockTableName(table: string) {
   return table + '_vector_clocks';
 }
 
