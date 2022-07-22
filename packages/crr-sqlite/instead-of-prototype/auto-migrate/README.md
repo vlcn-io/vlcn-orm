@@ -1,6 +1,6 @@
 # Auto Migrate
 
-Point this script at an existing SQLite database and it will migrate all tables to be CRR and CRDT compliant.
+Point this script at an existing `SQLite` database and it will migrate all tables to be `CRR` and `CRDT` compliant.
 
 Caveats:
 - The only enforcably unique column may be the primary key

@@ -17,6 +17,7 @@ packages:
   - 'packages/codegen-sql'
   - 'packages/codegen-ts'
   - 'packages/context-runtime-ts'
+  - 'packages/crr-sqlite/instead-of-prototype/test'
   - 'packages/grammar-extension-api'
   - 'packages/integration-tests-ts'
   - 'packages/migration-runtime-ts'
