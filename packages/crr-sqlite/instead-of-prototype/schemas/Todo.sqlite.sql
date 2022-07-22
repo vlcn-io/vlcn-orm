@@ -11,7 +11,6 @@ CREATE TABLE
     "completed" boolean NOT NULL,
     "completed_v" integer DEFAULT 0,
     "crr_cl" integer DEFAULT 1,
-    "crr_db_v" integer NOT NULL,
     "crr_update_src" integer DEFAULT 0,
     primary key ("id")
   );
@@ -93,7 +92,14 @@ BEGIN
   UPDATE "todo_crr" SET "crr_cl" = "crr_cl" + 1, "crr_update_src" = 0 WHERE "id" = OLD."id";
 END;
 
-CREATE VIEW IF NOT EXISTS "todo_patch" AS SELECT * FROM "todo_crr";
+CREATE VIEW
+  IF NOT EXISTS "todo_patch" AS SELECT 
+    "todo_patch".*,
+    json_group_object("vc_peerId", "vc_version") as vector_clock
+  FROM "todo_crr"
+  JOIN "todo_vector_clocks" ON
+    "todo_vector_clocks"."vc_peerId" = (SELECT "id" FROM "crr_peer_id") AND
+    "todo_vector_clocks"."vc_todoId" = "todo_crr"."id";
 
 -- we only need insert triggers for the patch since we'll do all patches as upserts.
 -- deletes cannot happen as we must keep the causal length record.
@@ -171,14 +177,18 @@ BEGIN
     END,
     "crr_db_v" = "crr_db_v",
     "crr_update_src" = 1;
-
--- note: updating the db version is problematic when receiving replicated changes.
--- On the one hand, it should not increment otherwise it'll make a peer re-sync the changes it just synced.
--- On the other hand, it must increment if we want to route changes _through_ peers.
--- So maybe db version must be a vector clock as this would indicate what changes from what peers have been seen.
--- and, when replicating, I would update my notion of my peer's db version.
--- but how will we make this play well with dataset slicing and queries? :/
--- if I think I'm caught up but I caught up via slices... I'm not actually caught up wrt to the entire state of a peer.
--- keep query declaration -> db version mapping? :|
-
 END;
+
+CREATE TABLE 
+  IF NOT EXISTS "todo_vector_clocks" (
+    "vc_todoId" integer NOT NULL,
+    "vc_peerId" integer NOT NULL,
+    "vc_version" integer NOT NULL,
+    PRIMARY KEY ("vc_peerId", "vc_todoId")
+  );
+
+-- todo: need an index on peerId too so we can find all todos for a given peer
+-- of a given version
+-- every time a todo is deleted/inserted/updated we should
+-- 1. bump the global db version
+-- 2. set that to its vector clock entry for this peer
