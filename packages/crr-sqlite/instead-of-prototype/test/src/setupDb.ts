@@ -2,7 +2,7 @@ import { FormatConfig, SQLQuery } from '@databases/sql';
 import connect, { DatabaseConnection, sql } from '@databases/sqlite';
 import { escapeSQLiteIdentifier } from '@databases/escape-identifier';
 
-const sqliteFormat: FormatConfig = {
+export const sqliteFormat: FormatConfig = {
   escapeIdentifier: str => escapeSQLiteIdentifier(str),
   formatValue: value => ({ placeholder: '?', value }),
 };

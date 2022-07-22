@@ -1,5 +1,5 @@
 import { DatabaseConnection, sql, SQLQuery } from '@databases/sqlite';
-import setupDb from './setupDb';
+import setupDb, { sqliteFormat } from './setupDb';
 import fc from 'fast-check';
 import createInsert from './createInsert';
 import { currentClockQuery, deltaQuery } from './replicate';

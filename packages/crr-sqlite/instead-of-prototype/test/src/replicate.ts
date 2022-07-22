@@ -8,7 +8,7 @@ export function deltaQuery(table: string, vectorClock: { [key: string]: number }
   )} as id, json_group_object("vc_peerId", "vc_version") as clock FROM ${sql.ident(
     clockTableName(table),
   )} LEFT JOIN json_each(${JSON.stringify(vectorClock)}) as provided_clock ON
-  provided_clock."key" = ${(sql.ident(clockTableName(table)), 'vc_peerId')}
+  provided_clock."key" = ${sql.ident(clockTableName(table), 'vc_peerId')}
   WHERE provided_clock."value" < ${sql.ident(
     clockTableName(table),
     'vc_version',
