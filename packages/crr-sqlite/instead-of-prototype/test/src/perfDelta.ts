@@ -23,7 +23,8 @@ async function insertSerially(c: DatabaseConnection, n: number) {
 
 // TODO: crr inserts are getting serialized due to them all writing to the db version table.
 // We can extract the db version into a sql extension and provide it as a variable in-memory.
-// That _should_ make performance nearly identical.
+// That _should_ make performance nearly identical which has been verified by changing
+// the values to be constants and measuring perf.
 // Also move `peer_id` into an extension.
 async function insertParallel(c: DatabaseConnection, n: number) {
   await Promise.all(
