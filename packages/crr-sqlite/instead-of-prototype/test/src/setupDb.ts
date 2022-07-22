@@ -29,6 +29,6 @@ export default async function setupDb(): Promise<DatabaseConnection> {
 }
 
 async function runfile(db: DatabaseConnection, file: string) {
-  console.log('Running: ' + file);
+  // console.log('Running: ' + file);
   await db.query(sql.file('../schemas/' + file));
 }
