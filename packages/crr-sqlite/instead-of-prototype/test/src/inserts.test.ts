@@ -1,26 +1,20 @@
 import { DatabaseConnection, sql } from '@databases/sqlite';
 import setupDb from './setupDb';
 import fc from 'fast-check';
+import createInsert from './createInsert';
 
 let db: DatabaseConnection;
 beforeAll(async () => {
   db = await setupDb();
 });
+afterAll(() => db.dispose());
 
 let id = 0;
-test('Inserting many todos', async () => {
+test('Inserting many items', async () => {
+  // Use fast check to randomize data for us.
   await fc.assert(
     fc.asyncProperty(fc.integer(), fc.string(), fc.boolean(), async (listId, text, completed) => {
-      let threw = false;
-      try {
-        await db.query(createInsert(++id, listId, text, completed));
-      } catch (e) {
-        threw = true;
-        console.error(e);
-        throw e;
-      } finally {
-        expect(threw).toBe(false);
-      }
+      await db.query(createInsert(++id, listId, text, completed));
     }),
   );
 
@@ -62,9 +56,3 @@ test('Inserting many todos', async () => {
   // given all writes came from a single peer, all clocks should have the same peer id
   expect(new Set(clocks.map(c => c.vc_peerId)).size).toBe(1);
 });
-
-function createInsert(id, listId, text, completed) {
-  return sql`INSERT INTO todo (id, listId, text, completed) VALUES (${sql.value(id)}, ${sql.value(
-    listId,
-  )}, ${sql.value(text)}, ${sql.value(completed)})`;
-}
