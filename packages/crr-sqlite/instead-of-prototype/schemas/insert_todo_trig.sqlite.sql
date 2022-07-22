@@ -1,9 +1,11 @@
 CREATE TRIGGER IF NOT EXISTS "insert_todo_trig"
   INSTEAD OF INSERT ON "todo"
 BEGIN
-  -- is there a better way to grab this version?
+  -- todo: is there a better way to grab this version?
   -- sucks to use a single incr value across all writes to all tables.
   -- we could do table rather than global db versions...
+  -- and maybe we can move the version into an extension
+  -- populate the version on startup based on max value for self in clock table.
   UPDATE "crr_db_version" SET "version" = "version" + 1;
 
   INSERT INTO "todo_crr" (
@@ -35,7 +37,11 @@ BEGIN
     "crr_update_src" = 0;
   
   INSERT INTO "todo_vector_clocks" ("vc_peerId", "vc_version", "vc_todoId")
-    VALUES ((SELECT "id" FROM "crr_peer_id"), (SELECT "version" FROM "crr_db_version"), NEW."id")
+    VALUES (
+      (SELECT "id" FROM "crr_peer_id"),
+      (SELECT "version" FROM "crr_db_version"),
+      NEW."id"
+    )
     ON CONFLICT ("vc_peerId", "vc_todoId") DO UPDATE SET
       "vc_version" = EXCLUDED."vc_version";
 END;
