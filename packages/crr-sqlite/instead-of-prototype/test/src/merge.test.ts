@@ -123,18 +123,34 @@ test('Discovering deltas between diverging datasets', async () => {
     dbC.query(deltaQuery('todo', aClock)),
   ]);
 
-  console.log(abDeltas);
+  expect(
+    abDeltas.length +
+      bcDeltas.length +
+      acDeltas.length +
+      baDeltas.length +
+      cbDeltas.length +
+      caDeltas.length,
+  ).toBe(0);
 
   // ok, now that dbs are identical, start editing them to diverge
   // edit todo-1 on A, replicate it to B the replicate it to C
   // after all these replications, db states should match.
 
-  expect(abDeltas.length).toBe(0);
-
   // Make changes on A
   // Merge them into B
   // Merge B into C
   // Check that A, B, C are equivalent
+  await dbA.query(sql`UPDATE "todo" SET "text" = 'achange' WHERE id = 1`);
+  aClock = collapseClock(await dbA.query(currentClockQuery('todo')));
+  console.log(aClock);
+
+  // trying to get deltas with a dominating clock should return nothing
+  [baDeltas, caDeltas] = await Promise.all([
+    dbB.query(deltaQuery('todo', aClock)),
+    dbC.query(deltaQuery('todo', aClock)),
+  ]);
+
+  expect(baDeltas.length + caDeltas.length).toBe(0);
 });
 
 async function onAll(query: SQLQuery): Promise<[any[], any[], any[]]> {
