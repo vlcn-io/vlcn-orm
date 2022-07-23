@@ -16,6 +16,27 @@ export function deltaQuery(table: string, vectorClock: { [key: string]: number }
   GROUP BY ${sql.ident(clockTableName(table), idName(table))}`;
 }
 
+export function deltaQueryWithData(
+  table: string,
+  vectorClock: { [key: string]: number },
+): SQLQuery {
+  return sql`SELECT ${sql.ident(
+    crrTableName(table),
+  )}.*, json_group_object("vc_peerId", "vc_version") as vector_clock FROM ${sql.ident(
+    clockTableName(table),
+  )} LEFT JOIN json_each(${JSON.stringify(vectorClock)}) as provided_clock ON
+  provided_clock."key" = ${sql.ident(clockTableName(table), 'vc_peerId')}
+  JOIN ${sql.ident(crrTableName(table))} ON ${sql.ident(crrTableName(table), 'id')} = ${sql.ident(
+    clockTableName(table),
+    idName(table),
+  )}
+  WHERE provided_clock."value" < ${sql.ident(
+    clockTableName(table),
+    'vc_version',
+  )} OR provided_clock."key" IS NULL
+  GROUP BY ${sql.ident(clockTableName(table), idName(table))}`;
+}
+
 export function currentClockQuery(table: string): SQLQuery {
   // TODO: need to use the forked version of sqlite3 to fix this cast:
   // https://github.com/TryGhost/node-sqlite3/issues/922
@@ -66,4 +87,8 @@ function idName(table: string) {
 
 function patchTableName(table: string) {
   return table + '_patch';
+}
+
+function crrTableName(table: string) {
+  return table + '_crr';
 }
