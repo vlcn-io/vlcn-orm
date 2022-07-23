@@ -42,7 +42,11 @@ export function patchQuery(
   rows: { [k in typeof patchOrder[number]]: any }[],
 ): SQLQuery {
   const mappedRows = rows.map(
-    r => sql`(${sql.join(patchOrder.map(key => sql.value(r[key] === undefined ? null : r[key])))})`,
+    r =>
+      sql`(${sql.join(
+        patchOrder.map(key => sql.value(r[key] === undefined ? null : r[key])),
+        ', ',
+      )})`,
   );
   return sql`INSERT INTO ${sql.ident(
     patchTableName(table),

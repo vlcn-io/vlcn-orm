@@ -2,7 +2,7 @@ CREATE VIEW
   IF NOT EXISTS "todo_patch" AS SELECT 
     "todo_crr"."id",
     "todo_crr"."listId",
-    "todo_crr"."list_v",
+    "todo_crr"."listId_v",
     "todo_crr"."text",
     "todo_crr"."text_v",
     "todo_crr"."completed",
