@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <da09ed0d8eac6881fea652655519f257>
+// SIGNED-SOURCE: <1994fd8a66742d39a5cb3d152ce86634>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,7 +9,7 @@ import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import Identity from "../Identity.js";
 import { Data } from "./IdentityBase.js";
 
-const spec: NodeSpecWithCreate<Identity, Data> = {
+const IdentitySpec: NodeSpecWithCreate<Identity, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
     return new Identity(ctx, data);
@@ -27,4 +27,4 @@ const spec: NodeSpecWithCreate<Identity, Data> = {
   outboundEdges: {},
 };
 
-export default spec;
+export default IdentitySpec;

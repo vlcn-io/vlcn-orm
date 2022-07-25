@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <122ae21616c58ad1ba74e3953fde41fb>
+// SIGNED-SOURCE: <f02618ac40937c21bed3da598417325a>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,20 +18,20 @@ import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Deck from "../Deck.js";
 import { Data } from "./DeckBase.js";
-import { default as spec } from "./DeckSpec.js";
+import DeckSpec from "./DeckSpec.js";
 import User from "../User.js";
 import Slide from "../Slide.js";
-import { default as UserSpec } from "./UserSpec.js";
+import UserSpec from "./UserSpec.js";
 import UserQuery from "./UserQuery.js";
-import { default as SlideSpec } from "./SlideSpec.js";
+import SlideSpec from "./SlideSpec.js";
 import SlideQuery from "./SlideQuery.js";
 
 export default class DeckQuery extends DerivedQuery<Deck> {
   static create(ctx: Context) {
     return new DeckQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, DeckSpec),
+      modelLoad(ctx, DeckSpec.createFrom)
     );
   }
 
@@ -86,14 +86,22 @@ export default class DeckQuery extends DerivedQuery<Deck> {
   queryOwner(): UserQuery {
     return new UserQuery(
       this.ctx,
-      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.owner),
+      QueryFactory.createHopQueryFor(
+        this.ctx,
+        this,
+        DeckSpec.outboundEdges.owner
+      ),
       modelLoad(this.ctx, UserSpec.createFrom)
     );
   }
   querySlides(): SlideQuery {
     return new SlideQuery(
       this.ctx,
-      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.slides),
+      QueryFactory.createHopQueryFor(
+        this.ctx,
+        this,
+        DeckSpec.outboundEdges.slides
+      ),
       modelLoad(this.ctx, SlideSpec.createFrom)
     );
   }
@@ -103,7 +111,7 @@ export default class DeckQuery extends DerivedQuery<Deck> {
       QueryFactory.createHopQueryFor(
         this.ctx,
         this,
-        spec.outboundEdges.selectedSlide
+        DeckSpec.outboundEdges.selectedSlide
       ),
       modelLoad(this.ctx, SlideSpec.createFrom)
     );
@@ -114,7 +122,7 @@ export default class DeckQuery extends DerivedQuery<Deck> {
       QueryFactory.createHopQueryFor(
         this.ctx,
         this,
-        spec.outboundEdges.editors
+        DeckSpec.outboundEdges.editors
       ),
       modelLoad(this.ctx, UserSpec.createFrom)
     );

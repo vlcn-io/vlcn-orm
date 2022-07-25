@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5bf7b32893189cd2c6cab947fa6154a8>
+// SIGNED-SOURCE: <9d31dfd130acae719af5e63995b02166>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,7 +18,7 @@ import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import DeckToEditorsEdge from "../DeckToEditorsEdge.js";
 import { Data } from "./DeckToEditorsEdgeBase.js";
-import { default as spec } from "./DeckToEditorsEdgeSpec.js";
+import DeckToEditorsEdgeSpec from "./DeckToEditorsEdgeSpec.js";
 import Deck from "../Deck.js";
 import User from "../User.js";
 
@@ -26,8 +26,8 @@ export default class DeckToEditorsEdgeQuery extends DerivedQuery<DeckToEditorsEd
   static create(ctx: Context) {
     return new DeckToEditorsEdgeQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, DeckToEditorsEdgeSpec),
+      modelLoad(ctx, DeckToEditorsEdgeSpec.createFrom)
     );
   }
 

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <ae0f8a3bb047a2c0ee78070200386569>
+// SIGNED-SOURCE: <27d0865b6488c25b642487ae8d041de4>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,15 +18,15 @@ import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Component from "../Component.js";
 import { Data } from "./ComponentBase.js";
-import { default as spec } from "./ComponentSpec.js";
+import ComponentSpec from "./ComponentSpec.js";
 import Slide from "../Slide.js";
 
 export default class ComponentQuery extends DerivedQuery<Component> {
   static create(ctx: Context) {
     return new ComponentQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, ComponentSpec),
+      modelLoad(ctx, ComponentSpec.createFrom)
     );
   }
 

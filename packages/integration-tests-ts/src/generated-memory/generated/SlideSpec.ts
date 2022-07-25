@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <f341f7445e577646395886cf251e4ceb>
+// SIGNED-SOURCE: <150dcb627edd6a7ea8c18ebeea6cb2ef>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -10,7 +10,7 @@ import { default as ComponentSpec } from "./ComponentSpec.js";
 import Slide from "../Slide.js";
 import { Data } from "./SlideBase.js";
 
-const spec: NodeSpecWithCreate<Slide, Data> = {
+const SlideSpec: NodeSpecWithCreate<Slide, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(data["id"], "none", "slide");
@@ -37,7 +37,7 @@ const spec: NodeSpecWithCreate<Slide, Data> = {
       sourceField: "id",
       destField: "slideId",
       get source() {
-        return spec;
+        return SlideSpec;
       },
       get dest() {
         return ComponentSpec;
@@ -46,4 +46,4 @@ const spec: NodeSpecWithCreate<Slide, Data> = {
   },
 };
 
-export default spec;
+export default SlideSpec;

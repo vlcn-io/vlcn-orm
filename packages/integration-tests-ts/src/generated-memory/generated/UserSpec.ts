@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <f9f288cf64d482429b987f975422fda1>
+// SIGNED-SOURCE: <a12a6063ebf32bf5f5954ded3dc0d896>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -10,7 +10,7 @@ import { default as DeckSpec } from "./DeckSpec.js";
 import User from "../User.js";
 import { Data } from "./UserBase.js";
 
-const spec: NodeSpecWithCreate<User, Data> = {
+const UserSpec: NodeSpecWithCreate<User, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(data["id"], "none", "user");
@@ -37,7 +37,7 @@ const spec: NodeSpecWithCreate<User, Data> = {
       sourceField: "id",
       destField: "ownerId",
       get source() {
-        return spec;
+        return UserSpec;
       },
       get dest() {
         return DeckSpec;
@@ -46,4 +46,4 @@ const spec: NodeSpecWithCreate<User, Data> = {
   },
 };
 
-export default spec;
+export default UserSpec;

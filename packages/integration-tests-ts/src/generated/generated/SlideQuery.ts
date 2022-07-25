@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <0b6a2590ed7d1eaebf64db7f8f4ad745>
+// SIGNED-SOURCE: <8dc09c9b32fdb1a7ff8e0e9ed8e38f43>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,17 +18,17 @@ import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import Slide from "../Slide.js";
 import { Data } from "./SlideBase.js";
-import { default as spec } from "./SlideSpec.js";
+import SlideSpec from "./SlideSpec.js";
 import Deck from "../Deck.js";
-import { default as ComponentSpec } from "./ComponentSpec.js";
+import ComponentSpec from "./ComponentSpec.js";
 import ComponentQuery from "./ComponentQuery.js";
 
 export default class SlideQuery extends DerivedQuery<Slide> {
   static create(ctx: Context) {
     return new SlideQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, SlideSpec),
+      modelLoad(ctx, SlideSpec.createFrom)
     );
   }
 
@@ -67,7 +67,7 @@ export default class SlideQuery extends DerivedQuery<Slide> {
       QueryFactory.createHopQueryFor(
         this.ctx,
         this,
-        spec.outboundEdges.components
+        SlideSpec.outboundEdges.components
       ),
       modelLoad(this.ctx, ComponentSpec.createFrom)
     );

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <22f60e0414df2b869e4326dfbcc2498f>
+// SIGNED-SOURCE: <8344e90e16f3b972b09c2ce37c36c67b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,7 +9,7 @@ import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import AppState from "../AppState.js";
 import { Data } from "./AppStateBase.js";
 
-const spec: NodeSpecWithCreate<AppState, Data> = {
+const AppStateSpec: NodeSpecWithCreate<AppState, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
     return new AppState(ctx, data);
@@ -27,4 +27,4 @@ const spec: NodeSpecWithCreate<AppState, Data> = {
   outboundEdges: {},
 };
 
-export default spec;
+export default AppStateSpec;

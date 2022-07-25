@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a9d982f345ebbe916a8c2489cc29d1a0>
+// SIGNED-SOURCE: <b50bc8ada633a0e8a647be33b419bb53>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,7 +9,7 @@ import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import Component from "../Component.js";
 import { Data } from "./ComponentBase.js";
 
-const spec: NodeSpecWithCreate<Component, Data> = {
+const ComponentSpec: NodeSpecWithCreate<Component, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(data["id"], "example", "component");
@@ -33,4 +33,4 @@ const spec: NodeSpecWithCreate<Component, Data> = {
   outboundEdges: {},
 };
 
-export default spec;
+export default ComponentSpec;

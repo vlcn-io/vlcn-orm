@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <54614c8235a1271ec95c61096c881850>
+// SIGNED-SOURCE: <795c7cf08be2cc429238daf8eea5ffdb>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -11,7 +11,7 @@ import { default as UserSpec } from "./UserSpec.js";
 import DeckToEditorsEdge from "../DeckToEditorsEdge.js";
 import { Data } from "./DeckToEditorsEdgeBase.js";
 
-const spec: EdgeSpecWithCreate<DeckToEditorsEdge, Data> = {
+const DeckToEditorsEdgeSpec: EdgeSpecWithCreate<DeckToEditorsEdge, Data> = {
   type: "junction",
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(
@@ -49,4 +49,4 @@ const spec: EdgeSpecWithCreate<DeckToEditorsEdge, Data> = {
   },
 };
 
-export default spec;
+export default DeckToEditorsEdgeSpec;

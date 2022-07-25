@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <48ca4b3dad3d9abf1feac5bb5d169451>
+// SIGNED-SOURCE: <ca0c2a7fe786afc578a5c08d58624906>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -11,7 +11,7 @@ import { default as SlideSpec } from "./SlideSpec.js";
 import Deck from "../Deck.js";
 import { Data } from "./DeckBase.js";
 
-const spec: NodeSpecWithCreate<Deck, Data> = {
+const DeckSpec: NodeSpecWithCreate<Deck, Data> = {
   type: "node",
   createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(data["id"], "none", "deck");
@@ -38,7 +38,7 @@ const spec: NodeSpecWithCreate<Deck, Data> = {
       sourceField: "ownerId",
       destField: "id",
       get source() {
-        return spec;
+        return DeckSpec;
       },
       get dest() {
         return UserSpec;
@@ -49,7 +49,7 @@ const spec: NodeSpecWithCreate<Deck, Data> = {
       sourceField: "id",
       destField: "deckId",
       get source() {
-        return spec;
+        return DeckSpec;
       },
       get dest() {
         return SlideSpec;
@@ -60,7 +60,7 @@ const spec: NodeSpecWithCreate<Deck, Data> = {
       sourceField: "selectedSlideId",
       destField: "id",
       get source() {
-        return spec;
+        return DeckSpec;
       },
       get dest() {
         return SlideSpec;
@@ -77,7 +77,7 @@ const spec: NodeSpecWithCreate<Deck, Data> = {
       sourceField: "id",
       destField: "id",
       get source() {
-        return spec;
+        return DeckSpec;
       },
       get dest() {
         return UserSpec;
@@ -86,4 +86,4 @@ const spec: NodeSpecWithCreate<Deck, Data> = {
   },
 };
 
-export default spec;
+export default DeckSpec;

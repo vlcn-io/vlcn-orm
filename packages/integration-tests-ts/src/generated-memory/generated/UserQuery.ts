@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <493685d31e3a488a696ad0c64b79f631>
+// SIGNED-SOURCE: <012439bc51a89fc781cb14049e0ed43d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,16 +18,16 @@ import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import User from "../User.js";
 import { Data } from "./UserBase.js";
-import { default as spec } from "./UserSpec.js";
-import { default as DeckSpec } from "./DeckSpec.js";
+import UserSpec from "./UserSpec.js";
+import DeckSpec from "./DeckSpec.js";
 import DeckQuery from "./DeckQuery.js";
 
 export default class UserQuery extends DerivedQuery<User> {
   static create(ctx: Context) {
     return new UserQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, UserSpec),
+      modelLoad(ctx, UserSpec.createFrom)
     );
   }
 
@@ -67,7 +67,11 @@ export default class UserQuery extends DerivedQuery<User> {
   queryDecks(): DeckQuery {
     return new DeckQuery(
       this.ctx,
-      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.decks),
+      QueryFactory.createHopQueryFor(
+        this.ctx,
+        this,
+        UserSpec.outboundEdges.decks
+      ),
       modelLoad(this.ctx, DeckSpec.createFrom)
     );
   }
