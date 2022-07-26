@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <24294ccae80f86db430c6541153552a1>
+// SIGNED-SOURCE: <4ea4fd7fa0d8f37aa727daccea36dad2>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,6 +9,7 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { modelGenMemo } from "@aphro/runtime-ts";
 import { OptimisticPromise } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
@@ -51,21 +52,29 @@ export default abstract class SlideBase extends Node<Data> {
     return SlideQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<Slide>): Promise<Slide> {
-    const existing = ctx.cache.get(id, "example", "slide");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-  }
+  static genx = modelGenMemo(
+    "example",
+    "slide",
+    (ctx: Context, id: SID_of<Slide>): OptimisticPromise<Slide> =>
+      new OptimisticPromise((resolve, reject) =>
+        this.queryAll(ctx)
+          .whereId(P.equals(id))
+          .genxOnlyValue()
+          .then(resolve, reject)
+      )
+  );
 
-  static async gen(ctx: Context, id: SID_of<Slide>): Promise<Slide | null> {
-    const existing = ctx.cache.get(id, "example", "slide");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-  }
+  static gen = modelGenMemo(
+    "example",
+    "slide",
+    (ctx: Context, id: SID_of<Slide>): OptimisticPromise<Slide | null> =>
+      new OptimisticPromise((resolve, reject) =>
+        this.queryAll(ctx)
+          .whereId(P.equals(id))
+          .genOnlyValue()
+          .then(resolve, reject)
+      )
+  );
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this)

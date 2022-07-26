@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <8ec4193b9ce7ab8dbf6e827908639c68>
+// SIGNED-SOURCE: <7d64d0b7ca6471d25fe2e79b77fd5339>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,6 +9,7 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { modelGenMemo } from "@aphro/runtime-ts";
 import { OptimisticPromise } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
@@ -48,24 +49,32 @@ export default abstract class ComponentBase extends Node<Data> {
     return ComponentQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<Component>): Promise<Component> {
-    const existing = ctx.cache.get(id, "example", "component");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-  }
+  static genx = modelGenMemo(
+    "example",
+    "component",
+    (ctx: Context, id: SID_of<Component>): OptimisticPromise<Component> =>
+      new OptimisticPromise((resolve, reject) =>
+        this.queryAll(ctx)
+          .whereId(P.equals(id))
+          .genxOnlyValue()
+          .then(resolve, reject)
+      )
+  );
 
-  static async gen(
-    ctx: Context,
-    id: SID_of<Component>
-  ): Promise<Component | null> {
-    const existing = ctx.cache.get(id, "example", "component");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-  }
+  static gen = modelGenMemo(
+    "example",
+    "component",
+    (
+      ctx: Context,
+      id: SID_of<Component>
+    ): OptimisticPromise<Component | null> =>
+      new OptimisticPromise((resolve, reject) =>
+        this.queryAll(ctx)
+          .whereId(P.equals(id))
+          .genOnlyValue()
+          .then(resolve, reject)
+      )
+  );
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this)

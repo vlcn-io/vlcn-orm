@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <32d365e768e3b0511baadf50fa748e4f>
+// SIGNED-SOURCE: <5df3a713c672a5ea46a78e9fcd2ea82c>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,6 +9,7 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { modelGenMemo } from "@aphro/runtime-ts";
 import { OptimisticPromise } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
@@ -51,21 +52,29 @@ export default abstract class SlideBase extends Node<Data> {
     return SlideQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<Slide>): Promise<Slide> {
-    const existing = ctx.cache.get(id, "none", "slide");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-  }
+  static genx = modelGenMemo(
+    "none",
+    "slide",
+    (ctx: Context, id: SID_of<Slide>): OptimisticPromise<Slide> =>
+      new OptimisticPromise((resolve, reject) =>
+        this.queryAll(ctx)
+          .whereId(P.equals(id))
+          .genxOnlyValue()
+          .then(resolve, reject)
+      )
+  );
 
-  static async gen(ctx: Context, id: SID_of<Slide>): Promise<Slide | null> {
-    const existing = ctx.cache.get(id, "none", "slide");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-  }
+  static gen = modelGenMemo(
+    "none",
+    "slide",
+    (ctx: Context, id: SID_of<Slide>): OptimisticPromise<Slide | null> =>
+      new OptimisticPromise((resolve, reject) =>
+        this.queryAll(ctx)
+          .whereId(P.equals(id))
+          .genOnlyValue()
+          .then(resolve, reject)
+      )
+  );
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this)

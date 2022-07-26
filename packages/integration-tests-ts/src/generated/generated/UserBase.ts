@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <e63227011da5551064b90e202308493a>
+// SIGNED-SOURCE: <707fe5b86dabae6b540a833ccb58aa7b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,6 +9,7 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { modelGenMemo } from "@aphro/runtime-ts";
 import { OptimisticPromise } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
@@ -53,21 +54,29 @@ export default abstract class UserBase extends Node<Data> {
     return UserQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<User>): Promise<User> {
-    const existing = ctx.cache.get(id, "example", "user");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-  }
+  static genx = modelGenMemo(
+    "example",
+    "user",
+    (ctx: Context, id: SID_of<User>): OptimisticPromise<User> =>
+      new OptimisticPromise((resolve, reject) =>
+        this.queryAll(ctx)
+          .whereId(P.equals(id))
+          .genxOnlyValue()
+          .then(resolve, reject)
+      )
+  );
 
-  static async gen(ctx: Context, id: SID_of<User>): Promise<User | null> {
-    const existing = ctx.cache.get(id, "example", "user");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-  }
+  static gen = modelGenMemo(
+    "example",
+    "user",
+    (ctx: Context, id: SID_of<User>): OptimisticPromise<User | null> =>
+      new OptimisticPromise((resolve, reject) =>
+        this.queryAll(ctx)
+          .whereId(P.equals(id))
+          .genOnlyValue()
+          .then(resolve, reject)
+      )
+  );
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this)

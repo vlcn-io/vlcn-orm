@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5421b80cfef22c5d77440f8423ef5384>
+// SIGNED-SOURCE: <7c762d550f066f27ff6f50150d5fcd0c>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,6 +9,7 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { modelGenMemo } from "@aphro/runtime-ts";
 import { OptimisticPromise } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
@@ -53,21 +54,29 @@ export default abstract class UserBase extends Node<Data> {
     return UserQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<User>): Promise<User> {
-    const existing = ctx.cache.get(id, "none", "user");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-  }
+  static genx = modelGenMemo(
+    "none",
+    "user",
+    (ctx: Context, id: SID_of<User>): OptimisticPromise<User> =>
+      new OptimisticPromise((resolve, reject) =>
+        this.queryAll(ctx)
+          .whereId(P.equals(id))
+          .genxOnlyValue()
+          .then(resolve, reject)
+      )
+  );
 
-  static async gen(ctx: Context, id: SID_of<User>): Promise<User | null> {
-    const existing = ctx.cache.get(id, "none", "user");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-  }
+  static gen = modelGenMemo(
+    "none",
+    "user",
+    (ctx: Context, id: SID_of<User>): OptimisticPromise<User | null> =>
+      new OptimisticPromise((resolve, reject) =>
+        this.queryAll(ctx)
+          .whereId(P.equals(id))
+          .genOnlyValue()
+          .then(resolve, reject)
+      )
+  );
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this)

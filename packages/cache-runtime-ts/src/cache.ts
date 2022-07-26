@@ -35,9 +35,11 @@ import { SID_of } from '@strut/sid';
  *   ^-- we should provide templates/defaults for each use case (server, client, 1 user only, collaborative)
  *   ^-- we should also provide a default that can work for all use cases.
  */
+let cacheId = 0;
 export default class Cache {
   readonly #cache = new Map<SID_of<Object>, WeakRef<Object>>();
   #setCount: number = 0;
+  readonly cacheId = cacheId++;
 
   constructor() {}
 

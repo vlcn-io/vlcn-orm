@@ -101,6 +101,7 @@ export default abstract class ${this.schema.name}Base
       tsImport('{UpdateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{CreateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{DeleteMutationBuilder}', null, '@aphro/runtime-ts'),
+      tsImport('{modelGenMemo}', null, '@aphro/runtime-ts'),
       tsImport('{OptimisticPromise}', null, '@aphro/runtime-ts'),
       this.schema.type === 'node'
         ? tsImport('{Node}', null, '@aphro/runtime-ts')
@@ -284,6 +285,8 @@ export default abstract class ${this.schema.name}Base
         const destTypeName = edgeFn.destModelTypeName(schema, e);
         const returnType = `${destTypeName}${required ? '' : '| null'}`;
 
+        // can't `modelGenMemo` this until we have a way to clear memoized results based
+        // upon modifications of the id fields these reference.
         return `gen${upcaseAt(e.name, 0)}(): OptimisticPromise<${returnType}> {
           const existing = this.ctx.cache.get(this.${
             e.throughOrTo.column
@@ -356,25 +359,33 @@ export default abstract class ${this.schema.name}Base
     if (this.schema.type === 'standaloneEdge' || this.schema.storage.type === 'ephemeral') {
       return '';
     }
-    return `static async gen(ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name} | null> {
-      const existing = ctx.cache.get(id, "${this.schema.storage.db}", "${this.schema.storage.tablish}");
-      if (existing) {
-        return existing;
-      }
-      return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-    }`;
+    return `static gen = modelGenMemo(
+      "${this.schema.storage.db}",
+      "${this.schema.storage.tablish}",
+      (ctx: Context, id: SID_of<${this.schema.name}>): OptimisticPromise<${this.schema.name} | null> => 
+        new OptimisticPromise(
+          (resolve, reject) => this
+            .queryAll(ctx)
+            .whereId(P.equals(id)).genOnlyValue()
+            .then(resolve, reject),
+        ),
+    );`;
   }
 
   private getGenxMethodCode(): string {
     if (this.schema.type === 'standaloneEdge' || this.schema.storage.type === 'ephemeral') {
       return '';
     }
-    return `static async genx(ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name}> {
-      const existing = ctx.cache.get(id, "${this.schema.storage.db}", "${this.schema.storage.tablish}");
-      if (existing) {
-        return existing;
-      }
-      return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-    }`;
+    return `static genx = modelGenMemo(
+      "${this.schema.storage.db}",
+      "${this.schema.storage.tablish}",
+      (ctx: Context, id: SID_of<${this.schema.name}>): OptimisticPromise<${this.schema.name}> =>
+        new OptimisticPromise(
+          (resolve, reject) => this
+            .queryAll(ctx)
+            .whereId(P.equals(id)).genxOnlyValue()
+            .then(resolve, reject),
+        ),
+    );`;
   }
 }
