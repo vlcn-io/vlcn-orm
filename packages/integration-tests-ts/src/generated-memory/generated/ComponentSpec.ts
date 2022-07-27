@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5b21c360d898d91f5dbe47a0ffb0108a>
+// SIGNED-SOURCE: <ba72a0d295cc795ab229e4c40554bd10>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -11,13 +11,13 @@ import { Data } from "./ComponentBase.js";
 
 const ComponentSpec: NodeSpecWithCreate<Component, Data> = {
   type: "node",
-  createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data["id"], "none", "component");
+  createFrom(ctx: Context, rawData: Data) {
+    const existing = ctx.cache.get(rawData["id"], "none", "component");
     if (existing) {
       return existing;
     }
-    const result = new Component(ctx, data);
-    ctx.cache.set(data["id"], result, "none", "component");
+    const result = new Component(ctx, rawData);
+    ctx.cache.set(rawData["id"], result, "none", "component");
     return result;
   },
 
@@ -30,6 +30,20 @@ const ComponentSpec: NodeSpecWithCreate<Component, Data> = {
     tablish: "component",
   },
 
+  fields: {
+    id: {
+      encoding: "none",
+    },
+    subtype: {
+      encoding: "none",
+    },
+    slideId: {
+      encoding: "none",
+    },
+    content: {
+      encoding: "none",
+    },
+  },
   outboundEdges: {},
 };
 

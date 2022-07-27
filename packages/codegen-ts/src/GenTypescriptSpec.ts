@@ -1,11 +1,13 @@
 import { CodegenFile, CodegenStep, generatedDir } from '@aphro/codegen-api';
-import { edgeFn, nodeFn, tsImport } from '@aphro/schema';
+import { edgeFn, fieldFn, nodeFn, tsImport } from '@aphro/schema';
 import {
   SchemaEdge,
   EdgeDeclaration,
   EdgeReferenceDeclaration,
   Import,
   SchemaNode,
+  Field,
+  FieldDeclaration,
 } from '@aphro/schema-api';
 import * as path from 'path';
 import { importsToString } from './tsUtils.js';
@@ -46,9 +48,9 @@ ${this.getSpecCode()}
     const nodeOrEdge = this.schema.type === 'node' ? 'Node' : 'Edge';
     if (this.schema.type === 'node') {
       primaryKeyCode = `primaryKey: '${this.schema.primaryKey}',`;
-      cacheKey = `data['${this.schema.primaryKey}']`;
+      cacheKey = `rawData['${this.schema.primaryKey}']`;
     } else {
-      cacheKey = `(data.id1 + '-' + data.id2) as SID_of<${this.schema.name}>`;
+      cacheKey = `(rawData.id1 + '-' + rawData.id2) as SID_of<${this.schema.name}>`;
       sourceDestFields = `
         sourceField: "id1",
         destField: "id2",
@@ -61,7 +63,7 @@ ${this.getSpecCode()}
       this.schema.name
     }, Data> = {
       type: '${this.schema.type === 'node' ? 'node' : 'junction'}',
-  createFrom(ctx: Context, data: Data) {
+  createFrom(ctx: Context, rawData: Data) {
     ${this.getCreateFromBody(cacheKey)}
   },
 
@@ -75,6 +77,7 @@ ${this.getSpecCode()}
     tablish: "${this.schema.storage.tablish}",
   },
 
+  ${this.getFieldSpecCode()}
   ${this.getOutboundEdgeSpecCode()}
 };
 
@@ -84,16 +87,28 @@ export default ${nodeFn.specName(this.schema.name)};
 
   private getCreateFromBody(cacheKey: string): string {
     if (this.schema.storage.type === 'ephemeral') {
-      return `return new ${this.schema.name}(ctx, data);`;
+      return `return new ${this.schema.name}(ctx, rawData);`;
     }
 
     return `const existing = ctx.cache.get(${cacheKey}, "${this.schema.storage.db}", "${this.schema.storage.tablish}");
     if (existing) {
       return existing;
     }
-    const result = new ${this.schema.name}(ctx, data);
+    const result = new ${this.schema.name}(ctx, rawData);
     ctx.cache.set(${cacheKey}, result, "${this.schema.storage.db}", "${this.schema.storage.tablish}");
     return result;`;
+  }
+
+  private getConvertRawResultCode(): string {
+    /**
+     * go thru raw data
+     * compare against schema
+     * see which fields are array or map
+     * deserialize those
+     *
+     * this means we need field defs in spec
+     */
+    return '';
   }
 
   private collectImports(): Import[] {
@@ -125,6 +140,20 @@ export default ${nodeFn.specName(this.schema.name)};
       }`;
   }
 
+  private getFieldSpecCode(): string {
+    return `fields: {
+      ${Object.values(this.schema.fields)
+        .map(field => field.name + ': ' + this.getSpecForField(field))
+        .join(',\n')}
+    },`;
+  }
+
+  private getSpecForField(field: FieldDeclaration): string {
+    return `{
+      encoding: "${fieldFn.encoding(field)}",
+    }`;
+  }
+
   private getSpecForEdge(edge: EdgeDeclaration | EdgeReferenceDeclaration): string {
     const schema = this.schema;
     if (schema.type === 'standaloneEdge') {
@@ -151,6 +180,7 @@ export default ${nodeFn.specName(this.schema.name)};
         }`;
       case 'junction':
         const storageConfig = edgeFn.storageConfig(e);
+        // TODO: we should be importing the standalone edge spec!
         // return this or import a standalone generated junction edge def?
         return `{
           type: '${edgeType}',
@@ -160,6 +190,7 @@ export default ${nodeFn.specName(this.schema.name)};
             db: "${storageConfig.db}",
             tablish: "${storageConfig.tablish}",
           },
+          fields: {},
           sourceField: '${sourceField}',
           destField: '${destField}',
           ${sourceFn},

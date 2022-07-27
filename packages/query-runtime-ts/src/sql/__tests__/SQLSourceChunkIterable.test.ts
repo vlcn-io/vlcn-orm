@@ -29,6 +29,7 @@ const spec: NodeSpec = {
     tablish: 'test',
     type: 'sql',
   },
+  fields: {},
   outboundEdges: {},
 };
 type Data = {

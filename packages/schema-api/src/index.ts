@@ -70,6 +70,12 @@ export type NodeSpec = {
   readonly primaryKey: string;
   readonly storage: RemoveNameField<StorageConfig>;
   readonly outboundEdges: { [key: string]: EdgeSpec };
+
+  readonly fields: {
+    [key: string]: {
+      readonly encoding: 'json' | 'none';
+    };
+  };
 };
 
 type EdgeSpecBase = {
@@ -95,6 +101,12 @@ export type JunctionEdgeSpec = {
   readonly storage: RemoveNameField<StorageConfig>;
   readonly sourceField: string;
   readonly destField: string;
+
+  readonly fields: {
+    [key: string]: {
+      readonly encoding: 'json' | 'none';
+    };
+  };
 } & EdgeSpecBase;
 
 export type EdgeType = EdgeSpec['type'];
@@ -164,7 +176,7 @@ export type FieldDeclaration = {
 
 export type NodeAst = {
   type: 'node';
-  as: 'Node' | 'UnmanagedNode'
+  as: 'Node' | 'UnmanagedNode';
 } & NodeAstCommon;
 
 export type NodeTraitAst = {
@@ -331,7 +343,8 @@ type Traits = {
 };
 
 export type TypeAtom =
-  | RemoveNameField<Field> | string
+  | RemoveNameField<Field>
+  | string
   | {
       type: 'intersection';
     }

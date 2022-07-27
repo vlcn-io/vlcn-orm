@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <79a547d5753454f30ce630e1c9ea35b9>
+// SIGNED-SOURCE: <590819cbc92417425b9457b57603067a>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -12,13 +12,13 @@ import { Data } from "./SlideBase.js";
 
 const SlideSpec: NodeSpecWithCreate<Slide, Data> = {
   type: "node",
-  createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data["id"], "example", "slide");
+  createFrom(ctx: Context, rawData: Data) {
+    const existing = ctx.cache.get(rawData["id"], "example", "slide");
     if (existing) {
       return existing;
     }
-    const result = new Slide(ctx, data);
-    ctx.cache.set(data["id"], result, "example", "slide");
+    const result = new Slide(ctx, rawData);
+    ctx.cache.set(rawData["id"], result, "example", "slide");
     return result;
   },
 
@@ -31,6 +31,17 @@ const SlideSpec: NodeSpecWithCreate<Slide, Data> = {
     tablish: "slide",
   },
 
+  fields: {
+    id: {
+      encoding: "none",
+    },
+    deckId: {
+      encoding: "none",
+    },
+    order: {
+      encoding: "none",
+    },
+  },
   outboundEdges: {
     components: {
       type: "foreignKey",

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <795c7cf08be2cc429238daf8eea5ffdb>
+// SIGNED-SOURCE: <fb6db96b09b6867cef11787f10f66696>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -13,18 +13,18 @@ import { Data } from "./DeckToEditorsEdgeBase.js";
 
 const DeckToEditorsEdgeSpec: EdgeSpecWithCreate<DeckToEditorsEdge, Data> = {
   type: "junction",
-  createFrom(ctx: Context, data: Data) {
+  createFrom(ctx: Context, rawData: Data) {
     const existing = ctx.cache.get(
-      (data.id1 + "-" + data.id2) as SID_of<DeckToEditorsEdge>,
+      (rawData.id1 + "-" + rawData.id2) as SID_of<DeckToEditorsEdge>,
       "example",
       "decktoeditorsedge"
     );
     if (existing) {
       return existing;
     }
-    const result = new DeckToEditorsEdge(ctx, data);
+    const result = new DeckToEditorsEdge(ctx, rawData);
     ctx.cache.set(
-      (data.id1 + "-" + data.id2) as SID_of<DeckToEditorsEdge>,
+      (rawData.id1 + "-" + rawData.id2) as SID_of<DeckToEditorsEdge>,
       result,
       "example",
       "decktoeditorsedge"
@@ -46,6 +46,15 @@ const DeckToEditorsEdgeSpec: EdgeSpecWithCreate<DeckToEditorsEdge, Data> = {
     db: "example",
     type: "sql",
     tablish: "decktoeditorsedge",
+  },
+
+  fields: {
+    id1: {
+      encoding: "none",
+    },
+    id2: {
+      encoding: "none",
+    },
   },
 };
 

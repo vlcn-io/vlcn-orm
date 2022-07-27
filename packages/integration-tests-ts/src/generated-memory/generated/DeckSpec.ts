@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <ca0c2a7fe786afc578a5c08d58624906>
+// SIGNED-SOURCE: <e873cc7f6a5187529c81cb867a9f1053>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -13,13 +13,13 @@ import { Data } from "./DeckBase.js";
 
 const DeckSpec: NodeSpecWithCreate<Deck, Data> = {
   type: "node",
-  createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data["id"], "none", "deck");
+  createFrom(ctx: Context, rawData: Data) {
+    const existing = ctx.cache.get(rawData["id"], "none", "deck");
     if (existing) {
       return existing;
     }
-    const result = new Deck(ctx, data);
-    ctx.cache.set(data["id"], result, "none", "deck");
+    const result = new Deck(ctx, rawData);
+    ctx.cache.set(rawData["id"], result, "none", "deck");
     return result;
   },
 
@@ -32,6 +32,26 @@ const DeckSpec: NodeSpecWithCreate<Deck, Data> = {
     tablish: "deck",
   },
 
+  fields: {
+    id: {
+      encoding: "none",
+    },
+    name: {
+      encoding: "none",
+    },
+    created: {
+      encoding: "none",
+    },
+    modified: {
+      encoding: "none",
+    },
+    ownerId: {
+      encoding: "none",
+    },
+    selectedSlideId: {
+      encoding: "none",
+    },
+  },
   outboundEdges: {
     owner: {
       type: "field",
@@ -74,6 +94,7 @@ const DeckSpec: NodeSpecWithCreate<Deck, Data> = {
         db: "none",
         tablish: "decktoeditorsedge",
       },
+      fields: {},
       sourceField: "id",
       destField: "id",
       get source() {

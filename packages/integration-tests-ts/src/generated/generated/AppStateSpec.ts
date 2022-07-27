@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <8344e90e16f3b972b09c2ce37c36c67b>
+// SIGNED-SOURCE: <f302fe0fb1223b6692feaa84ff459892>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -11,8 +11,8 @@ import { Data } from "./AppStateBase.js";
 
 const AppStateSpec: NodeSpecWithCreate<AppState, Data> = {
   type: "node",
-  createFrom(ctx: Context, data: Data) {
-    return new AppState(ctx, data);
+  createFrom(ctx: Context, rawData: Data) {
+    return new AppState(ctx, rawData);
   },
 
   primaryKey: "id",
@@ -24,6 +24,20 @@ const AppStateSpec: NodeSpecWithCreate<AppState, Data> = {
     tablish: "ephemeral",
   },
 
+  fields: {
+    id: {
+      encoding: "none",
+    },
+    identity: {
+      encoding: "json",
+    },
+    openDeckId: {
+      encoding: "none",
+    },
+    copiedComponents: {
+      encoding: "json",
+    },
+  },
   outboundEdges: {},
 };
 

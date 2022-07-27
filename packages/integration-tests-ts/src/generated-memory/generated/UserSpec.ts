@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a12a6063ebf32bf5f5954ded3dc0d896>
+// SIGNED-SOURCE: <0ffb5ed479adacaa0aa021a29a017daf>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -12,13 +12,13 @@ import { Data } from "./UserBase.js";
 
 const UserSpec: NodeSpecWithCreate<User, Data> = {
   type: "node",
-  createFrom(ctx: Context, data: Data) {
-    const existing = ctx.cache.get(data["id"], "none", "user");
+  createFrom(ctx: Context, rawData: Data) {
+    const existing = ctx.cache.get(rawData["id"], "none", "user");
     if (existing) {
       return existing;
     }
-    const result = new User(ctx, data);
-    ctx.cache.set(data["id"], result, "none", "user");
+    const result = new User(ctx, rawData);
+    ctx.cache.set(rawData["id"], result, "none", "user");
     return result;
   },
 
@@ -31,6 +31,20 @@ const UserSpec: NodeSpecWithCreate<User, Data> = {
     tablish: "user",
   },
 
+  fields: {
+    id: {
+      encoding: "none",
+    },
+    name: {
+      encoding: "none",
+    },
+    created: {
+      encoding: "none",
+    },
+    modified: {
+      encoding: "none",
+    },
+  },
   outboundEdges: {
     decks: {
       type: "foreignKey",
