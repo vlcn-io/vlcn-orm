@@ -1,9 +1,11 @@
-// SIGNED-SOURCE: <fb6db96b09b6867cef11787f10f66696>
+// SIGNED-SOURCE: <d49292d2f1e342ed6052f559514b484a>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
 import { Context } from "@aphro/runtime-ts";
+import { decodeModelData } from "@aphro/runtime-ts";
+import { encodeModelData } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import { EdgeSpecWithCreate } from "@aphro/runtime-ts";
 import { default as DeckSpec } from "./DeckSpec.js";
@@ -11,20 +13,29 @@ import { default as UserSpec } from "./UserSpec.js";
 import DeckToEditorsEdge from "../DeckToEditorsEdge.js";
 import { Data } from "./DeckToEditorsEdgeBase.js";
 
+const fields = {
+  id1: {
+    encoding: "none",
+  },
+  id2: {
+    encoding: "none",
+  },
+} as const;
 const DeckToEditorsEdgeSpec: EdgeSpecWithCreate<DeckToEditorsEdge, Data> = {
   type: "junction",
-  createFrom(ctx: Context, rawData: Data) {
+  createFrom(ctx: Context, data: Data) {
     const existing = ctx.cache.get(
-      (rawData.id1 + "-" + rawData.id2) as SID_of<DeckToEditorsEdge>,
+      (data.id1 + "-" + data.id2) as SID_of<DeckToEditorsEdge>,
       "example",
       "decktoeditorsedge"
     );
     if (existing) {
       return existing;
     }
-    const result = new DeckToEditorsEdge(ctx, rawData);
+    data = decodeModelData(data, fields);
+    const result = new DeckToEditorsEdge(ctx, data);
     ctx.cache.set(
-      (rawData.id1 + "-" + rawData.id2) as SID_of<DeckToEditorsEdge>,
+      (data.id1 + "-" + data.id2) as SID_of<DeckToEditorsEdge>,
       result,
       "example",
       "decktoeditorsedge"
@@ -48,14 +59,7 @@ const DeckToEditorsEdgeSpec: EdgeSpecWithCreate<DeckToEditorsEdge, Data> = {
     tablish: "decktoeditorsedge",
   },
 
-  fields: {
-    id1: {
-      encoding: "none",
-    },
-    id2: {
-      encoding: "none",
-    },
-  },
+  fields,
 };
 
 export default DeckToEditorsEdgeSpec;

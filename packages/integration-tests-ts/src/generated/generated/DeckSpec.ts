@@ -1,9 +1,11 @@
-// SIGNED-SOURCE: <f3695117ce808dcb53c6b44b6b60023c>
+// SIGNED-SOURCE: <c5d4a20a007b11629906e4fe246e1f8b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
 import { Context } from "@aphro/runtime-ts";
+import { decodeModelData } from "@aphro/runtime-ts";
+import { encodeModelData } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { default as UserSpec } from "./UserSpec.js";
@@ -11,15 +13,36 @@ import { default as SlideSpec } from "./SlideSpec.js";
 import Deck from "../Deck.js";
 import { Data } from "./DeckBase.js";
 
+const fields = {
+  id: {
+    encoding: "none",
+  },
+  name: {
+    encoding: "none",
+  },
+  created: {
+    encoding: "none",
+  },
+  modified: {
+    encoding: "none",
+  },
+  ownerId: {
+    encoding: "none",
+  },
+  selectedSlideId: {
+    encoding: "none",
+  },
+} as const;
 const DeckSpec: NodeSpecWithCreate<Deck, Data> = {
   type: "node",
-  createFrom(ctx: Context, rawData: Data) {
-    const existing = ctx.cache.get(rawData["id"], "example", "deck");
+  createFrom(ctx: Context, data: Data) {
+    const existing = ctx.cache.get(data["id"], "example", "deck");
     if (existing) {
       return existing;
     }
-    const result = new Deck(ctx, rawData);
-    ctx.cache.set(rawData["id"], result, "example", "deck");
+    data = decodeModelData(data, fields);
+    const result = new Deck(ctx, data);
+    ctx.cache.set(data["id"], result, "example", "deck");
     return result;
   },
 
@@ -32,26 +55,8 @@ const DeckSpec: NodeSpecWithCreate<Deck, Data> = {
     tablish: "deck",
   },
 
-  fields: {
-    id: {
-      encoding: "none",
-    },
-    name: {
-      encoding: "none",
-    },
-    created: {
-      encoding: "none",
-    },
-    modified: {
-      encoding: "none",
-    },
-    ownerId: {
-      encoding: "none",
-    },
-    selectedSlideId: {
-      encoding: "none",
-    },
-  },
+  fields,
+
   outboundEdges: {
     owner: {
       type: "field",

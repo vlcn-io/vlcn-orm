@@ -1,4 +1,5 @@
 import { Context, IModel, INode, SQLResolvedDB } from '@aphro/context-runtime-ts';
+import { encodeModelData } from '@aphro/model-runtime-ts';
 import { formatters, sql, SQLQuery } from '@aphro/sql-ts';
 
 function buildUpsertSql<T>(ctx: Context, nodes: IModel<T>[]) {
@@ -12,12 +13,13 @@ function buildUpsertSql<T>(ctx: Context, nodes: IModel<T>[]) {
 
   // TODO: probs need to guarantee order via `spec`
   const cols = Object.keys(first._d());
+  const serializedNodes = nodes.map(n => encodeModelData(n._d(), spec.fields));
   // TODO: we need access to fields in the spec in order to encode and handle complex fields.
   // or code-gen the appropriate encoding into `_d()`
-  const rows = nodes.map(
+  const rows = serializedNodes.map(
     n =>
       sql`(${sql.join(
-        Object.values(n._d()).map(v => sql.value(v === undefined ? null : v)),
+        Object.values(n).map(v => sql.value(v === undefined ? null : v)),
         ', ',
       )})`,
   );

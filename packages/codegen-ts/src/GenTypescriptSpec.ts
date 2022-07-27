@@ -48,9 +48,9 @@ ${this.getSpecCode()}
     const nodeOrEdge = this.schema.type === 'node' ? 'Node' : 'Edge';
     if (this.schema.type === 'node') {
       primaryKeyCode = `primaryKey: '${this.schema.primaryKey}',`;
-      cacheKey = `rawData['${this.schema.primaryKey}']`;
+      cacheKey = `data['${this.schema.primaryKey}']`;
     } else {
-      cacheKey = `(rawData.id1 + '-' + rawData.id2) as SID_of<${this.schema.name}>`;
+      cacheKey = `(data.id1 + '-' + data.id2) as SID_of<${this.schema.name}>`;
       sourceDestFields = `
         sourceField: "id1",
         destField: "id2",
@@ -59,11 +59,12 @@ ${this.getSpecCode()}
       `;
     }
 
-    return `const ${nodeFn.specName(this.schema.name)}: ${nodeOrEdge}SpecWithCreate<${
+    return `const fields = ${this.getFieldSpecCode()};
+const ${nodeFn.specName(this.schema.name)}: ${nodeOrEdge}SpecWithCreate<${
       this.schema.name
     }, Data> = {
       type: '${this.schema.type === 'node' ? 'node' : 'junction'}',
-  createFrom(ctx: Context, rawData: Data) {
+  createFrom(ctx: Context, data: Data) {
     ${this.getCreateFromBody(cacheKey)}
   },
 
@@ -77,7 +78,8 @@ ${this.getSpecCode()}
     tablish: "${this.schema.storage.tablish}",
   },
 
-  ${this.getFieldSpecCode()}
+  fields,
+
   ${this.getOutboundEdgeSpecCode()}
 };
 
@@ -87,33 +89,24 @@ export default ${nodeFn.specName(this.schema.name)};
 
   private getCreateFromBody(cacheKey: string): string {
     if (this.schema.storage.type === 'ephemeral') {
-      return `return new ${this.schema.name}(ctx, rawData);`;
+      return `return new ${this.schema.name}(ctx, data);`;
     }
 
     return `const existing = ctx.cache.get(${cacheKey}, "${this.schema.storage.db}", "${this.schema.storage.tablish}");
     if (existing) {
       return existing;
     }
-    const result = new ${this.schema.name}(ctx, rawData);
+    data = decodeModelData(data, fields);
+    const result = new ${this.schema.name}(ctx, data);
     ctx.cache.set(${cacheKey}, result, "${this.schema.storage.db}", "${this.schema.storage.tablish}");
     return result;`;
-  }
-
-  private getConvertRawResultCode(): string {
-    /**
-     * go thru raw data
-     * compare against schema
-     * see which fields are array or map
-     * deserialize those
-     *
-     * this means we need field defs in spec
-     */
-    return '';
   }
 
   private collectImports(): Import[] {
     return [
       tsImport('{Context}', null, '@aphro/runtime-ts'),
+      tsImport('{decodeModelData}', null, '@aphro/runtime-ts'),
+      tsImport('{encodeModelData}', null, '@aphro/runtime-ts'),
       tsImport('{SID_of}', null, '@aphro/runtime-ts'),
       this.schema.type === 'node'
         ? tsImport('{NodeSpecWithCreate}', null, '@aphro/runtime-ts')
@@ -141,11 +134,11 @@ export default ${nodeFn.specName(this.schema.name)};
   }
 
   private getFieldSpecCode(): string {
-    return `fields: {
+    return `{
       ${Object.values(this.schema.fields)
         .map(field => field.name + ': ' + this.getSpecForField(field))
         .join(',\n')}
-    },`;
+    } as const`;
   }
 
   private getSpecForField(field: FieldDeclaration): string {

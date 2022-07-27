@@ -1,9 +1,11 @@
-// SIGNED-SOURCE: <e873cc7f6a5187529c81cb867a9f1053>
+// SIGNED-SOURCE: <7f3445b24970197eebc462c4cddb2a93>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
 import { Context } from "@aphro/runtime-ts";
+import { decodeModelData } from "@aphro/runtime-ts";
+import { encodeModelData } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { default as UserSpec } from "./UserSpec.js";
@@ -11,15 +13,36 @@ import { default as SlideSpec } from "./SlideSpec.js";
 import Deck from "../Deck.js";
 import { Data } from "./DeckBase.js";
 
+const fields = {
+  id: {
+    encoding: "none",
+  },
+  name: {
+    encoding: "none",
+  },
+  created: {
+    encoding: "none",
+  },
+  modified: {
+    encoding: "none",
+  },
+  ownerId: {
+    encoding: "none",
+  },
+  selectedSlideId: {
+    encoding: "none",
+  },
+} as const;
 const DeckSpec: NodeSpecWithCreate<Deck, Data> = {
   type: "node",
-  createFrom(ctx: Context, rawData: Data) {
-    const existing = ctx.cache.get(rawData["id"], "none", "deck");
+  createFrom(ctx: Context, data: Data) {
+    const existing = ctx.cache.get(data["id"], "none", "deck");
     if (existing) {
       return existing;
     }
-    const result = new Deck(ctx, rawData);
-    ctx.cache.set(rawData["id"], result, "none", "deck");
+    data = decodeModelData(data, fields);
+    const result = new Deck(ctx, data);
+    ctx.cache.set(data["id"], result, "none", "deck");
     return result;
   },
 
@@ -32,26 +55,8 @@ const DeckSpec: NodeSpecWithCreate<Deck, Data> = {
     tablish: "deck",
   },
 
-  fields: {
-    id: {
-      encoding: "none",
-    },
-    name: {
-      encoding: "none",
-    },
-    created: {
-      encoding: "none",
-    },
-    modified: {
-      encoding: "none",
-    },
-    ownerId: {
-      encoding: "none",
-    },
-    selectedSlideId: {
-      encoding: "none",
-    },
-  },
+  fields,
+
   outboundEdges: {
     owner: {
       type: "field",

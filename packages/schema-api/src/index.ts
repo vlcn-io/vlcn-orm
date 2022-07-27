@@ -71,10 +71,12 @@ export type NodeSpec = {
   readonly storage: RemoveNameField<StorageConfig>;
   readonly outboundEdges: { [key: string]: EdgeSpec };
 
-  readonly fields: {
-    [key: string]: {
-      readonly encoding: 'json' | 'none';
-    };
+  readonly fields: FieldsSpec;
+};
+
+export type FieldsSpec = {
+  [key: string]: {
+    readonly encoding: 'json' | 'none';
   };
 };
 
@@ -102,11 +104,7 @@ export type JunctionEdgeSpec = {
   readonly sourceField: string;
   readonly destField: string;
 
-  readonly fields: {
-    [key: string]: {
-      readonly encoding: 'json' | 'none';
-    };
-  };
+  readonly fields: FieldsSpec;
 } & EdgeSpecBase;
 
 export type EdgeType = EdgeSpec['type'];
