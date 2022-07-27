@@ -56,4 +56,12 @@ export default {
     }
     return ret[0];
   },
+  isComplex,
+  encoding(f: FieldDeclaration): 'json' | 'none' {
+    return isComplex(f) ? 'json' : 'none';
+  },
 };
+
+function isComplex(f: FieldDeclaration): boolean {
+  return f.type.some(t => typeof t === 'string' || t.type === 'array' || t.type === 'map');
+}

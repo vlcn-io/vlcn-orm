@@ -8,6 +8,9 @@ import { SID_of } from '@strut/sid';
  * If the thing is already cached, returns that.
  *
  * Returns optimstic promises as well.
+ *
+ * TODO: maybe just get rid of all this optimistic promise crap.
+ * Complicates the code and is only a problem because React can't handle async correctly.
  */
 export default function modelGenMemo<T>(
   dbname: string,
