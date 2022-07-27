@@ -4,7 +4,7 @@ import { Context } from './context.js';
 type Disposer = () => void;
 
 export type ModelCreate<M extends IModel<D>, D extends {}> = {
-  createFrom(context: Context, data: D): M;
+  createFrom(context: Context, data: D, raw?: boolean): M;
 };
 
 export type NodeSpecWithCreate<M extends INode<D>, D extends {}> = ModelCreate<M, D> & NodeSpec;

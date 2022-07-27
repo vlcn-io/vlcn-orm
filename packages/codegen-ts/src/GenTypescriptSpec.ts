@@ -64,7 +64,7 @@ const ${nodeFn.specName(this.schema.name)}: ${nodeOrEdge}SpecWithCreate<${
       this.schema.name
     }, Data> = {
       type: '${this.schema.type === 'node' ? 'node' : 'junction'}',
-  createFrom(ctx: Context, data: Data) {
+  createFrom(ctx: Context, data: Data, raw: boolean = true) {
     ${this.getCreateFromBody(cacheKey)}
   },
 
@@ -96,7 +96,7 @@ export default ${nodeFn.specName(this.schema.name)};
     if (existing) {
       return existing;
     }
-    data = decodeModelData(data, fields);
+    if (raw) data = decodeModelData(data, fields);
     const result = new ${this.schema.name}(ctx, data);
     ctx.cache.set(${cacheKey}, result, "${this.schema.storage.db}", "${this.schema.storage.tablish}");
     return result;`;

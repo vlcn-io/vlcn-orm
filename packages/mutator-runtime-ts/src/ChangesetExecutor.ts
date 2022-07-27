@@ -76,7 +76,7 @@ export class ChangesetExecutor {
   private processChanges(changeset: Changeset<IModel>): [IModel | null, Set<() => void>] {
     switch (changeset.type) {
       case 'create': {
-        const ret = changeset.spec.createFrom(this.ctx, changeset.updates as any);
+        const ret = changeset.spec.createFrom(this.ctx, changeset.updates as any, false);
         const [_, notifs] = ret._merge(changeset.updates);
         return [ret, notifs];
       }
