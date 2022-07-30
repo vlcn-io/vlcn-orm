@@ -1,4 +1,4 @@
-import { QueryCache } from '../hooks.js';
+import { QueryCache } from '../hooks';
 
 test('evicts at size limit', () => {
   const cache = new QueryCache(2);

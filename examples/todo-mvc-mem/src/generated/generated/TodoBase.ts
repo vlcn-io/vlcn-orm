@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <3287b30b26cf56939522d40940e33ed0>
+// SIGNED-SOURCE: <398163652ef888c1b6508aa9593b4a43>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,6 +9,8 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { modelGenMemo } from "@aphro/runtime-ts";
+import { OptimisticPromise } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -47,21 +49,29 @@ export default abstract class TodoBase extends Node<Data> {
     return TodoQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<Todo>): Promise<Todo> {
-    const existing = ctx.cache.get(id, "todomvc", "todo");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-  }
+  static genx = modelGenMemo(
+    "todomvc",
+    "todo",
+    (ctx: Context, id: SID_of<Todo>): OptimisticPromise<Todo> =>
+      new OptimisticPromise((resolve, reject) =>
+        this.queryAll(ctx)
+          .whereId(P.equals(id))
+          .genxOnlyValue()
+          .then(resolve, reject)
+      )
+  );
 
-  static async gen(ctx: Context, id: SID_of<Todo>): Promise<Todo | null> {
-    const existing = ctx.cache.get(id, "todomvc", "todo");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-  }
+  static gen = modelGenMemo(
+    "todomvc",
+    "todo",
+    (ctx: Context, id: SID_of<Todo>): OptimisticPromise<Todo | null> =>
+      new OptimisticPromise((resolve, reject) =>
+        this.queryAll(ctx)
+          .whereId(P.equals(id))
+          .genOnlyValue()
+          .then(resolve, reject)
+      )
+  );
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this)

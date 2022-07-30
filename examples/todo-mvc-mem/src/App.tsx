@@ -1,8 +1,8 @@
 import Todo from './generated/Todo.js';
 import * as React from 'react';
 import { useState, useCallback, memo } from 'react';
-import { useBind, useQuery } from '@aphro/react';
 import { commit, P, UpdateType, sid } from '@aphro/runtime-ts';
+import { useQuery, useBind, useQueryOne } from './store.js';
 import TodoList, { Data } from './generated/TodoList.js';
 
 type Filter = Data['filter'];
@@ -148,7 +148,8 @@ function Footer({
   );
 }
 
-export default function App({ list }: { list: TodoList }) {
+export default function App() {
+  const list = useQueryOne(TodoList.queryAll, [], { key: 'list' });
   const clearCompleted = () =>
     commit(
       list.ctx,
@@ -182,9 +183,16 @@ export default function App({ list }: { list: TodoList }) {
   let toggleAllCheck;
 
   useBind(list, ['filter', 'editing']);
-  const activeTodos = useQuery(() => list.queryTodos().whereCompleted(P.equals(false))).data;
-  const completeTodos = useQuery(() => list.queryTodos().whereCompleted(P.equals(true))).data;
-  const allTodos = useQuery(() => list.queryTodos(), [], UpdateType.CREATE_OR_DELETE).data;
+  const activeTodos = useQuery(() => list.queryTodos().whereCompleted(P.equals(false)), [], {
+    key: 'activeTodos',
+  });
+  const completeTodos = useQuery(() => list.queryTodos().whereCompleted(P.equals(true)), [], {
+    key: 'completeTodos',
+  });
+  const allTodos = useQuery(() => list.queryTodos(), [], {
+    on: UpdateType.CREATE_OR_DELETE,
+    key: 'allTodos',
+  });
 
   const remaining = activeTodos.length;
   let todos =
