@@ -21,7 +21,6 @@ async function bootstrap(ctx: Context): Promise<TodoList> {
 }
 
 const initialized = bootstrap(ctx).then(() => {
-  console.log('context resolved');
   return ctx;
 });
 
