@@ -184,7 +184,7 @@ export default function App({ list }: { list: TodoList }) {
   useBind(list, ['filter', 'editing']);
   const activeTodos = useQuery(() => list.queryTodos().whereCompleted(P.equals(false))).data;
   const completeTodos = useQuery(() => list.queryTodos().whereCompleted(P.equals(true))).data;
-  const allTodos = useQuery(() => list.queryTodos(), [], UpdateType.CREATE_OR_DELETE).data;
+  const allTodos = useQuery(() => list.queryTodos(), [], { on: UpdateType.CREATE_OR_DELETE }).data;
 
   const remaining = activeTodos.length;
   let todos =
