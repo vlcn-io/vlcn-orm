@@ -1,12 +1,26 @@
 import SQLiteAsyncESMFactory from 'wa-sqlite/dist/wa-sqlite-async.mjs';
 import * as SQLite from 'wa-sqlite';
 import { IDBBatchAtomicVFS } from 'wa-sqlite/src/examples/IDBBatchAtomicVFS.js';
+// import { OriginPrivateFileSystemVFS } from 'wa-sqlite/src/examples/OriginPrivateFileSystemVFS.js';
 import { formatters, SQLQuery } from '@aphro/sql-ts';
 
 class Connection {
+  private queue = Promise.resolve();
+
   constructor(private sqlite: SQLiteAPI, private db: number) {}
 
   async query(sql: SQLQuery): Promise<any> {
+    // TODO: unfortunately wa-sqlite has a bug where concurrent reads creates a deadlock.
+    // Serialize reads for the time being to prevent this.
+    // TODO: file a bug report and/or fix it.
+    const res = this.queue.then(() => {
+      return this.#queryImpl(sql);
+    });
+    this.queue = res.catch(() => {});
+    return res;
+  }
+
+  async #queryImpl(sql: SQLQuery): Promise<any> {
     const formatted = sql.format(formatters['sqlite']);
     const results: { columns: string[]; rows: any[] }[] = [];
     const sqlite3 = this.sqlite;
