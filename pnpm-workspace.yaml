@@ -32,3 +32,4 @@ packages:
   - 'packages/sql-ts'
   - 'packages/sqljs-connector'
   - 'packages/vscode'
+  - 'packages/wa-sqlite-connector'
