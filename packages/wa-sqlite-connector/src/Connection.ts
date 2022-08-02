@@ -1,6 +1,6 @@
 import SQLiteAsyncESMFactory from 'wa-sqlite/dist/wa-sqlite-async.mjs';
 import * as SQLite from 'wa-sqlite';
-import { IDBBatchAtomicVFS } from 'wa-sqlite/src/examples/IDBBatchAtomicVFS';
+import { IDBBatchAtomicVFS } from 'wa-sqlite/src/examples/IDBBatchAtomicVFS.js';
 import { formatters, SQLQuery } from '@aphro/sql-ts';
 
 class Connection {
@@ -29,9 +29,26 @@ class Connection {
       }
     }
 
+    // TODO:... would be good to allow more...
+    // you'd have to figure out how to re-map to the right type, however.
+    if (results.length > 1) {
+      throw new Error('We currently only support 1 statement per query.');
+    }
+    const returning = results[0];
+    if (returning == null) return null;
+
+    const objects: Object[] = [];
+    for (const row of returning.rows) {
+      const o = {};
+      for (let i = 0; i < returning.columns.length; ++i) {
+        o[returning.columns[i]] = row[i];
+      }
+      objects.push(o);
+    }
+
     // Note: convert `results` to objects.
     // also should only allow single statements
-    return results;
+    return objects;
   }
 
   private bind(stmt: number, values: unknown[]) {
