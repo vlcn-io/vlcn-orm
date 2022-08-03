@@ -18,16 +18,44 @@ export const bootstrap = {
     engine?: string,
     db?: string,
   ) {
-    create(resolver, sqlExports, engine, db);
+    await create(
+      resolver,
+      sqlExports,
+      s => {
+        if (s.status === 'fulfilled') {
+          return;
+        }
+        // sqlite errorno is 1.. which seems oddly unspecific.
+        // using message contents -_-
+        if (s.reason.message.indexOf('already exists') !== -1) {
+          return;
+        }
+        throw s.reason;
+      },
+      engine,
+      db,
+    );
   },
 
-  /**
-   * Creates all provided tables, dropping the old instances if they already exist and have different schemas
-   * from the provided schemas.
-   * ^-- we could figure this out via sqlite_schemas.
-   * Should we even support this mode or just do automigrate mode?
-   */
-  // dropAndRecreateIfExists() {},
+  async createThrowIfExists(
+    resolver: DBResolver,
+    sqlExports: SQLExports,
+    engine?: string,
+    db?: string,
+  ) {
+    await create(
+      resolver,
+      sqlExports,
+      s => {
+        if (s.status === 'fulfilled') {
+          return;
+        }
+        throw s.reason;
+      },
+      engine,
+      db,
+    );
+  },
 
   /**
    * Auto-migrate will:
@@ -36,26 +64,38 @@ export const bootstrap = {
    * - remove removed columns
    * - drop and recreate renamed columns
    */
-  // createAndAutomigrateIfExists() {},
+  // createAndAutomigrateIfExists(BResolver, sqlExports: SQLExports, engine?: string, db?: string) {},
 };
 
-async function create(resolver: DBResolver, sqlExports: SQLExports, engine?: string, db?: string) {
+async function create(
+  resolver: DBResolver,
+  sqlExports: SQLExports,
+  errorHandler: (r: PromiseSettledResult<void>) => void,
+  engine?: string,
+  db?: string,
+) {
   if (engine != null) {
-    createForEngine(resolver, engine, sqlExports[engine], db);
+    await createForEngine(resolver, engine, sqlExports[engine], errorHandler, db);
     return;
   }
   for (const [engine, dbs] of Object.entries(sqlExports)) {
-    createForEngine(resolver, engine, dbs);
+    await createForEngine(resolver, engine, dbs, errorHandler);
   }
 }
 
-async function createForEngine(resolver: DBResolver, engine: string, dbs: DBs, db?: string) {
+async function createForEngine(
+  resolver: DBResolver,
+  engine: string,
+  dbs: DBs,
+  errorHandler: (r: PromiseSettledResult<void>) => void,
+  db?: string,
+) {
   if (db != null) {
-    createForDB(resolver.engine(engine as any), db, dbs[db]);
+    await createForDB(resolver.engine(engine as any), db, dbs[db], errorHandler);
     return;
   }
   for (const [dbName, schemas] of Object.entries(dbs)) {
-    createForDB(resolver.engine(engine as any), dbName, schemas);
+    await createForDB(resolver.engine(engine as any), dbName, schemas, errorHandler);
   }
 }
 
@@ -63,6 +103,7 @@ async function createForDB(
   engine: ReturnType<DBResolver['engine']>,
   dbName: string,
   schemas: Schemas,
+  errorHandler: (r: PromiseSettledResult<void>) => void,
 ) {
   const db = engine.db(dbName);
 
@@ -70,10 +111,5 @@ async function createForDB(
     Object.values(schemas).map(s => db.query(sql.__dangerous__rawValue(s))),
   );
 
-  settled.forEach(s => {
-    if (s.status === 'rejected') {
-      // swallow "table exists" errors, throw the rest
-      console.log(s.reason);
-    }
-  });
+  settled.forEach(errorHandler);
 }

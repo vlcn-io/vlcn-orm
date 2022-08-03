@@ -7,3 +7,4 @@ export { applyMixins } from '@strut/utils';
 export { default as sid } from '@strut/sid';
 export { default as Cache } from '@aphro/cache-runtime-ts';
 export * from '@aphro/sql-ts';
+export * from './bootstrap.js';

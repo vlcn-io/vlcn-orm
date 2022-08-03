@@ -1,6 +1,6 @@
--- SIGNED-SOURCE: <6de05b5e8b8ea19f069c20af0ba808a3>
+-- SIGNED-SOURCE: <1809ae0f945e5472150e7f4ab20c4424>
 CREATE TABLE
-  IF NOT EXISTS "slide" (
+  "slide" (
     "id" bigint NOT NULL,
     "deckId" bigint NOT NULL,
     "order" float NOT NULL,

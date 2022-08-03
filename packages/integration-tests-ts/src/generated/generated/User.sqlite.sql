@@ -1,6 +1,6 @@
--- SIGNED-SOURCE: <9ce79b1a8eb50df0025f9be3de0199d6>
+-- SIGNED-SOURCE: <0b032750211fb86ea715fb3fa33a215e>
 CREATE TABLE
-  IF NOT EXISTS "user" (
+  "user" (
     "id" bigint NOT NULL,
     "name" text NOT NULL,
     "created" bigint NOT NULL,

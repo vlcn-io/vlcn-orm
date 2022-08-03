@@ -4,7 +4,7 @@ import * as path from 'path';
 import TypescriptFile from './TypescriptFile.js';
 
 export class GenSQLExports extends CodegenStep {
-  private all: (SchemaNode | SchemaEdge)[];
+  protected all: (SchemaNode | SchemaEdge)[];
   constructor(nodes: SchemaNode[], edges: SchemaEdge[], private schemaFileName: string) {
     super();
     this.all = [...nodes, ...edges].filter(x => x.storage.type === 'sql');
@@ -15,8 +15,6 @@ export class GenSQLExports extends CodegenStep {
   }
 
   async gen(): Promise<CodegenFile> {
-    const filename = 'exports-sql.ts';
-
     // group nodes and edges by db
     // export sql files by db name
     const grouped: { [key: string]: { [key: string]: (SchemaNode | SchemaEdge)[] } } = {};
@@ -34,16 +32,24 @@ export class GenSQLExports extends CodegenStep {
       }
     }
 
-    return new TypescriptFile(path.join(generatedDir, filename), this.getCode(grouped));
+    return new TypescriptFile(path.join(generatedDir, this.getFilename()), this.getCode(grouped));
+  }
+
+  protected getFilename() {
+    return 'exports-sql.ts';
   }
 
   private getCode(groups: {
     [key: string]: { [key: string]: (SchemaNode | SchemaEdge)[] };
   }): string {
-    return `${this.all.map(this.getImport).join('\n')}
+    return `${this.getImports()}
     export default {
       ${Object.entries(groups).map(this.getCodeForGroup).join(',\n')}
     }`;
+  }
+
+  protected getImports() {
+    return this.all.map(this.getImport).join('\n');
   }
 
   private getImport(nore: SchemaEdge | SchemaNode): string {

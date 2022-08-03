@@ -1,21 +1,21 @@
-// SIGNED-SOURCE: <ea890e2c8a2b9421c293ef8ce64f72c9>
+// SIGNED-SOURCE: <873f6a5957185e5b9f7591027609e76d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
-import UserSQL from "./User.sqlite.sql?raw";
-import DeckSQL from "./Deck.sqlite.sql?raw";
-import SlideSQL from "./Slide.sqlite.sql?raw";
-import ComponentSQL from "./Component.sqlite.sql?raw";
-import DeckToEditorsEdgeSQL from "./DeckToEditorsEdge.sqlite.sql?raw";
+import User from "./User.sqlite.sql?raw";
+import Deck from "./Deck.sqlite.sql?raw";
+import Slide from "./Slide.sqlite.sql?raw";
+import Component from "./Component.sqlite.sql?raw";
+import DeckToEditorsEdge from "./DeckToEditorsEdge.sqlite.sql?raw";
 export default {
   sqlite: {
     example: {
-      UserSQL,
-      DeckSQL,
-      SlideSQL,
-      ComponentSQL,
-      DeckToEditorsEdgeSQL,
+      User,
+      Deck,
+      Slide,
+      Component,
+      DeckToEditorsEdge,
     },
   },
 };
