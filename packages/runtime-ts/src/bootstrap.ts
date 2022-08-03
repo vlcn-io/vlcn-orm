@@ -165,4 +165,22 @@ async function migrate(migrationTasks: CreateError[]) {
   // 4. diff
   // 5. add or remove columns
   console.log(migrationTasks);
+  await Promise.all(migrationTasks.map(migrateOne));
 }
+
+async function migrateOne({ db, schemaName, sql }: CreateError) {
+  // 1 - remove comments
+  // 2 - remove newlines
+  // 3 - regex extract table name
+  // 4 - regex extract column def list
+  // 5 - split on ',' to get columns and constraints
+  // 6 - compare line by line to find deltas
+  // 7 - create alter table statement to bring to new state
+  // ^-- move all this to the migrate package?
+}
+
+/**
+ * -- SIGNED-SOURCE: <39e0ffa72e52ff465fbd19ef78209317>\n' +
+          'CREATE TABLE\n' +
+          '  "decktoeditorsedge" ("id1" bigint NOT NULL, "id2" bigint NOT NULL)
+ */
