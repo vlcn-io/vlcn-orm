@@ -102,7 +102,6 @@ export default abstract class ${this.schema.name}Base
       tsImport('{CreateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{DeleteMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{modelGenMemo}', null, '@aphro/runtime-ts'),
-      tsImport('{OptimisticPromise}', null, '@aphro/runtime-ts'),
       this.schema.type === 'node'
         ? tsImport('{Node}', null, '@aphro/runtime-ts')
         : tsImport('{Edge}', null, '@aphro/runtime-ts'),
@@ -287,18 +286,14 @@ export default abstract class ${this.schema.name}Base
 
         // can't `modelGenMemo` this until we have a way to clear memoized results based
         // upon modifications of the id fields these reference.
-        return `gen${upcaseAt(e.name, 0)}(): OptimisticPromise<${returnType}> {
+        return `async gen${upcaseAt(e.name, 0)}(): Promise<${returnType}> {
           const existing = this.ctx.cache.get(this.${
             e.throughOrTo.column
           }, ${destTypeName}Spec.storage.db, ${destTypeName}Spec.storage.tablish);
           if (existing != null) {
-            const ret = new OptimisticPromise<${returnType}>((resolve) => resolve(existing));
-            ret.__setOptimisticResult(existing);
-            return ret;
+            return existing;
           }
-          return new OptimisticPromise((resolve, reject) => this.query${upcaseAt(e.name, 0)}().gen${
-          required ? 'x' : ''
-        }OnlyValue().then(resolve, reject));
+          return await this.query${upcaseAt(e.name, 0)}().gen${required ? 'x' : ''}OnlyValue();
         }`;
       })
       .join('\n\n');
@@ -362,13 +357,9 @@ export default abstract class ${this.schema.name}Base
     return `static gen = modelGenMemo(
       "${this.schema.storage.db}",
       "${this.schema.storage.tablish}",
-      (ctx: Context, id: SID_of<${this.schema.name}>): OptimisticPromise<${this.schema.name} | null> => 
-        new OptimisticPromise(
-          (resolve, reject) => this
+      (ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name} | null> => this
             .queryAll(ctx)
             .whereId(P.equals(id)).genOnlyValue()
-            .then(resolve, reject),
-        ),
     );`;
   }
 
@@ -379,13 +370,9 @@ export default abstract class ${this.schema.name}Base
     return `static genx = modelGenMemo(
       "${this.schema.storage.db}",
       "${this.schema.storage.tablish}",
-      (ctx: Context, id: SID_of<${this.schema.name}>): OptimisticPromise<${this.schema.name}> =>
-        new OptimisticPromise(
-          (resolve, reject) => this
+      (ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name}> => this
             .queryAll(ctx)
-            .whereId(P.equals(id)).genxOnlyValue()
-            .then(resolve, reject),
-        ),
+            .whereId(P.equals(id)).genxOnlyValue(),
     );`;
   }
 }

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <9678b896db4d194e42e9ded5de76e9dd>
+// SIGNED-SOURCE: <d5fbdabca8c45f7eafc46518b2a7ae63>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -27,7 +27,7 @@ const fields = {
 } as const;
 const AppStateSpec: NodeSpecWithCreate<AppState, Data> = {
   type: "node",
-  createFrom(ctx: Context, data: Data) {
+  createFrom(ctx: Context, data: Data, raw: boolean = true) {
     return new AppState(ctx, data);
   },
 

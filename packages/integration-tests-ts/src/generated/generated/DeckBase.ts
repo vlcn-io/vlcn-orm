@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4af1c6826b4ed219c968889939a97eb5>
+// SIGNED-SOURCE: <dbbee0f82a03d9acbc366d0d254277c4>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -10,7 +10,6 @@ import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { modelGenMemo } from "@aphro/runtime-ts";
-import { OptimisticPromise } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -76,38 +75,28 @@ export default abstract class DeckBase extends Node<Data> {
     return DeckQuery.fromId(this.ctx, this.id as any).queryEditors();
   }
 
-  genOwner(): OptimisticPromise<User> {
+  async genOwner(): Promise<User> {
     const existing = this.ctx.cache.get(
       this.ownerId,
       UserSpec.storage.db,
       UserSpec.storage.tablish
     );
     if (existing != null) {
-      const ret = new OptimisticPromise<User>((resolve) => resolve(existing));
-      ret.__setOptimisticResult(existing);
-      return ret;
+      return existing;
     }
-    return new OptimisticPromise((resolve, reject) =>
-      this.queryOwner().genxOnlyValue().then(resolve, reject)
-    );
+    return await this.queryOwner().genxOnlyValue();
   }
 
-  genSelectedSlide(): OptimisticPromise<Slide | null> {
+  async genSelectedSlide(): Promise<Slide | null> {
     const existing = this.ctx.cache.get(
       this.selectedSlideId,
       SlideSpec.storage.db,
       SlideSpec.storage.tablish
     );
     if (existing != null) {
-      const ret = new OptimisticPromise<Slide | null>((resolve) =>
-        resolve(existing)
-      );
-      ret.__setOptimisticResult(existing);
-      return ret;
+      return existing;
     }
-    return new OptimisticPromise((resolve, reject) =>
-      this.querySelectedSlide().genOnlyValue().then(resolve, reject)
-    );
+    return await this.querySelectedSlide().genOnlyValue();
   }
 
   static queryAll(ctx: Context): DeckQuery {
@@ -117,25 +106,15 @@ export default abstract class DeckBase extends Node<Data> {
   static genx = modelGenMemo(
     "example",
     "deck",
-    (ctx: Context, id: SID_of<Deck>): OptimisticPromise<Deck> =>
-      new OptimisticPromise((resolve, reject) =>
-        this.queryAll(ctx)
-          .whereId(P.equals(id))
-          .genxOnlyValue()
-          .then(resolve, reject)
-      )
+    (ctx: Context, id: SID_of<Deck>): Promise<Deck> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
   static gen = modelGenMemo(
     "example",
     "deck",
-    (ctx: Context, id: SID_of<Deck>): OptimisticPromise<Deck | null> =>
-      new OptimisticPromise((resolve, reject) =>
-        this.queryAll(ctx)
-          .whereId(P.equals(id))
-          .genOnlyValue()
-          .then(resolve, reject)
-      )
+    (ctx: Context, id: SID_of<Deck>): Promise<Deck | null> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );
 
   update(data: Partial<Data>) {

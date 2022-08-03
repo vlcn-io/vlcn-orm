@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <aa9e14af1991674a163c321937630858>
+// SIGNED-SOURCE: <ce4970d1ea3d299d6b9a4ad1adb3bdc9>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -28,12 +28,12 @@ const fields = {
 } as const;
 const UserSpec: NodeSpecWithCreate<User, Data> = {
   type: "node",
-  createFrom(ctx: Context, data: Data) {
+  createFrom(ctx: Context, data: Data, raw: boolean = true) {
     const existing = ctx.cache.get(data["id"], "example", "user");
     if (existing) {
       return existing;
     }
-    data = decodeModelData(data, fields);
+    if (raw) data = decodeModelData(data, fields);
     const result = new User(ctx, data);
     ctx.cache.set(data["id"], result, "example", "user");
     return result;

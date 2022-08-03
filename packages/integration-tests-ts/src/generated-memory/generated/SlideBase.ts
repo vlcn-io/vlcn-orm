@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5df3a713c672a5ea46a78e9fcd2ea82c>
+// SIGNED-SOURCE: <57f49790621ad22fe1c462dbe4b0e170>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -10,7 +10,6 @@ import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { modelGenMemo } from "@aphro/runtime-ts";
-import { OptimisticPromise } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -55,25 +54,15 @@ export default abstract class SlideBase extends Node<Data> {
   static genx = modelGenMemo(
     "none",
     "slide",
-    (ctx: Context, id: SID_of<Slide>): OptimisticPromise<Slide> =>
-      new OptimisticPromise((resolve, reject) =>
-        this.queryAll(ctx)
-          .whereId(P.equals(id))
-          .genxOnlyValue()
-          .then(resolve, reject)
-      )
+    (ctx: Context, id: SID_of<Slide>): Promise<Slide> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
   static gen = modelGenMemo(
     "none",
     "slide",
-    (ctx: Context, id: SID_of<Slide>): OptimisticPromise<Slide | null> =>
-      new OptimisticPromise((resolve, reject) =>
-        this.queryAll(ctx)
-          .whereId(P.equals(id))
-          .genOnlyValue()
-          .then(resolve, reject)
-      )
+    (ctx: Context, id: SID_of<Slide>): Promise<Slide | null> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );
 
   update(data: Partial<Data>) {

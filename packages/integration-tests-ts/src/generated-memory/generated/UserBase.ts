@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <7c762d550f066f27ff6f50150d5fcd0c>
+// SIGNED-SOURCE: <e2037c9810d42e1e011c43a735915678>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -10,7 +10,6 @@ import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { modelGenMemo } from "@aphro/runtime-ts";
-import { OptimisticPromise } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -57,25 +56,15 @@ export default abstract class UserBase extends Node<Data> {
   static genx = modelGenMemo(
     "none",
     "user",
-    (ctx: Context, id: SID_of<User>): OptimisticPromise<User> =>
-      new OptimisticPromise((resolve, reject) =>
-        this.queryAll(ctx)
-          .whereId(P.equals(id))
-          .genxOnlyValue()
-          .then(resolve, reject)
-      )
+    (ctx: Context, id: SID_of<User>): Promise<User> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
   static gen = modelGenMemo(
     "none",
     "user",
-    (ctx: Context, id: SID_of<User>): OptimisticPromise<User | null> =>
-      new OptimisticPromise((resolve, reject) =>
-        this.queryAll(ctx)
-          .whereId(P.equals(id))
-          .genOnlyValue()
-          .then(resolve, reject)
-      )
+    (ctx: Context, id: SID_of<User>): Promise<User | null> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );
 
   update(data: Partial<Data>) {

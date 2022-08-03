@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b6968739cd23fdfcb7e51be88b356738>
+// SIGNED-SOURCE: <c6b468db83d63e2b37a38d62be7faa68>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -10,7 +10,6 @@ import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { modelGenMemo } from "@aphro/runtime-ts";
-import { OptimisticPromise } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";

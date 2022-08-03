@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <d49292d2f1e342ed6052f559514b484a>
+// SIGNED-SOURCE: <40ee1bf633f7e20def51eaa63145779b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -23,7 +23,7 @@ const fields = {
 } as const;
 const DeckToEditorsEdgeSpec: EdgeSpecWithCreate<DeckToEditorsEdge, Data> = {
   type: "junction",
-  createFrom(ctx: Context, data: Data) {
+  createFrom(ctx: Context, data: Data, raw: boolean = true) {
     const existing = ctx.cache.get(
       (data.id1 + "-" + data.id2) as SID_of<DeckToEditorsEdge>,
       "example",
@@ -32,7 +32,7 @@ const DeckToEditorsEdgeSpec: EdgeSpecWithCreate<DeckToEditorsEdge, Data> = {
     if (existing) {
       return existing;
     }
-    data = decodeModelData(data, fields);
+    if (raw) data = decodeModelData(data, fields);
     const result = new DeckToEditorsEdge(ctx, data);
     ctx.cache.set(
       (data.id1 + "-" + data.id2) as SID_of<DeckToEditorsEdge>,
