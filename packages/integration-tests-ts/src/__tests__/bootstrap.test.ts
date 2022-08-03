@@ -14,3 +14,9 @@ test('creating tables that do exist', async () => {
     await bootstrap.createThrowIfExists(resolver, sqlFiles);
   }).rejects.toThrow();
 });
+
+test('auto-migrate', async () => {
+  // no deltas, be silent
+  // deltas, make a change
+  await bootstrap.createAutomigrateIfExists(resolver, sqlFiles);
+});
