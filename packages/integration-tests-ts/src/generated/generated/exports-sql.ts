@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <af335e5c892c3b6624eae869820bc534>
+// SIGNED-SOURCE: <ea890e2c8a2b9421c293ef8ce64f72c9>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,11 +9,13 @@ import SlideSQL from "./Slide.sqlite.sql?raw";
 import ComponentSQL from "./Component.sqlite.sql?raw";
 import DeckToEditorsEdgeSQL from "./DeckToEditorsEdge.sqlite.sql?raw";
 export default {
-  sqlite_example: {
-    UserSQL,
-    DeckSQL,
-    SlideSQL,
-    ComponentSQL,
-    DeckToEditorsEdgeSQL,
+  sqlite: {
+    example: {
+      UserSQL,
+      DeckSQL,
+      SlideSQL,
+      ComponentSQL,
+      DeckToEditorsEdgeSQL,
+    },
   },
 };

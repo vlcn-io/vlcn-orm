@@ -19,21 +19,27 @@ export class GenSQLExports extends CodegenStep {
 
     // group nodes and edges by db
     // export sql files by db name
-    const grouped: { [key: string]: (SchemaNode | SchemaEdge)[] } = {};
+    const grouped: { [key: string]: { [key: string]: (SchemaNode | SchemaEdge)[] } } = {};
     for (const nore of this.all) {
-      const key = nore.storage.engine + '_' + nore.storage.db;
-      const existing = grouped[key];
-      if (existing) {
-        existing.push(nore);
+      let existingEngine = grouped[nore.storage.engine];
+      if (!existingEngine) {
+        existingEngine = {};
+        grouped[nore.storage.engine] = existingEngine;
+      }
+      let existingDb = existingEngine[nore.storage.db];
+      if (existingDb) {
+        existingDb.push(nore);
       } else {
-        grouped[key] = [nore];
+        existingEngine[nore.storage.db] = [nore];
       }
     }
 
     return new TypescriptFile(path.join(generatedDir, filename), this.getCode(grouped));
   }
 
-  private getCode(groups: { [key: string]: (SchemaNode | SchemaEdge)[] }): string {
+  private getCode(groups: {
+    [key: string]: { [key: string]: (SchemaNode | SchemaEdge)[] };
+  }): string {
     return `${this.all.map(this.getImport).join('\n')}
     export default {
       ${Object.entries(groups).map(this.getCodeForGroup).join(',\n')}
@@ -41,12 +47,21 @@ export class GenSQLExports extends CodegenStep {
   }
 
   private getImport(nore: SchemaEdge | SchemaNode): string {
-    return `import ${nore.name}SQL from './${nore.name}.${nore.storage.engine}.sql?raw';`;
+    return `import ${nore.name} from './${nore.name}.${nore.storage.engine}.sql?raw';`;
   }
 
-  private getCodeForGroup([key, nores]: [string, (SchemaEdge | SchemaNode)[]]): string {
-    return `'${key}': {
-      ${nores.map(x => x.name + 'SQL').join(',\n')}
+  private getCodeForGroup([engine, dbs]: [
+    string,
+    { [key: string]: (SchemaEdge | SchemaNode)[] },
+  ]): string {
+    return `'${engine}': {
+      ${Object.entries(dbs)
+        .map(
+          ([db, nores]) => `'${db}': {
+          ${nores.map(x => x.name).join(',\n')}
+        }`,
+        )
+        .join(',\n')}
     }`;
   }
 }
