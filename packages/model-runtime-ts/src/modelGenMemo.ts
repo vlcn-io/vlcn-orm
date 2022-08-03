@@ -8,6 +8,7 @@ import { SID_of } from '@strut/sid';
  * If the thing is already cached, returns that.
  *
  * TODO: can we move this deeper into the query layer itself?
+ * TODO: apply this to 1-1 edges too. E.g., `deck->genOwner`
  */
 export default function modelGenMemo<T>(
   dbname: string,

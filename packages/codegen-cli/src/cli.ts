@@ -16,6 +16,7 @@ import { GenTypescriptMutationImpls, GenTypescriptMutations } from '@aphro/mutat
 import { GlobalStep, Step } from '@aphro/codegen-api';
 
 import {
+  GenSchemaExports,
   GenTypescriptModel,
   GenTypescriptModelManualMethodsClass,
   GenTypescriptQuery,
@@ -36,7 +37,12 @@ const steps: readonly Step[] = [
   GenSqlTableSchema,
 ];
 
-const globalSteps: readonly GlobalStep[] = [GenGraphQLTypedefs, GenGraphQLTypescriptResolvers];
+const globalSteps: readonly GlobalStep[] = [
+  GenGraphQLTypedefs,
+  GenGraphQLTypescriptResolvers,
+  GenSchemaExports,
+  // GenSQLImports,
+];
 
 async function run() {
   let color = chalk.blue;
