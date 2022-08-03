@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <7958aaa39b23447b98233ad76cb757f9>
+// SIGNED-SOURCE: <a35c0789a9ea4b61a3a8b104e2518646>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -15,3 +15,5 @@ export { default as AppState } from "../AppState.js";
 export { default as AppStateMutations } from "./AppStateMutations.js";
 export { default as Identity } from "../Identity.js";
 export { default as IdentityMutations } from "./IdentityMutations.js";
+export { default as DeckToEditorsEdge } from "../DeckToEditorsEdge.js";
+export { default as DeckToEditorsEdgeMutations } from "./DeckToEditorsEdgeMutations.js";

@@ -18,7 +18,8 @@ export class GenSchemaExports extends CodegenStep {
 
   async gen(): Promise<CodegenFile> {
     const filename = 'exports.ts';
-    const code = `${this.nodes.map(this.getExportCode).join('\n')}`;
+    const code = `${this.nodes.map(this.getExportCode).join('\n')}
+    ${this.edges.map(this.getExportCode).join('\n')}`;
     return new TypescriptFile(path.join(generatedDir, filename), code);
   }
 

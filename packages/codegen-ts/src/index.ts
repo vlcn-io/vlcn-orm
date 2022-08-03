@@ -5,3 +5,5 @@ export { default as GenTypescriptModelManualMethodsClass } from './GenTypescript
 export * from './tsUtils.js';
 export { default as TypescriptFile } from './TypescriptFile.js';
 export * from './GenSchemaExports.js';
+export * from './GenSQLExports.js';
+export * from './GenTypes_d_ts.js';

@@ -17,10 +17,12 @@ import { GlobalStep, Step } from '@aphro/codegen-api';
 
 import {
   GenSchemaExports,
+  GenSQLExports,
   GenTypescriptModel,
   GenTypescriptModelManualMethodsClass,
   GenTypescriptQuery,
   GenTypescriptSpec,
+  GenTypes_d_ts,
 } from '@aphro/codegen-ts';
 import { GenSqlTableSchema } from '@aphro/codegen-sql';
 import { GenGraphQLTypedefs, GenGraphQLTypescriptResolvers } from '@aphro/graphql-codegen';
@@ -41,7 +43,8 @@ const globalSteps: readonly GlobalStep[] = [
   GenGraphQLTypedefs,
   GenGraphQLTypescriptResolvers,
   GenSchemaExports,
-  // GenSQLImports,
+  GenSQLExports,
+  GenTypes_d_ts,
 ];
 
 async function run() {

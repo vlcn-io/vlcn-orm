@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <e9b2f1cc8f87a1ba76f04f34a6bc87b2>
+// SIGNED-SOURCE: <2806ac0c75fc48e4e29a600a282c3409>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -11,3 +11,5 @@ export { default as Slide } from "../Slide.js";
 export { default as SlideMutations } from "./SlideMutations.js";
 export { default as Component } from "../Component.js";
 export { default as ComponentMutations } from "./ComponentMutations.js";
+export { default as DeckToEditorsEdge } from "../DeckToEditorsEdge.js";
+export { default as DeckToEditorsEdgeMutations } from "./DeckToEditorsEdgeMutations.js";
