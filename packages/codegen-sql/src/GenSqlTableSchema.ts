@@ -128,6 +128,9 @@ export default class GenSqlTableSchema extends CodegenStep {
       if (!nullable) {
         ret = sql`${ret} NOT NULL`;
       }
+      if (field.num != null) {
+        ret = sql`${ret} /* n:${sql.__dangerous__rawValue(field.num.toString())} */`;
+      }
       return ret;
     });
 

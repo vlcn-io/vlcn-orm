@@ -1,9 +1,17 @@
--- SIGNED-SOURCE: <66b2f9402c1190b56c68fc1f7afd3cff>
+-- SIGNED-SOURCE: <f05548df93edf0e73608b029f017579e>
 CREATE TABLE
   "component" (
-    "id" bigint NOT NULL,
-    "subtype" varchar(255) NOT NULL,
-    "slideId" bigint NOT NULL,
-    "content" text NOT NULL,
+    "id" bigint NOT NULL
+    /* n:1 */
+,
+    "subtype" varchar(255) NOT NULL
+    /* n:2 */
+,
+    "slideId" bigint NOT NULL
+    /* n:3 */
+,
+    "content" text NOT NULL
+    /* n:4 */
+,
     primary key ("id")
   )
