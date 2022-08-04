@@ -121,18 +121,63 @@ export function extractColumnDefs(sql: string): ColumnDef[] {
     .filter((c): c is ColumnDef => c != null);
 }
 
+/**
+ * Find columns that were in the left but not in the right. Thus removed.
+ * @param left
+ * @param right
+ * @returns
+ */
 export function findRemovedColumns(left: ColumnDef[], right: ColumnDef[]): ColumnDef[] {
-  return [];
+  // if cols have numbers, compare on that.
+  // otherwise, compare that cols with same name exist on both sides
+  const allNumbered = left.every(c => c.num != null) && right.every(c => c.num != null);
+  if (!allNumbered) {
+    console.log('Not all columns were numbered. Determining removal by name.');
+    return setDifference(left, right, x => x.name);
+  }
+
+  return setDifference(left, right, x => nullthrows(x.num));
 }
 
+/**
+ * Find columns that are in the right but not left. Thus added.
+ * @param left
+ * @param right
+ * @returns
+ */
 export function findAddedColumns(left: ColumnDef[], right: ColumnDef[]): ColumnDef[] {
-  return [];
+  const allNumbered = left.every(c => c.num != null) && right.every(c => c.num != null);
+  if (!allNumbered) {
+    console.log('Not all columns were numbered. Determining addition by name.');
+    return setDifference(right, left, x => x.name);
+  }
+
+  return setDifference(right, left, x => nullthrows(x.num));
+}
+
+/**
+ * Return everything in l not in r
+ * l - r
+ * @param l
+ * @param r
+ * @param keyFn
+ * @returns
+ */
+function setDifference<T>(l: T[], r: T[], keyFn: (e: T) => string | number): T[] {
+  const set = new Set(r.map(keyFn));
+  return l.filter(l => !set.has(keyFn(l)));
 }
 
 export function findAlteredColumns(
   left: ColumnDef[],
   right: ColumnDef[],
 ): [ColumnDef, ColumnDef][] {
+  const allNumbered = left.every(c => c.num != null) && right.every(c => c.num != null);
+  if (!allNumbered) {
+    console.log(
+      'Not all columns were numbered. Determining column alterations by name. Renames are seen as drops and adds in this case rather than alters. Number your columns to track renames. Similar idea to Thrift and protocol buffers.',
+    );
+  }
   return [];
 }
 
