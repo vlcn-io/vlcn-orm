@@ -133,3 +133,10 @@ Identity as UnmanagedNode {
     token
   }
 }
+
+Foo as Node {
+  id: ID<Foo>
+  thingId: ID<User | Deck | Slide | Component>
+} & OutboundEdges {
+  thing: Edge<Foo.thingId>
+}

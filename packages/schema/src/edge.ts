@@ -9,12 +9,13 @@ import {
   SchemaEdge,
   StorageConfig,
   FieldDeclaration,
+  NodeReference,
 } from '@aphro/schema-api';
 import nodeFn from './node.js';
 import fieldFn from './field.js';
 
 const funcs = {
-  queryTypeName(node: SchemaNode, edge: EdgeDeclaration | SchemaEdge): string {
+  queryTypeNames(node: SchemaNode, edge: EdgeDeclaration | SchemaEdge): string[] {
     switch (edge.type) {
       case 'edge':
         // The edge is either through or to the provided node type.
@@ -42,29 +43,29 @@ const funcs = {
             );
           }
 
-          return throughId.of + 'Query';
+          return throughId.of.map(s => s + 'Query');
         }
 
         // If we're here then we're through or to some other type that isn't our node type.
-        return nodeFn.queryTypeName(edge.throughOrTo.type);
+        return [nodeFn.queryTypeName(edge.throughOrTo.type)];
       case 'standaloneEdge':
-        return edge.dest.type + 'Query';
+        return [edge.dest.type + 'Query'];
       // return edge.name + 'Query';
     }
   },
 
-  destModelTypeName(src: SchemaNode, edge: EdgeDeclaration | SchemaEdge): string {
+  destModelTypeName(src: SchemaNode, edge: EdgeDeclaration | SchemaEdge): NodeReference[] {
     if (edge.type === 'standaloneEdge') {
-      return edge.dest.type;
+      return [edge.dest.type];
     }
 
     const column = edge.throughOrTo.column;
     if (column == null) {
-      return edge.throughOrTo.type;
+      return [edge.throughOrTo.type];
     }
 
     if (edge.throughOrTo.type !== src.name) {
-      return edge.throughOrTo.type;
+      return [edge.throughOrTo.type];
     }
 
     const field = src.fields[column];
@@ -78,8 +79,8 @@ const funcs = {
     return throughId.of;
   },
 
-  destModelSpecName(src: SchemaNode, edge: EdgeDeclaration | SchemaEdge): string {
-    return nodeFn.specName(funcs.destModelTypeName(src, edge), src.name);
+  destModelSpecNames(src: SchemaNode, edge: EdgeDeclaration | SchemaEdge): NodeReference[] {
+    return funcs.destModelTypeName(src, edge).map(s => nodeFn.specName(s, src.name));
   },
 
   isThrough(edge: EdgeDeclaration): boolean {

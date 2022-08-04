@@ -127,8 +127,8 @@ export function createParser(config: Config = {}) {
         keys: keys.toAst(),
       };
     },
-    EnumKeys_list: listWithSeparator,
-    EnumKeys_key(key) {
+    UnionNameList_list: listWithSeparator,
+    UnionNameList_key(key) {
       return [key.toAst()];
     },
     BitmaskField(_, _lAngle, keys, _rAngle) {

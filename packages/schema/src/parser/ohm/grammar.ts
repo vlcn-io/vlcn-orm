@@ -65,20 +65,20 @@ const grammarDefinition = String.raw`
     | MapField
   
   IdField
-  	= "ID" "<" name ">"
+  	= "ID" "<" UnionNameList ">"
   
   NaturalLanguageField
   	= "NaturalLanguage"
   
   EnumField
-  	= "Enumeration" "<" EnumKeys ">"
+  	= "Enumeration" "<" UnionNameList ">"
   
-  EnumKeys
-  	= EnumKeys "|" name -- list
+  UnionNameList
+    = UnionNameList "|" name -- list
     | name -- key
     
   BitmaskField
-  	= "Bitmask" "<" EnumKeys ">"
+  	= "Bitmask" "<" UnionNameList ">"
   
   TimeField
   	= "Timestamp"

@@ -253,7 +253,7 @@ type FieldBase = {
 export type ID = {
   name: string;
   type: 'id';
-  of: NodeReference;
+  of: NodeReference[];
 } & FieldBase;
 
 type NaturalLanguage = {

@@ -217,19 +217,15 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${idParts[0].of}>) {
     );
 
     return [...inbound, ...outbound]
-      .filter(edge => edgeFn.queryTypeName(schema, edge) !== nodeFn.queryTypeName(this.schema.name))
       .flatMap(edge => [
-        tsImport(
-          edgeFn.destModelSpecName(schema, edge),
-          null,
-          `./${edgeFn.destModelSpecName(schema, edge)}.js`,
-        ),
-        tsImport(
-          edgeFn.queryTypeName(schema, edge),
-          null,
-          `./${edgeFn.queryTypeName(schema, edge)}.js`,
-        ),
-      ]);
+        ...edgeFn
+          .destModelSpecNames(schema, edge)
+          .map(specName => tsImport(specName, null, `./${specName}.js`)),
+        ...edgeFn
+          .queryTypeNames(schema, edge)
+          .map(qtName => tsImport(qtName, null, `./${qtName}.js`)),
+      ])
+      .filter(imp => imp.name !== nodeFn.queryTypeName(this.schema.name));
 
     // import edge reference queries too
   }
@@ -239,7 +235,7 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${idParts[0].of}>) {
       .flatMap(f => f.type)
       .filter((f): f is ID => typeof f !== 'string' && f.type === 'id');
 
-    return idFields.map(f => tsImport(f.of, null, '../' + f.of + '.js'));
+    return idFields.flatMap(f => f.of.map(x => tsImport(x, null, '../' + x + '.js')));
   }
 
   private getHopMethodsCode(): string {
@@ -262,7 +258,7 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${idParts[0].of}>) {
     //   body = this.getHopMethodForJunctionLikeEdge(edge);
     // }
 
-    return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeName(this.schema, e)} {
+    return `query${upcaseAt(edge.name, 0)}(): ${edgeFn.queryTypeNames(this.schema, e).join(' | ')} {
       ${this.getHopMethodBody(e, edge)}
     }`;
   }
@@ -278,13 +274,13 @@ static from${upcaseAt(column, 0)}(ctx: Context, id: SID_of<${idParts[0].of}>) {
     if (this.schema.type === 'standaloneEdge') {
       return '';
     }
-    return `return new ${edgeFn.queryTypeName(
-      this.schema,
-      edge,
-    )}(this.ctx, QueryFactory.createHopQueryFor(this.ctx, this, ${nodeFn.specName(
+    // TODO: map over dest types and query all if it is a union type...
+    return `return new ${
+      edgeFn.queryTypeNames(this.schema, edge)[0]
+    }(this.ctx, QueryFactory.createHopQueryFor(this.ctx, this, ${nodeFn.specName(
       this.schema.name,
     )}.outboundEdges.${ref.name}),
-      modelLoad(this.ctx, ${edgeFn.destModelSpecName(this.schema, edge)}.createFrom),
+      modelLoad(this.ctx, ${edgeFn.destModelSpecNames(this.schema, edge)[0]}.createFrom),
     );`;
   }
 

@@ -1,6 +1,6 @@
 import { DBResolver } from '@aphro/context-runtime-ts';
 import { sql } from '@aphro/sql-ts';
-import { autoMigrate, CreateError } from './autoMigrate.js';
+import { autoMigrate, CreateError, extractTableName } from './autoMigrate.js';
 
 export type SQLExports = { sqlite: DBs };
 type DBs = { [dbName: string]: Schemas };
@@ -93,6 +93,10 @@ export const bootstrap = {
 
     await autoMigrate(tryToMigrate);
   },
+
+  // async dropAllThenCreate(resolver: DBResolver, sqlExports: SQLExports) {
+
+  // },
 };
 
 async function create(

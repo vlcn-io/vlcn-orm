@@ -76,7 +76,7 @@ export const ast: SchemaFileAst = {
           type: [
             {
               type: 'id',
-              of: 'Person',
+              of: ['Person'],
             },
           ],
         },
@@ -93,7 +93,7 @@ export const ast: SchemaFileAst = {
           type: [
             {
               type: 'id',
-              of: 'Wallet',
+              of: ['Wallet'],
             },
           ],
         },
@@ -226,7 +226,7 @@ export const ast: SchemaFileAst = {
           type: [
             {
               type: 'id',
-              of: 'Wallet',
+              of: ['Wallet'],
             },
           ],
         },
@@ -264,7 +264,7 @@ export const ast: SchemaFileAst = {
           type: [
             {
               type: 'id',
-              of: 'Transaction',
+              of: ['Transaction'],
             },
           ],
         },
@@ -406,7 +406,7 @@ export const schemaFile: SchemaFile = {
           type: [
             {
               type: 'id',
-              of: 'Person',
+              of: ['Person'],
             },
           ],
         },
@@ -416,7 +416,7 @@ export const schemaFile: SchemaFile = {
         },
         walletId: {
           name: 'walletId',
-          type: [{ type: 'id', of: 'Wallet' }],
+          type: [{ type: 'id', of: ['Wallet'] }],
         },
         thing1: {
           name: 'thing1',
@@ -515,7 +515,7 @@ export const schemaFile: SchemaFile = {
       fields: {
         id: {
           name: 'id',
-          type: [{ type: 'id', of: 'Wallet' }],
+          type: [{ type: 'id', of: ['Wallet'] }],
         },
         balance: {
           name: 'balance',
@@ -546,7 +546,7 @@ export const schemaFile: SchemaFile = {
       fields: {
         id: {
           name: 'id',
-          type: [{ type: 'id', of: 'Transaction' }],
+          type: [{ type: 'id', of: ['Transaction'] }],
         },
         time: {
           name: 'time',
