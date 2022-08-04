@@ -29,13 +29,13 @@ test('All primitive field references can be used as inputs', async () => {
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
-import * as impls from "./FooMutationsImpl.js";
+import * as impls from "../FooMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
-import Foo from "./Foo.js";
+import Foo from "../Foo.js";
 import { default as spec } from "./FooSpec.js";
-import { Data } from "./Foo.js";
+import { Data } from "./FooBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
@@ -82,18 +82,17 @@ test('All primitive types can be used as custom inputs', async () => {
         (await genIt(compileFromString(schema)[1].nodes.Foo)).contents,
         algolTemplates,
       );
-
       expect(contents).toEqual(`/**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
-import * as impls from "./FooMutationsImpl.js";
+import * as impls from "../FooMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
-import Foo from "./Foo.js";
+import Foo from "../Foo.js";
 import { default as spec } from "./FooSpec.js";
-import { Data } from "./Foo.js";
+import { Data } from "./FooBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
@@ -149,20 +148,20 @@ test('Node type names can be used as inputs', async () => {
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
-import * as impls from "./FooMutationsImpl.js";
+import * as impls from "../FooMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
-import Foo from "./Foo.js";
+import Foo from "../Foo.js";
 import { default as spec } from "./FooSpec.js";
-import { Data } from "./Foo.js";
+import { Data } from "./FooBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import { Changeset } from "@aphro/runtime-ts";
-import ${customName} from "./${customName}.js";
-import { Data as ${customName}Data } from "./${customName}.js";
+import ${customName} from "../${customName}.js";
+import { Data as ${customName}Data } from "./${customName}Base.js";
 
 export type CreateArgs = { customField: ${customName} | Changeset<${customName}, ${customName}Data> };
 class Mutations extends MutationsBase<Foo, Data> {

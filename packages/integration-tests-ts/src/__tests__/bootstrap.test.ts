@@ -10,9 +10,15 @@ test('creating tables that do exist', async () => {
   await bootstrap.createIfNotExists(resolver, sqlFiles);
   await bootstrap.createIfNotExists(resolver, sqlFiles);
 
-  expect(async () => {
+  let threw = false;
+  try {
     await bootstrap.createThrowIfExists(resolver, sqlFiles);
-  }).rejects.toThrow();
+  } catch (e) {
+    threw = true;
+  }
+  expect(threw).toBe(true);
+  // \/ the below is flaky. The above /\ always works 🤷‍♂️
+  // expect(async () => {...}).rejects.toThrow();
 });
 
 test('auto-migrate', async () => {

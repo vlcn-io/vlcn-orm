@@ -164,7 +164,7 @@ async function migrate(migrationTasks: CreateError[]) {
   // 3. format the schemas to match one another
   // 4. diff
   // 5. add or remove columns
-  console.log(migrationTasks);
+  // console.log(migrationTasks);
   await Promise.all(migrationTasks.map(migrateOne));
 }
 

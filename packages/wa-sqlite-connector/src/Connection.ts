@@ -94,15 +94,3 @@ export default async function createConnection(): Promise<Connection> {
 
   return new Connection(sqlite3, db);
 }
-
-/*
-await sqlite3.exec(db, `SELECT 'Hello, world!'`, (row, columns) => {
-    console.log(row);
-  });
-*/
-/*
-const stmt = db.prepare("SELECT * FROM track");
-while (stmt.step()) {
-  console.log(stmt.getAsObject());
-}
-*/

@@ -99,7 +99,7 @@ export function createParser(config: Config = {}) {
       };
     },
     FieldNum(num) {
-      return num.sourceString;
+      return num.sourceString || undefined;
     },
     FieldType(type) {
       return type.toAst();

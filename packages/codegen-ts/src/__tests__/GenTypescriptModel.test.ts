@@ -52,18 +52,18 @@ Bar as Node {
 test('Generating an ID only model', async () => {
   const contents = (await genIt(compileFromString(IDOnlySchema)[1].nodes.IDOnly)).contents;
   expect(contents).toEqual(
-    `// SIGNED-SOURCE: <d8dcff2b5ddb4dc9597ac68b76d43350>
+    `// SIGNED-SOURCE: <d2227f032dbc4a713934f4b7a353259d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
-import { applyMixins } from "@aphro/runtime-ts";
+import IDOnly from "../IDOnly.js";
 import { default as s } from "./IDOnlySpec.js";
 import { P } from "@aphro/runtime-ts";
-import { ManualMethods, manualMethods } from "./IDOnlyManualMethods.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { modelGenMemo } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -74,32 +74,31 @@ export type Data = {
   id: SID_of<IDOnly>;
 };
 
-class IDOnly extends Node<Data> {
-  readonly spec = s as NodeSpecWithCreate<this, Data>;
+// @Sealed(IDOnly)
+export default abstract class IDOnlyBase extends Node<Data> {
+  readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
-    return this.data.id as SID_of<this>;
+    return this.data.id as unknown as SID_of<this>;
   }
 
   static queryAll(ctx: Context): IDOnlyQuery {
     return IDOnlyQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<IDOnly>): Promise<IDOnly> {
-    const existing = ctx.cache.get(id, IDOnly.name);
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-  }
+  static genx = modelGenMemo(
+    "test",
+    "idonly",
+    (ctx: Context, id: SID_of<IDOnly>): Promise<IDOnly> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
+  );
 
-  static async gen(ctx: Context, id: SID_of<IDOnly>): Promise<IDOnly | null> {
-    const existing = ctx.cache.get(id, IDOnly.name);
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-  }
+  static gen = modelGenMemo(
+    "test",
+    "idonly",
+    (ctx: Context, id: SID_of<IDOnly>): Promise<IDOnly | null> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
+  );
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this)
@@ -112,13 +111,9 @@ class IDOnly extends Node<Data> {
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+    return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
   }
 }
-
-interface IDOnly extends ManualMethods {}
-applyMixins(IDOnly, [manualMethods]);
-export default IDOnly;
 `,
   );
 });
@@ -126,21 +121,18 @@ export default IDOnly;
 test('Generating all primitive fields', async () => {
   const contents = (await genIt(compileFromString(PrimitiveFieldsSchema)[1].nodes.PrimitiveFields))
     .contents;
-  expect(contents).toEqual(`// SIGNED-SOURCE: <a04ddc9d00901b53a9f6202ee658ee6e>
+  expect(contents).toEqual(`// SIGNED-SOURCE: <e4485c83d52fc02c8c93ff3c75039b1a>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
-import { applyMixins } from "@aphro/runtime-ts";
+import PrimitiveFields from "../PrimitiveFields.js";
 import { default as s } from "./PrimitiveFieldsSpec.js";
 import { P } from "@aphro/runtime-ts";
-import {
-  ManualMethods,
-  manualMethods,
-} from "./PrimitiveFieldsManualMethods.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { modelGenMemo } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -157,11 +149,12 @@ export type Data = {
   mrString: string;
 };
 
-class PrimitiveFields extends Node<Data> {
-  readonly spec = s as NodeSpecWithCreate<this, Data>;
+// @Sealed(PrimitiveFields)
+export default abstract class PrimitiveFieldsBase extends Node<Data> {
+  readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
-    return this.data.id as SID_of<this>;
+    return this.data.id as unknown as SID_of<this>;
   }
 
   get mrBool(): boolean {
@@ -192,27 +185,22 @@ class PrimitiveFields extends Node<Data> {
     return PrimitiveFieldsQuery.create(ctx);
   }
 
-  static async genx(
-    ctx: Context,
-    id: SID_of<PrimitiveFields>
-  ): Promise<PrimitiveFields> {
-    const existing = ctx.cache.get(id, PrimitiveFields.name);
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-  }
+  static genx = modelGenMemo(
+    "test",
+    "primitivefields",
+    (ctx: Context, id: SID_of<PrimitiveFields>): Promise<PrimitiveFields> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
+  );
 
-  static async gen(
-    ctx: Context,
-    id: SID_of<PrimitiveFields>
-  ): Promise<PrimitiveFields | null> {
-    const existing = ctx.cache.get(id, PrimitiveFields.name);
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-  }
+  static gen = modelGenMemo(
+    "test",
+    "primitivefields",
+    (
+      ctx: Context,
+      id: SID_of<PrimitiveFields>
+    ): Promise<PrimitiveFields | null> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
+  );
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this)
@@ -225,42 +213,40 @@ class PrimitiveFields extends Node<Data> {
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+    return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
   }
 }
-
-interface PrimitiveFields extends ManualMethods {}
-applyMixins(PrimitiveFields, [manualMethods]);
-export default PrimitiveFields;
 `);
 });
 
 test('Outbound field edge', async () => {
   const contents = (await genIt(compileFromString(OutboundFieldEdgeSchema)[1].nodes.Foo)).contents;
-  expect(contents).toEqual(`// SIGNED-SOURCE: <dc03464592ff6f13ae5e595e71fc33f4>
+  expect(contents).toEqual(`// SIGNED-SOURCE: <63109a3e39d55fc60c7776573e39989c>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
-import { applyMixins } from "@aphro/runtime-ts";
+import Foo from "../Foo.js";
 import { default as s } from "./FooSpec.js";
 import { P } from "@aphro/runtime-ts";
-import { ManualMethods, manualMethods } from "./FooManualMethods.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { modelGenMemo } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import FooQuery from "./FooQuery.js";
 import { Context } from "@aphro/runtime-ts";
+import FooSpec from "./FooSpec.js";
 
 export type Data = {
   fooId: SID_of<Foo>;
 };
 
-class Foo extends Node<Data> {
-  readonly spec = s as NodeSpecWithCreate<this, Data>;
+// @Sealed(Foo)
+export default abstract class FooBase extends Node<Data> {
+  readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
 
   get fooId(): SID_of<Foo> {
     return this.data.fooId;
@@ -270,25 +256,35 @@ class Foo extends Node<Data> {
     return FooQuery.fromId(this.ctx, this.fooId);
   }
 
+  async genFoos(): Promise<Foo> {
+    const existing = this.ctx.cache.get(
+      this.fooId,
+      FooSpec.storage.db,
+      FooSpec.storage.tablish
+    );
+    if (existing != null) {
+      return existing;
+    }
+    return await this.queryFoos().genxOnlyValue();
+  }
+
   static queryAll(ctx: Context): FooQuery {
     return FooQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<Foo>): Promise<Foo> {
-    const existing = ctx.cache.get(id, Foo.name);
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-  }
+  static genx = modelGenMemo(
+    "test",
+    "foo",
+    (ctx: Context, id: SID_of<Foo>): Promise<Foo> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
+  );
 
-  static async gen(ctx: Context, id: SID_of<Foo>): Promise<Foo | null> {
-    const existing = ctx.cache.get(id, Foo.name);
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-  }
+  static gen = modelGenMemo(
+    "test",
+    "foo",
+    (ctx: Context, id: SID_of<Foo>): Promise<Foo | null> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
+  );
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this)
@@ -301,67 +297,62 @@ class Foo extends Node<Data> {
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+    return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
   }
 }
-
-interface Foo extends ManualMethods {}
-applyMixins(Foo, [manualMethods]);
-export default Foo;
 `);
 });
 
 test('Outbound foreign key edge', async () => {
   const contents = (await genIt(compileFromString(OutboundForeignKeyEdgeSchema)[1].nodes.Bar))
     .contents;
-  expect(contents).toEqual(`// SIGNED-SOURCE: <10e5cd9dfe2a263471dc70926af2a05a>
+  expect(contents).toEqual(`// SIGNED-SOURCE: <8e8ecd287b4ade8e799a595bd0d4c1f6>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
-import { applyMixins } from "@aphro/runtime-ts";
+import Bar from "../Bar.js";
 import { default as s } from "./BarSpec.js";
 import { P } from "@aphro/runtime-ts";
-import { ManualMethods, manualMethods } from "./BarManualMethods.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { modelGenMemo } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import BarQuery from "./BarQuery.js";
 import { Context } from "@aphro/runtime-ts";
 import FooQuery from "./FooQuery.js";
-import Foo from "./Foo.js";
+import Foo from "../Foo.js";
 
 export type Data = {};
 
-class Bar extends Node<Data> {
-  readonly spec = s as NodeSpecWithCreate<this, Data>;
+// @Sealed(Bar)
+export default abstract class BarBase extends Node<Data> {
+  readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
 
   queryFoos(): FooQuery {
-    return FooQuery.create(this.ctx).whereBarId(P.equals(this.id));
+    return FooQuery.create(this.ctx).whereBarId(P.equals(this.id as any));
   }
 
   static queryAll(ctx: Context): BarQuery {
     return BarQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<Bar>): Promise<Bar> {
-    const existing = ctx.cache.get(id, Bar.name);
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-  }
+  static genx = modelGenMemo(
+    "test",
+    "bar",
+    (ctx: Context, id: SID_of<Bar>): Promise<Bar> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
+  );
 
-  static async gen(ctx: Context, id: SID_of<Bar>): Promise<Bar | null> {
-    const existing = ctx.cache.get(id, Bar.name);
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-  }
+  static gen = modelGenMemo(
+    "test",
+    "bar",
+    (ctx: Context, id: SID_of<Bar>): Promise<Bar | null> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
+  );
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this)
@@ -374,13 +365,9 @@ class Bar extends Node<Data> {
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, s, this).toChangeset();
+    return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
   }
 }
-
-interface Bar extends ManualMethods {}
-applyMixins(Bar, [manualMethods]);
-export default Bar;
 `);
 });
 

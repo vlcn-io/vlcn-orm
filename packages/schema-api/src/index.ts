@@ -167,7 +167,7 @@ export type Field = NonComplexField | ComplexField;
 export type NodeAstExtension = NodeAstExtensions[keyof NodeAstExtensions];
 export type NodeExtension = SchemaNode['extensions'][keyof SchemaNode['extensions']];
 export type FieldDeclaration = {
-  // num: number;
+  num?: number;
   name: string;
   type: TypeAtom[];
   decorators?: string[];

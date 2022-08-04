@@ -16,6 +16,14 @@ class TestModel extends Node<{ thing: number; foo: number }> {
       db: 'test',
       tablish: 'testmodel',
     },
+    fields: {
+      thing: {
+        encoding: 'none',
+      },
+      foo: {
+        encoding: 'none',
+      },
+    },
   } as any;
 }
 
@@ -28,6 +36,14 @@ class TestListeModel extends Node<{ thing: number; foo: number }> {
       engine: 'sqlite',
       db: 'test',
       tablish: 'testmodel',
+    },
+    fields: {
+      thing: {
+        encoding: 'none',
+      },
+      foo: {
+        encoding: 'none',
+      },
     },
   } as any;
 }
