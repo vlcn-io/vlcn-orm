@@ -16,10 +16,10 @@ const memdb = connect();
 const case1 = `-- SIGNED-SOURCE: <6a9f5ec3f74b7ffcb57f08b381c4fc29>
 CREATE TABLE
   "user" (
-    "id" bigint NOT NULL
+    "id" NOT NULL
     /* n=1 */
 ,
-    "name" text
+    "name"
     /* n=2 */
 ,
     primary key ("id")
@@ -28,17 +28,17 @@ CREATE TABLE
 const case2 = `-- SIGNED-SOURCE: <5bb42d815d3005cf51bae9f98cd5efa1>
 CREATE TABLE
   "decktoeditorsedge" (
-    "id1" bigint NOT NULL
+    "id1" NOT NULL
     /* n=1 */
 ,
-    "id2" bigint NOT NULL
+    "id2" NOT NULL
     /* n=2 */
   )`;
 
 const case3 =
   '-- SIGNED-SOURCE: <39e0ffa72e52ff465fbd19ef78209317>\n' +
   'CREATE TABLE\n' +
-  '  "decktoeditorsedge" ("id1" bigint NOT NULL, "id2" bigint NOT NULL)';
+  '  "decktoeditorsedge" ("id1" NOT NULL, "id2" NOT NULL)';
 
 const cases = [case1, case2, case3];
 
@@ -68,13 +68,13 @@ test('extract column defs', () => {
         {
           num: 1,
           name: 'id',
-          type: 'bigint',
+          type: null,
           notnull: true,
         },
         {
           num: 2,
           name: 'name',
-          type: 'text',
+          type: null,
           notnull: false,
         },
       ],
@@ -85,13 +85,13 @@ test('extract column defs', () => {
         {
           num: 1,
           name: 'id1',
-          type: 'bigint',
+          type: null,
           notnull: true,
         },
         {
           num: 2,
           name: 'id2',
-          type: 'bigint',
+          type: null,
           notnull: true,
         },
       ],
@@ -102,13 +102,13 @@ test('extract column defs', () => {
         {
           num: null,
           name: 'id1',
-          type: 'bigint',
+          type: null,
           notnull: true,
         },
         {
           num: null,
           name: 'id2',
-          type: 'bigint',
+          type: null,
           notnull: true,
         },
       ],

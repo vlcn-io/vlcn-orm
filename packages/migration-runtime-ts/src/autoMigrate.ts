@@ -17,6 +17,11 @@ export type ColumnDef = {
   notnull: boolean;
 };
 
+/**
+ * NOTE: this auto-migrator only works for sqlite
+ * TODO: remove postgres support or create a branch to chose the right migrator.
+ * @param migrationTasks
+ */
 export async function autoMigrate(migrationTasks: MigrationTask[]) {
   await Promise.all(migrationTasks.map(migrateOne));
 }
@@ -30,6 +35,7 @@ async function migrateOne(task: MigrationTask) {
 
   const tableName = extractTableName(newSql);
   const oldSql = (await getOldSql(db, tableName)).replaceAll('\n', '');
+
   const oldColumnDefs = extractColumnDefs(oldSql);
   const newColumnDefs = extractColumnDefs(newSql);
 
@@ -38,10 +44,15 @@ async function migrateOne(task: MigrationTask) {
   const modifiedColumns = findAlteredColumns(oldColumnDefs, newColumnDefs);
 
   const alterTableStatements = [
-    ...removeStatements(removedColumns),
-    ...addStatements(addedColumns),
-    ...modifyStatements(modifiedColumns),
+    ...removeStatements(tableName, removedColumns),
+    ...addStatements(tableName, addedColumns),
+    ...modifyStatements(tableName, modifiedColumns),
   ];
+
+  // TODO: counter & real logging infra
+  if (alterTableStatements.length === 0) {
+    console.log(`tables ${tableName} did not change`);
+  }
 
   await Promise.all(alterTableStatements.map(stmt => db.query(stmt)));
 }
@@ -89,9 +100,7 @@ export function extractColumnDefs(sql: string): ColumnDef[] {
     .split(',')
     .map(c => c.trim())
     .map(c => {
-      const match = c.match(
-        /"(?<name>.*?)"\s+(?<type>[A-z]+(?<len>\([0-9]+\))?)\s+(?<nonnull>NOT NULL)?\s*(\/\*(?<meta>.*)\*\/)?/,
-      );
+      const match = c.match(/"(?<name>.*?)"\s+(?<nonnull>NOT NULL)?\s*(\/\*(?<meta>.*)\*\/)?/);
       const meta = (match?.groups?.meta || '').trim();
       const maybeNum = new URLSearchParams(meta).get('n');
 
@@ -175,22 +184,35 @@ export function findAlteredColumns(
   }
 
   // Only keep joined pairs the have differences
-  return ret.filter(
-    ([l, r]) =>
-      l.num !== r.num || l.name !== r.name || l.type !== r.type || l.notnull !== r.notnull,
+  // not comparing on type since sqlite doesn't enforce type.
+  // TODO: maybe in the future we want to? So we can re-write incorrectly typed data?
+  // sqlite currently only supports renames of columns and not adding/removing constraints or changing types.
+  // So... unconstrain our columns a bit.
+  return ret.filter(([l, r]) => l.name !== r.name);
+}
+
+function removeStatements(tableName: string, columns: ColumnDef[]): SQLQuery[] {
+  return columns.map(
+    c => sql`ALTER TABLE ${sql.ident(tableName)} DROP COLUMN ${sql.ident(c.name)}`,
   );
 }
 
-function removeStatements(columns: ColumnDef[]): SQLQuery[] {
-  return [];
+function addStatements(tableName: string, columns: ColumnDef[]): SQLQuery[] {
+  // TODO: not adding type info. -- see commit message that added this line.
+  return columns.map(c => {
+    const meta = c.num != null ? `/* n=${c.num} */` : '';
+    return sql`ALTER TABLE ${sql.ident(tableName)} ADD COLUMN ${sql.ident(
+      c.name,
+    )}${sql.__dangerous__rawValue(meta)}`;
+  });
 }
 
-function addStatements(columns: ColumnDef[]): SQLQuery[] {
-  return [];
-}
-
-function modifyStatements(columns: [ColumnDef, ColumnDef][]): SQLQuery[] {
-  return [];
+// o.. sqlite has no modify other than rename :/
+// https://stackoverflow.com/questions/2685885/sqlite-modify-column
+function modifyStatements(tableName: string, columns: [ColumnDef, ColumnDef][]): SQLQuery[] {
+  return columns.map(([l, r]) => {
+    return sql`ALTER TABLE ${sql.ident(tableName)} RENAME COLUMN ${l.name} TO ${r.name}`;
+  });
 }
 
 /**

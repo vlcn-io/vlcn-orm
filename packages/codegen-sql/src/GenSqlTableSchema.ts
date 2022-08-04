@@ -52,82 +52,12 @@ export default class GenSqlTableSchema extends CodegenStep {
   private getSqliteString(): string {
     // TODO: go thru index config and apply index constraints
     const columnDefs = Object.values(this.schema.fields).map(field => {
-      const [type, nullable] = extractTypeAtomsForSQL(field);
+      // const [type, nullable] = extractTypeAtomsForSQL(field);
       let ret: SQLQuery = sql.ident(field.name);
-      let appendType = true;
-      if (appendType) {
-        if (typeof type === 'string') {
-          ret = sql`${sql.ident(field.name)} text`;
-        } else {
-          const kind = type.type;
-          switch (kind) {
-            case 'id':
-              ret = sql`${sql.ident(field.name)} bigint`;
-              break;
-            case 'primitive':
-              switch (type.subtype) {
-                case 'int32':
-                case 'uint32':
-                  ret = sql`${sql.ident(field.name)} int`;
-                  break;
-                case 'int64':
-                  ret = sql`${sql.ident(field.name)} bigint`;
-                  break;
-                case 'uint64':
-                  ret = sql`${sql.ident(field.name)} unsinged big int`;
-                  break;
-                case 'float32':
-                  ret = sql`${sql.ident(field.name)} float`;
-                  break;
-                case 'float64':
-                  ret = sql`${sql.ident(field.name)} double`;
-                  break;
-                case 'string':
-                  // TODO: ask user to define len params so we know the type here
-                  ret = sql`${sql.ident(field.name)} text`;
-                  break;
-                case 'bool':
-                  ret = sql`${sql.ident(field.name)} boolean`;
-                  break;
-                case 'any':
-                  ret = sql`${sql.ident(field.name)} any`;
-                  break;
-                case 'null':
-                  throw new Error(
-                    `Field ${field.name} for node ${this.schema.name} must have a type other than simply just being null`,
-                  );
-                default:
-                  assertUnreachable(type.subtype);
-              }
-              break;
-            case 'map':
-            case 'array':
-              ret = sql`${sql.ident(field.name)} text`;
-              break;
-            case 'naturalLanguage':
-              // TODO: ask user to define len params so we know the type here
-              ret = sql`${sql.ident(field.name)} text`;
-              break;
-            case 'enumeration':
-              ret = sql`${sql.ident(field.name)} varchar(255)`;
-              break;
-            case 'timestamp':
-              ret = sql`${sql.ident(field.name)} bigint`;
-              break;
-            case 'intersection':
-            case 'union':
-              throw new Error(
-                `Intersection and union types should never make it here. Processing ${field.name}`,
-              );
-            default:
-              assertUnreachable(kind);
-          }
-        }
-      }
 
-      if (!nullable) {
-        ret = sql`${ret} NOT NULL`;
-      }
+      // if (!nullable) {
+      //   ret = sql`${ret} NOT NULL`;
+      // }
       if (field.num != null) {
         ret = sql`${ret} /* n=${sql.__dangerous__rawValue(field.num.toString())} */`;
       }
