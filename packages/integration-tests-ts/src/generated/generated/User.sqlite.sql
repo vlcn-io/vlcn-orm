@@ -1,16 +1,16 @@
--- SIGNED-SOURCE: <c04d1a7388058474410dd940f95e0b67>
+-- SIGNED-SOURCE: <f0d668bc45b373e737e22015173d70c3>
 CREATE TABLE
   "user" (
-    "id" bigint NOT NULL
+    "id"
     /* n=1 */
 ,
-    "name" text NOT NULL
+    "name"
     /* n=2 */
 ,
-    "created" bigint NOT NULL
+    "created"
     /* n=3 */
 ,
-    "modified" bigint NOT NULL
+    "modified"
     /* n=4 */
 ,
     PRIMARY KEY ("id")

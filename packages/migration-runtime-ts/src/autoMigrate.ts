@@ -23,7 +23,35 @@ export type ColumnDef = {
  * @param migrationTasks
  */
 export async function autoMigrate(migrationTasks: MigrationTask[]) {
-  await Promise.all(migrationTasks.map(migrateOne));
+  const byDb = new Map<SQLResolvedDB, MigrationTask[]>();
+  migrationTasks.forEach(t => {
+    let existing = byDb.get(t.db);
+    if (existing == null) {
+      existing = [];
+      byDb.set(t.db, existing);
+    }
+    existing.push(t);
+  });
+
+  const promises: Promise<any>[] = [];
+  for (const entry of byDb.entries()) {
+    promises.push(migrateAllTasksForDB(entry[0], entry[1]));
+  }
+  await Promise.all(promises);
+}
+
+async function migrateAllTasksForDB(db: SQLResolvedDB, tasks: MigrationTask[]) {
+  try {
+    await db.query(sql`BEGIN`);
+    await Promise.all(tasks.map(migrateOne));
+    await db.query(sql`COMMIT`);
+  } catch (e) {
+    await db.query(sql`ROLLBACK`);
+    throw {
+      cause: e,
+      message: 'Failed to commit the migration. Rolling it back. ' + e.message,
+    };
+  }
 }
 
 // TODO: once you add index support you need to add index migration support.
@@ -51,7 +79,7 @@ async function migrateOne(task: MigrationTask) {
 
   // TODO: counter & real logging infra
   if (alterTableStatements.length === 0) {
-    console.log(`tables ${tableName} did not change`);
+    console.log(`table ${tableName} did not change`);
   }
 
   await Promise.all(alterTableStatements.map(stmt => db.query(stmt)));

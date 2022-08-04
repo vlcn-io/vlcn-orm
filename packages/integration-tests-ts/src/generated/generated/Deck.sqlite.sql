@@ -1,22 +1,22 @@
--- SIGNED-SOURCE: <fdfa0aaff1d88e3f25e9404efc1b2f71>
+-- SIGNED-SOURCE: <d35e9509aaccaea4b5de42513ab35b5b>
 CREATE TABLE
   "deck" (
-    "id" bigint NOT NULL
+    "id"
     /* n=1 */
 ,
-    "name" text NOT NULL
+    "name"
     /* n=2 */
 ,
-    "created" bigint NOT NULL
+    "created"
     /* n=3 */
 ,
-    "modified" bigint NOT NULL
+    "modified"
     /* n=4 */
 ,
-    "ownerId" bigint NOT NULL
+    "ownerId"
     /* n=5 */
 ,
-    "selectedSlideId" bigint
+    "selectedSlideId"
     /* n=6 */
 ,
     PRIMARY KEY ("id")
