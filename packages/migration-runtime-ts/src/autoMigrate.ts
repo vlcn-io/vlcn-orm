@@ -10,16 +10,20 @@ export type CreateError = {
 };
 type MigrationTask = Omit<CreateError, 'cause'>;
 
-type ColumnDef = {
+export type ColumnDef = {
   num: number | null;
   name: string;
   type: string | null;
+  notnull: boolean;
 };
 
 export async function autoMigrate(migrationTasks: MigrationTask[]) {
   await Promise.all(migrationTasks.map(migrateOne));
 }
 
+// TODO: once you add index support you need to add index migration support.
+// How will / should we detect dropped indices?
+// Well we can find them via `where type = index and name = table name`
 async function migrateOne(task: MigrationTask) {
   const newSql = task.sql.replaceAll('\n', '');
   const db = task.db;
@@ -53,7 +57,9 @@ export function extractTableName(sql: string): string {
 export async function getOldSql(db: SQLResolvedDB, tableName: string): Promise<string> {
   // Note -- `sqlite_schema` is the proper name but is not accessible in some environments
   // whereas `sqlite_master` is. I wonder if the opposite is ever true.
-  const rows = await db.query(sql`SELECT sql FROM main.sqlite_master WHERE name = ${tableName}`);
+  const rows = await db.query(
+    sql`SELECT sql FROM main.sqlite_master WHERE name = ${tableName} AND type = 'table'`,
+  );
   if (rows.length < 1) {
     throw new Error('Could not find the old schema for ' + tableName + ' in the provided database');
   }
@@ -68,10 +74,15 @@ export async function getOldSql(db: SQLResolvedDB, tableName: string): Promise<s
 
 // We do not use a pragma for this given we don't have a created table for the _new_ sql
 // pragmas also do not include original comment text on a column which is where we place column numbers.
+// The below assumes that Aphrodite is managing the table schemas.
+// If someone is manually mucking with them after Aphrodite generates them...
+// idk.. seems like that is really bad and would break all sorts of assumptions.
 export function extractColumnDefs(sql: string): ColumnDef[] {
   const match = sql.match(/.*CREATE TABLE\s+".*?"\s+\((.*)\)/);
   if (match == null) {
-    throw new Error('could not extract column definitions from the sql create table clause');
+    throw new Error(
+      'could not extract column definitions from the sql create table clause: ' + sql,
+    );
   }
 
   return match[1]
@@ -84,18 +95,30 @@ export function extractColumnDefs(sql: string): ColumnDef[] {
       const meta = (match?.groups?.meta || '').trim();
       const maybeNum = new URLSearchParams(meta).get('n');
 
-      console.log(c);
-
       if (match?.groups?.name == null) {
         // check if it is a constraint
+        // if so, it is not a column def and we can safely return null.
+        // TODO: well.. we should return constraint defs too because they could change and require migration
+        const upcase = c.toUpperCase();
+        if (
+          upcase.startsWith('CONSTRAINT') ||
+          upcase.startsWith('PRIMARY KEY') ||
+          upcase.startsWith('UNIQUE') ||
+          upcase.startsWith('CHECK') ||
+          upcase.startsWith('FOREIGN KEY')
+        ) {
+          return null;
+        }
       }
 
       return {
         num: maybeNum != null ? parseInt(maybeNum) : null,
         name: nullthrows(match?.groups?.name),
         type: match?.groups?.type || null,
+        notnull: match?.groups?.nonnull === 'NOT NULL',
       };
-    });
+    })
+    .filter((c): c is ColumnDef => c != null);
 }
 
 export function findRemovedColumns(left: ColumnDef[], right: ColumnDef[]): ColumnDef[] {

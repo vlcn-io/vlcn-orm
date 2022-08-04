@@ -1,4 +1,4 @@
-import { extractTableName, getOldSql } from '../autoMigrate.js';
+import { ColumnDef, extractColumnDefs, extractTableName, getOldSql } from '../autoMigrate.js';
 import connect from '@databases/sqlite';
 import { sql } from '@aphro/sql-ts';
 
@@ -10,14 +10,8 @@ CREATE TABLE
     "id" bigint NOT NULL
     /* n=1 */
 ,
-    "name" text NOT NULL
+    "name" text
     /* n=2 */
-,
-    "created" bigint NOT NULL
-    /* n=3 */
-,
-    "modified" bigint NOT NULL
-    /* n=4 */
 ,
     primary key ("id")
   )`;
@@ -57,4 +51,62 @@ test('get old sql', async () => {
   expect(s).toBe('CREATE TABLE foo (a)');
 });
 
-test('extract column defs', () => {});
+test('extract column defs', () => {
+  const tests: [string, ColumnDef[]][] = [
+    [
+      case1,
+      [
+        {
+          num: 1,
+          name: 'id',
+          type: 'bigint',
+          notnull: true,
+        },
+        {
+          num: 2,
+          name: 'name',
+          type: 'text',
+          notnull: false,
+        },
+      ],
+    ],
+    [
+      case2,
+      [
+        {
+          num: 1,
+          name: 'id1',
+          type: 'bigint',
+          notnull: true,
+        },
+        {
+          num: 2,
+          name: 'id2',
+          type: 'bigint',
+          notnull: true,
+        },
+      ],
+    ],
+    [
+      case3,
+      [
+        {
+          num: null,
+          name: 'id1',
+          type: 'bigint',
+          notnull: true,
+        },
+        {
+          num: null,
+          name: 'id2',
+          type: 'bigint',
+          notnull: true,
+        },
+      ],
+    ],
+  ];
+
+  tests.forEach(([c, expected]) => {
+    expect(extractColumnDefs(c.replaceAll('\n', ''))).toEqual(expected);
+  });
+});
