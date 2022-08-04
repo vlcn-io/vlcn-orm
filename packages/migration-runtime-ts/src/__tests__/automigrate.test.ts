@@ -1,4 +1,13 @@
-import { ColumnDef, extractColumnDefs, extractTableName, getOldSql } from '../autoMigrate.js';
+import {
+  ColumnDef,
+  extractColumnDefs,
+  extractTableName,
+  findAddedColumns,
+  findAlteredColumns,
+  findRemovedColumns,
+  getOldSql,
+  setDifference,
+} from '../autoMigrate.js';
 import connect from '@databases/sqlite';
 import { sql } from '@aphro/sql-ts';
 
@@ -109,4 +118,179 @@ test('extract column defs', () => {
   tests.forEach(([c, expected]) => {
     expect(extractColumnDefs(c.replaceAll('\n', ''))).toEqual(expected);
   });
+});
+
+test('set difference', () => {
+  expect(setDifference([1, 2, 3], [1, 2, 3], x => x)).toEqual([]);
+  expect(setDifference([1, 2, 3], [], x => x)).toEqual([1, 2, 3]);
+  expect(setDifference([], [1, 2, 3], x => x)).toEqual([]);
+  expect(setDifference([1, 2, 3, 4], [1, 2, 3], x => x)).toEqual([4]);
+});
+
+test('find added columns', () => {
+  expect(
+    findAddedColumns(
+      [],
+      [
+        {
+          num: null,
+          name: 'id',
+          type: 'bigint',
+          notnull: true,
+        },
+      ],
+    ),
+  ).toEqual([
+    {
+      num: null,
+      name: 'id',
+      type: 'bigint',
+      notnull: true,
+    },
+  ]);
+
+  expect(
+    findAddedColumns(
+      [
+        {
+          num: null,
+          name: 'id',
+          type: 'bigint',
+          notnull: true,
+        },
+      ],
+      [
+        {
+          num: null,
+          name: 'id',
+          type: 'bigint',
+          notnull: true,
+        },
+      ],
+    ),
+  ).toEqual([]);
+
+  expect(
+    findAddedColumns(
+      [
+        {
+          num: 1,
+          name: 'id',
+          type: 'bigint',
+          notnull: true,
+        },
+      ],
+      [
+        {
+          num: 1,
+          name: 'xid',
+          type: 'bigint',
+          notnull: true,
+        },
+      ],
+    ),
+  ).toEqual([]);
+});
+
+test('find removed columns', () => {
+  expect(
+    findRemovedColumns(
+      [
+        {
+          num: 1,
+          name: 'id',
+          type: 'bigint',
+          notnull: true,
+        },
+      ],
+      [
+        {
+          num: 1,
+          name: 'id',
+          type: 'bigint',
+          notnull: true,
+        },
+      ],
+    ),
+  ).toEqual([]);
+
+  expect(
+    findRemovedColumns(
+      [
+        {
+          num: 1,
+          name: 'id',
+          type: 'bigint',
+          notnull: true,
+        },
+      ],
+      [],
+    ),
+  ).toEqual([
+    {
+      num: 1,
+      name: 'id',
+      type: 'bigint',
+      notnull: true,
+    },
+  ]);
+});
+
+test('find altered columns', () => {
+  expect(
+    findAlteredColumns(
+      [
+        {
+          num: 1,
+          name: 'id',
+          type: 'bigint',
+          notnull: true,
+        },
+      ],
+      [
+        {
+          num: 1,
+          name: 'xid',
+          type: 'bigint',
+          notnull: false,
+        },
+      ],
+    ),
+  ).toEqual([
+    [
+      {
+        num: 1,
+        name: 'id',
+        type: 'bigint',
+        notnull: true,
+      },
+      {
+        num: 1,
+        name: 'xid',
+        type: 'bigint',
+        notnull: false,
+      },
+    ],
+  ]);
+
+  expect(
+    findAlteredColumns(
+      [
+        {
+          num: 1,
+          name: 'id',
+          type: 'bigint',
+          notnull: true,
+        },
+      ],
+      [
+        {
+          num: 1,
+          name: 'id',
+          type: 'bigint',
+          notnull: true,
+        },
+      ],
+    ),
+  ).toEqual([]);
 });

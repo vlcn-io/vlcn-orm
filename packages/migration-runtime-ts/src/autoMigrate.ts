@@ -148,24 +148,13 @@ export function findRemovedColumns(left: ColumnDef[], right: ColumnDef[]): Colum
 export function findAddedColumns(left: ColumnDef[], right: ColumnDef[]): ColumnDef[] {
   const allNumbered = left.every(c => c.num != null) && right.every(c => c.num != null);
   if (!allNumbered) {
-    console.log('Not all columns were numbered. Determining addition by name.');
+    console.log(
+      'Not all columns were numbered (in both the new and old schema). Determining addition by name.',
+    );
     return setDifference(right, left, x => x.name);
   }
 
   return setDifference(right, left, x => nullthrows(x.num));
-}
-
-/**
- * Return everything in l not in r
- * l - r
- * @param l
- * @param r
- * @param keyFn
- * @returns
- */
-function setDifference<T>(l: T[], r: T[], keyFn: (e: T) => string | number): T[] {
-  const set = new Set(r.map(keyFn));
-  return l.filter(l => !set.has(keyFn(l)));
 }
 
 export function findAlteredColumns(
@@ -173,12 +162,23 @@ export function findAlteredColumns(
   right: ColumnDef[],
 ): [ColumnDef, ColumnDef][] {
   const allNumbered = left.every(c => c.num != null) && right.every(c => c.num != null);
+  let ret: [ColumnDef, ColumnDef][];
   if (!allNumbered) {
     console.log(
-      'Not all columns were numbered. Determining column alterations by name. Renames are seen as drops and adds in this case rather than alters. Number your columns to track renames. Similar idea to Thrift and protocol buffers.',
+      'Not all columns were numbered (in both the old and new schema). Determining column alterations by name. Renames are seen as drops and adds in this case rather than alters. Number your columns to track renames. Similar idea to Thrift and protocol buffers.',
     );
+    ret = innerJoin(left, right, x => x.name);
+    // for each in right, find its correspond in left (or omit it if not exists).
+    // see if it matches its correspond in left. omit it if so.
+  } else {
+    ret = innerJoin(left, right, x => nullthrows(x.num));
   }
-  return [];
+
+  // Only keep joined pairs the have differences
+  return ret.filter(
+    ([l, r]) =>
+      l.num !== r.num || l.name !== r.name || l.type !== r.type || l.notnull !== r.notnull,
+  );
 }
 
 function removeStatements(columns: ColumnDef[]): SQLQuery[] {
@@ -194,7 +194,27 @@ function modifyStatements(columns: [ColumnDef, ColumnDef][]): SQLQuery[] {
 }
 
 /**
- * -- SIGNED-SOURCE: <39e0ffa72e52ff465fbd19ef78209317>\n' +
-          'CREATE TABLE\n' +
-          '  "decktoeditorsedge" ("id1" bigint NOT NULL, "id2" bigint NOT NULL)
+ * Return everything in l not in r
+ * l - r
+ * @param l
+ * @param r
+ * @param keyFn
+ * @returns
  */
+export function setDifference<T>(l: T[], r: T[], keyFn: (e: T) => string | number): T[] {
+  const set = new Set(r.map(keyFn));
+  return l.filter(l => !set.has(keyFn(l)));
+}
+
+export function innerJoin<T>(l: T[], r: T[], keyFn: (e: T) => string | number): [T, T][] {
+  const map = new Map<string | number, T>(l.map(x => [keyFn(x), x]));
+  return r
+    .map(x => {
+      const other = map.get(keyFn(x));
+      if (other == null) {
+        return null;
+      }
+      return [other, x] as const;
+    })
+    .filter((x): x is [T, T] => x != null);
+}
