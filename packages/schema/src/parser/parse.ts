@@ -91,11 +91,15 @@ export function createParser(config: Config = {}) {
     // Gross hack for optional types.
     // This hack is here because we're re-writing field types soon with the introduction of
     // semantic types.
-    FieldDeclaration(key, type) {
+    FieldDeclaration(num, key, type) {
       return {
+        num: num.toAst(),
         name: key.toAst(),
         type: type.toAst(),
       };
+    },
+    FieldNum(num) {
+      return num.sourceString;
     },
     FieldType(type) {
       return type.toAst();

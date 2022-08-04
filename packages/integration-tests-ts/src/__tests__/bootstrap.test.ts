@@ -18,5 +18,6 @@ test('creating tables that do exist', async () => {
 test('auto-migrate', async () => {
   // no deltas, be silent
   // deltas, make a change
+  // require numbering of fields so we can detect renames?
   await bootstrap.createAutomigrateIfExists(resolver, sqlFiles);
 });
