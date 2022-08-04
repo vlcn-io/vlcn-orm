@@ -128,7 +128,7 @@ export function extractColumnDefs(sql: string): ColumnDef[] {
     .split(',')
     .map(c => c.trim())
     .map(c => {
-      const match = c.match(/"(?<name>.*?)"\s+(?<nonnull>NOT NULL)?\s*(\/\*(?<meta>.*)\*\/)?/);
+      const match = c.match(/"(?<name>.*?)"\s*(?<nonnull>NOT NULL)?\s*(\/\*(?<meta>.*)\*\/)?/);
       const meta = (match?.groups?.meta || '').trim();
       const maybeNum = new URLSearchParams(meta).get('n');
 
