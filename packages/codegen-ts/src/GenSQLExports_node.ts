@@ -3,10 +3,15 @@ import { GenSQLExports } from './GenSQLExports.js';
 
 export class GenSQLExports_node extends GenSQLExports {
   protected getImports() {
+    // The user might not want to pull node types into their project. Makes sense if it is a browser project.
+    // So ts-ignore these.
     return `
+// @ts-ignore
 import * as path from 'path';
+// @ts-ignore
 import * as fs from 'fs';
 
+// @ts-ignore
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
