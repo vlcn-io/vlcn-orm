@@ -528,8 +528,11 @@ importers:
 
   packages/migration-runtime-ts:
     specifiers:
+      '@aphro/context-runtime-ts': workspace:*
+      '@aphro/sql-ts': workspace:*
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
+      '@databases/sqlite': ^3.0.0
       '@strut/utils': ^0.1.1
       '@types/jest': ^27.4.1
       '@types/prettier': ^2.6.0
@@ -541,10 +544,13 @@ importers:
       ts-jest: ^28.0.1
       typescript: ^4.6.4
     dependencies:
+      '@aphro/context-runtime-ts': link:../context-runtime-ts
+      '@aphro/sql-ts': link:../sql-ts
       '@strut/utils': 0.1.1
     devDependencies:
       '@babel/core': 7.18.5
       '@babel/preset-env': 7.18.2_@babel+core@7.18.5
+      '@databases/sqlite': 3.0.0
       '@types/jest': 27.5.2
       '@types/prettier': 2.6.3
       '@typescript-eslint/typescript-estree': 5.27.1_typescript@4.7.3
@@ -710,6 +716,7 @@ importers:
     specifiers:
       '@aphro/cache-runtime-ts': workspace:*
       '@aphro/context-runtime-ts': workspace:*
+      '@aphro/migration-runtime-ts': workspace:*
       '@aphro/model-runtime-ts': workspace:*
       '@aphro/mutator-runtime-ts': workspace:*
       '@aphro/query-runtime-ts': workspace:*
@@ -720,6 +727,7 @@ importers:
     dependencies:
       '@aphro/cache-runtime-ts': link:../cache-runtime-ts
       '@aphro/context-runtime-ts': link:../context-runtime-ts
+      '@aphro/migration-runtime-ts': link:../migration-runtime-ts
       '@aphro/model-runtime-ts': link:../model-runtime-ts
       '@aphro/mutator-runtime-ts': link:../mutator-runtime-ts
       '@aphro/query-runtime-ts': link:../query-runtime-ts

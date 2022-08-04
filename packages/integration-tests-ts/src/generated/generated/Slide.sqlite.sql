@@ -1,14 +1,14 @@
--- SIGNED-SOURCE: <384090fa1486df33d89753e7491be99b>
+-- SIGNED-SOURCE: <eece7ca4c38f4d79bd2027ff5e756b0f>
 CREATE TABLE
   "slide" (
     "id" bigint NOT NULL
-    /* n:1 */
+    /* n=1 */
 ,
     "deckId" bigint NOT NULL
-    /* n:2 */
+    /* n=2 */
 ,
     "order" float NOT NULL
-    /* n:3 */
+    /* n=3 */
 ,
-    primary key ("id")
+    PRIMARY KEY ("id")
   )

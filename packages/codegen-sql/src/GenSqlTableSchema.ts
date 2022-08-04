@@ -129,13 +129,13 @@ export default class GenSqlTableSchema extends CodegenStep {
         ret = sql`${ret} NOT NULL`;
       }
       if (field.num != null) {
-        ret = sql`${ret} /* n:${sql.__dangerous__rawValue(field.num.toString())} */`;
+        ret = sql`${ret} /* n=${sql.__dangerous__rawValue(field.num.toString())} */`;
       }
       return ret;
     });
 
     if (this.schema.type === 'node' && this.schema.primaryKey) {
-      columnDefs.push(sql`primary key (${sql.ident(this.schema.primaryKey)})`);
+      columnDefs.push(sql`PRIMARY KEY (${sql.ident(this.schema.primaryKey)})`);
     }
 
     return sql`CREATE TABLE ${sql.ident(this.schema.name.toLocaleLowerCase())} (${sql.join(

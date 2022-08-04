@@ -1,15 +1,10 @@
-import { DBResolver, SQLResolvedDB } from '@aphro/context-runtime-ts';
+import { DBResolver } from '@aphro/context-runtime-ts';
 import { sql } from '@aphro/sql-ts';
+import { autoMigrate, CreateError } from './autoMigrate.js';
 
 export type SQLExports = { sqlite: DBs };
 type DBs = { [dbName: string]: Schemas };
 type Schemas = { [key: string]: string };
-type CreateError = {
-  cause: any;
-  sql: string;
-  schemaName: string;
-  db: SQLResolvedDB;
-};
 
 export const bootstrap = {
   /**
@@ -96,7 +91,7 @@ export const bootstrap = {
       db,
     );
 
-    await migrate(tryToMigrate);
+    await autoMigrate(tryToMigrate);
   },
 };
 
@@ -157,30 +152,3 @@ async function createForDB(
 
   settled.forEach(errorHandler);
 }
-
-async function migrate(migrationTasks: CreateError[]) {
-  // 1. pull table name
-  // 2. get the old schema
-  // 3. format the schemas to match one another
-  // 4. diff
-  // 5. add or remove columns
-  // console.log(migrationTasks);
-  await Promise.all(migrationTasks.map(migrateOne));
-}
-
-async function migrateOne({ db, schemaName, sql }: CreateError) {
-  // 1 - remove comments
-  // 2 - remove newlines
-  // 3 - regex extract table name
-  // 4 - regex extract column def list
-  // 5 - split on ',' to get columns and constraints
-  // 6 - compare line by line to find deltas
-  // 7 - create alter table statement to bring to new state
-  // ^-- move all this to the migrate package?
-}
-
-/**
- * -- SIGNED-SOURCE: <39e0ffa72e52ff465fbd19ef78209317>\n' +
-          'CREATE TABLE\n' +
-          '  "decktoeditorsedge" ("id1" bigint NOT NULL, "id2" bigint NOT NULL)
- */
