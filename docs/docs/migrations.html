@@ -82,12 +82,12 @@
 
 <span class="hljs-comment">// change the below line to import the generated `exports-sql.js` file</span>
 <span class="hljs-comment">// this file imports the create table statements.</span>
-<span class="hljs-keyword">export</span> sqlFiles <span class="hljs-keyword">from</span> <span class="hljs-string">"./domain/generated/exports-sql.js"</span>;
+<span class="hljs-keyword">import</span> sqlFiles <span class="hljs-keyword">from</span> <span class="hljs-string">"./domain/generated/exports-sql.js"</span>;
 
 <span class="hljs-comment">// tell `bootstrap` to create tables and automigrate if those tables exist</span>
 <span class="hljs-keyword">await</span> bootstrap.<span class="hljs-title function_">createAutomigrateIfExists</span>(context.<span class="hljs-property">dbResolver</span>, sqlFiles);
 </code></pre>
-<p>You can see an example in aphrodite-browser-starter here (todo).</p>
+<p>You can see an example in the <a href="https://github.com/tantaman/aphrodite-browser-starter/blob/main/src/index.tsx#L21">aphrodite-browser-starter</a>.</p>
 <h1 id="manual-migrations"><a aria-hidden="true" tabindex="-1" href="#manual-migrations"><span class="icon icon-link"></span></a>Manual Migrations</h1>
 <p><code>Aphrodite</code> does not yet have a framework in which to run manual migrations. You can, however, follow the following process.</p>
 <ol>

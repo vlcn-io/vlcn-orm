@@ -67,13 +67,13 @@ import { bootstrap } from "@aphro/runtime-ts";
 
 // change the below line to import the generated `exports-sql.js` file
 // this file imports the create table statements.
-export sqlFiles from "./domain/generated/exports-sql.js";
+import sqlFiles from "./domain/generated/exports-sql.js";
 
 // tell `bootstrap` to create tables and automigrate if those tables exist
 await bootstrap.createAutomigrateIfExists(context.dbResolver, sqlFiles);
 ```
 
-You can see an example in aphrodite-browser-starter here (todo).
+You can see an example in the [aphrodite-browser-starter](https://github.com/tantaman/aphrodite-browser-starter/blob/main/src/index.tsx#L21).
 
 # Manual Migrations
 
