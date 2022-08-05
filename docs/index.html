@@ -99,25 +99,25 @@
           <pre class="fullwidth">
 <code class="language-typescript">// Define your schema
 User as Node {
-  id: ID&lt;User&gt;
-  name: NaturalLanguage
+  1 id: ID&lt;User&gt;
+  2 name: NaturalLanguage
 } & OutboundEdges {
   todos: Edge&lt;Todo.ownerId&gt;
 }
 
 Todo as Node {
-  id: ID&lt;Todo&gt;
-  text: NaturalLanguage
-  completed: Timestamp | null
-  ownerId: ID&lt;User&gt;
+  1 id: ID&lt;Todo&gt;
+  2 text: NaturalLanguage
+  3 completed: Timestamp | null
+  4 ownerId: ID&lt;User&gt;
 }
 </code>
 <hr />
 <code class="language-jsx">// Query your data
 function TodoList({viewer}) {
-  const todos = useLiveQuery(
+  const todos = useQuery(
     () => viewer.queryTodos().whereCompleted(P.equals(null))
-  );
+  ).data;
   return (
     &lt;li&gt;
       {todos.map(todo => &lt;Todo todo={todo} /&gt;)}
