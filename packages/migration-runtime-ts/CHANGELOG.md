@@ -1,5 +1,11 @@
 # @aphro/migration-runtime-ts
 
+## 0.1.2
+
+### Patch Changes
+
+- auto-create ids if not provided on create
+
 ## 0.1.1
 
 ### Patch Changes

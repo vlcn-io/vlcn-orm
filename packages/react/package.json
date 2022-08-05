@@ -13,7 +13,7 @@
   },
   "peerDependencies": {
     "react": "^18.0.0",
-    "@aphro/runtime-ts": "^0.3.1"
+    "@aphro/runtime-ts": "^0.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",

@@ -1,5 +1,11 @@
 # @aphro/mutator-runtime-ts
 
+## 0.3.2
+
+### Patch Changes
+
+- auto-create ids if not provided on create
+
 ## 0.3.1
 
 ### Patch Changes

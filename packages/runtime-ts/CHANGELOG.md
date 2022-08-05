@@ -1,5 +1,13 @@
 # @aphro/runtime-ts
 
+## 0.3.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/migration-runtime-ts@0.1.2
+  - @aphro/mutator-runtime-ts@0.3.2
+
 ## 0.3.1
 
 ### Patch Changes
