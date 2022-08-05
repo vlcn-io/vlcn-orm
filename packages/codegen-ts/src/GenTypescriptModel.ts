@@ -129,7 +129,7 @@ export default abstract class ${this.schema.name}Base
   private getIdFieldImports(): Import[] {
     const idFields = Object.values(this.schema.fields)
       .flatMap(f => f.type)
-      .filter((f): f is ID => typeof f !== 'string' && f.type === 'id');
+      .filter((f): f is ID => typeof f !== 'string' && f.type === 'id' && f.of !== 'any');
 
     return idFields.map(f => tsImport(f.of, null, '../' + f.of + '.js'));
   }
