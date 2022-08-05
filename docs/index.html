@@ -100,14 +100,14 @@
 <code class="language-typescript">// Define your schema
 User as Node {
   1 id: ID&lt;User&gt;
-  2 name: NaturalLanguage
+  2 name: string
 } & OutboundEdges {
   todos: Edge&lt;Todo.ownerId&gt;
 }
 
 Todo as Node {
   1 id: ID&lt;Todo&gt;
-  2 text: NaturalLanguage
+  2 text: string
   3 completed: Timestamp | null
   4 ownerId: ID&lt;User&gt;
 }
