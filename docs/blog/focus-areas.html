@@ -25,7 +25,7 @@
 <meta name="twitter:image:alt" content="Zeus">
 <meta name="twitter:site" content="@tantaman">
 <meta name="twitter:label1" content="Reading time">
-<meta name="twitter:data1" content="6-9 minutes">
+<meta name="twitter:data1" content="5-7 minutes">
 </head>
 <body><aside><div class="center"><a class="home-link" href="/"><div class="god-circle center-block"><div class="god-head god-head-aphrodite"></div></div></a></div></aside><main><article><section>
 <nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#area-1-orm-table-stakes">Area 1: ORM Table Stakes</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#area-2-exceeding-orm-expectations">Area 2: Exceeding ORM Expectations</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#area-3-runtime-portability">Area 3: Runtime Portability</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#area-4-production-readiness">Area 4: Production readiness</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#performance-metrics">Performance metrics</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#monitoring">Monitoring</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#property-based-testing">Property Based Testing</a></li></ol></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#area-5-peer-2-peer">Area 5: Peer 2 Peer</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#discovery">Discovery</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#conflict-resolution">Conflict Resolution</a></li></ol></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#area-6-p2p-with-collaboration">Area 6: P2P With Collaboration</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#area-7-speculation">Area 7: Speculation</a></li></ol></nav><p>Draft / wip list of focus areas. Pre-published to allow potential contributors to find areas of potential interest.</p>
@@ -110,41 +110,7 @@ or not it is behaving as expected.</p>
 <li>Smart contracts?</li>
 </ul>
 <h2 id="conflict-resolution"><a aria-hidden="true" tabindex="-1" href="#conflict-resolution"><span class="icon icon-link"></span></a>Conflict Resolution</h2>
-<p>TODO -- fill this in on the rationale of why we need this and when we'll get here.</p>
-<p><strong>Logical clock basics</strong></p>
-<p>Clocks are needed to give changes a causal or "happens before" relationship. When changes can happen on different peers, physical clocks can no longer do the trick. This is because clock-skew is a very real and common problem -- even on local networks leveraging NTP (<a href="http://www.ntp.org/">http://www.ntp.org/</a>).</p>
-<p>Below are some resources on clocks (todo: document tradeoffs of each) --</p>
-<ul>
-<li><a href="https://martinfowler.com/articles/patterns-of-distributed-systems/lamport-clock.html">Lamport Clock</a></li>
-<li><a href="https://martinfowler.com/articles/patterns-of-distributed-systems/hybrid-clock.html">Hybrid Logical Clock</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Vector_clock#:~:text=A%20vector%20clock%20is%20a,the%20sending%20process&#x27;s%20logical%20clock.">Vector Clock</a></li>
-</ul>
-<p>After we can order events, we need to know how to merge data updates in a way that all peers will converge to the same state. This is where CRDTs come in. If you're familiar with Abstract Algebra -- if a data structure forms a semi-lattic under a join (merge) operation, it is guaranteed to converge. TODO -- flesh this out much more.</p>
-<p><strong>CRDT Basics</strong></p>
-<ul>
-<li><a href="https://bartoszsypytkowski.com/the-state-of-a-state-based-crdts/">https://bartoszsypytkowski.com/the-state-of-a-state-based-crdts/</a></li>
-<li><a href="https://crdt.tech/">https://crdt.tech/</a></li>
-</ul>
-<p><strong>Document based CRDTs</strong></p>
-<ul>
-<li><a href="https://github.com/automerge/automerge">https://github.com/automerge/automerge</a></li>
-<li><a href="https://yjs.dev/">https://yjs.dev/</a>
-<ul>
-<li><a href="https://bartoszsypytkowski.com/yata/">https://bartoszsypytkowski.com/yata/</a></li>
-</ul>
-</li>
-</ul>
-<p><strong>Graph? Based</strong></p>
-<ul>
-<li><a href="https://gun.eco/">https://gun.eco/</a></li>
-</ul>
-<p><strong>Relational CRDTs</strong></p>
-<ul>
-<li><a href="https://www.youtube.com/watch?v=DEcwa68f-jY">https://www.youtube.com/watch?v=DEcwa68f-jY</a></li>
-<li><a href="https://munin.uit.no/bitstream/handle/10037/22344/thesis.pdf?sequence=2">https://munin.uit.no/bitstream/handle/10037/22344/thesis.pdf?sequence=2</a></li>
-<li><a href="https://hal.inria.fr/hal-02983557/document">https://hal.inria.fr/hal-02983557/document</a></li>
-<li><a href="https://www.researchgate.net/publication/353813091_Augmenting_SQLite_for_Local-First_Software">https://www.researchgate.net/publication/353813091_Augmenting_SQLite_for_Local-First_Software</a></li>
-</ul>
+<p><a href="https://github.com/tantaman/conflict-free-sqlite">https://github.com/tantaman/conflict-free-sqlite</a></p>
 <h1 id="area-6-p2p-with-collaboration"><a aria-hidden="true" tabindex="-1" href="#area-6-p2p-with-collaboration"><span class="icon icon-link"></span></a>Area 6: P2P With Collaboration</h1>
 <p>P2P is one thing -- P2P where you can invite collaborators and hide/share different pieces of data with them is another.</p>
 <p>The first thing we need is to provde identity without a central server to verify identity.</p>

@@ -90,37 +90,7 @@ Other things that exist in this space and need to be researched:
 
 ## Conflict Resolution
 
-TODO -- fill this in on the rationale of why we need this and when we'll get here.
-
-**Logical clock basics**
-
-Clocks are needed to give changes a causal or "happens before" relationship. When changes can happen on different peers, physical clocks can no longer do the trick. This is because clock-skew is a very real and common problem -- even on local networks leveraging NTP (http://www.ntp.org/).
-
-Below are some resources on clocks (todo: document tradeoffs of each) --
-
-* [Lamport Clock](https://martinfowler.com/articles/patterns-of-distributed-systems/lamport-clock.html)
-* [Hybrid Logical Clock](https://martinfowler.com/articles/patterns-of-distributed-systems/hybrid-clock.html)
-* [Vector Clock](https://en.wikipedia.org/wiki/Vector_clock#:~:text=A%20vector%20clock%20is%20a,the%20sending%20process's%20logical%20clock.)
-
-After we can order events, we need to know how to merge data updates in a way that all peers will converge to the same state. This is where CRDTs come in. If you're familiar with Abstract Algebra -- if a data structure forms a semi-lattic under a join (merge) operation, it is guaranteed to converge. TODO -- flesh this out much more.
-
-**CRDT Basics**
-* https://bartoszsypytkowski.com/the-state-of-a-state-based-crdts/
-* https://crdt.tech/
-
-**Document based CRDTs**
-* https://github.com/automerge/automerge
-* https://yjs.dev/
-  * https://bartoszsypytkowski.com/yata/
-
-**Graph? Based**
-* https://gun.eco/
-
-**Relational CRDTs**
-* https://www.youtube.com/watch?v=DEcwa68f-jY
-* https://munin.uit.no/bitstream/handle/10037/22344/thesis.pdf?sequence=2
-* https://hal.inria.fr/hal-02983557/document
-* https://www.researchgate.net/publication/353813091_Augmenting_SQLite_for_Local-First_Software
+https://github.com/tantaman/conflict-free-sqlite
 
 # Area 6: P2P With Collaboration
 
