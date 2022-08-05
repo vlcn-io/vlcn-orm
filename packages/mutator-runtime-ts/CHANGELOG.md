@@ -1,5 +1,16 @@
 # @aphro/mutator-runtime-ts
 
+## 0.3.1
+
+### Patch Changes
+
+- generate bootstrapping utilities
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.3.1
+  - @aphro/model-runtime-ts@0.2.1
+  - @aphro/schema-api@0.2.1
+  - @aphro/sql-ts@0.2.1
+
 ## 0.3.0
 
 ### Minor Changes

@@ -1,5 +1,13 @@
 # @aphro/react
 
+## 1.0.1
+
+### Patch Changes
+
+- generate bootstrapping utilities
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.1
+
 ## 1.0.0
 
 ### Minor Changes

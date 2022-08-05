@@ -1,5 +1,15 @@
 # @aphro/context-runtime-ts
 
+## 0.3.1
+
+### Patch Changes
+
+- generate bootstrapping utilities
+- Updated dependencies
+  - @aphro/cache-runtime-ts@0.2.1
+  - @aphro/schema-api@0.2.1
+  - @aphro/sql-ts@0.2.1
+
 ## 0.3.0
 
 ### Minor Changes

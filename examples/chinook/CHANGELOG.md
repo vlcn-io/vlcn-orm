@@ -1,5 +1,13 @@
 # @aphro/chinook
 
+## 0.2.2
+
+### Patch Changes
+
+- generate bootstrapping utilities
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.1
+
 ## 0.2.1
 
 ### Patch Changes

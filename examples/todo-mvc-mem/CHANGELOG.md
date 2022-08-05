@@ -1,5 +1,14 @@
 # @aphro/todo-mvc-mem
 
+## 0.1.1
+
+### Patch Changes
+
+- generate bootstrapping utilities
+- Updated dependencies
+  - @aphro/react@1.0.1
+  - @aphro/runtime-ts@0.3.1
+
 ## 0.1.0
 
 ### Minor Changes
