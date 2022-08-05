@@ -188,8 +188,12 @@ export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
     return this.derive(orderByLambda(fn));
   }
 
-  // union(): ThisType<TOut> {
-  // }
+  concat<T>(other: Query<T>): ConcatQuery<TOut | T> {
+    // now a problem here is that we can't filter...
+    // so we can either force them to share a type
+    // or we can add casting? to cast then filter?
+    // or they should have to apply filters before unioning.
+  }
   // intersect, concat, etc.
 
   plan() {
