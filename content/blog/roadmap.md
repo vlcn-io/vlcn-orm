@@ -26,14 +26,15 @@ Each roadmap item is tagged with the name of the release that will include it.
    1. ~~(📦 MVP) Nodes & Edges~~ [shipped 🚀]
    2. ~~(📦 MVP) Enumerations~~ [shipped 🚀]
    3. ~~(📦 MVP) Primitive field types~~ [shipped 🚀]
-   4. (💪 Alpha) Collection field types
-   5. (💪 Alpha) Indices
-   6. ~~(📦 MVP) Mutations~~[shipped 🚀]
-   7. (💪 Alpha) Permissions
-   8. (💪 Alpha) 3rd party integrations (e.g., GraphQL)
-   9. (🧚‍♀️ RC1) Conflict Resolution / CRDTs & Clock Types
-      1.  Being worked here: https://github.com/tantaman/conflict-free-sqlite
-   10. ~~(🤦‍♂️ Beta) Migrations~~ [shipped 🚀]
+   4. ~~(💪 Alpha) Collection field types~~ [shipped 🚀]
+   5. Union edges, union fields
+   6. (💪 Alpha) Indices
+   7. ~~(📦 MVP) Mutations~~[shipped 🚀]
+   8. (💪 Alpha) Permissions
+   9.  (💪 Alpha) 3rd party integrations (e.g., GraphQL)
+   10. (🧚‍♀️ RC1) Conflict Resolution / CRDTs & Clock Types
+       1.  Being worked here: https://github.com/tantaman/conflict-free-sqlite
+   11. ~~(🤦‍♂️ Beta) Migrations~~ [shipped 🚀]
 2. Runtime Environment & Language Support
    1. ~~(📦 MVP) TypeScript & the browser~~ [shipped 🚀]
    2. ~~(📦 MVP) TypeScript & Node~~ [shipped 🚀]
@@ -43,7 +44,7 @@ Each roadmap item is tagged with the name of the release that will include it.
    1. ~~(📦 MVP) Record / Model~~ [shipped 🚀]
    2. ~~(📦 MVP) [[2022-05-26-query-builder:Query builder]]~~ [shipped 🚀]
    3. ~~(📦 MVP) Cache~~ [shipped 🚀]
-   4. (📦 MVP) Mutators & transactions
+   4. ~~(📦 MVP) Mutators~~ [shipped 🚀] & transactions
    5. (🧚‍♀️ RC1) P2P Discovery
    6. (🧚‍♀️ RC1) P2P Replication
    7. ~~(🤦‍♂️ Beta) Migrations~~ [shipped 🚀]
@@ -56,3 +57,7 @@ Each roadmap item is tagged with the name of the release that will include it.
    2. (Unplanned) Support auto-incr primary keys
 6. Context
    1. Identity
+7. UI
+   1. ~~(📦 MVP) React integration~~ [shipped 🚀]
+   2. Solid
+   3. Svelte
