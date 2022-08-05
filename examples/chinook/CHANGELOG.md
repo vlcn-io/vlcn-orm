@@ -1,5 +1,11 @@
 # @aphro/chinook
 
+## 0.3.0
+
+### Minor Changes
+
+- update chinook to latest aphrodite
+
 ## 0.2.3
 
 ### Patch Changes
