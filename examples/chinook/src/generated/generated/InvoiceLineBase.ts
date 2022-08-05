@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <9e6e4172dfc3d4f711a7d663831bdd52>
+// SIGNED-SOURCE: <9a2d507d425fa7d33f83bc695c94fc34>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,7 +9,7 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
-import { OptimisticPromise } from "@aphro/runtime-ts";
+import { modelGenMemo } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -61,65 +61,47 @@ export default abstract class InvoiceLineBase extends Node<Data> {
     return InvoiceQuery.fromId(this.ctx, this.invoiceId);
   }
 
-  genTrack(): OptimisticPromise<Track> {
+  async genTrack(): Promise<Track> {
     const existing = this.ctx.cache.get(
       this.trackId,
       TrackSpec.storage.db,
       TrackSpec.storage.tablish
     );
     if (existing != null) {
-      const ret = new OptimisticPromise<Track>((resolve) => resolve(existing));
-      ret.__setOptimisticResult(existing);
-      return ret;
+      return existing;
     }
-    return new OptimisticPromise((resolve, reject) =>
-      this.queryTrack().genxOnlyValue().then(resolve, reject)
-    );
+    return await this.queryTrack().genxOnlyValue();
   }
 
-  genInvoice(): OptimisticPromise<Invoice> {
+  async genInvoice(): Promise<Invoice> {
     const existing = this.ctx.cache.get(
       this.invoiceId,
       InvoiceSpec.storage.db,
       InvoiceSpec.storage.tablish
     );
     if (existing != null) {
-      const ret = new OptimisticPromise<Invoice>((resolve) =>
-        resolve(existing)
-      );
-      ret.__setOptimisticResult(existing);
-      return ret;
+      return existing;
     }
-    return new OptimisticPromise((resolve, reject) =>
-      this.queryInvoice().genxOnlyValue().then(resolve, reject)
-    );
+    return await this.queryInvoice().genxOnlyValue();
   }
 
   static queryAll(ctx: Context): InvoiceLineQuery {
     return InvoiceLineQuery.create(ctx);
   }
 
-  static async genx(
-    ctx: Context,
-    id: SID_of<InvoiceLine>
-  ): Promise<InvoiceLine> {
-    const existing = ctx.cache.get(id, "chinook", "invoiceline");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-  }
+  static genx = modelGenMemo(
+    "chinook",
+    "invoiceline",
+    (ctx: Context, id: SID_of<InvoiceLine>): Promise<InvoiceLine> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
+  );
 
-  static async gen(
-    ctx: Context,
-    id: SID_of<InvoiceLine>
-  ): Promise<InvoiceLine | null> {
-    const existing = ctx.cache.get(id, "chinook", "invoiceline");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-  }
+  static gen = modelGenMemo(
+    "chinook",
+    "invoiceline",
+    (ctx: Context, id: SID_of<InvoiceLine>): Promise<InvoiceLine | null> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
+  );
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this)

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <d345075bcaa6d79da71c1f78b0aee983>
+// SIGNED-SOURCE: <7e00cb9b45c22c77e6cead7ea558eda0>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,7 +9,7 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
-import { OptimisticPromise } from "@aphro/runtime-ts";
+import { modelGenMemo } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -37,24 +37,19 @@ export default abstract class MediaTypeBase extends Node<Data> {
     return MediaTypeQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<MediaType>): Promise<MediaType> {
-    const existing = ctx.cache.get(id, "chinook", "mediatype");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-  }
+  static genx = modelGenMemo(
+    "chinook",
+    "mediatype",
+    (ctx: Context, id: SID_of<MediaType>): Promise<MediaType> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
+  );
 
-  static async gen(
-    ctx: Context,
-    id: SID_of<MediaType>
-  ): Promise<MediaType | null> {
-    const existing = ctx.cache.get(id, "chinook", "mediatype");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-  }
+  static gen = modelGenMemo(
+    "chinook",
+    "mediatype",
+    (ctx: Context, id: SID_of<MediaType>): Promise<MediaType | null> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
+  );
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this)

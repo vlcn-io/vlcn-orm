@@ -1,10 +1,10 @@
--- SIGNED-SOURCE: <a329098831e5250b14438de444885727>
+-- SIGNED-SOURCE: <51d087c1f4d8970aa0d8c7d860db2884>
 CREATE TABLE
-  IF NOT EXISTS "invoiceline" (
-    "id" bigint NOT NULL,
-    "invoiceId" bigint NOT NULL,
-    "trackId" bigint NOT NULL,
-    "unitPrice" float NOT NULL,
-    "quantity" int NOT NULL,
-    primary key ("id")
+  "invoiceline" (
+    "id",
+    "invoiceId",
+    "trackId",
+    "unitPrice",
+    "quantity",
+    PRIMARY KEY ("id")
   )

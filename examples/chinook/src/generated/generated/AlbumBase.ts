@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5afa926dc6d20324be1ea212e0b9394c>
+// SIGNED-SOURCE: <6402ee68a159e3896fe0c025255e1474>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,7 +9,7 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
-import { OptimisticPromise } from "@aphro/runtime-ts";
+import { modelGenMemo } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -50,41 +50,35 @@ export default abstract class AlbumBase extends Node<Data> {
     return TrackQuery.create(this.ctx).whereAlbumId(P.equals(this.id as any));
   }
 
-  genArtist(): OptimisticPromise<Artist> {
+  async genArtist(): Promise<Artist> {
     const existing = this.ctx.cache.get(
       this.artistId,
       ArtistSpec.storage.db,
       ArtistSpec.storage.tablish
     );
     if (existing != null) {
-      const ret = new OptimisticPromise<Artist>((resolve) => resolve(existing));
-      ret.__setOptimisticResult(existing);
-      return ret;
+      return existing;
     }
-    return new OptimisticPromise((resolve, reject) =>
-      this.queryArtist().genxOnlyValue().then(resolve, reject)
-    );
+    return await this.queryArtist().genxOnlyValue();
   }
 
   static queryAll(ctx: Context): AlbumQuery {
     return AlbumQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<Album>): Promise<Album> {
-    const existing = ctx.cache.get(id, "chinook", "album");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-  }
+  static genx = modelGenMemo(
+    "chinook",
+    "album",
+    (ctx: Context, id: SID_of<Album>): Promise<Album> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
+  );
 
-  static async gen(ctx: Context, id: SID_of<Album>): Promise<Album | null> {
-    const existing = ctx.cache.get(id, "chinook", "album");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-  }
+  static gen = modelGenMemo(
+    "chinook",
+    "album",
+    (ctx: Context, id: SID_of<Album>): Promise<Album | null> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
+  );
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this)

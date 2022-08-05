@@ -1,3 +1,3 @@
--- SIGNED-SOURCE: <c2e80fef9973159fc51dd4ed322698f3>
+-- SIGNED-SOURCE: <e317f99d0f185c1ff00585127a1f2f66>
 CREATE TABLE
-  IF NOT EXISTS "playlisttrack" ("id1" bigint NOT NULL, "id2" bigint NOT NULL)
+  "playlisttrack" ("id1", "id2")

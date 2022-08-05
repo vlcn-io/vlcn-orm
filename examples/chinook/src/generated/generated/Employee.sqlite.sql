@@ -1,20 +1,20 @@
--- SIGNED-SOURCE: <4caf2f0258229789ca988523f5f4d771>
+-- SIGNED-SOURCE: <3d927e1b406f7d1872b68f5d55ca37f0>
 CREATE TABLE
-  IF NOT EXISTS "employee" (
-    "id" bigint NOT NULL,
-    "lastName" text NOT NULL,
-    "firstName" text NOT NULL,
-    "title" text,
-    "reportsToId" bigint,
-    "birthdate" bigint,
-    "hiredate" bigint,
-    "address" text,
-    "city" text,
-    "state" text,
-    "country" text,
-    "postalCode" text,
-    "phone" text,
-    "fax" text,
-    "email" text,
-    primary key ("id")
+  "employee" (
+    "id",
+    "lastName",
+    "firstName",
+    "title",
+    "reportsToId",
+    "birthdate",
+    "hiredate",
+    "address",
+    "city",
+    "state",
+    "country",
+    "postalCode",
+    "phone",
+    "fax",
+    "email",
+    PRIMARY KEY ("id")
   )

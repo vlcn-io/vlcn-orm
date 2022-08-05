@@ -1,12 +1,15 @@
-// SIGNED-SOURCE: <7bab218345674721193965a357cd9007>
+// SIGNED-SOURCE: <cb65fbbf0bf9845d604e3a9064ba04d5>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
 
+// @ts-ignore
 import * as path from "path";
+// @ts-ignore
 import * as fs from "fs";
 
+// @ts-ignore
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);

@@ -1,3 +1,3 @@
--- SIGNED-SOURCE: <a64836fc9eabfa30d75d739271406264>
+-- SIGNED-SOURCE: <16e599a6f1358a9f51ffb025232f84b3>
 CREATE TABLE
-  IF NOT EXISTS "artist" ("id" bigint NOT NULL, "name" text, primary key ("id"))
+  "artist" ("id", "name", PRIMARY KEY ("id"))

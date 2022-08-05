@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <7802395ad4ec3995e98c32eb383e45c2>
+// SIGNED-SOURCE: <7485d1d948a53e655ae7687a47c5e9ad>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,7 +9,7 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
-import { OptimisticPromise } from "@aphro/runtime-ts";
+import { modelGenMemo } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -43,21 +43,19 @@ export default abstract class GenreBase extends Node<Data> {
     return GenreQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<Genre>): Promise<Genre> {
-    const existing = ctx.cache.get(id, "chinook", "genre");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-  }
+  static genx = modelGenMemo(
+    "chinook",
+    "genre",
+    (ctx: Context, id: SID_of<Genre>): Promise<Genre> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
+  );
 
-  static async gen(ctx: Context, id: SID_of<Genre>): Promise<Genre | null> {
-    const existing = ctx.cache.get(id, "chinook", "genre");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-  }
+  static gen = modelGenMemo(
+    "chinook",
+    "genre",
+    (ctx: Context, id: SID_of<Genre>): Promise<Genre | null> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
+  );
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this)

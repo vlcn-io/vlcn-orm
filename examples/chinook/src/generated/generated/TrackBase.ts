@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <cb12f99597624c29a0a239beb404b0e1>
+// SIGNED-SOURCE: <636743fccbcc435d05171a4f61873f22>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,7 +9,7 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
-import { OptimisticPromise } from "@aphro/runtime-ts";
+import { modelGenMemo } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -100,79 +100,59 @@ export default abstract class TrackBase extends Node<Data> {
     );
   }
 
-  genAlbum(): OptimisticPromise<Album | null> {
+  async genAlbum(): Promise<Album | null> {
     const existing = this.ctx.cache.get(
       this.albumId,
       AlbumSpec.storage.db,
       AlbumSpec.storage.tablish
     );
     if (existing != null) {
-      const ret = new OptimisticPromise<Album | null>((resolve) =>
-        resolve(existing)
-      );
-      ret.__setOptimisticResult(existing);
-      return ret;
+      return existing;
     }
-    return new OptimisticPromise((resolve, reject) =>
-      this.queryAlbum().genOnlyValue().then(resolve, reject)
-    );
+    return await this.queryAlbum().genOnlyValue();
   }
 
-  genMediaType(): OptimisticPromise<MediaType> {
+  async genMediaType(): Promise<MediaType> {
     const existing = this.ctx.cache.get(
       this.mediaTypeId,
       MediaTypeSpec.storage.db,
       MediaTypeSpec.storage.tablish
     );
     if (existing != null) {
-      const ret = new OptimisticPromise<MediaType>((resolve) =>
-        resolve(existing)
-      );
-      ret.__setOptimisticResult(existing);
-      return ret;
+      return existing;
     }
-    return new OptimisticPromise((resolve, reject) =>
-      this.queryMediaType().genxOnlyValue().then(resolve, reject)
-    );
+    return await this.queryMediaType().genxOnlyValue();
   }
 
-  genGenre(): OptimisticPromise<Genre | null> {
+  async genGenre(): Promise<Genre | null> {
     const existing = this.ctx.cache.get(
       this.genreId,
       GenreSpec.storage.db,
       GenreSpec.storage.tablish
     );
     if (existing != null) {
-      const ret = new OptimisticPromise<Genre | null>((resolve) =>
-        resolve(existing)
-      );
-      ret.__setOptimisticResult(existing);
-      return ret;
+      return existing;
     }
-    return new OptimisticPromise((resolve, reject) =>
-      this.queryGenre().genOnlyValue().then(resolve, reject)
-    );
+    return await this.queryGenre().genOnlyValue();
   }
 
   static queryAll(ctx: Context): TrackQuery {
     return TrackQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<Track>): Promise<Track> {
-    const existing = ctx.cache.get(id, "chinook", "track");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-  }
+  static genx = modelGenMemo(
+    "chinook",
+    "track",
+    (ctx: Context, id: SID_of<Track>): Promise<Track> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
+  );
 
-  static async gen(ctx: Context, id: SID_of<Track>): Promise<Track | null> {
-    const existing = ctx.cache.get(id, "chinook", "track");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-  }
+  static gen = modelGenMemo(
+    "chinook",
+    "track",
+    (ctx: Context, id: SID_of<Track>): Promise<Track | null> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
+  );
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this)

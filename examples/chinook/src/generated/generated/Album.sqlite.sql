@@ -1,8 +1,3 @@
--- SIGNED-SOURCE: <9b13b279fa99a997dcce67c7fc0bf4ff>
+-- SIGNED-SOURCE: <60fbd93fad0677addad3a8436c2882fa>
 CREATE TABLE
-  IF NOT EXISTS "album" (
-    "id" bigint NOT NULL,
-    "title" text NOT NULL,
-    "artistId" bigint NOT NULL,
-    primary key ("id")
-  )
+  "album" ("id", "title", "artistId", PRIMARY KEY ("id"))

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5ff373f34fb708a323f925bf2f38fbce>
+// SIGNED-SOURCE: <9fbe319a8904cf35b4dd7de413e56347>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,7 +9,7 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
-import { OptimisticPromise } from "@aphro/runtime-ts";
+import { modelGenMemo } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -113,46 +113,35 @@ export default abstract class EmployeeBase extends Node<Data> {
     );
   }
 
-  genReportsTo(): OptimisticPromise<Employee | null> {
+  async genReportsTo(): Promise<Employee | null> {
     const existing = this.ctx.cache.get(
       this.reportsToId,
       EmployeeSpec.storage.db,
       EmployeeSpec.storage.tablish
     );
     if (existing != null) {
-      const ret = new OptimisticPromise<Employee | null>((resolve) =>
-        resolve(existing)
-      );
-      ret.__setOptimisticResult(existing);
-      return ret;
+      return existing;
     }
-    return new OptimisticPromise((resolve, reject) =>
-      this.queryReportsTo().genOnlyValue().then(resolve, reject)
-    );
+    return await this.queryReportsTo().genOnlyValue();
   }
 
   static queryAll(ctx: Context): EmployeeQuery {
     return EmployeeQuery.create(ctx);
   }
 
-  static async genx(ctx: Context, id: SID_of<Employee>): Promise<Employee> {
-    const existing = ctx.cache.get(id, "chinook", "employee");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue();
-  }
+  static genx = modelGenMemo(
+    "chinook",
+    "employee",
+    (ctx: Context, id: SID_of<Employee>): Promise<Employee> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
+  );
 
-  static async gen(
-    ctx: Context,
-    id: SID_of<Employee>
-  ): Promise<Employee | null> {
-    const existing = ctx.cache.get(id, "chinook", "employee");
-    if (existing) {
-      return existing;
-    }
-    return await this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue();
-  }
+  static gen = modelGenMemo(
+    "chinook",
+    "employee",
+    (ctx: Context, id: SID_of<Employee>): Promise<Employee | null> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
+  );
 
   update(data: Partial<Data>) {
     return new UpdateMutationBuilder(this.ctx, this.spec, this)

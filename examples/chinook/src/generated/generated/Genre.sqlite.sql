@@ -1,3 +1,3 @@
--- SIGNED-SOURCE: <033ab3eff629ad46f70dc376a469a11c>
+-- SIGNED-SOURCE: <fe5516da3fa9d92f47d414a3cf484b80>
 CREATE TABLE
-  IF NOT EXISTS "genre" ("id" bigint NOT NULL, "name" text, primary key ("id"))
+  "genre" ("id", "name", PRIMARY KEY ("id"))

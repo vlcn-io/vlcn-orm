@@ -1,7 +1,3 @@
--- SIGNED-SOURCE: <060ae45b0212a5d7a86d0920a0527aeb>
+-- SIGNED-SOURCE: <af91931d4051a1f5616662538f497d4d>
 CREATE TABLE
-  IF NOT EXISTS "mediatype" (
-    "id" bigint NOT NULL,
-    "name" text NOT NULL,
-    primary key ("id")
-  )
+  "mediatype" ("id", "name", PRIMARY KEY ("id"))
