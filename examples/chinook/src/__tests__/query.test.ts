@@ -1,6 +1,6 @@
-import Employee from '../generated/Employee';
-import Artist from '../generated/Artist';
-import Album from '../generated/Album';
+import Employee from '../domain/Employee';
+import Artist from '../domain/Artist';
+import Album from '../domain/Album';
 import setup from './setup';
 
 const ctx = setup();

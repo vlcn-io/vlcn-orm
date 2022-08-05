@@ -1,5 +1,5 @@
 // import CustomerMutations from '../generated/CustomerMutations';
-import Employee from '../generated/Employee';
+// import Employee from '../generated/Employee';
 // import EmployeeMutations from '../generated/EmployeeMutations';
 import setup from './setup';
 

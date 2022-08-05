@@ -22,7 +22,7 @@
     "typescript": "^4.6.4"
   },
   "scripts": {
-    "aphro": "aphro gen ./src/domain.aphro --dest ./src/generated",
+    "aphro": "aphro gen ./src/domain.aphro --dest ./src/domain",
     "clean": "tsc --build --clean",
     "build": "tsc --build",
     "watch": "tsc --build -w",
