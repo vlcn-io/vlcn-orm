@@ -26,6 +26,7 @@ import { matter } from "vfile-matter";
 import clojure from "highlight.js/lib/languages/clojure";
 import typescript from "highlight.js/lib/languages/typescript";
 import javascript from "highlight.js/lib/languages/javascript";
+import protobuf from "highlight.js/lib/languages/protobuf";
 import java from "highlight.js/lib/languages/java";
 import xml from "highlight.js/lib/languages/xml";
 import rust from "highlight.js/lib/languages/rust";
@@ -57,7 +58,15 @@ export default {
         [
           rehypeHighlight,
           {
-            languages: { clojure, typescript, javascript, java, xml, rust },
+            languages: {
+              clojure,
+              typescript,
+              javascript,
+              java,
+              xml,
+              rust,
+              protobuf,
+            },
           },
         ],
       ],
