@@ -613,6 +613,7 @@ importers:
       '@types/jest': ^27.4.1
       fast-check: ^2.25.0
       jest: ^28.1.0
+      nanoid: ^4.0.0
       typescript: ^4.6.4
     dependencies:
       '@aphro/context-runtime-ts': link:../context-runtime-ts
@@ -621,6 +622,7 @@ importers:
       '@aphro/sql-ts': link:../sql-ts
       '@strut/sid': 0.1.2
       '@strut/utils': 0.1.1
+      nanoid: 4.0.0
     devDependencies:
       '@babel/core': 7.18.5
       '@babel/preset-env': 7.18.2_@babel+core@7.18.5
@@ -10230,6 +10232,12 @@ packages:
 
   /nan/2.16.0:
     resolution: {integrity: sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==}
+
+  /nanoid/4.0.0:
+    resolution: {integrity: sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==}
+    engines: {node: ^14 || ^16 || >=18}
+    hasBin: true
+    dev: false
 
   /natural-compare/1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
