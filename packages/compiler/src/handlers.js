@@ -175,7 +175,7 @@ function addRehypePlugins(pipeline, docAdditions, gottenMatter, collection) {
     .use(rehypeInferReadingTimeMeta)
     .use(rehypeAutolinkHeadings)
     .use(rehypeHighlight, {
-      languages: { clojure, typescript, javascript, java, xml, rust },
+      languages: { clojure, typescript, javascript, java, xml, rust, protobuf },
     })
     .use(rehypeDocument, {
       ...doc,

@@ -42,6 +42,11 @@ const sections = [
     god: "artemis",
   },
   {
+    name: "migrations",
+    title: "Migrations",
+    god: "hephaestus",
+  },
+  {
     name: "data-sync-p2p",
     title: "Data Sync & P2P",
     god: "aphrodite",
@@ -50,11 +55,6 @@ const sections = [
     name: "permissions",
     title: "Permissions",
     god: "zeus",
-  },
-  {
-    name: "migrations",
-    title: "Migrations",
-    god: "hephaestus",
   },
 ];
 

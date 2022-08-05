@@ -16,6 +16,11 @@ Any query can be turned into a "live result" through the `live` method.
 ```typescript
 const liveResult = viewer.queryTodos().whereComplete(P.equals(false)).live();
 liveResult.subscribe((todos) => ...);
+
+// or
+for (await r of liveResult.generator) {
+  // ...
+}
 ```
 
 A `useQuery` hook is currently provided for `React` developers in the `@aphro/react` package.
@@ -23,8 +28,9 @@ A `useQuery` hook is currently provided for `React` developers in the `@aphro/re
 This hook can be used like so:
 
 ```typescript
-const [todos] = unwraps(
-  useQuery(UpdateType.ANY, () => list.queryTodos().whereCompleted(P.equals(filter)), [filter]),
+const {loading, data, error} = useQuery(
+  () => list.queryTodos().whereCompleted(P.equals(filter)),
+  [filter],
 );
 ```
 
