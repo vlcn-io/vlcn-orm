@@ -1,6 +1,6 @@
 {
   "name": "@aphro/mutator-runtime-ts",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "main": "lib/index.js",
   "type": "module",
   "repository": {
@@ -14,7 +14,8 @@
     "@aphro/schema-api": "workspace:*",
     "@aphro/sql-ts": "workspace:*",
     "@strut/sid": "^0.1.2",
-    "@strut/utils": "^0.1.1"
+    "@strut/utils": "^0.1.1",
+    "nanoid": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.5",

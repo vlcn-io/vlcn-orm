@@ -1,5 +1,16 @@
 # @aphro/codegen-ts
 
+## 0.3.2
+
+### Patch Changes
+
+- generate bootstrapping utilities
+- Updated dependencies
+  - @aphro/codegen@0.2.2
+  - @aphro/codegen-api@0.2.1
+  - @aphro/schema@0.2.2
+  - @aphro/schema-api@0.2.1
+
 ## 0.3.1
 
 ### Patch Changes

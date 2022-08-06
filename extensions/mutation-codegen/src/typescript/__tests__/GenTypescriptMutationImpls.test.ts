@@ -26,7 +26,7 @@ test('Empty mutations', async () => {
 
 test('Generating a basic file', async () => {
   const file = await genIt(compileIt(basic));
-  expect(file.contents).toEqual(`import { EditArgs } from "./FooMutations.js";
+  expect(file.contents).toEqual(`import { EditArgs } from "./generated/FooMutations.js";
 import { Changeset } from "@aphro/runtime-ts";
 import { Data } from "./Foo.js";
 import Foo from "./Foo.js";

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b84e9e18579bd214e516ac29041224e2>
+// SIGNED-SOURCE: <d1d25b99d4609dcc8a414770cd0fd33b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -25,12 +25,12 @@ const fields = {
 } as const;
 const SlideSpec: NodeSpecWithCreate<Slide, Data> = {
   type: "node",
-  createFrom(ctx: Context, data: Data) {
+  createFrom(ctx: Context, data: Data, raw: boolean = true) {
     const existing = ctx.cache.get(data["id"], "none", "slide");
     if (existing) {
       return existing;
     }
-    data = decodeModelData(data, fields);
+    if (raw) data = decodeModelData(data, fields);
     const result = new Slide(ctx, data);
     ctx.cache.set(data["id"], result, "none", "slide");
     return result;

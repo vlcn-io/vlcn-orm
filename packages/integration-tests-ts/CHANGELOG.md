@@ -1,5 +1,20 @@
 # @aphro/integration-tests-ts
 
+## 0.3.2
+
+### Patch Changes
+
+- auto-create ids if not provided on create
+  - @aphro/runtime-ts@0.3.2
+
+## 0.3.1
+
+### Patch Changes
+
+- generate bootstrapping utilities
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.1
+
 ## 0.3.0
 
 ### Minor Changes

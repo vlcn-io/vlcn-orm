@@ -16,10 +16,14 @@ import { GenTypescriptMutationImpls, GenTypescriptMutations } from '@aphro/mutat
 import { GlobalStep, Step } from '@aphro/codegen-api';
 
 import {
+  GenSchemaExports,
+  GenSQLExports,
+  GenSQLExports_node,
   GenTypescriptModel,
   GenTypescriptModelManualMethodsClass,
   GenTypescriptQuery,
   GenTypescriptSpec,
+  GenTypes_d_ts,
 } from '@aphro/codegen-ts';
 import { GenSqlTableSchema } from '@aphro/codegen-sql';
 import { GenGraphQLTypedefs, GenGraphQLTypescriptResolvers } from '@aphro/graphql-codegen';
@@ -36,21 +40,28 @@ const steps: readonly Step[] = [
   GenSqlTableSchema,
 ];
 
-const globalSteps: readonly GlobalStep[] = [GenGraphQLTypedefs, GenGraphQLTypescriptResolvers];
+const globalSteps: readonly GlobalStep[] = [
+  GenGraphQLTypedefs,
+  GenGraphQLTypescriptResolvers,
+  GenSchemaExports,
+  GenSQLExports,
+  GenSQLExports_node,
+  GenTypes_d_ts,
+];
 
 async function run() {
   let color = chalk.blue;
-  console.log(
-    color(
-      `Note: if you've migrated from v < 0.3 to v >= 0.3 you'll notice changes in codegen.
+  //   console.log(
+  //     color(
+  //       `Note: if you've migrated from v < 0.3 to v >= 0.3 you'll notice changes in codegen.
 
-1. Fully generated files have moved to a \`generated\` subdirectory
-2. Files that allow manual modification are in the root output dir
+  // 1. Fully generated files have moved to a \`generated\` subdirectory
+  // 2. Files that allow manual modification are in the root output dir
 
-You'll want to delete all previously generated code if this is your first time on v0.3 or greater.
-`,
-    ),
-  );
+  // You'll want to delete all previously generated code if this is your first time on v0.3 or greater.
+  // `,
+  //     ),
+  //   );
 
   const mainDefinitions = [{ name: 'gen', defaultOption: true }];
   const mainOptions = commandLineArgs(mainDefinitions, {

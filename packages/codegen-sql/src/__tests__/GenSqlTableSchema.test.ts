@@ -26,9 +26,9 @@ Foo as Node {
 test('sqlite & basic schema', async () => {
   const schema = compileIt(basicSchema);
   const file = await genIt(schema);
-  expect(file.contents).toEqual(`-- SIGNED-SOURCE: <d0d4eb97bb26d140f602b6978b4d98e8>
+  expect(file.contents).toEqual(`-- SIGNED-SOURCE: <f0ac4ada01711765757b23e2f3815630>
 CREATE TABLE
-  IF NOT EXISTS "foo" (
+  "foo" (
     "id" bigint NOT NULL,
     "i32" int NOT NULL,
     "ui32" int NOT NULL,

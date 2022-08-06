@@ -28,7 +28,7 @@ test('filter', async () => {
   );
 
   const users = await User.queryAll(ctx).whereName(P.startsWith('U')).gen();
-  expect(users.map(u => u.name)).toEqual(['U1', 'U2', 'U3', 'U4']);
+  expect(users.map(u => u.name).sort()).toEqual(['U1', 'U2', 'U3', 'U4']);
 });
 
 test('filters against multi-hops', async () => {

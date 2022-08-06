@@ -92,7 +92,7 @@ test('NoEdgesSchema', async () => {
 
   // TODO: remove unneeded imports
   // Validation should require that a primary key field exists
-  expect(contents).toEqual(`// SIGNED-SOURCE: <43c96899fca8194e72cda371e1eac8d7>
+  expect(contents).toEqual(`// SIGNED-SOURCE: <86219b43127d361c4e0130aff0df9ad0>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -110,16 +110,16 @@ import { ModelFieldGetter } from "@aphro/runtime-ts";
 import { Expression } from "@aphro/runtime-ts";
 import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
-import Foo from "./Foo.js";
-import { Data } from "./Foo.js";
-import { default as spec } from "./FooSpec.js";
+import Foo from "../Foo.js";
+import { Data } from "./FooBase.js";
+import FooSpec from "./FooSpec.js";
 
 export default class FooQuery extends DerivedQuery<Foo> {
   static create(ctx: Context) {
     return new FooQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, FooSpec),
+      modelLoad(ctx, FooSpec.createFrom)
     );
   }
 
@@ -146,7 +146,7 @@ test('OutboundEdgeViaFieldSchema', async () => {
   const contents = (await genIt(compileFromString(OutboundEdgeViaFieldSchema)[1].nodes.Foo))
     .contents;
 
-  expect(contents).toEqual(`// SIGNED-SOURCE: <7e7f913eb59c1dfa562fd2d7171dcd4f>
+  expect(contents).toEqual(`// SIGNED-SOURCE: <afc38a702ee61fa481fd19383e09e039>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -164,19 +164,19 @@ import { ModelFieldGetter } from "@aphro/runtime-ts";
 import { Expression } from "@aphro/runtime-ts";
 import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
-import Foo from "./Foo.js";
-import { Data } from "./Foo.js";
-import { default as spec } from "./FooSpec.js";
-import Bar from "./Bar.js";
-import { default as BarSpec } from "./BarSpec.js";
+import Foo from "../Foo.js";
+import { Data } from "./FooBase.js";
+import FooSpec from "./FooSpec.js";
+import Bar from "../Bar.js";
+import BarSpec from "./BarSpec.js";
 import BarQuery from "./BarQuery.js";
 
 export default class FooQuery extends DerivedQuery<Foo> {
   static create(ctx: Context) {
     return new FooQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, FooSpec),
+      modelLoad(ctx, FooSpec.createFrom)
     );
   }
 
@@ -200,7 +200,7 @@ export default class FooQuery extends DerivedQuery<Foo> {
   queryBar(): BarQuery {
     return new BarQuery(
       this.ctx,
-      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.bar),
+      QueryFactory.createHopQueryFor(this.ctx, this, FooSpec.outboundEdges.bar),
       modelLoad(this.ctx, BarSpec.createFrom)
     );
   }
@@ -222,7 +222,7 @@ test('OutboundThroughForeignFieldSchema', async () => {
   const contents = (await genIt(compileFromString(OutboundThroughForeignFieldSchema)[1].nodes.Foo))
     .contents;
 
-  expect(contents).toEqual(`// SIGNED-SOURCE: <5819b0d1d3776480cdbc5d046094b46f>
+  expect(contents).toEqual(`// SIGNED-SOURCE: <1222775915aac9b251cdfbb9ce058982>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -240,18 +240,18 @@ import { ModelFieldGetter } from "@aphro/runtime-ts";
 import { Expression } from "@aphro/runtime-ts";
 import { EmptyQuery } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
-import Foo from "./Foo.js";
-import { Data } from "./Foo.js";
-import { default as spec } from "./FooSpec.js";
-import { default as BarSpec } from "./BarSpec.js";
+import Foo from "../Foo.js";
+import { Data } from "./FooBase.js";
+import FooSpec from "./FooSpec.js";
+import BarSpec from "./BarSpec.js";
 import BarQuery from "./BarQuery.js";
 
 export default class FooQuery extends DerivedQuery<Foo> {
   static create(ctx: Context) {
     return new FooQuery(
       ctx,
-      QueryFactory.createSourceQueryFor(ctx, spec),
-      modelLoad(ctx, spec.createFrom)
+      QueryFactory.createSourceQueryFor(ctx, FooSpec),
+      modelLoad(ctx, FooSpec.createFrom)
     );
   }
 
@@ -270,7 +270,11 @@ export default class FooQuery extends DerivedQuery<Foo> {
   queryBars(): BarQuery {
     return new BarQuery(
       this.ctx,
-      QueryFactory.createHopQueryFor(this.ctx, this, spec.outboundEdges.bars),
+      QueryFactory.createHopQueryFor(
+        this.ctx,
+        this,
+        FooSpec.outboundEdges.bars
+      ),
       modelLoad(this.ctx, BarSpec.createFrom)
     );
   }

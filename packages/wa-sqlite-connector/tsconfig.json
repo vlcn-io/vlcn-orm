@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig-templates/lib.json",
+  "compilerOptions": {
+    "outDir": "./lib/",
+    "rootDir": "./src",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["./src/"],
+  "references": [{ "path": "../sql-ts" }, { "path": "../context-runtime-ts" }]
+}

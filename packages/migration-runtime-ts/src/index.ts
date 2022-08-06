@@ -1,3 +1,5 @@
+export * from './bootstrap.js';
+
 // export function getTableSchemasFromStorage(db: SQLResolvedDB): Map<string, string> {
 //   return new Map();
 // }

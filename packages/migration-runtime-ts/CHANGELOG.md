@@ -1,5 +1,20 @@
 # @aphro/migration-runtime-ts
 
+## 0.1.2
+
+### Patch Changes
+
+- auto-create ids if not provided on create
+
+## 0.1.1
+
+### Patch Changes
+
+- generate bootstrapping utilities
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.3.1
+  - @aphro/sql-ts@0.2.1
+
 ## 0.1.0
 
 ### Minor Changes

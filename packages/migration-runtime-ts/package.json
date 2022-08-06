@@ -1,6 +1,6 @@
 {
   "name": "@aphro/migration-runtime-ts",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "main": "lib/index.js",
   "type": "module",
   "repository": {
@@ -9,11 +9,14 @@
     "directory": "packages/migration-runtime-ts"
   },
   "dependencies": {
+    "@aphro/context-runtime-ts": "workspace:*",
+    "@aphro/sql-ts": "workspace:*",
     "@strut/utils": "^0.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
+    "@databases/sqlite": "^3.0.0",
     "@types/jest": "^27.4.1",
     "@types/prettier": "^2.6.0",
     "@typescript-eslint/typescript-estree": "^5.22.0",
@@ -28,7 +31,7 @@
     "clean": "tsc --build --clean",
     "build": "tsc --build",
     "watch": "tsc --build -w",
-    "test": "node ./node_modules/jest/bin/jest.js",
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "deep-clean": "rm -rf ./lib || true && rm tsconfig.tsbuildinfo || true"
   },
   "jest": {

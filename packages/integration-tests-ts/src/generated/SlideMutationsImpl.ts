@@ -11,7 +11,6 @@ export function createImpl(
   { deck, order }: CreateArgs
 ): void | Changeset<any>[] {
   mutator.set({
-    id: sid("aaaa"),
     order,
     deckId: deck.id,
   });

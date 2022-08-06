@@ -23,7 +23,6 @@ function Header({ todoList }: { todoList: TodoList }) {
           const target = e.target as HTMLInputElement;
           if (e.key === 'Enter' && target.value.trim() !== '') {
             Todo.create(todoList.ctx, {
-              id: sid('aaaa'),
               text: target.value,
               listId: todoList.id,
               completed: false,

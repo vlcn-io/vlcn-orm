@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <c5d4a20a007b11629906e4fe246e1f8b>
+// SIGNED-SOURCE: <f2fefc2187658a44a80fcd678a86e296>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -35,12 +35,12 @@ const fields = {
 } as const;
 const DeckSpec: NodeSpecWithCreate<Deck, Data> = {
   type: "node",
-  createFrom(ctx: Context, data: Data) {
+  createFrom(ctx: Context, data: Data, raw: boolean = true) {
     const existing = ctx.cache.get(data["id"], "example", "deck");
     if (existing) {
       return existing;
     }
-    data = decodeModelData(data, fields);
+    if (raw) data = decodeModelData(data, fields);
     const result = new Deck(ctx, data);
     ctx.cache.set(data["id"], result, "example", "deck");
     return result;

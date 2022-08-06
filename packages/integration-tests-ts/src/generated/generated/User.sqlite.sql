@@ -1,9 +1,17 @@
--- SIGNED-SOURCE: <9ce79b1a8eb50df0025f9be3de0199d6>
+-- SIGNED-SOURCE: <f0d668bc45b373e737e22015173d70c3>
 CREATE TABLE
-  IF NOT EXISTS "user" (
-    "id" bigint NOT NULL,
-    "name" text NOT NULL,
-    "created" bigint NOT NULL,
-    "modified" bigint NOT NULL,
-    primary key ("id")
+  "user" (
+    "id"
+    /* n=1 */
+,
+    "name"
+    /* n=2 */
+,
+    "created"
+    /* n=3 */
+,
+    "modified"
+    /* n=4 */
+,
+    PRIMARY KEY ("id")
   )

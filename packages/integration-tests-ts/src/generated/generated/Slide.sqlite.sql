@@ -1,8 +1,14 @@
--- SIGNED-SOURCE: <6de05b5e8b8ea19f069c20af0ba808a3>
+-- SIGNED-SOURCE: <5143a057023c75364d91c99229504534>
 CREATE TABLE
-  IF NOT EXISTS "slide" (
-    "id" bigint NOT NULL,
-    "deckId" bigint NOT NULL,
-    "order" float NOT NULL,
-    primary key ("id")
+  "slide" (
+    "id"
+    /* n=1 */
+,
+    "deckId"
+    /* n=2 */
+,
+    "order"
+    /* n=3 */
+,
+    PRIMARY KEY ("id")
   )

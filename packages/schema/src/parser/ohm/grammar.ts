@@ -44,7 +44,10 @@ const grammarDefinition = String.raw`
     | "" -- empty
   
   FieldDeclaration
-  	= propertyKey TypeExpression
+  	= FieldNum propertyKey TypeExpression
+  
+  FieldNum
+    = digit*
   
   FieldType
   	= NonCompositeFieldType | CompositeFieldType

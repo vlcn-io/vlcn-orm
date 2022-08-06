@@ -11,7 +11,6 @@ export function createImpl(
   { name }: CreateArgs
 ): void | Changeset<any>[] {
   mutator.set({
-    id: sid("aaaa"),
     name,
     created: Date.now(),
     modified: Date.now(),

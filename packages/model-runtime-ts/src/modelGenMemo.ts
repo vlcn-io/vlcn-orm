@@ -7,17 +7,15 @@ import { SID_of } from '@strut/sid';
  * If multiple concurrent access to the method happens, return the promise awaiting to be resolved.
  * If the thing is already cached, returns that.
  *
- * Returns optimstic promises as well.
- *
- * TODO: maybe just get rid of all this optimistic promise crap.
- * Complicates the code and is only a problem because React can't handle async correctly.
+ * TODO: can we move this deeper into the query layer itself?
+ * TODO: apply this to 1-1 edges too. E.g., `deck->genOwner`
  */
 export default function modelGenMemo<T>(
   dbname: string,
   tablish: string,
-  gen: (ctx: Context, id: SID_of<T>) => OptimisticPromise<T>,
+  gen: (ctx: Context, id: SID_of<T>) => Promise<T>,
 ) {
-  const priorHandles: Map<string, OptimisticPromise<T>> = new Map();
+  const priorHandles: Map<string, Promise<T>> = new Map();
   return async (ctx: Context, id: SID_of<T>) => {
     const key = ctx.cache.cacheId + '~' + id;
     const priorHandle = priorHandles.get(key);
@@ -26,9 +24,7 @@ export default function modelGenMemo<T>(
     }
     const existing = ctx.cache.get(id as SID_of<T>, dbname, tablish);
     if (existing != null) {
-      const ret = new OptimisticPromise<T>(resolve => resolve(existing));
-      ret.__setOptimisticResult(existing);
-      return ret;
+      return existing;
     }
     const currentHandle = gen(ctx, id);
     priorHandles.set(key, currentHandle);

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <06a79be26332febe24c8df4c7468f5c5>
+// SIGNED-SOURCE: <344297bc81fcb796dffdaa5dcb36406d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -24,7 +24,7 @@ const fields = {
 } as const;
 const IdentitySpec: NodeSpecWithCreate<Identity, Data> = {
   type: "node",
-  createFrom(ctx: Context, data: Data) {
+  createFrom(ctx: Context, data: Data, raw: boolean = true) {
     return new Identity(ctx, data);
   },
 

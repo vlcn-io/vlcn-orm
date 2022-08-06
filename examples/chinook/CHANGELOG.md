@@ -1,5 +1,25 @@
 # @aphro/chinook
 
+## 0.3.0
+
+### Minor Changes
+
+- update chinook to latest aphrodite
+
+## 0.2.3
+
+### Patch Changes
+
+- @aphro/runtime-ts@0.3.2
+
+## 0.2.2
+
+### Patch Changes
+
+- generate bootstrapping utilities
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.1
+
 ## 0.2.1
 
 ### Patch Changes

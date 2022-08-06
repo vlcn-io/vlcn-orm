@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <bf705bf757b715fff4db1f17d74d09d6>
+// SIGNED-SOURCE: <470d460f19df54a1e8670e08dce804c4>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -27,12 +27,12 @@ const fields = {
 } as const;
 const ComponentSpec: NodeSpecWithCreate<Component, Data> = {
   type: "node",
-  createFrom(ctx: Context, data: Data) {
+  createFrom(ctx: Context, data: Data, raw: boolean = true) {
     const existing = ctx.cache.get(data["id"], "example", "component");
     if (existing) {
       return existing;
     }
-    data = decodeModelData(data, fields);
+    if (raw) data = decodeModelData(data, fields);
     const result = new Component(ctx, data);
     ctx.cache.set(data["id"], result, "example", "component");
     return result;

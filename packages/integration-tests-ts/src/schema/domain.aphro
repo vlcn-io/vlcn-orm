@@ -4,10 +4,10 @@ db: example
 # `#` commented with some theoretical future additions.
 
 User as Node {
-  id: ID<User>
-  name: NaturalLanguage # & UserGenerated -- fields filled by users
-  created: Timestamp # & Computed & Immutable
-  modified: Timestamp
+  1 id: ID<User>
+  2 name: NaturalLanguage # & UserGenerated -- fields filled by users
+  3 created: Timestamp # & Computed & Immutable
+  4 modified: Timestamp
 } & OutboundEdges {
   decks: Edge<Deck.ownerId>
 } & Mutations {
@@ -31,12 +31,12 @@ User as Node {
 # & Triggers { typescript: ``, c#: ``, ...} -- would we want to do arbitrary code injection?
 
 Deck as Node {
-  id: ID<Deck>
-  name: NaturalLanguage
-  created: Timestamp
-  modified: Timestamp
-  ownerId: ID<User>
-  selectedSlideId: ID<Slide> | null
+  1 id: ID<Deck>
+  2 name: NaturalLanguage
+  3 created: Timestamp
+  4 modified: Timestamp
+  5 ownerId: ID<User>
+  6 selectedSlideId: ID<Slide> | null
 } & OutboundEdges {
   owner: Edge<Deck.ownerId>
   slides: Edge<Slide.deckId>
@@ -61,9 +61,9 @@ Deck as Node {
 }
 
 Slide as Node {
-  id: ID<Slide>
-  deckId: ID<Deck>
-  order: float32
+  1 id: ID<Slide>
+  2 deckId: ID<Deck>
+  3 order: float32
 } & OutboundEdges {
   components: Edge<Component.slideId>
 } & Mutations {
@@ -80,10 +80,10 @@ Slide as Node {
 }
 
 Component as Node {
-  id: ID<Component>
-  subtype: Enumeration<Text | Embed>
-  slideId: ID<Slide>
-  content: string
+  1 id: ID<Component>
+  2 subtype: Enumeration<Text | Embed>
+  3 slideId: ID<Slide>
+  4 content: string
 } & Mutations {
   create as Create {
     subtype
@@ -95,11 +95,11 @@ Component as Node {
 }
 
 DeckToEditorsEdge as Edge<Deck, User> {
-  # force user to define these or aut create them?
+  # force user to define these or auto create them?
   # also -- auto create unique index on `id1,id2` pairing?
   # and non-unique on id2?
-  id1: ID<Deck>
-  id2: ID<User>
+  1 id1: ID<Deck>
+  2 id2: ID<User>
  } & Mutations {
   create as Create {
     src: Deck

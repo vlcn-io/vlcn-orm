@@ -9,7 +9,6 @@ export function createImpl(
   { identifier, token }: CreateArgs
 ): void | Changeset<any>[] {
   mutator.set({
-    id: sid("aaaa"),
     identifier,
     token,
   });

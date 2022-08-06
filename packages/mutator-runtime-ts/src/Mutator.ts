@@ -11,6 +11,7 @@ import {
   Context,
   OptimisticPromise,
 } from '@aphro/context-runtime-ts';
+import { nanoid } from 'nanoid';
 import { commit } from './commit.js';
 
 export interface IMutationBuilder<M extends IModel<D>, D extends Object> {
@@ -98,6 +99,16 @@ export class CreateMutationBuilder<
   }
 
   toChangesetImpl(): Omit<CreateChangeset<M, D>, 'save' | 'save0'> {
+    let primaryKey =
+      this.spec.type === 'node'
+        ? this.data[this.spec.primaryKey]
+        : // @ts-ignore
+          this.data.id1 + '-' + this.data.id2;
+
+    if (primaryKey == null && this.spec.type === 'node') {
+      // set it automagically? I think that is reasonable.
+      primaryKey = this.data[this.spec.primaryKey] = nanoid();
+    }
     return {
       type: 'create',
       updates: this.data,
@@ -105,11 +116,7 @@ export class CreateMutationBuilder<
       // TODO: this is _not_ guaranteed to be an SID...
       // We either need a validation step to force primary keys to be SIDs
       // or we need to allow non-sids as primary keys
-      id:
-        this.spec.type === 'node'
-          ? this.data[this.spec.primaryKey]
-          : // @ts-ignore
-            this.data.id1 + '-' + this.data.id2,
+      id: primaryKey,
     };
   }
 }
