@@ -8,6 +8,9 @@ const count = counter('model-infra/Hooks');
 export function useBind<M extends INode<D>, D>(m: M): void;
 export function useBind<M extends INode<D>, D>(m: M, keys: (keyof D)[]): void;
 
+/**
+ * @deprecated - use createHooks instead
+ */
 export function useBind<M extends INode<D>, D>(m: M, keys?: (keyof D)[]): void {
   count.bump('useBind.' + m.constructor.name);
   // TODO swap out to reac18 "useSyncExternalStore"
@@ -41,6 +44,9 @@ export type UseQueryOptions = {
   // We can given the declarative nature of the queries...
   key?: string;
 };
+/**
+ * @deprecated - use createHooks instead
+ */
 export function useQuery<Q extends Query<QueryReturnType<Q>>>(
   queryProvider: () => Q,
   deps: any[] = [],

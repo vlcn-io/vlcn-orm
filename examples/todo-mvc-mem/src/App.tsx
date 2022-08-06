@@ -149,16 +149,15 @@ function Footer({
 }
 
 export default function App() {
-  const list = useQueryOne(TodoList.queryAll, [], { key: 'list' });
+  const list = useQueryOne(TodoList.queryAll, { key: 'list' });
   const clearCompleted = () =>
     commit(
       list.ctx,
       completeTodos.map(t => t.delete()),
     );
-  const startEditing = useCallback(
-    (todo: Todo) => list.update({ editing: todo.id }).save(),
-    [list],
-  );
+  const startEditing = useCallback((todo: Todo) => list.update({ editing: todo.id }).save(), [
+    list,
+  ]);
   const saveTodo = useCallback(
     (todo: Todo, text: string) => {
       commit(list.ctx, todo.update({ text: text }), list.update({ editing: null }));
@@ -183,13 +182,13 @@ export default function App() {
   let toggleAllCheck;
 
   useBind(list, ['filter', 'editing']);
-  const activeTodos = useQuery(() => list.queryTodos().whereCompleted(P.equals(false)), [], {
+  const activeTodos = useQuery(() => list.queryTodos().whereCompleted(P.equals(false)), {
     key: 'activeTodos',
   });
-  const completeTodos = useQuery(() => list.queryTodos().whereCompleted(P.equals(true)), [], {
+  const completeTodos = useQuery(() => list.queryTodos().whereCompleted(P.equals(true)), {
     key: 'completeTodos',
   });
-  const allTodos = useQuery(() => list.queryTodos(), [], {
+  const allTodos = useQuery(() => list.queryTodos(), {
     on: UpdateType.CREATE_OR_DELETE,
     key: 'allTodos',
   });
