@@ -20,6 +20,7 @@
     "@babel/preset-env": "^7.17.10",
     "@types/jest": "^27.4.1",
     "@types/react": "^18.0.10",
+    "@aphro/codegen-cli": "workspace:*",
     "@aphro/runtime-ts": "workspace:*",
     "@typescript-eslint/typescript-estree": "^5.22.0",
     "jest": "^28.1.0",
@@ -31,11 +32,14 @@
     "build": "tsc --build",
     "watch": "tsc --build -w",
     "deep-clean": "rm -rf ./lib || true && rm tsconfig.tsbuildinfo || true",
-    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"
+    "//test": "node --experimental-vm-modules --preserve-symlinks ./node_modules/jest/bin/jest.js",
+    "test": "jest"
   },
   "jest": {
+    "preset": "ts-jest",
     "testMatch": [
-      "**/__tests__/**/*.test.js"
+      "**/__tests__/**/*.test.ts",
+      "**/__tests__/**/*.test.tsx"
     ]
   }
 }
