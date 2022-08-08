@@ -137,11 +137,17 @@ export default class LiveResult<T> {
 
   unsubscribe(subscriber: (data: T[]) => void) {
     this.#subscribers.delete(subscriber);
-    // Intentionally auto-free when there are no more
-    // subscribers.
-    if (this.#subscribers.size === 0) {
-      this.free();
-    }
+    // queueing a microtask means this will be called after there's nothing
+    // left on the stack - allowing any synchronous code to evaluate, giving
+    // the caller a chance to resubscribe if desired. This seemed like a
+    // reasonable window to delay the disposal.
+    queueMicrotask(() => {
+      // Intentionally auto-free when there are no more
+      // subscribers.
+      if (this.#subscribers.size === 0) {
+        this.free();
+      }
+    });
   }
 
   free() {

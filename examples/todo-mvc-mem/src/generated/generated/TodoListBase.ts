@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <f6021febf4360776b4241232d755ca88>
+// SIGNED-SOURCE: <b9a5f265ccbef007e82c5ed38df9cbce>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -10,6 +10,7 @@ import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { modelGenMemo } from "@aphro/runtime-ts";
+import { OptimisticPromise } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -51,15 +52,25 @@ export default abstract class TodoListBase extends Node<Data> {
   static genx = modelGenMemo(
     "todomvc",
     "todolist",
-    (ctx: Context, id: SID_of<TodoList>): Promise<TodoList> =>
-      this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
+    (ctx: Context, id: SID_of<TodoList>): OptimisticPromise<TodoList> =>
+      new OptimisticPromise((resolve, reject) =>
+        this.queryAll(ctx)
+          .whereId(P.equals(id))
+          .genxOnlyValue()
+          .then(resolve, reject)
+      )
   );
 
   static gen = modelGenMemo(
     "todomvc",
     "todolist",
-    (ctx: Context, id: SID_of<TodoList>): Promise<TodoList | null> =>
-      this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
+    (ctx: Context, id: SID_of<TodoList>): OptimisticPromise<TodoList | null> =>
+      new OptimisticPromise((resolve, reject) =>
+        this.queryAll(ctx)
+          .whereId(P.equals(id))
+          .genOnlyValue()
+          .then(resolve, reject)
+      )
   );
 
   update(data: Partial<Data>) {
