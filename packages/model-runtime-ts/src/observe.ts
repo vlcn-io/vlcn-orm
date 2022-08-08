@@ -1,3 +1,9 @@
+type It<T> = {
+  throw(): { done: true; value: T };
+  return(): { done: true; value: T };
+  next(): { done: false; value: Promise<T> };
+};
+
 export default function observe<T>(initialize: (change: (x: T) => T) => null | (() => void)) {
   let stale = false;
   let value: T;
@@ -17,11 +23,13 @@ export default function observe<T>(initialize: (change: (x: T) => T) => null | (
     };
   }
 
-  const ret = {
+  const ret: {
+    [Symbol.iterator]: () => It<T>;
+  } & It<T> = {
     [Symbol.iterator]: () => ret,
     throw: () => (dispose != null && dispose(), { done: true, value }),
     return: () => (dispose != null && dispose(), { done: true, value }),
     next,
-  } as const;
+  };
   return ret;
 }
