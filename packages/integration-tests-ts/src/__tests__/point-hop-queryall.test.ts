@@ -76,19 +76,19 @@ async function testQueryThatTraversesEdges(
   const deckCs = DckMutations.create(ctx, {
     name: 'Preso',
     // @ts-ignore
-    owner: userCs,
+    owner: userCs[0],
     selectedSlide: null, // TODO: enable ref to slide somehow...
   }).toChangesets();
   const slideCs = SldMutations.create(ctx, {
     order: 0,
     // @ts-ignore
-    deck: deckCs,
+    deck: deckCs[0],
   }).toChangesets();
   const componentCs = CmpMutations.create(ctx, {
     content: 'Welcome!',
     subtype: 'Text',
     // @ts-ignore
-    slide: slideCs,
+    slide: slideCs[0],
   }).toChangesets();
   const [user, component, slide, deck] = await commit(
     ctx,

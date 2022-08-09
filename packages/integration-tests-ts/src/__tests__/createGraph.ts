@@ -44,7 +44,7 @@ async function createGraphParametrized<T extends Mutations>(ctx: Context, mutati
   const slidesCs = ordering.flatMap(o =>
     mutations.SlideMutations.create(ctx, {
       // @ts-ignore
-      deck: deckCs,
+      deck: deckCs[0],
       order: o,
     }).toChangesets(),
   );

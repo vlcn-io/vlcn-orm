@@ -14,7 +14,20 @@ export default abstract class MutationsBase<M extends IModel<D>, D extends Objec
   }
 
   save(): OptimisticPromise<M> {
-    return this.mutator.toChangesets().save()[0];
+    const prev = this.mutator.toChangesets().save();
+
+    const ret = new OptimisticPromise<M>((resolve, reject) => {
+      if (prev.optimistic != null) {
+        resolve(prev.optimistic[0]);
+      } else {
+        prev.then(x => resolve(x[0]));
+      }
+    });
+    if (prev.optimistic != null) {
+      ret.__setOptimisticResult(prev.optimistic[0]);
+    }
+
+    return ret;
   }
 
   save0(): M {
