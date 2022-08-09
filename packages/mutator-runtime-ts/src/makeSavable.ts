@@ -5,7 +5,7 @@ import {
   OptimisticPromise,
   SavableChangeset,
 } from '@aphro/context-runtime-ts';
-import { commit } from './commit';
+import { commit } from './commit.js';
 
 export default function makeSavable<M extends IModel<D>, D>(
   ctx: Context,

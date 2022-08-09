@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b9a5f265ccbef007e82c5ed38df9cbce>
+// SIGNED-SOURCE: <6541356fc02d3b89e9b7492bd9f3f794>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,8 +9,8 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { makeSavable } from "@aphro/runtime-ts";
 import { modelGenMemo } from "@aphro/runtime-ts";
-import { OptimisticPromise } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
@@ -52,38 +52,37 @@ export default abstract class TodoListBase extends Node<Data> {
   static genx = modelGenMemo(
     "todomvc",
     "todolist",
-    (ctx: Context, id: SID_of<TodoList>): OptimisticPromise<TodoList> =>
-      new OptimisticPromise((resolve, reject) =>
-        this.queryAll(ctx)
-          .whereId(P.equals(id))
-          .genxOnlyValue()
-          .then(resolve, reject)
-      )
+    (ctx: Context, id: SID_of<TodoList>): Promise<TodoList> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
   static gen = modelGenMemo(
     "todomvc",
     "todolist",
-    (ctx: Context, id: SID_of<TodoList>): OptimisticPromise<TodoList | null> =>
-      new OptimisticPromise((resolve, reject) =>
-        this.queryAll(ctx)
-          .whereId(P.equals(id))
-          .genOnlyValue()
-          .then(resolve, reject)
-      )
+    (ctx: Context, id: SID_of<TodoList>): Promise<TodoList | null> =>
+      this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );
 
   update(data: Partial<Data>) {
-    return new UpdateMutationBuilder(this.ctx, this.spec, this)
-      .set(data)
-      .toChangeset();
+    return makeSavable(
+      this.ctx,
+      new UpdateMutationBuilder(this.ctx, this.spec, this)
+        .set(data)
+        .toChangesets()[0]
+    );
   }
 
   static create(ctx: Context, data: Partial<Data>) {
-    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
+    return makeSavable(
+      ctx,
+      new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]
+    );
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
+    return makeSavable(
+      this.ctx,
+      new DeleteMutationBuilder(this.ctx, this.spec, this).toChangesets()[0]
+    );
   }
 }
