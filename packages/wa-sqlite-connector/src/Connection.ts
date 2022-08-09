@@ -3,7 +3,8 @@ import * as SQLite from 'wa-sqlite';
 import { IDBBatchAtomicVFS } from 'wa-sqlite/src/examples/IDBBatchAtomicVFS.js';
 // import { OriginPrivateFileSystemVFS } from 'wa-sqlite/src/examples/OriginPrivateFileSystemVFS.js';
 import { formatters, SQLQuery } from '@aphro/sql-ts';
-import { tracer } from '@aphro/instrument';
+import tracer from './trace.js';
+import { Span } from '@opentelemetry/api';
 
 class Connection {
   private queue = Promise.resolve();
@@ -15,14 +16,18 @@ class Connection {
     // Serialize all queries for the time being to prevent this.
     // TODO: file a bug report and/or fix it.
     const res = this.queue.then(() => {
-      return tracer.genStartActiveSpan('connection.query', () => this.#queryImpl(sql));
+      return tracer.genStartActiveSpan('connection.query', (span: Span) =>
+        this.#queryImpl(span, sql),
+      );
     });
     this.queue = res.catch(() => {});
     return res;
   }
 
-  async #queryImpl(sql: SQLQuery): Promise<any> {
+  async #queryImpl(span: Span, sql: SQLQuery): Promise<any> {
     const formatted = sql.format(formatters['sqlite']);
+    span.setAttribute('query', formatted.text);
+
     const results: { columns: string[]; rows: any[] }[] = [];
     const sqlite3 = this.sqlite;
     const db = this.db;
@@ -63,6 +68,7 @@ class Connection {
 
     // Note: convert `results` to objects.
     // also should only allow single statements
+    span.setAttribute('rows', objects.length);
     return objects;
   }
 

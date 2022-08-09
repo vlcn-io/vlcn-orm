@@ -1,4 +1,4 @@
-import { SpanStatusCode, trace, Tracer } from '@opentelemetry/api';
+import { Span, SpanStatusCode, trace, Tracer } from '@opentelemetry/api';
 
 let tracer: Tracer;
 
@@ -15,10 +15,10 @@ export default {
     return tracer.startSpan(name);
   },
 
-  startActiveSpan<T>(name: string, cb: () => T): T {
+  startActiveSpan<T>(name: string, cb: (span: Span) => T): T {
     return tracer.startActiveSpan(name, span => {
       try {
-        return cb();
+        return cb(span);
       } catch (e) {
         span.recordException(e);
         throw e;
@@ -28,10 +28,10 @@ export default {
     });
   },
 
-  genStartActiveSpan<T>(name: string, cb: () => Promise<T>): Promise<T> {
+  genStartActiveSpan<T>(name: string, cb: (span: Span) => Promise<T>): Promise<T> {
     return tracer.startActiveSpan(name, async span => {
       try {
-        return await cb();
+        return await cb(span);
       } catch (e) {
         span.recordException(e);
         throw e;
