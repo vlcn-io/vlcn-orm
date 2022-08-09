@@ -19,6 +19,7 @@ packages:
   - 'packages/context-runtime-ts'
   - 'packages/crr-sqlite/instead-of-prototype/test'
   - 'packages/grammar-extension-api'
+  - 'packages/instrument'
   - 'packages/integration-tests-ts'
   - 'packages/migration-runtime-ts'
   - 'packages/model-runtime-ts'

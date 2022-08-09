@@ -2,6 +2,7 @@ import initSqlJs from '@aphro/sql.js';
 import { SQLiteFS } from '@aphro/absurd-sql';
 import IndexedDBBackend from '@aphro/absurd-sql/dist/indexeddb-backend.js';
 import thisPackage from '../pkg.js';
+import tracer from '../tracer.js';
 
 /**
  * This is the entrypoint for our web-worker.
@@ -29,65 +30,8 @@ async function init() {
     PRAGMA journal_mode=MEMORY;
   `);
 
-  self.addEventListener('message', async function ({ data }) {
-    const { pkg, event, id, queryObj } = data;
-    if (pkg !== thisPackage) {
-      return;
-    }
-    if (event !== 'query') {
-      return;
-    }
-
-    // console.log(queryObj);
-    if (queryObj.bindings) {
-      let stmt;
-      let rows: any[] = [];
-      try {
-        stmt = db.prepare(queryObj.sql);
-        stmt.bind(queryObj.bindings);
-        while (stmt.step()) rows.push(stmt.getAsObject());
-      } catch (e) {
-        self.postMessage({
-          pkg: thisPackage,
-          event: 'query-response',
-          id,
-          error: {
-            message: e.message,
-          },
-        });
-        return;
-      } finally {
-        if (stmt != null) {
-          stmt.free();
-        }
-      }
-
-      self.postMessage({
-        pkg: thisPackage,
-        event: 'query-response',
-        id,
-        result: rows,
-      });
-    } else {
-      try {
-        db.exec(queryObj.sql);
-      } catch (e) {
-        self.postMessage({
-          pkg: thisPackage,
-          event: 'query-response',
-          id,
-          error: e,
-        });
-        return;
-      }
-
-      self.postMessage({
-        pkg: thisPackage,
-        event: 'query-response',
-        id,
-        result: [],
-      });
-    }
+  self.addEventListener('message', ({ data }) => {
+    tracer.startActiveSpan('worker.receive-message', () => receiveMessage(db, data));
   });
 
   self.postMessage({
@@ -96,4 +40,65 @@ async function init() {
   });
 }
 
-init();
+function receiveMessage(db, data) {
+  const { pkg, event, id, queryObj } = data;
+  if (pkg !== thisPackage) {
+    return;
+  }
+  if (event !== 'query') {
+    return;
+  }
+
+  // console.log(queryObj);
+  if (queryObj.bindings) {
+    let stmt;
+    let rows: any[] = [];
+    try {
+      stmt = db.prepare(queryObj.sql);
+      stmt.bind(queryObj.bindings);
+      while (stmt.step()) rows.push(stmt.getAsObject());
+    } catch (e) {
+      self.postMessage({
+        pkg: thisPackage,
+        event: 'query-response',
+        id,
+        error: {
+          message: e.message,
+        },
+      });
+      return;
+    } finally {
+      if (stmt != null) {
+        stmt.free();
+      }
+    }
+
+    self.postMessage({
+      pkg: thisPackage,
+      event: 'query-response',
+      id,
+      result: rows,
+    });
+  } else {
+    try {
+      db.exec(queryObj.sql);
+    } catch (e) {
+      self.postMessage({
+        pkg: thisPackage,
+        event: 'query-response',
+        id,
+        error: e,
+      });
+      return;
+    }
+
+    self.postMessage({
+      pkg: thisPackage,
+      event: 'query-response',
+      id,
+      result: [],
+    });
+  }
+}
+
+await tracer.genStartActiveSpan('worker.init', init);

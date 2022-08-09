@@ -24,6 +24,7 @@
     { "path": "../extensions/mutation-grammar" },
     { "path": "../extensions/graphql-grammar" },
     { "path": "../extensions/graphql-codegen" },
-    { "path": "../packages/wa-sqlite-connector" }
+    { "path": "../packages/wa-sqlite-connector" },
+    { "path": "../packages/instrument" }
   ]
 }

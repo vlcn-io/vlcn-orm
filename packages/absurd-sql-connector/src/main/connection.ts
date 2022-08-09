@@ -2,6 +2,8 @@ import count from '@strut/counter';
 import thisPackage from '../pkg.js';
 import { initBackend } from '@aphro/absurd-sql/dist/indexeddb-main-thread.js';
 import { formatters, SQLQuery } from '@aphro/sql-ts';
+import tracer from '../tracer.js';
+import { SpanStatusCode } from '@opentelemetry/api';
 
 let queryId = 0;
 
@@ -51,37 +53,40 @@ export default class Connection {
       this.#worker.addEventListener('message', setReady);
     });
 
-    this.#worker.addEventListener('message', this.#messageListener);
+    this.#worker.addEventListener('message', m => {
+      tracer.startActiveSpan('connection.receive-message', () => this.#messageListener(m));
+    });
   }
 
-  // TODO: what type gets returned?
-  async query(sql: SQLQuery): Promise<any> {
-    counter.bump('query');
-    const id = queryId++;
+  query(sql: SQLQuery): Promise<any> {
+    return tracer.genStartActiveSpan('connection.query', () => {
+      counter.bump('query');
+      const id = queryId++;
 
-    let resolvePending;
-    let rejectPending;
-    const promise = new Promise((resolve, reject) => {
-      resolvePending = resolve;
-      rejectPending = reject;
+      let resolvePending;
+      let rejectPending;
+      const promise = new Promise((resolve, reject) => {
+        resolvePending = resolve;
+        rejectPending = reject;
+      });
+
+      this.#pending.push({
+        id,
+        resolve: resolvePending,
+        reject: rejectPending,
+      });
+
+      const formatted = sql.format(formatters['sqlite']);
+
+      this.#worker.postMessage({
+        pkg: thisPackage,
+        event: 'query',
+        queryObj: { sql: formatted.text, bindings: formatted.values },
+        id,
+      });
+
+      return promise;
     });
-
-    this.#pending.push({
-      id,
-      resolve: resolvePending,
-      reject: rejectPending,
-    });
-
-    const formatted = sql.format(formatters['sqlite']);
-
-    this.#worker.postMessage({
-      pkg: thisPackage,
-      event: 'query',
-      queryObj: { sql: formatted.text, bindings: formatted.values },
-      id,
-    });
-
-    return await promise;
   }
 
   #messageListener = ({ data }) => {

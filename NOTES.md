@@ -46,3 +46,8 @@ Solidjs architecture: https://www.youtube.com/watch?v=_ne2BsvFBH0, https://www.y
 
 How might we have Model properties integrated into SolidJS's reactivity system?
 Live queries too.
+
+
+# Signoz:
+
+http://localhost:3301/application

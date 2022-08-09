@@ -3,18 +3,19 @@ import * as SQLite from 'wa-sqlite';
 import { IDBBatchAtomicVFS } from 'wa-sqlite/src/examples/IDBBatchAtomicVFS.js';
 // import { OriginPrivateFileSystemVFS } from 'wa-sqlite/src/examples/OriginPrivateFileSystemVFS.js';
 import { formatters, SQLQuery } from '@aphro/sql-ts';
+import { tracer } from '@aphro/instrument';
 
 class Connection {
   private queue = Promise.resolve();
 
   constructor(private sqlite: SQLiteAPI, private db: number) {}
 
-  async query(sql: SQLQuery): Promise<any> {
+  query(sql: SQLQuery): Promise<any> {
     // TODO: unfortunately wa-sqlite has a bug where concurrent writes creates a deadlock.
     // Serialize all queries for the time being to prevent this.
     // TODO: file a bug report and/or fix it.
     const res = this.queue.then(() => {
-      return this.#queryImpl(sql);
+      return tracer.genStartActiveSpan('connection.query', () => this.#queryImpl(sql));
     });
     this.queue = res.catch(() => {});
     return res;
@@ -66,10 +67,12 @@ class Connection {
   }
 
   private bind(stmt: number, values: unknown[]) {
-    for (let i = 0; i < values.length; ++i) {
-      const v = values[i];
-      this.sqlite.bind(stmt, i + 1, typeof v === 'boolean' ? (v && 1) || 0 : (v as any));
-    }
+    tracer.startActiveSpan('connection.bind', () => {
+      for (let i = 0; i < values.length; ++i) {
+        const v = values[i];
+        this.sqlite.bind(stmt, i + 1, typeof v === 'boolean' ? (v && 1) || 0 : (v as any));
+      }
+    });
   }
 
   dispose() {

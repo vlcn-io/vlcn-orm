@@ -1,20 +1,15 @@
 {
-  "name": "@aphro/wa-sqlite-connector",
-  "version": "0.2.1",
+  "name": "@aphro/instrument",
+  "version": "0.0.1",
   "main": "lib/index.js",
   "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/tantaman/aphrodite.git",
-    "directory": "packages/wa-sqlite-connector"
+    "directory": "packages/instrument"
   },
   "dependencies": {
-    "@aphro/context-runtime-ts": "workspace:*",
-    "@aphro/sql-ts": "workspace:*",
-    "@aphro/instrument": "workspace:*",
-    "@opentelemetry/api": "^1.1.0",
-    "@strut/counter": "^0.0.11",
-    "wa-sqlite": "github:rhashimoto/wa-sqlite#buildless"
+    "@opentelemetry/api": "^1.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.12",
@@ -28,6 +23,7 @@
     "clean": "tsc --build --clean",
     "build": "tsc --build",
     "watch": "tsc --build -w",
+    "test": "node ./node_modules/jest/bin/jest.js",
     "deep-clean": "rm -rf ./lib || true && rm tsconfig.tsbuildinfo || true"
   },
   "jest": {
