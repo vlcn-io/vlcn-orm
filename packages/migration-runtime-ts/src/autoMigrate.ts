@@ -63,6 +63,8 @@ async function migrateOne(task: MigrationTask) {
 
   const tableName = extractTableName(newSql);
   const oldSql = (await getOldSql(db, tableName)).replaceAll('\n', '');
+  console.log(oldSql);
+  console.log(newSql);
 
   const oldColumnDefs = extractColumnDefs(oldSql);
   const newColumnDefs = extractColumnDefs(newSql);
@@ -239,7 +241,9 @@ function addStatements(tableName: string, columns: ColumnDef[]): SQLQuery[] {
 // https://stackoverflow.com/questions/2685885/sqlite-modify-column
 function modifyStatements(tableName: string, columns: [ColumnDef, ColumnDef][]): SQLQuery[] {
   return columns.map(([l, r]) => {
-    return sql`ALTER TABLE ${sql.ident(tableName)} RENAME COLUMN ${l.name} TO ${r.name}`;
+    return sql`ALTER TABLE ${sql.ident(tableName)} RENAME COLUMN ${sql.ident(
+      l.name,
+    )} TO ${sql.ident(r.name)}`;
   });
 }
 
