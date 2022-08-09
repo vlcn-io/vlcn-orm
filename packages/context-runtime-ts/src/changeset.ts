@@ -17,8 +17,6 @@ export type CreateChangeset<M extends IModel<D>, D> = {
   spec: ModelSpecWithCreate<M, D>;
   options?: ChangesetOptions;
   id: SID_of<M>;
-  save(): OptimisticPromise<M>;
-  save0(): M;
 };
 
 export type UpdateChangeset<M extends IModel<D>, D> = {
@@ -28,8 +26,6 @@ export type UpdateChangeset<M extends IModel<D>, D> = {
   model: M;
   options?: ChangesetOptions;
   id: SID_of<M>;
-  save(): OptimisticPromise<M>;
-  save0(): M;
 };
 
 export type DeleteChangeset<M extends IModel<D>, D> = {
@@ -38,6 +34,9 @@ export type DeleteChangeset<M extends IModel<D>, D> = {
   spec: ModelSpecWithCreate<M, D>;
   options?: ChangesetOptions;
   id: SID_of<M>;
-  save(): OptimisticPromise<M>;
-  save0(): M;
 };
+
+export interface IChangesetArray<M extends IModel<D>, D> extends Array<Changeset<M, D>> {
+  save(): OptimisticPromise<M[]>;
+  save0(): M[];
+}

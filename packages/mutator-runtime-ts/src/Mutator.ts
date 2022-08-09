@@ -10,14 +10,16 @@ import {
   ModelSpecWithCreate,
   Context,
   OptimisticPromise,
+  IChangesetArray,
 } from '@aphro/context-runtime-ts';
 import { nanoid } from 'nanoid';
+import ChangesetArray from './ChangesetArray.js';
 import { commit } from './commit.js';
 
 export interface IMutationBuilder<M extends IModel<D>, D extends Object> {
   readonly ctx: Context;
 
-  toChangeset(options?: ChangesetOptions): Changeset<M, D>;
+  toChangesets(options?: ChangesetOptions): IChangesetArray<M, D>;
   // TODO: remove this once we get mutations generation complete
   // we don't need `set` for `delete`
   set(newData: Partial<D>): this;
@@ -33,22 +35,19 @@ export interface ICreateOrUpdateBuilder<M extends IModel<D>, D extends Object>
 abstract class MutationBuilder<M extends IModel<D>, D extends Object>
   implements IMutationBuilder<M, D>
 {
+  #extraChangesets: Changeset<any, any>[] = [];
+
   constructor(
     public readonly ctx: Context,
     protected spec: ModelSpecWithCreate<M, D>,
     protected data: Partial<D>,
   ) {}
 
-  toChangeset(): Changeset<M, D> {
+  toChangesets(): IChangesetArray<M, D> /*[Changeset<M, D>, ...Changeset<any, any>[]]*/ {
     const cs = this.toChangesetImpl();
-    (cs as CreateChangeset<M, D>).save = () => {
-      return commit(this.ctx, cs as Changeset<M, D>);
-    };
-    (cs as CreateChangeset<M, D>).save0 = () => {
-      return commit(this.ctx, cs as Changeset<M, D>).optimistic;
-    };
 
-    return cs as Changeset<M, D>;
+    // return [cs as Changeset<M, D>, ...this.#extraChangesets];
+    return new ChangesetArray(this.ctx, cs as Changeset<M, D>);
   }
 
   protected abstract toChangesetImpl(): Omit<Changeset<M, D>, 'save' | 'save0'>;
@@ -61,7 +60,8 @@ abstract class MutationBuilder<M extends IModel<D>, D extends Object>
     if (changesets == null) {
       return this;
     }
-    throw new Error('Using mutators within mutators is not yet supported. Coming soon!');
+    changesets.forEach(cs => this.#extraChangesets.push(cs));
+    throw new Error('mutations within mutations not yet supported');
     return this;
   }
 
@@ -71,8 +71,8 @@ abstract class MutationBuilder<M extends IModel<D>, D extends Object>
    *
    * @returns reference to the model
    */
-  save(): OptimisticPromise<M> {
-    return this.toChangeset().save();
+  save(): OptimisticPromise<M[]> {
+    return this.toChangesets().save();
   }
 }
 
