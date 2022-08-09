@@ -32,20 +32,22 @@ beforeAll(async () => {
   rh = resolver;
   ctx = context(viewer(asId('me')), resolver, cache);
 
-  const userCs = [1, 2, 3, 4].map(i => UserMutations.create(ctx, { name: 'U' + i }).toChangeset());
+  const userCs = [1, 2, 3, 4].flatMap(i =>
+    UserMutations.create(ctx, { name: 'U' + i }).toChangesets(),
+  );
   const deckCs = DeckMutations.create(ctx, {
     name: 'Preso',
     owner: userCs[0],
     selectedSlide: null,
-  }).toChangeset();
-  const editorCs = userCs.slice(1).map(u =>
+  }).toChangesets();
+  const editorCs = userCs.slice(1).flatMap(u =>
     DeckToEditorsEdgeMutations.create(ctx, {
-      src: deckCs,
+      src: deckCs[0],
       dest: u,
-    }).toChangeset(),
+    }).toChangesets(),
   );
 
-  const [u1, u2, u3, u4, d] = await commit(ctx, ...userCs, deckCs, ...editorCs);
+  const [u1, u2, u3, u4, d] = await commit(ctx, ...userCs, ...deckCs, ...editorCs);
 
   owner = u1 as User;
   deck = d as Deck;

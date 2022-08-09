@@ -31,22 +31,22 @@ const MemMutations = {
 } as const;
 
 async function createGraphParametrized<T extends Mutations>(ctx: Context, mutations: T) {
-  const usersCs = [4, 3, 2, 1].map(i =>
-    mutations.UserMutations.create(ctx, { name: 'U' + i }).toChangeset(),
+  const usersCs = [4, 3, 2, 1].flatMap(i =>
+    mutations.UserMutations.create(ctx, { name: 'U' + i }).toChangesets(),
   );
   const deckCs = mutations.DeckMutations.create(ctx, {
     name: 'Deck 1',
     // @ts-ignore
     owner: usersCs[0],
     selectedSlide: null,
-  }).toChangeset();
+  }).toChangesets();
   const ordering = [4, 3, 2, 1];
-  const slidesCs = ordering.map(o =>
+  const slidesCs = ordering.flatMap(o =>
     mutations.SlideMutations.create(ctx, {
       // @ts-ignore
       deck: deckCs,
       order: o,
-    }).toChangeset(),
+    }).toChangesets(),
   );
-  await commit(ctx, ...usersCs, deckCs, ...slidesCs);
+  await commit(ctx, ...usersCs, ...deckCs, ...slidesCs);
 }

@@ -12,15 +12,15 @@ beforeAll(async () => {
 test('Creating models via declared mutations', async () => {
   // TODO: collapse create?
   // TODO: can we remove some of the redundancy of `ctx`?
-  const userChangeset = UserMutations.create(ctx, { name: 'Bill' }).toChangeset();
-  // TODO: enable refs so we can use an uncreated user.
+  const userChangeset = UserMutations.create(ctx, { name: 'Bill' }).toChangesets();
   const deckChangeset = DeckMutations.create(ctx, {
     name: 'First Presentation',
-    owner: userChangeset,
+    owner: userChangeset[0],
     selectedSlide: null,
-  }).toChangeset();
+  }).toChangesets();
 
-  const [user, deck] = await commit(ctx, [userChangeset, deckChangeset]);
+  // TODO: drop, rest, etc... so we can get first two typed but still commit the rest...
+  const [user, deck] = await commit(ctx, [userChangeset[0], deckChangeset[0]]);
 
   expect(deck.name).toEqual('First Presentation');
   expect(user.name).toEqual('Bill');

@@ -48,10 +48,10 @@ async function testQueryAll(
   Mutations: typeof UserMutations | typeof UserMutationsMem,
 ): Promise<void> {
   const suffixes = [0, 1, 2, 3, 4];
-  const changesets = suffixes.map(i =>
+  const changesets = suffixes.flatMap(i =>
     Mutations.create(ctx, {
       name: 'user' + i,
-    }).toChangeset(),
+    }).toChangesets(),
   );
 
   await commit(ctx, changesets);
@@ -72,25 +72,31 @@ async function testQueryThatTraversesEdges(
 ): Promise<void> {
   const userCs = UsrMutations.create(ctx, {
     name: 'Bob',
-  }).toChangeset();
+  }).toChangesets();
   const deckCs = DckMutations.create(ctx, {
     name: 'Preso',
     // @ts-ignore
     owner: userCs,
     selectedSlide: null, // TODO: enable ref to slide somehow...
-  }).toChangeset();
+  }).toChangesets();
   const slideCs = SldMutations.create(ctx, {
     order: 0,
     // @ts-ignore
     deck: deckCs,
-  }).toChangeset();
+  }).toChangesets();
   const componentCs = CmpMutations.create(ctx, {
     content: 'Welcome!',
     subtype: 'Text',
     // @ts-ignore
     slide: slideCs,
-  }).toChangeset();
-  const [user, component, slide, deck] = await commit(ctx, userCs, componentCs, slideCs, deckCs);
+  }).toChangesets();
+  const [user, component, slide, deck] = await commit(
+    ctx,
+    ...userCs,
+    ...componentCs,
+    ...slideCs,
+    ...deckCs,
+  );
 
   const components = await user.queryDecks().querySlides().queryComponents().gen();
 

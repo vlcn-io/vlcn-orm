@@ -1,0 +1,23 @@
+import {
+  Changeset,
+  Context,
+  IModel,
+  OptimisticPromise,
+  SavableChangeset,
+} from '@aphro/context-runtime-ts';
+import { commit } from './commit';
+
+export default function makeSavable<M extends IModel<D>, D>(
+  ctx: Context,
+  cs: Changeset<M, D>,
+): Changeset<M, D> & SavableChangeset<M, D> {
+  return {
+    ...cs,
+    save(): OptimisticPromise<M> {
+      return commit(ctx, cs);
+    },
+    save0(): M {
+      return commit(ctx, cs).optimistic;
+    },
+  };
+}

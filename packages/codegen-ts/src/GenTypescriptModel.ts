@@ -68,19 +68,19 @@ export default abstract class ${this.schema.name}Base
 
   private getUpdateMethodCode(): string {
     return `update(data: Partial<Data>) {
-      return new UpdateMutationBuilder(this.ctx, this.spec, this).set(data).toChangeset();
+      return makeSavable(this.ctx, new UpdateMutationBuilder(this.ctx, this.spec, this).set(data).toChangesets()[0]);
     }`;
   }
 
   private getCreateMethodCode(): string {
     return `static create(ctx: Context, data: Partial<Data>) {
-      return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
+      return makeSavable(ctx, new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]);
     }`;
   }
 
   private getDeleteMethodCode(): string {
     return `delete() {
-      return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
+      return makeSavable(this.ctx, new DeleteMutationBuilder(this.ctx, this.spec, this).toChangesets()[0]);
     }`;
   }
 
@@ -101,6 +101,7 @@ export default abstract class ${this.schema.name}Base
       tsImport('{UpdateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{CreateMutationBuilder}', null, '@aphro/runtime-ts'),
       tsImport('{DeleteMutationBuilder}', null, '@aphro/runtime-ts'),
+      tsImport('{makeSavable}', null, '@aphro/runtime-ts'),
       tsImport('{modelGenMemo}', null, '@aphro/runtime-ts'),
       this.schema.type === 'node'
         ? tsImport('{Node}', null, '@aphro/runtime-ts')

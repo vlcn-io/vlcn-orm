@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <57f49790621ad22fe1c462dbe4b0e170>
+// SIGNED-SOURCE: <4fd31a232674b171e6253d76c762f111>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -9,6 +9,7 @@ import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
+import { makeSavable } from "@aphro/runtime-ts";
 import { modelGenMemo } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
@@ -66,16 +67,25 @@ export default abstract class SlideBase extends Node<Data> {
   );
 
   update(data: Partial<Data>) {
-    return new UpdateMutationBuilder(this.ctx, this.spec, this)
-      .set(data)
-      .toChangeset();
+    return makeSavable(
+      this.ctx,
+      new UpdateMutationBuilder(this.ctx, this.spec, this)
+        .set(data)
+        .toChangesets()[0]
+    );
   }
 
   static create(ctx: Context, data: Partial<Data>) {
-    return new CreateMutationBuilder(ctx, s).set(data).toChangeset();
+    return makeSavable(
+      ctx,
+      new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]
+    );
   }
 
   delete() {
-    return new DeleteMutationBuilder(this.ctx, this.spec, this).toChangeset();
+    return makeSavable(
+      this.ctx,
+      new DeleteMutationBuilder(this.ctx, this.spec, this).toChangesets()[0]
+    );
   }
 }

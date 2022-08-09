@@ -14,7 +14,7 @@ beforeAll(async () => {
 test('Empty query with operations applied is still empty!', async () => {
   await commit(
     ctx,
-    [1, 2, 3, 4].map(i => UserMutations.create(ctx, { name: 'U' + i }).toChangeset()),
+    [1, 2, 3, 4].flatMap(i => UserMutations.create(ctx, { name: 'U' + i }).toChangesets()),
   );
 
   const noUsers = await UserQuery.empty(ctx).gen();

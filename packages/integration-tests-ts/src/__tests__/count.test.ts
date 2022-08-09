@@ -18,7 +18,7 @@ test('count', async () => {
 
   await commit(
     ctx,
-    [1, 2, 3, 4].map(i => UserMutations.create(ctx, { name: 'U' + i }).toChangeset()),
+    [1, 2, 3, 4].flatMap(i => UserMutations.create(ctx, { name: 'U' + i }).toChangesets()),
   );
 
   count = await User.queryAll(ctx).count().genxOnlyValue();

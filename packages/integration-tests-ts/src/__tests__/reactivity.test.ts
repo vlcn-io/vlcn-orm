@@ -16,10 +16,10 @@ test('Model subscription', async () => {});
 
 test('queryAll subscription', async () => {
   const suffixes = [0, 1, 2, 3, 4];
-  const changesets = suffixes.map(i =>
+  const changesets = suffixes.flatMap(i =>
     UserMutations.create(ctx, {
       name: 'user' + i,
-    }).toChangeset(),
+    }).toChangesets(),
   );
 
   await commit(ctx, changesets);

@@ -32,10 +32,10 @@ test('Creating models via mutators', () => {
       modified: Date.now(),
       name: 'Bart',
     })
-    .toChangeset();
+    .toChangesets();
 
   expect(async () => {
-    await commit(ctx, [cs]);
+    await commit(ctx, cs);
   }).not.toThrow();
 });
 
@@ -48,9 +48,9 @@ test('Optimstic read after create', async () => {
       modified: creationTime,
       name: 'Bart',
     })
-    .toChangeset();
+    .toChangesets();
 
-  const user = await commit(ctx, cs);
+  const user = await commit(ctx, cs[0]);
 
   expect(user.name).toEqual('Bart');
   expect(user.created).toEqual(creationTime);
@@ -66,7 +66,7 @@ test('Reading the created item after create', async () => {
       modified: creationTime,
       name: 'Bart',
     })
-    .toChangeset();
+    .toChangesets()[0];
 
   const user = await commit(ctx, cs);
 

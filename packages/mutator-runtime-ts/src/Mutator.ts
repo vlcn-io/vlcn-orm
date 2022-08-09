@@ -10,16 +10,17 @@ import {
   ModelSpecWithCreate,
   Context,
   OptimisticPromise,
-  IChangesetArray,
 } from '@aphro/context-runtime-ts';
 import { nanoid } from 'nanoid';
-import ChangesetArray from './ChangesetArray.js';
 import { commit } from './commit.js';
 
 export interface IMutationBuilder<M extends IModel<D>, D extends Object> {
   readonly ctx: Context;
 
-  toChangesets(options?: ChangesetOptions): IChangesetArray<M, D>;
+  toChangesets(options?: ChangesetOptions): [Changeset<M, D>, ...Changeset<any, any>[]] & {
+    save: () => OptimisticPromise<[M, ...any[]]>;
+    save0: () => [M, ...any[]];
+  };
   // TODO: remove this once we get mutations generation complete
   // we don't need `set` for `delete`
   set(newData: Partial<D>): this;
@@ -43,11 +44,24 @@ abstract class MutationBuilder<M extends IModel<D>, D extends Object>
     protected data: Partial<D>,
   ) {}
 
-  toChangesets(): IChangesetArray<M, D> /*[Changeset<M, D>, ...Changeset<any, any>[]]*/ {
+  toChangesets(): [Changeset<M, D>, ...Changeset<any, any>[]] & {
+    save: () => OptimisticPromise<[M, ...any[]]>;
+    save0: () => [M, ...any[]];
+  } {
     const cs = this.toChangesetImpl();
 
-    // return [cs as Changeset<M, D>, ...this.#extraChangesets];
-    return new ChangesetArray(this.ctx, cs as Changeset<M, D>);
+    const ret = [cs as Changeset<M, D>, ...this.#extraChangesets];
+    // @ts-ignore
+    ret.save = () => {
+      return commit(this.ctx, ret);
+    };
+    // @ts-ignore
+    ret.save0 = () => {
+      return commit(this.ctx, ret).optimistic;
+    };
+
+    // @ts-ignore
+    return ret;
   }
 
   protected abstract toChangesetImpl(): Omit<Changeset<M, D>, 'save' | 'save0'>;
@@ -61,7 +75,6 @@ abstract class MutationBuilder<M extends IModel<D>, D extends Object>
       return this;
     }
     changesets.forEach(cs => this.#extraChangesets.push(cs));
-    throw new Error('mutations within mutations not yet supported');
     return this;
   }
 

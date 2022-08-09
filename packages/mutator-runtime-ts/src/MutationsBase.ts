@@ -4,7 +4,7 @@ import {
   ChangesetOptions,
   IModel,
   OptimisticPromise,
-  IChangesetArray,
+  Changeset,
 } from '@aphro/context-runtime-ts';
 
 export default abstract class MutationsBase<M extends IModel<D>, D extends Object> {
@@ -13,12 +13,12 @@ export default abstract class MutationsBase<M extends IModel<D>, D extends Objec
     this.ctx = ctx;
   }
 
-  save(): OptimisticPromise<M[]> {
-    return this.mutator.toChangesets().save();
+  save(): OptimisticPromise<M> {
+    return this.mutator.toChangesets().save()[0];
   }
 
-  save0(): M[] {
-    return this.mutator.toChangesets().save0();
+  save0(): M {
+    return this.mutator.toChangesets().save0()[0];
   }
 
   // TODO: saveAndReturn ...
@@ -32,7 +32,10 @@ export default abstract class MutationsBase<M extends IModel<D>, D extends Objec
   //   return results[0] as M;
   // }
 
-  toChangesets(options?: ChangesetOptions): IChangesetArray<M, D> {
+  toChangesets(options?: ChangesetOptions): [Changeset<M, D>, ...Changeset<any, any>[]] & {
+    save: () => OptimisticPromise<[M, ...any[]]>;
+    save0: () => [M, ...any[]];
+  } {
     return this.mutator.toChangesets(options);
   }
 }

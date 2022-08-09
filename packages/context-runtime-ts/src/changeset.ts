@@ -36,7 +36,12 @@ export type DeleteChangeset<M extends IModel<D>, D> = {
   id: SID_of<M>;
 };
 
-export interface IChangesetArray<M extends IModel<D>, D> extends Array<Changeset<M, D>> {
-  save(): OptimisticPromise<M[]>;
-  save0(): M[];
-}
+export type SavableChangeset<M extends IModel<D>, D> = {
+  save(): OptimisticPromise<M>;
+  save0(): M;
+};
+
+// export interface IChangesetArray<M extends IModel<D>, D> extends Array<Changeset<M, D>> {
+//   save(): OptimisticPromise<M[]>;
+//   save0(): M[];
+// }

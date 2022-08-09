@@ -34,7 +34,7 @@ async function testTake(
 ): Promise<void> {
   await commit(
     ctx,
-    [1, 2, 3, 4].map(i => Mutations.create(ctx, { name: 'U' + i }).toChangeset()),
+    [1, 2, 3, 4].flatMap(i => Mutations.create(ctx, { name: 'U' + i }).toChangesets()),
   );
 
   const two = await Model.queryAll(ctx).take(2).gen();
