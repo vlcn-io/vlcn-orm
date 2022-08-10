@@ -19,6 +19,7 @@
   "devDependencies": {
     "@aphro/codegen-cli": "workspace:*",
     "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.6",
     "html-webpack-plugin": "^5.5.0",
     "raw-loader": "^4.0.2",
     "resolve-typescript-plugin": "^1.2.0",
