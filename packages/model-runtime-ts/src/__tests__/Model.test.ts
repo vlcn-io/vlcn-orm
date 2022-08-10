@@ -16,3 +16,7 @@ test('Data is frozen and sealed', () => {
   //@ts-ignore
   expect(() => (data.bar = 1)).toThrow();
 });
+
+test('Generators', () => {
+  throw new Error('test me!');
+});

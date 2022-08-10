@@ -15,19 +15,9 @@ export default abstract class Model<T extends {}> implements IModel<T> {
   private subscriptions: Set<() => void> = new Set();
   private keyedSubscriptions: Map<keyof T, Set<() => void>> = new Map();
 
-  // @ts-ignore
-  #generatorChange: (x: this) => this;
-  #generator: ReturnType<typeof observe>;
-  #generatorUsed: boolean = false;
-
   constructor(ctx: Context, data: T) {
     this.ctx = ctx;
     this.data = Object.freeze(data);
-
-    this.#generator = observe((change: (x: this) => this) => {
-      this.#generatorChange = change;
-      return null;
-    });
   }
 
   subscribe(c: () => void): Disposer {
@@ -47,6 +37,21 @@ export default abstract class Model<T extends {}> implements IModel<T> {
     });
 
     return () => keys.forEach(k => this.keyedSubscriptions.get(k)?.delete(c));
+  }
+
+  generator(): Generator<Promise<this>> {
+    return observe<this>(change => {
+      // start the generator with an initial value
+      change(this);
+      return this.subscribe(() => change(this));
+    });
+  }
+
+  generatorOn(keys: (keyof T)[]): Generator<Promise<this>> {
+    return observe<this>(change => {
+      change(this);
+      return this.subscribeTo(keys, () => change(this));
+    });
   }
 
   destroy() {
@@ -98,9 +103,6 @@ export default abstract class Model<T extends {}> implements IModel<T> {
     if (changedKeys && this.keyedSubscriptions.size > 0) {
       this.gatherKeyedNotifications(changedKeys, notifications);
     }
-    if (this.#generatorUsed) {
-      notifications.add(() => this.#generatorChange(this));
-    }
     return notifications;
   }
 
@@ -117,11 +119,6 @@ export default abstract class Model<T extends {}> implements IModel<T> {
         }
       }
     }
-  }
-
-  get generator() {
-    this.#generatorUsed = true;
-    return this.#generator;
   }
 }
 

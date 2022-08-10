@@ -1,2 +1,2 @@
-export { useBind, useQuery, UseQueryData, UseQueryOptions } from './hooks.js';
+export { useBind, useQuery, UseQueryData, UseQueryOptions, useLiveResult } from './hooks.js';
 export { createHooks } from './createHooks.js';

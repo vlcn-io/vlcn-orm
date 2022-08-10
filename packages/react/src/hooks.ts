@@ -1,5 +1,5 @@
 // TODO: this should be in a separate package from the core model code.
-import { useEffect, useReducer, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef, useState, useSyncExternalStore } from 'react';
 import { INode, Query, UpdateType, LiveResult } from '@aphro/runtime-ts';
 import counter from '@strut/counter';
 
@@ -34,6 +34,17 @@ export type UseQueryData<T> = {
   data: T[];
 };
 type QueryReturnType<Q> = Q extends Query<infer M> ? M : any;
+
+export function useLiveResult<T>(result: LiveResult<T>) {
+  const data = useSyncExternalStore(
+    cb => result.subscribe(cb),
+    () => {
+      return result.latest || [];
+    },
+  );
+
+  return data;
+}
 
 export type UseQueryOptions = {
   // If you want to limit what sorts of updates will cause the live query to re-fire

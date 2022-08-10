@@ -38,7 +38,20 @@ export interface Query<T> {
   genOnlyValue(): Promise<T | null>;
   genxOnlyValue(): Promise<T>;
 
+  /**
+   * Returns a live result that is updated whenever the data that matches the backing query changes.
+   * @param on
+   */
   live(on: UpdateType): LiveResult<T>;
+
+  /**
+   * Same as `live` except that it allows you to await a prefetch.
+   *
+   * Use this if you want to prefetch initial data and then subscribe to updates.
+   *
+   * @param on
+   */
+  genLive(on: UpdateType): Promise<LiveResult<T>>;
 
   // map<R>(fn: (t: T) => R): Query<R>;
   // flatMap<R>(fn: (t: T) => R[]): Query<R>;
@@ -81,6 +94,12 @@ abstract class BaseQuery<T> implements Query<T> {
 
   live(on: UpdateType): LiveResult<T> {
     return new LiveResult(this.ctx, on, this);
+  }
+
+  async genLive(on: UpdateType = UpdateType.ANY): Promise<LiveResult<T>> {
+    const ret = new LiveResult(this.ctx, on, this);
+    await ret.__currentHandle;
+    return ret;
   }
 
   count(): IterableDerivedQuery<number> {

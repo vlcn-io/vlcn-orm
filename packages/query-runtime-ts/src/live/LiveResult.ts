@@ -39,14 +39,11 @@ export default class LiveResult<T> {
   #optimizedQueryPlan: IPlan;
   #implicatedDatasets: Set<string>;
   #on: UpdateType;
-  // @ts-ignore -- initialized in immediate callback
-  #generatorChange: (x: T[]) => T[];
+
   #disposables: (() => void)[] = [];
 
   // Exposed to allow tests to await results before exiting.
   __currentHandle: Promise<unknown>;
-
-  readonly generator: ReturnType<typeof observe<T[]>>;
 
   constructor(ctx: Context, on: UpdateType, query: Query<T>) {
     this.#on = on;
@@ -57,11 +54,6 @@ export default class LiveResult<T> {
     // This will automatically clean itself
     // as soon as there are no more references to the live query.
     this.#disposables.push(ctx.commitLog.observe(this.#observeCommitLog));
-
-    this.generator = observe((change: (x: T[]) => T[]) => {
-      this.#generatorChange = change;
-      return null;
-    });
 
     // We invoke this in order to kick off the initial query.
     this.__currentHandle = this.#react();
@@ -117,13 +109,20 @@ export default class LiveResult<T> {
 
   #notify = (result: T[]) => {
     this.#latest = result;
-    this.#generatorChange(result);
     for (const s of this.#subscribers) {
       s(result);
     }
 
     return result;
   };
+
+  generator(): Generator<Promise<T[]>> {
+    return observe<T[]>(change => {
+      // start the generator with an initial value
+      change(this.latest || []);
+      return this.subscribe(result => change(result));
+    });
+  }
 
   subscribe(subscriber: (data: T[]) => void) {
     this.#subscribers.add(subscriber);
