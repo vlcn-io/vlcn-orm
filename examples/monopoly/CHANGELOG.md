@@ -1,5 +1,13 @@
 # @aphro/monopoly
 
+## 1.2.4
+
+### Patch Changes
+
+- rebuild -- last publish had a clobbered version of pnpm
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.4
+
 ## 1.2.3
 
 ### Patch Changes

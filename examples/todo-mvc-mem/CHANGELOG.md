@@ -1,5 +1,14 @@
 # @aphro/todo-mvc-mem
 
+## 0.1.4
+
+### Patch Changes
+
+- rebuild -- last publish had a clobbered version of pnpm
+- Updated dependencies
+  - @aphro/react@1.0.3
+  - @aphro/runtime-ts@0.3.4
+
 ## 0.1.3
 
 ### Patch Changes

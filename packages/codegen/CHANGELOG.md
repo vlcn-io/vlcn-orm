@@ -1,5 +1,15 @@
 # @aphro/codegen
 
+## 0.2.4
+
+### Patch Changes
+
+- rebuild -- last publish had a clobbered version of pnpm
+- Updated dependencies
+  - @aphro/codegen-api@0.2.3
+  - @aphro/schema@0.2.4
+  - @aphro/schema-api@0.2.3
+
 ## 0.2.3
 
 ### Patch Changes

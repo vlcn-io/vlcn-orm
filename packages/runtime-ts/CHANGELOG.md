@@ -1,5 +1,19 @@
 # @aphro/runtime-ts
 
+## 0.3.4
+
+### Patch Changes
+
+- rebuild -- last publish had a clobbered version of pnpm
+- Updated dependencies
+  - @aphro/cache-runtime-ts@0.2.3
+  - @aphro/context-runtime-ts@0.3.3
+  - @aphro/migration-runtime-ts@0.1.4
+  - @aphro/model-runtime-ts@0.2.3
+  - @aphro/mutator-runtime-ts@0.3.4
+  - @aphro/query-runtime-ts@0.2.3
+  - @aphro/sql-ts@0.2.3
+
 ## 0.3.3
 
 ### Patch Changes

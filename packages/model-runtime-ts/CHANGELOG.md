@@ -1,5 +1,14 @@
 # @aphro/model-runtime-ts
 
+## 0.2.3
+
+### Patch Changes
+
+- rebuild -- last publish had a clobbered version of pnpm
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.3.3
+  - @aphro/schema-api@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes

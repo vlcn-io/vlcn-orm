@@ -1,5 +1,11 @@
 # @aphro/authorization-grammar
 
+## 0.2.3
+
+### Patch Changes
+
+- rebuild -- last publish had a clobbered version of pnpm
+
 ## 0.2.2
 
 ### Patch Changes

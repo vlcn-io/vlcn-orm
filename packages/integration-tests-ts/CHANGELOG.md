@@ -1,5 +1,13 @@
 # @aphro/integration-tests-ts
 
+## 0.3.5
+
+### Patch Changes
+
+- rebuild -- last publish had a clobbered version of pnpm
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.4
+
 ## 0.3.4
 
 ### Patch Changes

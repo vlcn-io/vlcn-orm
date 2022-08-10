@@ -1,5 +1,13 @@
 # @aphro/chinook
 
+## 0.3.2
+
+### Patch Changes
+
+- rebuild -- last publish had a clobbered version of pnpm
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.4
+
 ## 0.3.1
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @aphro/graphql-codegen
 
+## 0.2.5
+
+### Patch Changes
+
+- rebuild -- last publish had a clobbered version of pnpm
+- Updated dependencies
+  - @aphro/graphql-grammar@0.2.4
+  - @aphro/codegen@0.2.4
+  - @aphro/codegen-api@0.2.3
+  - @aphro/codegen-ts@0.3.5
+  - @aphro/schema@0.2.4
+  - @aphro/schema-api@0.2.3
+
 ## 0.2.4
 
 ### Patch Changes
