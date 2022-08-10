@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <c7d4761a6a874be8f5e4419aeb60939d>
+// SIGNED-SOURCE: <18b112e50d38d2ae80d53d52ef214710>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -49,12 +49,14 @@ export default class InvoiceLineQuery extends DerivedQuery<InvoiceLine> {
 
   whereId(p: Predicate<Data["id"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"id", Data, InvoiceLine>("id"), p)
     );
   }
 
   whereInvoiceId(p: Predicate<Data["invoiceId"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(
         new ModelFieldGetter<"invoiceId", Data, InvoiceLine>("invoiceId"),
         p
@@ -64,12 +66,14 @@ export default class InvoiceLineQuery extends DerivedQuery<InvoiceLine> {
 
   whereTrackId(p: Predicate<Data["trackId"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"trackId", Data, InvoiceLine>("trackId"), p)
     );
   }
 
   whereUnitPrice(p: Predicate<Data["unitPrice"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(
         new ModelFieldGetter<"unitPrice", Data, InvoiceLine>("unitPrice"),
         p
@@ -79,6 +83,7 @@ export default class InvoiceLineQuery extends DerivedQuery<InvoiceLine> {
 
   whereQuantity(p: Predicate<Data["quantity"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"quantity", Data, InvoiceLine>("quantity"), p)
     );
   }

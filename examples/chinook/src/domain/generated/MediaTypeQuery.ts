@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a51ab40a3b490ac9605480a6c379a31d>
+// SIGNED-SOURCE: <aacdaddb13994916f667fc4fb0918148>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -43,12 +43,14 @@ export default class MediaTypeQuery extends DerivedQuery<MediaType> {
 
   whereId(p: Predicate<Data["id"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"id", Data, MediaType>("id"), p)
     );
   }
 
   whereName(p: Predicate<Data["name"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"name", Data, MediaType>("name"), p)
     );
   }

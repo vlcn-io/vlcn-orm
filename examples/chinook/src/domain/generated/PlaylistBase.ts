@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <e5ec7e70a594404dea6004fa4dac836e>
+// SIGNED-SOURCE: <4cf3f5d7484f184043c3177916ebf9e1>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -50,9 +50,10 @@ export default abstract class PlaylistBase extends Node<Data> {
       this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
-  static gen = modelGenMemo(
+  static gen = modelGenMemo<Playlist | null>(
     "chinook",
     "playlist",
+    // @ts-ignore #43
     (ctx: Context, id: SID_of<Playlist>): Promise<Playlist | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );

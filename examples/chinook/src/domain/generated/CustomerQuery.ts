@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <56ff087198c052d0b54099842397f56f>
+// SIGNED-SOURCE: <636d0f7542cd803899e2d6bc1e1d593a>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -48,54 +48,63 @@ export default class CustomerQuery extends DerivedQuery<Customer> {
 
   whereId(p: Predicate<Data["id"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"id", Data, Customer>("id"), p)
     );
   }
 
   whereFirstName(p: Predicate<Data["firstName"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"firstName", Data, Customer>("firstName"), p)
     );
   }
 
   whereLastName(p: Predicate<Data["lastName"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"lastName", Data, Customer>("lastName"), p)
     );
   }
 
   whereCompany(p: Predicate<Data["company"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"company", Data, Customer>("company"), p)
     );
   }
 
   whereAddress(p: Predicate<Data["address"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"address", Data, Customer>("address"), p)
     );
   }
 
   whereCity(p: Predicate<Data["city"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"city", Data, Customer>("city"), p)
     );
   }
 
   whereState(p: Predicate<Data["state"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"state", Data, Customer>("state"), p)
     );
   }
 
   whereCountry(p: Predicate<Data["country"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"country", Data, Customer>("country"), p)
     );
   }
 
   wherePostalCode(p: Predicate<Data["postalCode"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(
         new ModelFieldGetter<"postalCode", Data, Customer>("postalCode"),
         p
@@ -105,24 +114,28 @@ export default class CustomerQuery extends DerivedQuery<Customer> {
 
   wherePhone(p: Predicate<Data["phone"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"phone", Data, Customer>("phone"), p)
     );
   }
 
   whereFax(p: Predicate<Data["fax"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"fax", Data, Customer>("fax"), p)
     );
   }
 
   whereEmail(p: Predicate<Data["email"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"email", Data, Customer>("email"), p)
     );
   }
 
   whereSupportRepId(p: Predicate<Data["supportRepId"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(
         new ModelFieldGetter<"supportRepId", Data, Customer>("supportRepId"),
         p

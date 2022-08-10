@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <dac461044ca74e1b75154abdde9d1765>
+// SIGNED-SOURCE: <6547a9841a4aefab4bb3d55705978e19>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -97,9 +97,10 @@ export default abstract class InvoiceLineBase extends Node<Data> {
       this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
-  static gen = modelGenMemo(
+  static gen = modelGenMemo<InvoiceLine | null>(
     "chinook",
     "invoiceline",
+    // @ts-ignore #43
     (ctx: Context, id: SID_of<InvoiceLine>): Promise<InvoiceLine | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );

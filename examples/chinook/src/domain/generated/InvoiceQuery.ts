@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b9827fb8aabb60eed2097a29656bb5e4>
+// SIGNED-SOURCE: <54908dd647039580cc78a80986c01054>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -48,18 +48,21 @@ export default class InvoiceQuery extends DerivedQuery<Invoice> {
 
   whereId(p: Predicate<Data["id"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"id", Data, Invoice>("id"), p)
     );
   }
 
   whereCustomerId(p: Predicate<Data["customerId"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"customerId", Data, Invoice>("customerId"), p)
     );
   }
 
   whereInvoiceDate(p: Predicate<Data["invoiceDate"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(
         new ModelFieldGetter<"invoiceDate", Data, Invoice>("invoiceDate"),
         p
@@ -69,6 +72,7 @@ export default class InvoiceQuery extends DerivedQuery<Invoice> {
 
   whereBillingAddress(p: Predicate<Data["billingAddress"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(
         new ModelFieldGetter<"billingAddress", Data, Invoice>("billingAddress"),
         p
@@ -78,6 +82,7 @@ export default class InvoiceQuery extends DerivedQuery<Invoice> {
 
   whereBillingCity(p: Predicate<Data["billingCity"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(
         new ModelFieldGetter<"billingCity", Data, Invoice>("billingCity"),
         p
@@ -87,6 +92,7 @@ export default class InvoiceQuery extends DerivedQuery<Invoice> {
 
   whereBillingState(p: Predicate<Data["billingState"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(
         new ModelFieldGetter<"billingState", Data, Invoice>("billingState"),
         p
@@ -96,6 +102,7 @@ export default class InvoiceQuery extends DerivedQuery<Invoice> {
 
   whereBillingCountry(p: Predicate<Data["billingCountry"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(
         new ModelFieldGetter<"billingCountry", Data, Invoice>("billingCountry"),
         p
@@ -105,6 +112,7 @@ export default class InvoiceQuery extends DerivedQuery<Invoice> {
 
   whereBillingPostalCode(p: Predicate<Data["billingPostalCode"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(
         new ModelFieldGetter<"billingPostalCode", Data, Invoice>(
           "billingPostalCode"
@@ -116,6 +124,7 @@ export default class InvoiceQuery extends DerivedQuery<Invoice> {
 
   whereTotal(p: Predicate<Data["total"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"total", Data, Invoice>("total"), p)
     );
   }

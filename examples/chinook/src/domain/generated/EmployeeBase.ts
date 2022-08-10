@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <bcf9623950eb51cc2bb4f153124f2dce>
+// SIGNED-SOURCE: <d7e3aaa687047e587b25824180e111ef>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -137,9 +137,10 @@ export default abstract class EmployeeBase extends Node<Data> {
       this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
-  static gen = modelGenMemo(
+  static gen = modelGenMemo<Employee | null>(
     "chinook",
     "employee",
+    // @ts-ignore #43
     (ctx: Context, id: SID_of<Employee>): Promise<Employee | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );

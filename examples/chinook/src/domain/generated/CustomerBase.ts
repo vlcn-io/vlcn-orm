@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <0924d94a0b60bac93cd68ab670033738>
+// SIGNED-SOURCE: <c82af10fd8ae9e22ffedd6776bc3be07>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -126,9 +126,10 @@ export default abstract class CustomerBase extends Node<Data> {
       this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
-  static gen = modelGenMemo(
+  static gen = modelGenMemo<Customer | null>(
     "chinook",
     "customer",
+    // @ts-ignore #43
     (ctx: Context, id: SID_of<Customer>): Promise<Customer | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );

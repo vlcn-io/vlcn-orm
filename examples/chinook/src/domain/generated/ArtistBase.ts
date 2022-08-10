@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <06e480d4ec8b6fa9669c1426e6624574>
+// SIGNED-SOURCE: <1e856b593c44a9cdf9768efd20fa0e34>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -51,9 +51,10 @@ export default abstract class ArtistBase extends Node<Data> {
       this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
-  static gen = modelGenMemo(
+  static gen = modelGenMemo<Artist | null>(
     "chinook",
     "artist",
+    // @ts-ignore #43
     (ctx: Context, id: SID_of<Artist>): Promise<Artist | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );

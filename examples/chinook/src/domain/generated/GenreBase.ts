@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <770b22e7de3c9ea288589cf65204910b>
+// SIGNED-SOURCE: <849d54b51e41b047816f59560210b31a>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -51,9 +51,10 @@ export default abstract class GenreBase extends Node<Data> {
       this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
-  static gen = modelGenMemo(
+  static gen = modelGenMemo<Genre | null>(
     "chinook",
     "genre",
+    // @ts-ignore #43
     (ctx: Context, id: SID_of<Genre>): Promise<Genre | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );

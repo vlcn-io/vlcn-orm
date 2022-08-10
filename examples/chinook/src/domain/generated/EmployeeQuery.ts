@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <033573c76d765822a1e832ec7709052a>
+// SIGNED-SOURCE: <75344a5467049e797193e66e2e985262>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -45,30 +45,35 @@ export default class EmployeeQuery extends DerivedQuery<Employee> {
 
   whereId(p: Predicate<Data["id"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"id", Data, Employee>("id"), p)
     );
   }
 
   whereLastName(p: Predicate<Data["lastName"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"lastName", Data, Employee>("lastName"), p)
     );
   }
 
   whereFirstName(p: Predicate<Data["firstName"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"firstName", Data, Employee>("firstName"), p)
     );
   }
 
   whereTitle(p: Predicate<Data["title"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"title", Data, Employee>("title"), p)
     );
   }
 
   whereReportsToId(p: Predicate<Data["reportsToId"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(
         new ModelFieldGetter<"reportsToId", Data, Employee>("reportsToId"),
         p
@@ -78,42 +83,49 @@ export default class EmployeeQuery extends DerivedQuery<Employee> {
 
   whereBirthdate(p: Predicate<Data["birthdate"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"birthdate", Data, Employee>("birthdate"), p)
     );
   }
 
   whereHiredate(p: Predicate<Data["hiredate"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"hiredate", Data, Employee>("hiredate"), p)
     );
   }
 
   whereAddress(p: Predicate<Data["address"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"address", Data, Employee>("address"), p)
     );
   }
 
   whereCity(p: Predicate<Data["city"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"city", Data, Employee>("city"), p)
     );
   }
 
   whereState(p: Predicate<Data["state"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"state", Data, Employee>("state"), p)
     );
   }
 
   whereCountry(p: Predicate<Data["country"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"country", Data, Employee>("country"), p)
     );
   }
 
   wherePostalCode(p: Predicate<Data["postalCode"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(
         new ModelFieldGetter<"postalCode", Data, Employee>("postalCode"),
         p
@@ -123,18 +135,21 @@ export default class EmployeeQuery extends DerivedQuery<Employee> {
 
   wherePhone(p: Predicate<Data["phone"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"phone", Data, Employee>("phone"), p)
     );
   }
 
   whereFax(p: Predicate<Data["fax"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"fax", Data, Employee>("fax"), p)
     );
   }
 
   whereEmail(p: Predicate<Data["email"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"email", Data, Employee>("email"), p)
     );
   }

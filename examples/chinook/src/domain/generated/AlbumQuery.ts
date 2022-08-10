@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <2f780a8db2848dadd0b05260fcdb91f8>
+// SIGNED-SOURCE: <09ad3ed7d1232a27cc60ae987c2e497b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -48,18 +48,21 @@ export default class AlbumQuery extends DerivedQuery<Album> {
 
   whereId(p: Predicate<Data["id"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"id", Data, Album>("id"), p)
     );
   }
 
   whereTitle(p: Predicate<Data["title"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"title", Data, Album>("title"), p)
     );
   }
 
   whereArtistId(p: Predicate<Data["artistId"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"artistId", Data, Album>("artistId"), p)
     );
   }

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <1805ee269926a0d30835ba20e8d23399>
+// SIGNED-SOURCE: <0c7029d7781c7e063daa5d4c0565566e>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -45,12 +45,14 @@ export default class GenreQuery extends DerivedQuery<Genre> {
 
   whereId(p: Predicate<Data["id"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"id", Data, Genre>("id"), p)
     );
   }
 
   whereName(p: Predicate<Data["name"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"name", Data, Genre>("name"), p)
     );
   }

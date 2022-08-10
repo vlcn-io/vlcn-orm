@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <a684435d035bea0204c94f6c2c52466f>
+// SIGNED-SOURCE: <c50585432086d029c6fd6254a903d4e1>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -41,12 +41,14 @@ export default class PlaylistTrackQuery extends DerivedQuery<PlaylistTrack> {
 
   whereId1(p: Predicate<Data["id1"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"id1", Data, PlaylistTrack>("id1"), p)
     );
   }
 
   whereId2(p: Predicate<Data["id2"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"id2", Data, PlaylistTrack>("id2"), p)
     );
   }

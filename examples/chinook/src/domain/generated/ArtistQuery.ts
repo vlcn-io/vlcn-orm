@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <f98ca8495e10d43d589a9882ca63b8bf>
+// SIGNED-SOURCE: <d5d5988543c6ae229db5d4ca70cdb066>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -45,12 +45,14 @@ export default class ArtistQuery extends DerivedQuery<Artist> {
 
   whereId(p: Predicate<Data["id"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"id", Data, Artist>("id"), p)
     );
   }
 
   whereName(p: Predicate<Data["name"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"name", Data, Artist>("name"), p)
     );
   }

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <6de2b4c2cbece563061e5731f660c5d7>
+// SIGNED-SOURCE: <e97462cfad56c55b4774b8c4f63bfe8e>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -54,42 +54,49 @@ export default class TrackQuery extends DerivedQuery<Track> {
 
   whereId(p: Predicate<Data["id"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"id", Data, Track>("id"), p)
     );
   }
 
   whereName(p: Predicate<Data["name"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"name", Data, Track>("name"), p)
     );
   }
 
   whereAlbumId(p: Predicate<Data["albumId"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"albumId", Data, Track>("albumId"), p)
     );
   }
 
   whereMediaTypeId(p: Predicate<Data["mediaTypeId"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"mediaTypeId", Data, Track>("mediaTypeId"), p)
     );
   }
 
   whereGenreId(p: Predicate<Data["genreId"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"genreId", Data, Track>("genreId"), p)
     );
   }
 
   whereComposer(p: Predicate<Data["composer"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"composer", Data, Track>("composer"), p)
     );
   }
 
   whereMilliseconds(p: Predicate<Data["milliseconds"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(
         new ModelFieldGetter<"milliseconds", Data, Track>("milliseconds"),
         p
@@ -99,12 +106,14 @@ export default class TrackQuery extends DerivedQuery<Track> {
 
   whereBytes(p: Predicate<Data["bytes"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"bytes", Data, Track>("bytes"), p)
     );
   }
 
   whereUnitPrice(p: Predicate<Data["unitPrice"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"unitPrice", Data, Track>("unitPrice"), p)
     );
   }

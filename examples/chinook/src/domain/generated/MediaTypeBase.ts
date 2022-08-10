@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <0e3c79add2c8dac6132b05248c42e4d9>
+// SIGNED-SOURCE: <c8824d6dbabfeca1cdd251b5ad9a3593>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -45,9 +45,10 @@ export default abstract class MediaTypeBase extends Node<Data> {
       this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
-  static gen = modelGenMemo(
+  static gen = modelGenMemo<MediaType | null>(
     "chinook",
     "mediatype",
+    // @ts-ignore #43
     (ctx: Context, id: SID_of<MediaType>): Promise<MediaType | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );

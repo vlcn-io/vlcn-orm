@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <3c78c14501678bfd645d0b1f7364d3dc>
+// SIGNED-SOURCE: <aef128baf4bac9ba6d3cc872e001b43d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -148,9 +148,10 @@ export default abstract class TrackBase extends Node<Data> {
       this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
-  static gen = modelGenMemo(
+  static gen = modelGenMemo<Track | null>(
     "chinook",
     "track",
+    // @ts-ignore #43
     (ctx: Context, id: SID_of<Track>): Promise<Track | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );
