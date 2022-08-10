@@ -38,21 +38,26 @@ import { SID_of } from '@strut/sid';
 let cacheId = 0;
 export default class Cache {
   readonly #cache = new Map<SID_of<Object>, WeakRef<Object>>();
-  #setCount: number = 0;
   readonly cacheId = cacheId++;
+  readonly #finalizationRegistry: FinalizationRegistry<SID_of<Object>>;
 
-  constructor() {}
-
-  #gc() {
-    this.#setCount = 0;
-    // TODO: we can be smarter here if/when the cache becomes massive.
-    // E.g., spread the GC over many ticks via chunking.
-    for (let [key, ref] of this.#cache.entries()) {
-      if (ref.deref() == null) {
-        this.#cache.delete(key);
-      }
-    }
+  constructor() {
+    this.#finalizationRegistry = new FinalizationRegistry((cacheKey: SID_of<Object>) => {
+      this.#cache.delete(cacheKey);
+    });
   }
+
+  // #gc() {
+  //   this.#setCount = 0;
+  //   // TODO: we can be smarter here if/when the cache becomes massive.
+  //   // E.g., spread the GC over many ticks via chunking.
+  //   for (let [key, ref] of this.#cache.entries()) {
+  //     if (ref.deref() == null) {
+  //       console.log('had a null');
+  //       this.#cache.delete(key);
+  //     }
+  //   }
+  // }
 
   get<T extends Object>(id: SID_of<T> | null, db: string, tablish: string): T | null {
     if (id == null) {
@@ -66,6 +71,7 @@ export default class Cache {
 
     const thing = ref.deref();
     if (thing == null) {
+      this.#cache.delete(idconcat);
       return null;
     }
 
@@ -73,11 +79,6 @@ export default class Cache {
   }
 
   set<T extends Object>(id: SID_of<T>, node: T, db: string, tablish: string): void {
-    ++this.#setCount;
-    if (this.#setCount > 1000) {
-      this.#gc();
-    }
-
     const existing = this.get(id, db, tablish);
     if (existing === node) {
       return;
@@ -90,8 +91,10 @@ export default class Cache {
       `Trying to reset something in the cache to a different instance. ID: ${id}, CTOR: ${node.constructor.name}.`,
     );
 
+    const idconcat = concatId(id, db, tablish);
     const ref = new WeakRef(node);
-    this.#cache.set(concatId(id, db, tablish), ref);
+    this.#cache.set(idconcat, ref);
+    this.#finalizationRegistry.register(node, idconcat);
   }
 
   remove<T extends Object>(id: SID_of<T>, db: string, tablish: string): T | null {
@@ -107,6 +110,8 @@ export default class Cache {
     if (thing == null) {
       return null;
     }
+
+    this.#finalizationRegistry.unregister(thing);
 
     return thing as T;
   }
