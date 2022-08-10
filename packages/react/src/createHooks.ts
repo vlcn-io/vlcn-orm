@@ -1,6 +1,6 @@
 import { Query, Context, UpdateType, INode } from '@aphro/runtime-ts';
 import counter from '@strut/counter';
-import { useSyncExternalStore } from 'react';
+import { useRef, useSyncExternalStore } from 'react';
 import { suspend } from 'suspend-react';
 
 const count = counter('model-infra/CreateHooks');
@@ -46,10 +46,13 @@ export function createHooks(contextPromise: ContextPromise) {
     // with either fresh or stale resolved data. suspended value will be cached
     // according to user-supplied key which is required
     // TODO: generate cache key from query
+    const liveRef = useRef<any>();
     const liveResult = suspend(async () => {
       count.bump('suspend.liveResult.initial');
       const q = queryProvider(ctx);
       const liveResult = q.live(on || UpdateType.ANY);
+      // Keep a ref to `liveResult` since `liveResult` weakly subscribes to data sources.
+      liveRef.current = liveResult;
       await liveResult.__currentHandle;
       return liveResult;
     }, [key, ...deps]);
