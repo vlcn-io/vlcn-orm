@@ -60,7 +60,6 @@ test('destruct', () => {
   expect(cache.get(id, db, tablish)).toBe(null);
 });
 
-// `global.gc` doesn't seem to actually gc what we want...
 // https://github.com/nodejs/node/discussions/36467
 test('purges refs after garbage collection', async () => {
   const cache = new Cache();
@@ -69,32 +68,23 @@ test('purges refs after garbage collection', async () => {
   // don't save a ref to `TestModel` so it'll get GC'ed
   cache.set(id, mkModel(id), db, tablish);
   expect(cache.get(id, db, tablish)?.id).toBe(id);
-  const z = boo();
 
-  global.gc();
-  for (let i = 0; i < 100; ++i) {
+  for (let i = 0; i < 10; ++i) {
     const id = asId<TestModel>(i + '');
     cache.set(id, new TestModel(id), db, tablish);
   }
 
-  new ArrayBuffer(1024 * 1024 * 5);
-
+  await new Promise(resolve => setTimeout(resolve, 0));
   global.gc();
 
-  await new Promise(resolve => setTimeout(resolve, 10));
-
-  // idk.. freaking gc never runs.
-  // if it ever does run the simple case should be reaped.
-  if (z.deref() == null) {
-    expect(cache.get(id, db, tablish)).toBe(null);
-  }
+  // references were cleaned out
+  expect(cache.get(id, db, tablish)).toBe(null);
 });
 
 function mkModel(id) {
   return new TestModel(id);
 }
 
-function boo() {
-  const x = {};
-  return new WeakRef(x);
+function weak() {
+  return new WeakRef({});
 }
