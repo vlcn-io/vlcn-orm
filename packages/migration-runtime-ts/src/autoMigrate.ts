@@ -49,7 +49,7 @@ async function migrateAllTasksForDB(db: SQLResolvedDB, tasks: MigrationTask[]) {
     await db.query(sql`ROLLBACK`);
     throw {
       cause: e,
-      message: 'Failed to commit the migration. Rolling it back. ' + e.message,
+      message: 'Failed to commit the migration. Rolling it back. ' + (e as any)?.message,
     };
   }
 }

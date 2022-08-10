@@ -2,11 +2,11 @@ import { compileGrammar } from './ohm/grammar.js';
 import * as fs from 'fs';
 import { SchemaFileAst } from '@aphro/schema-api';
 import { Config } from '../runtimeConfig.js';
-import { ActionDict } from 'ohm-js';
+import { ActionDict, Node } from 'ohm-js';
 
-const list = (l, r) => l.toAst().concat(r.toAst());
-const listInit = _ => [];
-const listWithSeparator = (l, _, r) => list(l, r);
+const list = (l: Node, r: Node) => l.toAst().concat(r.toAst());
+const listInit = (_: Node) => [];
+const listWithSeparator = (l: Node, _: Node, r: Node) => list(l, r);
 
 function stripComments(s: string): string {
   return s.replaceAll(/#[^\n]*/g, '');
@@ -18,10 +18,12 @@ export function createParser(config: Config = {}) {
   semantics.addOperation('toAst', {
     Main(preamble, entities) {
       return {
-        preamble: preamble.toAst().reduce((l, r) => {
-          l[r.key] = r.value;
-          return l;
-        }, {}),
+        preamble: preamble
+          .toAst()
+          .reduce((l: { [key: string]: any }, r: { key: string; value: any }) => {
+            l[r.key] = r.value;
+            return l;
+          }, {}),
         entities: entities.toAst(),
       };
     },
@@ -36,10 +38,12 @@ export function createParser(config: Config = {}) {
       return [{ key: key.toAst(), value: name.toAst() }];
     },
     Property_complex(key, _, list, __) {
-      const value = list.toAst().reduce((l, r) => {
-        l[r.key] = r.value;
-        return l;
-      }, {});
+      const value = list
+        .toAst()
+        .reduce((l: { [key: string]: any }, r: { key: string; value: any }) => {
+          l[r.key] = r.value;
+          return l;
+        }, {});
       return [{ key: key.toAst(), value }];
     },
     propertyKey(key, _colon) {

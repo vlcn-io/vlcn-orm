@@ -7,11 +7,11 @@ import { ModelFieldGetter } from '../Field.js';
 import CountLoadExpression from '../CountLoadExpression.js';
 
 export type HoistedOperations = {
-  filters?: readonly ReturnType<typeof filter>[];
-  orderBy?: ReturnType<typeof orderBy>;
-  limit?: ReturnType<typeof take>;
-  before?: ReturnType<typeof before>;
-  after?: ReturnType<typeof after>;
+  filters?: readonly ReturnType<typeof filter<any, any>>[];
+  orderBy?: ReturnType<typeof orderBy<any, any>>;
+  limit?: ReturnType<typeof take<any>>;
+  before?: ReturnType<typeof before<any>>;
+  after?: ReturnType<typeof after<any>>;
   // Points to the fully optimized hop expression
   // which can be hoisted
   hop?: SQLHopExpression<any, any>;

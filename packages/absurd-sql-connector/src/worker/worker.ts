@@ -1,5 +1,6 @@
 import initSqlJs from '@aphro/sql.js';
 import { SQLiteFS } from '@aphro/absurd-sql';
+// @ts-ignore
 import IndexedDBBackend from '@aphro/absurd-sql/dist/indexeddb-backend.js';
 import thisPackage from '../pkg.js';
 import tracer from '../tracer.js';
@@ -11,7 +12,7 @@ import tracer from '../tracer.js';
  */
 async function init() {
   let SQL = await initSqlJs({
-    locateFile: file => {
+    locateFile: (file: string) => {
       return file;
     },
   });

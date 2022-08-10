@@ -20,7 +20,7 @@ export interface IModel<T extends {} = Object> {
   subscribe(c: () => void): Disposer;
   subscribeTo(keys: (keyof T)[], c: () => void): Disposer;
 
-  destroy();
+  destroy(): void;
 
   // Internal only APIs. Exposed since TS doesn't understand package friends.
   // TODO: Or does it? I can extend a type that exists in a package from another package...

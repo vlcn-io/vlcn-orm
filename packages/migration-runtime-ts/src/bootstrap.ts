@@ -5,6 +5,7 @@ import { autoMigrate, CreateError } from './autoMigrate.js';
 export type SQLExports = { sqlite: DBs };
 type DBs = { [dbName: string]: Schemas };
 type Schemas = { [key: string]: string };
+type Engine = 'sqlite';
 
 export const bootstrap = {
   /**
@@ -16,7 +17,7 @@ export const bootstrap = {
   async createIfNotExists(
     resolver: DBResolver,
     sqlExports: SQLExports,
-    engine?: string,
+    engine?: Engine,
     db?: string,
   ) {
     await create(
@@ -41,7 +42,7 @@ export const bootstrap = {
   async createThrowIfExists(
     resolver: DBResolver,
     sqlExports: SQLExports,
-    engine?: string,
+    engine?: Engine,
     db?: string,
   ) {
     await create(
@@ -68,7 +69,7 @@ export const bootstrap = {
   async createAutomigrateIfExists(
     resolver: DBResolver,
     sqlExports: SQLExports,
-    engine?: string,
+    engine?: Engine,
     db?: string,
   ) {
     let tryToMigrate: CreateError[] = [];
@@ -99,21 +100,21 @@ async function create(
   resolver: DBResolver,
   sqlExports: SQLExports,
   errorHandler: (r: PromiseSettledResult<void>) => void,
-  engine?: string,
+  engine?: Engine,
   db?: string,
 ) {
   if (engine != null) {
     await createForEngine(resolver, engine, sqlExports[engine], errorHandler, db);
     return;
   }
-  for (const [engine, dbs] of Object.entries(sqlExports)) {
+  for (const [engine, dbs] of Object.entries(sqlExports) as [Engine, DBs][]) {
     await createForEngine(resolver, engine, dbs, errorHandler);
   }
 }
 
 async function createForEngine(
   resolver: DBResolver,
-  engine: string,
+  engine: Engine,
   dbs: DBs,
   errorHandler: (r: PromiseSettledResult<void>) => void,
   db?: string,

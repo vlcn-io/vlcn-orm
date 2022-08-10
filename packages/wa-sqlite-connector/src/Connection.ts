@@ -1,5 +1,6 @@
 import SQLiteAsyncESMFactory from 'wa-sqlite/dist/wa-sqlite-async.mjs';
 import * as SQLite from 'wa-sqlite';
+// @ts-ignore
 import { IDBBatchAtomicVFS } from 'wa-sqlite/src/examples/IDBBatchAtomicVFS.js';
 // import { OriginPrivateFileSystemVFS } from 'wa-sqlite/src/examples/OriginPrivateFileSystemVFS.js';
 import { formatters, SQLQuery } from '@aphro/sql-ts';
@@ -59,7 +60,7 @@ class Connection {
 
     const objects: Object[] = [];
     for (const row of returning.rows) {
-      const o = {};
+      const o: { [key: string]: any } = {};
       for (let i = 0; i < returning.columns.length; ++i) {
         o[returning.columns[i]] = row[i];
       }
@@ -88,7 +89,7 @@ class Connection {
 
 export default async function createConnection(): Promise<Connection> {
   const module = await SQLiteAsyncESMFactory({
-    locateFile(file) {
+    locateFile(file: string) {
       return file;
     },
   });

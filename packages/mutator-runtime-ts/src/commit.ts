@@ -44,7 +44,7 @@ export function commit<T extends readonly Changeset<any, any>[]>(
     const transaction = new ChangesetExecutor(ctx, changesets).execute();
 
     const optimistic = changesets.map(cs => transaction.nodes.get(cs.id));
-    let result;
+    let result: any;
     if (singular) {
       result = optimistic[0];
     } else {

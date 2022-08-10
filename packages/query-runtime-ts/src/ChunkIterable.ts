@@ -91,7 +91,7 @@ export class PromiseSourceSingleChunkIterable<T> extends BaseChunkIterable<T> {
 }
 
 export class MappedChunkIterable<TIn, TOut> extends BaseChunkIterable<TOut> {
-  constructor(private source: ChunkIterable<TIn>, private fn: (TIn) => Promise<TOut>) {
+  constructor(private source: ChunkIterable<TIn>, private fn: (x: TIn) => Promise<TOut>) {
     super();
   }
 
@@ -103,7 +103,7 @@ export class MappedChunkIterable<TIn, TOut> extends BaseChunkIterable<TOut> {
 }
 
 export class SyncMappedChunkIterable<TIn, TOut> extends BaseChunkIterable<TOut> {
-  constructor(private source: ChunkIterable<TIn>, private fn: (TIn) => TOut) {
+  constructor(private source: ChunkIterable<TIn>, private fn: (x: TIn) => TOut) {
     super();
   }
 
@@ -115,7 +115,7 @@ export class SyncMappedChunkIterable<TIn, TOut> extends BaseChunkIterable<TOut> 
 }
 
 export class FilteredChunkIterable<T> extends BaseChunkIterable<T> {
-  constructor(private source: ChunkIterable<T>, private fn: (T) => Promise<boolean>) {
+  constructor(private source: ChunkIterable<T>, private fn: (x: T) => Promise<boolean>) {
     super();
   }
 
@@ -136,7 +136,7 @@ export class FilteredChunkIterable<T> extends BaseChunkIterable<T> {
 }
 
 export class SyncFilteredChunkIterable<T> extends BaseChunkIterable<T> {
-  constructor(private source: ChunkIterable<T>, private fn: (T) => boolean) {
+  constructor(private source: ChunkIterable<T>, private fn: (x: T) => boolean) {
     super();
   }
 

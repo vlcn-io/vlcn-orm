@@ -46,19 +46,19 @@ export type ExpressionType =
 
 export type Direction = 'asc' | 'desc';
 export type Expression =
-  | ReturnType<typeof take>
-  | ReturnType<typeof before>
-  | ReturnType<typeof after>
-  | ReturnType<typeof filter>
-  | ReturnType<typeof filterAsync>
-  | ReturnType<typeof orderBy>
-  | ReturnType<typeof orderByLambda>
-  | ReturnType<typeof hop>
-  | ReturnType<typeof modelLoad>
-  | ReturnType<typeof count>
+  | ReturnType<typeof take<any>>
+  | ReturnType<typeof before<any>>
+  | ReturnType<typeof after<any>>
+  | ReturnType<typeof filter<any, any>>
+  | ReturnType<typeof filterAsync<any, any>>
+  | ReturnType<typeof orderBy<any, any>>
+  | ReturnType<typeof orderByLambda<any>>
+  | ReturnType<typeof hop<any, any>>
+  | ReturnType<typeof modelLoad<any, any>>
+  | ReturnType<typeof count<any>>
   | CountLoadExpression<any>
-  | ReturnType<typeof map>
-  | ReturnType<typeof mapAsync>;
+  | ReturnType<typeof map<any, any>>
+  | ReturnType<typeof mapAsync<any, any>>;
 /*
 declare module '@mono/model/query' {
   interface Expressions<ReturnType> {

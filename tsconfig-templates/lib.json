@@ -11,6 +11,7 @@
     "allowJs": true,
     "composite": true,
     "declarationMap": true,
-    "incremental": true
+    "incremental": true,
+    "strict": true
   }
 }

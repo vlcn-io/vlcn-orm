@@ -1,4 +1,4 @@
-import { emptyChunkIterable, StaticSourceChunkIterable } from '../ChunkIterable';
+import { ChunkIterable, emptyChunkIterable, StaticSourceChunkIterable } from '../ChunkIterable';
 import fc from 'fast-check';
 
 test('Empty chunk iterable is empty', async () => {
@@ -47,7 +47,7 @@ test('Filtering chunk iterables', () => {
       const iterable1 = new StaticSourceChunkIterable(chunks).filter(x => false);
       const iterable2 = new StaticSourceChunkIterable(chunks).filterAsync(async x => false);
 
-      const check = async iterable => {
+      const check = async (iterable: ChunkIterable<string>) => {
         expect(await iterable.gen()).toEqual([]);
 
         let hadChunk = false;

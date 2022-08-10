@@ -8,14 +8,11 @@ import {
   SchemaFile,
   StorageEngine,
   StorageType,
-  Field,
   NodeAstExtension,
   EdgeExtension,
   NodeExtension,
   NodeTraitAst,
-  NodeAstCommon,
   ValidationError,
-  EdgeAstExtension,
   StorageConfig,
   FieldDeclaration,
 } from '@aphro/schema-api';
@@ -56,7 +53,7 @@ export default function condense(
   schemaFile: SchemaFileAst,
   condensors: Map<
     string | Symbol,
-    (any) => [ValidationError[], NodeExtension | EdgeExtension]
+    (x: any) => [ValidationError[], NodeExtension | EdgeExtension]
   > = new Map(),
 ): [ValidationError[], SchemaFile] {
   function nodeExtensionCondensor(extension: NodeAstExtension): [ValidationError[], NodeExtension] {
@@ -96,7 +93,7 @@ export default function condense(
     }
   }
 
-  function edgeExtensionCondensor(extension: EdgeAstExtension): [ValidationError[], EdgeExtension] {
+  function edgeExtensionCondensor(extension: EdgeExtension): [ValidationError[], EdgeExtension] {
     switch (extension?.name) {
       case 'constrain':
       case 'index':
@@ -123,6 +120,7 @@ export default function condense(
     const [extensionErrors, extensions] = condenseExtensionsFor(
       'Node',
       node,
+      // @ts-ignore
       nodeExtensionCondensor,
     );
 
@@ -165,6 +163,7 @@ export default function condense(
     const [extensionErrors, extensions] = condenseExtensionsFor(
       'Edge',
       edge,
+      // @ts-ignore
       edgeExtensionCondensor,
     );
 
@@ -279,10 +278,10 @@ function condenseFieldsFor(
   );
 }
 
-function condenseExtensionsFor<T, R>(
+function condenseExtensionsFor<T, R extends { name: string }>(
   entityType: string,
   entity: { name: string; extensions: T[] },
-  extensionCondensor: (T) => [ValidationError[], R],
+  extensionCondensor: (x: T) => [ValidationError[], R],
 ): [ValidationError[], { [key: string]: R }] {
   const errorsAndExtensions = entity.extensions.map(extensionCondensor);
   const extensionErrors = errorsAndExtensions.flatMap(e => e[0]);
@@ -314,11 +313,11 @@ function engineToType(engine: StorageEngine): StorageType {
 
 function arrayToMap<T extends Object>(
   array: T[],
-  getKey: (T) => string,
-  onDuplicate: (T) => ValidationError,
+  getKey: (v: T) => string,
+  onDuplicate: (v: T) => ValidationError,
 ): [ValidationError[], { [key: string]: T }] {
   const errors: ValidationError[] = [];
-  const map = array.reduce((l, r) => {
+  const map = array.reduce((l: { [key: string]: T }, r: T) => {
     const key = getKey(r);
     if (l[key] !== undefined) {
       errors.push(onDuplicate(r));

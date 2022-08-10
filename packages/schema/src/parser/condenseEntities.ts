@@ -14,7 +14,7 @@ export default function condenseEntities<Tc, Ta>(
 ] {
   let errors: ValidationError[] = [];
   const condensedEntities: { [key: NodeReference]: Tc } = Object.entries(entities).reduce(
-    (l, [key, entity]) => {
+    (l: { [key: string]: Tc }, [key, entity]) => {
       const [entityErrors, condensed] = condensor(entity, preamble);
       errors = errors.concat(entityErrors);
       l[key] = condensed;

@@ -20,12 +20,14 @@ export function decodeModelData<D>(data: any, spec: FieldsSpec): D {
 }
 
 export function encodeModelData<D>(data: D, spec: FieldsSpec): any {
-  const encodedFields = Object.entries(spec).filter(([key, value]) => value.encoding !== 'none');
+  const encodedFields = (Object.entries(spec) as [keyof D, any][]).filter(
+    ([key, value]) => value.encoding !== 'none',
+  );
   if (encodedFields.length === 0) {
     return data;
   }
 
-  const ret = {
+  const ret: { [Prop in keyof D]: any } = {
     ...data,
   };
 
@@ -34,7 +36,7 @@ export function encodeModelData<D>(data: D, spec: FieldsSpec): any {
     if (value.encoding === 'json') {
       ret[key] = JSON.stringify(ret[key]);
     } else {
-      throw new Error(`Unsupported encoding ${value} on field ${key}`);
+      throw new Error(`Unsupported encoding ${value} on field ${String(key)}`);
     }
   });
 

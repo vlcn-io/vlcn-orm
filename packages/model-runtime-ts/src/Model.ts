@@ -15,6 +15,7 @@ export default abstract class Model<T extends {}> implements IModel<T> {
   private subscriptions: Set<() => void> = new Set();
   private keyedSubscriptions: Map<keyof T, Set<() => void>> = new Map();
 
+  // @ts-ignore
   #generatorChange: (x: this) => this;
   #generator: ReturnType<typeof observe>;
   #generatorUsed: boolean = false;
@@ -69,7 +70,7 @@ export default abstract class Model<T extends {}> implements IModel<T> {
 
     let unchangedKeys = new Set();
     if (newData != null) {
-      Object.entries(newData).forEach(entry => {
+      (Object.entries(newData) as [keyof Partial<T>, any][]).forEach(entry => {
         if (lastData[entry[0]] === entry[1]) {
           unchangedKeys.add(entry[0]);
         }
@@ -87,7 +88,9 @@ export default abstract class Model<T extends {}> implements IModel<T> {
   }
 
   _isNoop(updates: Partial<T>) {
-    return Object.entries(updates).every(entry => this.data[entry[0]] === entry[1]);
+    return (Object.entries(updates) as [keyof Partial<T>, any][]).every(
+      entry => this.data[entry[0]] === entry[1],
+    );
   }
 
   private gatherNotifications(changedKeys?: (keyof T)[]): Set<() => void> {

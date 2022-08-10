@@ -1,4 +1,4 @@
-import { Span, trace } from '@opentelemetry/api';
+import { Span, SpanStatusCode, trace } from '@opentelemetry/api';
 
 export type Tracer = ReturnType<typeof getTracer>;
 
@@ -14,7 +14,14 @@ export default function getTracer(pkg: string, version: string) {
         try {
           return cb(span);
         } catch (e) {
-          span.recordException(e);
+          if (e instanceof Error) {
+            span.recordException(e);
+          } else {
+            span.setStatus({
+              code: SpanStatusCode.ERROR,
+              message: (e as any)?.message,
+            });
+          }
           throw e;
         } finally {
           span.end();
@@ -27,7 +34,14 @@ export default function getTracer(pkg: string, version: string) {
         try {
           return await cb(span);
         } catch (e) {
-          span.recordException(e);
+          if (e instanceof Error) {
+            span.recordException(e);
+          } else {
+            span.setStatus({
+              code: SpanStatusCode.ERROR,
+              message: (e as any)?.message,
+            });
+          }
           throw e;
         } finally {
           span.end();
@@ -40,7 +54,14 @@ export default function getTracer(pkg: string, version: string) {
       try {
         return await cb();
       } catch (e) {
-        span.recordException(e);
+        if (e instanceof Error) {
+          span.recordException(e);
+        } else {
+          span.setStatus({
+            code: SpanStatusCode.ERROR,
+            message: (e as any)?.message,
+          });
+        }
         throw e;
       } finally {
         span.end();
@@ -52,7 +73,14 @@ export default function getTracer(pkg: string, version: string) {
       try {
         return cb();
       } catch (e) {
-        span.recordException(e);
+        if (e instanceof Error) {
+          span.recordException(e);
+        } else {
+          span.setStatus({
+            code: SpanStatusCode.ERROR,
+            message: (e as any)?.message,
+          });
+        }
         throw e;
       } finally {
         span.end();

@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 
+// @ts-ignore
 import commandLineArgs from 'command-line-args';
+// @ts-ignore
 import commandLineUsage from 'command-line-usage';
+
 import { CodegenPipeline } from '@aphro/codegen';
 import * as process from 'process';
 import * as path from 'path';

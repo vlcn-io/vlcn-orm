@@ -195,15 +195,15 @@ export interface EdgeExtensions {
   storage?: StorageConfig;
   replication?: ReplicationConfig;
 }
-export interface EdgeAstExtensions {
-  index: Index;
-  invert: Invert;
-  storage: StorageConfig;
-  constraint: Constrain;
-  replication: ReplicationConfig;
-}
+// export interface EdgeAstExtensions {
+//   index: Index;
+//   invert: Invert;
+//   storage: StorageConfig;
+//   constraint: Constrain;
+//   replication: ReplicationConfig;
+// }
 
-export type EdgeAstExtension = EdgeAstExtensions[keyof EdgeAstExtensions];
+// export type EdgeAstExtension = EdgeAstExtensions[keyof EdgeAstExtensions];
 export type EdgeExtension = SchemaEdge['extensions'][keyof SchemaEdge['extensions']];
 
 export type EdgeAst = {

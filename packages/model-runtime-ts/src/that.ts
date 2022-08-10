@@ -1,3 +1,3 @@
-export default function that() {
+export default function that(this: any) {
   return this;
 }
