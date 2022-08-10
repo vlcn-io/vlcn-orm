@@ -17,6 +17,7 @@ import HopPlan from './HopPlan.js';
 import LiveResult from './live/LiveResult.js';
 import Plan, { IPlan } from './Plan.js';
 import P from './Predicate.js';
+import tracer from './trace.js';
 
 export enum UpdateType {
   CREATE = 1,
@@ -56,8 +57,10 @@ abstract class BaseQuery<T> implements Query<T> {
     this.ctx = ctx;
   }
 
-  async gen(): Promise<T[]> {
-    return await this.plan().optimize().gen();
+  gen(): Promise<T[]> {
+    return tracer.genStartActiveSpan(this.constructor.name + '.gen', span => {
+      return this.plan().optimize().gen();
+    });
   }
 
   async genOnlyValue(): Promise<T | null> {

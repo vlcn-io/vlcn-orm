@@ -1,1 +1,1 @@
-export { default as tracer } from './tracer.js';
+export { default as tracer, Tracer } from './tracer.js';

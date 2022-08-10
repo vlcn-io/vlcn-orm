@@ -1,4 +1,5 @@
 import { tracer, Tracer } from '@aphro/instrument';
 
-const t: Tracer = tracer('@aphro/absurd-sql-connector', '0.2.1');
+const t: Tracer = tracer('@aphro/mutator-runtime-ts', '0.3.4');
+
 export default t;

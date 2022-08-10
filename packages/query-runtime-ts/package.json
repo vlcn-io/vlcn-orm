@@ -12,6 +12,7 @@
     "@aphro/cache-runtime-ts": "workspace:*",
     "@aphro/context-runtime-ts": "workspace:*",
     "@aphro/model-runtime-ts": "workspace:*",
+    "@aphro/instrument": "workspace:*",
     "@aphro/schema-api": "workspace:*",
     "@aphro/sql-ts": "workspace:*",
     "@strut/counter": "^0.0.11",

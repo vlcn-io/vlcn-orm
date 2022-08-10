@@ -5,59 +5,64 @@ import { ModelFieldGetter } from '../Field.js';
 import { JunctionEdgeSpec, NodeSpec } from '@aphro/schema-api';
 import { invariant } from '@strut/utils';
 import { formatters, sql, SQLQuery } from '@aphro/sql-ts';
+import tracer from '../trace.js';
 
 // given a model spec and hoisted operations, return the SQL query
 export default function specAndOpsToQuery(
   spec: NodeSpec | JunctionEdgeSpec,
   ops: HoistedOperations,
 ): SQLQuery {
-  const [lastSpec, lastWhat] = getLastSpecAndProjection(spec, ops);
-  const tableAliases = createTableAliases(spec, ops.hop, []);
-  const projection = (() => {
-    switch (lastWhat) {
-      case 'count':
-        return sql`count(*)`;
-      case 'edges':
-        throw new Error('edge projection not yet supported');
-      case 'ids':
-        if (lastSpec.type === 'junction') {
-          throw new Error('id projection not yet supported on junction edges');
-        }
-        return sql`${sql.ident(tableAliases[tableAliases.length - 1], lastSpec.primaryKey)}`;
-      case 'model':
-        // TODO: explicitly name the fields so we get the right order!
-        // we're ok for now since we force returns to be maps.
-        return sql`${sql.ident(tableAliases[tableAliases.length - 1])}.*`;
-    }
-  })();
+  return tracer.startActiveSpan('specAndOpsToQuery', span => {
+    span.setAttribute('tablish', spec.storage.tablish);
+    const [lastSpec, lastWhat] = getLastSpecAndProjection(spec, ops);
+    const tableAliases = createTableAliases(spec, ops.hop, []);
+    const projection = (() => {
+      switch (lastWhat) {
+        case 'count':
+          return sql`count(*)`;
+        case 'edges':
+          throw new Error('edge projection not yet supported');
+        case 'ids':
+          if (lastSpec.type === 'junction') {
+            throw new Error('id projection not yet supported on junction edges');
+          }
+          return sql`${sql.ident(tableAliases[tableAliases.length - 1], lastSpec.primaryKey)}`;
+        case 'model':
+          // TODO: explicitly name the fields so we get the right order!
+          // we're ok for now since we force returns to be maps.
+          return sql`${sql.ident(tableAliases[tableAliases.length - 1])}.*`;
+      }
+    })();
 
-  // Hops must be applied first
-  // Given filters, limits, orders, etc. occur at the end of a SQL statement
-  const hops = getHops([], spec, ops.hop, tableAliases, 1);
+    // Hops must be applied first
+    // Given filters, limits, orders, etc. occur at the end of a SQL statement
+    const hops = getHops([], spec, ops.hop, tableAliases, 1);
 
-  // applyFilters needs to also grab filters from the hoisted hops
-  const filterList = getFilters(spec, ops.hop, ops.filters, tableAliases, 0);
-  const filters =
-    filterList.length === 0
-      ? sql.__dangerous__rawValue('')
-      : sql`WHERE ${sql.join(filterList, ' AND ')}`;
-  // should also grab before/afters from the hops
-  const beforeAndAfter = getBeforeAndAfter(ops.before, ops.after) || sql.__dangerous__rawValue('');
-  // should also grab order bys from the hops and apply in-order of the hoisted hops
-  const orderBy =
-    lastWhat === 'count'
-      ? sql.__dangerous__rawValue('')
-      : getOrderBy(spec, ops.hop, ops.orderBy, tableAliases, 0) || sql.__dangerous__rawValue('');
-  // `applyHops` takes limits into account given they change the nature of the join to a sub-select
-  const limit = getLimit(ops.limit) || sql.__dangerous__rawValue('');
+    // applyFilters needs to also grab filters from the hoisted hops
+    const filterList = getFilters(spec, ops.hop, ops.filters, tableAliases, 0);
+    const filters =
+      filterList.length === 0
+        ? sql.__dangerous__rawValue('')
+        : sql`WHERE ${sql.join(filterList, ' AND ')}`;
+    // should also grab before/afters from the hops
+    const beforeAndAfter =
+      getBeforeAndAfter(ops.before, ops.after) || sql.__dangerous__rawValue('');
+    // should also grab order bys from the hops and apply in-order of the hoisted hops
+    const orderBy =
+      lastWhat === 'count'
+        ? sql.__dangerous__rawValue('')
+        : getOrderBy(spec, ops.hop, ops.orderBy, tableAliases, 0) || sql.__dangerous__rawValue('');
+    // `applyHops` takes limits into account given they change the nature of the join to a sub-select
+    const limit = getLimit(ops.limit) || sql.__dangerous__rawValue('');
 
-  // nit: this doesn't take into account limits in between hops.
-  // SELECT projection FROM table {hops} {filters} {before/after} {orderby} {limit}
-  const s = sql`SELECT ${projection} FROM ${sql.ident(spec.storage.tablish)} AS ${sql.ident(
-    tableAliases[0],
-  )} ${sql.join(hops, sql` `)} ${filters} ${beforeAndAfter} ${orderBy} ${limit}`;
-  // console.log(s.format(formatters.sqlite));
-  return s;
+    // nit: this doesn't take into account limits in between hops.
+    // SELECT projection FROM table {hops} {filters} {before/after} {orderby} {limit}
+    const s = sql`SELECT ${projection} FROM ${sql.ident(spec.storage.tablish)} AS ${sql.ident(
+      tableAliases[0],
+    )} ${sql.join(hops, sql` `)} ${filters} ${beforeAndAfter} ${orderBy} ${limit}`;
+    // console.log(s.format(formatters.sqlite));
+    return s;
+  });
 }
 
 function createTableAliases(

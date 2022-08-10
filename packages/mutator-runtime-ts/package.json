@@ -12,6 +12,7 @@
     "@aphro/context-runtime-ts": "workspace:*",
     "@aphro/model-runtime-ts": "workspace:*",
     "@aphro/schema-api": "workspace:*",
+    "@aphro/instrument": "workspace:*",
     "@aphro/sql-ts": "workspace:*",
     "@strut/sid": "^0.1.2",
     "@strut/utils": "^0.1.1",

@@ -41,8 +41,6 @@ export default class LiveResult<T> {
   #on: UpdateType;
   #generatorChange: (x: T[]) => T[];
 
-  #disposables: (() => void)[] = [];
-
   // Exposed to allow tests to await results before exiting.
   __currentHandle: Promise<unknown>;
 
@@ -53,25 +51,30 @@ export default class LiveResult<T> {
     this.#optimizedQueryPlan = query.plan().optimize();
     this.#implicatedDatasets = query.implicatedDatasets();
 
-    this.#disposables.push(
-      ctx.commitLog.observe(tx => {
-        if (this.#matters(tx)) {
-          // TODO: we have a divergence in optimistic results and db results.
-          // I.e., the optimistic layer could succeed and persist layer fail.
-          // We need to reoncile this for our users.
-          this.__currentHandle = tx.persistHandle.then(this.#react);
-        }
-      }),
-    );
+    // commitLog is observed thru weak references.
+    // so technically this should automatically clean itself
+    // as soon as there are no more references to the live query.
+    // TODO: test this assumption
+    // TODO: still allow manual freeing? In case GC takes too long to claim?
+    ctx.commitLog.observe(this.#observeCommitLog);
 
     this.generator = observe((change: (x: T[]) => T[]) => {
       this.#generatorChange = change;
-      return () => this.free();
+      return null;
     });
 
     // We invoke this in order to kick off the initial query.
     this.__currentHandle = this.#react();
   }
+
+  #observeCommitLog = tx => {
+    if (this.#matters(tx)) {
+      // TODO: we have a divergence in optimistic results and db results.
+      // I.e., the optimistic layer could succeed and persist layer fail.
+      // We need to reoncile this for our users.
+      this.__currentHandle = tx.persistHandle.then(this.#react);
+    }
+  };
 
   #matters(tx: Transaction): boolean {
     for (const cs of tx.changes.values()) {
@@ -123,37 +126,12 @@ export default class LiveResult<T> {
   };
 
   subscribe(subscriber: (data: T[]) => void) {
-    if (this.#disposables.length === 0) {
-      throw new Error(
-        'You are subscribing to a disposed live result. ' +
-          'Live results are diposed either when someone frees them or auto-disposed when their subscriber count drops to 0. ' +
-          'If you are removing then adding a subscriber a good workaround is to add the new subscriber _before_ removing the old one. ' +
-          ' This behavior exists to prevent memory leaks.',
-      );
-    }
     this.#subscribers.add(subscriber);
     return () => this.unsubscribe(subscriber);
   }
 
   unsubscribe(subscriber: (data: T[]) => void) {
     this.#subscribers.delete(subscriber);
-    // queueing a microtask means this will be called after there's nothing
-    // left on the stack - allowing any synchronous code to evaluate, giving
-    // the caller a chance to resubscribe if desired. This seemed like a
-    // reasonable window to delay the disposal.
-    queueMicrotask(() => {
-      // Intentionally auto-free when there are no more
-      // subscribers.
-      if (this.#subscribers.size === 0) {
-        this.free();
-      }
-    });
-  }
-
-  free() {
-    this.#subscribers = new Set();
-    this.#disposables.forEach(d => d());
-    this.#disposables = [];
   }
 
   get latest() {

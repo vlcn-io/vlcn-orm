@@ -9,6 +9,7 @@
     { "path": "../model-runtime-ts" },
     { "path": "../schema-api" },
     { "path": "../sql-ts" },
-    { "path": "../context-runtime-ts" }
+    { "path": "../context-runtime-ts" },
+    { "path": "../instrument" }
   ]
 }

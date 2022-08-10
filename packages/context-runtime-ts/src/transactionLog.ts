@@ -7,7 +7,31 @@ type Node = {
   prev?: Node;
 };
 
-export default class TransactionLog extends Observable<Transaction> {
+class WeaklyObservable<T extends Object> {
+  private _subscriptions: Set<WeakRef<(p: T) => void>> = new Set();
+
+  observe(c: (p: T) => void): void {
+    const ref = new WeakRef(c);
+    this._subscriptions.add(ref);
+  }
+
+  protected notify(p: T) {
+    for (const ref of this._subscriptions) {
+      const c = ref.deref();
+      if (c == null) {
+        this._subscriptions.delete(ref);
+        continue;
+      }
+      try {
+        c(p);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
+}
+
+export default class TransactionLog extends WeaklyObservable<Transaction> {
   private lastTransaction?: Node;
   private firstTransaction?: Node;
   private length: number = 0;

@@ -48,7 +48,7 @@ export default class Cache {
     // TODO: we can be smarter here if/when the cache becomes massive.
     // E.g., spread the GC over many ticks via chunking.
     for (let [key, ref] of this.#cache.entries()) {
-      if (ref.deref == null) {
+      if (ref.deref() == null) {
         this.#cache.delete(key);
       }
     }

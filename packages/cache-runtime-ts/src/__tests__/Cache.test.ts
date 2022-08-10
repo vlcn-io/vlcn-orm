@@ -2,6 +2,8 @@ import Cache from '../cache.js';
 import { asId, SID_of } from '@strut/sid';
 import fc from 'fast-check';
 
+declare const global;
+
 // TODO: cache will need to be per viewer......
 // Why would we have many viewers in local first P2P app? For privacy respecting replications to other peers.
 // To do that, we try to "load" the model as the other peer. If success, we allow the replication.
@@ -56,4 +58,7 @@ test('destruct', () => {
   expect(cache.get(id, db, tablish)).toBe(null);
 });
 
-// test garbage collect?
+test('purges refs after garbage collection', () => {
+  // TODO
+  global.gc();
+});

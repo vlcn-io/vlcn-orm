@@ -1,67 +1,62 @@
-import { Span, SpanStatusCode, trace, Tracer } from '@opentelemetry/api';
+import { Span, trace } from '@opentelemetry/api';
 
-let tracer: Tracer;
+export type Tracer = ReturnType<typeof getTracer>;
 
-export default {
-  configure(pkg: string, version: string) {
-    tracer = trace.getTracer(pkg, version);
-  },
+export default function getTracer(pkg: string, version: string) {
+  const tracer = trace.getTracer(pkg, version);
+  return {
+    startSpan(name: string) {
+      return tracer.startSpan(name);
+    },
 
-  get tracer() {
-    return tracer;
-  },
+    startActiveSpan<T>(name: string, cb: (span: Span) => T): T {
+      return tracer.startActiveSpan(name, span => {
+        try {
+          return cb(span);
+        } catch (e) {
+          span.recordException(e);
+          throw e;
+        } finally {
+          span.end();
+        }
+      });
+    },
 
-  startSpan(name: string) {
-    return tracer.startSpan(name);
-  },
+    genStartActiveSpan<T>(name: string, cb: (span: Span) => Promise<T>): Promise<T> {
+      return tracer.startActiveSpan(name, async span => {
+        try {
+          return await cb(span);
+        } catch (e) {
+          span.recordException(e);
+          throw e;
+        } finally {
+          span.end();
+        }
+      });
+    },
 
-  startActiveSpan<T>(name: string, cb: (span: Span) => T): T {
-    return tracer.startActiveSpan(name, span => {
+    async genSpan<T>(name: string, cb: () => Promise<T>): Promise<T> {
+      const span = tracer.startSpan(name);
       try {
-        return cb(span);
+        return await cb();
       } catch (e) {
         span.recordException(e);
         throw e;
       } finally {
         span.end();
       }
-    });
-  },
+    },
 
-  genStartActiveSpan<T>(name: string, cb: (span: Span) => Promise<T>): Promise<T> {
-    return tracer.startActiveSpan(name, async span => {
+    span<T>(name: string, cb: () => T): T {
+      const span = tracer.startSpan(name);
       try {
-        return await cb(span);
+        return cb();
       } catch (e) {
         span.recordException(e);
         throw e;
       } finally {
         span.end();
       }
-    });
-  },
-
-  async genSpan<T>(name: string, cb: () => Promise<T>): Promise<T> {
-    const span = tracer.startSpan(name);
-    try {
-      return await cb();
-    } catch (e) {
-      span.recordException(e);
-      throw e;
-    } finally {
-      span.end();
-    }
-  },
-
-  span<T>(name: string, cb: () => T): T {
-    const span = tracer.startSpan(name);
-    try {
-      return cb();
-    } catch (e) {
-      span.recordException(e);
-      throw e;
-    } finally {
-      span.end();
-    }
-  },
-};
+    },
+  } as const;
+}

@@ -1,5 +1,5 @@
-import { tracer } from '@aphro/instrument';
+import { tracer, Tracer } from '@aphro/instrument';
 
-tracer.configure('@aphro/wa-sqlite-connector', '0.2.1');
+const t: Tracer = tracer('@aphro/wa-sqlite-connector', '0.2.3');
 
-export default tracer;
+export default t;
