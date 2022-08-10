@@ -1,5 +1,13 @@
 # @aphro/monopoly
 
+## 1.2.3
+
+### Patch Changes
+
+- workaround to adhere to strict mode in generated code #43
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.3
+
 ## 1.2.2
 
 ### Patch Changes

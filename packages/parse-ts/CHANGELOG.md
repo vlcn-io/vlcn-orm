@@ -1,5 +1,11 @@
 # @aphro/parse-ts
 
+## 0.2.2
+
+### Patch Changes
+
+- workaround to adhere to strict mode in generated code #43
+
 ## 0.2.1
 
 ### Patch Changes

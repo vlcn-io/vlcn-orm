@@ -1,5 +1,16 @@
 # @aphro/mutator-runtime-ts
 
+## 0.3.3
+
+### Patch Changes
+
+- workaround to adhere to strict mode in generated code #43
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.3.2
+  - @aphro/model-runtime-ts@0.2.2
+  - @aphro/schema-api@0.2.2
+  - @aphro/sql-ts@0.2.2
+
 ## 0.3.2
 
 ### Patch Changes

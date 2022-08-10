@@ -1,5 +1,15 @@
 # @aphro/codegen
 
+## 0.2.3
+
+### Patch Changes
+
+- workaround to adhere to strict mode in generated code #43
+- Updated dependencies
+  - @aphro/codegen-api@0.2.2
+  - @aphro/schema@0.2.3
+  - @aphro/schema-api@0.2.2
+
 ## 0.2.2
 
 ### Patch Changes

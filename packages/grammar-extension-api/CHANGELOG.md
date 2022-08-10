@@ -1,5 +1,13 @@
 # @aphro/grammar-extension-api
 
+## 0.2.2
+
+### Patch Changes
+
+- workaround to adhere to strict mode in generated code #43
+- Updated dependencies
+  - @aphro/schema-api@0.2.2
+
 ## 0.2.1
 
 ### Patch Changes

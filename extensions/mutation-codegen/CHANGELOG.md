@@ -1,5 +1,19 @@
 # @aphro/mutation-codegen
 
+## 0.3.3
+
+### Patch Changes
+
+- workaround to adhere to strict mode in generated code #43
+- Updated dependencies
+  - @aphro/mutation-grammar@0.2.3
+  - @aphro/codegen@0.2.3
+  - @aphro/codegen-api@0.2.2
+  - @aphro/codegen-ts@0.3.3
+  - @aphro/parse-ts@0.2.2
+  - @aphro/schema@0.2.3
+  - @aphro/schema-api@0.2.2
+
 ## 0.3.2
 
 ### Patch Changes

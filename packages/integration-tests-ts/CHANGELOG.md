@@ -1,5 +1,13 @@
 # @aphro/integration-tests-ts
 
+## 0.3.3
+
+### Patch Changes
+
+- workaround to adhere to strict mode in generated code #43
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.3
+
 ## 0.3.2
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @aphro/react
 
+## 1.0.2
+
+### Patch Changes
+
+- workaround to adhere to strict mode in generated code #43
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.3
+
 ## 1.0.1
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @aphro/todo-mvc-mem
 
+## 0.1.3
+
+### Patch Changes
+
+- workaround to adhere to strict mode in generated code #43
+- Updated dependencies
+  - @aphro/react@1.0.2
+  - @aphro/runtime-ts@0.3.3
+
 ## 0.1.2
 
 ### Patch Changes

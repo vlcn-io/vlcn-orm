@@ -1,5 +1,13 @@
 # @aphro/chinook
 
+## 0.3.1
+
+### Patch Changes
+
+- workaround to adhere to strict mode in generated code #43
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.3
+
 ## 0.3.0
 
 ### Minor Changes
