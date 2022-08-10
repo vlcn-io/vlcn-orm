@@ -1,5 +1,11 @@
 # @aphro/integration-tests-ts
 
+## 0.3.4
+
+### Patch Changes
+
+- explicit type on `gen` due to prior change (#43)
+
 ## 0.3.3
 
 ### Patch Changes
