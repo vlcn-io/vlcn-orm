@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <718b3b1430f3d06a61c88951c26b89fa>
+// SIGNED-SOURCE: <9239310356e5eaa8e29d9fd9af58fd8b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -111,9 +111,10 @@ export default abstract class DeckBase extends Node<Data> {
       this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
-  static gen = modelGenMemo(
+  static gen = modelGenMemo<Deck | null>(
     "none",
     "deck",
+    // @ts-ignore #43
     (ctx: Context, id: SID_of<Deck>): Promise<Deck | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );

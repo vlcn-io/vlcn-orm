@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <f02618ac40937c21bed3da598417325a>
+// SIGNED-SOURCE: <e5fe2fa47182addc41f31de45500fab0>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -48,35 +48,43 @@ export default class DeckQuery extends DerivedQuery<Deck> {
   }
 
   whereId(p: Predicate<Data["id"]>) {
-    return this.derive(filter(new ModelFieldGetter<"id", Data, Deck>("id"), p));
+    return this.derive(
+      // @ts-ignore #43
+      filter(new ModelFieldGetter<"id", Data, Deck>("id"), p)
+    );
   }
 
   whereName(p: Predicate<Data["name"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"name", Data, Deck>("name"), p)
     );
   }
 
   whereCreated(p: Predicate<Data["created"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"created", Data, Deck>("created"), p)
     );
   }
 
   whereModified(p: Predicate<Data["modified"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"modified", Data, Deck>("modified"), p)
     );
   }
 
   whereOwnerId(p: Predicate<Data["ownerId"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"ownerId", Data, Deck>("ownerId"), p)
     );
   }
 
   whereSelectedSlideId(p: Predicate<Data["selectedSlideId"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(
         new ModelFieldGetter<"selectedSlideId", Data, Deck>("selectedSlideId"),
         p

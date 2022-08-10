@@ -355,7 +355,7 @@ export default abstract class ${this.schema.name}Base
     if (this.schema.type === 'standaloneEdge' || this.schema.storage.type === 'ephemeral') {
       return '';
     }
-    return `static gen = modelGenMemo(
+    return `static gen = modelGenMemo<${this.schema.name} | null>(
       "${this.schema.storage.db}",
       "${this.schema.storage.tablish}",
       // @ts-ignore #43

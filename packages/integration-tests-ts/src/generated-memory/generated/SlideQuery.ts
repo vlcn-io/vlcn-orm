@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <8dc09c9b32fdb1a7ff8e0e9ed8e38f43>
+// SIGNED-SOURCE: <79053a9b65e9a808466ce5f347cf3d44>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -46,18 +46,21 @@ export default class SlideQuery extends DerivedQuery<Slide> {
 
   whereId(p: Predicate<Data["id"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"id", Data, Slide>("id"), p)
     );
   }
 
   whereDeckId(p: Predicate<Data["deckId"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"deckId", Data, Slide>("deckId"), p)
     );
   }
 
   whereOrder(p: Predicate<Data["order"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"order", Data, Slide>("order"), p)
     );
   }

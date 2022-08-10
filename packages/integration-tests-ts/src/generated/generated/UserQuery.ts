@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <012439bc51a89fc781cb14049e0ed43d>
+// SIGNED-SOURCE: <494c9740a800a0422920051f4b939ff3>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -44,23 +44,29 @@ export default class UserQuery extends DerivedQuery<User> {
   }
 
   whereId(p: Predicate<Data["id"]>) {
-    return this.derive(filter(new ModelFieldGetter<"id", Data, User>("id"), p));
+    return this.derive(
+      // @ts-ignore #43
+      filter(new ModelFieldGetter<"id", Data, User>("id"), p)
+    );
   }
 
   whereName(p: Predicate<Data["name"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"name", Data, User>("name"), p)
     );
   }
 
   whereCreated(p: Predicate<Data["created"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"created", Data, User>("created"), p)
     );
   }
 
   whereModified(p: Predicate<Data["modified"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"modified", Data, User>("modified"), p)
     );
   }

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <9d31dfd130acae719af5e63995b02166>
+// SIGNED-SOURCE: <23b35c1e92b81ff949b20caf1a10f074>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -41,12 +41,14 @@ export default class DeckToEditorsEdgeQuery extends DerivedQuery<DeckToEditorsEd
 
   whereId1(p: Predicate<Data["id1"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"id1", Data, DeckToEditorsEdge>("id1"), p)
     );
   }
 
   whereId2(p: Predicate<Data["id2"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"id2", Data, DeckToEditorsEdge>("id2"), p)
     );
   }

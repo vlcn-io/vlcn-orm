@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4fd31a232674b171e6253d76c762f111>
+// SIGNED-SOURCE: <e0a600e683e61948f18df6e5f8ccf319>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -59,9 +59,10 @@ export default abstract class SlideBase extends Node<Data> {
       this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
-  static gen = modelGenMemo(
+  static gen = modelGenMemo<Slide | null>(
     "none",
     "slide",
+    // @ts-ignore #43
     (ctx: Context, id: SID_of<Slide>): Promise<Slide | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );

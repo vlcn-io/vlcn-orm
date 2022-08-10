@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4262cecfcbf5bcc1f2707affffd14269>
+// SIGNED-SOURCE: <f3745f22bc3d465fe9af6bb3f5a157a3>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -61,9 +61,10 @@ export default abstract class UserBase extends Node<Data> {
       this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
-  static gen = modelGenMemo(
+  static gen = modelGenMemo<User | null>(
     "example",
     "user",
+    // @ts-ignore #43
     (ctx: Context, id: SID_of<User>): Promise<User | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );

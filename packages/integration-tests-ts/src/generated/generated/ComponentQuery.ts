@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <27d0865b6488c25b642487ae8d041de4>
+// SIGNED-SOURCE: <393507ef125b51262aabfb042cb16758>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -44,24 +44,28 @@ export default class ComponentQuery extends DerivedQuery<Component> {
 
   whereId(p: Predicate<Data["id"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"id", Data, Component>("id"), p)
     );
   }
 
   whereSubtype(p: Predicate<Data["subtype"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"subtype", Data, Component>("subtype"), p)
     );
   }
 
   whereSlideId(p: Predicate<Data["slideId"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"slideId", Data, Component>("slideId"), p)
     );
   }
 
   whereContent(p: Predicate<Data["content"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"content", Data, Component>("content"), p)
     );
   }
