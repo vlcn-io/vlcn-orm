@@ -40,6 +40,7 @@ export default class LiveResult<T> {
   #implicatedDatasets: Set<string>;
   #on: UpdateType;
   #generatorChange: (x: T[]) => T[];
+  #disposables: (() => void)[] = [];
 
   // Exposed to allow tests to await results before exiting.
   __currentHandle: Promise<unknown>;
@@ -52,11 +53,9 @@ export default class LiveResult<T> {
     this.#implicatedDatasets = query.implicatedDatasets();
 
     // commitLog is observed thru weak references.
-    // so technically this should automatically clean itself
+    // This will automatically clean itself
     // as soon as there are no more references to the live query.
-    // TODO: test this assumption
-    // TODO: still allow manual freeing? In case GC takes too long to claim?
-    ctx.commitLog.observe(this.#observeCommitLog);
+    this.#disposables.push(ctx.commitLog.observe(this.#observeCommitLog));
 
     this.generator = observe((change: (x: T[]) => T[]) => {
       this.#generatorChange = change;
@@ -132,6 +131,12 @@ export default class LiveResult<T> {
 
   unsubscribe(subscriber: (data: T[]) => void) {
     this.#subscribers.delete(subscriber);
+  }
+
+  free() {
+    this.#disposables.forEach(c => c());
+    this.#disposables = [];
+    this.#subscribers.clear();
   }
 
   get latest() {

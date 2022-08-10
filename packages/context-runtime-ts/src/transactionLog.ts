@@ -10,9 +10,25 @@ type Node = {
 class WeaklyObservable<T extends Object> {
   private _subscriptions: Set<WeakRef<(p: T) => void>> = new Set();
 
-  observe(c: (p: T) => void): void {
-    const ref = new WeakRef(c);
+  /**
+   *
+   * @param c the callback to invoke
+   * @returns a function to stop observing if you'd like to aggressively clean yourself up
+   */
+  observe(c: (p: T) => void): () => void {
+    const ref = this.#makeRef(c);
     this._subscriptions.add(ref);
+
+    // allow people to aggressively clean themselves up
+    return () => this._subscriptions.delete(ref);
+  }
+
+  /**
+   * make the weak reference in isolation so it does not get captured
+   * by closures or other things that could be introduced to a function body.
+   */
+  #makeRef(c: (p: T) => void) {
+    return new WeakRef(c);
   }
 
   protected notify(p: T) {
