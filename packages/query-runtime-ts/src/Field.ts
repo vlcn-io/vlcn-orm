@@ -1,7 +1,7 @@
 import { IModel, INode } from '@aphro/context-runtime-ts';
 
 export interface FieldGetter<Tm, Tv> {
-  readonly get: (Tm) => Tv;
+  readonly get: (m: Tm) => Tv;
 }
 
 /**

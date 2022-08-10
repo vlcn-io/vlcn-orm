@@ -1,4 +1,5 @@
 import { Templates } from '@aphro/codegen-api';
+// @ts-ignore
 import md5 from 'md5';
 
 export function sign(content: string, templates: Templates) {

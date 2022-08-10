@@ -16,6 +16,6 @@ export default class CountLoadExpression<TData> implements DerivedExpression<TDa
   constructor(private ctx: Context) {}
 
   chainAfter(iterable: ChunkIterable<TData>) {
-    return iterable.map(d => d['count(*)']);
+    return iterable.map(d => (d as any)['count(*)']);
   }
 }

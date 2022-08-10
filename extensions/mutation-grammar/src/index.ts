@@ -148,17 +148,25 @@ MutationVerb
       [],
       {
         name,
-        mutations: ast.declarations.reduce((l, r) => {
-          l[r.name] = {
-            name: r.name,
-            verb: r.verb,
-            args: r.args.reduce((l, r) => {
-              l[r.name] = r;
-              return l;
-            }, {}),
-          };
-          return l;
-        }, {}),
+        mutations: ast.declarations.reduce(
+          (
+            l: {
+              [key: string]: Mutation;
+            },
+            r,
+          ) => {
+            l[r.name] = {
+              name: r.name,
+              verb: r.verb,
+              args: r.args.reduce((l: { [key: string]: MutationArgDef }, r) => {
+                l[r.name] = r;
+                return l;
+              }, {}),
+            };
+            return l;
+          },
+          {},
+        ),
       },
     ];
   },
@@ -166,5 +174,5 @@ MutationVerb
 
 export default extension;
 
-const list = (l, r) => l.toAst().concat(r.toAst());
-const listInit = _ => [];
+const list = (l: any, r: any) => l.toAst().concat(r.toAst());
+const listInit = (_: any) => [];

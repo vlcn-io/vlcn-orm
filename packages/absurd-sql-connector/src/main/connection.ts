@@ -1,5 +1,6 @@
 import count from '@strut/counter';
 import thisPackage from '../pkg.js';
+// @ts-ignore -- no type on imported pkg
 import { initBackend } from '@aphro/absurd-sql/dist/indexeddb-main-thread.js';
 import { formatters, SQLQuery } from '@aphro/sql-ts';
 import tracer from '../tracer.js';
@@ -39,7 +40,7 @@ export default class Connection {
     initBackend(this.#worker);
 
     this.ready = new Promise(resolve => {
-      const setReady = ({ data }) => {
+      const setReady = ({ data }: any) => {
         const { pkg, event } = data;
         if (pkg !== thisPackage) {
           return;
@@ -63,8 +64,8 @@ export default class Connection {
       counter.bump('query');
       const id = queryId++;
 
-      let resolvePending;
-      let rejectPending;
+      let resolvePending: (v: unknown) => void;
+      let rejectPending: (reason?: any) => void;
       const promise = new Promise((resolve, reject) => {
         resolvePending = resolve;
         rejectPending = reject;
@@ -72,7 +73,9 @@ export default class Connection {
 
       this.#pending.push({
         id,
+        // @ts-ignore -- assigned in promise construction cb
         resolve: resolvePending,
+        // @ts-ignore -- assigned in promise construction cb
         reject: rejectPending,
       });
 
@@ -89,7 +92,7 @@ export default class Connection {
     });
   }
 
-  #messageListener = ({ data }) => {
+  #messageListener = ({ data }: any) => {
     const { pkg, id, event } = data;
     if (pkg !== thisPackage) {
       return;

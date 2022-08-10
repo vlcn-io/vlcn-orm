@@ -33,7 +33,7 @@ class TestHopExpression implements HopExpression<any, any> {
   optimize(sourcePlan: IPlan, plan: HopPlan, nextHop?: HopPlan): HopPlan {
     return plan;
   }
-  type: 'hop';
+  type: 'hop' = 'hop';
   implicatedDataset(): string {
     return '---';
   }

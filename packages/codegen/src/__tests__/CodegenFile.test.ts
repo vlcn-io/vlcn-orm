@@ -7,6 +7,7 @@ import {
   removeManualSections,
   insertManualSections,
 } from '../CodegenFile.js';
+// @ts-ignore
 import md5 from 'md5';
 import fc from 'fast-check';
 import { algolTemplates } from '@aphro/codegen-api';

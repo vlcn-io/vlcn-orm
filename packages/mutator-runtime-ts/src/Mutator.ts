@@ -112,15 +112,15 @@ export class CreateMutationBuilder<
   }
 
   toChangesetImpl(): Omit<CreateChangeset<M, D>, 'save' | 'save0'> {
-    let primaryKey =
+    let primaryKey: any =
       this.spec.type === 'node'
-        ? this.data[this.spec.primaryKey]
+        ? this.data[this.spec.primaryKey as keyof D]
         : // @ts-ignore
           this.data.id1 + '-' + this.data.id2;
 
     if (primaryKey == null && this.spec.type === 'node') {
       // set it automagically? I think that is reasonable.
-      primaryKey = this.data[this.spec.primaryKey] = nanoid();
+      primaryKey = this.data[this.spec.primaryKey as keyof D] = nanoid() as any;
     }
     return {
       type: 'create',

@@ -1,5 +1,6 @@
 import { DBResolver, basicResolver } from '@aphro/context-runtime-ts';
 import { formatters, SQLQuery } from '@aphro/sql-ts';
+// @ts-ignore
 import initSqlJs from '@aphro/sql.js';
 
 /**
@@ -16,7 +17,7 @@ import initSqlJs from '@aphro/sql.js';
  */
 export async function openDbAndCreateResolver(file?: string): Promise<DBResolver> {
   const sqlPromise = initSqlJs({
-    locateFile: file => {
+    locateFile: (file: string) => {
       return 'https://esm.sh/@aphro/sql.js/dist/sql-wasm.wasm';
     },
   });

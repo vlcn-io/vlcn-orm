@@ -52,9 +52,9 @@ GraphQLDeclarations
     return {
       GraphQL(_, __, exposeTypes, ___) {
         exposeTypes = exposeTypes.toAst();
-        const read = exposeTypes.find(t => t.type === 'read');
-        const write = exposeTypes.find(t => t.type === 'write');
-        const root = exposeTypes.find(t => t.type === 'root');
+        const read = exposeTypes.find((t: any) => t.type === 'read');
+        const write = exposeTypes.find((t: any) => t.type === 'write');
+        const root = exposeTypes.find((t: any) => t.type === 'root');
         return {
           name,
           read: read?.declarations || [],
@@ -93,8 +93,8 @@ GraphQLDeclarations
 
 export default extension;
 
-const list = (l, r) => l.toAst().concat(r.toAst());
-const listInit = _ => [];
+const list = (l: any, r: any) => l.toAst().concat(r.toAst());
+const listInit = (_: any) => [];
 
 /**
  * expose decorators?

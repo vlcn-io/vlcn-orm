@@ -9613,7 +9613,7 @@ packages:
       '@babel/core': 7.18.9
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 28.1.0
+      jest: 28.1.0_@types+node@17.0.31
       jest-util: 28.1.0
       json5: 2.2.1
       lodash.memoize: 4.1.2

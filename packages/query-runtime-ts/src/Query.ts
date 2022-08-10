@@ -162,7 +162,7 @@ export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
    *
    * `derive` is used for lambda filters
    */
-  protected abstract derive(expression: Expression);
+  protected abstract derive(expression: Expression): any;
 
   /**
    * Be careful when using lambdas to filter/map/order.

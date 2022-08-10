@@ -101,25 +101,31 @@ async function run() {
       return;
     }
 
-    const nodeSchemas: { [key: string]: SchemaNode } = errorsAndFiles.reduce((l, r) => {
-      for (const [key, val] of Object.entries(r[1].nodes)) {
-        if (l[key] != null) {
-          throw new Error(`Node "${key}" was defined twice. Second definition in ${r[2]}`);
+    const nodeSchemas: { [key: string]: SchemaNode } = errorsAndFiles.reduce(
+      (l: { [key: string]: SchemaNode }, r) => {
+        for (const [key, val] of Object.entries(r[1].nodes)) {
+          if (l[key] != null) {
+            throw new Error(`Node "${key}" was defined twice. Second definition in ${r[2]}`);
+          }
+          l[key] = val;
         }
-        l[key] = val;
-      }
-      return l;
-    }, {});
+        return l;
+      },
+      {},
+    );
 
-    const edgeSchemas: { [key: string]: SchemaEdge } = errorsAndFiles.reduce((l, r) => {
-      for (const [key, val] of Object.entries(r[1].edges)) {
-        if (l[key] != null) {
-          throw new Error(`Edge "${key}" was defined twice. Second definition in ${r[2]}`);
+    const edgeSchemas: { [key: string]: SchemaEdge } = errorsAndFiles.reduce(
+      (l: { [key: string]: SchemaEdge }, r) => {
+        for (const [key, val] of Object.entries(r[1].edges)) {
+          if (l[key] != null) {
+            throw new Error(`Edge "${key}" was defined twice. Second definition in ${r[2]}`);
+          }
+          l[key] = val;
         }
-        l[key] = val;
-      }
-      return l;
-    }, {});
+        return l;
+      },
+      {},
+    );
 
     // const schemas = schemaModules.map((s) => (<SchemaModule>s).default.get());
     const pipeline = new CodegenPipeline(steps, globalSteps);

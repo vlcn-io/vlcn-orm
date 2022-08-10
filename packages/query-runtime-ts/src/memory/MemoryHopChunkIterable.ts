@@ -29,6 +29,7 @@ export default class MemoryHopChunkIterable<
           yield await db.query({
             type: 'read',
             tablish: this.edge.dest.storage.tablish,
+            // @ts-ignore
             roots: chunk.map(c => c._d()[this.edge.sourceField]),
           });
           break;
@@ -38,7 +39,10 @@ export default class MemoryHopChunkIterable<
             type: 'read',
             tablish: this.edge.dest.storage.tablish,
           });
-          const chunkPrimaryKeys = new Set(chunk.map(c => c._d()[this.edge.source.primaryKey]));
+          const chunkPrimaryKeys = new Set(
+            // @ts-ignore
+            chunk.map(c => c._d()[this.edge.source.primaryKey]),
+          );
           yield all.filter(x => {
             return chunkPrimaryKeys.has(x._d()[this.edge.destField]);
           });

@@ -178,8 +178,8 @@ static fromId(ctx: Context, id: SID_of<${this.schema.name}>) {
     // this would be inbound edges, right?
     // inbound edges to me based on one of my fields.
     const inbound: EdgeDeclaration[] = Object.values(schema.extensions.inboundEdges?.edges || {})
-      .filter(edge => edge.type === 'edge')
-      .filter((edge: EdgeDeclaration) => edgeFn.isThroughNode(schema, edge)) as EdgeDeclaration[];
+      .filter((edge): edge is EdgeDeclaration => edge.type === 'edge')
+      .filter((edge: EdgeDeclaration) => edgeFn.isThroughNode(schema, edge));
 
     return inbound.map(this.getFromInboundFieldEdgeMethodCode).join('\n');
   }

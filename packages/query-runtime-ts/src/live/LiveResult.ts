@@ -39,6 +39,7 @@ export default class LiveResult<T> {
   #optimizedQueryPlan: IPlan;
   #implicatedDatasets: Set<string>;
   #on: UpdateType;
+  // @ts-ignore -- initialized in immediate callback
   #generatorChange: (x: T[]) => T[];
   #disposables: (() => void)[] = [];
 
@@ -66,7 +67,7 @@ export default class LiveResult<T> {
     this.__currentHandle = this.#react();
   }
 
-  #observeCommitLog = tx => {
+  #observeCommitLog = (tx: Transaction) => {
     if (this.#matters(tx)) {
       // TODO: we have a divergence in optimistic results and db results.
       // I.e., the optimistic layer could succeed and persist layer fail.

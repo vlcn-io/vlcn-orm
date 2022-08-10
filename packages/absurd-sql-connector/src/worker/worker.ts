@@ -1,6 +1,8 @@
+// @ts-ignore -- no types
 import initSqlJs from '@aphro/sql.js';
+// @ts-ignore -- no types
 import { SQLiteFS } from '@aphro/absurd-sql';
-// @ts-ignore
+// @ts-ignore -- no types
 import IndexedDBBackend from '@aphro/absurd-sql/dist/indexeddb-backend.js';
 import thisPackage from '../pkg.js';
 import tracer from '../tracer.js';
@@ -41,7 +43,7 @@ async function init() {
   });
 }
 
-function receiveMessage(db, data) {
+function receiveMessage(db: any, data: any) {
   const { pkg, event, id, queryObj } = data;
   if (pkg !== thisPackage) {
     return;
@@ -64,7 +66,7 @@ function receiveMessage(db, data) {
         event: 'query-response',
         id,
         error: {
-          message: e.message,
+          message: (e as any)?.message,
         },
       });
       return;

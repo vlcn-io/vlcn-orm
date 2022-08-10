@@ -70,6 +70,9 @@ async function testQueryThatTraversesEdges(
   SldMutations: typeof SlideMutations | typeof SlideMutationsMem,
   CmpMutations: typeof ComponentMutations | typeof ComponentMutationsMem,
 ): Promise<void> {
+  // TODO: this is simpler if done within a declared mutation.
+  // But.. if someone doesn't want to declare a mutation and wants to wire it all on the outside
+  // how can we make this easier?
   const userCs = UsrMutations.create(ctx, {
     name: 'Bob',
   }).toChangesets();
@@ -92,10 +95,14 @@ async function testQueryThatTraversesEdges(
   }).toChangesets();
   const [user, component, slide, deck] = await commit(
     ctx,
-    ...userCs,
-    ...componentCs,
-    ...slideCs,
-    ...deckCs,
+    userCs[0],
+    componentCs[0],
+    slideCs[0],
+    deckCs[0],
+    ...userCs.slice(1),
+    ...componentCs.slice(1),
+    ...slideCs.slice(1),
+    ...deckCs.slice(1),
   );
 
   const components = await user.queryDecks().querySlides().queryComponents().gen();

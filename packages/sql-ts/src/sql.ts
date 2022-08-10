@@ -12,7 +12,19 @@ const sqliteFormat: FormatConfig = {
   formatValue: value => ({ placeholder: '?', value }),
 };
 
-export const formatters: { [key in 'sqlite' | 'postgres']: FormatConfig } = {
-  sqlite: sqliteFormat,
-  postgres: pgFormat,
-};
+const error = {
+  escapeIdentifier: (str: string) => {
+    throw new Error('Memory storage should not go through sql formatting');
+  },
+  formatValue: (value: unknown) => {
+    throw new Error('Memory storage should not go through sql formatting');
+  },
+} as const;
+
+export const formatters: { [key in 'sqlite' | 'postgres' | 'memory' | 'ephemeral']: FormatConfig } =
+  {
+    sqlite: sqliteFormat,
+    postgres: pgFormat,
+    ephemeral: error,
+    memory: error,
+  } as const;

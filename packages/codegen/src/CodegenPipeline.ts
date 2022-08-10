@@ -93,7 +93,7 @@ export default class CodegenPipleine {
             ];
           }
         } catch (e) {
-          if (e.code === 'bad-signature') {
+          if ((e as any)?.code === 'bad-signature') {
             throw new Error(
               `Signature for ${toPath(
                 dest,
@@ -103,7 +103,7 @@ export default class CodegenPipleine {
           }
           // The file not existing is an ok case.
           // Maybe codegen hasn't been run previously.
-          if (e.code !== 'ENOENT') {
+          if ((e as any)?.code !== 'ENOENT') {
             throw e;
           }
         }
