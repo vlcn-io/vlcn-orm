@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <0e74641b468634b2682a34f1f129d462>
+// SIGNED-SOURCE: <9d0961e16b687321e8111ffbab374128>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -46,18 +46,21 @@ export default class TodoListQuery extends DerivedQuery<TodoList> {
 
   whereId(p: Predicate<Data["id"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"id", Data, TodoList>("id"), p)
     );
   }
 
   whereFilter(p: Predicate<Data["filter"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"filter", Data, TodoList>("filter"), p)
     );
   }
 
   whereEditing(p: Predicate<Data["editing"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"editing", Data, TodoList>("editing"), p)
     );
   }

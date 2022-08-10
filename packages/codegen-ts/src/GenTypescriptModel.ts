@@ -358,6 +358,7 @@ export default abstract class ${this.schema.name}Base
     return `static gen = modelGenMemo(
       "${this.schema.storage.db}",
       "${this.schema.storage.tablish}",
+      // @ts-ignore #43
       (ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name} | null> => this
             .queryAll(ctx)
             .whereId(P.equals(id)).genOnlyValue()

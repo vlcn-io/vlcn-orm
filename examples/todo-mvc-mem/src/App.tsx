@@ -154,9 +154,10 @@ export default function App() {
       list.ctx,
       completeTodos.map(t => t.delete()),
     );
-  const startEditing = useCallback((todo: Todo) => list.update({ editing: todo.id }).save(), [
-    list,
-  ]);
+  const startEditing = useCallback(
+    (todo: Todo) => list.update({ editing: todo.id }).save(),
+    [list],
+  );
   const saveTodo = useCallback(
     (todo: Todo, text: string) => {
       commit(list.ctx, todo.update({ text: text }), list.update({ editing: null }));

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <6541356fc02d3b89e9b7492bd9f3f794>
+// SIGNED-SOURCE: <2441f6d673adc88e45b1fac2a31b1995>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -59,6 +59,7 @@ export default abstract class TodoListBase extends Node<Data> {
   static gen = modelGenMemo(
     "todomvc",
     "todolist",
+    // @ts-ignore #43
     (ctx: Context, id: SID_of<TodoList>): Promise<TodoList | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );

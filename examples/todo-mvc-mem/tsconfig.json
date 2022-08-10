@@ -8,6 +8,7 @@
     "moduleResolution": "node",
     "rootDir": "./",
     "allowJs": true,
+    "strict": true,
     "jsx": "react"
   },
   "include": ["./src/"]

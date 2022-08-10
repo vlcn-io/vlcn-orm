@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <21d257ad71656bf5c663aae7274e371c>
+// SIGNED-SOURCE: <09f55db7d7704140206e46aadbdb81d3>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -43,23 +43,29 @@ export default class TodoQuery extends DerivedQuery<Todo> {
   }
 
   whereId(p: Predicate<Data["id"]>) {
-    return this.derive(filter(new ModelFieldGetter<"id", Data, Todo>("id"), p));
+    return this.derive(
+      // @ts-ignore #43
+      filter(new ModelFieldGetter<"id", Data, Todo>("id"), p)
+    );
   }
 
   whereListId(p: Predicate<Data["listId"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"listId", Data, Todo>("listId"), p)
     );
   }
 
   whereText(p: Predicate<Data["text"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"text", Data, Todo>("text"), p)
     );
   }
 
   whereCompleted(p: Predicate<Data["completed"]>) {
     return this.derive(
+      // @ts-ignore #43
       filter(new ModelFieldGetter<"completed", Data, Todo>("completed"), p)
     );
   }

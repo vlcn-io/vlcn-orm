@@ -130,6 +130,7 @@ export default class ${nodeFn.queryTypeName(this.schema.name)} extends DerivedQu
 
   private getFilterMethodBody(field: FieldDeclaration): string {
     return `return this.derive(
+      // @ts-ignore #43
       filter(
         new ModelFieldGetter<"${field.name}", Data, ${this.schema.name}>("${field.name}"),
         p,
