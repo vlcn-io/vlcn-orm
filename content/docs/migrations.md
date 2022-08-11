@@ -7,7 +7,7 @@ Aphrodite provides automatic migration functionality. If you evolve your schema 
 
 # Automatic Migrations
 
-Aphrodites incorporates some features of [Thrift](https://thrift.apache.org/) and [Google Protocol Buffers](https://developers.google.com/protocol-buffers) to enable automatic migrations. Both of those libraries are made for exchanging messages between services. Services which might have different versions of the message definitions, thus messages must be backwards and forwards compatible. One of the key ways they achieve this compatibility is by associating numbers with field definitions in the message.
+Aphrodite incorporates some features of [Thrift](https://thrift.apache.org/) and [Google Protocol Buffers](https://developers.google.com/protocol-buffers) to enable automatic migrations. Both of those libraries are made for exchanging messages between services. Services which might have different versions of the message definitions, thus messages must be backwards and forwards compatible. One of the key ways they achieve this compatibility is by associating numbers with field definitions in the message.
 
 The number, not the name, is what identifies the field for the protocol.
 
