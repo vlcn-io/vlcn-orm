@@ -1,5 +1,14 @@
 # @aphro/todo-mvc-mem
 
+## 0.1.5
+
+### Patch Changes
+
+- Strict mode for typescript, useEffect vs useSyncExternalStore, useLiveResult hook
+- Updated dependencies
+  - @aphro/react@1.0.4
+  - @aphro/runtime-ts@0.3.5
+
 ## 0.1.4
 
 ### Patch Changes

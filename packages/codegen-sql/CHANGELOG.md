@@ -1,5 +1,17 @@
 # @aphro/codegen-sql
 
+## 0.2.5
+
+### Patch Changes
+
+- Strict mode for typescript, useEffect vs useSyncExternalStore, useLiveResult hook
+- Updated dependencies
+  - @aphro/codegen@0.2.5
+  - @aphro/codegen-api@0.2.4
+  - @aphro/schema@0.2.5
+  - @aphro/schema-api@0.2.4
+  - @aphro/sql-ts@0.2.4
+
 ## 0.2.4
 
 ### Patch Changes

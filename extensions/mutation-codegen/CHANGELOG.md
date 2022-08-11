@@ -1,5 +1,19 @@
 # @aphro/mutation-codegen
 
+## 0.3.6
+
+### Patch Changes
+
+- Strict mode for typescript, useEffect vs useSyncExternalStore, useLiveResult hook
+- Updated dependencies
+  - @aphro/mutation-grammar@0.2.5
+  - @aphro/codegen@0.2.5
+  - @aphro/codegen-api@0.2.4
+  - @aphro/codegen-ts@0.3.6
+  - @aphro/parse-ts@0.2.4
+  - @aphro/schema@0.2.5
+  - @aphro/schema-api@0.2.4
+
 ## 0.3.5
 
 ### Patch Changes

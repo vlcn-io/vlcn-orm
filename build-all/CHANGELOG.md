@@ -1,5 +1,11 @@
 # @aphro/build-all
 
+## 0.2.4
+
+### Patch Changes
+
+- Strict mode for typescript, useEffect vs useSyncExternalStore, useLiveResult hook
+
 ## 0.2.3
 
 ### Patch Changes

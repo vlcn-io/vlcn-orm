@@ -1,5 +1,13 @@
 # @aphro/monopoly
 
+## 1.2.5
+
+### Patch Changes
+
+- Strict mode for typescript, useEffect vs useSyncExternalStore, useLiveResult hook
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.5
+
 ## 1.2.4
 
 ### Patch Changes

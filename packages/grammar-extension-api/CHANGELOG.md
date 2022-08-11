@@ -1,5 +1,13 @@
 # @aphro/grammar-extension-api
 
+## 0.2.4
+
+### Patch Changes
+
+- Strict mode for typescript, useEffect vs useSyncExternalStore, useLiveResult hook
+- Updated dependencies
+  - @aphro/schema-api@0.2.4
+
 ## 0.2.3
 
 ### Patch Changes

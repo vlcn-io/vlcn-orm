@@ -1,5 +1,14 @@
 # @aphro/migration-runtime-ts
 
+## 0.1.5
+
+### Patch Changes
+
+- Strict mode for typescript, useEffect vs useSyncExternalStore, useLiveResult hook
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.3.4
+  - @aphro/sql-ts@0.2.4
+
 ## 0.1.4
 
 ### Patch Changes

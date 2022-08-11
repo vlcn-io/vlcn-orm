@@ -1,5 +1,13 @@
 # @aphro/chinook
 
+## 0.3.3
+
+### Patch Changes
+
+- Strict mode for typescript, useEffect vs useSyncExternalStore, useLiveResult hook
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.5
+
 ## 0.3.2
 
 ### Patch Changes

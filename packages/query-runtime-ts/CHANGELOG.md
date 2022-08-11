@@ -1,5 +1,18 @@
 # @aphro/query-runtime-ts
 
+## 0.2.4
+
+### Patch Changes
+
+- Strict mode for typescript, useEffect vs useSyncExternalStore, useLiveResult hook
+- Updated dependencies
+  - @aphro/cache-runtime-ts@0.2.4
+  - @aphro/context-runtime-ts@0.3.4
+  - @aphro/instrument@0.0.4
+  - @aphro/model-runtime-ts@0.2.4
+  - @aphro/schema-api@0.2.4
+  - @aphro/sql-ts@0.2.4
+
 ## 0.2.3
 
 ### Patch Changes
