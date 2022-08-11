@@ -2,7 +2,7 @@ import writer from './writer.js';
 import { nullthrows } from '@strut/utils';
 import { SID_of } from '@strut/sid';
 import { Context, IModel, DeleteChangeset, Transaction } from '@aphro/context-runtime-ts';
-import tracer from './trace';
+import tracer from './trace.js';
 
 export default class Persistor {
   constructor(private context: Context) {}

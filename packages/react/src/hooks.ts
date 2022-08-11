@@ -1,5 +1,5 @@
 // TODO: this should be in a separate package from the core model code.
-import { useEffect, useReducer, useRef, useState, useSyncExternalStore } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { INode, Query, UpdateType, LiveResult } from '@aphro/runtime-ts';
 import counter from '@strut/counter';
 
@@ -13,8 +13,6 @@ export function useBind<M extends INode<D>, D>(m: M, keys: (keyof D)[]): void;
  */
 export function useBind<M extends INode<D>, D>(m: M, keys?: (keyof D)[]): void {
   count.bump('useBind.' + m.constructor.name);
-  // TODO swap out to reac18 "useSyncExternalStore"
-  // https://reactjs.org/docs/hooks-reference.html#usesyncexternalstore
   const [tick, forceUpdate] = useReducer(x => x + 1, 0);
   useEffect(() => {
     if (keys != null) {
@@ -35,15 +33,22 @@ export type UseQueryData<T> = {
 };
 type QueryReturnType<Q> = Q extends Query<infer M> ? M : any;
 
-// TODO: does `useSyncExternalStore` even work??
-// what if my external store is changing as props change? Seems like that isn't captured.
 export function useLiveResult<T>(result: LiveResult<T>) {
-  const data = useSyncExternalStore(
-    cb => result.subscribe(cb),
-    () => {
-      return result.latest || [];
-    },
-  );
+  const [data, setData] = useState<T[]>(result.latest || []);
+  let isMounted = true;
+  useEffect(() => {
+    const disposer = result.subscribe(newData => {
+      if (!isMounted) {
+        return;
+      }
+
+      setData(newData);
+    });
+    return () => {
+      isMounted = false;
+      disposer();
+    };
+  }, [result]);
 
   return data;
 }

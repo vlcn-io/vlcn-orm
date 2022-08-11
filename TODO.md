@@ -6,6 +6,7 @@
 - Absurd SQL debug extension (e.g., inspect tables)
 
 # API Problems
+- mutations... defined mutations exist as methods on the model?
 - just basic `update`, `create` and `delete` to not require mutations defined on schema
 - `update` / etc. can have `cs` variants that return a cs rather than immediately saving
 - `cs` and `optimistic` variants so you don't have to deal with a returned tuple

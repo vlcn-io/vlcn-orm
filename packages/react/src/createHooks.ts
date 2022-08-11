@@ -1,7 +1,8 @@
 import { Query, Context, UpdateType, INode } from '@aphro/runtime-ts';
 import counter from '@strut/counter';
-import { useRef, useSyncExternalStore } from 'react';
+import { useRef, useEffect, useReducer } from 'react';
 import { suspend } from 'suspend-react';
+import { useLiveResult } from './hooks.js';
 
 const count = counter('model-infra/CreateHooks');
 
@@ -57,17 +58,7 @@ export function createHooks(contextPromise: ContextPromise) {
       return liveResult;
     }, [key, ...deps]);
 
-    const latestResult = useSyncExternalStore(
-      cb => liveResult.subscribe(cb),
-      // asserting that latest is defined here because the suspense
-      // above should ensure this.
-      () => {
-        count.bump('liveResult.subscribe');
-        return liveResult.latest!;
-      },
-    );
-
-    return latestResult;
+    return useLiveResult(liveResult);
   }
 
   function useQueryOne<ResultType>(
@@ -79,21 +70,18 @@ export function createHooks(contextPromise: ContextPromise) {
   }
 
   function useBind<Node extends INode<Shape>, Shape>(node: Node, keys?: (keyof Shape)[]) {
-    const latestResult = useSyncExternalStore(
-      cb => {
-        if (keys) {
-          count.bump('keyed.subcription.' + node.constructor.name);
-          return node.subscribeTo(keys, cb);
-        } else {
-          return node.subscribe(cb);
-        }
-      },
-      // works because this is not referentially stable across updates -
-      // the snapshot must always return a different object after each
-      // change.
-      node._d.bind(node),
-    );
-    return latestResult;
+    count.bump('useBind.' + node.constructor.name);
+    const [tick, forceUpdate] = useReducer(x => x + 1, 0);
+    useEffect(() => {
+      if (keys != null) {
+        count.bump('keyed.subscription.' + node.constructor.name);
+        // subscribe returns a function which will dispose of the subscription
+        return node.subscribeTo(keys, () => forceUpdate());
+      } else {
+        // subscribe returns a function which will dispose of the subscription
+        return node.subscribe(() => forceUpdate());
+      }
+    }, [node]);
   }
 
   return {
