@@ -3,9 +3,7 @@ layout: docs
 title: Migrations
 ---
 
-Aphrodite provides automatic migration functionality that you may opt into. For controlled migrations, we suggest using automatic migrations until reaching the point of a new release. Once you hit a release, compare the schemas from the new and old releases and write a migration script to apply the changes.
-
-If you evolve your schema following a certain set of rules, you can always use automatic migrations and never have to write a manual migration.
+Aphrodite provides automatic migration functionality. If you evolve your schema following a certain set of rules, you can always use automatic migrations and never have to write a manual migration.
 
 # Automatic Migrations
 
@@ -77,29 +75,38 @@ You can see an example in the [aphrodite-browser-starter](https://github.com/tan
 
 # Manual Migrations
 
-`Aphrodite` does not yet have a framework in which to run manual migrations. You can, however, follow the following process.
+`Aphrodite` does not yet have a framework in which to run manual migrations. You can, however, follow the following process to do a manual migration:
 
 1. Diff the generated `.sql` files between your last release and your current release
    1. Only writing migrations between releases cuts down on how often you need to perform them. During development between releases, you can use auto migrations (even if they're unsafe) for improved dev speed.
 2. Write your migration script
 3. Run that script, in a transaction, when your app starts
 
+You'll need a way to determine if the migration should run on the given device such as by storing the db version.
+
 E.g.,
 
 ```typescript
 await myMigration(ctx);
 
-async function myMigration() {
-  const connection = ctx.dbResolver.engine('sqlite').db('my-db');
-  await connection.query(sql`BEGIN`);
-  try {
-    await connection.query(sql`ALTER TABLE ...`);
-    await connection.query(sql`ALTER TABLE ...`);
-    await connection.query(sql`ALTER TABLE ...`);
-    ...
-    await connection.query(sql`COMMIT`);
-  } catch (e) {
-    await connection.query(sql`ROLLBACK`);
+async function myMigration(ctx) {
+  if (current_db_schema_version === X) {
+    const connection = ctx.dbResolver.engine('sqlite').db('my-db');
+    await connection.query(sql`BEGIN`);
+    try {
+      await connection.query(sql`ALTER TABLE ...`);
+      await connection.query(sql`ALTER TABLE ...`);
+      await connection.query(sql`ALTER TABLE ...`);
+      ...
+      await connection.query(sql`COMMIT`);
+    } catch (e) {
+      await connection.query(sql`ROLLBACK`);
+    }
   }
 }
 ```
+
+Of course a device could be several versions or migrations behind. As such, you'll want to keep all migration scripts around so you can apply them successively to move a client from v0 -> v1 -> v2 -> latest.
+
+Example of this idea from the `WebSQL` years: https://gist.github.com/YannickGagnon/5320593
+
