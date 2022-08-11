@@ -35,6 +35,8 @@ export type UseQueryData<T> = {
 };
 type QueryReturnType<Q> = Q extends Query<infer M> ? M : any;
 
+// TODO: does `useSyncExternalStore` even work??
+// what if my external store is changing as props change? Seems like that isn't captured.
 export function useLiveResult<T>(result: LiveResult<T>) {
   const data = useSyncExternalStore(
     cb => result.subscribe(cb),
