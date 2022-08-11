@@ -48,12 +48,11 @@ The rules are similar to those in Google Protocol Buffers ([here](https://develo
 3. Adding a non-nullable column with a default value is always safe
 4. Renaming a column (so long as the column is numbered with the same number in the old and new schema) is always safe
 5. Changing the type of a column to a compatible type is safe
-   1. Compatible types are any type where type-coercion in your language would do what you expect.
-
+   1. Compatible types are any pairing of types where type-coercion in your language would do what you expect. E.g., 0 -> false, 1 -> true.
 
 **Unsafe operations:**
 1. Changing the type of an existing column to an incompatible type.
-   1. Incompatible types are any type where the type coercion in the language being used would provided unexpected results. E.g., string -> int in JavaScript.
+   1. Incompatible types are any pairing of types where the type coercion in the language being used would provided unexpected results. E.g., string -> int in `JavaScript`.
 2. Adding a new non-nullable column without a default value
 3. Changing the number of an existing field. There should never be a reason to do this.
 

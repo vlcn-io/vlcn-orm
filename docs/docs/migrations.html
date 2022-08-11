@@ -61,7 +61,7 @@
 <li>Renaming a column (so long as the column is numbered with the same number in the old and new schema) is always safe</li>
 <li>Changing the type of a column to a compatible type is safe
 <ol>
-<li>Compatible types are any type where type-coercion in your language would do what you expect.</li>
+<li>Compatible types are any pairing of types where type-coercion in your language would do what you expect. E.g., 0 -> false, 1 -> true.</li>
 </ol>
 </li>
 </ol>
@@ -69,7 +69,7 @@
 <ol>
 <li>Changing the type of an existing column to an incompatible type.
 <ol>
-<li>Incompatible types are any type where the type coercion in the language being used would provided unexpected results. E.g., string -> int in JavaScript.</li>
+<li>Incompatible types are any pairing of types where the type coercion in the language being used would provided unexpected results. E.g., string -> int in <code>JavaScript</code>.</li>
 </ol>
 </li>
 <li>Adding a new non-nullable column without a default value</li>
