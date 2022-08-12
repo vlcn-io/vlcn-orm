@@ -5,7 +5,6 @@ import { after, before, Expression, filter, orderBy, take, union } from '../Expr
 import SQLHopExpression from './SQLHopExpression.js';
 import { ModelFieldGetter } from '../Field.js';
 import CountLoadExpression from '../CountLoadExpression.js';
-import SQLSourceExpression from './SQLSourceExpression.js';
 import { getLastSpecAndProjection } from './specAndOpsToQuery.js';
 import { JunctionEdgeSpec, NodeSpec } from '@aphro/schema-api';
 
@@ -140,7 +139,7 @@ export default abstract class SQLExpression<T> {
       return false;
     }
     const otherSource = otherOptimizedPlan.source;
-    if (!(otherSource instanceof SQLSourceExpression)) {
+    if (!(otherSource instanceof SQLExpression)) {
       return false;
     }
 
@@ -149,10 +148,10 @@ export default abstract class SQLExpression<T> {
     // We also need to understand if `other` is fully optimized or not.
     // If it is partially optimized..... do we union anyway and apply
     // filters later? Or fully discard the union and do it all in-memory?
-    const [otherLastSpec, otherLastWhat] = getLastSpecAndProjection(
-      otherSource.spec,
-      otherSource.ops,
-    );
+    // const [otherLastSpec, otherLastWhat] = getLastSpecAndProjection(
+    //   otherSource.spec,
+    //   otherSource.ops,
+    // );
 
     // well... the query must:
     // 1. hit the same engine
