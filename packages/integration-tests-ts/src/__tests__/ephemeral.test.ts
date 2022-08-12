@@ -44,7 +44,7 @@ test('Ephemeral nodes are not added to the cache on update', () => {
 
   expect(cache.size).toBe(0);
 
-  appState = AppStateMutations.openDeck(appState, { openDeck: asId('b') }).save().optimistic;
+  appState = appState.mutations.openDeck({ openDeck: asId('b') }).save0();
 
   expect(cache.size).toBe(0);
 });
@@ -65,7 +65,7 @@ test('Changes to ephemeral nodes can be observed', () => {
     notified = true;
   });
 
-  AppStateMutations.openDeck(appState, { openDeck: asId('b') }).save();
+  appState.mutations.openDeck({ openDeck: asId('b') }).save();
   jest.runAllTimers();
   expect(notified).toBe(true);
 });

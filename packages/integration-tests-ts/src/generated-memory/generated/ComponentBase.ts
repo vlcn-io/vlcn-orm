@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <fabf98ffbdc7bbc23d80cb079f0c3118>
+// SIGNED-SOURCE: <7e580b1c815d3d468c0e9906905c0239>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,6 +18,7 @@ import ComponentQuery from "./ComponentQuery.js";
 import { Context } from "@aphro/runtime-ts";
 import Slide from "../Slide.js";
 import ComponentMutations from "./ComponentMutations.js";
+import { InstancedMutations } from "./ComponentMutations.js";
 
 declare type Muts = typeof ComponentMutations;
 
@@ -34,6 +35,10 @@ export default abstract class ComponentBase extends Node<Data> {
 
   static get mutations(): Muts {
     return ComponentMutations;
+  }
+
+  get mutations() {
+    return new InstancedMutations(this);
   }
 
   get id(): SID_of<this> {

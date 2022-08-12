@@ -53,9 +53,11 @@ test('queryAll subscription', async () => {
 
   disposer();
 
-  await UserMutations.rename(nullthrows(liveResult.latest)[0], {
-    name: 'mutated name',
-  }).save();
+  await liveResult
+    .latest![0].mutations.rename({
+      name: 'mutated name',
+    })
+    .save();
 
   await liveResult.__currentHandle;
   expect(wasNotified).toBe(true);
@@ -79,7 +81,7 @@ test('reactivity via generator', async () => {
   const result = await g.next().value;
   expect(result.length).toBeGreaterThan(0);
 
-  await UserMutations.rename(result[0], { name: '---' }).save();
+  await result[0].mutations.rename({ name: '---' }).save();
 
   const newResult = await g.next().value;
   expect(newResult.length).toBeGreaterThan(0);

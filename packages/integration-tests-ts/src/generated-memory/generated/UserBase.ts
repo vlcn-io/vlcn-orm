@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <0c53c6a32f1e045a2785aeb50f6479ec>
+// SIGNED-SOURCE: <b5eb559314ee42fba3e64b6bb0c2f81a>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -19,6 +19,7 @@ import { Context } from "@aphro/runtime-ts";
 import DeckQuery from "./DeckQuery.js";
 import Deck from "../Deck.js";
 import UserMutations from "./UserMutations.js";
+import { InstancedMutations } from "./UserMutations.js";
 
 declare type Muts = typeof UserMutations;
 
@@ -35,6 +36,10 @@ export default abstract class UserBase extends Node<Data> {
 
   static get mutations(): Muts {
     return UserMutations;
+  }
+
+  get mutations() {
+    return new InstancedMutations(this);
   }
 
   get id(): SID_of<this> {

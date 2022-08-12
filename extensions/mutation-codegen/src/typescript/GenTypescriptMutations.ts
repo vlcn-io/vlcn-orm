@@ -57,8 +57,15 @@ ${this.getCode()}
       ${this.getMutationMethodsCode()}
     }
 
-    export default {
+    const staticMutations = {
       ${this.getFactoriesCode('create')}
+    };
+
+    export default staticMutations;
+
+    export class InstancedMutations {
+      constructor(private model: ${this.schema.name}) {}
+
       ${this.getFactoriesCode('update')}
       ${this.getFactoriesCode('delete')}
     }
@@ -99,6 +106,13 @@ ${this.getCode()}
       .join('\n\n');
   }
 
+  private getInstancedCode(verb: MutationVerb): string {
+    return Object.values(this.schema.extensions.mutations?.mutations || {})
+      .filter(m => m.verb === verb)
+      .map(m => this.getSpecificInstancedCode(m))
+      .join('\n\n');
+  }
+
   private getFactoryCode(verb: MutationVerb, m: Mutation): string {
     const nameCased = upcaseAt(m.name, 0);
     switch (verb) {
@@ -107,14 +121,21 @@ ${this.getCode()}
           return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).${m.name}(args)
         },`;
       case 'update':
-        return `${m.name}(model: ${this.schema.name}, args: ${nameCased}Args): Mutations {
-          return new Mutations(model.ctx, new UpdateMutationBuilder(model.ctx, spec, model), model).${m.name}(args)
-        },`;
+        return `${m.name}(args: ${nameCased}Args): Mutations {
+          return new Mutations(this.model.ctx, new UpdateMutationBuilder(this.model.ctx, spec, this.model), this.model).${m.name}(args)
+        }`;
       case 'delete':
-        return `${m.name}(model: ${this.schema.name}, args: ${nameCased}Args): Mutations {
-          return new Mutations(model.ctx, new DeleteMutationBuilder(model.ctx, spec, model), model).${m.name}(args)
-        },`;
+        return `${m.name}(args: ${nameCased}Args): Mutations {
+          return new Mutations(this.model.ctx, new DeleteMutationBuilder(this.model.ctx, spec, this.model), this.model).${m.name}(args)
+        }`;
     }
+  }
+
+  private getSpecificInstancedCode(m: Mutation): string {
+    const nameCased = upcaseAt(m.name, 0);
+    return `${m.name}(args: ${nameCased}Args): Mutations {
+      return mutations.${m.name}(this.model, args);
+    }`;
   }
 
   private getMutationMethodsCode(): string {

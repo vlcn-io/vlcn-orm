@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <baeaebec278df54d24b7dc9b2817b58b>
+// SIGNED-SOURCE: <1969be682eab154e32f137e6482a7316>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -54,24 +54,31 @@ class Mutations extends MutationsBase<Slide, Data> {
   }
 }
 
-export default {
+const staticMutations = {
   create(ctx: Context, args: CreateArgs): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
       args
     );
   },
-  reorder(model: Slide, args: ReorderArgs): Mutations {
-    return new Mutations(
-      model.ctx,
-      new UpdateMutationBuilder(model.ctx, spec, model),
-      model
-    ).reorder(args);
-  },
-  delete(model: Slide, args: DeleteArgs): Mutations {
-    return new Mutations(
-      model.ctx,
-      new DeleteMutationBuilder(model.ctx, spec, model),
-      model
-    ).delete(args);
-  },
 };
+
+export default staticMutations;
+
+export class InstancedMutations {
+  constructor(private model: Slide) {}
+
+  reorder(args: ReorderArgs): Mutations {
+    return new Mutations(
+      this.model.ctx,
+      new UpdateMutationBuilder(this.model.ctx, spec, this.model),
+      this.model
+    ).reorder(args);
+  }
+  delete(args: DeleteArgs): Mutations {
+    return new Mutations(
+      this.model.ctx,
+      new DeleteMutationBuilder(this.model.ctx, spec, this.model),
+      this.model
+    ).delete(args);
+  }
+}

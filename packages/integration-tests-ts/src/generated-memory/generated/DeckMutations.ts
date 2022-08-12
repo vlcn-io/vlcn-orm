@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <d8170beb2d193d9620be44aa8faa5828>
+// SIGNED-SOURCE: <d142f9f9f7bacc3ecbee9db22ca5bbd4>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -71,32 +71,39 @@ class Mutations extends MutationsBase<Deck, Data> {
   }
 }
 
-export default {
+const staticMutations = {
   create(ctx: Context, args: CreateArgs): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
       args
     );
   },
-  selectSlide(model: Deck, args: SelectSlideArgs): Mutations {
-    return new Mutations(
-      model.ctx,
-      new UpdateMutationBuilder(model.ctx, spec, model),
-      model
-    ).selectSlide(args);
-  },
-
-  rename(model: Deck, args: RenameArgs): Mutations {
-    return new Mutations(
-      model.ctx,
-      new UpdateMutationBuilder(model.ctx, spec, model),
-      model
-    ).rename(args);
-  },
-  delete(model: Deck, args: DeleteArgs): Mutations {
-    return new Mutations(
-      model.ctx,
-      new DeleteMutationBuilder(model.ctx, spec, model),
-      model
-    ).delete(args);
-  },
 };
+
+export default staticMutations;
+
+export class InstancedMutations {
+  constructor(private model: Deck) {}
+
+  selectSlide(args: SelectSlideArgs): Mutations {
+    return new Mutations(
+      this.model.ctx,
+      new UpdateMutationBuilder(this.model.ctx, spec, this.model),
+      this.model
+    ).selectSlide(args);
+  }
+
+  rename(args: RenameArgs): Mutations {
+    return new Mutations(
+      this.model.ctx,
+      new UpdateMutationBuilder(this.model.ctx, spec, this.model),
+      this.model
+    ).rename(args);
+  }
+  delete(args: DeleteArgs): Mutations {
+    return new Mutations(
+      this.model.ctx,
+      new DeleteMutationBuilder(this.model.ctx, spec, this.model),
+      this.model
+    ).delete(args);
+  }
+}

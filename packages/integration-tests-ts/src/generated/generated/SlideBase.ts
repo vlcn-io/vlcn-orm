@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <219fa1e842c65aacfb770c66770d3029>
+// SIGNED-SOURCE: <2cdfc5c8c7e0c12fb80222e8f0557b57>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -20,6 +20,7 @@ import ComponentQuery from "./ComponentQuery.js";
 import Component from "../Component.js";
 import Deck from "../Deck.js";
 import SlideMutations from "./SlideMutations.js";
+import { InstancedMutations } from "./SlideMutations.js";
 
 declare type Muts = typeof SlideMutations;
 
@@ -35,6 +36,10 @@ export default abstract class SlideBase extends Node<Data> {
 
   static get mutations(): Muts {
     return SlideMutations;
+  }
+
+  get mutations() {
+    return new InstancedMutations(this);
   }
 
   get id(): SID_of<this> {

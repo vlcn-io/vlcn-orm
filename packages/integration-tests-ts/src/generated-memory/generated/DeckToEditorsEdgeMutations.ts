@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <bc0faf38046f7896030ff6006587be48>
+// SIGNED-SOURCE: <5588f251dc33e8c6b2fb5467276b3c7d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -40,10 +40,16 @@ class Mutations extends MutationsBase<DeckToEditorsEdge, Data> {
   }
 }
 
-export default {
+const staticMutations = {
   create(ctx: Context, args: CreateArgs): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
       args
     );
   },
 };
+
+export default staticMutations;
+
+export class InstancedMutations {
+  constructor(private model: DeckToEditorsEdge) {}
+}

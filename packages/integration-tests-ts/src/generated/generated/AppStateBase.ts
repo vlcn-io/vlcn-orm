@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b6f8056f890deb7e18fba61db51a67b1>
+// SIGNED-SOURCE: <f32fbd29d6e222c20262b3e669abebfb>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -19,6 +19,7 @@ import Deck from "../Deck.js";
 import Identity from "../Identity.js";
 import Component from "../Component.js";
 import AppStateMutations from "./AppStateMutations.js";
+import { InstancedMutations } from "./AppStateMutations.js";
 
 declare type Muts = typeof AppStateMutations;
 
@@ -35,6 +36,10 @@ export default abstract class AppStateBase extends Node<Data> {
 
   static get mutations(): Muts {
     return AppStateMutations;
+  }
+
+  get mutations() {
+    return new InstancedMutations(this);
   }
 
   get id(): SID_of<this> {

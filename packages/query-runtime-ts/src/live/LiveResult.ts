@@ -116,7 +116,7 @@ export default class LiveResult<T> {
     return result;
   };
 
-  generator(): Generator<Promise<T[]>> {
+  generator(): Generator<Promise<T[]>, T[]> {
     return observe<T[]>(change => {
       // start the generator with an initial value
       change(this.latest || []);

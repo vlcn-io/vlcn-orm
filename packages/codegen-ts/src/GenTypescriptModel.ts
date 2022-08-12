@@ -74,6 +74,10 @@ export default abstract class ${this.schema.name}Base
     }
     return `
     static get mutations(): Muts { return ${this.schema.name}Mutations };
+
+    get mutations() {
+      return new InstancedMutations(this);
+    }
     `;
   }
 
@@ -181,7 +185,10 @@ export default abstract class ${this.schema.name}Base
       return [];
     }
 
-    return [tsImport(`${this.schema.name}Mutations`, null, `./${this.schema.name}Mutations.js`)];
+    return [
+      tsImport(`${this.schema.name}Mutations`, null, `./${this.schema.name}Mutations.js`),
+      tsImport(`{InstancedMutations}`, null, `./${this.schema.name}Mutations.js`),
+    ];
   }
 
   private getIdFieldImports(): Import[] {

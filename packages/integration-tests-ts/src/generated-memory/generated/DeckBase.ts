@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <579150aa35a854e221d5d16faca65e44>
+// SIGNED-SOURCE: <38e05e33b526033c7ca0900b61915800>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -23,6 +23,7 @@ import Slide from "../Slide.js";
 import SlideSpec from "./SlideSpec.js";
 import User from "../User.js";
 import DeckMutations from "./DeckMutations.js";
+import { InstancedMutations } from "./DeckMutations.js";
 
 declare type Muts = typeof DeckMutations;
 
@@ -41,6 +42,10 @@ export default abstract class DeckBase extends Node<Data> {
 
   static get mutations(): Muts {
     return DeckMutations;
+  }
+
+  get mutations() {
+    return new InstancedMutations(this);
   }
 
   get id(): SID_of<this> {

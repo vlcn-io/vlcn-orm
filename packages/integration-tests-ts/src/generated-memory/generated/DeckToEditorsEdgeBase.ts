@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <0d76d2136881464b9b42d3d92a7076ed>
+// SIGNED-SOURCE: <d818fbb6b121383413cb8361ed82ce49>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -19,6 +19,7 @@ import { Context } from "@aphro/runtime-ts";
 import Deck from "../Deck.js";
 import User from "../User.js";
 import DeckToEditorsEdgeMutations from "./DeckToEditorsEdgeMutations.js";
+import { InstancedMutations } from "./DeckToEditorsEdgeMutations.js";
 
 declare type Muts = typeof DeckToEditorsEdgeMutations;
 
@@ -33,6 +34,10 @@ export default abstract class DeckToEditorsEdgeBase extends Edge<Data> {
 
   static get mutations(): Muts {
     return DeckToEditorsEdgeMutations;
+  }
+
+  get mutations() {
+    return new InstancedMutations(this);
   }
 
   get id1(): SID_of<Deck> {
