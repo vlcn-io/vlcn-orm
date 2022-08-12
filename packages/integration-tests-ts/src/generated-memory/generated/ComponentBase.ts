@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <c389f3e03102e0eba4ac97cdf1dc11c4>
+// SIGNED-SOURCE: <89d3511bd6c4e0b4ced1c6d2665493e4>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -29,8 +29,6 @@ export type Data = {
 // @Sealed(Component)
 export default abstract class ComponentBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
-
-  static mutations: typeof ComponentMutations = ComponentMutations;
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;
@@ -73,20 +71,6 @@ export default abstract class ComponentBase extends Node<Data> {
       new UpdateMutationBuilder(this.ctx, this.spec, this)
         .set(data)
         .toChangesets()[0]
-    );
-  }
-
-  static create(ctx: Context, data: Partial<Data>) {
-    return makeSavable(
-      ctx,
-      new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]
-    );
-  }
-
-  delete() {
-    return makeSavable(
-      this.ctx,
-      new DeleteMutationBuilder(this.ctx, this.spec, this).toChangesets()[0]
     );
   }
 }

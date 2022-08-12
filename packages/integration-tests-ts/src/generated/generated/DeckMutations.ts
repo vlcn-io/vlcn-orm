@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <8c565558767a7241771124715795c09f>
+// SIGNED-SOURCE: <9dea09871a11807993756804ac8515ed>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@ import * as impls from "../DeckMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
-import Deck from "../Deck.js";
+import type Deck from "../Deck.js";
 import { default as spec } from "./DeckSpec.js";
 import { Data } from "./DeckBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";

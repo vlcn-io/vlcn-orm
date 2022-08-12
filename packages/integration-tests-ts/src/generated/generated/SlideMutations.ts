@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <41c33f49b2f10f5e666d731fbb0206d0>
+// SIGNED-SOURCE: <5460a48fb7bbe6000ec2f37ea9554571>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@ import * as impls from "../SlideMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
-import Slide from "../Slide.js";
+import type Slide from "../Slide.js";
 import { default as spec } from "./SlideSpec.js";
 import { Data } from "./SlideBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";

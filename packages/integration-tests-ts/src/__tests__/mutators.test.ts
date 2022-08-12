@@ -13,7 +13,7 @@ import {
 import spec from '../generated/generated/UserSpec.js';
 import { destroyDb, initDb } from './testBase.js';
 import UserQuery from '../generated/generated/UserQuery.js';
-import User from '../generated/User.js';
+import Foo from '../generated/Foo.js';
 const device = 'aaaa';
 
 let ctx: Context;
@@ -81,13 +81,10 @@ test('Reading the created item after create', async () => {
 });
 
 test('shorthand create', async () => {
-  const creationTime = Date.now();
   for (let i = 0; i < 100; ++i) {
     const id = sid(device);
-    const user = User.create(ctx, {
-      id: id as SID_of<User>,
-      created: creationTime,
-      modified: creationTime,
+    const user = Foo.create(ctx, {
+      id: id as SID_of<Foo>,
       name: 'Bart',
     }).save().optimistic;
 
@@ -100,10 +97,8 @@ test('shorthand update', async () => {
 
   const createdUsers = await Promise.all(
     Array.from({ length: 100 }).map(_ =>
-      User.create(ctx, {
+      Foo.create(ctx, {
         id: sid(device),
-        created: creationTime,
-        modified: creationTime,
         name: 'Bart',
       }).save(),
     ),
@@ -132,7 +127,7 @@ test('shorthand update', async () => {
   expect(updatedUsers).toEqual(createdUsers);
 
   // TODO: we should nuke the db between tests so this only contains rows for our test
-  let queriedUsers = await User.queryAll(ctx).whereName(P.startsWith('shorthand-update-')).gen();
+  let queriedUsers = await Foo.queryAll(ctx).whereName(P.startsWith('shorthand-update-')).gen();
 
   // queries should returned cached users if they exists -- which they do since we just created what we're querying for.
   updatedUsers.forEach(u => expect(queriedUsers).toContain(u));
@@ -140,7 +135,7 @@ test('shorthand update', async () => {
   ctx.cache.clear();
   // // Since we nuked the cache the instances returned from the db should be _new_ user instances
   // // that do not match what we have loaded
-  queriedUsers = await User.queryAll(ctx).whereName(P.startsWith('shorthand-update-')).gen();
+  queriedUsers = await Foo.queryAll(ctx).whereName(P.startsWith('shorthand-update-')).gen();
   updatedUsers.forEach(u => expect(queriedUsers).not.toContain(u));
 });
 

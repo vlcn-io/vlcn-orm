@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <d04ec913886e2eead1a83d349cedf797>
+// SIGNED-SOURCE: <c2eb9f7b59ba8fd66e088553870eb064>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -30,8 +30,6 @@ export type Data = {
 // @Sealed(Slide)
 export default abstract class SlideBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
-
-  static mutations: typeof SlideMutations = SlideMutations;
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;
@@ -69,27 +67,4 @@ export default abstract class SlideBase extends Node<Data> {
     (ctx: Context, id: SID_of<Slide>): Promise<Slide | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );
-
-  update(data: Partial<Data>) {
-    return makeSavable(
-      this.ctx,
-      new UpdateMutationBuilder(this.ctx, this.spec, this)
-        .set(data)
-        .toChangesets()[0]
-    );
-  }
-
-  static create(ctx: Context, data: Partial<Data>) {
-    return makeSavable(
-      ctx,
-      new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]
-    );
-  }
-
-  delete() {
-    return makeSavable(
-      this.ctx,
-      new DeleteMutationBuilder(this.ctx, this.spec, this).toChangesets()[0]
-    );
-  }
 }

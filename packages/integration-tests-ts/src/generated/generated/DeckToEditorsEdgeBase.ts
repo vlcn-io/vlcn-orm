@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <1c3435e85e8f5212b4170b0ff019e796>
+// SIGNED-SOURCE: <39c7e363efcda657258dfb524ce6f8fc>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -29,9 +29,6 @@ export type Data = {
 export default abstract class DeckToEditorsEdgeBase extends Edge<Data> {
   readonly spec = s as unknown as EdgeSpecWithCreate<this, Data>;
 
-  static mutations: typeof DeckToEditorsEdgeMutations =
-    DeckToEditorsEdgeMutations;
-
   get id1(): SID_of<Deck> {
     return this.data.id1;
   }
@@ -54,13 +51,6 @@ export default abstract class DeckToEditorsEdgeBase extends Edge<Data> {
       new UpdateMutationBuilder(this.ctx, this.spec, this)
         .set(data)
         .toChangesets()[0]
-    );
-  }
-
-  static create(ctx: Context, data: Partial<Data>) {
-    return makeSavable(
-      ctx,
-      new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]
     );
   }
 

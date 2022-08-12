@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <c56cbc5f6f6ba5e65050c0299ccf4958>
+// SIGNED-SOURCE: <e0e9e4dafb87ccf12085e29340caadaa>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -31,8 +31,6 @@ export type Data = {
 export default abstract class AppStateBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
 
-  static mutations: typeof AppStateMutations = AppStateMutations;
-
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;
   }
@@ -47,22 +45,6 @@ export default abstract class AppStateBase extends Node<Data> {
 
   get copiedComponents(): readonly Component[] {
     return this.data.copiedComponents;
-  }
-
-  update(data: Partial<Data>) {
-    return makeSavable(
-      this.ctx,
-      new UpdateMutationBuilder(this.ctx, this.spec, this)
-        .set(data)
-        .toChangesets()[0]
-    );
-  }
-
-  static create(ctx: Context, data: Partial<Data>) {
-    return makeSavable(
-      ctx,
-      new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]
-    );
   }
 
   delete() {

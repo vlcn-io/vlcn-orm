@@ -70,31 +70,56 @@ export default abstract class ${this.schema.name}Base
     if (!this.hasMutations()) {
       return '';
     }
-    return `
-    static mutations: typeof ${this.schema.name}Mutations = ${this.schema.name}Mutations;
-    `;
+    return ``;
+    // can't seem to do this as it introduces a circular dependency
+    // return `
+    // static get mutations(): typeof ${this.schema.name}Mutations { return ${this.schema.name}Mutations };
+    // `;
   }
 
   // TODO: we should figure out how to allow the mutation extension augment
   // models...
-  private hasMutations(): boolean {
+  private hasMutations(verb?: 'create' | 'update' | 'delete'): boolean {
     const muts = (this.schema.extensions as any)?.mutations?.mutations || {};
-    return muts && Object.values(muts).length > 0;
+    if (!muts) {
+      return false;
+    }
+    const values = Object.values(muts);
+    if (values.length === 0) {
+      return false;
+    }
+
+    // any random mutation exists if a verb was not provided
+    if (verb == null) {
+      return true;
+    }
+
+    // verb provided? Check that one of the mutations has the verb.
+    return values.some((v: any) => v.verb === verb);
   }
 
   private getUpdateMethodCode(): string {
+    if (this.hasMutations('update')) {
+      return '';
+    }
     return `update(data: Partial<Data>) {
       return makeSavable(this.ctx, new UpdateMutationBuilder(this.ctx, this.spec, this).set(data).toChangesets()[0]);
     }`;
   }
 
   private getCreateMethodCode(): string {
+    if (this.hasMutations('create')) {
+      return '';
+    }
     return `static create(ctx: Context, data: Partial<Data>) {
       return makeSavable(ctx, new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]);
     }`;
   }
 
   private getDeleteMethodCode(): string {
+    if (this.hasMutations('delete')) {
+      return '';
+    }
     return `delete() {
       return makeSavable(this.ctx, new DeleteMutationBuilder(this.ctx, this.spec, this).toChangesets()[0]);
     }`;
@@ -111,7 +136,7 @@ export default abstract class ${this.schema.name}Base
 
   private collectImports(): Import[] {
     return [
-      tsImport(this.schema.name, null, `../${this.schema.name}.js`),
+      tsImport(`${this.schema.name}`, null, `../${this.schema.name}.js`),
       tsImport('{default}', 's', './' + nodeFn.specName(this.schema.name) + '.js'),
       tsImport('{P}', null, '@aphro/runtime-ts'),
       tsImport('{UpdateMutationBuilder}', null, '@aphro/runtime-ts'),

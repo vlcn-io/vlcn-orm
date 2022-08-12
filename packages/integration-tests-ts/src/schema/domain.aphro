@@ -127,9 +127,9 @@ Identity as UnmanagedNode {
   id: ID<Identity>
   identifier: string
   token: string
-} & Mutations {
-  create as Create {
-    identifier
-    token
-  }
+}
+
+Foo as Node {
+  id: ID<Foo>
+  name: string
 }

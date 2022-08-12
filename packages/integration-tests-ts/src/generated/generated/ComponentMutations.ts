@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <59fd32cc667c8d6cf978bb51c826f94e>
+// SIGNED-SOURCE: <1cfde4af9f0b6c582de79eb4cb4baf5d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@ import * as impls from "../ComponentMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
-import Component from "../Component.js";
+import type Component from "../Component.js";
 import { default as spec } from "./ComponentSpec.js";
 import { Data } from "./ComponentBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";

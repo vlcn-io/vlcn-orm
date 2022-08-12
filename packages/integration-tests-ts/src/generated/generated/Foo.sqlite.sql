@@ -1,0 +1,3 @@
+-- SIGNED-SOURCE: <95ef939f0188faa200444d52846150c1>
+CREATE TABLE
+  "foo" ("id", "name", PRIMARY KEY ("id"))

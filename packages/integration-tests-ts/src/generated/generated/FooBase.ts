@@ -1,10 +1,10 @@
-// SIGNED-SOURCE: <78799edebf0d7521bfc06b5d61d0a109>
+// SIGNED-SOURCE: <a42c3d50617aff4dca15dc676c337abf>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
  */
-import User from "../User.js";
-import { default as s } from "./UserSpec.js";
+import Foo from "../Foo.js";
+import { default as s } from "./FooSpec.js";
 import { P } from "@aphro/runtime-ts";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
 import { CreateMutationBuilder } from "@aphro/runtime-ts";
@@ -14,21 +14,16 @@ import { modelGenMemo } from "@aphro/runtime-ts";
 import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
-import UserQuery from "./UserQuery.js";
+import FooQuery from "./FooQuery.js";
 import { Context } from "@aphro/runtime-ts";
-import DeckQuery from "./DeckQuery.js";
-import Deck from "../Deck.js";
-import UserMutations from "./UserMutations.js";
 
 export type Data = {
-  id: SID_of<User>;
+  id: SID_of<Foo>;
   name: string;
-  created: number;
-  modified: number;
 };
 
-// @Sealed(User)
-export default abstract class UserBase extends Node<Data> {
+// @Sealed(Foo)
+export default abstract class FooBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
 
   get id(): SID_of<this> {
@@ -39,34 +34,45 @@ export default abstract class UserBase extends Node<Data> {
     return this.data.name;
   }
 
-  get created(): number {
-    return this.data.created;
-  }
-
-  get modified(): number {
-    return this.data.modified;
-  }
-
-  queryDecks(): DeckQuery {
-    return DeckQuery.create(this.ctx).whereOwnerId(P.equals(this.id as any));
-  }
-
-  static queryAll(ctx: Context): UserQuery {
-    return UserQuery.create(ctx);
+  static queryAll(ctx: Context): FooQuery {
+    return FooQuery.create(ctx);
   }
 
   static genx = modelGenMemo(
-    "none",
-    "user",
-    (ctx: Context, id: SID_of<User>): Promise<User> =>
+    "example",
+    "foo",
+    (ctx: Context, id: SID_of<Foo>): Promise<Foo> =>
       this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
-  static gen = modelGenMemo<User | null>(
-    "none",
-    "user",
+  static gen = modelGenMemo<Foo | null>(
+    "example",
+    "foo",
     // @ts-ignore #43
-    (ctx: Context, id: SID_of<User>): Promise<User | null> =>
+    (ctx: Context, id: SID_of<Foo>): Promise<Foo | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );
+
+  update(data: Partial<Data>) {
+    return makeSavable(
+      this.ctx,
+      new UpdateMutationBuilder(this.ctx, this.spec, this)
+        .set(data)
+        .toChangesets()[0]
+    );
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return makeSavable(
+      ctx,
+      new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]
+    );
+  }
+
+  delete() {
+    return makeSavable(
+      this.ctx,
+      new DeleteMutationBuilder(this.ctx, this.spec, this).toChangesets()[0]
+    );
+  }
 }
