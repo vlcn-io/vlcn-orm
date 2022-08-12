@@ -20,6 +20,8 @@ export interface ChunkIterable<T> {
   // orderByAsync(fn: (l: T, r: T) => Promise<number>): ChunkIterable<T>;
   take(n: number): ChunkIterable<T>;
   count(): ChunkIterable<number>;
+
+  union(other: ChunkIterable<T>): ChunkIterable<T>;
 }
 
 export abstract class BaseChunkIterable<T> implements ChunkIterable<T> {
@@ -61,6 +63,24 @@ export abstract class BaseChunkIterable<T> implements ChunkIterable<T> {
 
   count(): ChunkIterable<number> {
     return new CountChunkIterable(this);
+  }
+
+  union(other: ChunkIterable<T>): ChunkIterable<T> {
+    return new ConcatenatedChunkIterable([this, other]);
+  }
+}
+
+export class ConcatenatedChunkIterable<T> extends BaseChunkIterable<T> {
+  constructor(private pieces: BaseChunkIterable<T>[]) {
+    super();
+  }
+
+  async *[Symbol.asyncIterator](): AsyncIterator<readonly T[]> {
+    for (const piece of this.pieces) {
+      for await (const chunk of piece) {
+        yield chunk;
+      }
+    }
   }
 }
 

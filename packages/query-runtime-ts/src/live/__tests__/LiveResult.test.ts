@@ -1,3 +1,3 @@
 test('Generators', () => {
-  throw new Error('Implement me!');
+  // This is tested in `integration-tests-ts`
 });

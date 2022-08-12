@@ -238,9 +238,8 @@ export function union<TOut>(q: Query<TOut>): { type: 'union' } & DerivedExpressi
   return {
     type: 'union',
     chainAfter(iterable) {
-      throw new Error('Union chaining is not yet implemented');
-      // const otherIterable = q.plan().optimize().iterable;
-      // iterable.union(otherIterable);
+      const otherIterable = q.plan().optimize().iterable;
+      return iterable.union(otherIterable);
     },
   };
 }

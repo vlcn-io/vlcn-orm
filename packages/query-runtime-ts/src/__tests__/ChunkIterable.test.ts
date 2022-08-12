@@ -87,3 +87,13 @@ test('OrderBy chunk iterables', () => {
     }),
   );
 });
+
+// TODO: disjoint union?
+test('union chunk iterable', async () => {
+  const chunks: number[][] = [[1, 2, 3]];
+  const a = new StaticSourceChunkIterable(chunks);
+  const b = new StaticSourceChunkIterable(chunks);
+
+  const c = a.union(b);
+  expect(await c.gen()).toEqual([1, 2, 3, 1, 2, 3]);
+});
