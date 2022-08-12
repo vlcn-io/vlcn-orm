@@ -83,7 +83,7 @@ function createTableAliases(
   return createTableAliases(hop.destSpec, hop.ops.hop, aliases);
 }
 
-function getLastSpecAndProjection(
+export function getLastSpecAndProjection(
   spec: NodeSpec | JunctionEdgeSpec,
   ops: HoistedOperations,
 ): [NodeSpec | JunctionEdgeSpec, HoistedOperations['what']] {

@@ -1,13 +1,17 @@
 import { Context } from '@aphro/context-runtime-ts';
 import HopPlan from '../HopPlan.js';
-import { IPlan } from '../Plan.js';
-import { after, before, Expression, filter, orderBy, take } from '../Expression.js';
+import Plan, { IPlan } from '../Plan.js';
+import { after, before, Expression, filter, orderBy, take, union } from '../Expression.js';
 import SQLHopExpression from './SQLHopExpression.js';
 import { ModelFieldGetter } from '../Field.js';
 import CountLoadExpression from '../CountLoadExpression.js';
+import SQLSourceExpression from './SQLSourceExpression.js';
+import { getLastSpecAndProjection } from './specAndOpsToQuery.js';
+import { JunctionEdgeSpec, NodeSpec } from '@aphro/schema-api';
 
 export type HoistedOperations = {
   filters?: readonly ReturnType<typeof filter<any, any>>[];
+  unions?: readonly ReturnType<typeof union>[];
   orderBy?: ReturnType<typeof orderBy<any, any>>;
   limit?: ReturnType<typeof take<any>>;
   before?: ReturnType<typeof before<any>>;
@@ -26,8 +30,9 @@ export default abstract class SQLExpression<T> {
 
   protected hoist(plan: IPlan, nextHop?: HopPlan): [HoistedOperations, Expression[]] {
     let remainingExpressions: Expression[] = [];
-    let { filters, orderBy, limit, hop, what, before, after } = this.ops;
+    let { filters, orderBy, limit, hop, what, before, after, unions } = this.ops;
     const writableFilters = filters ? [...filters] : [];
+    const writableUnions = unions ? [...unions] : [];
 
     for (let i = 0; i < plan.derivations.length; ++i) {
       const derivation = plan.derivations[i];
@@ -81,6 +86,16 @@ export default abstract class SQLExpression<T> {
             remainingExpressions.push(new CountLoadExpression(this.ctx));
           }
           break;
+        case 'union':
+          // we should probably do re-ordering before figuring out the hoisting of a union.
+          // union is a distinct query that we only know if we can hoist after we've optimized
+          // the current query.
+          if (!this.#canHoistUnion(derivation)) {
+            remainingExpressions.push(derivation);
+          } else {
+            writableUnions.push(derivation);
+          }
+          break;
         default:
           remainingExpressions.push(derivation);
       }
@@ -112,6 +127,41 @@ export default abstract class SQLExpression<T> {
     if (expression.getter instanceof ModelFieldGetter) {
       return true;
     }
+    return false;
+  }
+
+  #canHoistUnion(
+    expression: ReturnType<typeof union>,
+    // lastSpec: NodeSpec | JunctionEdgeSpec,
+    // lastWhat: HoistedOperations['what'],
+  ): boolean {
+    const otherOptimizedPlan = expression.query.plan().optimize();
+    if (!(otherOptimizedPlan instanceof Plan)) {
+      return false;
+    }
+    const otherSource = otherOptimizedPlan.source;
+    if (!(otherSource instanceof SQLSourceExpression)) {
+      return false;
+    }
+
+    // We need access to the current query's complete optimization
+    // so we can check that lastSpec and lastWhat match.
+    // We also need to understand if `other` is fully optimized or not.
+    // If it is partially optimized..... do we union anyway and apply
+    // filters later? Or fully discard the union and do it all in-memory?
+    const [otherLastSpec, otherLastWhat] = getLastSpecAndProjection(
+      otherSource.spec,
+      otherSource.ops,
+    );
+
+    // well... the query must:
+    // 1. hit the same engine
+    // 2. hit the same db
+    // 3. end at the same tablish
+    // (3) can be guaranteed by our type system? no.
+    // we must end optimizably at the same tablish.
+    // and the projections (count vs model vs id) must match.
+    // so we need the optimized plan of the query we're unioning against.
     return false;
   }
 

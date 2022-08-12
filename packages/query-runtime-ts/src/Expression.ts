@@ -61,7 +61,7 @@ export type Expression =
   | CountLoadExpression<any>
   | ReturnType<typeof map<any, any>>
   | ReturnType<typeof mapAsync<any, any>>
-  | ReturnType<typeof union>;
+  | ReturnType<typeof union<any>>;
 /*
 declare module '@mono/model/query' {
   interface Expressions<ReturnType> {
@@ -234,9 +234,12 @@ export function modelLoad<TData, TModel extends IModel<TData>>(
   return new ModelLoadExpression(ctx, factory);
 }
 
-export function union<TOut>(q: Query<TOut>): { type: 'union' } & DerivedExpression<TOut, TOut> {
+export function union<TOut>(
+  q: Query<TOut>,
+): { type: 'union'; query: Query<TOut> } & DerivedExpression<TOut, TOut> {
   return {
     type: 'union',
+    query: q,
     chainAfter(iterable) {
       const otherIterable = q.plan().optimize().iterable;
       return iterable.union(otherIterable);

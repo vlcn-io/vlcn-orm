@@ -12,6 +12,7 @@ import {
   orderBy,
   orderByLambda,
   SourceExpression,
+  union,
 } from './Expression.js';
 import HopPlan from './HopPlan.js';
 import LiveResult from './live/LiveResult.js';
@@ -207,9 +208,9 @@ export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
     return this.derive(orderByLambda(fn));
   }
 
-  // union(): this {
-  //   return this.derive(union);
-  // }
+  union(other: this): this {
+    return this.derive(union<TOut>(other));
+  }
   // intersect, concat, etc.
 
   plan() {
