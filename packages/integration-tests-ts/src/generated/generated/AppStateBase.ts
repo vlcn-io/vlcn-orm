@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <00e34060ab31334bfe90679d6c214617>
+// SIGNED-SOURCE: <c56cbc5f6f6ba5e65050c0299ccf4958>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,6 +18,7 @@ import { Context } from "@aphro/runtime-ts";
 import Deck from "../Deck.js";
 import Identity from "../Identity.js";
 import Component from "../Component.js";
+import AppStateMutations from "./AppStateMutations.js";
 
 export type Data = {
   id: SID_of<AppState>;
@@ -29,6 +30,8 @@ export type Data = {
 // @Sealed(AppState)
 export default abstract class AppStateBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
+
+  static mutations: typeof AppStateMutations = AppStateMutations;
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;

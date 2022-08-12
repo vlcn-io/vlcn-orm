@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <f3745f22bc3d465fe9af6bb3f5a157a3>
+// SIGNED-SOURCE: <2da8125d5ff7b5dc2abab50a9b95460f>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,6 +18,7 @@ import UserQuery from "./UserQuery.js";
 import { Context } from "@aphro/runtime-ts";
 import DeckQuery from "./DeckQuery.js";
 import Deck from "../Deck.js";
+import UserMutations from "./UserMutations.js";
 
 export type Data = {
   id: SID_of<User>;
@@ -29,6 +30,8 @@ export type Data = {
 // @Sealed(User)
 export default abstract class UserBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
+
+  static mutations: typeof UserMutations = UserMutations;
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;

@@ -44,7 +44,7 @@ ${this.schema.type === 'node' ? this.schema.extensions.type?.decorators?.join('\
 export default abstract class ${this.schema.name}Base
   extends ${baseClass}<Data> {
   readonly spec = s as unknown as ${baseClass}SpecWithCreate<this, Data>;
-
+  ${this.getMutationsConvenienceCode()}
   ${this.getFieldCode()}
   ${this.getEdgeCode()}
 
@@ -64,6 +64,22 @@ export default abstract class ${this.schema.name}Base
 }
 `,
     );
+  }
+
+  private getMutationsConvenienceCode(): string {
+    if (!this.hasMutations()) {
+      return '';
+    }
+    return `
+    static mutations: typeof ${this.schema.name}Mutations = ${this.schema.name}Mutations;
+    `;
+  }
+
+  // TODO: we should figure out how to allow the mutation extension augment
+  // models...
+  private hasMutations(): boolean {
+    const muts = (this.schema.extensions as any)?.mutations?.mutations || {};
+    return muts && Object.values(muts).length > 0;
   }
 
   private getUpdateMethodCode(): string {
@@ -124,7 +140,16 @@ export default abstract class ${this.schema.name}Base
       ...this.getEdgeImports(),
       ...this.getIdFieldImports(),
       ...this.getNestedTypeImports(),
+      ...this.getMutationsImports(),
     ].filter(i => i.name !== this.schema.name + 'Base');
+  }
+
+  private getMutationsImports(): Import[] {
+    if (!this.hasMutations()) {
+      return [];
+    }
+
+    return [tsImport(`${this.schema.name}Mutations`, null, `./${this.schema.name}Mutations.js`)];
   }
 
   private getIdFieldImports(): Import[] {

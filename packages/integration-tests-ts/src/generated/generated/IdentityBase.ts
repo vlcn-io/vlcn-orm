@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5902b51d4e405aedb0834dac96f649cc>
+// SIGNED-SOURCE: <8d468f133d0743c280350b0cc843c842>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -15,6 +15,7 @@ import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
+import IdentityMutations from "./IdentityMutations.js";
 
 export type Data = {
   id: SID_of<Identity>;
@@ -25,6 +26,8 @@ export type Data = {
 // @Sealed(Identity)
 export default abstract class IdentityBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
+
+  static mutations: typeof IdentityMutations = IdentityMutations;
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;

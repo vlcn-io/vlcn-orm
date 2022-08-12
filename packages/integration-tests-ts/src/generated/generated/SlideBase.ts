@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <c6bd15c2c59930621df237c16fe1904f>
+// SIGNED-SOURCE: <8b7c0eeb02cb00703d72dbb56aa6e134>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -19,6 +19,7 @@ import { Context } from "@aphro/runtime-ts";
 import ComponentQuery from "./ComponentQuery.js";
 import Component from "../Component.js";
 import Deck from "../Deck.js";
+import SlideMutations from "./SlideMutations.js";
 
 export type Data = {
   id: SID_of<Slide>;
@@ -29,6 +30,8 @@ export type Data = {
 // @Sealed(Slide)
 export default abstract class SlideBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
+
+  static mutations: typeof SlideMutations = SlideMutations;
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <106ad205a84f5ca01aaaeb732d705011>
+// SIGNED-SOURCE: <cd4f1a9fc8b73d9cb582b7e2a75b5082>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -22,6 +22,7 @@ import SlideQuery from "./SlideQuery.js";
 import Slide from "../Slide.js";
 import SlideSpec from "./SlideSpec.js";
 import User from "../User.js";
+import DeckMutations from "./DeckMutations.js";
 
 export type Data = {
   id: SID_of<Deck>;
@@ -35,6 +36,8 @@ export type Data = {
 // @Sealed(Deck)
 export default abstract class DeckBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
+
+  static mutations: typeof DeckMutations = DeckMutations;
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;
