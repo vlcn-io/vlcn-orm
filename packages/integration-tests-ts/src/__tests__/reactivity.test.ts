@@ -73,7 +73,7 @@ test('queryAll subscription', async () => {
 
 test('reactivity via generator', async () => {
   const liveResult = User.queryAll(ctx).whereName(P.startsWith('user')).live(UpdateType.ANY);
-  const g = liveResult.generator;
+  const g = liveResult.generator();
 
   await liveResult.__currentHandle;
   const result = await g.next().value;
