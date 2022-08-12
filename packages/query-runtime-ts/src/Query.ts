@@ -53,10 +53,7 @@ export interface Query<T> {
    */
   genLive(on: UpdateType): Promise<LiveResult<T>>;
 
-  // map<R>(fn: (t: T) => R): Query<R>;
   // flatMap<R>(fn: (t: T) => R[]): Query<R>;
-  // whereLambda(fn: (t: T) => boolean): Query<T>;
-  // take(n: number): Query<T>;
   // after(cursor: Cursor<T>): Query<T>
   count(): IterableDerivedQuery<number>;
 
@@ -210,7 +207,8 @@ export abstract class DerivedQuery<TOut> extends BaseQuery<TOut> {
     return this.derive(orderByLambda(fn));
   }
 
-  // union(): ThisType<TOut> {
+  // union(): this {
+  //   return this.derive(union);
   // }
   // intersect, concat, etc.
 

@@ -28,6 +28,7 @@ import HopPlan from './HopPlan.js';
 import ModelLoadExpression from './ModelLoadExpression.js';
 import { Context, IModel } from '@aphro/context-runtime-ts';
 import CountLoadExpression from './CountLoadExpression.js';
+import { Query } from './Query.js';
 
 export type ExpressionType =
   | 'take'
@@ -42,7 +43,8 @@ export type ExpressionType =
   | 'count'
   | 'countLoad'
   | 'map'
-  | 'mapAsync';
+  | 'mapAsync'
+  | 'union';
 
 export type Direction = 'asc' | 'desc';
 export type Expression =
@@ -58,7 +60,8 @@ export type Expression =
   | ReturnType<typeof count<any>>
   | CountLoadExpression<any>
   | ReturnType<typeof map<any, any>>
-  | ReturnType<typeof mapAsync<any, any>>;
+  | ReturnType<typeof mapAsync<any, any>>
+  | ReturnType<typeof union>;
 /*
 declare module '@mono/model/query' {
   interface Expressions<ReturnType> {
@@ -229,6 +232,17 @@ export function modelLoad<TData, TModel extends IModel<TData>>(
   factory: (ctx: Context, data: TData) => TModel,
 ): ModelLoadExpression<TData, TModel> {
   return new ModelLoadExpression(ctx, factory);
+}
+
+export function union<TOut>(q: Query<TOut>): { type: 'union' } & DerivedExpression<TOut, TOut> {
+  return {
+    type: 'union',
+    chainAfter(iterable) {
+      throw new Error('Union chaining is not yet implemented');
+      // const otherIterable = q.plan().optimize().iterable;
+      // iterable.union(otherIterable);
+    },
+  };
 }
 
 /*
