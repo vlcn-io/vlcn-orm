@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <01d78241130b2c7ef042344c376960d2>
+// SIGNED-SOURCE: <c96b8de064401c7ad6c050c2948423cc>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@ import * as impls from "../AlbumMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
-import Album from "../Album.js";
+import type Album from "../Album.js";
 import { default as spec } from "./AlbumSpec.js";
 import { Data } from "./AlbumBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
@@ -42,16 +42,16 @@ class Mutations extends MutationsBase<Album, Data> {
   }
 }
 
-export default class AlbumMutations {
-  static create(ctx: Context, args: CreateArgs): Mutations {
+export default {
+  create(ctx: Context, args: CreateArgs): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
       args
     );
-  }
-  static retitle(model: Album, args: RetitleArgs): Mutations {
+  },
+  retitle(model: Album, args: RetitleArgs): Mutations {
     return new Mutations(
       model.ctx,
       new UpdateMutationBuilder(model.ctx, spec, model)
     ).retitle(args);
-  }
-}
+  },
+};

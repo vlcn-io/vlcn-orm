@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5cd08ca19a3b521a5b27ee810ac4b055>
+// SIGNED-SOURCE: <7f8e7bed314f80c87fb889852110d5b9>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@ import * as impls from "../GenreMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
-import Genre from "../Genre.js";
+import type Genre from "../Genre.js";
 import { default as spec } from "./GenreSpec.js";
 import { Data } from "./GenreBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
@@ -37,16 +37,16 @@ class Mutations extends MutationsBase<Genre, Data> {
   }
 }
 
-export default class GenreMutations {
-  static create(ctx: Context, args: CreateArgs): Mutations {
+export default {
+  create(ctx: Context, args: CreateArgs): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
       args
     );
-  }
-  static rename(model: Genre, args: RenameArgs): Mutations {
+  },
+  rename(model: Genre, args: RenameArgs): Mutations {
     return new Mutations(
       model.ctx,
       new UpdateMutationBuilder(model.ctx, spec, model)
     ).rename(args);
-  }
-}
+  },
+};

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <64cfbf5f469f846641c7e4f37292f757>
+// SIGNED-SOURCE: <ca9e2a8699d4ef06ce318b85543f71b9>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@ import * as impls from "../CustomerMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
-import Customer from "../Customer.js";
+import type Customer from "../Customer.js";
 import { default as spec } from "./CustomerSpec.js";
 import { Data } from "./CustomerBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
@@ -36,10 +36,10 @@ class Mutations extends MutationsBase<Customer, Data> {
   }
 }
 
-export default class CustomerMutations {
-  static create(ctx: Context, args: CreateArgs): Mutations {
+export default {
+  create(ctx: Context, args: CreateArgs): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
       args
     );
-  }
-}
+  },
+};

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <b91fbf8aa472c91a2d035ae63ce2a2a7>
+// SIGNED-SOURCE: <2a13a878625188bfb670eee6e6eb17c4>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@ import * as impls from "../InvoiceMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
-import Invoice from "../Invoice.js";
+import type Invoice from "../Invoice.js";
 import { default as spec } from "./InvoiceSpec.js";
 import { Data } from "./InvoiceBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
@@ -40,10 +40,10 @@ class Mutations extends MutationsBase<Invoice, Data> {
   }
 }
 
-export default class InvoiceMutations {
-  static create(ctx: Context, args: CreateArgs): Mutations {
+export default {
+  create(ctx: Context, args: CreateArgs): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
       args
     );
-  }
-}
+  },
+};

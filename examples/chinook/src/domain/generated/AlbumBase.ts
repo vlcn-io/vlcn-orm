@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5f7e701fbef592730ff1e1bf34aefe25>
+// SIGNED-SOURCE: <325da7a082057d47cbfc76d23e75ad10>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -21,6 +21,9 @@ import ArtistSpec from "./ArtistSpec.js";
 import TrackQuery from "./TrackQuery.js";
 import Track from "../Track.js";
 import Artist from "../Artist.js";
+import AlbumMutations from "./AlbumMutations.js";
+
+declare type Muts = typeof AlbumMutations;
 
 export type Data = {
   id: SID_of<Album>;
@@ -31,6 +34,10 @@ export type Data = {
 // @Sealed(Album)
 export default abstract class AlbumBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
+
+  static get mutations(): Muts {
+    return AlbumMutations;
+  }
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;
@@ -81,22 +88,6 @@ export default abstract class AlbumBase extends Node<Data> {
     (ctx: Context, id: SID_of<Album>): Promise<Album | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );
-
-  update(data: Partial<Data>) {
-    return makeSavable(
-      this.ctx,
-      new UpdateMutationBuilder(this.ctx, this.spec, this)
-        .set(data)
-        .toChangesets()[0]
-    );
-  }
-
-  static create(ctx: Context, data: Partial<Data>) {
-    return makeSavable(
-      ctx,
-      new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]
-    );
-  }
 
   delete() {
     return makeSavable(

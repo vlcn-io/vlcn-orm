@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <0bc73a2573f5463bd22a4b3fce856a98>
+// SIGNED-SOURCE: <25c42e4660a8a365d9984297fada3202>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,6 +18,9 @@ import PlaylistTrackQuery from "./PlaylistTrackQuery.js";
 import { Context } from "@aphro/runtime-ts";
 import Playlist from "../Playlist.js";
 import Track from "../Track.js";
+import PlaylistTrackMutations from "./PlaylistTrackMutations.js";
+
+declare type Muts = typeof PlaylistTrackMutations;
 
 export type Data = {
   id1: SID_of<Playlist>;
@@ -27,6 +30,10 @@ export type Data = {
 // @Sealed(PlaylistTrack)
 export default abstract class PlaylistTrackBase extends Edge<Data> {
   readonly spec = s as unknown as EdgeSpecWithCreate<this, Data>;
+
+  static get mutations(): Muts {
+    return PlaylistTrackMutations;
+  }
 
   get id1(): SID_of<Playlist> {
     return this.data.id1;
@@ -50,13 +57,6 @@ export default abstract class PlaylistTrackBase extends Edge<Data> {
       new UpdateMutationBuilder(this.ctx, this.spec, this)
         .set(data)
         .toChangesets()[0]
-    );
-  }
-
-  static create(ctx: Context, data: Partial<Data>) {
-    return makeSavable(
-      ctx,
-      new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]
     );
   }
 

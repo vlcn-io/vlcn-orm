@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <39c7e363efcda657258dfb524ce6f8fc>
+// SIGNED-SOURCE: <0d76d2136881464b9b42d3d92a7076ed>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -20,6 +20,8 @@ import Deck from "../Deck.js";
 import User from "../User.js";
 import DeckToEditorsEdgeMutations from "./DeckToEditorsEdgeMutations.js";
 
+declare type Muts = typeof DeckToEditorsEdgeMutations;
+
 export type Data = {
   id1: SID_of<Deck>;
   id2: SID_of<User>;
@@ -28,6 +30,10 @@ export type Data = {
 // @Sealed(DeckToEditorsEdge)
 export default abstract class DeckToEditorsEdgeBase extends Edge<Data> {
   readonly spec = s as unknown as EdgeSpecWithCreate<this, Data>;
+
+  static get mutations(): Muts {
+    return DeckToEditorsEdgeMutations;
+  }
 
   get id1(): SID_of<Deck> {
     return this.data.id1;

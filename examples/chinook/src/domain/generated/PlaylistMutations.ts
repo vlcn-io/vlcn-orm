@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <752e7e7eca307604a5926ddb1edb0ffa>
+// SIGNED-SOURCE: <ce5787e06777fb3d3e787c632bb854ee>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@ import * as impls from "../PlaylistMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
-import Playlist from "../Playlist.js";
+import type Playlist from "../Playlist.js";
 import { default as spec } from "./PlaylistSpec.js";
 import { Data } from "./PlaylistBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
@@ -37,16 +37,16 @@ class Mutations extends MutationsBase<Playlist, Data> {
   }
 }
 
-export default class PlaylistMutations {
-  static create(ctx: Context, args: CreateArgs): Mutations {
+export default {
+  create(ctx: Context, args: CreateArgs): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
       args
     );
-  }
-  static rename(model: Playlist, args: RenameArgs): Mutations {
+  },
+  rename(model: Playlist, args: RenameArgs): Mutations {
     return new Mutations(
       model.ctx,
       new UpdateMutationBuilder(model.ctx, spec, model)
     ).rename(args);
-  }
-}
+  },
+};

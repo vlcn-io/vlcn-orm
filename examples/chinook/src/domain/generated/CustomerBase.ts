@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <c82af10fd8ae9e22ffedd6776bc3be07>
+// SIGNED-SOURCE: <490589d33db25034007b5f0e81c3b9ad>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -21,6 +21,9 @@ import EmployeeSpec from "./EmployeeSpec.js";
 import InvoiceQuery from "./InvoiceQuery.js";
 import Invoice from "../Invoice.js";
 import Employee from "../Employee.js";
+import CustomerMutations from "./CustomerMutations.js";
+
+declare type Muts = typeof CustomerMutations;
 
 export type Data = {
   id: SID_of<Customer>;
@@ -41,6 +44,10 @@ export type Data = {
 // @Sealed(Customer)
 export default abstract class CustomerBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
+
+  static get mutations(): Muts {
+    return CustomerMutations;
+  }
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;
@@ -140,13 +147,6 @@ export default abstract class CustomerBase extends Node<Data> {
       new UpdateMutationBuilder(this.ctx, this.spec, this)
         .set(data)
         .toChangesets()[0]
-    );
-  }
-
-  static create(ctx: Context, data: Partial<Data>) {
-    return makeSavable(
-      ctx,
-      new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]
     );
   }
 

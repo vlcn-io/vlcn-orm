@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <e0e9e4dafb87ccf12085e29340caadaa>
+// SIGNED-SOURCE: <b6f8056f890deb7e18fba61db51a67b1>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -20,6 +20,8 @@ import Identity from "../Identity.js";
 import Component from "../Component.js";
 import AppStateMutations from "./AppStateMutations.js";
 
+declare type Muts = typeof AppStateMutations;
+
 export type Data = {
   id: SID_of<AppState>;
   identity: Identity;
@@ -30,6 +32,10 @@ export type Data = {
 // @Sealed(AppState)
 export default abstract class AppStateBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
+
+  static get mutations(): Muts {
+    return AppStateMutations;
+  }
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;

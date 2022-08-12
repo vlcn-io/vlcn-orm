@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <093925caf3c8ae3ef3049248dcd8179f>
+// SIGNED-SOURCE: <119148ab2f6678b8a62ffb8fb4e11c42>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -20,6 +20,8 @@ import DeckQuery from "./DeckQuery.js";
 import Deck from "../Deck.js";
 import UserMutations from "./UserMutations.js";
 
+declare type Muts = typeof UserMutations;
+
 export type Data = {
   id: SID_of<User>;
   name: string;
@@ -30,6 +32,10 @@ export type Data = {
 // @Sealed(User)
 export default abstract class UserBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
+
+  static get mutations(): Muts {
+    return UserMutations;
+  }
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;

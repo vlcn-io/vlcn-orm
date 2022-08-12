@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <0d47f67a86fe951b9cdc497cfe6e6cee>
+// SIGNED-SOURCE: <b6c0f4b57e7b5fbbaccb569dce9536b2>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@ import * as impls from "../TrackMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
-import Track from "../Track.js";
+import type Track from "../Track.js";
 import { default as spec } from "./TrackSpec.js";
 import { Data } from "./TrackBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
@@ -44,10 +44,10 @@ class Mutations extends MutationsBase<Track, Data> {
   }
 }
 
-export default class TrackMutations {
-  static create(ctx: Context, args: CreateArgs): Mutations {
+export default {
+  create(ctx: Context, args: CreateArgs): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
       args
     );
-  }
-}
+  },
+};

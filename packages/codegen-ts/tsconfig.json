@@ -2,7 +2,8 @@
   "extends": "../../tsconfig-templates/lib.json",
   "compilerOptions": {
     "outDir": "./lib/",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "declarationMap": false
   },
   "include": ["./src/"],
   "references": [

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4cf3f5d7484f184043c3177916ebf9e1>
+// SIGNED-SOURCE: <465e49b279f8e10b4360f1ef7a3a868d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -17,6 +17,9 @@ import { SID_of } from "@aphro/runtime-ts";
 import PlaylistQuery from "./PlaylistQuery.js";
 import { Context } from "@aphro/runtime-ts";
 import TrackQuery from "./TrackQuery.js";
+import PlaylistMutations from "./PlaylistMutations.js";
+
+declare type Muts = typeof PlaylistMutations;
 
 export type Data = {
   id: SID_of<Playlist>;
@@ -26,6 +29,10 @@ export type Data = {
 // @Sealed(Playlist)
 export default abstract class PlaylistBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
+
+  static get mutations(): Muts {
+    return PlaylistMutations;
+  }
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;
@@ -57,22 +64,6 @@ export default abstract class PlaylistBase extends Node<Data> {
     (ctx: Context, id: SID_of<Playlist>): Promise<Playlist | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );
-
-  update(data: Partial<Data>) {
-    return makeSavable(
-      this.ctx,
-      new UpdateMutationBuilder(this.ctx, this.spec, this)
-        .set(data)
-        .toChangesets()[0]
-    );
-  }
-
-  static create(ctx: Context, data: Partial<Data>) {
-    return makeSavable(
-      ctx,
-      new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]
-    );
-  }
 
   delete() {
     return makeSavable(

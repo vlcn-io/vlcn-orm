@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <f84bb7f5396c46f363301be26d986864>
+// SIGNED-SOURCE: <d57d9b8171afc5c3087d978e97b9a7b6>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@ import * as impls from "../EmployeeMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
-import Employee from "../Employee.js";
+import type Employee from "../Employee.js";
 import { default as spec } from "./EmployeeSpec.js";
 import { Data } from "./EmployeeBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
@@ -15,6 +15,7 @@ import { CreateMutationBuilder } from "@aphro/runtime-ts";
 import { DeleteMutationBuilder } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import { Changeset } from "@aphro/runtime-ts";
+import Employee from "../Employee.js";
 import { Data as EmployeeData } from "./EmployeeBase.js";
 
 export type CreateArgs = {
@@ -45,10 +46,10 @@ class Mutations extends MutationsBase<Employee, Data> {
   }
 }
 
-export default class EmployeeMutations {
-  static create(ctx: Context, args: CreateArgs): Mutations {
+export default {
+  create(ctx: Context, args: CreateArgs): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
       args
     );
-  }
-}
+  },
+};

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <d7e3aaa687047e587b25824180e111ef>
+// SIGNED-SOURCE: <8773197a6ff1f23265d5bce06443ebaf>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -19,6 +19,9 @@ import { Context } from "@aphro/runtime-ts";
 import EmployeeSpec from "./EmployeeSpec.js";
 import CustomerQuery from "./CustomerQuery.js";
 import Customer from "../Customer.js";
+import EmployeeMutations from "./EmployeeMutations.js";
+
+declare type Muts = typeof EmployeeMutations;
 
 export type Data = {
   id: SID_of<Employee>;
@@ -41,6 +44,10 @@ export type Data = {
 // @Sealed(Employee)
 export default abstract class EmployeeBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
+
+  static get mutations(): Muts {
+    return EmployeeMutations;
+  }
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;
@@ -151,13 +158,6 @@ export default abstract class EmployeeBase extends Node<Data> {
       new UpdateMutationBuilder(this.ctx, this.spec, this)
         .set(data)
         .toChangesets()[0]
-    );
-  }
-
-  static create(ctx: Context, data: Partial<Data>) {
-    return makeSavable(
-      ctx,
-      new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]
     );
   }
 

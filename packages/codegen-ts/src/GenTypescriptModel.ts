@@ -37,6 +37,8 @@ export default class GenTypescriptModel extends CodegenStep {
       path.join(generatedDir, this.schema.name + 'Base.ts'),
       `${importsToString(this.collectImports())}
 
+${this.getMutationsConvenienceTypeDeclCode()}
+
 export type Data = ${this.getDataShapeCode()};
 
 ${this.schema.type === 'node' ? this.schema.extensions.type?.decorators?.join('\n') || '' : ''}
@@ -70,11 +72,16 @@ export default abstract class ${this.schema.name}Base
     if (!this.hasMutations()) {
       return '';
     }
-    return ``;
-    // can't seem to do this as it introduces a circular dependency
-    // return `
-    // static get mutations(): typeof ${this.schema.name}Mutations { return ${this.schema.name}Mutations };
-    // `;
+    return `
+    static get mutations(): Muts { return ${this.schema.name}Mutations };
+    `;
+  }
+
+  private getMutationsConvenienceTypeDeclCode(): string {
+    if (!this.hasMutations()) {
+      return '';
+    }
+    return `declare type Muts = typeof ${this.schema.name}Mutations`;
   }
 
   // TODO: we should figure out how to allow the mutation extension augment

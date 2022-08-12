@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <89d3511bd6c4e0b4ced1c6d2665493e4>
+// SIGNED-SOURCE: <fabf98ffbdc7bbc23d80cb079f0c3118>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -19,6 +19,8 @@ import { Context } from "@aphro/runtime-ts";
 import Slide from "../Slide.js";
 import ComponentMutations from "./ComponentMutations.js";
 
+declare type Muts = typeof ComponentMutations;
+
 export type Data = {
   id: SID_of<Component>;
   subtype: "Text" | "Embed";
@@ -29,6 +31,10 @@ export type Data = {
 // @Sealed(Component)
 export default abstract class ComponentBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
+
+  static get mutations(): Muts {
+    return ComponentMutations;
+  }
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;
