@@ -82,12 +82,18 @@ ${this.getCode([])}
     const [destructured, _] = getArgNameAndType(this.schema, m.args, true);
     const casedName = upcaseAt(m.name, 0);
     // suffix with `Impl` so reserved words don't conflict
-    return `export function ${m.name}Impl(mutator: Omit<IMutationBuilder<${this.schema.name}, Data>, 'toChangeset'>, ${destructured}: ${casedName}Args): void | Changeset<any>[] {
+    return `export function ${m.name}Impl(${
+      m.verb !== 'create' ? `model: ${this.schema.name}, ` : ''
+    }mutator: Omit<IMutationBuilder<${
+      this.schema.name
+    }, Data>, 'toChangeset'>, ${destructured}: ${casedName}Args): void | Changeset<any>[] {
       // Use the provided mutator to make your desired changes.
       // e.g., mutator.set({name: "Foo" });
       // You do not need to return anything from this method. The mutator will track your changes.
       // If you do return changesets, those changesets will be applied in addition to the changes made to the mutator.
-      throw new Error('You must implement the mutation ${m.name} for schema ${this.schema.name} in ${this.schema.name}MutationsImpl.ts');
+      throw new Error('You must implement the mutation ${m.name} for schema ${
+      this.schema.name
+    } in ${this.schema.name}MutationsImpl.ts');
     }`;
   }
 

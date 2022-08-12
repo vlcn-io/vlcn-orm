@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <4a871868e714f908264caf39ffe0102f>
+// SIGNED-SOURCE: <f6357dbe1a6fd6b191eaf7cd96d34c69>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -26,7 +26,11 @@ export type CreateArgs = {
 
 export type OpenDeckArgs = { openDeck: SID_of<Deck> };
 class Mutations extends MutationsBase<AppState, Data> {
-  constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<AppState, Data>) {
+  constructor(
+    ctx: Context,
+    mutator: ICreateOrUpdateBuilder<AppState, Data>,
+    private model?: AppState
+  ) {
     super(ctx, mutator);
   }
 
@@ -37,7 +41,7 @@ class Mutations extends MutationsBase<AppState, Data> {
   }
 
   openDeck(args: OpenDeckArgs): this {
-    const extraChangesets = impls.openDeckImpl(this.mutator, args);
+    const extraChangesets = impls.openDeckImpl(this.model!, this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
@@ -52,7 +56,8 @@ export default {
   openDeck(model: AppState, args: OpenDeckArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new UpdateMutationBuilder(model.ctx, spec, model)
+      new UpdateMutationBuilder(model.ctx, spec, model),
+      model
     ).openDeck(args);
   },
 };

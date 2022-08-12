@@ -18,6 +18,7 @@ export function createImpl(
 }
 
 export function renameImpl(
+  model: User,
   mutator: Omit<IMutationBuilder<User, Data>, "toChangeset">,
   { name }: RenameArgs
 ): void | Changeset<any>[] {
@@ -27,6 +28,7 @@ export function renameImpl(
 }
 
 export function deleteImpl(
+  model: User,
   mutator: Omit<IMutationBuilder<User, Data>, "toChangeset">,
   {}: DeleteArgs
 ): void | Changeset<any>[] {

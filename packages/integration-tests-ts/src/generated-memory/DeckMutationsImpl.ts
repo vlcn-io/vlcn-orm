@@ -1,18 +1,18 @@
-import { CreateArgs } from "./generated/DeckMutations.js";
-import { SelectSlideArgs } from "./generated/DeckMutations.js";
-import { RenameArgs } from "./generated/DeckMutations.js";
-import { DeleteArgs } from "./generated/DeckMutations.js";
-import { Changeset, sid } from "@aphro/runtime-ts";
-import { Data } from "./Deck.js";
-import Deck from "./Deck.js";
-import { IMutationBuilder } from "@aphro/runtime-ts";
+import { CreateArgs } from './generated/DeckMutations.js';
+import { SelectSlideArgs } from './generated/DeckMutations.js';
+import { RenameArgs } from './generated/DeckMutations.js';
+import { DeleteArgs } from './generated/DeckMutations.js';
+import { Changeset, sid } from '@aphro/runtime-ts';
+import { Data } from './Deck.js';
+import Deck from './Deck.js';
+import { IMutationBuilder } from '@aphro/runtime-ts';
 
 export function createImpl(
-  mutator: Omit<IMutationBuilder<Deck, Data>, "toChangeset">,
-  { name, owner, selectedSlide }: CreateArgs
+  mutator: Omit<IMutationBuilder<Deck, Data>, 'toChangeset'>,
+  { name, owner, selectedSlide }: CreateArgs,
 ): void | Changeset<any>[] {
   mutator.set({
-    id: sid("aaaa"),
+    id: sid('aaaa'),
     name,
     ownerId: owner.id,
     selectedSlideId: selectedSlide?.id,
@@ -22,8 +22,9 @@ export function createImpl(
 }
 
 export function selectSlideImpl(
-  mutator: Omit<IMutationBuilder<Deck, Data>, "toChangeset">,
-  { selectedSlide }: SelectSlideArgs
+  model: Deck,
+  mutator: Omit<IMutationBuilder<Deck, Data>, 'toChangeset'>,
+  { selectedSlide }: SelectSlideArgs,
 ): void | Changeset<any>[] {
   // Use the provided mutator to make your desired changes.
   // e.g., mutator.set({name: "Foo" });
@@ -32,8 +33,9 @@ export function selectSlideImpl(
 }
 
 export function renameImpl(
-  mutator: Omit<IMutationBuilder<Deck, Data>, "toChangeset">,
-  { name }: RenameArgs
+  model: Deck,
+  mutator: Omit<IMutationBuilder<Deck, Data>, 'toChangeset'>,
+  { name }: RenameArgs,
 ): void | Changeset<any>[] {
   // Use the provided mutator to make your desired changes.
   // e.g., mutator.set({name: "Foo" });
@@ -42,8 +44,9 @@ export function renameImpl(
 }
 
 export function deleteImpl(
-  mutator: Omit<IMutationBuilder<Deck, Data>, "toChangeset">,
-  {}: DeleteArgs
+  model: Deck,
+  mutator: Omit<IMutationBuilder<Deck, Data>, 'toChangeset'>,
+  {}: DeleteArgs,
 ): void | Changeset<any>[] {
   // Use the provided mutator to make your desired changes.
   // e.g., mutator.set({name: "Foo" });

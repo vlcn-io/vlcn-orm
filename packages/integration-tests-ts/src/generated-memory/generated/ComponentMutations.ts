@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <1cfde4af9f0b6c582de79eb4cb4baf5d>
+// SIGNED-SOURCE: <62efae0c83976de34e4599c7f59a061c>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -26,7 +26,11 @@ export type CreateArgs = {
 
 export type DeleteArgs = {};
 class Mutations extends MutationsBase<Component, Data> {
-  constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<Component, Data>) {
+  constructor(
+    ctx: Context,
+    mutator: ICreateOrUpdateBuilder<Component, Data>,
+    private model?: Component
+  ) {
     super(ctx, mutator);
   }
 
@@ -37,7 +41,7 @@ class Mutations extends MutationsBase<Component, Data> {
   }
 
   delete(args: DeleteArgs): this {
-    const extraChangesets = impls.deleteImpl(this.mutator, args);
+    const extraChangesets = impls.deleteImpl(this.model!, this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
@@ -53,7 +57,8 @@ export default {
   delete(model: Component, args: DeleteArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new DeleteMutationBuilder(model.ctx, spec, model)
+      new DeleteMutationBuilder(model.ctx, spec, model),
+      model
     ).delete(args);
   },
 };
