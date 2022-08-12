@@ -48,7 +48,8 @@ ${this.getCode()}
     class Mutations extends MutationsBase<${this.schema.name}, Data> {
       constructor(
         ctx: Context,
-        mutator: ICreateOrUpdateBuilder<${this.schema.name}, Data>
+        mutator: ICreateOrUpdateBuilder<${this.schema.name}, Data>,
+        private model?: ${this.schema.name}
       ) {
         super(ctx, mutator);
       }
@@ -107,11 +108,11 @@ ${this.getCode()}
         },`;
       case 'update':
         return `${m.name}(model: ${this.schema.name}, args: ${nameCased}Args): Mutations {
-          return new Mutations(model.ctx, new UpdateMutationBuilder(model.ctx, spec, model)).${m.name}(args)
+          return new Mutations(model.ctx, new UpdateMutationBuilder(model.ctx, spec, model), model).${m.name}(args)
         },`;
       case 'delete':
         return `${m.name}(model: ${this.schema.name}, args: ${nameCased}Args): Mutations {
-          return new Mutations(model.ctx, new DeleteMutationBuilder(model.ctx, spec, model)).${m.name}(args)
+          return new Mutations(model.ctx, new DeleteMutationBuilder(model.ctx, spec, model), model).${m.name}(args)
         },`;
     }
   }
@@ -125,7 +126,9 @@ ${this.getCode()}
   private getMutationMethodCode(m: Mutation): string {
     const casedName = upcaseAt(m.name, 0);
     return `${m.name}(args: ${casedName}Args): this {
-      const extraChangesets = impls.${m.name}Impl(this.mutator, args);
+      const extraChangesets = impls.${m.name}Impl(${
+      m.verb !== 'create' ? 'this.model!, ' : ''
+    }this.mutator, args);
       this.mutator.addExtraChangesets(extraChangesets || undefined);
       return this;
     }`;

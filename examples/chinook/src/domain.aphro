@@ -10,15 +10,6 @@ Album as Node {
 } & OutboundEdges {
   artist: Edge<Album.artistId>
   tracks: Edge<Track.albumId>
-} & Mutations {
-  create as Create {
-    title
-    artist: Artist
-  }
-
-  retitle as Update {
-    title
-  }
 }
 
 Artist as Node {
@@ -26,14 +17,6 @@ Artist as Node {
   name: string | null
 } & OutboundEdges {
   albums: Edge<album.artistId>
-} & Mutations {
-  create as Create {
-    name
-  }
-
-  rename as Update {
-    name
-  }
 }
 
 # TODO: string length options
@@ -54,13 +37,6 @@ Customer as Node {
 } & OutboundEdges {
   supportRep: Edge<Customer.supportRepId>
   invoices: Edge<Invoice.customerId>
-} & Mutations {
-  create as Create {
-    firstName
-    lastName
-    email
-    supportRep: Employee
-  }
 }
 
 # TODO: support Datetime format?
@@ -83,23 +59,6 @@ Employee as Node {
 } & OutboundEdges {
   reportsTo: Edge<Employee.reportsToId>
   supports: Edge<Customer.supportRepId>
-} & Mutations {
-  create as Create {
-    lastName
-    firstName
-    title
-    reportsTo: Employee | null
-    birthdate
-    hiredate
-    address
-    city
-    state
-    country
-    postalCode
-    phone
-    fax
-    email
-  }
 }
 
 Genre as Node {
@@ -130,17 +89,6 @@ Invoice as Node {
 } & OutboundEdges {
   customer: Edge<Invoice.customerId>
   lines: Edge<InvoiceLine.invoiceId>
-} & Mutations {
-  create as Create {
-    customer: Customer
-    invoiceDate
-    billingAddress
-    billingCity
-    billingState
-    billingCountry
-    billingPostalCode
-    total
-  }
 }
 
 # TODO: Delete constraints or no?
@@ -153,26 +101,11 @@ InvoiceLine as Node {
 } & OutboundEdges {
   track: Edge<InvoiceLine.trackId>
   invoice: Edge<InvoiceLine.invoiceId>
-} & Mutations {
-  create as Create {
-    invoice: Invoice
-    track: Track
-    unitPrice
-    quantity
-  }
 }
 
 MediaType as Node {
   id: ID<MediaType>
   name: string
-} & Mutations {
-  create as Create {
-    name
-  }
-
-  rename as Update {
-    name
-  }
 }
 
 Playlist as Node {
@@ -180,24 +113,11 @@ Playlist as Node {
   name: string
 } & OutboundEdges {
   tracks: PlaylistTrack
-} & Mutations {
-  create as Create {
-    name
-  }
-
-  rename as Update {
-    name
-  }
 }
 
 PlaylistTrack as Edge<Playlist, Track> {
   id1: ID<Playlist>
   id2: ID<Track>
-} & Mutations {
-  create as Create {
-    playlist: Playlist
-    track: Track
-  }
 }
 
 # TODO invertable junction edges for use here (track -> playlists involved in)
@@ -217,15 +137,4 @@ Track as Node {
   mediaType: Edge<Track.mediaTypeId>
   genre: Edge<Track.genreId>
   invoiceLines: Edge<InvoiceLine.trackId>
-} & Mutations {
-  create as Create {
-    name
-    album: Album
-    mediaType: MediaType | null
-    genre: Genre | null
-    composer: string | null
-    milliseconds
-    bytes
-    unitPrice
-  }
 }

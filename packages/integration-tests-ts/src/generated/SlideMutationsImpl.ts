@@ -17,6 +17,7 @@ export function createImpl(
 }
 
 export function reorderImpl(
+  model: Slide,
   mutator: Omit<IMutationBuilder<Slide, Data>, "toChangeset">,
   { order }: ReorderArgs
 ): void | Changeset<any>[] {
@@ -27,6 +28,7 @@ export function reorderImpl(
 }
 
 export function deleteImpl(
+  model: Slide,
   mutator: Omit<IMutationBuilder<Slide, Data>, "toChangeset">,
   {}: DeleteArgs
 ): void | Changeset<any>[] {

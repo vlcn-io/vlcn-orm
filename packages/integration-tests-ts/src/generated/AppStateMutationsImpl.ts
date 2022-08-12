@@ -18,6 +18,7 @@ export function createImpl(
 }
 
 export function openDeckImpl(
+  model: AppState,
   mutator: Omit<IMutationBuilder<AppState, Data>, "toChangeset">,
   { openDeck }: OpenDeckArgs
 ): void | Changeset<any>[] {

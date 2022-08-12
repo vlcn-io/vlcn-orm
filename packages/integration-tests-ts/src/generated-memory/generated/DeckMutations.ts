@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <9dea09871a11807993756804ac8515ed>
+// SIGNED-SOURCE: <d8170beb2d193d9620be44aa8faa5828>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -34,7 +34,11 @@ export type RenameArgs = { name: string };
 
 export type DeleteArgs = {};
 class Mutations extends MutationsBase<Deck, Data> {
-  constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<Deck, Data>) {
+  constructor(
+    ctx: Context,
+    mutator: ICreateOrUpdateBuilder<Deck, Data>,
+    private model?: Deck
+  ) {
     super(ctx, mutator);
   }
 
@@ -45,19 +49,23 @@ class Mutations extends MutationsBase<Deck, Data> {
   }
 
   selectSlide(args: SelectSlideArgs): this {
-    const extraChangesets = impls.selectSlideImpl(this.mutator, args);
+    const extraChangesets = impls.selectSlideImpl(
+      this.model!,
+      this.mutator,
+      args
+    );
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
   rename(args: RenameArgs): this {
-    const extraChangesets = impls.renameImpl(this.mutator, args);
+    const extraChangesets = impls.renameImpl(this.model!, this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
   delete(args: DeleteArgs): this {
-    const extraChangesets = impls.deleteImpl(this.mutator, args);
+    const extraChangesets = impls.deleteImpl(this.model!, this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
@@ -72,20 +80,23 @@ export default {
   selectSlide(model: Deck, args: SelectSlideArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new UpdateMutationBuilder(model.ctx, spec, model)
+      new UpdateMutationBuilder(model.ctx, spec, model),
+      model
     ).selectSlide(args);
   },
 
   rename(model: Deck, args: RenameArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new UpdateMutationBuilder(model.ctx, spec, model)
+      new UpdateMutationBuilder(model.ctx, spec, model),
+      model
     ).rename(args);
   },
   delete(model: Deck, args: DeleteArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new DeleteMutationBuilder(model.ctx, spec, model)
+      new DeleteMutationBuilder(model.ctx, spec, model),
+      model
     ).delete(args);
   },
 };

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <906e07a7fd6cc8b9baff7e01510fc534>
+// SIGNED-SOURCE: <bc0faf38046f7896030ff6006587be48>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -27,7 +27,8 @@ export type CreateArgs = {
 class Mutations extends MutationsBase<DeckToEditorsEdge, Data> {
   constructor(
     ctx: Context,
-    mutator: ICreateOrUpdateBuilder<DeckToEditorsEdge, Data>
+    mutator: ICreateOrUpdateBuilder<DeckToEditorsEdge, Data>,
+    private model?: DeckToEditorsEdge
   ) {
     super(ctx, mutator);
   }

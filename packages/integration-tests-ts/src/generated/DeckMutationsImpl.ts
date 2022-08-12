@@ -22,6 +22,7 @@ export function createImpl(
 }
 
 export function selectSlideImpl(
+  model: Deck,
   mutator: Omit<IMutationBuilder<Deck, Data>, "toChangeset">,
   { selectedSlide }: SelectSlideArgs
 ): void | Changeset<any>[] {
@@ -32,6 +33,7 @@ export function selectSlideImpl(
 }
 
 export function renameImpl(
+  model: Deck,
   mutator: Omit<IMutationBuilder<Deck, Data>, "toChangeset">,
   { name }: RenameArgs
 ): void | Changeset<any>[] {
@@ -42,6 +44,7 @@ export function renameImpl(
 }
 
 export function deleteImpl(
+  model: Deck,
   mutator: Omit<IMutationBuilder<Deck, Data>, "toChangeset">,
   {}: DeleteArgs
 ): void | Changeset<any>[] {

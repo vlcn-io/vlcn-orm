@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <782fe67d9a576cfb98f47b67bc379749>
+// SIGNED-SOURCE: <911f10bd303c2dacaeae46b9a3125fa7>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -22,7 +22,11 @@ export type RenameArgs = { name: string };
 
 export type DeleteArgs = {};
 class Mutations extends MutationsBase<User, Data> {
-  constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<User, Data>) {
+  constructor(
+    ctx: Context,
+    mutator: ICreateOrUpdateBuilder<User, Data>,
+    private model?: User
+  ) {
     super(ctx, mutator);
   }
 
@@ -33,13 +37,13 @@ class Mutations extends MutationsBase<User, Data> {
   }
 
   rename(args: RenameArgs): this {
-    const extraChangesets = impls.renameImpl(this.mutator, args);
+    const extraChangesets = impls.renameImpl(this.model!, this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
   delete(args: DeleteArgs): this {
-    const extraChangesets = impls.deleteImpl(this.mutator, args);
+    const extraChangesets = impls.deleteImpl(this.model!, this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
@@ -54,13 +58,15 @@ export default {
   rename(model: User, args: RenameArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new UpdateMutationBuilder(model.ctx, spec, model)
+      new UpdateMutationBuilder(model.ctx, spec, model),
+      model
     ).rename(args);
   },
   delete(model: User, args: DeleteArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new DeleteMutationBuilder(model.ctx, spec, model)
+      new DeleteMutationBuilder(model.ctx, spec, model),
+      model
     ).delete(args);
   },
 };

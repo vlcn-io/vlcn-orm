@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <7f8e7bed314f80c87fb889852110d5b9>
+// SIGNED-SOURCE: <134bfff0df3204f7f03f17ae3e7037a4>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -20,7 +20,11 @@ export type CreateArgs = { name: string | null };
 
 export type RenameArgs = { name: string | null };
 class Mutations extends MutationsBase<Genre, Data> {
-  constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<Genre, Data>) {
+  constructor(
+    ctx: Context,
+    mutator: ICreateOrUpdateBuilder<Genre, Data>,
+    private model?: Genre
+  ) {
     super(ctx, mutator);
   }
 
@@ -31,7 +35,7 @@ class Mutations extends MutationsBase<Genre, Data> {
   }
 
   rename(args: RenameArgs): this {
-    const extraChangesets = impls.renameImpl(this.mutator, args);
+    const extraChangesets = impls.renameImpl(this.model!, this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
@@ -46,7 +50,8 @@ export default {
   rename(model: Genre, args: RenameArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new UpdateMutationBuilder(model.ctx, spec, model)
+      new UpdateMutationBuilder(model.ctx, spec, model),
+      model
     ).rename(args);
   },
 };

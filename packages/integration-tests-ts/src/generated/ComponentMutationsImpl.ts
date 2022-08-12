@@ -18,6 +18,7 @@ export function createImpl(
 }
 
 export function deleteImpl(
+  model: Component,
   mutator: Omit<IMutationBuilder<Component, Data>, "toChangeset">,
   {}: DeleteArgs
 ): void | Changeset<any>[] {

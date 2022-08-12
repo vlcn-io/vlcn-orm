@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5460a48fb7bbe6000ec2f37ea9554571>
+// SIGNED-SOURCE: <baeaebec278df54d24b7dc9b2817b58b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -27,7 +27,11 @@ export type ReorderArgs = { order: number };
 
 export type DeleteArgs = {};
 class Mutations extends MutationsBase<Slide, Data> {
-  constructor(ctx: Context, mutator: ICreateOrUpdateBuilder<Slide, Data>) {
+  constructor(
+    ctx: Context,
+    mutator: ICreateOrUpdateBuilder<Slide, Data>,
+    private model?: Slide
+  ) {
     super(ctx, mutator);
   }
 
@@ -38,13 +42,13 @@ class Mutations extends MutationsBase<Slide, Data> {
   }
 
   reorder(args: ReorderArgs): this {
-    const extraChangesets = impls.reorderImpl(this.mutator, args);
+    const extraChangesets = impls.reorderImpl(this.model!, this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
 
   delete(args: DeleteArgs): this {
-    const extraChangesets = impls.deleteImpl(this.mutator, args);
+    const extraChangesets = impls.deleteImpl(this.model!, this.mutator, args);
     this.mutator.addExtraChangesets(extraChangesets || undefined);
     return this;
   }
@@ -59,13 +63,15 @@ export default {
   reorder(model: Slide, args: ReorderArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new UpdateMutationBuilder(model.ctx, spec, model)
+      new UpdateMutationBuilder(model.ctx, spec, model),
+      model
     ).reorder(args);
   },
   delete(model: Slide, args: DeleteArgs): Mutations {
     return new Mutations(
       model.ctx,
-      new DeleteMutationBuilder(model.ctx, spec, model)
+      new DeleteMutationBuilder(model.ctx, spec, model),
+      model
     ).delete(args);
   },
 };

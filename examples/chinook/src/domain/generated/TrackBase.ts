@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <851f1bc7f2c9a5aae2b5b096e2fa4098>
+// SIGNED-SOURCE: <aef128baf4bac9ba6d3cc872e001b43d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -27,9 +27,6 @@ import InvoiceLine from "../InvoiceLine.js";
 import Album from "../Album.js";
 import MediaType from "../MediaType.js";
 import Genre from "../Genre.js";
-import TrackMutations from "./TrackMutations.js";
-
-declare type Muts = typeof TrackMutations;
 
 export type Data = {
   id: SID_of<Track>;
@@ -46,10 +43,6 @@ export type Data = {
 // @Sealed(Track)
 export default abstract class TrackBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
-
-  static get mutations(): Muts {
-    return TrackMutations;
-  }
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;
@@ -169,6 +162,13 @@ export default abstract class TrackBase extends Node<Data> {
       new UpdateMutationBuilder(this.ctx, this.spec, this)
         .set(data)
         .toChangesets()[0]
+    );
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return makeSavable(
+      ctx,
+      new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]
     );
   }
 
