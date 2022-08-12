@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <d103d6cf77e0fd766fe66cd9c10dd316>
+// SIGNED-SOURCE: <59fd32cc667c8d6cf978bb51c826f94e>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -43,17 +43,17 @@ class Mutations extends MutationsBase<Component, Data> {
   }
 }
 
-export default class ComponentMutations {
-  static create(ctx: Context, args: CreateArgs): Mutations {
+export default {
+  create(ctx: Context, args: CreateArgs): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
       args
     );
-  }
+  },
 
-  static delete(model: Component, args: DeleteArgs): Mutations {
+  delete(model: Component, args: DeleteArgs): Mutations {
     return new Mutations(
       model.ctx,
       new DeleteMutationBuilder(model.ctx, spec, model)
     ).delete(args);
-  }
-}
+  },
+};

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <722727da7b9f50fc19a1c6ac41f0098c>
+// SIGNED-SOURCE: <9fcdb69a7bfab9a4990158ec16b74ea2>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -43,16 +43,16 @@ class Mutations extends MutationsBase<AppState, Data> {
   }
 }
 
-export default class AppStateMutations {
-  static create(ctx: Context, args: CreateArgs): Mutations {
+export default {
+  create(ctx: Context, args: CreateArgs): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
       args
     );
-  }
-  static openDeck(model: AppState, args: OpenDeckArgs): Mutations {
+  },
+  openDeck(model: AppState, args: OpenDeckArgs): Mutations {
     return new Mutations(
       model.ctx,
       new UpdateMutationBuilder(model.ctx, spec, model)
     ).openDeck(args);
-  }
-}
+  },
+};
