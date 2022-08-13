@@ -1,5 +1,11 @@
 # @aphro/react
 
+## 1.1.0
+
+### Minor Changes
+
+- add missing dependency
+
 ## 1.0.4
 
 ### Patch Changes
