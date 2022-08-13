@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <2b59028b47d00fa8d6d3770e7fca25f0>
+// SIGNED-SOURCE: <7a766e26d803118410c9fd28b77af68f>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -46,7 +46,7 @@ export default abstract class DeckBase extends Node<Data> {
   }
 
   get mutations(): IMuts {
-    return new InstancedMutations(this);
+    return new InstancedMutations(this as any);
   }
 
   get id(): SID_of<this> {

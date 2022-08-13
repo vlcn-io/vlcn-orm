@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <84f06228152d086a7472cc9520946a74>
+// SIGNED-SOURCE: <2e31041e0593607c02062b485df5cff6>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -38,7 +38,7 @@ export default abstract class DeckToEditorsEdgeBase extends Edge<Data> {
   }
 
   get mutations(): IMuts {
-    return new InstancedMutations(this);
+    return new InstancedMutations(this as any);
   }
 
   get id1(): SID_of<Deck> {

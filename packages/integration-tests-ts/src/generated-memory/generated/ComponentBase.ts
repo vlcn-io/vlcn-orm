@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <854f37cc47f00f8d78f5a1dcd397739d>
+// SIGNED-SOURCE: <047077c53bab7876aaf707c5b1a48893>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -39,7 +39,7 @@ export default abstract class ComponentBase extends Node<Data> {
   }
 
   get mutations(): IMuts {
-    return new InstancedMutations(this);
+    return new InstancedMutations(this as any);
   }
 
   get id(): SID_of<this> {

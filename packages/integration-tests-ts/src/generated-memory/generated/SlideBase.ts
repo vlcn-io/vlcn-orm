@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <0bad51d517705cd51d0f0bc69c6abec3>
+// SIGNED-SOURCE: <d87e5c7850a559f3d433db3531fc2116>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -40,7 +40,7 @@ export default abstract class SlideBase extends Node<Data> {
   }
 
   get mutations(): IMuts {
-    return new InstancedMutations(this);
+    return new InstancedMutations(this as any);
   }
 
   get id(): SID_of<this> {

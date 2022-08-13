@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <0791e90b1cb59867680c84ff90ec936c>
+// SIGNED-SOURCE: <8d0ee6ccbb98a66399de7ed8fca50878>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -40,7 +40,7 @@ export default abstract class AppStateBase extends Node<Data> {
   }
 
   get mutations(): IMuts {
-    return new InstancedMutations(this);
+    return new InstancedMutations(this as any);
   }
 
   get id(): SID_of<this> {
