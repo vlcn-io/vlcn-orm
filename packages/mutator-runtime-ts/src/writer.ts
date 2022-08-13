@@ -1,26 +1,27 @@
-import { Context, IModel, DeleteChangeset } from '@aphro/context-runtime-ts';
+import { Context, IModel, DeleteChangeset, ResolvedDB } from '@aphro/context-runtime-ts';
 import { RemoveNameField, StorageConfig } from '@aphro/schema-api';
 import { assertUnreachable } from '@strut/utils';
 import memoryWriter from './memoryWriter.js';
 import sqlWriter from './sql/sqlWriter.js';
 
 export default {
+  async startTransaction(db: ResolvedDB) {},
+  async commitTransaction(db: ResolvedDB) {},
+  async rollbackTransaction(db: ResolvedDB) {},
   // TODO: the common case is probably updating a single node
   // for a single engine. Should we optimize for that path instead?
-  async upsertBatch(ctx: Context, nodes: IterableIterator<IModel<Object>>): Promise<void> {
-    await Promise.all(
-      createAwaitables(ctx, nodes, sqlWriter.upsertGroup, memoryWriter.upsertGroup),
-    );
+  async upsertBatch(db: ResolvedDB, nodes: IterableIterator<IModel<Object>>): Promise<void> {
+    await Promise.all(createAwaitables(db, nodes, sqlWriter.upsertGroup, memoryWriter.upsertGroup));
   },
 
   async deleteBatch(
-    ctx: Context,
+    db: ResolvedDB,
     deletes: DeleteChangeset<IModel<Object>, Object>[],
   ): Promise<void> {
     await Promise.all(
       createAwaitables(
-        ctx,
-        (function*() {
+        db,
+        (function* () {
           for (const cs of deletes) {
             yield cs.model;
           }
@@ -32,32 +33,35 @@ export default {
   },
 };
 
+// Before getting here we're already grouped by engine & db
+// grouping by table given we can't
+// insert into many tables in a single insert statement
 function createAwaitables(
-  ctx: Context,
+  db: ResolvedDB,
   nodes: IterableIterator<IModel<Object>>,
-  sqlOp: (ctx: Context, nodes: IModel[]) => Promise<void>,
-  memoryOp: (ctx: Context, nodes: IModel[]) => Promise<void>,
+  sqlOp: (db: ResolvedDB, nodes: IModel[]) => Promise<void>,
+  memoryOp: (db: ResolvedDB, nodes: IModel[]) => Promise<void>,
 ): Promise<void>[] {
-  const byEngineDbTable: Map<string, IModel<Object>[]> = new Map();
+  const byTable: Map<string, IModel<Object>[]> = new Map();
   for (const node of nodes) {
     const key = createKey(node.spec.storage);
-    let grouping: IModel[] | undefined = byEngineDbTable.get(key);
+    let grouping: IModel[] | undefined = byTable.get(key);
     if (grouping == null) {
       grouping = [];
-      byEngineDbTable.set(key, grouping);
+      byTable.set(key, grouping);
     }
     grouping.push(node);
   }
 
   const writes: Promise<void>[] = [];
-  for (const [key, group] of byEngineDbTable) {
+  for (const [key, group] of byTable) {
     const type = group[0].spec.storage.type;
     switch (type) {
       case 'sql':
-        writes.push(sqlOp(ctx, group));
+        writes.push(sqlOp(db, group));
         break;
       case 'memory':
-        writes.push(memoryOp(ctx, group));
+        writes.push(memoryOp(db, group));
         break;
       case 'ephemeral':
         throw new Error(`${type} should not write to any storage layers`);
@@ -71,5 +75,5 @@ function createAwaitables(
 }
 
 function createKey(persistConfig: RemoveNameField<StorageConfig>): string {
-  return persistConfig.engine + '-' + persistConfig.db + '-' + persistConfig.tablish;
+  return persistConfig.tablish;
 }

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <38e05e33b526033c7ca0900b61915800>
+// SIGNED-SOURCE: <2b59028b47d00fa8d6d3770e7fca25f0>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -26,6 +26,7 @@ import DeckMutations from "./DeckMutations.js";
 import { InstancedMutations } from "./DeckMutations.js";
 
 declare type Muts = typeof DeckMutations;
+declare type IMuts = InstancedMutations;
 
 export type Data = {
   id: SID_of<Deck>;
@@ -44,7 +45,7 @@ export default abstract class DeckBase extends Node<Data> {
     return DeckMutations;
   }
 
-  get mutations() {
+  get mutations(): IMuts {
     return new InstancedMutations(this);
   }
 

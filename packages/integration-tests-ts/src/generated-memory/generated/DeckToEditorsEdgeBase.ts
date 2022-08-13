@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <d818fbb6b121383413cb8361ed82ce49>
+// SIGNED-SOURCE: <84f06228152d086a7472cc9520946a74>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -22,6 +22,7 @@ import DeckToEditorsEdgeMutations from "./DeckToEditorsEdgeMutations.js";
 import { InstancedMutations } from "./DeckToEditorsEdgeMutations.js";
 
 declare type Muts = typeof DeckToEditorsEdgeMutations;
+declare type IMuts = InstancedMutations;
 
 export type Data = {
   id1: SID_of<Deck>;
@@ -36,7 +37,7 @@ export default abstract class DeckToEditorsEdgeBase extends Edge<Data> {
     return DeckToEditorsEdgeMutations;
   }
 
-  get mutations() {
+  get mutations(): IMuts {
     return new InstancedMutations(this);
   }
 

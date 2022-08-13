@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <e5079a6cbe9593fe6fdcb96c84dbb949>
+// SIGNED-SOURCE: <ea95d53617e34bbe1b6d895e1e106851>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -22,6 +22,7 @@ import UserMutations from "./UserMutations.js";
 import { InstancedMutations } from "./UserMutations.js";
 
 declare type Muts = typeof UserMutations;
+declare type IMuts = InstancedMutations;
 
 export type Data = {
   id: SID_of<User>;
@@ -38,7 +39,7 @@ export default abstract class UserBase extends Node<Data> {
     return UserMutations;
   }
 
-  get mutations() {
+  get mutations(): IMuts {
     return new InstancedMutations(this);
   }
 

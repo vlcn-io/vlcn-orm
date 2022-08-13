@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <7e580b1c815d3d468c0e9906905c0239>
+// SIGNED-SOURCE: <854f37cc47f00f8d78f5a1dcd397739d>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -21,6 +21,7 @@ import ComponentMutations from "./ComponentMutations.js";
 import { InstancedMutations } from "./ComponentMutations.js";
 
 declare type Muts = typeof ComponentMutations;
+declare type IMuts = InstancedMutations;
 
 export type Data = {
   id: SID_of<Component>;
@@ -37,7 +38,7 @@ export default abstract class ComponentBase extends Node<Data> {
     return ComponentMutations;
   }
 
-  get mutations() {
+  get mutations(): IMuts {
     return new InstancedMutations(this);
   }
 

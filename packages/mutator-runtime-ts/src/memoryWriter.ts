@@ -1,13 +1,11 @@
-import { Context, IModel, MemoryResolvedDB } from '@aphro/context-runtime-ts';
+import { Context, IModel, MemoryResolvedDB, ResolvedDB } from '@aphro/context-runtime-ts';
 
 export default {
-  async upsertGroup<T>(ctx: Context, nodes: IModel<T>[]): Promise<void> {
+  async upsertGroup<T>(db: ResolvedDB, nodes: IModel<T>[]): Promise<void> {
     const first = nodes[0];
     const spec = first.spec;
-    const persist = spec.storage;
-    const db = ctx.dbResolver.engine(persist.engine).db(persist.db) as MemoryResolvedDB;
 
-    await db.query({
+    await (db as MemoryResolvedDB).query({
       type: 'write',
       op: 'upsert',
       models: nodes,
@@ -15,13 +13,11 @@ export default {
     });
   },
 
-  async deleteGroup(ctx: Context, nodes: IModel[]): Promise<void> {
+  async deleteGroup(db: ResolvedDB, nodes: IModel[]): Promise<void> {
     const first = nodes[0];
     const spec = first.spec;
-    const persist = spec.storage;
-    const db = ctx.dbResolver.engine(persist.engine).db(persist.db) as MemoryResolvedDB;
 
-    await db.query({
+    await (db as MemoryResolvedDB).query({
       type: 'write',
       op: 'delete',
       models: nodes,

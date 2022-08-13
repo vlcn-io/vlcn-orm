@@ -75,8 +75,8 @@ export default abstract class ${this.schema.name}Base
     return `
     static get mutations(): Muts { return ${this.schema.name}Mutations };
 
-    get mutations() {
-      return new InstancedMutations(this);
+    get mutations(): IMuts {
+      return new InstancedMutations(this as any);
     }
     `;
   }
@@ -85,7 +85,8 @@ export default abstract class ${this.schema.name}Base
     if (!this.hasMutations()) {
       return '';
     }
-    return `declare type Muts = typeof ${this.schema.name}Mutations`;
+    return `declare type Muts = typeof ${this.schema.name}Mutations;
+    declare type IMuts = InstancedMutations;`;
   }
 
   // TODO: we should figure out how to allow the mutation extension augment

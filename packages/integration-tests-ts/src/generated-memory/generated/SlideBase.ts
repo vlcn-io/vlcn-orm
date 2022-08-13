@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <59b3306ed5f46e4afe5f9d847eea2bc9>
+// SIGNED-SOURCE: <0bad51d517705cd51d0f0bc69c6abec3>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -23,6 +23,7 @@ import SlideMutations from "./SlideMutations.js";
 import { InstancedMutations } from "./SlideMutations.js";
 
 declare type Muts = typeof SlideMutations;
+declare type IMuts = InstancedMutations;
 
 export type Data = {
   id: SID_of<Slide>;
@@ -38,7 +39,7 @@ export default abstract class SlideBase extends Node<Data> {
     return SlideMutations;
   }
 
-  get mutations() {
+  get mutations(): IMuts {
     return new InstancedMutations(this);
   }
 

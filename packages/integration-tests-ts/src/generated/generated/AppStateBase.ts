@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <f32fbd29d6e222c20262b3e669abebfb>
+// SIGNED-SOURCE: <0791e90b1cb59867680c84ff90ec936c>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -22,6 +22,7 @@ import AppStateMutations from "./AppStateMutations.js";
 import { InstancedMutations } from "./AppStateMutations.js";
 
 declare type Muts = typeof AppStateMutations;
+declare type IMuts = InstancedMutations;
 
 export type Data = {
   id: SID_of<AppState>;
@@ -38,7 +39,7 @@ export default abstract class AppStateBase extends Node<Data> {
     return AppStateMutations;
   }
 
-  get mutations() {
+  get mutations(): IMuts {
     return new InstancedMutations(this);
   }
 

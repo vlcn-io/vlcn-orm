@@ -53,7 +53,7 @@ test('upsert pg group', () => {
   const m1 = new TestModel(context, { thing: 1, foo: 2 });
   const m2 = new TestModel(context, { thing: 3, foo: 4 });
 
-  const sql = writer.buildUpsertSql(context, [m1, m2]);
+  const sql = writer.buildUpsertSql([m1, m2]);
   const formatted = sql.format(formatters.postgres);
 
   expect(formatted.text).toEqual(
@@ -66,7 +66,7 @@ test('upsert sqlite group', () => {
   const m1 = new TestListeModel(context, { thing: 1, foo: 2 });
   const m2 = new TestListeModel(context, { thing: 3, foo: 4 });
 
-  const sql = writer.buildUpsertSql(context, [m1, m2]);
+  const sql = writer.buildUpsertSql([m1, m2]);
   const formatted = sql.format(formatters.sqlite);
 
   expect(formatted.text).toEqual(

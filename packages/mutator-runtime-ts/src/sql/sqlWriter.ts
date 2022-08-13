@@ -1,8 +1,8 @@
-import { Context, IModel, INode, SQLResolvedDB } from '@aphro/context-runtime-ts';
+import { IModel, ResolvedDB, SQLResolvedDB } from '@aphro/context-runtime-ts';
 import { encodeModelData } from '@aphro/model-runtime-ts';
-import { formatters, sql, SQLQuery } from '@aphro/sql-ts';
+import { sql, SQLQuery } from '@aphro/sql-ts';
 
-function buildUpsertSql<T>(ctx: Context, nodes: IModel<T>[]) {
+function buildUpsertSql<T>(nodes: IModel<T>[]) {
   const first = nodes[0];
   const spec = first.spec;
   const persist = spec.storage;
@@ -50,16 +50,12 @@ export default {
   // Precondition: already grouped by db & table
   // TODO: Should we grab all by DB so we can do many inserts in 1 statement to the
   // same db?
-  async upsertGroup<T>(ctx: Context, nodes: IModel<T>[]): Promise<void> {
-    const query = buildUpsertSql(ctx, nodes);
-    const first = nodes[0];
-    const spec = first.spec;
-    const persist = spec.storage;
+  async upsertGroup<T>(db: ResolvedDB, nodes: IModel<T>[]): Promise<void> {
+    const query = buildUpsertSql(nodes);
     // TODO: generic on `spec` so we know we're SQL here?
-    const db = ctx.dbResolver.engine(persist.engine).db(persist.db) as SQLResolvedDB;
     // console.log(query);
     // console.log(nodes.map(n => Object.values(n._d())));
-    await db.query(
+    await (db as SQLResolvedDB).query(
       query,
       // nodes.flatMap(n => Object.values(n._d())),
     );
@@ -68,12 +64,10 @@ export default {
   buildUpsertSql,
 
   // Precondition: already grouped by db & table
-  async deleteGroup(ctx: Context, nodes: IModel[]): Promise<void> {
+  async deleteGroup(db: ResolvedDB, nodes: IModel[]): Promise<void> {
     const first = nodes[0];
     const spec = first.spec;
     const persist = spec.storage;
-
-    const db = ctx.dbResolver.engine(persist.engine).db(persist.db) as SQLResolvedDB;
 
     const query = sql`DELETE FROM ${sql.ident(persist.tablish)} WHERE ${sql.ident(
       spec.type === 'node' ? spec.primaryKey : 'id1id2',
@@ -82,7 +76,7 @@ export default {
       ', ',
     )})`;
 
-    await db.query(query);
+    await (db as SQLResolvedDB).query(query);
   },
 
   async createTables(): Promise<void> {},
