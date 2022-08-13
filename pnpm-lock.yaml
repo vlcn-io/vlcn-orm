@@ -731,10 +731,13 @@ importers:
       '@types/react': ^18.0.10
       '@typescript-eslint/typescript-estree': ^5.22.0
       jest: ^28.1.0
+      react: ^18.0.0
+      suspend-react: ^0.0.8
       ts-jest: ^28.0.1
       typescript: ^4.6.4
     dependencies:
       '@strut/counter': 0.0.11
+      suspend-react: 0.0.8_react@18.2.0
     devDependencies:
       '@aphro/codegen-cli': link:../codegen-cli
       '@aphro/runtime-ts': link:../runtime-ts
@@ -744,6 +747,7 @@ importers:
       '@types/react': 18.0.17
       '@typescript-eslint/typescript-estree': 5.33.0_typescript@4.7.2
       jest: 28.1.0
+      react: 18.2.0
       ts-jest: 28.0.4_hkzrkv5hmwhzxrddi5ta6hqdsy
       typescript: 4.7.2
 
@@ -7766,7 +7770,6 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
-    dev: false
 
   /lower-case/2.0.2:
     resolution: {integrity: sha512-7fm3l3NAF9WfN6W3JOmf5drwpVqX78JtoGJ3A6W0a6ZnldM41w2fV5D490psKFTpMds8TJse/eHLFFsNHHjHgg==}
@@ -8685,7 +8688,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
-    dev: false
 
   /read-pkg-up/7.0.1:
     resolution: {integrity: sha512-zK0TB7Xd6JpCLmlLmufqykGE+/TlOePD6qKClNW7hHDKFh/J7/7gCWGR7joEQEW1bKq3a3yUZSObOoWLFQ4ohg==}
@@ -9613,7 +9615,7 @@ packages:
       '@babel/core': 7.18.9
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 28.1.0_@types+node@17.0.31
+      jest: 28.1.0
       jest-util: 28.1.0
       json5: 2.2.1
       lodash.memoize: 4.1.2
