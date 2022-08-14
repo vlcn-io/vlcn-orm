@@ -6,9 +6,5 @@
     "allowSyntheticDefaultImports": true
   },
   "include": ["./src/"],
-  "references": [
-    { "path": "../sql-ts" },
-    { "path": "../context-runtime-ts" },
-    { "path": "../instrument" }
-  ]
+  "references": [{ "path": "../runtime-ts" }, { "path": "../instrument" }]
 }

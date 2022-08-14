@@ -3,7 +3,7 @@ import * as SQLite from 'wa-sqlite';
 // @ts-ignore
 import { IDBBatchAtomicVFS } from 'wa-sqlite/src/examples/IDBBatchAtomicVFS.js';
 // import { OriginPrivateFileSystemVFS } from 'wa-sqlite/src/examples/OriginPrivateFileSystemVFS.js';
-import { formatters, SQLQuery } from '@aphro/sql-ts';
+import { formatters, SQLQuery } from '@aphro/runtime-ts';
 import tracer from './trace.js';
 import { Span } from '@opentelemetry/api';
 

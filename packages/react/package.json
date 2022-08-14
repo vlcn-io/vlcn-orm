@@ -21,7 +21,6 @@
     "@babel/preset-env": "^7.17.10",
     "@types/jest": "^27.4.1",
     "@types/react": "^18.0.10",
-    "@aphro/codegen-cli": "workspace:*",
     "@aphro/runtime-ts": "workspace:*",
     "@typescript-eslint/typescript-estree": "^5.22.0",
     "jest": "^28.1.0",

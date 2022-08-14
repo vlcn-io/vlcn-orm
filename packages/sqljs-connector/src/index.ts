@@ -1,5 +1,5 @@
-import { DBResolver, basicResolver } from '@aphro/context-runtime-ts';
-import { formatters, SQLQuery } from '@aphro/sql-ts';
+import { DBResolver, basicResolver } from '@aphro/runtime-ts';
+import { formatters, SQLQuery } from '@aphro/runtime-ts';
 // @ts-ignore
 import initSqlJs from '@aphro/sql.js';
 

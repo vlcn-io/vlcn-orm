@@ -9,8 +9,7 @@
     "directory": "packages/sqljs-connector"
   },
   "dependencies": {
-    "@aphro/context-runtime-ts": "workspace:*",
-    "@aphro/sql-ts": "workspace:*",
+    "@aphro/runtime-ts": "workspace:*",
     "@aphro/sql.js": "^1.7.0",
     "@strut/counter": "^0.0.11"
   },

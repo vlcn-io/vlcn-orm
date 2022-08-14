@@ -233,9 +233,8 @@ importers:
   packages/absurd-sql-connector:
     specifiers:
       '@aphro/absurd-sql': ^0.0.53
-      '@aphro/context-runtime-ts': workspace:*
       '@aphro/instrument': workspace:*
-      '@aphro/sql-ts': workspace:*
+      '@aphro/runtime-ts': workspace:*
       '@aphro/sql.js': ^1.7.0
       '@babel/core': ^7.17.12
       '@babel/preset-env': ^7.17.12
@@ -247,9 +246,8 @@ importers:
       typescript: ^4.6.4
     dependencies:
       '@aphro/absurd-sql': 0.0.53
-      '@aphro/context-runtime-ts': link:../context-runtime-ts
       '@aphro/instrument': link:../instrument
-      '@aphro/sql-ts': link:../sql-ts
+      '@aphro/runtime-ts': link:../runtime-ts
       '@aphro/sql.js': 1.7.0
       '@opentelemetry/api': 1.1.0
       '@strut/counter': 0.0.11
@@ -722,7 +720,6 @@ importers:
 
   packages/react:
     specifiers:
-      '@aphro/codegen-cli': workspace:*
       '@aphro/runtime-ts': workspace:*
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
@@ -739,7 +736,6 @@ importers:
       '@strut/counter': 0.0.11
       suspend-react: 0.0.8_react@18.2.0
     devDependencies:
-      '@aphro/codegen-cli': link:../codegen-cli
       '@aphro/runtime-ts': link:../runtime-ts
       '@babel/core': 7.18.9
       '@babel/preset-env': 7.18.2_@babel+core@7.18.9
@@ -854,8 +850,7 @@ importers:
 
   packages/sqljs-connector:
     specifiers:
-      '@aphro/context-runtime-ts': workspace:*
-      '@aphro/sql-ts': workspace:*
+      '@aphro/runtime-ts': workspace:*
       '@aphro/sql.js': ^1.7.0
       '@babel/core': ^7.17.12
       '@babel/preset-env': ^7.17.12
@@ -866,8 +861,7 @@ importers:
       ts-jest: ^28.0.1
       typescript: ^4.6.4
     dependencies:
-      '@aphro/context-runtime-ts': link:../context-runtime-ts
-      '@aphro/sql-ts': link:../sql-ts
+      '@aphro/runtime-ts': link:../runtime-ts
       '@aphro/sql.js': 1.7.0
       '@strut/counter': 0.0.11
     devDependencies:
@@ -884,9 +878,8 @@ importers:
 
   packages/wa-sqlite-connector:
     specifiers:
-      '@aphro/context-runtime-ts': workspace:*
       '@aphro/instrument': workspace:*
-      '@aphro/sql-ts': workspace:*
+      '@aphro/runtime-ts': workspace:*
       '@babel/core': ^7.17.12
       '@babel/preset-env': ^7.17.12
       '@opentelemetry/api': ^1.1.0
@@ -897,9 +890,8 @@ importers:
       typescript: ^4.6.4
       wa-sqlite: github:rhashimoto/wa-sqlite#buildless
     dependencies:
-      '@aphro/context-runtime-ts': link:../context-runtime-ts
       '@aphro/instrument': link:../instrument
-      '@aphro/sql-ts': link:../sql-ts
+      '@aphro/runtime-ts': link:../runtime-ts
       '@opentelemetry/api': 1.1.0
       '@strut/counter': 0.0.11
       wa-sqlite: github.com/rhashimoto/wa-sqlite/92203cfe4ac9be205dec6341ad79e303cbe3d953

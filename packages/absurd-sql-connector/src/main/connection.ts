@@ -2,9 +2,8 @@ import count from '@strut/counter';
 import thisPackage from '../pkg.js';
 // @ts-ignore -- no type on imported pkg
 import { initBackend } from '@aphro/absurd-sql/dist/indexeddb-main-thread.js';
-import { formatters, SQLQuery } from '@aphro/sql-ts';
+import { formatters, SQLQuery } from '@aphro/runtime-ts';
 import tracer from '../tracer.js';
-import { SpanStatusCode } from '@opentelemetry/api';
 
 let queryId = 0;
 
