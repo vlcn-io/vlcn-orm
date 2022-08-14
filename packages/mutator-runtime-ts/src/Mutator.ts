@@ -94,6 +94,11 @@ abstract class CreateOrUpdateBuilder<M extends IModel<D>, D extends Object> exte
   D
 > {
   set(newData: Partial<D>): this {
+    (Object.entries(newData) as [keyof Partial<D>, any][]).forEach(e => {
+      if (e[1] === undefined) {
+        delete newData[e[0]];
+      }
+    });
     this.data = {
       ...this.data,
       ...newData,

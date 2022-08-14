@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <e1c749b9cb7405b228c1b0ea35089a5a>
+// SIGNED-SOURCE: <9983811d60e879faf35985abe501976a>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -21,7 +21,7 @@ import { Data as SlideData } from "./SlideBase.js";
 export type CreateArgs = {
   subtype: "Text" | "Embed";
   slide: Slide | Changeset<Slide, SlideData>;
-  content: string;
+  content?: string;
 };
 
 export type DeleteArgs = {};

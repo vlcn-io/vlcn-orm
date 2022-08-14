@@ -54,7 +54,7 @@ export function getArgNameAndType(
     '{' +
     fullArgsDefs
       .map(a => {
-        return a.name + ': ' + typeDefToTsType(a.typeDef);
+        return a.name + (a.optional ? '?' : '') + ': ' + typeDefToTsType(a.typeDef);
       })
       .join(',') +
     '}';
