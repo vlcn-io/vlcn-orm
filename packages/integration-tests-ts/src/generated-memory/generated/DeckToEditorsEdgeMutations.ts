@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5588f251dc33e8c6b2fb5467276b3c7d>
+// SIGNED-SOURCE: <58dce30fc320d6e7713a20f958a37504>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@ import * as impls from "../DeckToEditorsEdgeMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
-import type DeckToEditorsEdge from "../DeckToEditorsEdge.js";
+import DeckToEditorsEdge from "../DeckToEditorsEdge.js";
 import { default as spec } from "./DeckToEditorsEdgeSpec.js";
 import { Data } from "./DeckToEditorsEdgeBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";

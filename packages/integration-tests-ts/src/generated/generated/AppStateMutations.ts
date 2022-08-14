@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <dd7f8b7bdf15cf7136ba08e08037ab2a>
+// SIGNED-SOURCE: <5819d7c00f2168e90da25106cd59392b>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@ import * as impls from "../AppStateMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
-import type AppState from "../AppState.js";
+import AppState from "../AppState.js";
 import { default as spec } from "./AppStateSpec.js";
 import { Data } from "./AppStateBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";

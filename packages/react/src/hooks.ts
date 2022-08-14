@@ -35,8 +35,8 @@ type QueryReturnType<Q> = Q extends Query<infer M> ? M : any;
 
 export function useLiveResult<T>(result: LiveResult<T>) {
   const [data, setData] = useState<T[]>(result.latest || []);
-  let isMounted = true;
   useEffect(() => {
+    let isMounted = true;
     const disposer = result.subscribe(newData => {
       if (!isMounted) {
         return;
