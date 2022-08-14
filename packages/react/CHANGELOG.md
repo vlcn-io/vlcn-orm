@@ -1,5 +1,11 @@
 # @aphro/react
 
+## 1.2.1
+
+### Patch Changes
+
+- fix duplicative mutation imports, incorrect tracking of mounted state in react
+
 ## 1.2.0
 
 ### Minor Changes

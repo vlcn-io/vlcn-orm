@@ -1,5 +1,12 @@
 # @aphro/codegen-cli
 
+## 0.3.8
+
+### Patch Changes
+
+- Updated dependencies
+  - @aphro/mutation-codegen@0.4.1
+
 ## 0.3.7
 
 ### Patch Changes

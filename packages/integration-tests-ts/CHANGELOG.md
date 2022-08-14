@@ -1,5 +1,11 @@
 # @aphro/integration-tests-ts
 
+## 0.4.1
+
+### Patch Changes
+
+- fix duplicative mutation imports, incorrect tracking of mounted state in react
+
 ## 0.4.0
 
 ### Minor Changes
