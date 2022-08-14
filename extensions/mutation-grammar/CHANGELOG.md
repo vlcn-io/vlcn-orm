@@ -1,5 +1,17 @@
 # @aphro/mutation-grammar
 
+## 0.3.0
+
+### Minor Changes
+
+- depend on `runtime-ts` to prevent pkg version mismatch, convenience `mutatations` accessor
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @aphro/schema@0.3.0
+
 ## 0.2.5
 
 ### Patch Changes

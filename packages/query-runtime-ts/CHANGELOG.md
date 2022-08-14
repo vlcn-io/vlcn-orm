@@ -1,5 +1,12 @@
 # @aphro/query-runtime-ts
 
+## 0.3.0
+
+### Minor Changes
+
+- depend on `runtime-ts` to fix pkg mismatches, convenience mutations, named mutations replace unnmaed mutations
+- depend on `runtime-ts` to prevent pkg version mismatch, convenience `mutatations` accessor
+
 ## 0.2.4
 
 ### Patch Changes

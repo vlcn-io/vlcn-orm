@@ -1,6 +1,6 @@
 {
   "name": "@aphro/react",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "main": "lib/index.js",
   "type": "module",
   "repository": {
@@ -14,7 +14,7 @@
   },
   "peerDependencies": {
     "react": "^18.0.0",
-    "@aphro/runtime-ts": "^0.3.5"
+    "@aphro/runtime-ts": "^0.3.6"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",

@@ -1,5 +1,14 @@
 # @aphro/todo-mvc-mem
 
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @aphro/react@1.2.0
+  - @aphro/runtime-ts@0.3.6
+
 ## 0.1.6
 
 ### Patch Changes

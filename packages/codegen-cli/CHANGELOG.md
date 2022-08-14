@@ -1,5 +1,20 @@
 # @aphro/codegen-cli
 
+## 0.3.7
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @aphro/codegen-ts@0.4.0
+  - @aphro/schema@0.3.0
+  - @aphro/mutation-codegen@0.4.0
+  - @aphro/mutation-grammar@0.3.0
+  - @aphro/graphql-codegen@0.2.7
+  - @aphro/graphql-grammar@0.2.6
+  - @aphro/codegen@0.2.6
+  - @aphro/codegen-sql@0.2.6
+
 ## 0.3.6
 
 ### Patch Changes

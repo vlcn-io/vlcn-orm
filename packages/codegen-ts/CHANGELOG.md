@@ -1,5 +1,19 @@
 # @aphro/codegen-ts
 
+## 0.4.0
+
+### Minor Changes
+
+- depend on `runtime-ts` to fix pkg mismatches, convenience mutations, named mutations replace unnmaed mutations
+- depend on `runtime-ts` to prevent pkg version mismatch, convenience `mutatations` accessor
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @aphro/schema@0.3.0
+  - @aphro/codegen@0.2.6
+
 ## 0.3.6
 
 ### Patch Changes

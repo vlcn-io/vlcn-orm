@@ -1,5 +1,11 @@
 # @aphro/chinook
 
+## 0.3.4
+
+### Patch Changes
+
+- @aphro/runtime-ts@0.3.6
+
 ## 0.3.3
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # @aphro/mutation-codegen
 
+## 0.4.0
+
+### Minor Changes
+
+- depend on `runtime-ts` to prevent pkg version mismatch, convenience `mutatations` accessor
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @aphro/codegen-ts@0.4.0
+  - @aphro/schema@0.3.0
+  - @aphro/mutation-grammar@0.3.0
+  - @aphro/codegen@0.2.6
+
 ## 0.3.6
 
 ### Patch Changes
