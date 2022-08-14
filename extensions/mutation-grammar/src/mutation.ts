@@ -10,6 +10,7 @@ function transformQuickToFull(node: SchemaNode | SchemaEdge, arg: MutationArgDef
   }
   return {
     type: 'full',
+    optional: arg.optional,
     name: arg.name,
     typeDef: field.type,
   };

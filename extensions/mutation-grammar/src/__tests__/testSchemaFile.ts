@@ -28,13 +28,13 @@ export const compiled = {
           name,
           mutations: {
             create: {
-              args: { name: { name: 'name', type: 'quick' } },
+              args: { name: { name: 'name', optional: false, type: 'quick' } },
               name: 'create',
               verb: 'create',
             },
             delete: { args: {}, name: 'delete', verb: 'delete' },
             changeName: {
-              args: { name: { name: 'name', type: 'quick' } },
+              args: { name: { name: 'name', optional: false, type: 'quick' } },
               name: 'changeName',
               verb: 'update',
             },

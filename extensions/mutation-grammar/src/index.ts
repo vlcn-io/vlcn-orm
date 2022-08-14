@@ -51,12 +51,14 @@ export type MutationArgDef = FullArgDef | QuickArgDef;
 
 export type FullArgDef = {
   type: 'full';
+  optional: boolean;
   name: string;
   typeDef: TypeAtom[];
 };
 
 export type QuickArgDef = {
   type: 'quick';
+  optional: boolean;
   name: string;
 };
 
@@ -67,6 +69,7 @@ export type MutationsAst = {
 
 type MutationAst = {
   name: string;
+  optional: boolean;
   args: MutationArgDef[];
   verb: MutationVerb;
 };
@@ -95,8 +98,8 @@ MutationArgDeclarations
   | "" -- empty
 
 MutationArgDeclaration
-  = propertyKey TypeExpression -- full
-  | name -- quick
+  = propertyKey "?"? TypeExpression -- full
+  | name "?"? -- quick
 
 MutationVerb
   = "Create"
@@ -127,16 +130,18 @@ MutationVerb
       },
       MutationArgDeclarations_list: list,
       MutationArgDeclarations_empty: listInit,
-      MutationArgDeclaration_full(name, type) {
+      MutationArgDeclaration_full(name, optional, type) {
         return {
           type: 'full',
+          optional: optional.sourceString === '?',
           name: name.toAst(),
           typeDef: type.toAst(),
         };
       },
-      MutationArgDeclaration_quick(name) {
+      MutationArgDeclaration_quick(name, optional) {
         return {
           type: 'quick',
+          optional: optional.sourceString === '?',
           name: name.toAst(),
         };
       },
