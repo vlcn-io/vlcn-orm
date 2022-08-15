@@ -89,7 +89,7 @@ export default class GenSqlTableSchema extends CodegenStep {
       .map(
         decl => `
     -- STATEMENT
-    CREATE ${decl.type === 'unique' ? 'unique' : ''} INDEX IF NOT EXISTS
+    CREATE ${decl.type === 'unique' ? 'UNIQUE' : ''} INDEX IF NOT EXISTS
         "${this.schema.name}_${decl.name}" ON "${nodeFn.tableName(this.schema)}"
         (${decl.columns.map(c => `"${c}"`).join(', ')});`,
       )

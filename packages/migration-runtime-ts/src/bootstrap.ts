@@ -29,6 +29,7 @@ export const bootstrap = {
         }
         // sqlite errorno is 1.. which seems oddly unspecific.
         // using message contents -_-
+        console.log(s.reason.cause);
         if (s.reason.cause.message.indexOf('already exists') !== -1) {
           return;
         }
@@ -139,7 +140,13 @@ async function createForDB(
   const settled = await Promise.allSettled(
     Object.entries(schemas).map(async ([name, s]) => {
       try {
-        await db.query(sql.__dangerous__rawValue(s));
+        // split into statements as the connection only accepts
+        // a single statement at a time in some implementations.
+        const statements = s
+          .split('-- STATEMENT\n')
+          .map(s => s.trim())
+          .filter(s => s != '' && !s.startsWith('-- SIGNED-SOURCE'));
+        await Promise.all(statements.map(s => db.query(sql.__dangerous__rawValue(s))));
       } catch (e) {
         throw {
           cause: e,
