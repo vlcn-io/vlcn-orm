@@ -3,7 +3,7 @@ import { FieldDeclaration, SchemaEdge, SchemaNode, TypeAtom } from '@aphro/schem
 import { assertUnreachable } from '@strut/utils';
 import SqlFile from './SqlFile.js';
 import { sql, formatters, SQLQuery } from '@aphro/sql-ts';
-import { fieldFn } from '@aphro/schema';
+import { fieldFn, nodeFn } from '@aphro/schema';
 import * as path from 'path';
 
 export default class GenSqlTableSchema extends CodegenStep {
@@ -68,10 +68,32 @@ export default class GenSqlTableSchema extends CodegenStep {
       columnDefs.push(sql`PRIMARY KEY (${sql.ident(this.schema.primaryKey)})`);
     }
 
-    return sql`CREATE TABLE ${sql.ident(this.schema.name.toLocaleLowerCase())} (${sql.join(
+    const createTable = sql`CREATE TABLE ${sql.ident(nodeFn.tableName(this.schema))} (${sql.join(
       columnDefs,
       ', ',
     )})`.format(formatters[this.schema.storage.engine]).text;
+
+    return `-- STATEMENT
+    ${createTable};
+    ${this.getCreateIndexStatements()}
+    `;
+  }
+
+  private getCreateIndexStatements(): string {
+    const indexExt = this.schema.extensions.index;
+    if (indexExt == null) {
+      return '';
+    }
+
+    return indexExt.declarations
+      .map(
+        decl => `
+    -- STATEMENT
+    CREATE ${decl.type === 'unique' ? 'unique' : ''} INDEX IF NOT EXISTS
+        "${this.schema.name}_${decl.name}" ON "${nodeFn.tableName(this.schema)}"
+        (${decl.columns.map(c => `"${c}"`).join(', ')});`,
+      )
+      .join('\n');
   }
 
   private getPostgresString(): string {

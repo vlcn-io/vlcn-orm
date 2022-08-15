@@ -1,4 +1,12 @@
-import { Enum, Field, FieldDeclaration, ID, Import, SchemaNode } from '@aphro/schema-api';
+import {
+  Enum,
+  Field,
+  FieldDeclaration,
+  ID,
+  Import,
+  SchemaEdge,
+  SchemaNode,
+} from '@aphro/schema-api';
 import fieldFn from './field.js';
 
 const inboundEdges = {
@@ -66,5 +74,9 @@ export default {
 
   isRequiredField(node: SchemaNode, field: string): boolean {
     return !fieldFn.isNullable(node.fields[field]);
+  },
+
+  tableName(node: SchemaNode | SchemaEdge): string {
+    return node.name.toLowerCase();
   },
 };

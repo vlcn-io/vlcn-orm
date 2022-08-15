@@ -23,7 +23,7 @@ Aphro {
     | "" -- empty
   
   Node
-  	= name "as" ("Node" | "UnreplicatedEphemeralNode" | "UnreplicatedNode" | "EphemeralNode") NodeFields NodeFunctions
+  	= name "as" ("Node" | "UnmanagedNode") NodeFields NodeFunctions
   
   Edge
   	= name "as" "Edge" "<" name "," name ">" NodeFields EdgeFunctions
@@ -88,9 +88,10 @@ Aphro {
     | "uint64"
     | "string"
     | "null"
+    | "any"
   
   ArrayField
-  	= "Array" "<" FieldType ">"
+  	= "Array" "<" (FieldType | name) ">"
   
   MapField
   	= "Map" "<" NonCompositeFieldType "," FieldType ">"
