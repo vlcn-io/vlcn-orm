@@ -1,4 +1,5 @@
--- SIGNED-SOURCE: <3d927e1b406f7d1872b68f5d55ca37f0>
+-- SIGNED-SOURCE: <535495a449a77496759a5e3cb925a61a>
+-- STATEMENT
 CREATE TABLE
   "employee" (
     "id",
@@ -17,4 +18,4 @@ CREATE TABLE
     "fax",
     "email",
     PRIMARY KEY ("id")
-  )
+  );

@@ -1,3 +1,4 @@
--- SIGNED-SOURCE: <e8f99ad6f852290ea4e6cb0674251066>
+-- SIGNED-SOURCE: <7613eb8a38668e66459092953ed5448e>
+-- STATEMENT
 CREATE TABLE
-  "playlist" ("id", "name", PRIMARY KEY ("id"))
+  "playlist" ("id", "name", PRIMARY KEY ("id"));

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <8d0ee6ccbb98a66399de7ed8fca50878>
+// SIGNED-SOURCE: <2521c499931acb9b7393ff94504d228c>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -15,8 +15,8 @@ import { Node } from "@aphro/runtime-ts";
 import { NodeSpecWithCreate } from "@aphro/runtime-ts";
 import { SID_of } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
-import Deck from "../Deck.js";
 import Identity from "../Identity.js";
+import Deck from "../Deck.js";
 import Component from "../Component.js";
 import AppStateMutations from "./AppStateMutations.js";
 import { InstancedMutations } from "./AppStateMutations.js";

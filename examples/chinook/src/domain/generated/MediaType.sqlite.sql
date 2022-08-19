@@ -1,3 +1,4 @@
--- SIGNED-SOURCE: <af91931d4051a1f5616662538f497d4d>
+-- SIGNED-SOURCE: <64370081725ed7c957d4f20cd1be4dfa>
+-- STATEMENT
 CREATE TABLE
-  "mediatype" ("id", "name", PRIMARY KEY ("id"))
+  "mediatype" ("id", "name", PRIMARY KEY ("id"));

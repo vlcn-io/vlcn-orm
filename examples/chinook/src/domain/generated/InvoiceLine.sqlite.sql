@@ -1,4 +1,5 @@
--- SIGNED-SOURCE: <51d087c1f4d8970aa0d8c7d860db2884>
+-- SIGNED-SOURCE: <02482512fc99368115f9f924b4eba544>
+-- STATEMENT
 CREATE TABLE
   "invoiceline" (
     "id",
@@ -7,4 +8,4 @@ CREATE TABLE
     "unitPrice",
     "quantity",
     PRIMARY KEY ("id")
-  )
+  );

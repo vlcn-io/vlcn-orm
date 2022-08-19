@@ -1,4 +1,5 @@
--- SIGNED-SOURCE: <27a6ff0588d4a73fa4b29f8d85a86796>
+-- SIGNED-SOURCE: <449399a4163603a3f090d30400cdde91>
+-- STATEMENT
 CREATE TABLE
   "component" (
     "id"
@@ -14,4 +15,4 @@ CREATE TABLE
     /* n=4 */
 ,
     PRIMARY KEY ("id")
-  )
+  );

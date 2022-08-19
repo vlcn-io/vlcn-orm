@@ -1,4 +1,5 @@
--- SIGNED-SOURCE: <c49c968b9ca146e3b878461a4105ac3b>
+-- SIGNED-SOURCE: <ccd91ab8fe97f4a9aa8473100bd401c7>
+-- STATEMENT
 CREATE TABLE
   "customer" (
     "id",
@@ -15,4 +16,4 @@ CREATE TABLE
     "email",
     "supportRepId",
     PRIMARY KEY ("id")
-  )
+  );

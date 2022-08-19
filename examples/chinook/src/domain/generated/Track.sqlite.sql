@@ -1,4 +1,5 @@
--- SIGNED-SOURCE: <ff878f51149877fa4be507fb7a20276e>
+-- SIGNED-SOURCE: <56a5fdb7cb3182a7603af79842cf5563>
+-- STATEMENT
 CREATE TABLE
   "track" (
     "id",
@@ -11,4 +12,4 @@ CREATE TABLE
     "bytes",
     "unitPrice",
     PRIMARY KEY ("id")
-  )
+  );

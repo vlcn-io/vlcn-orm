@@ -1,4 +1,5 @@
--- SIGNED-SOURCE: <f0d668bc45b373e737e22015173d70c3>
+-- SIGNED-SOURCE: <fd5da1fd1806e18f959dc90d14f10a89>
+-- STATEMENT
 CREATE TABLE
   "user" (
     "id"
@@ -14,4 +15,4 @@ CREATE TABLE
     /* n=4 */
 ,
     PRIMARY KEY ("id")
-  )
+  );

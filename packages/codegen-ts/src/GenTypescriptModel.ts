@@ -9,6 +9,10 @@ import {
   ID,
   Import,
   SchemaNode,
+  RemoveNameField,
+  Field,
+  FieldDeclaration,
+  TypeAtom,
 } from '@aphro/schema-api';
 import { nodeFn, edgeFn, tsImport, fieldFn } from '@aphro/schema';
 import * as path from 'path';
@@ -175,7 +179,7 @@ export default abstract class ${this.schema.name}Base
       tsImport('{Context}', null, '@aphro/runtime-ts'),
       ...(this.schema.type === 'node' ? this.schema.extensions.module?.imports.values() || [] : []),
       ...this.getEdgeImports(),
-      ...this.getIdFieldImports(),
+      // ...this.getIdFieldImports(),
       ...this.getNestedTypeImports(),
       ...this.getMutationsImports(),
     ].filter(i => i.name !== this.schema.name + 'Base');
@@ -192,34 +196,41 @@ export default abstract class ${this.schema.name}Base
     ];
   }
 
-  private getIdFieldImports(): Import[] {
-    const idFields = Object.values(this.schema.fields)
-      .flatMap(f => f.type)
-      .filter((f): f is ID => typeof f !== 'string' && f.type === 'id' && f.of !== 'any');
-
-    return idFields.map(f => tsImport(f.of, null, '../' + f.of + '.js'));
-  }
-
   private getNestedTypeImports(): Import[] {
     const typeFields = Object.values(this.schema.fields)
-      .flatMap(f =>
-        f.type.map(t => {
-          if (typeof t === 'string') {
-            return t;
-          }
-
-          // TODO: technically we need to recurse into array and map structures to pull imports
-          if (t.type === 'array' || t.type === 'map') {
-            if (typeof t.values === 'string') {
-              return t.values;
-            }
-          }
-        }),
-      )
+      .flatMap(f => this.getFieldTypeImports(f.type))
       .filter((f): f is string => f != null);
 
     return typeFields.map(f => tsImport(f, null, '../' + f + '.js'));
   }
+
+  private getFieldTypeImports = (type: TypeAtom[]): (string | undefined)[] => {
+    return type.flatMap(t => {
+      if (typeof t === 'string') {
+        return t;
+      }
+
+      if (t.type === 'intersection' || t.type === 'union') {
+        return;
+      }
+
+      return this.getFieldImports(t);
+    });
+  };
+
+  private getFieldImports = (field: RemoveNameField<Field>): string | undefined => {
+    if (field.type === 'array' || field.type === 'map') {
+      if (typeof field.values === 'string') {
+        return field.values;
+      } else {
+        return this.getFieldImports(field.values);
+      }
+    }
+
+    if (field.type === 'id' && field.of != 'any') {
+      return field.of;
+    }
+  };
 
   private getEdgeImports(): Import[] {
     if (this.schema.type === 'standaloneEdge') {

@@ -1,4 +1,5 @@
--- SIGNED-SOURCE: <65d968502500c818963a29568a300105>
+-- SIGNED-SOURCE: <c6cef64d4e54ec0e0bf1f3da02481b91>
+-- STATEMENT
 CREATE TABLE
   "invoice" (
     "id",
@@ -11,4 +12,4 @@ CREATE TABLE
     "billingPostalCode",
     "total",
     PRIMARY KEY ("id")
-  )
+  );

@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <3ab2103daa82e72019f061ab53eccc09>
+// SIGNED-SOURCE: <f516bbf163594ea60f33e79aa65bbec4>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -19,8 +19,10 @@ import { Context } from "@aphro/runtime-ts";
 import TrackQuery from "./TrackQuery.js";
 import Track from "../Track.js";
 import GenreMutations from "./GenreMutations.js";
+import { InstancedMutations } from "./GenreMutations.js";
 
 declare type Muts = typeof GenreMutations;
+declare type IMuts = InstancedMutations;
 
 export type Data = {
   id: SID_of<Genre>;
@@ -33,6 +35,10 @@ export default abstract class GenreBase extends Node<Data> {
 
   static get mutations(): Muts {
     return GenreMutations;
+  }
+
+  get mutations(): IMuts {
+    return new InstancedMutations(this as any);
   }
 
   get id(): SID_of<this> {

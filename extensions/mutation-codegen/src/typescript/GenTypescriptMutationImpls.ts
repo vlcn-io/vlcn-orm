@@ -86,7 +86,7 @@ ${this.getCode([])}
       m.verb !== 'create' ? `model: ${this.schema.name}, ` : ''
     }mutator: Omit<IMutationBuilder<${
       this.schema.name
-    }, Data>, 'toChangeset'>, ${destructured}: ${casedName}Args): void | Changeset<any>[] {
+    }, Data>, 'toChangeset'>, ${destructured}: ${casedName}Args): void | Changeset<any, any>[] {
       // Use the provided mutator to make your desired changes.
       // e.g., mutator.set({name: "Foo" });
       // You do not need to return anything from this method. The mutator will track your changes.

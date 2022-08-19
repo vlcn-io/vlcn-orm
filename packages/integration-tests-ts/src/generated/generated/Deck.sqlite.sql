@@ -1,4 +1,5 @@
--- SIGNED-SOURCE: <d35e9509aaccaea4b5de42513ab35b5b>
+-- SIGNED-SOURCE: <f95eb040bf46ca1ff546cec50c107860>
+-- STATEMENT
 CREATE TABLE
   "deck" (
     "id"
@@ -20,4 +21,4 @@ CREATE TABLE
     /* n=6 */
 ,
     PRIMARY KEY ("id")
-  )
+  );

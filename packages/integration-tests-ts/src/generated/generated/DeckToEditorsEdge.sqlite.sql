@@ -1,4 +1,5 @@
--- SIGNED-SOURCE: <d01bddc2f692e5860ea79a7da27544a7>
+-- SIGNED-SOURCE: <32b04384b4ccc0c3c158b42c2674b3d1>
+-- STATEMENT
 CREATE TABLE
   "decktoeditorsedge" (
     "id1"
@@ -6,4 +7,4 @@ CREATE TABLE
 ,
     "id2"
     /* n=2 */
-  )
+  );

@@ -1,4 +1,5 @@
--- SIGNED-SOURCE: <5143a057023c75364d91c99229504534>
+-- SIGNED-SOURCE: <d8d3c2a5b7f28162a053e65a3d483546>
+-- STATEMENT
 CREATE TABLE
   "slide" (
     "id"
@@ -11,4 +12,4 @@ CREATE TABLE
     /* n=3 */
 ,
     PRIMARY KEY ("id")
-  )
+  );

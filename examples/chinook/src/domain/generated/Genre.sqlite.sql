@@ -1,3 +1,4 @@
--- SIGNED-SOURCE: <fe5516da3fa9d92f47d414a3cf484b80>
+-- SIGNED-SOURCE: <6659dc39c2f0fd6b8ced999a310befbf>
+-- STATEMENT
 CREATE TABLE
-  "genre" ("id", "name", PRIMARY KEY ("id"))
+  "genre" ("id", "name", PRIMARY KEY ("id"));

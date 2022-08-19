@@ -6,13 +6,9 @@
 - Absurd SQL debug extension (e.g., inspect tables)
 
 # API Problems
-- mutations... defined mutations exist as methods on the model?
-- just basic `update`, `create` and `delete` to not require mutations defined on schema
-- `update` / etc. can have `cs` variants that return a cs rather than immediately saving
-- `cs` and `optimistic` variants so you don't have to deal with a returned tuple
-- Enable sets (not just maps or arrays)
+- Simplify context and bootstrapping
+- Another pass at simplifying mutations
 - readonly enumerations of arrays...
-- Using mutations within mutations and gathering all changesets together while still allowing chaining
 - Reading already queried edges
   - Sync if it is fulfilled? Still async but have a query cache?
 - Device ids in context?
@@ -28,13 +24,8 @@
       - Sub to the whole thing I suppose.
     - All model props are getters so you could technically understand what props a function against that model uses.
     - Maybe we go `solidjs` first?
-- Auto-build of schemas?
-  - Better working of partially generated files and auto-completed imports..
 - Use `infer` keyword more to reduce number of generics required
   - See the commit that added this line
-- Access to model in mutator for updates
-- Default to always applying an order by id if no ordering exists -- stable results.
-- map, union, intersect, filter, etc. on QueryBase
 - generated ids are not being converted to hex representations and ints on storage?
 - Support edge queries?? RN we just traverse edges rather than allowing returning of edge data (if it exists).
 - typename and package scoped id suffix for caching? E.g., if someone wants auto-incr (not globally unique) primary keys
@@ -67,13 +58,8 @@
 - Ordering of properties on reads and writes (values statement write the right cols, returned rows map to right json keys)
 - Migration error messages
 - @databases, postgres
-- Auto-create IDs for create mutations
-- Mutations in mutations
 - Circular reference support in mutations
-- Codegen and imports ... and maybe using traits to get rid of manual sections / partially generated files
-- "unable to find manual section for ..."
 - Instrumentation tasks
-- Allow index constraints!
 - Allow docstrings for fields and node and edges!
 - Test for cache population on read & write (createFrom was not doing so)
 - - id of imports for mutation args

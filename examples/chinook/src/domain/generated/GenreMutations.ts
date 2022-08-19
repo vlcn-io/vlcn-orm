@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <134bfff0df3204f7f03f17ae3e7037a4>
+// SIGNED-SOURCE: <6e0dfbf4ea2be93c6e076f35814d269f>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -7,7 +7,7 @@ import * as impls from "../GenreMutationsImpl.js";
 import { ICreateOrUpdateBuilder } from "@aphro/runtime-ts";
 import { Context } from "@aphro/runtime-ts";
 import { MutationsBase } from "@aphro/runtime-ts";
-import type Genre from "../Genre.js";
+import Genre from "../Genre.js";
 import { default as spec } from "./GenreSpec.js";
 import { Data } from "./GenreBase.js";
 import { UpdateMutationBuilder } from "@aphro/runtime-ts";
@@ -41,17 +41,24 @@ class Mutations extends MutationsBase<Genre, Data> {
   }
 }
 
-export default {
+const staticMutations = {
   create(ctx: Context, args: CreateArgs): Mutations {
     return new Mutations(ctx, new CreateMutationBuilder(ctx, spec)).create(
       args
     );
   },
-  rename(model: Genre, args: RenameArgs): Mutations {
-    return new Mutations(
-      model.ctx,
-      new UpdateMutationBuilder(model.ctx, spec, model),
-      model
-    ).rename(args);
-  },
 };
+
+export default staticMutations;
+
+export class InstancedMutations {
+  constructor(private model: Genre) {}
+
+  rename(args: RenameArgs): Mutations {
+    return new Mutations(
+      this.model.ctx,
+      new UpdateMutationBuilder(this.model.ctx, spec, this.model),
+      this.model
+    ).rename(args);
+  }
+}

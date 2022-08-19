@@ -1,3 +1,4 @@
--- SIGNED-SOURCE: <16e599a6f1358a9f51ffb025232f84b3>
+-- SIGNED-SOURCE: <aab7e42b60b9ceefb3f111f3652fca88>
+-- STATEMENT
 CREATE TABLE
-  "artist" ("id", "name", PRIMARY KEY ("id"))
+  "artist" ("id", "name", PRIMARY KEY ("id"));
