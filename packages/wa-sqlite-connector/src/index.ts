@@ -13,7 +13,7 @@ import { DBResolver, basicResolver } from '@aphro/runtime-ts';
  *
  * @returns DBResolver
  */
-export async function openDbAndCreateResolver(): Promise<DBResolver> {
-  const connection = await createConnection();
-  return basicResolver(connection);
+export async function openDbAndCreateResolver(dbName: string): Promise<DBResolver> {
+  const connection = await createConnection(dbName);
+  return basicResolver(dbName, connection);
 }

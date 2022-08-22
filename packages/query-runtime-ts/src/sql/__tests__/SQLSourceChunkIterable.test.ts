@@ -59,7 +59,7 @@ beforeEach(() => {
     dispose() {},
   };
 
-  ctx = context(anonymous(), basicResolver(db), cache);
+  ctx = context(anonymous(), basicResolver('test', db), cache);
 });
 
 test('does a direct load if possible and the thing is cached', async () => {

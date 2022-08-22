@@ -12,7 +12,13 @@ import tracer from '../tracer.js';
  * It starts sqlite and sets up a listener to listen
  * for query events from `connection.ts`.
  */
-async function init() {
+async function init(data: any) {
+  if (data.event !== 'init') {
+    console.error('Received non init message. Should be impossible.');
+    return;
+  }
+  self.removeEventListener('message', init);
+
   let SQL = await initSqlJs({
     locateFile: (file: string) => {
       return file;
@@ -25,7 +31,7 @@ async function init() {
   SQL.FS.mkdir('/sql');
   SQL.FS.mount(sqlFS, {}, '/sql');
 
-  let db = new SQL.Database('/sql/db.sqlite', { filename: true });
+  let db = new SQL.Database(`/sql/${data.dbName}.sqlite`, { filename: true });
   // see https://github.com/trong-orm/trong-orm/discussions/35 for more discussion
   // TODO: use default journal mode instead?
   db.exec(`
@@ -42,6 +48,10 @@ async function init() {
     event: 'ready',
   });
 }
+
+self.addEventListener('message', ({ data }) => {
+  tracer.genStartActiveSpan('worker.init', data);
+});
 
 function receiveMessage(db: any, data: any) {
   const { pkg, event, id, queryObj } = data;
@@ -103,5 +113,3 @@ function receiveMessage(db: any, data: any) {
     });
   }
 }
-
-await tracer.genStartActiveSpan('worker.init', init);

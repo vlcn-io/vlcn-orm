@@ -33,7 +33,7 @@ export default class Connection {
 
   readonly ready: Promise<boolean>;
 
-  constructor() {
+  constructor(dbName: string) {
     counter.bump('create');
     this.#worker = new Worker(new URL('../worker/worker.js', import.meta.url), { type: 'module' });
     initBackend(this.#worker);
@@ -51,6 +51,11 @@ export default class Connection {
         this.#worker.removeEventListener('message', setReady);
       };
       this.#worker.addEventListener('message', setReady);
+    });
+
+    this.#worker.postMessage({
+      event: 'init',
+      dbName,
     });
 
     this.#worker.addEventListener('message', m => {

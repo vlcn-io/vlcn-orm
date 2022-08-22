@@ -3,7 +3,7 @@ import { anonymous, basicResolver, MemoryDB, sid } from '@aphro/runtime-ts';
 import { context, Context } from '@aphro/runtime-ts';
 import TodoList from './generated/TodoList.js';
 
-export const ctx = context(anonymous(), basicResolver(new MemoryDB()));
+export const ctx = context(anonymous(), basicResolver('todomvc', new MemoryDB()));
 (window as any).TodoList = TodoList;
 (window as any).ctx = ctx;
 

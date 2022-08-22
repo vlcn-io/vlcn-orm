@@ -87,7 +87,7 @@ class Connection {
   }
 }
 
-export default async function createConnection(): Promise<Connection> {
+export default async function createConnection(dbName: string): Promise<Connection> {
   const module = await SQLiteAsyncESMFactory({
     locateFile(file: string) {
       return file;
@@ -97,7 +97,7 @@ export default async function createConnection(): Promise<Connection> {
   sqlite3.vfs_register(new IDBBatchAtomicVFS('idb-batch-atomic', { durability: 'relaxed' }));
 
   const db = await sqlite3.open_v2(
-    'music-store',
+    dbName,
     SQLite.SQLITE_OPEN_CREATE | SQLite.SQLITE_OPEN_READWRITE | SQLite.SQLITE_OPEN_URI,
     'idb-batch-atomic',
   );
