@@ -1,13 +1,16 @@
-import { Database } from 'sqlite3';
+// @ts-ignore -- @types/sqlite3 is all wrong when it comes to import structure.
+import sqlite3 from 'sqlite3';
 import { formatters, sql, SQLQuery, SQLResolvedDB } from '@aphro/runtime-ts';
 
+const Database = sqlite3.Database;
+
 export class Connection {
-  constructor(private db: Database) {}
+  constructor(private db: any /*Database*/) {}
 
   read(sql: SQLQuery): Promise<any> {
     const formatted = sql.format(formatters['sqlite']);
     return new Promise((resolve, reject) => {
-      this.db.all(formatted.text, formatted.values, (error, rows) => {
+      this.db.all(formatted.text, formatted.values, (error: any, rows: any) => {
         if (error != null) {
           reject(error);
         } else {
@@ -20,7 +23,7 @@ export class Connection {
   write(sql: SQLQuery): Promise<void> {
     const formatted = sql.format(formatters['sqlite']);
     return new Promise((resolve, reject) => {
-      this.db.run(formatted.text, formatted.values, error => {
+      this.db.run(formatted.text, formatted.values, (error: any) => {
         if (error != null) {
           reject(error);
         } else {
@@ -49,7 +52,7 @@ export class Connection {
 
 export function createConnection(file: string | null): Promise<Connection> {
   return new Promise((resolve, reject) => {
-    const db = new Database(file || ':memory:', e => {
+    const db = new Database(file || ':memory:', (e: any) => {
       if (e != null) {
         reject(e);
       } else {
