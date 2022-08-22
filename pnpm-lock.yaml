@@ -54,6 +54,25 @@ importers:
       ts-jest: 28.0.4_ppxpzp26on3nfwb7yosvsqarey
       typescript: 4.7.4
 
+  connectors/capacitor-sqlite-connector:
+    specifiers:
+      '@aphro/runtime-ts': workspace:*
+      '@babel/core': ^7.17.12
+      '@babel/preset-env': ^7.17.12
+      '@capacitor-community/sqlite': ^3.7.0
+      '@types/jest': ^27.4.1
+      jest: ^28.1.0
+      typescript: ^4.6.4
+    dependencies:
+      '@aphro/runtime-ts': link:../../packages/runtime-ts
+      '@capacitor-community/sqlite': 3.7.0
+    devDependencies:
+      '@babel/core': 7.18.9
+      '@babel/preset-env': 7.18.2_@babel+core@7.18.9
+      '@types/jest': 27.5.2
+      jest: 28.1.0
+      typescript: 4.7.4
+
   connectors/sqlite3-connector:
     specifiers:
       '@aphro/runtime-ts': workspace:*
@@ -2108,6 +2127,14 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
+  /@capacitor-community/sqlite/3.7.0:
+    resolution: {integrity: sha512-glwJI6u7ppOwgh3EEhQ6QUj0BdRg4tlmNllTB2mSTpzpFobwyFKrVRu2drGoCiKJZCu22UIs4jqCOtK3csqcDg==}
+    peerDependencies:
+      '@capacitor/core': ^3.0.0
+    dependencies:
+      jeep-sqlite: 1.5.5
+    dev: false
+
   /@changesets/apply-release-plan/6.0.4:
     resolution: {integrity: sha512-PutV/ymf8cZMqvaLe/Lh5cP3kBQ9FZl6oGQ3qRDxWD1ML+/uH3jrCE7S7Zw7IVSXkD0lnMD+1dAX7fsOJ6ZvgA==}
     dependencies:
@@ -2898,6 +2925,12 @@ packages:
       '@sinonjs/commons': 1.8.3
     dev: true
 
+  /@stencil/core/2.17.4:
+    resolution: {integrity: sha512-SGRlHpjV1RyFvzw6jFMVKpLNox9Eds3VvpbpD2SW9CuxdLonHDSFtQks5zmT4zs1Rse9I6kFc2mFK/dHNTalkg==}
+    engines: {node: '>=12.10.0', npm: '>=6.0.0'}
+    hasBin: true
+    dev: false
+
   /@strut/counter/0.0.11:
     resolution: {integrity: sha512-xakuLHb385I0t38vWpmqXTSVc+IlNRvWTU7xZ/WGuXtvJ8f7QzWDCwGJzTGPFx2i1tsCgRwl0lrT9hHyzFSs9A==}
     dependencies:
@@ -2999,6 +3032,10 @@ packages:
     dependencies:
       '@types/node': 17.0.31
     dev: true
+
+  /@types/emscripten/1.39.6:
+    resolution: {integrity: sha512-H90aoynNhhkQP6DRweEjJp5vfUVdIj7tdPLsu7pq89vODD/lcugKfZOsfgwpvM6XUewEp2N5dCg1Uf3Qe55Dcg==}
+    dev: false
 
   /@types/eslint-scope/3.7.4:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
@@ -3163,6 +3200,13 @@ packages:
     dependencies:
       '@types/node': 17.0.31
     dev: true
+
+  /@types/sql.js/1.4.3:
+    resolution: {integrity: sha512-3bz1LJIiJtKMEL8tYf7c9Nrb1lYcFeWQkE8vhWvobE29ZzizW79DtoTjqx1bR82DS2Ch2K30nOwNhuLclZ1vYg==}
+    dependencies:
+      '@types/emscripten': 1.39.6
+      '@types/node': 17.0.31
+    dev: false
 
   /@types/sqlite3/3.1.8:
     resolution: {integrity: sha512-sQMt/qnyUWnqiTcJXm5ZfNPIBeJ/DVvJDwxw+0tAxPJvadzfiP1QhryO1JOR6t1yfb8NpzQb/Rud06mob5laIA==}
@@ -5339,6 +5383,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /immediate/3.0.6:
+    resolution: {integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==}
+    dev: false
+
   /import-local/3.1.0:
     resolution: {integrity: sha512-ASB07uLtnDs1o6EHjKpX34BKYDSqnFerfTOJL2HvMqF70LnxpjkzDB8J44oT9pu4AMPkQwf8jl6szgvNd2tRIg==}
     engines: {node: '>=8'}
@@ -5646,6 +5694,16 @@ packages:
       istanbul-lib-report: 3.0.0
     dev: true
 
+  /jeep-sqlite/1.5.5:
+    resolution: {integrity: sha512-VTyczM4Q/OvFlIb7pybkbcvhEXPs9YFnWZa7F7uxlWI5dM5Wl1SevUuXPgjINppW1XvHYMBNKjVU5PUhTp94CA==}
+    dependencies:
+      '@stencil/core': 2.17.4
+      '@types/sql.js': 1.4.3
+      jszip: 3.10.1
+      localforage: 1.10.0
+      sql.js: 1.7.0
+    dev: false
+
   /jest-changed-files/28.0.2:
     resolution: {integrity: sha512-QX9u+5I2s54ZnGoMEjiM2WeBvJR2J7w/8ZUmH2um/WLAuGAYFQcsVXY9+1YL6k0H/AGUdH8pXUAv6erDqEsvIA==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
@@ -5693,13 +5751,13 @@ packages:
     dependencies:
       '@jest/core': 28.1.0
       '@jest/test-result': 28.1.0
-      '@jest/types': 28.1.0
+      '@jest/types': 28.1.1
       chalk: 4.1.2
       exit: 0.1.2
       graceful-fs: 4.2.10
       import-local: 3.1.0
       jest-config: 28.1.0
-      jest-util: 28.1.0
+      jest-util: 28.1.1
       jest-validate: 28.1.0
       prompts: 2.4.2
       yargs: 17.5.1
@@ -6228,6 +6286,15 @@ packages:
       graceful-fs: 4.2.10
     dev: true
 
+  /jszip/3.10.1:
+    resolution: {integrity: sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==}
+    dependencies:
+      lie: 3.3.0
+      pako: 1.0.11
+      readable-stream: 2.3.7
+      setimmediate: 1.0.5
+    dev: false
+
   /kind-of/6.0.3:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
@@ -6247,6 +6314,18 @@ packages:
     resolution: {integrity: sha512-qsda+H8jTaUaN/x5vzW2rzc+8Rw4TAQ/4KjB46IwK5VH+IlVeeeje/EoZRpiXvIqjFgK84QffqPztGI3VBLG1A==}
     engines: {node: '>=6'}
     dev: true
+
+  /lie/3.1.1:
+    resolution: {integrity: sha512-RiNhHysUjhrDQntfYSfY4MU24coXXdEOgw9WGcKHNeEwffDYbF//u87M1EWaMGzuFoSbqW0C9C6lEEhDOAswfw==}
+    dependencies:
+      immediate: 3.0.6
+    dev: false
+
+  /lie/3.3.0:
+    resolution: {integrity: sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ==}
+    dependencies:
+      immediate: 3.0.6
+    dev: false
 
   /lines-and-columns/1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
@@ -6275,6 +6354,12 @@ packages:
       emojis-list: 3.0.0
       json5: 2.2.1
     dev: true
+
+  /localforage/1.10.0:
+    resolution: {integrity: sha512-14/H1aX7hzBBmmh7sGPd+AOMkkIrHM3Z1PAyGgZigA1H1p5O5ANnMyWzvpAETtG68/dC4pC0ncy3+PPGzXZHPg==}
+    dependencies:
+      lie: 3.1.1
+    dev: false
 
   /locate-path/5.0.0:
     resolution: {integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==}
@@ -6946,6 +7031,10 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /pako/1.0.11:
+    resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
+    dev: false
+
   /param-case/3.0.4:
     resolution: {integrity: sha512-RXlj7zCYokReqWpOPH9oYivUzLYZ5vAPIfEmCTNViosC78F8F0H9y7T7gG2M39ymgutxF5gcFEsyZQSph9Bp3A==}
     dependencies:
@@ -7582,6 +7671,10 @@ packages:
   /set-blocking/2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
 
+  /setimmediate/1.0.5:
+    resolution: {integrity: sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==}
+    dev: false
+
   /setprototypeof/1.1.0:
     resolution: {integrity: sha512-BvE/TwpZX4FXExxOxZyRGQQv651MSwmWKZGqvmPcRIjDqWub67kTKuIMx43cZZrS/cBBzwBcNDWoFxt2XEFIpQ==}
     dev: true
@@ -7779,6 +7872,10 @@ packages:
     hasBin: true
     dependencies:
       argparse: 2.0.1
+    dev: false
+
+  /sql.js/1.7.0:
+    resolution: {integrity: sha512-qAfft3xkSgHqmmfNugWTp/59PsqIw8gbeao5TZmpmzQQsAJ49de3iDDKuxVixidYs6dkHNksY8m27v2dZNn2jw==}
     dev: false
 
   /sqlite3/4.2.0:
