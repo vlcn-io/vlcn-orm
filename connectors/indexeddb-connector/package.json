@@ -1,25 +1,21 @@
 {
-  "name": "@aphro/sqlite3-connector",
+  "name": "@aphro/indexeddb-connector",
   "version": "0.0.1",
   "main": "lib/index.js",
   "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/tantaman/aphrodite.git",
-    "directory": "packages/sqlite3-connector"
+    "directory": "packages/indexeddb-connector"
   },
   "dependencies": {
-    "@aphro/runtime-ts": "workspace:*",
-    "sqlite3": "^5.0.8"
+    "@aphro/runtime-ts": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.17.12",
     "@babel/preset-env": "^7.17.12",
     "@types/jest": "^27.4.1",
-    "@types/node": "^17.0.31",
-    "@types/sqlite3": "^3.1.8",
     "jest": "^28.1.0",
-    "ts-jest": "^28.0.1",
     "typescript": "^4.6.4"
   },
   "scripts": {

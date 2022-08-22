@@ -4,6 +4,7 @@ packages:
   - 'connectors/sqlite3-connector'
   - 'connectors/sqljs-connector'
   - 'connectors/wa-sqlite-connector'
+  - 'connectors/indexeddb-connector'
   - 'examples/monopoly'
   - 'examples/todo-mvc'
   - 'examples/chinook'
