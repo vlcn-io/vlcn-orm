@@ -31,6 +31,8 @@ class ConnectionPool {
   dispose(): void {}
 }
 
+// TODO: note -- connection pooling doesn't actually seem to improve perf on wa-sqlite.
+// queries still seem to be executed serially under the hood in the wasm build.
 export default async function createPool(dbName: string, size: number): Promise<SQLResolvedDB> {
   if (size < 2) {
     throw new Error('Connection pool must be size 2 or greater');
