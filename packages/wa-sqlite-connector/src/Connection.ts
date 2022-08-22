@@ -1,6 +1,6 @@
 import * as SQLite from 'wa-sqlite';
 // import { OriginPrivateFileSystemVFS } from 'wa-sqlite/src/examples/OriginPrivateFileSystemVFS.js';
-import { formatters, SQLQuery } from '@aphro/runtime-ts';
+import { formatters, sql, SQLQuery, SQLResolvedDB } from '@aphro/runtime-ts';
 import tracer from './trace.js';
 import { Span } from '@opentelemetry/api';
 import getSqliteApi from './sqliteInit.js';
@@ -10,7 +10,7 @@ export class Connection {
 
   constructor(private sqlite: SQLiteAPI, private db: number) {}
 
-  query(sql: SQLQuery): Promise<any> {
+  #query(sql: SQLQuery): Promise<any> {
     // TODO: unfortunately wa-sqlite has a bug where concurrent writes creates a deadlock.
     // Serialize all queries for the time being to prevent this.
     // TODO: file a bug report and/or fix it.
@@ -21,6 +21,26 @@ export class Connection {
     });
     this.queue = res.catch(() => {});
     return res;
+  }
+
+  read(sql: SQLQuery): Promise<any> {
+    return this.#query(sql);
+  }
+
+  write(sql: SQLQuery): Promise<any> {
+    return this.#query(sql);
+  }
+
+  async transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
+    await this.#query(sql`BEGIN`);
+    try {
+      const ret = await cb(this);
+      await this.#query(sql`COMMIT`);
+      return ret;
+    } catch (e) {
+      await this.#query(sql`ROLLBACK`);
+      throw e;
+    }
   }
 
   async #queryImpl(span: Span, sql: SQLQuery): Promise<any> {
