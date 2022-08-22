@@ -25,6 +25,14 @@ export default abstract class Model<T extends {}> implements IModel<T> {
     return () => this.subscriptions.delete(c);
   }
 
+  get numObservers(): number {
+    let keyedObservers = 0;
+    for (const o of this.keyedSubscriptions.values()) {
+      keyedObservers += o.size;
+    }
+    return this.subscriptions.size + keyedObservers;
+  }
+
   subscribeTo(keys: (keyof T)[], c: () => void): Disposer {
     keys.forEach(k => {
       let subs = this.keyedSubscriptions.get(k);
