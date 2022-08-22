@@ -1,13 +1,11 @@
-import SQLiteAsyncESMFactory from 'wa-sqlite/dist/wa-sqlite-async.mjs';
 import * as SQLite from 'wa-sqlite';
-// @ts-ignore
-import { IDBBatchAtomicVFS } from 'wa-sqlite/src/examples/IDBBatchAtomicVFS.js';
 // import { OriginPrivateFileSystemVFS } from 'wa-sqlite/src/examples/OriginPrivateFileSystemVFS.js';
 import { formatters, SQLQuery } from '@aphro/runtime-ts';
 import tracer from './trace.js';
 import { Span } from '@opentelemetry/api';
+import getSqliteApi from './sqliteInit.js';
 
-class Connection {
+export class Connection {
   private queue = Promise.resolve();
 
   constructor(private sqlite: SQLiteAPI, private db: number) {}
@@ -88,14 +86,7 @@ class Connection {
 }
 
 export default async function createConnection(dbName: string): Promise<Connection> {
-  const module = await SQLiteAsyncESMFactory({
-    locateFile(file: string) {
-      return file;
-    },
-  });
-  const sqlite3 = SQLite.Factory(module);
-  sqlite3.vfs_register(new IDBBatchAtomicVFS('idb-batch-atomic', { durability: 'relaxed' }));
-
+  const sqlite3 = await getSqliteApi();
   const db = await sqlite3.open_v2(
     dbName,
     SQLite.SQLITE_OPEN_CREATE | SQLite.SQLITE_OPEN_READWRITE | SQLite.SQLITE_OPEN_URI,
