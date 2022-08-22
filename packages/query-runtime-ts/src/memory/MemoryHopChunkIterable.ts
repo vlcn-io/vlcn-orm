@@ -26,7 +26,7 @@ export default class MemoryHopChunkIterable<
       // jx edge -> root on jx table followed by roots on final dest
       switch (this.edge.type) {
         case 'field':
-          yield await db.query({
+          yield await db.read({
             type: 'read',
             tablish: this.edge.dest.storage.tablish,
             // @ts-ignore
@@ -35,7 +35,7 @@ export default class MemoryHopChunkIterable<
           break;
         case 'foreignKey':
           // TODO: memoize this given you're re-reading all on every chunk
-          const all = await db.query({
+          const all = await db.read({
             type: 'read',
             tablish: this.edge.dest.storage.tablish,
           });

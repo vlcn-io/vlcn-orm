@@ -25,6 +25,6 @@ export default class MemorySourceChunkIterable<
     const resolvedDb = this.ctx.dbResolver
       .engine(this.spec.storage.engine)
       .db(this.spec.storage.db) as MemoryResolvedDB;
-    yield await resolvedDb.query(this.query);
+    yield await resolvedDb.read(this.query);
   }
 }
