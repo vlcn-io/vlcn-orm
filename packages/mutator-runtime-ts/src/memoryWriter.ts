@@ -5,7 +5,7 @@ export default {
     const first = nodes[0];
     const spec = first.spec;
 
-    await (db as MemoryResolvedDB).query({
+    await (db as MemoryResolvedDB).write({
       type: 'write',
       op: 'upsert',
       models: nodes,
@@ -17,7 +17,7 @@ export default {
     const first = nodes[0];
     const spec = first.spec;
 
-    await (db as MemoryResolvedDB).query({
+    await (db as MemoryResolvedDB).write({
       type: 'write',
       op: 'delete',
       models: nodes,

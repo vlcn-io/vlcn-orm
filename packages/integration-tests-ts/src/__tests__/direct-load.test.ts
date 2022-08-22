@@ -18,8 +18,8 @@ test('direct loads', async () => {
   // point queries for loaded users are resolved from the cache
   await ctx.dbResolver
     .engine('sqlite')
-    .db('text')
-    .query(sql`DROP TABLE ${sql.ident(UserSpec.storage.tablish)}`);
+    .db('test')
+    .write(sql`DROP TABLE ${sql.ident(UserSpec.storage.tablish)}`);
 
   // make sure the table is gone and we cannot query from it
   let threw = false;

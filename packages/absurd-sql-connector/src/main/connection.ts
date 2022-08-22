@@ -2,7 +2,7 @@ import count from '@strut/counter';
 import thisPackage from '../pkg.js';
 // @ts-ignore -- no type on imported pkg
 import { initBackend } from '@aphro/absurd-sql/dist/indexeddb-main-thread.js';
-import { formatters, SQLQuery } from '@aphro/runtime-ts';
+import { formatters, sql, SQLQuery, SQLResolvedDB } from '@aphro/runtime-ts';
 import tracer from '../tracer.js';
 
 let queryId = 0;
@@ -63,7 +63,20 @@ export default class Connection {
     });
   }
 
-  query(sql: SQLQuery): Promise<any> {
+  read(sql: SQLQuery): Promise<any[]> {
+    return this.#query(sql);
+  }
+
+  write(sql: SQLQuery): Promise<any> {
+    return this.#query(sql);
+  }
+
+  async transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
+    // TODO: we should ship a transaction message to the worker!
+    throw new Error('absurd-sql transactions not yet implemented!');
+  }
+
+  #query(sql: SQLQuery): Promise<any> {
     return tracer.genStartActiveSpan('connection.query', () => {
       counter.bump('query');
       const id = queryId++;

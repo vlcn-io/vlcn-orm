@@ -1,4 +1,4 @@
-import { SQLQuery, SQLResolvedDB } from '@aphro/runtime-ts';
+import { sql, SQLQuery, SQLResolvedDB } from '@aphro/runtime-ts';
 import createConnection, { Connection } from './Connection';
 
 class ConnectionPool {
@@ -15,10 +15,22 @@ class ConnectionPool {
     this.#readConnections = connections.slice(1);
   }
 
-  query(q: SQLQuery): Promise<any[]> {
+  read(q: SQLQuery): Promise<any[]> {
     // round robin selection
     // TODO: we need to differentiate reads and writes
     throw new Error('not implemented exception');
+  }
+
+  write(q: SQLQuery): Promise<void> {
+    throw new Error('not implemented');
+  }
+
+  async transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
+    // pick a connection then do transaction work
+    // pick a read or write conn? :|
+    // transactional writes are most likely.
+    // why need a transactional read?
+    throw new Error();
   }
 
   dispose(): void {}

@@ -9,9 +9,28 @@ import {
   setDifference,
 } from '../autoMigrate.js';
 import connect from '@databases/sqlite';
-import { sql } from '@aphro/sql-ts';
+import { sql, SQLQuery } from '@aphro/sql-ts';
+import { SQLResolvedDB } from '@aphro/context-runtime-ts';
 
-const memdb = connect();
+const conn = connect();
+
+const memdb = {
+  read(sql: SQLQuery) {
+    return conn.query(sql);
+  },
+
+  async write(sql: SQLQuery) {
+    conn.query(sql);
+  },
+
+  async transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
+    throw new Error();
+  },
+
+  dispose() {
+    conn.dispose();
+  },
+};
 
 const case1 = `-- SIGNED-SOURCE: <6a9f5ec3f74b7ffcb57f08b381c4fc29>
 CREATE TABLE
@@ -55,7 +74,7 @@ test('extract table name', () => {
 });
 
 test('get old sql', async () => {
-  await memdb.query(sql`CREATE TABLE foo (a)`);
+  await memdb.read(sql`CREATE TABLE foo (a)`);
   const s = await getOldSql(memdb, 'foo');
   expect(s).toBe('CREATE TABLE foo (a)');
 });

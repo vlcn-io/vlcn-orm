@@ -16,7 +16,6 @@
   "devDependencies": {
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
-    "@databases/sqlite": "^3.0.0",
     "@types/jest": "^27.4.1",
     "@types/prettier": "^2.6.0",
     "@typescript-eslint/typescript-estree": "^5.22.0",
