@@ -11,6 +11,7 @@
   "dependencies": {
     "@aphro/context-runtime-ts": "workspace:*",
     "@aphro/sql-ts": "workspace:*",
+    "@databases/sqlite": "^3.0.0",
     "@strut/utils": "^0.1.1"
   },
   "devDependencies": {

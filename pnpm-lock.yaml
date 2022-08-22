@@ -632,6 +632,7 @@ importers:
       '@aphro/sql-ts': workspace:*
       '@babel/core': ^7.17.10
       '@babel/preset-env': ^7.17.10
+      '@databases/sqlite': ^3.0.0
       '@strut/utils': ^0.1.1
       '@types/jest': ^27.4.1
       '@types/prettier': ^2.6.0
@@ -645,6 +646,7 @@ importers:
     dependencies:
       '@aphro/context-runtime-ts': link:../context-runtime-ts
       '@aphro/sql-ts': link:../sql-ts
+      '@databases/sqlite': 3.0.0
       '@strut/utils': 0.1.1
     devDependencies:
       '@babel/core': 7.18.9
