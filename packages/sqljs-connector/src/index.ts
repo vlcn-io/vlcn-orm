@@ -1,4 +1,4 @@
-import { DBResolver, basicResolver } from '@aphro/runtime-ts';
+import { DBResolver, basicResolver, SQLResolvedDB, sql } from '@aphro/runtime-ts';
 import { formatters, SQLQuery } from '@aphro/runtime-ts';
 // @ts-ignore
 import initSqlJs from '@aphro/sql.js';
@@ -15,7 +15,7 @@ import initSqlJs from '@aphro/sql.js';
  *
  * @returns DBResolver
  */
-export async function openDbAndCreateResolver(file?: string): Promise<DBResolver> {
+export async function openDbAndCreateResolver(db: string, file?: string): Promise<DBResolver> {
   const sqlPromise = initSqlJs({
     locateFile: (file: string) => {
       return 'https://esm.sh/@aphro/sql.js/dist/sql-wasm.wasm';
@@ -28,15 +28,35 @@ export async function openDbAndCreateResolver(file?: string): Promise<DBResolver
   const [SQL, buf] = await Promise.all([sqlPromise, dataPromise]);
 
   if (buf != null) {
-    return basicResolver(new Connection(new SQL.Database(new Uint8Array(buf))));
+    return basicResolver(db, new Connection(new SQL.Database(new Uint8Array(buf))));
   }
-  return basicResolver(new Connection(new SQL.Database()));
+  return basicResolver(db, new Connection(new SQL.Database()));
 }
 
 export class Connection {
   constructor(private db: any) {}
 
-  async query(sql: SQLQuery): Promise<any[]> {
+  read(sql: SQLQuery): Promise<any[]> {
+    return this.#query(sql);
+  }
+
+  write(sql: SQLQuery): Promise<any> {
+    return this.#query(sql);
+  }
+
+  async transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
+    await this.#query(sql`BEGIN`);
+    try {
+      const ret = await cb(this);
+      await this.#query(sql`COMMIT`);
+      return ret;
+    } catch (e) {
+      await this.#query(sql`ROLLBACK`);
+      throw e;
+    }
+  }
+
+  async #query(sql: SQLQuery): Promise<any[]> {
     const db = this.db;
     const formatted = sql.format(formatters['sqlite']);
 
