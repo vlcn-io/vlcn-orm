@@ -10,7 +10,7 @@ test('debug context intercepts and prints all calls to the db', () => {
   expect(db).not.toBeUndefined();
 
   console.log = jest.fn();
-  db.query({
+  db.read({
     type: 'read',
     tablish: 'foo',
     roots: [],

@@ -55,7 +55,7 @@ export default {
     // TODO: generic on `spec` so we know we're SQL here?
     // console.log(query);
     // console.log(nodes.map(n => Object.values(n._d())));
-    await (db as SQLResolvedDB).query(
+    await (db as SQLResolvedDB).write(
       query,
       // nodes.flatMap(n => Object.values(n._d())),
     );
@@ -76,7 +76,7 @@ export default {
       ', ',
     )})`;
 
-    await (db as SQLResolvedDB).query(query);
+    await (db as SQLResolvedDB).write(query);
   },
 
   async createTables(): Promise<void> {},

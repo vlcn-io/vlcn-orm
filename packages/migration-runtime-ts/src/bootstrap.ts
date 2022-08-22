@@ -145,7 +145,7 @@ async function createForDB(
           .split('-- STATEMENT\n')
           .map(s => s.trim())
           .filter(s => s != '' && !s.startsWith('-- SIGNED-SOURCE'));
-        await Promise.all(statements.map(s => db.query(sql.__dangerous__rawValue(s))));
+        await Promise.all(statements.map(s => db.write(sql.__dangerous__rawValue(s))));
       } catch (e) {
         throw {
           cause: e,

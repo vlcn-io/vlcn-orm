@@ -42,11 +42,10 @@ export async function autoMigrate(migrationTasks: MigrationTask[]) {
 
 async function migrateAllTasksForDB(db: SQLResolvedDB, tasks: MigrationTask[]) {
   try {
-    await db.query(sql`BEGIN`);
-    await Promise.all(tasks.map(migrateOne));
-    await db.query(sql`COMMIT`);
+    await db.transact(async (conn: SQLResolvedDB) => {
+      await Promise.all(tasks.map(task => migrateOne(conn, task)));
+    });
   } catch (e) {
-    await db.query(sql`ROLLBACK`);
     throw {
       cause: e,
       message: 'Failed to commit the migration. Rolling it back. ' + (e as any)?.message,
@@ -57,9 +56,8 @@ async function migrateAllTasksForDB(db: SQLResolvedDB, tasks: MigrationTask[]) {
 // TODO: once you add index support you need to add index migration support.
 // How will / should we detect dropped indices?
 // Well we can find them via `where type = index and name = table name`
-async function migrateOne(task: MigrationTask) {
+async function migrateOne(db: SQLResolvedDB, task: MigrationTask) {
   const newSql = task.sql.replaceAll('\n', '');
-  const db = task.db;
 
   const tableName = extractTableName(newSql);
   const oldSql = (await getOldSql(db, tableName)).replaceAll('\n', '');
@@ -84,7 +82,7 @@ async function migrateOne(task: MigrationTask) {
     console.log(`table ${tableName} did not change`);
   }
 
-  await Promise.all(alterTableStatements.map(stmt => db.query(stmt)));
+  await Promise.all(alterTableStatements.map(stmt => db.write(stmt)));
 }
 
 export function extractTableName(sql: string): string {
@@ -98,7 +96,7 @@ export function extractTableName(sql: string): string {
 export async function getOldSql(db: SQLResolvedDB, tableName: string): Promise<string> {
   // Note -- `sqlite_schema` is the proper name but is not accessible in some environments
   // whereas `sqlite_master` is. I wonder if the opposite is ever true.
-  const rows = await db.query(
+  const rows = await db.read(
     sql`SELECT sql FROM main.sqlite_master WHERE name = ${tableName} AND type = 'table'`,
   );
   if (rows.length < 1) {

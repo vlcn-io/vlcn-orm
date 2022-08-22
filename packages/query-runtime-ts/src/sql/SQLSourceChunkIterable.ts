@@ -53,7 +53,7 @@ export default class SQLSourceChunkIterable<T extends IModel<Object>> extends Ba
     }
 
     const sql = specAndOpsToQuery(this.spec, this.hoistedOperations);
-    yield await resolvedDb.query(sql);
+    yield await resolvedDb.read(sql);
   }
 
   /**

@@ -52,8 +52,12 @@ beforeEach(() => {
   cache = new Cache();
 
   db = {
-    async query(q: SQLQuery): Promise<any[]> {
+    async read(q: SQLQuery): Promise<any[]> {
       return data;
+    },
+    async write(q: SQLQuery): Promise<void> {},
+    async transact<T>(cb: () => Promise<T>) {
+      return await cb();
     },
 
     dispose() {},
@@ -74,7 +78,7 @@ test('does a direct load if possible and the thing is cached', async () => {
   expect(cache.get(id, spec.storage.db, spec.storage.tablish)).toEqual(null);
   cache.set(id, m, spec.storage.db, spec.storage.tablish);
 
-  const dbResult = await db.query(sql``);
+  const dbResult = await db.read(sql``);
 
   // Model should not have ended up in the db. If it did that could hide bugs we're testing for
   // as the query would fall back to db and still get a result.
