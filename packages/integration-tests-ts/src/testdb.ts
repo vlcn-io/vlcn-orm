@@ -1,20 +1,19 @@
-import { nullthrows } from '@strut/utils';
-import { basicResolver, DBResolver, MemoryDB, SQLQuery } from '@aphro/runtime-ts';
-import connect from '@databases/sqlite';
+import { DBResolver, MemoryDB, SQLResolvedDB } from '@aphro/runtime-ts';
+import { createConnection } from '@aphro/sqlite3-connector';
 
 function sqlDb() {
-  return connect();
+  return createConnection(null);
 }
 
 function memDb() {
   return new MemoryDB();
 }
 
-let sqlConnection: ReturnType<typeof sqlDb> | null = null;
+let sqlConnection: SQLResolvedDB | null = null;
 let memoryConnection: ReturnType<typeof memDb> | null = null;
-function createResolver(): DBResolver {
+async function createResolver(): Promise<DBResolver> {
   if (sqlConnection == null) {
-    sqlConnection = sqlDb();
+    sqlConnection = await sqlDb();
   }
   if (memoryConnection == null) {
     memoryConnection = memDb();
@@ -42,4 +41,4 @@ function createResolver(): DBResolver {
   };
 }
 
-export const resolver = createResolver();
+export const resolver = await createResolver();

@@ -11,9 +11,8 @@
   },
   "dependencies": {
     "@aphro/runtime-ts": "workspace:*",
-    "@databases/sqlite": "^3.0.0",
-    "@strut/utils": "^0.1.1",
-    "sqlite3": "^5.0.8"
+    "@aphro/sqlite3-connector": "workspace:*",
+    "@strut/utils": "^0.1.1"
   },
   "devDependencies": {
     "@aphro/codegen-cli": "workspace:*",

@@ -1,6 +1,7 @@
 import { DBResolver } from '@aphro/runtime-ts';
 import { basicResolver } from '@aphro/runtime-ts';
 import { createConnection } from './Connection.js';
+export { createConnection } from './Connection.js';
 
 /**
  * Convenience function to create a connection to absurd-sql and return
