@@ -26,23 +26,24 @@ Foo as Node {
 test('sqlite & basic schema', async () => {
   const schema = compileIt(basicSchema);
   const file = await genIt(schema);
-  expect(file.contents).toEqual(`-- SIGNED-SOURCE: <f0ac4ada01711765757b23e2f3815630>
+  expect(file.contents).toEqual(`-- SIGNED-SOURCE: <0e6c49915e3079d3e14291d4fdf5e542>
+-- STATEMENT
 CREATE TABLE
   "foo" (
-    "id" bigint NOT NULL,
-    "i32" int NOT NULL,
-    "ui32" int NOT NULL,
-    "i64" bigint NOT NULL,
-    "ui64" unsinged big int NOT NULL,
-    "f32" float NOT NULL,
-    "f64" double NOT NULL,
-    "string" text NOT NULL,
-    "bool" boolean NOT NULL,
-    "enum" varchar(255) NOT NULL,
-    "timestamp" bigint NOT NULL,
-    "lang" text NOT NULL,
-    primary key ("id")
-  )`);
+    "id",
+    "i32",
+    "ui32",
+    "i64",
+    "ui64",
+    "f32",
+    "f64",
+    "string",
+    "bool",
+    "enum",
+    "timestamp",
+    "lang",
+    PRIMARY KEY ("id")
+  );`);
 });
 
 async function genIt(schema: SchemaNode) {
