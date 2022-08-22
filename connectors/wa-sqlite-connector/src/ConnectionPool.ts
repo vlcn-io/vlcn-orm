@@ -16,21 +16,16 @@ class ConnectionPool {
   }
 
   read(q: SQLQuery): Promise<any[]> {
-    // round robin selection
-    // TODO: we need to differentiate reads and writes
-    throw new Error('not implemented exception');
+    const conn = this.#readConnections[Math.floor(Math.random() * this.#readConnections.length)];
+    return conn.read(q);
   }
 
   write(q: SQLQuery): Promise<void> {
-    throw new Error('not implemented');
+    return this.#writeConnection.write(q);
   }
 
   async transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
-    // pick a connection then do transaction work
-    // pick a read or write conn? :|
-    // transactional writes are most likely.
-    // why need a transactional read?
-    throw new Error();
+    return this.#writeConnection.transact(cb);
   }
 
   dispose(): void {}

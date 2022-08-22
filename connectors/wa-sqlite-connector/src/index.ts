@@ -1,5 +1,6 @@
 import createConnection from './connection.js';
 import { DBResolver, basicResolver } from '@aphro/runtime-ts';
+import createPool from './ConnectionPool.js';
 
 /**
  * Convenience function to create a connection to absurd-sql and return
@@ -13,7 +14,15 @@ import { DBResolver, basicResolver } from '@aphro/runtime-ts';
  *
  * @returns DBResolver
  */
-export async function openDbAndCreateResolver(dbName: string): Promise<DBResolver> {
-  const connection = await createConnection(dbName);
-  return basicResolver(dbName, connection);
+export async function openDbAndCreateResolver(
+  dbName: string,
+  poolSize: number = 5,
+): Promise<DBResolver> {
+  if (poolSize < 2) {
+    const connection = await createConnection(dbName);
+    return basicResolver(dbName, connection);
+  } else {
+    const pool = await createPool(dbName, poolSize);
+    return basicResolver(dbName, pool);
+  }
 }
