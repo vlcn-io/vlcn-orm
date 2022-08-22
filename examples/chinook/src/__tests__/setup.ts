@@ -8,5 +8,5 @@ const __dirname = path.dirname(__filename);
 
 export default function setup() {
   const db = connect(__dirname + '/../../db/chinook.sqlite');
-  return context(anonymous(), basicResolver(db));
+  return context(anonymous(), basicResolver('chinook', db));
 }
