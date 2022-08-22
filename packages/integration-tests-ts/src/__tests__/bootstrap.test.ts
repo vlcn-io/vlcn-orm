@@ -1,5 +1,5 @@
 import { resolver } from '../testdb.js';
-import sqlFiles from '../generated/generated/exports-node-sql.js';
+import sqlFiles from '../domain/generated/exports-node-sql.js';
 import { bootstrap, sql } from '@aphro/runtime-ts';
 
 // test('creating tables that do not exist', async () => {

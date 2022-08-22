@@ -1,7 +1,7 @@
 import { context, Context, viewer, Cache, asId, commit, P } from '@aphro/runtime-ts';
 import { destroyDb, initDb } from './testBase.js';
-import UserMutations from '../generated/generated/UserMutations';
-import User from '../generated/User.js';
+import UserMutations from '../domain/generated/UserMutations';
+import User from '../domain/User.js';
 
 let ctx: Context;
 const cache = new Cache();

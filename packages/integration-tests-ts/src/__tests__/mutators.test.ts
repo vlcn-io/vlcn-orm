@@ -10,10 +10,10 @@ import {
   SID_of,
   P,
 } from '@aphro/runtime-ts';
-import spec from '../generated/generated/UserSpec.js';
+import spec from '../domain/generated/UserSpec.js';
 import { destroyDb, initDb } from './testBase.js';
-import UserQuery from '../generated/generated/UserQuery.js';
-import Foo from '../generated/Foo.js';
+import UserQuery from '../domain/generated/UserQuery.js';
+import Foo from '../domain/Foo.js';
 const device = 'aaaa';
 
 let ctx: Context;

@@ -10,11 +10,11 @@ import {
   sql,
 } from '@aphro/runtime-ts';
 import { destroyDb, initDb } from './testBase.js';
-import UserMutations from '../generated/generated//UserMutations';
-import User from '../generated/User.js';
-import DeckMutations from '../generated/generated/DeckMutations.js';
-import DeckToEditorsEdgeMutations from '../generated/generated/DeckToEditorsEdgeMutations.js';
-import Deck from '../generated/Deck.js';
+import UserMutations from '../domain/generated/UserMutations';
+import User from '../domain/User.js';
+import DeckMutations from '../domain/generated/DeckMutations.js';
+import DeckToEditorsEdgeMutations from '../domain/generated/DeckToEditorsEdgeMutations.js';
+import Deck from '../domain/Deck.js';
 
 // TODO: figure out how we can migrate all this to property based test (e.g., fast check)
 // e.g., apply all predicates

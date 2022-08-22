@@ -30,8 +30,8 @@
     "build": "tsc --build",
     "watch": "tsc --build -w",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
-    "aphro": "aphro gen src/schema/domain.aphro -d src/generated && aphro gen src/schema/in-memory.aphro -d src/generated-memory && pnpm copy",
-    "copy": "cp src/generated/generated/*.sql lib/generated/generated",
+    "aphro": "aphro gen src/schema/domain.aphro -d src/domain && aphro gen src/schema/in-memory.aphro -d src/domain-memory && pnpm copy",
+    "copy": "cp src/domain/generated/*.sql lib/domain/generated",
     "deep-clean": "rm -rf ./lib || true && rm tsconfig.tsbuildinfo || true"
   },
   "jest": {

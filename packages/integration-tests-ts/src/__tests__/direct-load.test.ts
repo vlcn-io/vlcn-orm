@@ -1,6 +1,6 @@
 import { asId, Context, context, P, sql, viewer } from '@aphro/runtime-ts';
-import User from '../generated/User.js';
-import UserSpec from '../generated/generated/UserSpec.js';
+import User from '../domain/User.js';
+import UserSpec from '../domain/generated/UserSpec.js';
 import createGraph from './createGraph.js';
 import { destroyDb, initDb } from './testBase.js';
 

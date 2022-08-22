@@ -1,15 +1,15 @@
 import { context, Context, viewer, Cache, asId, commit, P } from '@aphro/runtime-ts';
 import { destroyDb, initDb } from './testBase.js';
-import UserMutations from '../generated/generated/UserMutations';
-import User from '../generated/User.js';
-import DeckMutations from '../generated/generated/DeckMutations.js';
-import SlideMutations from '../generated/generated/SlideMutations.js';
-import ComponentMutations from '../generated/generated//ComponentMutations.js';
-import { default as UserMem } from '../generated-memory/User.js';
-import { default as UserMutationsMem } from '../generated-memory/generated//UserMutations.js';
-import { default as DeckMutationsMem } from '../generated-memory/generated//DeckMutations.js';
-import { default as SlideMutationsMem } from '../generated-memory/generated//SlideMutations.js';
-import { default as ComponentMutationsMem } from '../generated-memory/generated//ComponentMutations.js';
+import UserMutations from '../domain/generated/UserMutations';
+import User from '../domain/User.js';
+import DeckMutations from '../domain/generated/DeckMutations.js';
+import SlideMutations from '../domain/generated/SlideMutations.js';
+import ComponentMutations from '../domain/generated/ComponentMutations.js';
+import { default as UserMem } from '../domain-memory/User.js';
+import { default as UserMutationsMem } from '../domain-memory/generated/UserMutations.js';
+import { default as DeckMutationsMem } from '../domain-memory/generated/DeckMutations.js';
+import { default as SlideMutationsMem } from '../domain-memory/generated/SlideMutations.js';
+import { default as ComponentMutationsMem } from '../domain-memory/generated/ComponentMutations.js';
 
 let ctx: Context;
 const cache = new Cache();
