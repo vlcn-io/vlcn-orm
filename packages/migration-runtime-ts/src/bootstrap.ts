@@ -29,7 +29,6 @@ export const bootstrap = {
         }
         // sqlite errorno is 1.. which seems oddly unspecific.
         // using message contents -_-
-        console.log(s.reason.cause);
         if (s.reason.cause.message.indexOf('already exists') !== -1) {
           return;
         }
