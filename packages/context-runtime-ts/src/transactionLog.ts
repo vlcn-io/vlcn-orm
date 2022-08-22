@@ -1,10 +1,10 @@
 import Observable from '@strut/events';
 import { Transaction } from './transaction.js';
 
-type Node = {
-  transaction: Transaction;
-  next?: Node;
-  prev?: Node;
+type Node<T> = {
+  transaction: T;
+  next?: Node<T>;
+  prev?: Node<T>;
 };
 
 class WeaklyObservable<T extends Object> {
@@ -21,6 +21,10 @@ class WeaklyObservable<T extends Object> {
 
     // allow people to aggressively clean themselves up
     return () => this._subscriptions.delete(ref);
+  }
+
+  get numObservers(): number {
+    return this._subscriptions.size;
   }
 
   /**
@@ -47,10 +51,10 @@ class WeaklyObservable<T extends Object> {
   }
 }
 
-export default class TransactionLog extends WeaklyObservable<Transaction> {
-  private lastTransaction?: Node;
-  private firstTransaction?: Node;
-  private length: number = 0;
+export class GenericTransactionLog<T> extends WeaklyObservable<T> {
+  private lastTransaction?: Node<T>;
+  private firstTransaction?: Node<T>;
+  #length: number = 0;
 
   constructor(private capacity: number) {
     super();
@@ -64,8 +68,8 @@ export default class TransactionLog extends WeaklyObservable<Transaction> {
     return this.lastTransaction?.next != null;
   }
 
-  push(tx: Transaction) {
-    ++this.length;
+  push(tx: T) {
+    ++this.#length;
     if (this.lastTransaction == null) {
       this.lastTransaction = this.firstTransaction = { transaction: tx };
     } else {
@@ -81,9 +85,15 @@ export default class TransactionLog extends WeaklyObservable<Transaction> {
     if (this.length > this.capacity) {
       // The type system doesn't realize that length != 0 then firstTx != null
       this.firstTransaction = this.firstTransaction?.next;
-      --this.length;
+      --this.#length;
     }
 
     this.notify(tx);
   }
+
+  get length() {
+    return this.#length;
+  }
 }
+
+export default class TransactionLog extends GenericTransactionLog<Transaction> {}
