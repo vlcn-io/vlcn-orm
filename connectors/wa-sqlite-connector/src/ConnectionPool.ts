@@ -1,6 +1,9 @@
 import { sql, SQLQuery, SQLResolvedDB } from '@aphro/runtime-ts';
 import createConnection, { Connection } from './Connection';
 
+// we should remove the connection pool for wa-sqlite
+// could be useful in other environments, however.
+// https://github.com/rhashimoto/wa-sqlite/discussions/52
 class ConnectionPool {
   type = 'sql';
   #writeConnection: Connection;

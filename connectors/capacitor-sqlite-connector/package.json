@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@aphro/runtime-ts": "workspace:*",
-    "@capacitor-community/sqlite": "^3.7.0"
+    "@awesome-cordova-plugins/sqlite": "^5.44.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.12",

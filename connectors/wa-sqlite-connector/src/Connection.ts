@@ -32,6 +32,9 @@ export class Connection {
   }
 
   async transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
+    // This is technically wrong due to possibility of interleaving statements at different event loop ticks
+    // take a mutex approach. e.g.,
+    // https://github.com/ForbesLindesay/atdatabases/blob/master/packages/sqlite/src/index.ts#L119-L120
     await this.#query(sql`BEGIN`);
     try {
       const ret = await cb(this);
