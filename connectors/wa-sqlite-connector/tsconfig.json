@@ -6,5 +6,5 @@
     "allowSyntheticDefaultImports": true
   },
   "include": ["./src/"],
-  "references": [{ "path": "../runtime-ts" }, { "path": "../instrument" }]
+  "references": [{ "path": "../../packages/runtime-ts" }, { "path": "../../packages/instrument" }]
 }

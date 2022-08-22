@@ -6,8 +6,9 @@
   },
   "include": ["./src/"],
   "references": [
-    { "path": "../packages/absurd-sql-connector" },
-    { "path": "../packages/sqljs-connector" },
+    { "path": "../connectors/absurd-sql-connector" },
+    { "path": "../connectors/sqljs-connector" },
+    { "path": "../connectors/sqlite3-connector" },
     { "path": "../packages/codegen" },
     { "path": "../packages/codegen-api" },
     { "path": "../packages/codegen-cli" },
@@ -24,7 +25,7 @@
     { "path": "../extensions/mutation-grammar" },
     { "path": "../extensions/graphql-grammar" },
     { "path": "../extensions/graphql-codegen" },
-    { "path": "../packages/wa-sqlite-connector" },
+    { "path": "../connectors/wa-sqlite-connector" },
     { "path": "../packages/instrument" }
   ]
 }
