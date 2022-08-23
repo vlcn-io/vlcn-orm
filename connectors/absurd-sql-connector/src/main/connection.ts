@@ -4,15 +4,12 @@ import thisPackage from '../pkg.js';
 import { initBackend } from '@aphro/absurd-sql/dist/indexeddb-main-thread.js';
 import { formatters, sql, SQLQuery, SQLResolvedDB } from '@aphro/runtime-ts';
 import tracer from '../tracer.js';
+import Mutex from './Mutex.js';
 
 let queryId = 0;
 
 const counter = count('@aphro/absurd-sql/Connection');
 
-// TODO: how should we handle db locks?
-// Throw to user land?
-// Place into queue on catch?
-// Always queue? -- this'll impact reads that could be parallel
 /**
  * Absurd-sql runs in a web-worker. I.e., outside the main thread of the browser.
  *
@@ -32,6 +29,9 @@ export default class Connection {
   }[] = [];
 
   readonly ready: Promise<boolean>;
+  // TODO: test this mutex approach vs dedicated tx connection approach taken in other
+  // connectors.
+  private readonly _mutex = new Mutex();
 
   constructor(dbName: string) {
     counter.bump('create');
@@ -72,40 +72,52 @@ export default class Connection {
   }
 
   async transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
-    // TODO: we should ship a transaction message to the worker!
-    throw new Error('absurd-sql transactions not yet implemented!');
+    return this._mutex.writeLock(async () => {
+      await this.#query(sql`BEGIN`, false);
+      try {
+        const result = await cb(this.#createLocklessConnectionForTransaction());
+        await this.#query(sql`COMMIT`, false);
+        return result;
+      } catch (ex) {
+        await this.#query(sql`ROLLBACK`, false);
+
+        throw ex;
+      }
+    });
   }
 
-  #query(sql: SQLQuery): Promise<any> {
+  /**
+   * The mutex we hold and create in this class is specifically for ensuring statements unrelated to a
+   * transaction do not get inserted into the transaction due to microtasks getting inserted between
+   * awaits.
+   *
+   * As such, we can return a lockloess connection once we're inside of a transaction since, inside the transaction,
+   * we hold the lock.
+   * @returns
+   */
+  #createLocklessConnectionForTransaction() {
+    return {
+      type: 'sql',
+      read: (sql: SQLQuery) => {
+        return this.#query(sql, false);
+      },
+      write: (sql: SQLQuery) => {
+        return this.#query(sql, false);
+      },
+      transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
+        throw new Error('Nested transactions are not yet supported for absurd-sql.');
+      },
+      dispose() {
+        throw new Error(
+          'You should not dispose a connection from within a transaction. Dispose the top level connection object.',
+        );
+      },
+    };
+  }
+
+  #query(sql: SQLQuery, acquireLock: boolean = true): Promise<any> {
     return tracer.genStartActiveSpan('connection.query', () => {
-      counter.bump('query');
-      const id = queryId++;
-
-      let resolvePending: (v: unknown) => void;
-      let rejectPending: (reason?: any) => void;
-      const promise = new Promise((resolve, reject) => {
-        resolvePending = resolve;
-        rejectPending = reject;
-      });
-
-      this.#pending.push({
-        id,
-        // @ts-ignore -- assigned in promise construction cb
-        resolve: resolvePending,
-        // @ts-ignore -- assigned in promise construction cb
-        reject: rejectPending,
-      });
-
-      const formatted = sql.format(formatters['sqlite']);
-
-      this.#worker.postMessage({
-        pkg: thisPackage,
-        event: 'query',
-        queryObj: { sql: formatted.text, bindings: formatted.values },
-        id,
-      });
-
-      return promise;
+      return this.runQuery(sql, acquireLock ? fn => this._mutex.readLock(fn) : fn => fn());
     });
   }
 
@@ -142,5 +154,38 @@ export default class Connection {
   dispose() {
     counter.bump('destroy');
     this.#worker.removeEventListener('message', this.#messageListener);
+  }
+
+  private runQuery(sql: SQLQuery, lock: <T>(fn: () => Promise<T>) => Promise<T>) {
+    return lock(() => {
+      counter.bump('query');
+      const id = queryId++;
+
+      let resolvePending: (v: unknown) => void;
+      let rejectPending: (reason?: any) => void;
+      const promise = new Promise((resolve, reject) => {
+        resolvePending = resolve;
+        rejectPending = reject;
+      });
+
+      this.#pending.push({
+        id,
+        // @ts-ignore -- assigned in promise construction cb
+        resolve: resolvePending,
+        // @ts-ignore -- assigned in promise construction cb
+        reject: rejectPending,
+      });
+
+      const formatted = sql.format(formatters['sqlite']);
+
+      this.#worker.postMessage({
+        pkg: thisPackage,
+        event: 'query',
+        queryObj: { sql: formatted.text, bindings: formatted.values },
+        id,
+      });
+
+      return promise;
+    });
   }
 }

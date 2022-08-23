@@ -50,7 +50,7 @@ async function init(data: any) {
 }
 
 self.addEventListener('message', ({ data }) => {
-  tracer.genStartActiveSpan('worker.init', data);
+  tracer.genStartActiveSpan('worker.init', () => init(data));
 });
 
 function receiveMessage(db: any, data: any) {

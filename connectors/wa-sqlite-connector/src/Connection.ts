@@ -32,6 +32,22 @@ export class Connection {
     return this.#query(sql);
   }
 
+  /**
+   * `transact` is expected to be called from the connection pool.
+   *
+   * Connection shouldn't be used by itself.
+   *
+   * The reason is so we can prevent interleaving of statements.
+   *
+   * E.g., if someone starts a transaction and awaits a statement in that transaction
+   * we could end up with other statements from other events (unrelated to the tx) getting
+   * into the tx.
+   *
+   * The connection pool and `txQueue` prevent this by creating a dedicated connection
+   * for transactions.
+   * @param cb
+   * @returns
+   */
   async transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
     const res = this.txQueue.then(() => {
       return tracer.genStartActiveSpan('connection.transact', async (span: Span) => {

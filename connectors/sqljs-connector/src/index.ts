@@ -1,7 +1,7 @@
 import { DBResolver, basicResolver, SQLResolvedDB, sql } from '@aphro/runtime-ts';
-import { formatters, SQLQuery } from '@aphro/runtime-ts';
 // @ts-ignore
 import initSqlJs from '@aphro/sql.js';
+import { Connection, createConnection } from './Connection.js';
 
 /**
  * Convenience function to create a connection to absurd-sql and return
@@ -29,63 +29,5 @@ export async function openDbAndCreateResolver(
     dataPromise = fetch(file).then(res => res.arrayBuffer());
   }
   const [SQL, buf] = await Promise.all([sqlPromise, dataPromise]);
-
-  if (buf != null) {
-    return basicResolver(dbName, new Connection(new SQL.Database(new Uint8Array(buf))));
-  }
-  return basicResolver(dbName, new Connection(new SQL.Database()));
-}
-
-export class Connection {
-  constructor(private db: any) {}
-
-  read(sql: SQLQuery): Promise<any[]> {
-    return this.#query(sql);
-  }
-
-  write(sql: SQLQuery): Promise<any> {
-    return this.#query(sql);
-  }
-
-  // TODO: fix this up. This is technically wrong since the statements
-  // could interleave with unrelated statements
-  async transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
-    await this.#query(sql`BEGIN`);
-    try {
-      const ret = await cb(this);
-      await this.#query(sql`COMMIT`);
-      return ret;
-    } catch (e) {
-      await this.#query(sql`ROLLBACK`);
-      throw e;
-    }
-  }
-
-  async #query(sql: SQLQuery): Promise<any[]> {
-    const db = this.db;
-    const formatted = sql.format(formatters['sqlite']);
-
-    if (formatted.values) {
-      let stmt;
-      let rows: any[] = [];
-      try {
-        stmt = db.prepare(formatted.text);
-        stmt.bind(formatted.values);
-        while (stmt.step()) rows.push(stmt.getAsObject());
-      } finally {
-        if (stmt != null) {
-          stmt.free();
-        }
-      }
-
-      return rows;
-    }
-
-    const ret = db.exec(formatted.text);
-    return [ret];
-  }
-
-  dispose(): void {
-    this.db.close();
-  }
+  return basicResolver(dbName, createConnection(SQL, buf));
 }
