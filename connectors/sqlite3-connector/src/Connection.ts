@@ -5,7 +5,16 @@ import { formatters, sql, SQLQuery, SQLResolvedDB } from '@aphro/runtime-ts';
 const Database = sqlite3.Database;
 
 export class Connection {
+  private txQueue: Promise<any> = Promise.resolve();
+
   constructor(private db: any /*Database*/) {}
+
+  /**
+   * How can we ensure that no other statements run while we're inside the transaction?
+   * - We don't want random non-tx reads to show up
+   * - We don't want random non-tx writes
+   * - We don't want a new tx starting
+   */
 
   read(sql: SQLQuery): Promise<any> {
     const formatted = sql.format(formatters['sqlite']);
@@ -34,18 +43,19 @@ export class Connection {
   }
 
   async transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
-    // This is technically wrong due to possibility of interleaving statements at different event loop ticks
-    // take a mutex approach. e.g.,
-    // https://github.com/ForbesLindesay/atdatabases/blob/master/packages/sqlite/src/index.ts#L119-L120
-    await this.write(sql`BEGIN`);
-    try {
-      const ret = await cb(this);
-      await this.write(sql`COMMIT`);
-      return ret;
-    } catch (e) {
-      await this.write(sql`ROLLBACK`);
-      throw e;
-    }
+    const res = this.txQueue.then(async () => {
+      await this.write(sql`BEGIN`);
+      try {
+        const ret = await cb(this);
+        await this.write(sql`COMMIT`);
+        return ret;
+      } catch (e) {
+        await this.write(sql`ROLLBACK`);
+        throw e;
+      }
+    });
+    this.txQueue = res.catch(() => {});
+    return res;
   }
 
   dispose(): void {

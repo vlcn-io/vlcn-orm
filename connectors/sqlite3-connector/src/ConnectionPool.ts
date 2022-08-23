@@ -1,9 +1,6 @@
-import { sql, SQLQuery, SQLResolvedDB } from '@aphro/runtime-ts';
-import createConnection, { Connection } from './Connection';
+import { SQLQuery, SQLResolvedDB } from '@aphro/runtime-ts';
+import { Connection, createConnection } from './Connection';
 
-// we should remove the connection pool for wa-sqlite
-// could be useful in other environments, however.
-// https://github.com/rhashimoto/wa-sqlite/discussions/52
 class ConnectionPool {
   type = 'sql';
   #writeConnection: Connection;
@@ -36,12 +33,8 @@ class ConnectionPool {
   }
 }
 
-// We create a pool so we can have a dedicated thread for transactions
-// rather than implementing and managing mutexes in JS
-export default async function createPool(dbName: string): Promise<SQLResolvedDB> {
-  const connectons = await Promise.all(
-    Array.from({ length: 3 }).map(_ => createConnection(dbName)),
-  );
+export default async function createPool(file: string | null): Promise<SQLResolvedDB> {
+  const connectons = await Promise.all(Array.from({ length: 3 }).map(_ => createConnection(file)));
 
   return new ConnectionPool(connectons);
 }

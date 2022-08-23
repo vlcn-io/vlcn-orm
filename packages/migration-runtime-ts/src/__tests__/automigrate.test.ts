@@ -74,7 +74,7 @@ test('extract table name', () => {
 });
 
 test('get old sql', async () => {
-  await memdb.read(sql`CREATE TABLE foo (a)`);
+  await memdb.write(sql`CREATE TABLE foo (a)`);
   const s = await getOldSql(memdb, 'foo');
   expect(s).toBe('CREATE TABLE foo (a)');
 });

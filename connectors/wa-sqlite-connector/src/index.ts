@@ -14,17 +14,7 @@ import createPool from './ConnectionPool.js';
  *
  * @returns DBResolver
  */
-export async function openDbAndCreateResolver(
-  dbName: string,
-  // set pool to 1 since pooling connections doesn't seem to do anything in wa-sqlite
-  poolSize: number = 1,
-): Promise<DBResolver> {
-  if (poolSize < 2) {
-    const connection = await createConnection(dbName);
-    return basicResolver(dbName, connection);
-  } else {
-    console.warn('connection pooling does not seem to work in wa-sqlite');
-    const pool = await createPool(dbName, poolSize);
-    return basicResolver(dbName, pool);
-  }
+export async function openDbAndCreateResolver(dbName: string): Promise<DBResolver> {
+  const pool = await createPool(dbName);
+  return basicResolver(dbName, pool);
 }

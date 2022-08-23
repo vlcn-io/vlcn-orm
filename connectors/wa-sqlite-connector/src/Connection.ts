@@ -7,6 +7,7 @@ import getSqliteApi from './sqliteInit.js';
 
 export class Connection {
   private queue = Promise.resolve();
+  private txQueue: Promise<any> = Promise.resolve();
 
   constructor(private sqlite: SQLiteAPI, private db: number) {}
 
@@ -32,18 +33,21 @@ export class Connection {
   }
 
   async transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
-    // This is technically wrong due to possibility of interleaving statements at different event loop ticks
-    // take a mutex approach. e.g.,
-    // https://github.com/ForbesLindesay/atdatabases/blob/master/packages/sqlite/src/index.ts#L119-L120
-    await this.#query(sql`BEGIN`);
-    try {
-      const ret = await cb(this);
-      await this.#query(sql`COMMIT`);
-      return ret;
-    } catch (e) {
-      await this.#query(sql`ROLLBACK`);
-      throw e;
-    }
+    const res = this.txQueue.then(() => {
+      return tracer.genStartActiveSpan('connection.transact', async (span: Span) => {
+        await this.#query(sql`BEGIN`);
+        try {
+          const ret = await cb(this);
+          await this.#query(sql`COMMIT`);
+          return ret;
+        } catch (e) {
+          await this.#query(sql`ROLLBACK`);
+          throw e;
+        }
+      });
+    });
+    this.txQueue = res.catch(() => {});
+    return res;
   }
 
   async #queryImpl(span: Span, sql: SQLQuery): Promise<any> {

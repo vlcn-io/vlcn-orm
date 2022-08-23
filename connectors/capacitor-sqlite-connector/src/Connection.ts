@@ -37,10 +37,10 @@ class Connection {
   }
 }
 
-export default async function createConnection(dbName: string) {
+export default async function createConnection(dbName: string, location: string | null) {
   const db = await SQLite.create({
     name: dbName,
-    location: 'default',
+    location,
   });
 
   return new Connection(db);

@@ -47,6 +47,8 @@ export class Connection {
     return this.#query(sql);
   }
 
+  // TODO: fix this up. This is technically wrong since the statements
+  // could interleave with unrelated statements
   async transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
     await this.#query(sql`BEGIN`);
     try {
