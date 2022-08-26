@@ -1,4 +1,3 @@
-import createConnection from './connection.js';
 import { DBResolver, basicResolver } from '@aphro/runtime-ts';
 import createPool from './ConnectionPool.js';
 
