@@ -5,20 +5,16 @@ import memoryWriter from './memoryWriter.js';
 import sqlWriter from './sql/sqlWriter.js';
 
 export default {
-  async startTransaction(db: ResolvedDB) {},
-  async commitTransaction(db: ResolvedDB) {},
-  async rollbackTransaction(db: ResolvedDB) {},
   // TODO: the common case is probably updating a single node
   // for a single engine. Should we optimize for that path instead?
-  async upsertBatch(db: ResolvedDB, nodes: IterableIterator<IModel<Object>>): Promise<void> {
-    await Promise.all(createAwaitables(db, nodes, sqlWriter.upsertGroup, memoryWriter.upsertGroup));
+  upsertBatch(db: ResolvedDB, nodes: IterableIterator<IModel<Object>>): Promise<any> {
+    return Promise.all(
+      createAwaitables(db, nodes, sqlWriter.upsertGroup, memoryWriter.upsertGroup),
+    );
   },
 
-  async deleteBatch(
-    db: ResolvedDB,
-    deletes: DeleteChangeset<IModel<Object>, Object>[],
-  ): Promise<void> {
-    await Promise.all(
+  deleteBatch(db: ResolvedDB, deletes: DeleteChangeset<IModel<Object>, Object>[]): Promise<any> {
+    return Promise.all(
       createAwaitables(
         db,
         (function* () {

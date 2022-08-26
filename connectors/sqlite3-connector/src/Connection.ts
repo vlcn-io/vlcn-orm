@@ -42,7 +42,7 @@ export class Connection {
     });
   }
 
-  async transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
+  transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
     const res = this.txQueue.then(async () => {
       await this.write(sql`BEGIN`);
       try {

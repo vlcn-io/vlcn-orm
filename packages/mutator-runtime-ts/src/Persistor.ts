@@ -37,20 +37,10 @@ export default class Persistor {
     collectedCreatesOrUpdates: Map<SID_of<IModel>, IModel>,
   ) {
     return tracer.genStartActiveSpan('Persistor.writeToDB', async span => {
-      await writer.startTransaction(db);
-      try {
-        // we need to disaggregate by db here.
-        // so we can do tx per db.
-        const ret = await Promise.all([
-          writer.deleteBatch(db, collectedDeletes),
-          writer.upsertBatch(db, collectedCreatesOrUpdates.values()),
-        ]);
-        await writer.commitTransaction(db);
-        return ret;
-      } catch (e) {
-        await writer.rollbackTransaction(db);
-        throw e;
-      }
+      return await Promise.all([
+        writer.deleteBatch(db, collectedDeletes),
+        writer.upsertBatch(db, collectedCreatesOrUpdates.values()),
+      ]);
     });
   }
 
