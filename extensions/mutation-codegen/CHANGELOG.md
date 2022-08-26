@@ -1,5 +1,19 @@
 # @aphro/mutation-codegen
 
+## 0.4.2
+
+### Patch Changes
+
+- transaction support
+- Updated dependencies
+  - @aphro/mutation-grammar@0.3.1
+  - @aphro/codegen@0.2.7
+  - @aphro/codegen-api@0.2.5
+  - @aphro/codegen-ts@0.4.1
+  - @aphro/parse-ts@0.2.5
+  - @aphro/schema@0.3.1
+  - @aphro/schema-api@0.2.5
+
 ## 0.4.1
 
 ### Patch Changes

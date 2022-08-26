@@ -1,5 +1,13 @@
 # @aphro/sqljs-connector
 
+## 0.3.1
+
+### Patch Changes
+
+- transaction support
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.7
+
 ## 0.3.0
 
 ### Minor Changes

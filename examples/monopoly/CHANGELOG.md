@@ -1,5 +1,13 @@
 # @aphro/monopoly
 
+## 1.2.7
+
+### Patch Changes
+
+- transaction support
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.7
+
 ## 1.2.6
 
 ### Patch Changes

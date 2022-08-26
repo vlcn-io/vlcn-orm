@@ -1,5 +1,14 @@
 # @aphro/migration-runtime-ts
 
+## 0.1.6
+
+### Patch Changes
+
+- transaction support
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.3.5
+  - @aphro/sql-ts@0.2.5
+
 ## 0.1.5
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @aphro/mutator-runtime-ts
 
+## 0.4.1
+
+### Patch Changes
+
+- transaction support
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.3.5
+  - @aphro/instrument@0.0.5
+  - @aphro/model-runtime-ts@0.2.5
+  - @aphro/schema-api@0.2.5
+  - @aphro/sql-ts@0.2.5
+
 ## 0.4.0
 
 ### Minor Changes

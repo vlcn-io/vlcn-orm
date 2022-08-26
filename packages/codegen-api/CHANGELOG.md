@@ -1,5 +1,13 @@
 # @aphro/codegen-api
 
+## 0.2.5
+
+### Patch Changes
+
+- transaction support
+- Updated dependencies
+  - @aphro/schema-api@0.2.5
+
 ## 0.2.4
 
 ### Patch Changes

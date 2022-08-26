@@ -1,5 +1,14 @@
 # @aphro/integration-tests-ts
 
+## 0.4.2
+
+### Patch Changes
+
+- transaction support
+- Updated dependencies
+  - @aphro/sqlite3-connector@0.3.1
+  - @aphro/runtime-ts@0.3.7
+
 ## 0.4.1
 
 ### Patch Changes

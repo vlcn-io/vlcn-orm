@@ -1,5 +1,13 @@
 # @aphro/react
 
+## 1.2.2
+
+### Patch Changes
+
+- transaction support
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.7
+
 ## 1.2.1
 
 ### Patch Changes
