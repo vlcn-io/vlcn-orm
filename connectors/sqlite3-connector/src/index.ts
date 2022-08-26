@@ -1,7 +1,6 @@
 import { DBResolver } from '@aphro/runtime-ts';
 import { basicResolver } from '@aphro/runtime-ts';
 import { createConnection } from './Connection.js';
-import createPool from './ConnectionPool.js';
 export { createConnection } from './Connection.js';
 
 /**
@@ -20,6 +19,6 @@ export async function openDbAndCreateResolver(
   dbName: string,
   file: string | null,
 ): Promise<DBResolver> {
-  const pool = await createPool(file);
-  return basicResolver(dbName, pool);
+  const conn = await createConnection(file);
+  return basicResolver(dbName, conn);
 }
