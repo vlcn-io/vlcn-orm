@@ -36,10 +36,12 @@ export default class Persistor {
     collectedCreatesOrUpdates: Map<SID_of<IModel>, IModel>,
   ) {
     return tracer.genStartActiveSpan('Persistor.writeToDB', span => {
+      // return db.transact(db => {
       return Promise.all([
         writer.deleteBatch(db, collectedDeletes),
         writer.upsertBatch(db, collectedCreatesOrUpdates.values()),
       ]);
+      // });
     });
   }
 

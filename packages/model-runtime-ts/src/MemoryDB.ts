@@ -1,4 +1,9 @@
-import type { MemoryQuery, MemoryReadQuery, MemoryWriteQuery } from '@aphro/context-runtime-ts';
+import type {
+  MemoryQuery,
+  MemoryReadQuery,
+  MemoryResolvedDB,
+  MemoryWriteQuery,
+} from '@aphro/context-runtime-ts';
 import { SID_of } from '@strut/sid';
 import { assertUnreachable } from '@strut/utils';
 
@@ -52,6 +57,12 @@ export default class MemoryDB {
         q.models.forEach(m => (collection[m.id] = m));
         return Object.values(q.models);
     }
+  }
+
+  transact<T>(cb: (conn: MemoryDB) => Promise<T>): Promise<T> {
+    // changesets already represent in-memory transactions.
+    // nothing to do here.
+    return cb(this);
   }
 
   dispose(): void {
