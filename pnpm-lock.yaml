@@ -359,6 +359,35 @@ importers:
       ts-jest: 28.0.4_hkzrkv5hmwhzxrddi5ta6hqdsy
       typescript: 4.7.2
 
+  integration-tests/node:
+    specifiers:
+      '@aphro/codegen-cli': workspace:*
+      '@aphro/runtime-ts': workspace:*
+      '@aphro/sqlite3-connector': workspace:*
+      '@babel/core': ^7.17.12
+      '@babel/preset-env': ^7.17.12
+      '@jest/globals': ^28.1.2
+      '@strut/utils': ^0.1.1
+      '@types/jest': ^27.4.1
+      '@types/node': ^17.0.31
+      jest: ^28.1.0
+      ts-jest: ^28.0.1
+      typescript: ^4.6.4
+    dependencies:
+      '@aphro/runtime-ts': link:../../packages/runtime-ts
+      '@aphro/sqlite3-connector': link:../../connectors/sqlite3-connector
+      '@strut/utils': 0.1.1
+    devDependencies:
+      '@aphro/codegen-cli': link:../../packages/codegen-cli
+      '@babel/core': 7.18.9
+      '@babel/preset-env': 7.18.2_@babel+core@7.18.9
+      '@jest/globals': 28.1.2
+      '@types/jest': 27.5.2
+      '@types/node': 17.0.31
+      jest: 28.1.0_@types+node@17.0.31
+      ts-jest: 28.0.4_ppxpzp26on3nfwb7yosvsqarey
+      typescript: 4.7.4
+
   packages/cache-runtime-ts:
     specifiers:
       '@babel/core': ^7.17.8
@@ -617,35 +646,6 @@ importers:
       '@babel/preset-env': 7.18.2_@babel+core@7.18.9
       '@types/jest': 27.5.2
       jest: 28.1.0
-      ts-jest: 28.0.4_hkzrkv5hmwhzxrddi5ta6hqdsy
-      typescript: 4.7.2
-
-  packages/integration-tests-ts:
-    specifiers:
-      '@aphro/codegen-cli': workspace:*
-      '@aphro/runtime-ts': workspace:*
-      '@aphro/sqlite3-connector': workspace:*
-      '@babel/core': ^7.17.12
-      '@babel/preset-env': ^7.17.12
-      '@jest/globals': ^28.1.2
-      '@strut/utils': ^0.1.1
-      '@types/jest': ^27.4.1
-      '@types/node': ^17.0.31
-      jest: ^28.1.0
-      ts-jest: ^28.0.1
-      typescript: ^4.6.4
-    dependencies:
-      '@aphro/runtime-ts': link:../runtime-ts
-      '@aphro/sqlite3-connector': link:../../connectors/sqlite3-connector
-      '@strut/utils': 0.1.1
-    devDependencies:
-      '@aphro/codegen-cli': link:../codegen-cli
-      '@babel/core': 7.18.9
-      '@babel/preset-env': 7.18.2_@babel+core@7.18.9
-      '@jest/globals': 28.1.2
-      '@types/jest': 27.5.2
-      '@types/node': 17.0.31
-      jest: 28.1.0_@types+node@17.0.31
       ts-jest: 28.0.4_hkzrkv5hmwhzxrddi5ta6hqdsy
       typescript: 4.7.2
 

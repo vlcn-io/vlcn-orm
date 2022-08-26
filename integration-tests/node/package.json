@@ -1,5 +1,5 @@
 {
-  "name": "@aphro/integration-tests-ts",
+  "name": "@aphro/integration-tests-node",
   "private": true,
   "version": "0.4.2",
   "main": "lib/index.js",
