@@ -52,12 +52,8 @@ export default class GenSqlTableSchema extends CodegenStep {
   private getSqliteString(): string {
     // TODO: go thru index config and apply index constraints
     const columnDefs = Object.values(this.schema.fields).map(field => {
-      // const [type, nullable] = extractTypeAtomsForSQL(field);
       let ret: SQLQuery = sql.ident(field.name);
 
-      // if (!nullable) {
-      //   ret = sql`${ret} NOT NULL`;
-      // }
       if (field.num != null) {
         ret = sql`${ret} /* n=${sql.__dangerous__rawValue(field.num.toString())} */`;
       }

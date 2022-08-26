@@ -1,5 +1,11 @@
 # @aphro/wa-sqlite-connector
 
+## 0.3.2
+
+### Patch Changes
+
+- fix imports to appease webpack
+
 ## 0.3.1
 
 ### Patch Changes
