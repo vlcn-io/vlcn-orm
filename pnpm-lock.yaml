@@ -57,20 +57,24 @@ importers:
   connectors/capacitor-sqlite-connector:
     specifiers:
       '@aphro/runtime-ts': workspace:*
+      '@awesome-cordova-plugins/core': ^5.1.0
       '@awesome-cordova-plugins/sqlite': ^5.44.0
       '@babel/core': ^7.17.12
       '@babel/preset-env': ^7.17.12
       '@types/jest': ^27.4.1
       jest: ^28.1.0
+      rxjs: ^7.3.0
       typescript: ^4.6.4
     dependencies:
       '@aphro/runtime-ts': link:../../packages/runtime-ts
-      '@awesome-cordova-plugins/sqlite': 5.44.0
+      '@awesome-cordova-plugins/sqlite': 5.44.0_zuvf63os36jyc5em5biagvpyka
     devDependencies:
+      '@awesome-cordova-plugins/core': 5.44.0_rxjs@7.5.6
       '@babel/core': 7.18.9
       '@babel/preset-env': 7.18.2_@babel+core@7.18.9
       '@types/jest': 27.5.2
       jest: 28.1.0
+      rxjs: 7.5.6
       typescript: 4.7.4
 
   connectors/sqlite3-connector:
@@ -819,10 +823,10 @@ importers:
       '@babel/preset-env': ^7.17.10
       '@strut/counter': ^0.0.11
       '@types/jest': ^27.4.1
-      '@types/react': ^18.0.10
+      '@types/react': ^18.0.17
       '@typescript-eslint/typescript-estree': ^5.22.0
       jest: ^28.1.0
-      react: ^18.0.0
+      react: ^18.2.0
       suspend-react: ^0.0.8
       ts-jest: ^28.0.1
       typescript: ^4.6.4
@@ -965,13 +969,23 @@ packages:
     resolution: {integrity: sha512-SDh63YPAKXKIXE1RW+YYvlQ13tHTc36QT3o17xxlAgvMN6KfQDmNCa/iSLt3XH9Rsa7JFRxSWRiKNXrI2uYOmw==}
     dev: false
 
-  /@awesome-cordova-plugins/sqlite/5.44.0:
+  /@awesome-cordova-plugins/core/5.44.0_rxjs@7.5.6:
+    resolution: {integrity: sha512-LFa0RQyKoiMoh8GiFTOUh+SHdxs6XiozCAzOqq0YUrAAGb/sQRwZ+pDtqw0RTSQqN7DV3FH8ayeuHX8LEm3bNA==}
+    peerDependencies:
+      rxjs: ^5.5.0 || ^6.5.0 || ^7.3.0
+    dependencies:
+      '@types/cordova': 0.0.34
+      rxjs: 7.5.6
+
+  /@awesome-cordova-plugins/sqlite/5.44.0_zuvf63os36jyc5em5biagvpyka:
     resolution: {integrity: sha512-qhax28pWRa+6XtwHU/QRgGLqx4ymNjYeEwDaIWcIcdy1uaLdD5tsxpjb8AD1zsgny6vd/JTilo/xKElNzLOpmA==}
     peerDependencies:
       '@awesome-cordova-plugins/core': ^5.1.0
       rxjs: ^5.5.0 || ^6.5.0 || ^7.3.0
     dependencies:
+      '@awesome-cordova-plugins/core': 5.44.0_rxjs@7.5.6
       '@types/cordova': 0.0.34
+      rxjs: 7.5.6
     dev: false
 
   /@babel/code-frame/7.18.6:
@@ -3030,7 +3044,6 @@ packages:
 
   /@types/cordova/0.0.34:
     resolution: {integrity: sha512-rkiiTuf/z2wTd4RxFOb+clE7PF4AEJU0hsczbUdkHHBtkUmpWQpEddynNfJYKYtZFJKbq4F+brfekt1kx85IZA==}
-    dev: false
 
   /@types/eslint-scope/3.7.4:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
@@ -5753,13 +5766,13 @@ packages:
     dependencies:
       '@jest/core': 28.1.0
       '@jest/test-result': 28.1.0
-      '@jest/types': 28.1.0
+      '@jest/types': 28.1.1
       chalk: 4.1.2
       exit: 0.1.2
       graceful-fs: 4.2.10
       import-local: 3.1.0
       jest-config: 28.1.0_@types+node@17.0.31
-      jest-util: 28.1.0
+      jest-util: 28.1.1
       jest-validate: 28.1.0
       prompts: 2.4.2
       yargs: 17.5.1
@@ -7484,6 +7497,11 @@ packages:
     dependencies:
       queue-microtask: 1.2.3
     dev: true
+
+  /rxjs/7.5.6:
+    resolution: {integrity: sha512-dnyv2/YsXhnm461G+R/Pe5bWP41Nm6LBXEYWI6eiFP4fiwx6WRI/CD0zbdVAudd9xwLEF2IDcKXLHit0FYjUzw==}
+    dependencies:
+      tslib: 2.4.0
 
   /safari-14-idb-fix/1.0.6:
     resolution: {integrity: sha512-oTEQOdMwRX+uCtWCKT1nx2gAeSdpr8elg/2gcaKUH00SJU2xWESfkx11nmXwTRHy7xfQoj1o4TTQvdmuBosTnA==}

@@ -17,7 +17,7 @@ async function init(data: any) {
     console.error('Received non init message. Should be impossible.');
     return;
   }
-  self.removeEventListener('message', init);
+  self.removeEventListener('message', initWrapper);
 
   let SQL = await initSqlJs({
     locateFile: (file: string) => {
@@ -49,9 +49,10 @@ async function init(data: any) {
   });
 }
 
-self.addEventListener('message', ({ data }) => {
+const initWrapper = ({ data }: any) => {
   tracer.genStartActiveSpan('worker.init', () => init(data));
-});
+};
+self.addEventListener('message', initWrapper);
 
 function receiveMessage(db: any, data: any) {
   const { pkg, event, id, queryObj } = data;
