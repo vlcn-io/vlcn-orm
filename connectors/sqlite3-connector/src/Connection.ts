@@ -5,8 +5,6 @@ import { formatters, sql, SQLQuery, SQLResolvedDB } from '@aphro/runtime-ts';
 const Database = sqlite3.Database;
 
 export class Connection {
-  private txQueue: Promise<any> = Promise.resolve();
-
   constructor(private db: any /*Database*/) {}
 
   /**
@@ -42,20 +40,16 @@ export class Connection {
     });
   }
 
-  transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
-    const res = this.txQueue.then(async () => {
-      await this.write(sql`BEGIN`);
-      try {
-        const ret = await cb(this);
-        await this.write(sql`COMMIT`);
-        return ret;
-      } catch (e) {
-        await this.write(sql`ROLLBACK`);
-        throw e;
-      }
-    });
-    this.txQueue = res.catch(() => {});
-    return res;
+  async transact<T>(cb: (conn: SQLResolvedDB) => Promise<T>): Promise<T> {
+    await this.write(sql`BEGIN`);
+    try {
+      const ret = await cb(this);
+      await this.write(sql`COMMIT`);
+      return ret;
+    } catch (e) {
+      await this.write(sql`ROLLBACK`);
+      throw e;
+    }
   }
 
   dispose(): void {

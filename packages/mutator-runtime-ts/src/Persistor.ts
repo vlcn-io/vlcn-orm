@@ -9,7 +9,6 @@ import {
   ResolvedDB,
 } from '@aphro/context-runtime-ts';
 import tracer from './trace.js';
-import { RemoveNameField, StorageConfig } from '@aphro/schema-api';
 
 type OpsByDB = Map<
   ResolvedDB,
@@ -36,8 +35,8 @@ export default class Persistor {
     collectedDeletes: DeleteChangeset<IModel, Object>[],
     collectedCreatesOrUpdates: Map<SID_of<IModel>, IModel>,
   ) {
-    return tracer.genStartActiveSpan('Persistor.writeToDB', async span => {
-      return await Promise.all([
+    return tracer.genStartActiveSpan('Persistor.writeToDB', span => {
+      return Promise.all([
         writer.deleteBatch(db, collectedDeletes),
         writer.upsertBatch(db, collectedCreatesOrUpdates.values()),
       ]);
