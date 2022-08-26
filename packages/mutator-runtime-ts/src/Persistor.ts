@@ -35,13 +35,15 @@ export default class Persistor {
     collectedDeletes: DeleteChangeset<IModel, Object>[],
     collectedCreatesOrUpdates: Map<SID_of<IModel>, IModel>,
   ) {
+    // TODO: micro-optimization would be to consider how many rows
+    // are written. Only 1 row? No tx needed.
     return tracer.genStartActiveSpan('Persistor.writeToDB', span => {
-      // return db.transact(db => {
-      return Promise.all([
-        writer.deleteBatch(db, collectedDeletes),
-        writer.upsertBatch(db, collectedCreatesOrUpdates.values()),
-      ]);
-      // });
+      return db.transact(db => {
+        return Promise.all([
+          writer.deleteBatch(db, collectedDeletes),
+          writer.upsertBatch(db, collectedCreatesOrUpdates.values()),
+        ]);
+      });
     });
   }
 
