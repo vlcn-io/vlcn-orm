@@ -1,5 +1,5 @@
 {
-  "name": "@aphro/capacitro-sqlite-connector",
+  "name": "@aphro/capacitor-sqlite-connector",
   "version": "0.0.2",
   "main": "lib/index.js",
   "type": "module",
