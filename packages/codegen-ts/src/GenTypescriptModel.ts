@@ -431,10 +431,9 @@ export default abstract class ${this.schema.name}Base
     if (this.schema.type === 'standaloneEdge' || this.schema.storage.type === 'ephemeral') {
       return '';
     }
-    return `static gen = modelGenMemo<${this.schema.name} | null>(
+    return `static gen = modelGenMemo<${this.schema.name}, ${this.schema.name} | null>(
       "${this.schema.storage.db}",
       "${this.schema.storage.tablish}",
-      // @ts-ignore #43
       (ctx: Context, id: SID_of<${this.schema.name}>): Promise<${this.schema.name} | null> => this
             .queryAll(ctx)
             .whereId(P.equals(id)).genOnlyValue()

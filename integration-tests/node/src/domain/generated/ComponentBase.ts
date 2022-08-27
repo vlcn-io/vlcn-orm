@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <193374deeda2974b3af5314941adc7bb>
+// SIGNED-SOURCE: <4f0a8f24dedc572bbe22b633cdc2d2bc>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -69,7 +69,7 @@ export default abstract class ComponentBase extends Node<Data> {
       this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
-  static gen = modelGenMemo<Component | null>(
+  static gen = modelGenMemo<Component, Component | null>(
     "example",
     "component",
     // @ts-ignore #43
