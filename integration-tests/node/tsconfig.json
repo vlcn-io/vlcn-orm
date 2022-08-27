@@ -8,6 +8,7 @@
   "references": [
     { "path": "../../packages/runtime-ts" },
     { "path": "../../packages/codegen-cli" },
-    { "path": "../../connectors/sqlite3-connector" }
+    { "path": "../../connectors/sqlite3-connector" },
+    { "path": "../shared" }
   ]
 }

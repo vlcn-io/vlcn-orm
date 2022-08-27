@@ -374,6 +374,7 @@ importers:
   integration-tests/node:
     specifiers:
       '@aphro/codegen-cli': workspace:*
+      '@aphro/integration-tests-shared': workspace:*
       '@aphro/runtime-ts': workspace:*
       '@aphro/sqlite3-connector': workspace:*
       '@babel/core': ^7.18.13
@@ -386,6 +387,7 @@ importers:
       ts-jest: ^28.0.8
       typescript: ^4.8.2
     dependencies:
+      '@aphro/integration-tests-shared': link:../shared
       '@aphro/runtime-ts': link:../../packages/runtime-ts
       '@aphro/sqlite3-connector': link:../../connectors/sqlite3-connector
       '@strut/utils': 0.1.1

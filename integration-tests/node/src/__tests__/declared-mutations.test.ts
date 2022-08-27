@@ -1,6 +1,8 @@
 import { context, Context, viewer, Cache, asId, commit } from '@aphro/runtime-ts';
-import DeckMutations from '../domain/generated/DeckMutations';
-import UserMutations from '../domain/generated/UserMutations';
+import domain from '@aphro/integration-tests-shared';
+
+const { DeckMutations, UserMutations } = domain.sql;
+
 import { initDb, destroyDb } from './testBase';
 
 let ctx: Context;

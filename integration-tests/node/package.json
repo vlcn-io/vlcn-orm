@@ -7,11 +7,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/tantaman/aphrodite.git",
-    "directory": "packages/integration-tests-ts"
+    "directory": "integration-tests/node"
   },
   "dependencies": {
     "@aphro/runtime-ts": "workspace:*",
     "@aphro/sqlite3-connector": "workspace:*",
+    "@aphro/integration-tests-shared": "workspace:*",
     "@strut/utils": "^0.1.1"
   },
   "devDependencies": {

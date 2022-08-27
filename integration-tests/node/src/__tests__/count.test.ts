@@ -1,7 +1,7 @@
 import { context, Context, viewer, Cache, asId, commit, P } from '@aphro/runtime-ts';
 import { destroyDb, initDb } from './testBase.js';
-import UserMutations from '../domain/generated/UserMutations';
-import User from '../domain/User.js';
+import domain from '@aphro/integration-tests-shared';
+const { User } = domain.sql;
 
 let ctx: Context;
 const cache = new Cache();
@@ -11,14 +11,14 @@ beforeAll(async () => {
 });
 
 test('count', async () => {
-  await UserMutations.create(ctx, { name: 'Bill' }).save();
+  await User.mutations.create(ctx, { name: 'Bill' }).save();
 
   let count = await User.queryAll(ctx).count().genxOnlyValue();
   expect(count).toBe(1);
 
   await commit(
     ctx,
-    [1, 2, 3, 4].flatMap(i => UserMutations.create(ctx, { name: 'U' + i }).toChangesets()),
+    [1, 2, 3, 4].flatMap(i => User.mutations.create(ctx, { name: 'U' + i }).toChangesets()),
   );
 
   count = await User.queryAll(ctx).count().genxOnlyValue();

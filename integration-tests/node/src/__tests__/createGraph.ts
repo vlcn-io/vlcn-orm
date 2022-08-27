@@ -1,11 +1,16 @@
 import { commit, Context, P } from '@aphro/runtime-ts';
-import { default as UserMutationsSQL } from '../domain/generated/UserMutations';
-import { default as DeckMutationsSQL } from '../domain/generated/DeckMutations.js';
-import { default as SlideMutationsSQL } from '../domain/generated/SlideMutations.js';
+import domain from '@aphro/integration-tests-shared';
+const {
+  UserMutations: UserMutationsSQL,
+  DeckMutations: DeckMutationsSQL,
+  SlideMutations: SlideMutationsSQL,
+} = domain.sql;
 
-import { default as UserMutationsMem } from '../domain-memory/generated/UserMutations.js';
-import { default as DeckMutationsMem } from '../domain-memory/generated/DeckMutations.js';
-import { default as SlideMutationsMem } from '../domain-memory/generated/SlideMutations.js';
+const {
+  UserMutations: UserMutationsMem,
+  DeckMutations: DeckMutationsMem,
+  SlideMutations: SlideMutationsMem,
+} = domain.mem;
 
 export default async function createGraph(ctx: Context) {
   await Promise.all([
