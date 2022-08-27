@@ -51,7 +51,7 @@ class WeaklyObservable<T extends Object> {
   }
 }
 
-export class GenericTransactionLog<T> extends WeaklyObservable<T> {
+export class GenericTransactionLog<T extends Object> extends WeaklyObservable<T> {
   private lastTransaction?: Node<T>;
   private firstTransaction?: Node<T>;
   #length: number = 0;

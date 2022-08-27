@@ -1,7 +1,7 @@
 import { Context, IModel, MemoryResolvedDB, ResolvedDB } from '@aphro/context-runtime-ts';
 
 export default {
-  async upsertGroup<T>(db: ResolvedDB, nodes: IModel<T>[]): Promise<void> {
+  async upsertGroup<T extends {}>(db: ResolvedDB, nodes: IModel<T>[]): Promise<void> {
     const first = nodes[0];
     const spec = first.spec;
 

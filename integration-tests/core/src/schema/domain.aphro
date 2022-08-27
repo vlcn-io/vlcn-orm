@@ -1,0 +1,135 @@
+engine: sqlite
+db: example
+
+# `#` commented with some theoretical future additions.
+
+User as Node {
+  1 id: ID<User>
+  2 name: NaturalLanguage # & UserGenerated -- fields filled by users
+  3 created: Timestamp # & Computed & Immutable
+  4 modified: Timestamp
+} & OutboundEdges {
+  decks: Edge<Deck.ownerId>
+} & Mutations {
+  create as Create {
+    name
+  } # & RateLimit { .. theoretical future rate limit config .. }
+
+  rename as Update {
+    name
+  }
+
+  delete as Delete {}
+}
+# Theoretical extensions
+# & Visibility {} -- this refers to ability of users to _see_ the thing
+# & Computability {} -- theoretical reference to the ability of execution contexts to consume the thing
+# & GraphQL {} -- expose what things to GraphQL clients
+#  ^-- do we even need? If we allow clients to query in our generated query language
+#    then we can just persist their plans and use those as our APIs
+#  ^-- via generating "wire" clients
+# & Triggers { typescript: ``, c#: ``, ...} -- would we want to do arbitrary code injection?
+
+Deck as Node {
+  1 id: ID<Deck>
+  2 name: NaturalLanguage
+  3 created: Timestamp
+  4 modified: Timestamp
+  5 ownerId: ID<User>
+  6 selectedSlideId: ID<Slide> | null
+} & OutboundEdges {
+  owner: Edge<Deck.ownerId>
+  slides: Edge<Slide.deckId>
+  selectedSlide: Edge<Deck.selectedSlideId>
+  editors: DeckToEditorsEdge
+} & Mutations {
+  create as Create {
+    name: NaturalLanguage
+    owner: User
+    selectedSlide: Slide | null
+  }
+
+  selectSlide as Update {
+    selectedSlide: Slide
+  }
+
+  rename as Update {
+    name: NaturalLanguage
+  }
+
+  delete as Delete {}
+}
+
+Slide as Node {
+  1 id: ID<Slide>
+  2 deckId: ID<Deck>
+  3 order: float32
+} & OutboundEdges {
+  components: Edge<Component.slideId>
+} & Mutations {
+  create as Create {
+    deck: Deck
+    order # if a param matches a field or edge name we infer the type
+  }
+
+  reorder as Update {
+    order: float32
+  }
+
+  delete as Delete {}
+}
+
+Component as Node {
+  1 id: ID<Component>
+  2 subtype: Enumeration<Text | Embed>
+  3 slideId: ID<Slide>
+  4 content: string
+} & Mutations {
+  create as Create {
+    subtype
+    slide: Slide
+    content?
+  }
+
+  delete as Delete {}
+}
+
+DeckToEditorsEdge as Edge<Deck, User> {
+  # force user to define these or auto create them?
+  # also -- auto create unique index on `id1,id2` pairing?
+  # and non-unique on id2?
+  1 id1: ID<Deck>
+  2 id2: ID<User>
+ } & Mutations {
+  create as Create {
+    src: Deck
+    dest: User
+  }
+}
+
+AppState as UnmanagedNode {
+  id: ID<AppState>
+  identity: Identity
+  openDeckId: ID<Deck> | null
+  copiedComponents: Array<Component>
+} & Mutations {
+  create as Create {
+    identity
+    openDeckId
+  }
+
+  openDeck as Update {
+    openDeck: ID<Deck>
+  }
+}
+
+Identity as UnmanagedNode {
+  id: ID<Identity>
+  identifier: string
+  token: string
+}
+
+Foo as Node {
+  id: ID<Foo>
+  name: string
+}

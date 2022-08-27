@@ -7,7 +7,7 @@ import {
 } from '@aphro/context-runtime-ts';
 import { commit } from './commit.js';
 
-export default function makeSavable<M extends IModel<D>, D>(
+export default function makeSavable<M extends IModel<D>, D extends {}>(
   ctx: Context,
   cs: Changeset<M, D>,
 ): Changeset<M, D> & SavableChangeset<M, D> {

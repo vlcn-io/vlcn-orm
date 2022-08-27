@@ -1,0 +1,33 @@
+{
+  "name": "@aphro/integration-tests-core",
+  "private": true,
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tantaman/aphrodite.git",
+    "directory": "integration-tests/core"
+  },
+  "dependencies": {
+    "@aphro/runtime-ts": "workspace:*"
+  },
+  "devDependencies": {
+    "@aphro/codegen-cli": "workspace:*",
+    "typescript": "^4.6.4"
+  },
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "build": "tsc --build",
+    "watch": "tsc --build -w",
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
+    "aphro": "aphro gen src/schema/domain.aphro -d src/domain && aphro gen src/schema/in-memory.aphro -d src/domain-memory && pnpm copy",
+    "copy": "cp src/domain/generated/*.sql lib/domain/generated",
+    "deep-clean": "rm -rf ./lib || true && rm tsconfig.tsbuildinfo || true"
+  },
+  "jest": {
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ]
+  }
+}

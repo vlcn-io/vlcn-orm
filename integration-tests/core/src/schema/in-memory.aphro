@@ -1,0 +1,95 @@
+engine: memory
+db: none
+
+User as Node {
+  id: ID<User>
+  name: NaturalLanguage
+  created: Timestamp
+  modified: Timestamp
+} & OutboundEdges {
+  decks: Edge<Deck.ownerId>
+} & Mutations {
+  create as Create {
+    name
+  }
+
+  rename as Update {
+    name
+  }
+
+  delete as Delete {}
+}
+
+Deck as Node {
+  id: ID<Deck>
+  name: NaturalLanguage
+  created: Timestamp
+  modified: Timestamp
+  ownerId: ID<User>
+  selectedSlideId: ID<Slide> | null
+} & OutboundEdges {
+  owner: Edge<Deck.ownerId>
+  slides: Edge<Slide.deckId>
+  selectedSlide: Edge<Deck.selectedSlideId>
+  editors: DeckToEditorsEdge
+} & Mutations {
+  create as Create {
+    name: NaturalLanguage
+    owner: User
+    selectedSlide: Slide | null
+  }
+
+  selectSlide as Update {
+    selectedSlide: Slide
+  }
+
+  rename as Update {
+    name: NaturalLanguage
+  }
+
+  delete as Delete {}
+}
+
+Slide as Node {
+  id: ID<Slide>
+  deckId: ID<Deck>
+  order: float32
+} & OutboundEdges {
+  components: Edge<Component.slideId>
+} & Mutations {
+  create as Create {
+    deck: Deck
+    order
+  }
+
+  reorder as Update {
+    order: float32
+  }
+
+  delete as Delete {}
+}
+
+Component as Node {
+  id: ID<Component>
+  subtype: Enumeration<Text | Embed>
+  slideId: ID<Slide>
+  content: string
+} & Mutations {
+  create as Create {
+    subtype
+    slide: Slide
+    content
+  }
+
+  delete as Delete {}
+}
+
+DeckToEditorsEdge as Edge<Deck, User> {
+  id1: ID<Deck>
+  id2: ID<User>
+ } & Mutations {
+  create as Create {
+    src: Deck
+    dest: User
+  }
+}

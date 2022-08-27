@@ -10,12 +10,12 @@ import { SID_of } from '@strut/sid';
  * TODO: can we move this deeper into the query layer itself?
  * TODO: apply this to 1-1 edges too. E.g., `deck->genOwner`
  */
-export default function modelGenMemo<T>(
+export default function modelGenMemo<T extends Object, X extends T | null>(
   dbname: string,
   tablish: string,
-  gen: (ctx: Context, id: SID_of<T>) => Promise<T>,
+  gen: (ctx: Context, id: SID_of<T>) => Promise<X>,
 ) {
-  const priorHandles: Map<string, Promise<T>> = new Map();
+  const priorHandles: Map<string, Promise<X>> = new Map();
   return async (ctx: Context, id: SID_of<T>) => {
     const key = ctx.cache.cacheId + '~' + id;
     const priorHandle = priorHandles.get(key);

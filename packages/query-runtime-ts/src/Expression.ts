@@ -227,7 +227,7 @@ export function hop<TIn, TOut>(): HopExpression<TIn, TOut> {
   throw new Error();
 }
 
-export function modelLoad<TData, TModel extends IModel<TData>>(
+export function modelLoad<TData extends {}, TModel extends IModel<TData>>(
   ctx: Context,
   factory: (ctx: Context, data: TData) => TModel,
 ): ModelLoadExpression<TData, TModel> {

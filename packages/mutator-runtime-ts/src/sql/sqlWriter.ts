@@ -2,7 +2,7 @@ import { IModel, ResolvedDB, SQLResolvedDB } from '@aphro/context-runtime-ts';
 import { encodeModelData } from '@aphro/model-runtime-ts';
 import { sql, SQLQuery } from '@aphro/sql-ts';
 
-function buildUpsertSql<T>(nodes: IModel<T>[]) {
+function buildUpsertSql<T extends {}>(nodes: IModel<T>[]) {
   const first = nodes[0];
   const spec = first.spec;
   const persist = spec.storage;
@@ -50,7 +50,7 @@ export default {
   // Precondition: already grouped by db & table
   // TODO: Should we grab all by DB so we can do many inserts in 1 statement to the
   // same db?
-  async upsertGroup<T>(db: ResolvedDB, nodes: IModel<T>[]): Promise<void> {
+  async upsertGroup<T extends {}>(db: ResolvedDB, nodes: IModel<T>[]): Promise<void> {
     const query = buildUpsertSql(nodes);
     // TODO: generic on `spec` so we know we're SQL here?
     // console.log(query);

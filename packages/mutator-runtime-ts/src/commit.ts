@@ -12,7 +12,7 @@ type ExtractValue<T extends readonly Changeset<any, any>[]> = {
   [K in keyof T]: T[K] extends Changeset<infer V, infer D> ? V : never;
 };
 
-export function commit<M extends IModel<D>, D>(
+export function commit<M extends IModel<D>, D extends {}>(
   ctx: Context,
   changesets: Changeset<M>,
 ): OptimisticPromise<M>;

@@ -258,7 +258,11 @@ export function setDifference<T>(l: T[], r: T[], keyFn: (e: T) => string | numbe
   return l.filter(l => !set.has(keyFn(l)));
 }
 
-export function innerJoin<T>(l: T[], r: T[], keyFn: (e: T) => string | number): [T, T][] {
+export function innerJoin<T extends {}>(
+  l: T[],
+  r: T[],
+  keyFn: (e: T) => string | number,
+): [T, T][] {
   const map = new Map<string | number, T>(l.map(x => [keyFn(x), x]));
   return r
     .map(x => {

@@ -6,12 +6,12 @@ export type ChangesetOptions = {
   returning: boolean;
 };
 
-export type Changeset<M extends IModel<D>, D = Object> =
+export type Changeset<M extends IModel<D>, D extends {} = Object> =
   | CreateChangeset<M, D>
   | UpdateChangeset<M, D>
   | DeleteChangeset<M, D>;
 
-export type CreateChangeset<M extends IModel<D>, D> = {
+export type CreateChangeset<M extends IModel<D>, D extends {}> = {
   type: 'create';
   updates: Partial<D>;
   spec: ModelSpecWithCreate<M, D>;
@@ -19,7 +19,7 @@ export type CreateChangeset<M extends IModel<D>, D> = {
   id: SID_of<M>;
 };
 
-export type UpdateChangeset<M extends IModel<D>, D> = {
+export type UpdateChangeset<M extends IModel<D>, D extends {}> = {
   type: 'update';
   updates: Partial<D>;
   spec: ModelSpecWithCreate<M, D>;
@@ -28,7 +28,7 @@ export type UpdateChangeset<M extends IModel<D>, D> = {
   id: SID_of<M>;
 };
 
-export type DeleteChangeset<M extends IModel<D>, D> = {
+export type DeleteChangeset<M extends IModel<D>, D extends {}> = {
   type: 'delete';
   model: M;
   spec: ModelSpecWithCreate<M, D>;
@@ -36,7 +36,7 @@ export type DeleteChangeset<M extends IModel<D>, D> = {
   id: SID_of<M>;
 };
 
-export type SavableChangeset<M extends IModel<D>, D> = {
+export type SavableChangeset<M extends IModel<D>, D extends {}> = {
   save(): OptimisticPromise<M>;
   save0(): M;
 };
