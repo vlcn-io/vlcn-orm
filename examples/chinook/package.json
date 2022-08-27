@@ -13,13 +13,13 @@
   },
   "devDependencies": {
     "@aphro/codegen-cli": "workspace:*",
-    "@babel/core": "^7.17.10",
-    "@babel/preset-env": "^7.17.10",
-    "@databases/sqlite": "^3.0.0",
-    "@types/jest": "^27.4.1",
-    "@types/node": "^17.0.31",
-    "jest": "^28.1.0",
-    "typescript": "^4.6.4"
+    "@babel/core": "^7.18.13",
+    "@babel/preset-env": "^7.18.10",
+    "@databases/sqlite": "^4.0.1",
+    "@types/jest": "^28.1.8",
+    "@types/node": "^18.7.13",
+    "jest": "^29.0.1",
+    "typescript": "^4.8.2"
   },
   "scripts": {
     "aphro": "aphro gen ./src/domain.aphro --dest ./src/domain",

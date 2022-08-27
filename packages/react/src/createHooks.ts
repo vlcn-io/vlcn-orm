@@ -69,7 +69,10 @@ export function createHooks(contextPromise: ContextPromise) {
     return result[0];
   }
 
-  function useBind<Node extends INode<Shape>, Shape>(node: Node, keys?: (keyof Shape)[]) {
+  function useBind<Node extends INode<Shape>, Shape extends {}>(
+    node: Node,
+    keys?: (keyof Shape)[],
+  ) {
     count.bump('useBind.' + node.constructor.name);
     const [tick, forceUpdate] = useReducer(x => x + 1, 0);
     useEffect(() => {

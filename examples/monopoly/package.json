@@ -15,17 +15,17 @@
   },
   "dependencies": {
     "@aphro/runtime-ts": "workspace:*",
-    "@databases/sqlite": "^3.0.0",
-    "@graphql-tools/schema": "^8.3.14",
-    "@graphql-yoga/node": "^2.9.2",
-    "graphql": "^16.5.0"
+    "@databases/sqlite": "^4.0.1",
+    "@graphql-tools/schema": "^9.0.2",
+    "@graphql-yoga/node": "^2.13.11",
+    "graphql": "^16.6.0"
   },
   "devDependencies": {
     "@aphro/codegen-cli": "workspace:*",
-    "@types/node": "^17.0.31",
+    "@types/node": "^18.7.13",
     "cross-env": "^7.0.3",
-    "ts-node": "^10.8.1",
+    "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^4.7.3"
+    "typescript": "^4.8.2"
   }
 }

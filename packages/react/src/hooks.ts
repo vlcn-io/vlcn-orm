@@ -5,13 +5,13 @@ import counter from '@strut/counter';
 
 const count = counter('model-infra/Hooks');
 
-export function useBind<M extends INode<D>, D>(m: M): void;
-export function useBind<M extends INode<D>, D>(m: M, keys: (keyof D)[]): void;
+export function useBind<M extends INode<D>, D extends {}>(m: M): void;
+export function useBind<M extends INode<D>, D extends {}>(m: M, keys: (keyof D)[]): void;
 
 /**
  * @deprecated - use createHooks instead
  */
-export function useBind<M extends INode<D>, D>(m: M, keys?: (keyof D)[]): void {
+export function useBind<M extends INode<D>, D extends {}>(m: M, keys?: (keyof D)[]): void {
   count.bump('useBind.' + m.constructor.name);
   const [tick, forceUpdate] = useReducer(x => x + 1, 0);
   useEffect(() => {
