@@ -19,7 +19,8 @@ export default class MemoryDB {
       case 'read':
         return await this.read(q);
       case 'write':
-        return await this.write(q);
+        await this.write(q);
+        return [];
       default:
         assertUnreachable(type);
     }
@@ -38,7 +39,7 @@ export default class MemoryDB {
     return q.roots.map(r => collection[r]);
   }
 
-  async write(q: MemoryWriteQuery): Promise<any[]> {
+  async write(q: MemoryWriteQuery): Promise<void> {
     const c = this.collections.get(q.tablish);
     let collection: { [key: SID_of<any>]: any };
     // To make the type checker happy
@@ -52,10 +53,8 @@ export default class MemoryDB {
     switch (q.op) {
       case 'delete':
         q.models.forEach(m => delete collection[m.id]);
-        return [];
       case 'upsert':
         q.models.forEach(m => (collection[m.id] = m));
-        return Object.values(q.models);
     }
   }
 

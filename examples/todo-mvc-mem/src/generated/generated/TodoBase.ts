@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <6ca69fc65a5d5bc158e4a26e2056b046>
+// SIGNED-SOURCE: <886ec0747f4fb63f3831efddce16e2c5>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -56,10 +56,9 @@ export default abstract class TodoBase extends Node<Data> {
       this.queryAll(ctx).whereId(P.equals(id)).genxOnlyValue()
   );
 
-  static gen = modelGenMemo<Todo | null>(
+  static gen = modelGenMemo<Todo, Todo | null>(
     "todomvc",
     "todo",
-    // @ts-ignore #43
     (ctx: Context, id: SID_of<Todo>): Promise<Todo | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );
