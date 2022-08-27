@@ -371,17 +371,6 @@ importers:
       typescript: 4.8.2
       vite: 3.0.9
 
-  integration-tests/core:
-    specifiers:
-      '@aphro/codegen-cli': workspace:*
-      '@aphro/runtime-ts': workspace:*
-      typescript: ^4.6.4
-    dependencies:
-      '@aphro/runtime-ts': link:../../packages/runtime-ts
-    devDependencies:
-      '@aphro/codegen-cli': link:../../packages/codegen-cli
-      typescript: 4.8.2
-
   integration-tests/node:
     specifiers:
       '@aphro/codegen-cli': workspace:*
@@ -410,6 +399,17 @@ importers:
       jest: 28.1.0_@types+node@17.0.31
       ts-jest: 28.0.4_ppxpzp26on3nfwb7yosvsqarey
       typescript: 4.7.4
+
+  integration-tests/shared:
+    specifiers:
+      '@aphro/codegen-cli': workspace:*
+      '@aphro/runtime-ts': workspace:*
+      typescript: ^4.6.4
+    dependencies:
+      '@aphro/runtime-ts': link:../../packages/runtime-ts
+    devDependencies:
+      '@aphro/codegen-cli': link:../../packages/codegen-cli
+      typescript: 4.8.2
 
   packages/cache-runtime-ts:
     specifiers:
@@ -8585,7 +8585,7 @@ packages:
       '@babel/core': 7.18.9
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 28.1.0
+      jest: 28.1.0_@types+node@17.0.31
       jest-util: 28.1.0
       json5: 2.2.1
       lodash.memoize: 4.1.2

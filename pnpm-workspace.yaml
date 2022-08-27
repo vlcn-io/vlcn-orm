@@ -16,7 +16,7 @@ packages:
   - 'extensions/mutation-codegen'
   - 'integration-tests/browser'
   - 'integration-tests/node'
-  - 'integration-tests/core'
+  - 'integration-tests/shared'
   - 'packages/cache-runtime-ts'
   - 'packages/codegen'
   - 'packages/codegen-api'
