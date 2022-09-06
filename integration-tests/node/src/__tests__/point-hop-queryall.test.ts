@@ -1,15 +1,18 @@
 import { context, Context, viewer, Cache, asId, commit, P } from '@aphro/runtime-ts';
 import { destroyDb, initDb } from './testBase.js';
-import UserMutations from '../domain/generated/UserMutations';
-import User from '../domain/User.js';
-import DeckMutations from '../domain/generated/DeckMutations.js';
-import SlideMutations from '../domain/generated/SlideMutations.js';
-import ComponentMutations from '../domain/generated/ComponentMutations.js';
-import { default as UserMem } from '../domain-memory/User.js';
-import { default as UserMutationsMem } from '../domain-memory/generated/UserMutations.js';
-import { default as DeckMutationsMem } from '../domain-memory/generated/DeckMutations.js';
-import { default as SlideMutationsMem } from '../domain-memory/generated/SlideMutations.js';
-import { default as ComponentMutationsMem } from '../domain-memory/generated/ComponentMutations.js';
+import domain from '@aphro/integration-tests-shared';
+
+const { UserMutations } = domain.sql;
+const { User } = domain.sql;
+const { DeckMutations } = domain.sql;
+const { SlideMutations } = domain.sql;
+const { ComponentMutations } = domain.sql;
+
+const { User: UserMem } = domain.mem;
+const { UserMutations: UserMutationsMem } = domain.mem;
+const { DeckMutations: DeckMutationsMem } = domain.mem;
+const { SlideMutations: SlideMutationsMem } = domain.mem;
+const { ComponentMutations: ComponentMutationsMem } = domain.mem;
 
 let ctx: Context;
 const cache = new Cache();

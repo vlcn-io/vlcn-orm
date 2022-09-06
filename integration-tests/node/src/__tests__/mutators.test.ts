@@ -10,10 +10,11 @@ import {
   SID_of,
   P,
 } from '@aphro/runtime-ts';
-import spec from '../domain/generated/UserSpec.js';
+import domain from '@aphro/integration-tests-shared';
+
+const { User, Foo } = domain.sql;
+
 import { destroyDb, initDb } from './testBase.js';
-import UserQuery from '../domain/generated/UserQuery.js';
-import Foo from '../domain/Foo.js';
 const device = 'aaaa';
 
 let ctx: Context;
@@ -23,8 +24,6 @@ beforeAll(async () => {
 });
 
 test('Creating models via mutators', () => {
-  // TODO: create simple API for people that want to use mutation builders directly?
-  // create(spec, updates).toChangeset/.commit | Or force everyone onto generated Mutations?
   const cs = new CreateMutationBuilder(ctx, spec)
     .set({
       id: sid(device),

@@ -1,10 +1,11 @@
 import { context, Context, viewer, Cache, asId, commit, P } from '@aphro/runtime-ts';
 import { destroyDb, initDb } from './testBase.js';
-import UserMutations from '../domain/generated/UserMutations.js';
-import User from '../domain/User.js';
+import domain from '@aphro/integration-tests-shared';
+const { UserMutations } = domain.sql;
+const { User } = domain.sql;
 
-import { default as MemoryUser } from '../domain-memory/User.js';
-import { default as MemoryUserMutations } from '../domain-memory/generated/UserMutations.js';
+const { User: MemoryUser } = domain.mem;
+const { UserMutations: MemoryUserMutations } = domain.mem;
 
 let ctx: Context;
 const cache = new Cache();

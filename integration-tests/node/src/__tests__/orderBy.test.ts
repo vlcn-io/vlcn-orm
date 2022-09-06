@@ -1,9 +1,10 @@
 import { context, Context, viewer, Cache, asId } from '@aphro/runtime-ts';
 import { destroyDb, initDb } from './testBase.js';
-import User from '../domain/User.js';
+import domain from '@aphro/integration-tests-shared';
+const { User } = domain.sql;
 import createGraph from './createGraph.js';
 
-import { default as MemoryUser } from '../domain-memory/User.js';
+const { User: MemoryUser } = domain.mem;
 
 let ctx: Context;
 const cache = new Cache();
