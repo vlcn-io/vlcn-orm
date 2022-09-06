@@ -1,4 +1,5 @@
 import { CodegenStep, CodegenFile, generatedDir } from '@aphro/codegen-api';
+import { nodeFn } from '@aphro/schema';
 import { SchemaEdge, SchemaNode } from '@aphro/schema-api';
 import * as path from 'path';
 import TypescriptFile from './TypescriptFile.js';
@@ -30,6 +31,11 @@ export class GenSchemaExports extends CodegenStep {
         `export { default as ${nodeOrEdge.name}Mutations } from "./${nodeOrEdge.name}Mutations.js";`,
       );
     }
+    exports.push(
+      `export { default as ${nodeFn.specName(nodeOrEdge.name)} } from "./${nodeFn.specName(
+        nodeOrEdge.name,
+      )}.js"`,
+    );
     return exports.join('\n');
   }
 }

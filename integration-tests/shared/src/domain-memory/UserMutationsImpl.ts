@@ -1,14 +1,14 @@
-import { CreateArgs } from './generated/UserMutations.js';
-import { RenameArgs } from './generated/UserMutations.js';
-import { DeleteArgs } from './generated/UserMutations.js';
-import { Changeset, sid } from '@aphro/runtime-ts';
-import { Data } from './User.js';
-import User from './User.js';
-import { IMutationBuilder } from '@aphro/runtime-ts';
+import { CreateArgs } from "./generated/UserMutations.js";
+import { RenameArgs } from "./generated/UserMutations.js";
+import { DeleteArgs } from "./generated/UserMutations.js";
+import { Changeset, sid } from "@aphro/runtime-ts";
+import { Data } from "./User.js";
+import User from "./User.js";
+import { IMutationBuilder } from "@aphro/runtime-ts";
 
 export function createImpl(
-  mutator: Omit<IMutationBuilder<User, Data>, 'toChangeset'>,
-  { name }: CreateArgs,
+  mutator: Omit<IMutationBuilder<User, Data>, "toChangeset">,
+  { name }: CreateArgs
 ): void | Changeset<any>[] {
   mutator.set({
     name,
@@ -19,8 +19,8 @@ export function createImpl(
 
 export function renameImpl(
   model: User,
-  mutator: Omit<IMutationBuilder<User, Data>, 'toChangeset'>,
-  { name }: RenameArgs,
+  mutator: Omit<IMutationBuilder<User, Data>, "toChangeset">,
+  { name }: RenameArgs
 ): void | Changeset<any>[] {
   mutator.set({
     name,
@@ -29,8 +29,8 @@ export function renameImpl(
 
 export function deleteImpl(
   model: User,
-  mutator: Omit<IMutationBuilder<User, Data>, 'toChangeset'>,
-  {}: DeleteArgs,
+  mutator: Omit<IMutationBuilder<User, Data>, "toChangeset">,
+  {}: DeleteArgs
 ): void | Changeset<any>[] {
   // Use the provided mutator to make your desired changes.
   // e.g., mutator.set({name: "Foo" });
