@@ -1,6 +1,6 @@
 {
   "name": "@aphro/codegen-api",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "main": "lib/index.js",
   "type": "module",
   "repository": {

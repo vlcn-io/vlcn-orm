@@ -1,5 +1,17 @@
 # @aphro/mutator-runtime-ts
 
+## 0.4.2
+
+### Patch Changes
+
+- Export queries and specs, move connectors to own packages, fix #43 and other bugs
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.3.6
+  - @aphro/instrument@0.0.6
+  - @aphro/model-runtime-ts@0.2.6
+  - @aphro/schema-api@0.2.6
+  - @aphro/sql-ts@0.2.6
+
 ## 0.4.1
 
 ### Patch Changes

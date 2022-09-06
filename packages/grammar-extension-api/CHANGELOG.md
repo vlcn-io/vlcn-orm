@@ -1,5 +1,13 @@
 # @aphro/grammar-extension-api
 
+## 0.2.6
+
+### Patch Changes
+
+- Export queries and specs, move connectors to own packages, fix #43 and other bugs
+- Updated dependencies
+  - @aphro/schema-api@0.2.6
+
 ## 0.2.5
 
 ### Patch Changes

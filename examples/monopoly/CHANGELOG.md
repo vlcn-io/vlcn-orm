@@ -1,5 +1,13 @@
 # @aphro/monopoly
 
+## 1.2.8
+
+### Patch Changes
+
+- Export queries and specs, move connectors to own packages, fix #43 and other bugs
+- Updated dependencies
+  - @aphro/runtime-ts@0.3.8
+
 ## 1.2.7
 
 ### Patch Changes

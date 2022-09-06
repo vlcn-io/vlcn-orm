@@ -1,5 +1,14 @@
 # @aphro/todo-mvc-mem
 
+## 0.1.10
+
+### Patch Changes
+
+- Export queries and specs, move connectors to own packages, fix #43 and other bugs
+- Updated dependencies
+  - @aphro/react@1.2.3
+  - @aphro/runtime-ts@0.3.8
+
 ## 0.1.9
 
 ### Patch Changes

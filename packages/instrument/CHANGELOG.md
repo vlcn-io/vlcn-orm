@@ -1,5 +1,11 @@
 # @aphro/instrument
 
+## 0.0.6
+
+### Patch Changes
+
+- Export queries and specs, move connectors to own packages, fix #43 and other bugs
+
 ## 0.0.5
 
 ### Patch Changes

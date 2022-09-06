@@ -1,5 +1,16 @@
 # @aphro/codegen-ts
 
+## 0.4.2
+
+### Patch Changes
+
+- Export queries and specs, move connectors to own packages, fix #43 and other bugs
+- Updated dependencies
+  - @aphro/codegen@0.2.8
+  - @aphro/codegen-api@0.2.6
+  - @aphro/schema@0.3.2
+  - @aphro/schema-api@0.2.6
+
 ## 0.4.1
 
 ### Patch Changes

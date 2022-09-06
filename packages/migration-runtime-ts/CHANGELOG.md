@@ -1,5 +1,14 @@
 # @aphro/migration-runtime-ts
 
+## 0.1.7
+
+### Patch Changes
+
+- Export queries and specs, move connectors to own packages, fix #43 and other bugs
+- Updated dependencies
+  - @aphro/context-runtime-ts@0.3.6
+  - @aphro/sql-ts@0.2.6
+
 ## 0.1.6
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@aphro/runtime-ts",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "main": "lib/index.js",
   "type": "module",
   "repository": {

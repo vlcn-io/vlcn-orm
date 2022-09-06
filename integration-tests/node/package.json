@@ -1,7 +1,7 @@
 {
   "name": "@aphro/integration-tests-node",
   "private": true,
-  "version": "0.4.2",
+  "version": "0.4.3",
   "main": "lib/index.js",
   "type": "module",
   "repository": {

@@ -1,5 +1,14 @@
 # @aphro/wa-sqlite-connector
 
+## 0.3.3
+
+### Patch Changes
+
+- Export queries and specs, move connectors to own packages, fix #43 and other bugs
+- Updated dependencies
+  - @aphro/instrument@0.0.6
+  - @aphro/runtime-ts@0.3.8
+
 ## 0.3.2
 
 ### Patch Changes

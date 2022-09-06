@@ -1,5 +1,15 @@
 # @aphro/integration-tests-ts
 
+## 0.4.3
+
+### Patch Changes
+
+- Export queries and specs, move connectors to own packages, fix #43 and other bugs
+- Updated dependencies
+  - @aphro/sqlite3-connector@0.3.2
+  - @aphro/integration-tests-shared@0.0.2
+  - @aphro/runtime-ts@0.3.8
+
 ## 0.4.2
 
 ### Patch Changes

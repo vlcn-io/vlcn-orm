@@ -1,6 +1,6 @@
 {
   "name": "@aphro/react",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "main": "lib/index.js",
   "type": "module",
   "repository": {
@@ -13,7 +13,7 @@
     "suspend-react": "^0.0.8"
   },
   "peerDependencies": {
-    "@aphro/runtime-ts": "^0.3.7",
+    "@aphro/runtime-ts": "^0.3.8",
     "react": "^18.2.0"
   },
   "devDependencies": {
