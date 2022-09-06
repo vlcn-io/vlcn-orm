@@ -1,7 +1,6 @@
 import { context, Context, viewer, Cache, asId, commit, P } from '@aphro/runtime-ts';
 import { destroyDb, initDb } from './testBase.js';
 import domain from '@aphro/integration-tests-shared';
-
 const { UserMutations } = domain.sql;
 const { User } = domain.sql;
 import { UpdateType } from '@aphro/runtime-ts';

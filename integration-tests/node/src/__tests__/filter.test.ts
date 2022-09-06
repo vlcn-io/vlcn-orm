@@ -1,7 +1,9 @@
 import { context, Context, viewer, Cache, asId, commit, P } from '@aphro/runtime-ts';
 import { destroyDb, initDb } from './testBase.js';
-import UserMutations from '../domain/generated/UserMutations';
-import User from '../domain/User.js';
+import domain from '@aphro/integration-tests-shared';
+const { UserMutations } = domain.sql;
+const { User } = domain.sql;
+
 import createGraph from './createGraph.js';
 
 // TODO: figure out how we can migrate all this to property based test (e.g., fast check)

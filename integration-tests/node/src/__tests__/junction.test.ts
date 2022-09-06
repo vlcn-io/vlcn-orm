@@ -1,20 +1,8 @@
-import {
-  context,
-  Context,
-  viewer,
-  Cache,
-  asId,
-  commit,
-  P,
-  DBResolver,
-  sql,
-} from '@aphro/runtime-ts';
+import { context, Context, viewer, Cache, asId, commit, DBResolver } from '@aphro/runtime-ts';
 import { destroyDb, initDb } from './testBase.js';
-import UserMutations from '../domain/generated/UserMutations';
-import User from '../domain/User.js';
-import DeckMutations from '../domain/generated/DeckMutations.js';
-import DeckToEditorsEdgeMutations from '../domain/generated/DeckToEditorsEdgeMutations.js';
-import Deck from '../domain/Deck.js';
+import domain from '@aphro/integration-tests-shared';
+
+const { DeckMutations, Deck, User, UserMutations, DeckToEditorsEdgeMutations } = domain.sql;
 
 // TODO: figure out how we can migrate all this to property based test (e.g., fast check)
 // e.g., apply all predicates
@@ -23,9 +11,9 @@ import Deck from '../domain/Deck.js';
 let ctx: Context;
 const cache = new Cache();
 
-let deck: Deck;
-let owner: User;
-let editors: User[];
+let deck: InstanceType<typeof Deck>;
+let owner: InstanceType<typeof User>;
+let editors: InstanceType<typeof User>[];
 let rh: DBResolver;
 beforeAll(async () => {
   const resolver = await initDb();
@@ -49,9 +37,9 @@ beforeAll(async () => {
 
   const [u1, u2, u3, u4, d] = await commit(ctx, ...userCs, ...deckCs, ...editorCs);
 
-  owner = u1 as User;
-  deck = d as Deck;
-  editors = [u2, u3, u4] as User[];
+  owner = u1 as InstanceType<typeof User>;
+  deck = d as InstanceType<typeof Deck>;
+  editors = [u2, u3, u4] as InstanceType<typeof User>[];
 });
 
 test('link up a slide deck and users through a junction edge and query', async () => {

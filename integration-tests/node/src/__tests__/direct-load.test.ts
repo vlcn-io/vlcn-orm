@@ -1,6 +1,7 @@
 import { asId, Context, context, P, sql, viewer } from '@aphro/runtime-ts';
-import User from '../domain/User.js';
-import UserSpec from '../domain/generated/UserSpec.js';
+import domain from '@aphro/integration-tests-shared';
+const { User, UserSpec } = domain.sql;
+
 import createGraph from './createGraph.js';
 import { destroyDb, initDb } from './testBase.js';
 

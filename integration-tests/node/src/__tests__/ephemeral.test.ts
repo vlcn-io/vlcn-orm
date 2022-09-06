@@ -1,6 +1,7 @@
 import { asId, Cache, context, Context, noStorageResolver, viewer } from '@aphro/runtime-ts';
-import AppStateMutations from '../domain/generated/AppStateMutations';
-import IdentityMutations from '../domain/generated/IdentityMutations';
+import domain from '@aphro/integration-tests-shared';
+const { AppStateMutations, Identity } = domain.sql;
+
 import { jest } from '@jest/globals';
 
 jest.useFakeTimers();
@@ -23,7 +24,7 @@ beforeAll(async () => {
 });
 
 test('Ephemeral nodes are not added to the cache on create', () => {
-  IdentityMutations.create(ctx, {
+  Identity.create(ctx, {
     identifier: 'foo@foo.com',
     token: 'sdfsdfds',
   }).save().optimistic;
@@ -32,7 +33,7 @@ test('Ephemeral nodes are not added to the cache on create', () => {
 });
 
 test('Ephemeral nodes are not added to the cache on update', () => {
-  const identity = IdentityMutations.create(ctx, {
+  const identity = Identity.create(ctx, {
     identifier: 'foo@foo.com',
     token: 'sdfsdfds',
   }).save().optimistic;
@@ -50,7 +51,7 @@ test('Ephemeral nodes are not added to the cache on update', () => {
 });
 
 test('Changes to ephemeral nodes can be observed', () => {
-  let identity = IdentityMutations.create(ctx, {
+  let identity = Identity.create(ctx, {
     identifier: 'foo@foo.com',
     token: 'sdfsdfds',
   }).save().optimistic;
