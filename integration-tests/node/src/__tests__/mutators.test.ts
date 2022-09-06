@@ -12,7 +12,7 @@ import {
 } from '@aphro/runtime-ts';
 import domain from '@aphro/integration-tests-shared';
 
-const { User, Foo } = domain.sql;
+const { UserQuery, UserSpec: spec, Foo } = domain.sql;
 
 import { destroyDb, initDb } from './testBase.js';
 const device = 'aaaa';
@@ -83,7 +83,7 @@ test('shorthand create', async () => {
   for (let i = 0; i < 100; ++i) {
     const id = sid(device);
     const user = Foo.create(ctx, {
-      id: id as SID_of<Foo>,
+      id: asId(id),
       name: 'Bart',
     }).save().optimistic;
 
