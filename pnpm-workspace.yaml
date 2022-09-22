@@ -25,6 +25,7 @@ packages:
   - 'packages/codegen-ts'
   - 'packages/context-runtime-ts'
   - 'packages/crr-sqlite/instead-of-prototype/test'
+  - 'packages/feature-gates'
   - 'packages/grammar-extension-api'
   - 'packages/instrument'
   - 'packages/migration-runtime-ts'

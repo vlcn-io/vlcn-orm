@@ -16,6 +16,7 @@ import {
 } from '@aphro/schema-api';
 import { nodeFn, edgeFn, tsImport, fieldFn } from '@aphro/schema';
 import * as path from 'path';
+import featureGates from '@aphro/feature-gates';
 
 export default class GenTypescriptModel extends CodegenStep {
   static accepts(schema: SchemaNode | SchemaEdge): boolean {
@@ -96,6 +97,10 @@ export default abstract class ${this.schema.name}Base
   // TODO: we should figure out how to allow the mutation extension augment
   // models...
   private hasMutations(verb?: 'create' | 'update' | 'delete'): boolean {
+    if (!featureGates.NAMED_MUTATIONS) {
+      return false;
+    }
+
     const muts = (this.schema.extensions as any)?.mutations?.mutations || {};
     if (!muts) {
       return false;

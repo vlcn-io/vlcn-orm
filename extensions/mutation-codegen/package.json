@@ -12,6 +12,7 @@
     "@aphro/codegen": "workspace:*",
     "@aphro/codegen-api": "workspace:*",
     "@aphro/codegen-ts": "workspace:*",
+    "@aphro/feature-gates": "workspace:*",
     "@aphro/mutation-grammar": "workspace:*",
     "@aphro/parse-ts": "workspace:*",
     "@aphro/schema": "workspace:*",

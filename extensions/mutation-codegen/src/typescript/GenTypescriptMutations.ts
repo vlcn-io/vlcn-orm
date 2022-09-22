@@ -12,6 +12,7 @@ import { TypescriptFile, importsToString } from '@aphro/codegen-ts';
 import { tsImport, nodeFn } from '@aphro/schema';
 // TODO: Import should probably go into `codegen-api`?
 import { Import } from '@aphro/schema-api';
+import featureGates from '@aphro/feature-gates';
 
 import { collectImportsForMutations, getArgNameAndType } from './shared.js';
 import { upcaseAt } from '@strut/utils';
@@ -19,7 +20,10 @@ import * as path from 'path';
 
 export class GenTypescriptMutations extends CodegenStep {
   static accepts(schema: SchemaNode | SchemaEdge): boolean {
-    return Object.values(schema.extensions.mutations?.mutations || []).length > 0;
+    return (
+      featureGates.NAMED_MUTATIONS &&
+      Object.values(schema.extensions.mutations?.mutations || []).length > 0
+    );
   }
 
   private schema: SchemaNode | SchemaEdge;

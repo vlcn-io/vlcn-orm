@@ -10,6 +10,7 @@
     { "path": "../codegen-api" },
     { "path": "../schema" },
     { "path": "../schema-api" },
-    { "path": "../codegen" }
+    { "path": "../codegen" },
+    { "path": "../feature-gates" }
   ]
 }

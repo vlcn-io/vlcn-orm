@@ -37,7 +37,6 @@ importers:
       '@strut/counter': ^0.0.11
       '@types/jest': ^28.1.8
       jest: ^29.0.1
-      ts-jest: ^28.0.8
       typescript: ^4.8.2
     dependencies:
       '@aphro/absurd-sql': 0.0.53
@@ -51,7 +50,6 @@ importers:
       '@babel/preset-env': 7.18.10_@babel+core@7.18.13
       '@types/jest': 28.1.8
       jest: 29.0.1
-      ts-jest: 28.0.8_aqclllrwqhdrf37c5pjob7flby
       typescript: 4.8.2
 
   connectors/capacitor-sqlite-connector:
@@ -304,6 +302,7 @@ importers:
       '@aphro/codegen': workspace:*
       '@aphro/codegen-api': workspace:*
       '@aphro/codegen-ts': workspace:*
+      '@aphro/feature-gates': workspace:*
       '@aphro/mutation-grammar': workspace:*
       '@aphro/parse-ts': workspace:*
       '@aphro/schema': workspace:*
@@ -321,6 +320,7 @@ importers:
       '@aphro/codegen': link:../../packages/codegen
       '@aphro/codegen-api': link:../../packages/codegen-api
       '@aphro/codegen-ts': link:../../packages/codegen-ts
+      '@aphro/feature-gates': link:../../packages/feature-gates
       '@aphro/mutation-grammar': link:../mutation-grammar
       '@aphro/parse-ts': link:../../packages/parse-ts
       '@aphro/schema': link:../../packages/schema
@@ -584,6 +584,7 @@ importers:
     specifiers:
       '@aphro/codegen': workspace:*
       '@aphro/codegen-api': workspace:*
+      '@aphro/feature-gates': workspace:*
       '@aphro/schema': workspace:*
       '@aphro/schema-api': workspace:*
       '@babel/core': ^7.18.13
@@ -602,6 +603,7 @@ importers:
     dependencies:
       '@aphro/codegen': link:../codegen
       '@aphro/codegen-api': link:../codegen-api
+      '@aphro/feature-gates': link:../feature-gates
       '@aphro/schema': link:../schema
       '@aphro/schema-api': link:../schema-api
       '@strut/counter': 0.0.11
@@ -642,6 +644,12 @@ importers:
       '@jest/globals': 29.0.1
       '@types/jest': 28.1.8
       jest: 29.0.1
+      typescript: 4.8.2
+
+  packages/feature-gates:
+    specifiers:
+      typescript: ^4.8.2
+    devDependencies:
       typescript: 4.8.2
 
   packages/grammar-extension-api:
