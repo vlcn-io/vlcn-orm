@@ -1,0 +1,35 @@
+{
+  "name": "@aphrodite.sh/value",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aphrodite-sh/acid-memory.git",
+    "directory": "ts/packages/value"
+  },
+  "dependencies": {
+    "typescript": "^4.8.2",
+    "@aphrodite.sh/context-provider": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.13",
+    "@babel/preset-env": "^7.18.10",
+    "@types/jest": "^28.1.8",
+    "fast-check": "^3.1.2",
+    "jest": "^29.0.1"
+  },
+  "peerDependencies": {},
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "build": "tsc --build",
+    "watch": "tsc --build -w",
+    "test": "node ./node_modules/jest/bin/jest.js",
+    "deep-clean": "rm -rf ./lib || true && rm tsconfig.tsbuildinfo || true"
+  },
+  "jest": {
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ]
+  }
+}

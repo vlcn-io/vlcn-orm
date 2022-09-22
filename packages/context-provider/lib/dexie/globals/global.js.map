@@ -1,0 +1,1 @@
+{"version":3,"file":"global.js","sourceRoot":"","sources":["../../../src/dexie/globals/global.ts"],"names":[],"mappings":"AACA,MAAM,CAAC,MAAM,OAAO,GAClB,OAAO,UAAU,KAAK,WAAW;IAC/B,CAAC,CAAC,UAAU;IACZ,CAAC,CAAC,OAAO,IAAI,KAAK,WAAW;QAC7B,CAAC,CAAC,IAAI;QACN,CAAC,CAAC,OAAO,MAAM,KAAK,WAAW;YAC/B,CAAC,CAAC,MAAM;YACR,CAAC,CAAC,MAAM,CAAC"}
