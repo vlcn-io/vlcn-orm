@@ -12,6 +12,7 @@
     { "path": "../../packages/codegen-ts" },
     { "path": "../../packages/schema" },
     { "path": "../../packages/parse-ts" },
-    { "path": "../mutation-grammar" }
+    { "path": "../mutation-grammar" },
+    { "path": "../../packages/feature-gates" }
   ]
 }
