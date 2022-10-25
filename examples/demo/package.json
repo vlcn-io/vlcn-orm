@@ -1,0 +1,28 @@
+{
+  "name": "@aphro/demo",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "aphro": "aphro gen ./src/domain.aphro --dest ./src/domain && pnpm copy",
+    "copy": "cp src/domain/generated/*.sql dist/domain/generated",
+    "clean": "rm -rf dist",
+    "tsc": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@aphro/react": "workspace:*",
+    "@aphro/runtime-ts": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@aphro/codegen-cli": "workspace:*",
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "typescript": "^4.8.2",
+    "vite": "^3.0.4"
+  },
+  "version": "0.1.10"
+}
