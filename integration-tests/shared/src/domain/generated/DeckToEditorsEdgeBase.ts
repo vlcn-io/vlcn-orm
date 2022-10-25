@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <2e31041e0593607c02062b485df5cff6>
+// SIGNED-SOURCE: <58edc96c3971373f28887a486cd8d615>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,11 +18,6 @@ import DeckToEditorsEdgeQuery from "./DeckToEditorsEdgeQuery.js";
 import { Context } from "@aphro/runtime-ts";
 import Deck from "../Deck.js";
 import User from "../User.js";
-import DeckToEditorsEdgeMutations from "./DeckToEditorsEdgeMutations.js";
-import { InstancedMutations } from "./DeckToEditorsEdgeMutations.js";
-
-declare type Muts = typeof DeckToEditorsEdgeMutations;
-declare type IMuts = InstancedMutations;
 
 export type Data = {
   id1: SID_of<Deck>;
@@ -32,14 +27,6 @@ export type Data = {
 // @Sealed(DeckToEditorsEdge)
 export default abstract class DeckToEditorsEdgeBase extends Edge<Data> {
   readonly spec = s as unknown as EdgeSpecWithCreate<this, Data>;
-
-  static get mutations(): Muts {
-    return DeckToEditorsEdgeMutations;
-  }
-
-  get mutations(): IMuts {
-    return new InstancedMutations(this as any);
-  }
 
   get id1(): SID_of<Deck> {
     return this.data.id1;
@@ -63,6 +50,13 @@ export default abstract class DeckToEditorsEdgeBase extends Edge<Data> {
       new UpdateMutationBuilder(this.ctx, this.spec, this)
         .set(data)
         .toChangesets()[0]
+    );
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return makeSavable(
+      ctx,
+      new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]
     );
   }
 

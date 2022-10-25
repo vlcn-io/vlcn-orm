@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <5ff8a6656413c4fc38c9622fb14835d5>
+// SIGNED-SOURCE: <c5f95813c66bdc7f1085d08f2aa142a3>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -22,11 +22,6 @@ import SlideQuery from "./SlideQuery.js";
 import Slide from "../Slide.js";
 import SlideSpec from "./SlideSpec.js";
 import User from "../User.js";
-import DeckMutations from "./DeckMutations.js";
-import { InstancedMutations } from "./DeckMutations.js";
-
-declare type Muts = typeof DeckMutations;
-declare type IMuts = InstancedMutations;
 
 export type Data = {
   id: SID_of<Deck>;
@@ -40,14 +35,6 @@ export type Data = {
 // @Sealed(Deck)
 export default abstract class DeckBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
-
-  static get mutations(): Muts {
-    return DeckMutations;
-  }
-
-  get mutations(): IMuts {
-    return new InstancedMutations(this as any);
-  }
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;
@@ -130,4 +117,27 @@ export default abstract class DeckBase extends Node<Data> {
     (ctx: Context, id: SID_of<Deck>): Promise<Deck | null> =>
       this.queryAll(ctx).whereId(P.equals(id)).genOnlyValue()
   );
+
+  update(data: Partial<Data>) {
+    return makeSavable(
+      this.ctx,
+      new UpdateMutationBuilder(this.ctx, this.spec, this)
+        .set(data)
+        .toChangesets()[0]
+    );
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return makeSavable(
+      ctx,
+      new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]
+    );
+  }
+
+  delete() {
+    return makeSavable(
+      this.ctx,
+      new DeleteMutationBuilder(this.ctx, this.spec, this).toChangesets()[0]
+    );
+  }
 }

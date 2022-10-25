@@ -1,4 +1,4 @@
-// SIGNED-SOURCE: <2521c499931acb9b7393ff94504d228c>
+// SIGNED-SOURCE: <9fd6fc8c39a92c918c77453c2ee170a2>
 /**
  * AUTO-GENERATED FILE
  * Do not modify. Update your schema and re-generate for changes.
@@ -18,11 +18,6 @@ import { Context } from "@aphro/runtime-ts";
 import Identity from "../Identity.js";
 import Deck from "../Deck.js";
 import Component from "../Component.js";
-import AppStateMutations from "./AppStateMutations.js";
-import { InstancedMutations } from "./AppStateMutations.js";
-
-declare type Muts = typeof AppStateMutations;
-declare type IMuts = InstancedMutations;
 
 export type Data = {
   id: SID_of<AppState>;
@@ -34,14 +29,6 @@ export type Data = {
 // @Sealed(AppState)
 export default abstract class AppStateBase extends Node<Data> {
   readonly spec = s as unknown as NodeSpecWithCreate<this, Data>;
-
-  static get mutations(): Muts {
-    return AppStateMutations;
-  }
-
-  get mutations(): IMuts {
-    return new InstancedMutations(this as any);
-  }
 
   get id(): SID_of<this> {
     return this.data.id as unknown as SID_of<this>;
@@ -57,6 +44,22 @@ export default abstract class AppStateBase extends Node<Data> {
 
   get copiedComponents(): readonly Component[] {
     return this.data.copiedComponents;
+  }
+
+  update(data: Partial<Data>) {
+    return makeSavable(
+      this.ctx,
+      new UpdateMutationBuilder(this.ctx, this.spec, this)
+        .set(data)
+        .toChangesets()[0]
+    );
+  }
+
+  static create(ctx: Context, data: Partial<Data>) {
+    return makeSavable(
+      ctx,
+      new CreateMutationBuilder(ctx, s).set(data).toChangesets()[0]
+    );
   }
 
   delete() {
