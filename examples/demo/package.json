@@ -14,6 +14,7 @@
   "dependencies": {
     "@aphro/react": "workspace:*",
     "@aphro/runtime-ts": "workspace:*",
+    "@aphro/wa-sqlite-connector": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

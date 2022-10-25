@@ -174,6 +174,7 @@ importers:
       '@aphro/codegen-cli': workspace:*
       '@aphro/react': workspace:*
       '@aphro/runtime-ts': workspace:*
+      '@aphro/wa-sqlite-connector': workspace:*
       '@types/react': ^18.0.17
       '@types/react-dom': ^18.0.6
       react: ^18.2.0
@@ -183,6 +184,7 @@ importers:
     dependencies:
       '@aphro/react': link:../../packages/react
       '@aphro/runtime-ts': link:../../packages/runtime-ts
+      '@aphro/wa-sqlite-connector': link:../../connectors/wa-sqlite-connector
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:

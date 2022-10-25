@@ -1,0 +1,7 @@
+engine: sqlite
+db: demo
+
+User as Node {
+  1 id: ID<User>
+  2 email: string
+}

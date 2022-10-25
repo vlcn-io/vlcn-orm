@@ -38,7 +38,7 @@ export default class GenTypescriptModelManualMethodsClass extends CodegenStep {
     return new TypescriptFile(
       filename,
       `import ${this.schema.name}Base from './${generatedDir}/${this.schema.name}Base.js';
-      export {Data} from './${generatedDir}/${this.schema.name}Base.js';
+      export type {Data} from './${generatedDir}/${this.schema.name}Base.js';
 
 export default class ${this.schema.name} extends ${this.schema.name}Base {
   // insert any manual method you may have here
