@@ -5,5 +5,5 @@
  * by disabling non essential features.
  */
 export default {
-  NAMED_MUTATIONS: false,
+  NAMED_MUTATIONS: true,
 };

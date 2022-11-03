@@ -11,14 +11,14 @@ beforeAll(async () => {
 });
 
 test('count', async () => {
-  await User.mutations.create(ctx, { name: 'Bill' }).save();
+  await User.create(ctx, { name: 'Bill' }).save();
 
   let count = await User.queryAll(ctx).count().genxOnlyValue();
   expect(count).toBe(1);
 
   await commit(
     ctx,
-    [1, 2, 3, 4].flatMap(i => User.mutations.create(ctx, { name: 'U' + i }).toChangesets()),
+    [1, 2, 3, 4].flatMap(i => User.create(ctx, { name: 'U' + i })),
   );
 
   count = await User.queryAll(ctx).count().genxOnlyValue();

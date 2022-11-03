@@ -283,7 +283,7 @@ export default abstract class ${this.schema.name}Base
 
     if (this.schema.type == 'standaloneEdge') {
       ret.push(`get id(): SID_of<this> {
-        return (this.data.id1 + '-' + this.data.id2) as SID_of<this>;
+        return (this.data.id1 + '|' + this.data.id2) as SID_of<this>;
       }`);
     }
 

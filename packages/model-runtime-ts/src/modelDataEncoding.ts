@@ -10,7 +10,12 @@ export function decodeModelData<D>(data: any, spec: FieldsSpec): D {
   // we _know_ that the input is never used by the caller.
   encodedFields.forEach(([key, value]) => {
     if (value.encoding === 'json') {
-      data[key] = JSON.parse(data[key]);
+      try {
+        data[key] = JSON.parse(data[key]);
+      } catch (e) {
+        console.error('Failed to parse data for key' + key, data[key]);
+        data[key] = undefined;
+      }
     } else {
       throw new Error(`Unsupported encoding ${value} on field ${key}`);
     }

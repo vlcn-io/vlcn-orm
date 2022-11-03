@@ -36,7 +36,7 @@ function buildUpsertSql<T extends {}>(nodes: IModel<T>[]) {
       cols.map(c => sql.ident(c)),
       ', ',
     )}) VALUES ${sql.join(rows, ', ')} ON CONFLICT (${sql.ident(
-      spec.type === 'node' ? spec.primaryKey : 'id1id2',
+      spec.type === 'node' ? spec.primaryKey : 'id1, id2',
     )}) DO UPDATE SET ${sql.join(
       cols.map(c => sql`${sql.ident(c)} = EXCLUDED.${sql.ident(c)}`),
       ', ',
@@ -69,12 +69,25 @@ export default {
     const spec = first.spec;
     const persist = spec.storage;
 
-    const query = sql`DELETE FROM ${sql.ident(persist.tablish)} WHERE ${sql.ident(
-      spec.type === 'node' ? spec.primaryKey : 'id1id2',
-    )} IN (${sql.join(
-      nodes.map(n => sql.value(n.id)),
-      ', ',
-    )})`;
+    let query: SQLQuery | null;
+    if (spec.type === 'node') {
+      query = sql`DELETE FROM ${sql.ident(persist.tablish)} WHERE ${sql.ident(
+        spec.primaryKey,
+      )} IN (${sql.join(
+        nodes.map(n => sql.value(n.id)),
+        ', ',
+      )})`;
+    } else {
+      query = sql.__dangerous__rawValue(
+        nodes
+          .map(n => {
+            const parts = n.id.split('|');
+            return `DELETE FROM "${persist.tablish}" WHERE "id1" = '${parts[0]}' AND "id2" = '${parts[1]}'`;
+          })
+          .join(';'),
+      );
+      console.log(nodes);
+    }
 
     await (db as SQLResolvedDB).write(query);
   },
