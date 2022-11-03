@@ -1,4 +1,4 @@
-Currently [iterating inside of the `vulcan` repository to simplify `Aphrodite` as much as possible](https://github.com/aphrodite-sh/vulcan). My eyes were too big. Time to strip things down to essentials, ship, and iterate.
+Currently [iterating inside of the `vulcan` repository to simplify `Aphrodite` as much as possible](https://github.com/aphrodite-sh/vulcan).
 
 ---
 
