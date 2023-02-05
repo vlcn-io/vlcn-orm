@@ -1,4 +1,4 @@
-Currently [iterating inside of the `vulcan` repository to simplify `Aphrodite` as much as possible](https://github.com/aphrodite-sh/vulcan).
+My dev time is being spent in https://github.com/vlcn-io/cr-sqlite. Will return to this once that project has reached maintenance mode.
 
 ---
 
