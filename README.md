@@ -1,4 +1,4 @@
-My dev time is being spent in https://github.com/vlcn-io/cr-sqlite. Will return to this once that project has reached maintenance mode.
+**Note:** all my dev time is being spent in https://github.com/vlcn-io/cr-sqlite. Will return to this once that project has reached maintenance mode.
 
 ---
 
